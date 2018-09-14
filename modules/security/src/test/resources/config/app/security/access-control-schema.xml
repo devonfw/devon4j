@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<access-control-schema>
+  <group id="ReadOnly">
+    <permissions>
+      <permission id="Customer_ReadCustomer"/>
+      <permission id="Customer_ReadProfile"/>
+      <permission id="Customer_ReadAddress"/>
+      <permission id="Contract_ReadContract"/>
+      <permission id="Contract_ReadContractAsset"/>
+    </permissions>
+  </group>
+  <group id="ReadWrite">
+    <inherits>
+      <group-ref>ReadOnly</group-ref>
+    </inherits>
+    <permissions>
+      <permission id="Customer_CreateCustomer"/>
+      <permission id="Customer_CreateProfile"/>
+      <permission id="Customer_CreateAddress"/>
+      <permission id="Contract_CreateContract"/>
+      <permission id="Contract_CreateContractAsset"/>
+      <permission id="Customer_UpdateCustomer"/>
+      <permission id="Customer_UpdateProfile"/>
+      <permission id="Customer_UpdateAddress"/>
+      <permission id="Contract_UpdateContract"/>
+      <permission id="Contract_UpdateContractAsset"/>
+    </permissions>
+  </group>
+  <group id="CustomerAdmin">
+    <inherits>
+      <group-ref>ReadWrite</group-ref>
+    </inherits>
+    <permissions>
+      <permission id="Customer_DeleteCustomer"/>
+      <permission id="Customer_DeleteProfile"/>
+      <permission id="Customer_DeleteAddress"/>
+    </permissions>
+  </group>
+  <group id="ContractAdmin">
+    <inherits>
+      <group-ref>ReadWrite</group-ref>
+    </inherits>
+    <permissions>
+      <permission id="Contract_DeleteContract"/>
+      <permission id="Contract_DeleteContractAsset"/>
+    </permissions>
+  </group>
+  <group id="SystemAdmin">
+    <inherits>
+      <group-ref>ReadWrite</group-ref>
+    </inherits>
+    <permissions>
+      <permission id="System_ReadUser"/>
+      <permission id="System_CreateUser"/>
+      <permission id="System_UpdateUser"/>
+      <permission id="System_DeleteUser"/>
+    </permissions>
+  </group>
+  <group id="Admin">
+    <inherits>
+      <group-ref>CustomerAdmin</group-ref>
+      <group-ref>ContractAdmin</group-ref>
+      <group-ref>SystemAdmin</group-ref>
+    </inherits>
+    <permissions/>
+  </group>
+</access-control-schema>

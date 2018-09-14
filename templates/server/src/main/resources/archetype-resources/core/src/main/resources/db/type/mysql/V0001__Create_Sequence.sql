@@ -1,0 +1,1 @@
+-- no sequences are used in MySQL/MariaDB instead use AUTO_INCREMENT for every ID

@@ -1,0 +1,9 @@
+= CONTRIBUTING
+
+To create or resove issues or to contribute code or documentation, please visit the following WIKI pages:
+
+* for  https://github.com/oasp-forge/oasp4j-wiki/wiki/oasp-issue-work[Issue creation and resolution]
+* for  https://github.com/oasp-forge/oasp4j-wiki/wiki/oasp-code-contributions[Contributions of code]
+* for  https://github.com/oasp-forge/oasp4j-wiki/wiki/oasp-documentation[Contributions to documentation]
+
+Thanks for your contribution!

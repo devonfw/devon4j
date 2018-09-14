@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- OASP4J Test-Configuration file for logback -->
+<configuration>
+  <property name="logPattern" value="[D: %d{ISO8601}] [P: %-5p] [C: %X{correlationId}] [T: %t] [L: %c] - [M: %m]  %n" />
+
+  <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>${logPattern}</pattern>
+    </encoder>
+  </appender>
+
+  <root level="DEBUG">
+    <appender-ref ref="CONSOLE_APPENDER"/>
+  </root>
+
+  <!-- Minimize infrastructure debug logs -->
+  <logger name="org.dozer" level="INFO"/>
+  <logger name="org.flywaydb" level="INFO"/>
+  <logger name="org.springframework" level="INFO"/>
+  <logger name="org.hibernate" level="INFO"/>
+
+</configuration>

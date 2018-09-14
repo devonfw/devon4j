@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+  <!-- This modified default console appender does not log classified events. -->
+  <!-- It will log security events, if they are not also marked as classified (via MultiMarker). -->
+  <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="org.owasp.security.logging.filter.ExcludeClassifiedMarkerFilter"/>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>[%marker] ${logPattern}</pattern>
+    </encoder>
+  </appender>
+
+  <!-- This converter masks all arguments of a confidential message with ***. -->
+  <!-- It overwrites the message field %m, so the log pattern can stay unchanged. -->
+  <conversionRule conversionWord="m" converterClass="org.owasp.security.logging.mask.MaskingConverter"/>
+
+  <!-- This appender only logs security events, independent of any potential classification marker. -->
+  <!-- If the MaskingConverter is used, it masks arguments of confidential events, logged via {}, with ***. -->
+  <appender name="SECURE_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="org.owasp.security.logging.filter.SecurityMarkerFilter"/>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>[%marker] ${logPattern}</pattern>
+    </encoder>
+  </appender>
+
+  <!-- This appender only logs confidential events, works also with MultiMarkers. -->
+  <!-- If the MaskingConverter is used, it masks arguments of confidential events, logged via {}, with ***. -->
+  <appender name="CONFIDENTIAL_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.core.filter.EvaluatorFilter">      
+      <evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
+        <expression>
+          if (marker == null) return false;
+          if (marker.getName().contains("CONFIDENTIAL")) return true;
+          return false;
+        </expression>
+      </evaluator>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>[%marker] ${logPattern}</pattern>
+    </encoder>
+  </appender>
+
+</included>

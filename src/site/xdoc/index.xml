@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<document>
+  <properties>
+    <title>OASP4J - Open Application Standard Platform for Java</title>
+    <author email="hohwille@users.sourceforge.net">J&#246;rg Hohwiller</author>
+  </properties>
+
+  <body>
+    <section name="Introduction">
+      Welcome to the <em>Open Application Standard Platform for Java (OASP4J)</em>.
+    </section>
+  </body>
+</document>

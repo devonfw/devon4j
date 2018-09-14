@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+  <appender name="DEBUG_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${logPath}/${debugLogFile}.log</File>
+    <filter class="org.owasp.security.logging.filter.ExcludeClassifiedMarkerFilter"/>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logPath}/${debugLogFile}_${rollingPattern}${rollingSuffix}.log</fileNamePattern>
+      <maxHistory>${rollingAppenderMaxHistory}</maxHistory>
+    </rollingPolicy>
+    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+      <layout class="com.devonfw.module.logging.common.impl.SingleLinePatternLayout">
+        <pattern>[%marker] ${logPattern}</pattern>
+      </layout>
+    </encoder>
+  </appender>
+
+  <appender name="INFO_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${logPath}/${infoLogFile}.log</File>
+    <filter class="org.owasp.security.logging.filter.ExcludeClassifiedMarkerFilter"/>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logPath}/${infoLogFile}_${rollingPattern}${rollingSuffix}.log</fileNamePattern>
+      <maxHistory>${rollingAppenderMaxHistory}</maxHistory>
+    </rollingPolicy>
+    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+      <layout class="com.devonfw.module.logging.common.impl.SingleLinePatternLayout">
+        <pattern>[%marker] ${logPattern}</pattern>
+      </layout>
+    </encoder>
+  </appender>
+
+    <appender name="ERROR_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${logPath}/${errorLogFile}.log</File>
+    <filter class="org.owasp.security.logging.filter.ExcludeClassifiedMarkerFilter"/>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>WARN</level>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logPath}/${errorLogFile}_${rollingPattern}${rollingSuffix}.log</fileNamePattern>
+      <maxHistory>${rollingAppenderMaxHistory}</maxHistory>
+    </rollingPolicy>
+    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+      <layout class="com.devonfw.module.logging.common.impl.SingleLinePatternLayout">
+        <pattern>[%marker] ${logPattern}</pattern>
+      </layout>
+    </encoder>
+  </appender>
+
+  <!-- This converter masks all arguments of a confidential message with ***. -->
+  <!-- It overwrites the message field %m, so the log pattern can stay unchanged. -->
+  <conversionRule conversionWord="m" converterClass="org.owasp.security.logging.mask.MaskingConverter"/>
+
+  <!-- This appender logs security events, independent of any potential classification marker. -->
+  <!-- If the MaskingConverter is used, it masks arguments of confidential events, logged via {}, with ***. -->
+  <appender name="SECURE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${logPath}/${securLogFile}.log</File>
+    <filter class="org.owasp.security.logging.filter.SecurityMarkerFilter"/>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logPath}/${securLogFile}_${rollingPattern}${rollingSuffix}.log</fileNamePattern>
+      <maxHistory>${rollingAppenderMaxHistory}</maxHistory>
+    </rollingPolicy>
+    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+      <layout class="com.devonfw.module.logging.common.impl.SingleLinePatternLayout">
+        <pattern>[%marker] ${logPattern}</pattern>
+      </layout>
+    </encoder>
+  </appender>
+
+</included>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<access-control-schema>
+  <group id="ReadOnly" type="group">
+    <permissions>
+      <permission id="Contract_ReadContractAsset"/>
+    </permissions>
+  </group>
+  <group id="ReadWrite" type="group">
+    <inherits>
+      <group-ref>ReadOnly</group-ref>
+    </inherits>
+    <permissions>
+      <permission id="Contract_UpdateContractAsset"/>
+    </permissions>
+  </group>
+  <group id="Admin" type="role">
+    <inherits>
+      <group-ref>ReadWrite</group-ref>
+    </inherits>
+    <permissions>
+      <permission id="System_DeleteUser"/>
+    </permissions>
+  </group>
+</access-control-schema>
