@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<access-control-schema>
+  <group id="Waiter">
+    <permissions>
+      <permission id="GET_TABLE"/>
+    </permissions>
+  </group>
+
+  <group id="Barkeeper">
+  </group>
+
+  <group id="Cook">
+  </group>
+
+  <group id="Chief">
+    <permissions>
+      <permission id="ADD_TABLE"/>
+      <permission id="REMOVE_TABLE"/>
+    </permissions>
+</access-control-schema>

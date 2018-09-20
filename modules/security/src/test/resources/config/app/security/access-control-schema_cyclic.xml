@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<access-control-schema>
+  <group id="Waiter">
+    <permissions>
+      <permission id="GET_TABLE"/>
+    </permissions>
+  </group>
+  <group id="Barkeeper">
+    <inherits>
+      <group-ref>Chief</group-ref>
+    </inherits>
+  </group>
+  <group id="Cook">
+    <inherits>
+      <group-ref>Barkeeper</group-ref>
+    </inherits>
+  </group>
+  <group id="Chief">
+    <inherits>
+      <group-ref>Waiter</group-ref>
+      <group-ref>Cook</group-ref>
+    </inherits>
+    <permissions>
+      <permission id="ADD_TABLE"/>
+      <permission id="REMOVE_TABLE"/>
+    </permissions>
+  </group>
+</access-control-schema>

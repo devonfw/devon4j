@@ -1,0 +1,1 @@
+-- no sequences are used in MS-SQL Server instead use IDENTITY(«seed»,1) for every ID

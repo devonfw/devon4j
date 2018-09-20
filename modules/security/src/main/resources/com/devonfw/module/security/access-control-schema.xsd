@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="access-control-schema" type="accessControlSchema"/>
+
+  <xs:element name="group" type="accessControlGroup"/>
+
+  <xs:element name="permission" type="accessControlPermission"/>
+
+  <xs:complexType name="accessControlSchema">
+    <xs:sequence>
+      <xs:element ref="group" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="accessControlGroup">
+    <xs:complexContent>
+      <xs:extension base="accessControl">
+        <xs:sequence>
+          <xs:element name="inherits" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="group-ref" type="xs:IDREF" minOccurs="0" maxOccurs="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="permissions" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="permission" minOccurs="0" maxOccurs="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="accessControl" abstract="true">
+    <xs:sequence/>
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="accessControlPermission">
+    <xs:complexContent>
+      <xs:extension base="accessControl">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>
+

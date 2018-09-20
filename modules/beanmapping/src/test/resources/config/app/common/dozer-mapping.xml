@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE mappings PUBLIC "-//DOZER//DTD MAPPINGS//EN" "http://dozer.sourceforge.net/dtd/dozerbeanmapping.dtd"> -->
+<!-- <mappings> -->
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+  <configuration>
+    <stop-on-errors>true</stop-on-errors>
+
+    <copy-by-references>
+      <copy-by-reference>java.lang.String</copy-by-reference>
+      <copy-by-reference>java.lang.Long</copy-by-reference>
+      <copy-by-reference>java.lang.Integer</copy-by-reference>
+      <copy-by-reference>java.lang.Number</copy-by-reference>
+      <copy-by-reference>java.lang.Boolean</copy-by-reference>
+    </copy-by-references>
+  </configuration>
+</mappings>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.devonfw.java.dev</groupId>
+    <artifactId>devon4j</artifactId>
+    <version>dev-SNAPSHOT</version>
+  </parent>
+  <artifactId>devon4j-starters</artifactId>
+  <packaging>pom</packaging>
+  <name>${project.artifactId}</name>
+  <description>Spring-boot starters of the Open Application Standard Platform for Java (devon4j).</description>
+
+  <modules>
+    <module>starter-cxf-client</module>
+    <module>starter-cxf-client-rest</module>
+    <module>starter-cxf-client-ws</module>
+    <module>starter-cxf-server</module>
+    <module>starter-cxf-server-rest</module>
+    <module>starter-cxf-server-ws</module>
+    <module>starter-spring-data-jpa</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- BOM of spring-boot -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring.boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- BOM of devon4j -->
+      <dependency>
+        <groupId>com.devonfw.java.boms</groupId>
+        <artifactId>devon4j-bom</artifactId>
+        <version>${devon4j.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <additionalDependencies> 
+            <additionalDependency> 
+              <groupId>javax.interceptor</groupId> 
+              <artifactId>javax.interceptor-api</artifactId> 
+              <version>1.2</version> 
+            </additionalDependency> 
+          </additionalDependencies>
+          <!--<notree>true</notree>-->
+          <show>private</show>
+          <encoding>${project.reporting.outputEncoding}</encoding>
+          <charset>${project.build.sourceEncoding}</charset>
+          <docfilessubdirs>true</docfilessubdirs>
+          <stylesheetfile>${user.dir}/src/main/javadoc/stylesheet.css</stylesheetfile>
+          <!--<additionalparam>-Xdoclint:none -source ${java.version}</additionalparam>-->
+          <links>
+            <link>http://docs.oracle.com/javase/7/docs/api/</link>
+            <link>http://oasp.github.io/devon4j/maven/apidocs/</link>
+          </links>
+          <doctitle>JavaDocs for ${project.name}</doctitle>
+          <windowtitle>JavaDocs for ${project.name}</windowtitle>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <id>devon4j.javadoc</id>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>devon4j.javadoc.aggregate</id>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+  <appender name="DEBUG_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${logPath}/${debugLogFile}.log</File>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logPath}/${debugLogFile}_${rollingPattern}${rollingSuffix}.log</fileNamePattern>
+      <maxHistory>${rollingAppenderMaxHistory}</maxHistory>
+    </rollingPolicy>
+    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+      <layout class="com.devonfw.module.logging.common.impl.SingleLinePatternLayout">
+        <pattern>${logPattern}</pattern>
+      </layout>
+    </encoder>
+  </appender>
+</included>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="1.0" xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+  #if ($dbType == 'mysql' || $dbType == 'mariadb')
+  <entity class="com.devonfw.module.jpa.dataaccess.api.AdvancedRevisionEntity">
+    <attributes>
+      <id name="id">
+        <generated-value strategy="IDENTITY"/>
+      </id>
+    </attributes>
+  </entity>
+
+  <mapped-superclass class="${package}.general.dataaccess.api.ApplicationPersistenceEntity">
+    <attributes>
+      <id name="id">
+        <generated-value strategy="IDENTITY"/>
+      </id>
+    </attributes>
+  </mapped-superclass>
+  #end
+</entity-mappings>
