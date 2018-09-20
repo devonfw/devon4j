@@ -1,0 +1,5 @@
+= The Open Application Standard Platform for Java
+
+*Build status*
+
+develop: image:https://travis-ci.org/devonfw/devon4j.svg?branch=develop["Build Status",link="https://travis-ci.org/devonfw/devon4j"]
