@@ -1,5 +1,5 @@
-= The Open Application Standard Platform for Java
+= devon4jJava
 
-*Build status*
+The Java stack of http://devonfw.com[devonfw].
 
-develop: image:https://travis-ci.org/devonfw/devon4j.svg?branch=develop["Build Status",link="https://travis-ci.org/devonfw/devon4j"]
+*Build status* develop: image:https://travis-ci.org/devonfw/devon4j.svg?branch=develop["Build Status",link="https://travis-ci.org/devonfw/devon4j"]
