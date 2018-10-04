@@ -18,7 +18,7 @@
     <!-- devon4j modules -->
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-jpa</artifactId>
+      <artifactId>devon4j-jpa-basic</artifactId>
     </dependency>
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
