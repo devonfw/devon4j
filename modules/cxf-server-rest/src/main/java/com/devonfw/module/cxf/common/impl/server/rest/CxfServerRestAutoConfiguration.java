@@ -112,7 +112,7 @@ public class CxfServerRestAutoConfiguration {
       }
       return result;
     } else {
-      return new ArrayList<Object>(this.applicationContext.getBeansOfType(RestService.class).values());
+      return new ArrayList<>(this.applicationContext.getBeansOfType(RestService.class).values());
     }
   }
 

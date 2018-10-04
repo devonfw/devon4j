@@ -46,38 +46,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Provider
 public class RestServiceExceptionFacade implements ExceptionMapper<Throwable> {
 
-  /**
-   * JSON key for {@link Throwable#getMessage() error message}.
-   *
-   * @deprecated use {@link ServiceConstants#KEY_MESSAGE}.
-   */
-  @Deprecated
-  public static final String KEY_MESSAGE = ServiceConstants.KEY_MESSAGE;
-
-  /**
-   * JSON key for {@link NlsRuntimeException#getUuid() error ID}.
-   *
-   * @deprecated use {@link ServiceConstants#KEY_UUID}.
-   */
-  @Deprecated
-  public static final String KEY_UUID = ServiceConstants.KEY_UUID;
-
-  /**
-   * JSON key for {@link NlsRuntimeException#getCode() error code}.
-   *
-   * @deprecated use {@link ServiceConstants#KEY_CODE}.
-   */
-  @Deprecated
-  public static final String KEY_CODE = ServiceConstants.KEY_CODE;
-
-  /**
-   * JSON key for (validation) errors.
-   *
-   * @deprecated use {@link ServiceConstants#KEY_ERRORS}.
-   */
-  @Deprecated
-  public static final String KEY_ERRORS = ServiceConstants.KEY_ERRORS;
-
   /** Logger instance. */
   private static final Logger LOG = LoggerFactory.getLogger(RestServiceExceptionFacade.class);
 
@@ -554,8 +522,7 @@ public class RestServiceExceptionFacade implements ExceptionMapper<Throwable> {
 
     this.exposeInternalErrorDetails = exposeInternalErrorDetails;
     if (exposeInternalErrorDetails) {
-      String message =
-          "****** Exposing of internal error details is enabled! This violates OWASP A6 (Sensitive Data Exposure) and shall only be used for testing/debugging and never in production. ******";
+      String message = "****** Exposing of internal error details is enabled! This violates OWASP A6 (Sensitive Data Exposure) and shall only be used for testing/debugging and never in production. ******";
       LOG.warn(message);
       // CHECKSTYLE:OFF (for development only)
       System.err.println(message);

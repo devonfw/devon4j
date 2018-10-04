@@ -6,7 +6,7 @@ import java.util.Objects;
  * Generic implementation of {@link Ref}.
  *
  * @param <ID> generic type of {@link #getId() ID}.
- * @param <E> generic type of the referenced {@link net.sf.mmm.util.entity.api.Entity}.
+ * @param <E> generic type of the referenced {@link com.devonfw.module.basic.common.api.entity.GenericEntity entity}.
  */
 public class GenericIdRef<ID, E> implements Ref<ID, E> {
 

@@ -5,8 +5,6 @@ import static com.querydsl.core.alias.Alias.$;
 import java.io.Serializable;
 import java.util.Collection;
 
-import net.sf.mmm.util.exception.api.ObjectNotFoundUserException;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 
@@ -23,9 +21,9 @@ import com.querydsl.jpa.impl.JPADeleteClause;
  * to use {@link DefaultRepository} instead.
  *
  * @param <E> generic type of the managed {@link #getEntityClass() entity}. Typically implementing
- *        {@link net.sf.mmm.util.entity.api.PersistenceEntity}.
- * @param <ID> generic type of the {@link net.sf.mmm.util.entity.api.PersistenceEntity#getId() primary key} of the
- *        entity.
+ *        {@link com.devonfw.module.jpa.dataaccess.api.PersistenceEntity}.
+ * @param <ID> generic type of the {@link com.devonfw.module.jpa.dataaccess.api.PersistenceEntity#getId() primary key}
+ *        of the entity.
  *
  * @since 3.0.0
  */
@@ -38,17 +36,20 @@ public interface GenericRepository<E, ID extends Serializable>
   Class<E> getEntityClass();
 
   /**
-   * @param id the {@link net.sf.mmm.util.entity.api.PersistenceEntity#getId() primary key}. May not be {@code null}.
+   * @param id the {@link com.devonfw.module.jpa.dataaccess.api.PersistenceEntity#getId() primary key}. May not be
+   *        {@code null}.
    * @return the requested entity. Never {@code null}.
-   * @see #findById(java.io.Serializable)
+   * @see #findById(Object)
    */
   default E find(ID id) {
 
-    return findById(id).orElseThrow(() -> new ObjectNotFoundUserException(getEntityClass(), id));
+    return findById(id).orElseThrow(() -> new IllegalStateException(
+        "Entity " + getEntityClass().getSimpleName() + " with ID '" + id + "' was not found!"));
   }
 
   /**
-   * @param ids the {@link Collection} of {@link net.sf.mmm.util.entity.api.PersistenceEntity#getId() IDs} to delete.
+   * @param ids the {@link Collection} of {@link com.devonfw.module.jpa.dataaccess.api.PersistenceEntity#getId() IDs} to
+   *        delete.
    * @return the number of entities that have actually been deleted.
    */
   @Modifying

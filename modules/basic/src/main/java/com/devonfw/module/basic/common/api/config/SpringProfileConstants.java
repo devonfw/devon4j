@@ -6,37 +6,47 @@ package com.devonfw.module.basic.common.api.config;
  * within annotations).<br/>
  * In test scenarios, these constants should be used in conjunction with the {@code @ActiveProfile} annotation.
  *
- * @since 2.2.0
+ * @since 3.0.0
  */
 public class SpringProfileConstants {
 
   /**
-   * This constant applies to all tests.
+   * Profile active in JUnit tests.
    */
   public static final String JUNIT = "junit";
 
   /**
-   * This constant denotes a live profile.
+   * Profile active if not in JUnit tests (on real application startup).
    */
   public static final String NOT_JUNIT = "!" + JUNIT;
 
   /**
-   * This constant should be used in conjunction with component tests.
+   * Profile active in local development environment.
    */
-  public static final String COMPONENT_TEST = "component-test";
+  public static final String DEV = "dev";
 
   /**
-   * This constant should be used in conjunction with module tests.
+   * Profile active if not in local development environment ({@link #JUNIT} or real stages).
+   */
+  public static final String NOT_DEV = "!" + DEV;
+
+  /**
+   * Profile for module tests.
    */
   public static final String MODULE_TEST = "module-test";
 
   /**
-   * This constant should be used in conjunction with subsystem tests.
+   * Profile for component tests.
+   */
+  public static final String COMPONENT_TEST = "component-test";
+
+  /**
+   * Profile for subsystem tests.
    */
   public static final String SUBSYSTEM_TEST = "subsystem-test";
 
   /**
-   * This constant should be used in conjunction with system tests.
+   * Profile for system tests.
    */
   public static final String SYSTEM_TEST = "system-test";
 

@@ -8,24 +8,19 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import ${package}.general.common.api.ApplicationEntity;
-import com.devonfw.module.jpa.dataaccess.api.MutablePersistenceEntity;
+import com.devonfw.module.jpa.dataaccess.api.PersistenceEntity;
 
 /**
  * Abstract Entity for all Entities with an id and a version field.
  */
 @MappedSuperclass
-public abstract class ApplicationPersistenceEntity implements ApplicationEntity, MutablePersistenceEntity<Long> {
+public abstract class ApplicationPersistenceEntity implements ApplicationEntity, PersistenceEntity<Long> {
 
   private static final long serialVersionUID = 1L;
 
-  /** @see #getId() */
   private Long id;
 
-  /** @see #getModificationCounter() */
   private int modificationCounter;
-
-  /** @see #getRevision() */
-  private Number revision;
 
   /**
    * The constructor.
@@ -60,22 +55,6 @@ public abstract class ApplicationPersistenceEntity implements ApplicationEntity,
   public void setModificationCounter(int version) {
 
     this.modificationCounter = version;
-  }
-
-  @Override
-  @Transient
-  public Number getRevision() {
-
-    return this.revision;
-  }
-
-  /**
-   * @param revision the revision to set
-   */
-  @Override
-  public void setRevision(Number revision) {
-
-    this.revision = revision;
   }
 
   @Override

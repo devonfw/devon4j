@@ -7,11 +7,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import net.sf.mmm.util.entity.api.PersistenceEntity;
 
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
@@ -121,8 +118,7 @@ public class AdvancedRevisionEntity implements PersistenceEntity<Long> {
   }
 
   @Override
-  public Number getRevision() {
+  public void setModificationCounter(int modificationCounter) {
 
-    return null;
   }
 }

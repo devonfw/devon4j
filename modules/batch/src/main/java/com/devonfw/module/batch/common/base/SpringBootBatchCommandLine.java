@@ -20,8 +20,6 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.StringUtils;
 
 /**
@@ -35,26 +33,29 @@ import org.springframework.util.StringUtils;
  * Moreover parameters can be specified as further arguments (convention: key1=value1 key2=value2 ...).
  * <p>
  * Example:<br>
- * java com.devonfw.module.batch.common.base.SpringBootBatchCommandLine com.devonfw.gastronomy.restaurant.SpringBootBatchApp
- * classpath:config/app/batch/beans-productimport.xml productImportJob drinks.file=file:import/drinks.csv
- * date(date)=2015/12/20
+ * java com.devonfw.module.batch.common.base.SpringBootBatchCommandLine
+ * com.devonfw.gastronomy.restaurant.SpringBootBatchApp classpath:config/app/batch/beans-productimport.xml
+ * productImportJob drinks.file=file:import/drinks.csv date(date)=2015/12/20
  * <p>
  * For stopping all running executions of a job, use the -stop option.
  * <p>
  * Example:<br>
- * java com.devonfw.module.batch.common.base.SpringBootBatchCommandLine com.devonfw.gastronomy.restaurant.SpringBootBatchApp
- * classpath:config/app/batch/beans-productimport.xml productImportJob -stop
- *
- *
+ * java com.devonfw.module.batch.common.base.SpringBootBatchCommandLine
+ * com.devonfw.gastronomy.restaurant.SpringBootBatchApp classpath:config/app/batch/beans-productimport.xml
+ * productImportJob -stop
  */
 public class SpringBootBatchCommandLine {
 
   private static final Logger LOG = LoggerFactory.getLogger(SpringBootBatchCommandLine.class);
 
-  private ResourceLoader resourceLoader = new DefaultResourceLoader();
-
+  /**
+   * Available operations
+   */
   public static enum Operation {
-    START, STOP
+    /** Start the batch. */
+    START,
+    /** Stop the batch. */
+    STOP
   };
 
   private JobLauncher launcher;
@@ -65,6 +66,10 @@ public class SpringBootBatchCommandLine {
 
   private JobOperator operator;
 
+  /**
+   * @param args the command-line arguments.
+   * @throws Exception in case of an error.
+   */
   public static void main(String[] args) throws Exception {
 
     if (args.length < 3) {
@@ -111,31 +116,21 @@ public class SpringBootBatchCommandLine {
         + " <SpringBootConfiguration> <BatchJobConfiguration>" + " <JobName> -stop");
     LOG.info("Example:");
     LOG.info("java com.devonfw.module.batch.common.base.SpringBootBatchCommandLine"
-        + " com.devonfw.gastronomy.restaurant.SpringBootBatchApp" + " classpath:config/app/batch/beans-productimport.xml"
-        + " productImportJob drinks.file=file:import/drinks.csv" + " date(date)=2015/12/20");
+        + " com.devonfw.gastronomy.restaurant.SpringBootBatchApp"
+        + " classpath:config/app/batch/beans-productimport.xml" + " productImportJob drinks.file=file:import/drinks.csv"
+        + " date(date)=2015/12/20");
   }
 
+  /**
+   * @param jobExecution the {@link JobExecution}.
+   * @return the corresponding {@link System#exit(int) exit code}.
+   */
   protected int getReturnCode(JobExecution jobExecution) {
 
     if (jobExecution.getStatus() != null && jobExecution.getStatus() == BatchStatus.COMPLETED)
       return 0;
     else
       return 1;
-  }
-
-  private Object getConfiguration(String stringRepresentation) {
-
-    // try to load a source of Spring bean definitions:
-    // 1. try to load it as a (JavaConfig) class
-    // 2. if that fails: try to load it as XML resource
-
-    try {
-
-      return Class.forName(stringRepresentation);
-    } catch (ClassNotFoundException e) {
-
-      return this.resourceLoader.getResource(stringRepresentation);
-    }
   }
 
   private void findBeans(ConfigurableApplicationContext ctx) {
@@ -161,8 +156,9 @@ public class SpringBootBatchCommandLine {
    * @param configurations The sources of bean configurations (either JavaConfig classes or XML files).
    * @param jobName The name of the job to launch/stop.
    * @param parameters The parameters (key=value).
-   * @throws Exception
+   * @throws Exception in case of an error.
    */
+  @SuppressWarnings("deprecation")
   public void execute(Operation operation, List<String> configurations, String jobName, List<String> parameters)
       throws Exception {
 

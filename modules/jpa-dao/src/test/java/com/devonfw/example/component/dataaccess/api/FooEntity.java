@@ -60,11 +60,7 @@ public class FooEntity extends TestApplicationPersistenceEntity implements Foo {
   @Transient
   public IdRef<Bar> getBarId() {
 
-    // you actually need Java8 type-inference to use this feature in a comfortable way as otherwise you need to qualify
-    // the generic on every use
-
-    // return IdRef.of(this.bar); // Java 8+
-    return IdRef.<Bar> of(this.bar); // Java 5/6/7
+    return IdRef.of(this.bar);
   }
 
   @Override

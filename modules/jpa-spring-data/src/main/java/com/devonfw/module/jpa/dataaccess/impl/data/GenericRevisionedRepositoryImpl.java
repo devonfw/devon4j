@@ -8,13 +8,11 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
-import net.sf.mmm.util.entity.api.MutableRevisionedEntity;
-import net.sf.mmm.util.exception.api.ObjectNotFoundUserException;
-
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 
+import com.devonfw.module.basic.common.api.entity.RevisionedEntity;
 import com.devonfw.module.jpa.dataaccess.api.AdvancedRevisionEntity;
 import com.devonfw.module.jpa.dataaccess.api.QueryUtil;
 import com.devonfw.module.jpa.dataaccess.api.RevisionMetadata;
@@ -28,8 +26,8 @@ import com.querydsl.jpa.impl.JPAQuery;
  * Implementation of {@link GenericRevisionedRepository}.
  *
  * @param <E> generic type of the managed {@link #getEntityClass() entity}.
- * @param <ID> generic type of the {@link net.sf.mmm.util.entity.api.PersistenceEntity#getId() primary key} of the
- *        entity.
+ * @param <ID> generic type of the {@link com.devonfw.module.jpa.dataaccess.api.PersistenceEntity#getId() primary key}
+ *        of the entity.
  *
  * @since 3.0.0
  */
@@ -52,8 +50,8 @@ public class GenericRevisionedRepositoryImpl<E, ID extends Serializable> extends
 
     AuditReader auditReader = AuditReaderFactory.get(this.entityManager);
     E entity = auditReader.find(this.entityInformation.getJavaType(), id, revision);
-    if (entity instanceof MutableRevisionedEntity) {
-      ((MutableRevisionedEntity<?>) entity).setRevision(revision);
+    if (entity instanceof RevisionedEntity) {
+      ((RevisionedEntity<?>) entity).setRevision(revision);
     }
     return entity;
   }
@@ -98,7 +96,7 @@ public class GenericRevisionedRepositoryImpl<E, ID extends Serializable> extends
     Number lastRevision = revisionList.get(revisionList.size() - 1);
     AdvancedRevisionEntity revisionEntity = this.entityManager.find(AdvancedRevisionEntity.class, lastRevision);
     if (revisionEntity == null) {
-      throw new ObjectNotFoundUserException(AdvancedRevisionEntity.class, id);
+      throw new IllegalStateException("Could not find AdvancedRevisionEntity for ID '" + id + "'.");
     }
     return RevisionMetadataType.of(revisionEntity);
   }

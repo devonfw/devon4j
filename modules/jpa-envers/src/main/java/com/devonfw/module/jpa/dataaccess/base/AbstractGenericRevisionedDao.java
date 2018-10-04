@@ -5,26 +5,24 @@ package com.devonfw.module.jpa.dataaccess.base;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.mmm.util.exception.api.ObjectNotFoundException;
-
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 
 import com.devonfw.module.jpa.dataaccess.api.GenericRevisionedDao;
-import com.devonfw.module.jpa.dataaccess.api.MutablePersistenceEntity;
 import com.devonfw.module.jpa.dataaccess.api.RevisionMetadata;
-import com.devonfw.module.jpa.dataaccess.base.AbstractGenericDao;
+import com.devonfw.module.jpa.dataaccess.api.RevisionedPersistenceEntity;
 import com.devonfw.module.jpa.dataaccess.impl.LazyRevisionMetadata;
 
 /**
  * This is the abstract base-implementation of a {@link AbstractGenericDao} using to manage the revision-control.
  *
- * @param <ID> is the type of the {@link MutablePersistenceEntity#getId() primary key} of the managed
- *        {@link MutablePersistenceEntity entity}.
+ * @param <ID> is the type of the {@link RevisionedPersistenceEntity#getId() primary key} of the managed
+ *        {@link RevisionedPersistenceEntity entity}.
  * @param <ENTITY> is the {@link #getEntityClass() type} of the managed entity.
  *
+ * @since 3.0.0
  */
-public abstract class AbstractGenericRevisionedDao<ID, ENTITY extends MutablePersistenceEntity<ID>>
+public abstract class AbstractGenericRevisionedDao<ID, ENTITY extends RevisionedPersistenceEntity<ID>>
     extends AbstractGenericDao<ID, ENTITY> implements GenericRevisionedDao<ID, ENTITY> {
 
   /**
@@ -44,9 +42,9 @@ public abstract class AbstractGenericRevisionedDao<ID, ENTITY extends MutablePer
   }
 
   @Override
-  public ENTITY load(ID id, Number revision) throws ObjectNotFoundException {
+  public ENTITY load(ID id, Number revision) {
 
-    if (revision == MutablePersistenceEntity.LATEST_REVISION) {
+    if (revision == RevisionedPersistenceEntity.LATEST_REVISION) {
       return find(id);
     } else {
       return loadRevision(id, revision);
@@ -54,13 +52,12 @@ public abstract class AbstractGenericRevisionedDao<ID, ENTITY extends MutablePer
   }
 
   /**
-   * This method gets a historic revision of the {@link net.sf.mmm.util.entity.api.GenericEntity} with the given
-   * <code>id</code>.
+   * This method gets a historic revision of the {@link RevisionedPersistenceEntity entity} with the given {@code id}.
    *
-   * @param id is the {@link net.sf.mmm.util.entity.api.GenericEntity#getId() ID} of the requested
-   *        {@link net.sf.mmm.util.entity.api.GenericEntity entity}.
-   * @param revision is the {@link MutablePersistenceEntity#getRevision() revision}
-   * @return the requested {@link net.sf.mmm.util.entity.api.GenericEntity entity}.
+   * @param id is the {@link RevisionedPersistenceEntity#getId() ID} of the requested {@link RevisionedPersistenceEntity
+   *        entity}.
+   * @param revision is the {@link RevisionedPersistenceEntity#getRevision() revision}
+   * @return the requested {@link RevisionedPersistenceEntity entity}.
    */
   protected ENTITY loadRevision(Object id, Number revision) {
 

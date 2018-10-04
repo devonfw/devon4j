@@ -2,9 +2,8 @@ package com.devonfw.module.jpa.dataaccess.base;
 
 import java.util.List;
 
-import net.sf.mmm.util.entity.api.PersistenceEntity;
-
 import com.devonfw.module.jpa.dataaccess.api.MasterDataDao;
+import com.devonfw.module.jpa.dataaccess.api.PersistenceEntity;
 
 /**
  * This is the abstract base implementation of {@link MasterDataDao}.

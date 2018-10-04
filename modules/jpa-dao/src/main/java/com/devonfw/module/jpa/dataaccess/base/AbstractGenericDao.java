@@ -14,14 +14,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import net.sf.mmm.util.entity.api.PersistenceEntity;
-import net.sf.mmm.util.exception.api.ObjectNotFoundUserException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.devonfw.module.basic.common.api.reference.Ref;
 import com.devonfw.module.jpa.dataaccess.api.GenericDao;
+import com.devonfw.module.jpa.dataaccess.api.PersistenceEntity;
 import com.devonfw.module.jpa.dataaccess.api.QueryHelper;
 
 /**
@@ -95,11 +93,10 @@ public abstract class AbstractGenericDao<ID, E extends PersistenceEntity<ID>> ex
   }
 
   /**
-   * Determines if the given {@link PersistenceEntity} is {@link PersistenceEntity#STATE_NEW new}.
+   * Determines if the given {@link PersistenceEntity} is new.
    *
    * @param entity is the {@link PersistenceEntity} to check.
-   * @return {@code true} if {@link PersistenceEntity#STATE_NEW new}, {@code false} otherwise (e.g.
-   *         {@link PersistenceEntity#STATE_DETACHED detached} or {@link PersistenceEntity#STATE_MANAGED managed}.
+   * @return {@code true} if new, {@code false} otherwise (e.g. managed or detached).
    */
   protected boolean isNew(E entity) {
 
@@ -128,11 +125,12 @@ public abstract class AbstractGenericDao<ID, E extends PersistenceEntity<ID>> ex
   }
 
   @Override
-  public E find(ID id) throws ObjectNotFoundUserException {
+  public E find(ID id) {
 
     E entity = findOne(id);
     if (entity == null) {
-      throw new ObjectNotFoundUserException(getEntityClass().getSimpleName(), id);
+      throw new IllegalStateException(
+          "Entity " + getEntityClass().getSimpleName() + " with ID '" + id + "' was not found!");
     }
     return entity;
   }

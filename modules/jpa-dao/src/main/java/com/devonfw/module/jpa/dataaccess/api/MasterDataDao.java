@@ -2,8 +2,6 @@ package com.devonfw.module.jpa.dataaccess.api;
 
 import java.util.List;
 
-import net.sf.mmm.util.entity.api.PersistenceEntity;
-
 /**
  * This is the interface for a {@link Dao} responsible for a {@link PersistenceEntity} that represents master-data. In
  * that case you typically have a limited number of entities in your persistent store and need operations like

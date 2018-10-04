@@ -17,14 +17,13 @@ import com.querydsl.jpa.impl.JPAQuery;
 /**
  * Implementation of {@link GenericRepository} based on {@link SimpleJpaRepository}. All repository interfaces derived
  * from {@link GenericRepository} will be based on this implementation at runtime.<br>
- * <b>Note:</b> We do not use/extend {@link org.springframework.data.jpa.repository.support.QueryDslJpaRepository} as it
- * forces you to use QueryDSL APT generation what is not desired. Therefore you will have no support for
- * {@link org.springframework.data.querydsl.QueryDslPredicateExecutor}. However, we offer more flexible QueryDSL support
- * anyhow. See {@link com.devonfw.module.jpa.dataaccess.api.QueryDslUtil}.
+ * <b>Note:</b> We do not use/extend {@code QuerydslJpaRepositor} as it forces you to use QueryDSL APT generation what
+ * is not desired. Therefore, you will have no support for {@code QueryDslPredicateExecutor}. However, we offer more
+ * flexible QueryDSL support anyhow. See {@link com.devonfw.module.jpa.dataaccess.api.data.QueryDslSupport}.
  *
  * @param <E> generic type of the managed {@link #getEntityClass() entity}.
- * @param <ID> generic type of the {@link net.sf.mmm.util.entity.api.PersistenceEntity#getId() primary key} of the
- *        entity.
+ * @param <ID> generic type of the {@link com.devonfw.module.jpa.dataaccess.api.PersistenceEntity#getId() primary key}
+ *        of the entity.
  *
  * @since 3.0.0
  */
