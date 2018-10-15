@@ -17,9 +17,9 @@ import javax.persistence.criteria.Root;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
 import com.devonfw.module.basic.common.api.reference.Ref;
 import com.devonfw.module.jpa.dataaccess.api.GenericDao;
-import com.devonfw.module.jpa.dataaccess.api.PersistenceEntity;
 import com.devonfw.module.jpa.dataaccess.api.QueryHelper;
 
 /**

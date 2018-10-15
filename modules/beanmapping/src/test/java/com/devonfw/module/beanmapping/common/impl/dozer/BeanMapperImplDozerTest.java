@@ -1,16 +1,16 @@
-package com.devonfw.module.beanmapping.common.impl;
+package com.devonfw.module.beanmapping.common.impl.dozer;
 
 import java.util.Arrays;
 import java.util.List;
-
-import net.sf.mmm.util.entity.api.PersistenceEntity;
-import net.sf.mmm.util.transferobject.api.EntityTo;
 
 import org.dozer.DozerBeanMapper;
 import org.dozer.loader.api.BeanMappingBuilder;
 import org.dozer.loader.api.FieldsMappingOptions;
 
+import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
+import com.devonfw.module.basic.common.api.to.AbstractEto;
 import com.devonfw.module.beanmapping.common.api.BeanMapper;
+import com.devonfw.module.beanmapping.common.impl.AbstractBeanMapperTest;
 import com.devonfw.module.beanmapping.common.impl.dozer.BeanMapperImplDozer;
 import com.devonfw.module.beanmapping.common.impl.dozer.IdentityConverter;
 
@@ -31,7 +31,7 @@ public class BeanMapperImplDozerTest extends AbstractBeanMapperTest {
       @Override
       protected void configure() {
 
-        mapping(PersistenceEntity.class, EntityTo.class).fields(this_(), field("persistentEntity").accessible(),
+        mapping(PersistenceEntity.class, AbstractEto.class).fields(this_(), field("persistentEntity").accessible(),
             FieldsMappingOptions.customConverter(IdentityConverter.class));
       }
     };

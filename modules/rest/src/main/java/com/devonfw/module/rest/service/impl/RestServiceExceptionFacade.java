@@ -23,10 +23,9 @@ import javax.ws.rs.ext.Provider;
 
 import net.sf.mmm.util.exception.api.NlsRuntimeException;
 import net.sf.mmm.util.exception.api.NlsThrowable;
+import net.sf.mmm.util.exception.api.SecurityErrorUserException;
 import net.sf.mmm.util.exception.api.TechnicalErrorUserException;
 import net.sf.mmm.util.exception.api.ValidationErrorUserException;
-import net.sf.mmm.util.lang.api.StringUtil;
-import net.sf.mmm.util.security.api.SecurityErrorUserException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -270,7 +269,7 @@ public class RestServiceExceptionFacade implements ExceptionMapper<Throwable> {
     } else {
       error = new SecurityErrorUserException(catched);
     }
-    LOG.error("Service failed due to security error", error);
+    LOG.warn("Service failed due to security error", error);
     // NOTE: for security reasons we do not send any details about the error to the client!
     String message;
     String code = null;
@@ -335,7 +334,7 @@ public class RestServiceExceptionFacade implements ExceptionMapper<Throwable> {
     Throwable e = error;
     while (e != null) {
       if (buffer.length() > 0) {
-        buffer.append(StringUtil.LINE_SEPARATOR);
+        buffer.append(System.lineSeparator());
       }
       buffer.append(e.getClass().getSimpleName());
       buffer.append(": ");

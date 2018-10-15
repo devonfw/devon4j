@@ -22,7 +22,7 @@ import com.querydsl.jpa.impl.JPAQuery;
  * flexible QueryDSL support anyhow. See {@link com.devonfw.module.jpa.dataaccess.api.data.QueryDslSupport}.
  *
  * @param <E> generic type of the managed {@link #getEntityClass() entity}.
- * @param <ID> generic type of the {@link com.devonfw.module.jpa.dataaccess.api.PersistenceEntity#getId() primary key}
+ * @param <ID> generic type of the {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity#getId() primary key}
  *        of the entity.
  *
  * @since 3.0.0

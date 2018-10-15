@@ -29,7 +29,7 @@
     </dependency>
     <dependency>
       <groupId>net.sf.m-m-m</groupId>
-      <artifactId>mmm-util-core</artifactId>
+      <artifactId>mmm-util-exception</artifactId>
     </dependency>
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>

@@ -2,6 +2,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package com.devonfw.module.jpa.dataaccess.api;
 
+import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
 import com.devonfw.module.basic.common.api.entity.RevisionedEntity;
 
 /**

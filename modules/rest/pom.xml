@@ -43,7 +43,6 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
     </dependency>
-    <!-- TODO #14 -->
     <dependency>
       <groupId>net.sf.m-m-m</groupId>
       <artifactId>mmm-util-validation</artifactId>

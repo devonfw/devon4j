@@ -1,7 +1,7 @@
 package com.devonfw.module.jpa.dataaccess.base;
 
+import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
 import com.devonfw.module.jpa.dataaccess.api.Dao;
-import com.devonfw.module.jpa.dataaccess.api.PersistenceEntity;
 
 /**
  * Abstract base implementation of {@link Dao} interface.

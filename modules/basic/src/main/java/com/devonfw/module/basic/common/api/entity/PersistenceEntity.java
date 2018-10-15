@@ -1,6 +1,4 @@
-package com.devonfw.module.jpa.dataaccess.api;
-
-import com.devonfw.module.basic.common.api.entity.GenericEntity;
+package com.devonfw.module.basic.common.api.entity;
 
 /**
  * {@link GenericEntity} representing the actual {@link javax.persistence.Entity} to be stored in the database (unlike

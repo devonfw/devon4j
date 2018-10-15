@@ -2,6 +2,7 @@ package com.devonfw.module.jpa.dataaccess.api;
 
 import java.util.List;
 
+import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
 import com.devonfw.module.basic.common.api.reference.Ref;
 import com.devonfw.module.jpa.dataaccess.api.feature.FeatureForceIncrementModificationCounter;
 

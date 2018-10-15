@@ -18,10 +18,9 @@ import javax.ws.rs.core.Response;
 import net.sf.mmm.util.exception.api.IllegalCaseException;
 import net.sf.mmm.util.exception.api.NlsRuntimeException;
 import net.sf.mmm.util.exception.api.ObjectNotFoundUserException;
+import net.sf.mmm.util.exception.api.SecurityErrorUserException;
 import net.sf.mmm.util.exception.api.TechnicalErrorUserException;
 import net.sf.mmm.util.exception.api.ValidationErrorUserException;
-import net.sf.mmm.util.lang.api.StringUtil;
-import net.sf.mmm.util.security.api.SecurityErrorUserException;
 
 import org.junit.Test;
 import org.springframework.security.access.AccessDeniedException;
@@ -129,8 +128,9 @@ public class RestServiceExceptionFacadeTest extends ModuleTest {
     String message = "The operation failed due to security restrictions. Please contact the support in case of a permission problem.";
     String code = null;
 
-    checkFacade(exceptionFacade, new AccessDeniedException(secretMessage), statusCode, "SecurityErrorUserException: "
-        + message + StringUtil.LINE_SEPARATOR + "AccessDeniedException: " + secretMessage, UUID_ANY, code);
+    checkFacade(exceptionFacade, new AccessDeniedException(secretMessage), statusCode,
+        "SecurityErrorUserException: " + message + System.lineSeparator() + "AccessDeniedException: " + secretMessage,
+        UUID_ANY, code);
   }
 
   /**
@@ -312,7 +312,7 @@ public class RestServiceExceptionFacadeTest extends ModuleTest {
     String message = "Internal server error occurred";
     IllegalCaseException error = new IllegalCaseException(message);
     String expectedMessage = "TechnicalErrorUserException: An unexpected error has occurred! We apologize any inconvenience. Please try again later."
-        + StringUtil.LINE_SEPARATOR + error.getClass().getSimpleName() + ": " + error.getLocalizedMessage();
+        + System.lineSeparator() + error.getClass().getSimpleName() + ": " + error.getLocalizedMessage();
     checkFacade(exceptionFacade, error, 500, expectedMessage, error.getUuid().toString(), CODE_TECHNICAL_ERROR);
   }
 

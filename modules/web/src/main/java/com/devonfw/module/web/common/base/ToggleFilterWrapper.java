@@ -18,16 +18,8 @@ import org.slf4j.LoggerFactory;
  * for development tests (e.g. via an application property). In case the filter gets {@link #setEnabled(Boolean)
  * disabled} a WARNING log message is produced and also written to {@link System#err}. <br/>
  *
- * Here is an example spring XML config from our sample application that allows to disable the <code>CsrfFilter</code>
- * via an application property (<code>enabled=false</code>):
- *
- * <pre>
- * &lt;bean id="CsrfFilterWrapper" class="com.devonfw.module.web.common.base.ToggleFilterWrapper">
- *   &lt;property name="delegateFilter" ref="CsrfFilter"/>
- *   &lt;property name="enabled" value="${oasp.filter.csrf}"/>
- * &lt;/bean>
- * </pre>
- *
+ * As an example you can use it to wrap the {@codeCsrfFilter} in order to allow disabling in local tests (to ease REST
+ * testing).
  */
 public class ToggleFilterWrapper implements Filter {
 

@@ -21,8 +21,8 @@ import com.querydsl.jpa.impl.JPADeleteClause;
  * to use {@link DefaultRepository} instead.
  *
  * @param <E> generic type of the managed {@link #getEntityClass() entity}. Typically implementing
- *        {@link com.devonfw.module.jpa.dataaccess.api.PersistenceEntity}.
- * @param <ID> generic type of the {@link com.devonfw.module.jpa.dataaccess.api.PersistenceEntity#getId() primary key}
+ *        {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity}.
+ * @param <ID> generic type of the {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity#getId() primary key}
  *        of the entity.
  *
  * @since 3.0.0
@@ -36,7 +36,7 @@ public interface GenericRepository<E, ID extends Serializable>
   Class<E> getEntityClass();
 
   /**
-   * @param id the {@link com.devonfw.module.jpa.dataaccess.api.PersistenceEntity#getId() primary key}. May not be
+   * @param id the {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity#getId() primary key}. May not be
    *        {@code null}.
    * @return the requested entity. Never {@code null}.
    * @see #findById(Object)
@@ -48,7 +48,7 @@ public interface GenericRepository<E, ID extends Serializable>
   }
 
   /**
-   * @param ids the {@link Collection} of {@link com.devonfw.module.jpa.dataaccess.api.PersistenceEntity#getId() IDs} to
+   * @param ids the {@link Collection} of {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity#getId() IDs} to
    *        delete.
    * @return the number of entities that have actually been deleted.
    */
