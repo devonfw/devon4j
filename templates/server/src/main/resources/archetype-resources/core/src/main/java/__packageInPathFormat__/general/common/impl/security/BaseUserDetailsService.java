@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -79,12 +80,62 @@ public class BaseUserDetailsService implements UserDetailsService {
     return authorities;
   }
 
+  /**
+   * Lists roles of AWS from IAM profile of pointed user.
+   *
+   * @param userName        given userName in AWS
+   * @param showErrorOutput flag marking outputing errors to console
+   * @return collection with user's roles
+   */
+  public static Collection<String> obtainRoles(String userName, boolean showErrorOutput) {
+    Collection<String> roles = new ArrayList<String>();
+
+    final String baseCommand = "aws iam list-groups-for-user --user-name";
+    String command = String.format("%s %s", baseCommand, userName);
+
+    BufferedReader reader = null;
+    Process process;
+    try {
+      process = Runtime.getRuntime().exec(command);
+      process.waitFor();
+      reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+      String line;
+      while ((line = reader.readLine()) != null) {
+        String theLine = line.trim();
+        if (theLine.startsWith("\"GroupName\": ")) {
+          String roleName = theLine.substring(14, theLine.length() - 1);
+          roles.add(roleName);
+        }
+      }
+    } catch (Exception exc_1) {
+      if (showErrorOutput) {
+        exc_1.printStackTrace();
+      }
+    } finally {
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (Exception exc_2) {
+          if (showErrorOutput) {
+            System.err.println("Couldn't even close the BufferedReader.");
+          }
+        }
+      }
+    }
+
+    return roles;
+  }
+
+  /**
+   * Return list of IAM roles.
+   *
+   * @param username pointed user's name
+   * @return obtained roles
+   */
   private Collection<String> getRoles(String username) {
 
-    Collection<String> roles = new ArrayList<>();
-    // TODO for a reasonable application you need to retrieve the roles of the user from a central IAM system
-    roles.add(username);
-    return roles;
+    return this.obtainRoles(username);
   }
 
   /**
