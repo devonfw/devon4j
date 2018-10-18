@@ -29,7 +29,7 @@ public class ServiceDiscovererImplConfig implements ServiceDiscoverer, Applicati
   // @Value("${local.server.port}")
   private int localServerPort;
 
-  @Value("${server.context-path:}")
+  @Value("${server.servlet.context-path:}")
   private String contextPath;
 
   private ServiceConfig config;
