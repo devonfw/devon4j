@@ -5,6 +5,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.List;
+
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -31,7 +36,9 @@ import com.devonfw.module.security.common.base.accesscontrol.AccessControlGrante
 @Named
 public class BaseUserDetailsService implements UserDetailsService {
 
-  /** Logger instance. */
+  /**
+   * Logger instance.
+   */
   private static final Logger LOG = LoggerFactory.getLogger(BaseUserDetailsService.class);
 
   private AuthenticationManagerBuilder amBuilder;
@@ -82,8 +89,8 @@ public class BaseUserDetailsService implements UserDetailsService {
   /**
    * Lists roles of AWS from IAM profile of pointed user.
    *
-   * @param userName          given userName in AWS
-   * @param showErrorOutput   flag marking outputing errors to console
+   * @param userName        given userName in AWS
+   * @param showErrorOutput flag marking outputing errors to console
    * @return collection with user's roles
    */
   public static Collection<String> obtainRoles(String userName, boolean showErrorOutput) {
@@ -100,10 +107,10 @@ public class BaseUserDetailsService implements UserDetailsService {
       reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
       String line;
-      while ((line = reader.readLine())!= null) {
+      while ((line = reader.readLine()) != null) {
         String theLine = line.trim();
         if (theLine.startsWith("\"GroupName\": ")) {
-          String roleName = theLine.substring(14, theLine.length()-1);
+          String roleName = theLine.substring(14, theLine.length() - 1);
           roles.add(roleName);
         }
       }
