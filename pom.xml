@@ -217,13 +217,13 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.0.0</version>
           <configuration>
-          <additionalDependencies>
-            <additionalDependency>
-              <groupId>javax.interceptor</groupId>
-              <artifactId>javax.interceptor-api</artifactId>
-              <version>1.2</version>
-            </additionalDependency>
-          </additionalDependencies>
+            <additionalDependencies>
+              <additionalDependency>
+                <groupId>javax.interceptor</groupId>
+                <artifactId>javax.interceptor-api</artifactId>
+                <version>1.2</version>
+              </additionalDependency>
+            </additionalDependencies>
             <!-- https://issues.apache.org/jira/browse/MJAVADOC-308 -->
             <!-- <notree>true</notree> -->
             <show>private</show>
@@ -470,7 +470,7 @@
                     <artifactId>javax.interceptor-api</artifactId>
                     <version>1.2</version>
                   </additionalDependency>
-                </additionalDependencies>
+              </additionalDependencies>
             </configuration>
             <executions>
               <execution>
@@ -600,8 +600,8 @@
 
   <licenses>
     <license>
-      <name>Apache Software Licenese</name>
-      <url>http://oasp.github.io/terms-of-use.html</url>
+      <name>Apache Software License, Version 2.0</name>
+      <url>https://github.com/devonfw/devon4j/blob/develop/LICENSE.txt</url>
       <distribution>repo</distribution>
       <comments/>
     </license>
