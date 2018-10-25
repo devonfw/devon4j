@@ -600,13 +600,8 @@
 
   <licenses>
     <license>
-<<<<<<< HEAD
-      <name>Apache Software Licenese</name>
-      <url>http://oasp.github.io/terms-of-use.html</url>
-=======
       <name>Apache Software License, Version 2.0</name>
       <url>https://github.com/devonfw/devon4j/blob/develop/LICENSE.txt</url>
->>>>>>> 39feeb3732aa06d1a9508b4b9c911ec44c5b3e67
       <distribution>repo</distribution>
       <comments/>
     </license>
