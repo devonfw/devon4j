@@ -1,14 +1,13 @@
-package io.oasp.module.json.common.base;
+package com.devonfw.module.json.common.base;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
+import com.devonfw.module.test.common.base.ModuleTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
-
-import io.oasp.module.test.common.base.ModuleTest;
 
 /**
  * Test of {@link ObjectMapperFactory} with polymorphic data.

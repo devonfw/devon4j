@@ -1,4 +1,4 @@
-package io.oasp.module.json.common.base.type;
+package com.devonfw.module.json.common.base.type;
 
 import java.io.IOException;
 import java.util.ArrayList;

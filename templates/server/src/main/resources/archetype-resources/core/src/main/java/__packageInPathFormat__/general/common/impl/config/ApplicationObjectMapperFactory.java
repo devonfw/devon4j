@@ -7,9 +7,9 @@ import org.springframework.security.web.csrf.CsrfToken;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import io.oasp.module.json.common.base.ObjectMapperFactory;
-import io.oasp.module.json.common.base.type.PageableJsonSerializer;
-import io.oasp.module.json.common.base.type.PageableJsonDeserializer;
+import com.devonfw.module.json.common.base.ObjectMapperFactory;
+import com.devonfw.module.json.common.base.type.PageableJsonSerializer;
+import com.devonfw.module.json.common.base.type.PageableJsonDeserializer;
 
 /**
  * The MappingFactory class to resolve polymorphic conflicts within the ${rootArtifactId} application.

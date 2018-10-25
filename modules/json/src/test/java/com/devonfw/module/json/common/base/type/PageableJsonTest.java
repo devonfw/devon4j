@@ -1,4 +1,4 @@
-package io.oasp.module.json.common.base.type;
+package com.devonfw.module.json.common.base.type;
 
 import org.junit.Test;
 import org.springframework.data.domain.PageRequest;
@@ -7,9 +7,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
+import com.devonfw.module.test.common.base.ModuleTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.oasp.module.test.common.base.ModuleTest;
 
 /**
  * Test of mapping {@link Pageable} from/to JSON.

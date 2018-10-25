@@ -1,12 +1,11 @@
-package io.oasp.module.json.common.base.type;
+package com.devonfw.module.json.common.base.type;
 
 import org.springframework.data.domain.Pageable;
 
+import com.devonfw.module.json.common.base.ObjectMapperFactory;
+import com.devonfw.module.json.common.base.type.PageableJsonDeserializer;
+import com.devonfw.module.json.common.base.type.PageableJsonSerializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-
-import io.oasp.module.json.common.base.ObjectMapperFactory;
-import io.oasp.module.json.common.base.type.PageableJsonDeserializer;
-import io.oasp.module.json.common.base.type.PageableJsonSerializer;
 
 /**
  * {@link ObjectMapperFactory} for testing.
