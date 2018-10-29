@@ -1,10 +1,8 @@
 package com.devonfw.module.basic.common.api.reference;
 
-import net.sf.mmm.util.entity.api.MutableGenericEntity;
-
 import org.junit.Test;
 
-import com.devonfw.module.basic.common.api.reference.IdRef;
+import com.devonfw.module.basic.common.api.entity.GenericEntity;
 import com.devonfw.module.basic.common.api.to.AbstractEto;
 import com.devonfw.module.test.common.base.ModuleTest;
 
@@ -13,7 +11,7 @@ import com.devonfw.module.test.common.base.ModuleTest;
  */
 public class IdRefTest extends ModuleTest {
 
-  /** Test of {@link IdRef#of(net.sf.mmm.util.entity.api.GenericEntity)} */
+  /** Test of {@link IdRef#of(com.devonfw.module.basic.common.api.entity.GenericEntity)} */
   @Test
   public void testOfEntity() {
 
@@ -56,7 +54,7 @@ public class IdRefTest extends ModuleTest {
     assertThat(IdRef.of((Long) null)).isNull();
   }
 
-  private interface Foo extends MutableGenericEntity<Long> {
+  private interface Foo extends GenericEntity<Long> {
 
   }
 

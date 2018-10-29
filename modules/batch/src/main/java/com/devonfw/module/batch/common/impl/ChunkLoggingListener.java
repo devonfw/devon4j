@@ -13,12 +13,18 @@ import org.springframework.batch.core.SkipListener;
  * Spring Batch listener that logs exceptions together with the item(s) being processed at the time the exceptions
  * occurred.
  *
+ * @param <T> type of the items.
+ * @param <S> type of the results.
  */
-public class ChunkLoggingListener<T, S> implements SkipListener<T, S>, ItemReadListener<T>, ItemProcessListener<T, S>,
-    ItemWriteListener<S> {
+public class ChunkLoggingListener<T, S>
+    implements SkipListener<T, S>, ItemReadListener<T>, ItemProcessListener<T, S>, ItemWriteListener<S> {
 
   private static final Logger LOG = LoggerFactory.getLogger(ChunkLoggingListener.class);
 
+  /**
+   * @param item the {@link Object} to format.
+   * @return the {@link Object#toString() string representation}.
+   */
   protected String itemToString(Object item) {
 
     return item.toString();

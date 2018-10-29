@@ -1,33 +1,22 @@
 package com.devonfw.module.beanmapping.common.impl.orika;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+import com.devonfw.module.basic.common.api.entity.GenericEntity;
+import com.devonfw.module.basic.common.api.to.AbstractEto;
+import com.devonfw.module.basic.common.api.to.AbstractEto.PersistentEntityAccess;
 
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MappingContext;
 
-import net.sf.mmm.util.entity.api.GenericEntity;
-import net.sf.mmm.util.entity.api.PersistenceEntity;
-import net.sf.mmm.util.pojo.descriptor.api.PojoDescriptor;
-import net.sf.mmm.util.pojo.descriptor.api.PojoDescriptorBuilder;
-import net.sf.mmm.util.pojo.descriptor.api.PojoDescriptorBuilderFactory;
-import net.sf.mmm.util.pojo.descriptor.impl.PojoDescriptorBuilderFactoryImpl;
-import net.sf.mmm.util.transferobject.api.EntityTo;
-
 /**
- * {@link CustomMapper} to map from {@link PersistenceEntity} to {@link EntityTo} to solve
- * {@link EntityTo#getModificationCounter() modification counter issue}.
- *
+ * {@link CustomMapper} to map from a persitent entity ({@code com.devonfw.module.jpa.dataaccess.api.PersistenceEntity})
+ * to its corresponding {@link AbstractEto ETO} to solve {@link GenericEntity#getModificationCounter() modification
+ * counter issue}.
  */
 // @Named
 @SuppressWarnings("rawtypes")
-public class CustomMapperEto extends CustomMapper<GenericEntity, EntityTo> {
+public class CustomMapperEto extends CustomMapper<GenericEntity, AbstractEto> {
 
-  private PojoDescriptorBuilder pojoDescriptorBuilder;
-
-  private PojoDescriptorBuilderFactory pojoDescriptorBuilderFactory;
-
-  private PojoDescriptor<EntityTo> descriptor;
+  private static final EntityAccess ENTITY_ACCESS = new EntityAccess();
 
   /**
    * The constructor.
@@ -38,34 +27,21 @@ public class CustomMapperEto extends CustomMapper<GenericEntity, EntityTo> {
 
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  public void mapAtoB(GenericEntity source, EntityTo target, MappingContext context) {
+  public void mapAtoB(GenericEntity source, AbstractEto target, MappingContext context) {
 
-    this.descriptor.setProperty(target, "persistentEntity", source);
+    ENTITY_ACCESS.setPersistentEntity(target, source);
   }
 
-  /**
-   * Initializes this class to be functional.
-   */
-  @PostConstruct
-  public void initialize() {
+  private static class EntityAccess extends PersistentEntityAccess {
 
-    if (this.pojoDescriptorBuilderFactory == null) {
-      this.pojoDescriptorBuilderFactory = PojoDescriptorBuilderFactoryImpl.getInstance();
+    @Override
+    protected <ID> void setPersistentEntity(AbstractEto eto, GenericEntity<Long> persistentEntity) {
+
+      super.setPersistentEntity(eto, persistentEntity);
     }
-    if (this.pojoDescriptorBuilder == null) {
-      this.pojoDescriptorBuilder = this.pojoDescriptorBuilderFactory.createPrivateFieldDescriptorBuilder();
-    }
-    this.descriptor = this.pojoDescriptorBuilder.getDescriptor(EntityTo.class);
-  }
 
-  /**
-   * @param pojoDescriptorBuilderFactory the pojoDescriptorBuilderFactory to set
-   */
-  @Inject
-  public void setPojoDescriptorBuilderFactory(PojoDescriptorBuilderFactory pojoDescriptorBuilderFactory) {
-
-    this.pojoDescriptorBuilderFactory = pojoDescriptorBuilderFactory;
   }
 
 }

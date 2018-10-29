@@ -8,14 +8,14 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import com.devonfw.example.general.common.api.TestApplicationEntity;
-import com.devonfw.module.jpa.dataaccess.api.MutablePersistenceEntity;
+import com.devonfw.module.jpa.dataaccess.api.RevisionedPersistenceEntity;
 
 /**
  * Abstract Entity for all Entities with an id and a version field.
  *
  */
 @MappedSuperclass
-public abstract class TestApplicationPersistenceEntity implements TestApplicationEntity, MutablePersistenceEntity<Long> {
+public abstract class TestApplicationPersistenceEntity implements TestApplicationEntity, RevisionedPersistenceEntity<Long> {
 
   private static final long serialVersionUID = 1L;
 

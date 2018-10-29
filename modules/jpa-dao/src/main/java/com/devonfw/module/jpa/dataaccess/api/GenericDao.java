@@ -2,9 +2,7 @@ package com.devonfw.module.jpa.dataaccess.api;
 
 import java.util.List;
 
-import net.sf.mmm.util.entity.api.PersistenceEntity;
-import net.sf.mmm.util.exception.api.ObjectNotFoundUserException;
-
+import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
 import com.devonfw.module.basic.common.api.reference.Ref;
 import com.devonfw.module.jpa.dataaccess.api.feature.FeatureForceIncrementModificationCounter;
 
@@ -52,10 +50,9 @@ public interface GenericDao<ID, E extends PersistenceEntity<ID>> extends Feature
    *
    * @param id must not be {@literal null}.
    * @return the entity with the given id or {@literal null} if none found
-   * @throws ObjectNotFoundUserException if the requested entity does not exists (use {@link #findOne(Object)} to
-   *         prevent).
+   * @throws RuntimeException if the requested entity does not exists (use {@link #findOne(Object)} to prevent).
    */
-  E find(ID id) throws ObjectNotFoundUserException;
+  E find(ID id);
 
   /**
    * Retrieves an entity by its id.

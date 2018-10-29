@@ -7,13 +7,13 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
-import com.devonfw.module.jpa.dataaccess.api.MutablePersistenceEntity;
+import com.devonfw.module.jpa.dataaccess.api.RevisionedPersistenceEntity;
 
 /**
- * Abstract base implementation of {@link MutablePersistenceEntity}.
+ * Abstract base implementation of {@link RevisionedPersistenceEntity}.
  */
 @MappedSuperclass
-public abstract class AbstractPersistenceEntity implements MutablePersistenceEntity<Long> {
+public abstract class AbstractPersistenceEntity implements RevisionedPersistenceEntity<Long> {
 
   private static final long serialVersionUID = 1L;
 

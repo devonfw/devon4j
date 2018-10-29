@@ -6,14 +6,16 @@ import java.util.Date;
 
 /**
  * This is the interface for the metadata associated with a
- * {@link net.sf.mmm.util.entity.api.RevisionedEntity#getRevision() historic revision} of an
- * {@link net.sf.mmm.util.entity.api.RevisionedEntity entity}.
+ * {@link com.devonfw.module.basic.common.api.entity.RevisionedEntity#getRevision() historic revision} of an
+ * {@link com.devonfw.module.basic.common.api.entity.RevisionedEntity revisioned entity}.
  *
+ * @since 3.0.0
  */
 public interface RevisionMetadata {
 
   /**
-   * This method gets the {@link net.sf.mmm.util.entity.api.RevisionedEntity#getRevision() revision number}.
+   * This method gets the {@link com.devonfw.module.basic.common.api.entity.RevisionedEntity#getRevision() revision
+   * number}.
    *
    * @return the revision number.
    */

@@ -2,13 +2,15 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package com.devonfw.module.jpa.dataaccess.api;
 
-import net.sf.mmm.util.session.api.UserSessionAccess;
-
 import org.hibernate.envers.RevisionListener;
+
+import com.devonfw.module.basic.common.api.user.UserSessionAccess;
 
 /**
  * This is the implementation of {@link RevisionListener} that enriches {@link AdvancedRevisionEntity} with additional
  * information.
+ *
+ * @since 3.0.0
  */
 public class AdvancedRevisionListener implements RevisionListener {
 

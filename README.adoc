@@ -1,4 +1,4 @@
-= devon4jJava
+= devon4j
 
 The Java stack of http://devonfw.com[devonfw].
 

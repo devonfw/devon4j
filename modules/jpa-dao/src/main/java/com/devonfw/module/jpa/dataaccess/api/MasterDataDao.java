@@ -2,7 +2,7 @@ package com.devonfw.module.jpa.dataaccess.api;
 
 import java.util.List;
 
-import net.sf.mmm.util.entity.api.PersistenceEntity;
+import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
 
 /**
  * This is the interface for a {@link Dao} responsible for a {@link PersistenceEntity} that represents master-data. In

@@ -18,16 +18,8 @@ import org.slf4j.LoggerFactory;
  * for development tests (e.g. via an application property). In case the filter gets {@link #setEnabled(Boolean)
  * disabled} a WARNING log message is produced and also written to {@link System#err}. <br/>
  *
- * Here is an example spring XML config from our sample application that allows to disable the <code>CsrfFilter</code>
- * via an application property (<code>enabled=false</code>):
- *
- * <pre>
- * &lt;bean id="CsrfFilterWrapper" class="com.devonfw.module.web.common.base.ToggleFilterWrapper">
- *   &lt;property name="delegateFilter" ref="CsrfFilter"/>
- *   &lt;property name="enabled" value="${oasp.filter.csrf}"/>
- * &lt;/bean>
- * </pre>
- *
+ * As an example you can use it to wrap the {@codeCsrfFilter} in order to allow disabling in local tests (to ease REST
+ * testing).
  */
 public class ToggleFilterWrapper implements Filter {
 
@@ -49,13 +41,15 @@ public class ToggleFilterWrapper implements Filter {
 
   }
 
+  /**
+   * Initializes this object.
+   */
   @PostConstruct
   public void initialize() {
 
     if (!this.enabled) {
-      String message =
-          "****** FILTER " + this.delegateFilter
-              + " HAS BEEN DISABLED! THIS FEATURE SHOULD ONLY BE USED IN DEVELOPMENT MODE ******";
+      String message = "****** FILTER " + this.delegateFilter
+          + " HAS BEEN DISABLED! THIS FEATURE SHOULD ONLY BE USED IN DEVELOPMENT MODE ******";
       LOG.warn(message);
       // CHECKSTYLE:OFF (for development only)
       System.err.println(message);
@@ -64,8 +58,8 @@ public class ToggleFilterWrapper implements Filter {
   }
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-      ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
 
     if (this.enabled) {
       this.delegateFilter.doFilter(request, response, chain);

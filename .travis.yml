@@ -4,4 +4,7 @@ jdk:
   - oraclejdk8
 script: 
  - mvn install
+cache:
+  directories:
+    - "$HOME/.m2/repository"
 sudo: false

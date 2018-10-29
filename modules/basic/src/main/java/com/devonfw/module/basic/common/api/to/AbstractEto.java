@@ -1,35 +1,29 @@
 package com.devonfw.module.basic.common.api.to;
 
-import net.sf.mmm.util.entity.api.GenericEntity;
-import net.sf.mmm.util.entity.api.MutableRevisionedEntity;
-import net.sf.mmm.util.entity.api.PersistenceEntity;
-import net.sf.mmm.util.transferobject.api.TransferObject;
+import com.devonfw.module.basic.common.api.entity.GenericEntity;
 
 /**
- * This is the abstract base class for an {@link TransferObject} that only contains data without relations. This is
- * called <em>DTO</em> (data transfer object). Here data means properties that typically represent a
- * {@link net.sf.mmm.util.lang.api.Datatype} and potentially for relations the ID (as {@link Long}). For actual
- * relations you will use {@link AbstractCto CTO}s to express what set of entities to transfer, load, save, update, etc.
- * without redundancies. It typically corresponds to an {@link net.sf.mmm.util.entity.api.GenericEntity entity}. For
- * additional details and an example consult the.
+ * This is the abstract base class for an {@link AbstractEto transfer-object} that contains all the data properties of
+ * an {@link GenericEntity entity} without its relations. This is called <em>ETO</em> (entity transfer object).
+ * Sometimes in other contexts people also call this DTO (data transfer object).<br>
+ * Here, data properties are the properties using a datatype (immutable value type such as {@link String},
+ * {@link Number}, {@link java.time.Instant}, custom-datatype, etc.). Relations of an @link GenericEntity entity} are
+ * not contained except for {@link #getId() IDs} of {@link javax.persistence.OneToOne} relations. Instead of using
+ * {@link Long} we recommend to use {@link com.devonfw.module.basic.common.api.reference.IdRef} to be type-safe and more
+ * expressive. For actual relations you will use {@link AbstractCto CTO}s to express what set of entities to transfer,
+ * load, save, update, etc. without redundancies.<br>
+ * Classes extending this class should carry the suffix <code>Eto</code>.
  *
+ * @since 3.0.0
  */
-public abstract class AbstractEto extends AbstractTo implements MutableRevisionedEntity<Long> {
+public abstract class AbstractEto extends AbstractTo implements GenericEntity<Long> {
 
   private static final long serialVersionUID = 1L;
 
-  /** @see #getId() */
   private Long id;
 
-  /** @see #getModificationCounter() */
   private int modificationCounter;
 
-  /** @see #getRevision() */
-  private Number revision;
-
-  /**
-   * @see #getModificationCounter()
-   */
   private transient GenericEntity<Long> persistentEntity;
 
   /**
@@ -38,30 +32,20 @@ public abstract class AbstractEto extends AbstractTo implements MutableRevisione
   public AbstractEto() {
 
     super();
-    this.revision = LATEST_REVISION;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Long getId() {
 
     return this.id;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void setId(Long id) {
 
     this.id = id;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int getModificationCounter() {
 
@@ -75,31 +59,10 @@ public abstract class AbstractEto extends AbstractTo implements MutableRevisione
     return this.modificationCounter;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void setModificationCounter(int version) {
 
     this.modificationCounter = version;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Number getRevision() {
-
-    return this.revision;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void setRevision(Number revision) {
-
-    this.revision = revision;
   }
 
   /**
@@ -117,27 +80,22 @@ public abstract class AbstractEto extends AbstractTo implements MutableRevisione
       buffer.append(this.id);
       buffer.append("]");
     }
-    if (this.revision != null) {
-      buffer.append("[rev=");
-      buffer.append(this.revision);
-      buffer.append("]");
-    }
   }
 
   /**
-   * Inner class to grant access to internal {@link PersistenceEntity} reference of an {@link AbstractEto}. Shall only
-   * be used internally and never be external users.
+   * Inner class to grant access to internal persistent {@link GenericEntity entity} reference of an
+   * {@link AbstractEto}. Shall only be used internally and never be external users.
    */
   public static class PersistentEntityAccess {
 
     /**
-     * Sets the internal {@link PersistenceEntity} reference of the given {@link AbstractEto}.
+     * Sets the internal persistent {@link GenericEntity entity} reference of the given {@link AbstractEto}.
      *
      * @param <ID> is the generic type of the {@link GenericEntity#getId() ID}.
-     * @param eto is the {@link AbstractEto}.
-     * @param persistentEntity is the {@link PersistenceEntity}.
+     * @param eto is the {@link AbstractEto ETO}.
+     * @param persistentEntity is the persistent {@link GenericEntity entity}.
      */
-    protected <ID> void setPersistentEntity(AbstractEto eto, PersistenceEntity<Long> persistentEntity) {
+    protected <ID> void setPersistentEntity(AbstractEto eto, GenericEntity<Long> persistentEntity) {
 
       assert ((eto.persistentEntity == null) || (persistentEntity == null));
       eto.persistentEntity = persistentEntity;
