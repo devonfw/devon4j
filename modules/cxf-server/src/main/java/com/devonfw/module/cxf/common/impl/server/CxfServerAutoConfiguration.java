@@ -21,6 +21,7 @@ public class CxfServerAutoConfiguration {
    * @return the {@link ServletRegistrationBean} to register {@link CXFServlet} according to Devon4j conventions at
    *         {@link ServiceConstants#URL_PATH_SERVICES}.
    */
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   @Bean
   public ServletRegistrationBean servletRegistrationBean() {
 

@@ -15,9 +15,21 @@
   <description>Basic code for common usage (such as base classes for transfer objects) of the Open Application Standard Platform for Java (devon4j).</description>
 
   <dependencies>
+    <!-- JPA only for JavaDoc links -->
     <dependency>
-      <groupId>net.sf.m-m-m</groupId>
-      <artifactId>mmm-util-entity</artifactId>
+      <groupId>org.hibernate.javax.persistence</groupId>
+      <artifactId>hibernate-jpa-2.1-api</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <!-- Spring-Security for UserSessionAccess (default provider implementation) -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>

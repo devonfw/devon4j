@@ -36,8 +36,7 @@ public class BarDaoTxBean {
 
   /**
    * Loads the {@link BarEntity} with the given {@code id} and
-   * {@link GenericDao#forceIncrementModificationCounter(net.sf.mmm.util.entity.api.PersistenceEntity) increments the
-   * modification counter}.
+   * {@link GenericDao#forceIncrementModificationCounter(Object) increments the modification counter}.
    *
    * @param id of the {@link BarEntity} to load and increment.
    * @return entity the updated {@link BarEntity}.

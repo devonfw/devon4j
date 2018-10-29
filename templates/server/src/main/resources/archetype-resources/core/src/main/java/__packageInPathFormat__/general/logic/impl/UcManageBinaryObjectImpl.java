@@ -2,11 +2,13 @@ package ${package}.general.logic.impl;
 
 import java.sql.Blob;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import ${package}.general.dataaccess.api.BinaryObjectEntity;
 import ${package}.general.dataaccess.api.dao.BinaryObjectRepository;
+import ${package}.general.common.api.security.ApplicationAccessControlConfig;
 import ${package}.general.logic.api.UcManageBinaryObject;
 import ${package}.general.logic.api.to.BinaryObjectEto;
 import ${package}.general.logic.base.AbstractUc;
@@ -17,26 +19,11 @@ import ${package}.general.logic.base.AbstractUc;
 @Named
 public class UcManageBinaryObjectImpl extends AbstractUc implements UcManageBinaryObject {
 
+  @Inject
   private BinaryObjectRepository binaryObjectRepository;
 
-  /**
-   * @return {@link BinaryObjectRepository} instance.
-   */
-  public BinaryObjectRepository getBinaryObjectRepository() {
-
-    return this.binaryObjectRepository;
-  }
-
-  /**
-   * @param binaryObjectRepository the {@link BinaryObjectRepository} to set
-   */
-  @Inject
-  public void setBinaryObjectRepository(BinaryObjectRepository binaryObjectRepository) {
-
-    this.binaryObjectRepository = binaryObjectRepository;
-  }
-
   @Override
+  @RolesAllowed(ApplicationAccessControlConfig.PERMISSION_SAVE_BINARY_OBJECT)
   public BinaryObjectEto saveBinaryObject(Blob data, BinaryObjectEto binaryObjectEto) {
 
     BinaryObjectEntity binaryObjectEntity = getBeanMapper().map(binaryObjectEto, BinaryObjectEntity.class);
@@ -46,19 +33,21 @@ public class UcManageBinaryObjectImpl extends AbstractUc implements UcManageBina
   }
 
   @Override
+  @RolesAllowed(ApplicationAccessControlConfig.PERMISSION_DELETE_BINARY_OBJECT)
   public void deleteBinaryObject(Long binaryObjectId) {
 
     this.binaryObjectRepository.deleteById(binaryObjectId);
-
   }
 
   @Override
+  @RolesAllowed(ApplicationAccessControlConfig.PERMISSION_FIND_BINARY_OBJECT)
   public BinaryObjectEto findBinaryObject(Long binaryObjectId) {
 
     return getBeanMapper().map(this.binaryObjectRepository.find(binaryObjectId), BinaryObjectEto.class);
   }
 
   @Override
+  @RolesAllowed(ApplicationAccessControlConfig.PERMISSION_FIND_BINARY_OBJECT)
   public Blob getBinaryObjectBlob(Long binaryObjectId) {
 
     return this.binaryObjectRepository.find(binaryObjectId).getData();

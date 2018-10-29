@@ -3,13 +3,14 @@ package com.devonfw.module.jpa.dataaccess.base;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
- * ProductWriter allows to get named query from resource NamedQueries.xml.
- * It is used for example in job to get sql for JdbcCursorItemReader.
+ * ProductWriter allows to get named query from resource NamedQueries.xml. It is used for example in job to get sql for
+ * JdbcCursorItemReader.
  *
+ * @since 3.0.0
  */
 public class NamedQueryFactoryBean implements FactoryBean<String> {
 
@@ -17,27 +18,18 @@ public class NamedQueryFactoryBean implements FactoryBean<String> {
 
   private String queryName;
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String getObject() throws Exception {
 
     return this.entityManager.createNamedQuery(this.queryName).unwrap(Query.class).getQueryString();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Class<?> getObjectType() {
 
     return String.class;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean isSingleton() {
 
@@ -45,7 +37,7 @@ public class NamedQueryFactoryBean implements FactoryBean<String> {
   }
 
   /**
-   * @param entityManager the entityManager to set
+   * @param entityManager the {@link EntityManager} to set.
    */
   @PersistenceContext
   public void setEntityManager(EntityManager entityManager) {
@@ -54,7 +46,7 @@ public class NamedQueryFactoryBean implements FactoryBean<String> {
   }
 
   /**
-   * @param queryName the queryName to set
+   * @param queryName the name of the query.
    */
   public void setQueryName(String queryName) {
 

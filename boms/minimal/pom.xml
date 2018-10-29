@@ -107,11 +107,6 @@
       </dependency>
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
-        <artifactId>devon4j-jpa</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-jpa-basic</artifactId>
         <version>${project.version}</version>
       </dependency>

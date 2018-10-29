@@ -2,16 +2,13 @@ package ${package}.general.logic.base;
 
 import ${package}.general.common.base.AbstractBeanMapperSupport;
 
+import com.devonfw.module.basic.common.api.entity.GenericEntity;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.mmm.util.entity.api.GenericEntity;
-import net.sf.mmm.util.entity.api.PersistenceEntity;
-import net.sf.mmm.util.transferobject.api.AbstractTransferObject;
-import net.sf.mmm.util.transferobject.api.TransferObject;
 
 /**
  * Abstract base class for implementations of <em>business logic</em> in this application. Actual implementations need
