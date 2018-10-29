@@ -3,6 +3,8 @@ package ${package}.general.logic.base;
 import ${package}.general.common.base.AbstractBeanMapperSupport;
 
 import com.devonfw.module.basic.common.api.entity.GenericEntity;
+import com.devonfw.module.basic.common.api.to.AbstractEto;
+import com.devonfw.module.basic.common.api.to.MasterCto;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +27,30 @@ public abstract class AbstractLogic extends AbstractBeanMapperSupport {
   public AbstractLogic() {
 
     super();
+  }
+
+  /**
+   * Creates a {@link Map} with all {@link MasterCto}s from the given {@link Collection} using their
+   * {@link MasterCto#getMaster() master ETO} {@link AbstractEto#getId() ID} as key. All {@link AbstractEto ETO}s being
+   * {@code null} or without an {@link AbstractEto#getId() ID} will be ignored.
+   *
+   * @param <C> is the generic type of the {@link MasterCto}s.
+   * @param entities is the {@link Collection} of {@link MasterCto}s.
+   * @return a {@link Map} mapping from {@link AbstractEto#getId() ID} to {@link MasterCto}.
+   */
+  protected static <C extends MasterCto<?>> Map<Long, C> getCtoMap(Collection<C> ctos) {
+
+    Map<Long, C> id2CtoMap = new HashMap<>();
+    for (C cto : ctos) {
+      AbstractEto eto = cto.getMaster();
+      if (eto != null) {
+        Long id = eto.getId();
+        if (id != null) {
+          id2CtoMap.put(id, cto);
+        }
+      }
+    }
+    return id2CtoMap;
   }
 
   /**
