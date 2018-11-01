@@ -49,11 +49,15 @@ public class PageableJsonDeserializer extends JsonDeserializer<Pageable> {
       List<Order> sortingOrders = new ArrayList<>();
       while (iterator.hasNext()) {
         JsonNode next = iterator.next();
-        String property = getRequiredValue(next, PROPERTY_PROPERTY);
-        String direction = getRequiredValue(next, PROPERTY_DIRECTION);
-        sortingOrders.add(new Order(Direction.fromString(direction), property));
+        String property = getValue(next, PROPERTY_PROPERTY);
+        String direction = getValue(next, PROPERTY_DIRECTION);
+        if (property != null && direction != null) {
+          sortingOrders.add(new Order(Direction.fromString(direction), property));
+        }
       }
-      sort = Sort.by(sortingOrders);
+      if (sortingOrders != null && !sortingOrders.isEmpty()) {
+        sort = Sort.by(sortingOrders);
+      }
     }
 
     return PageRequest.of(pageNumber, pageSize, sort);
