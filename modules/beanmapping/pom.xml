@@ -16,6 +16,10 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-basic</artifactId>
+    </dependency>
+    <dependency>
       <groupId>net.sf.dozer</groupId>
       <artifactId>dozer</artifactId>
     </dependency>
@@ -23,15 +27,11 @@
       <groupId>javax.inject</groupId>
       <artifactId>javax.inject</artifactId>
     </dependency>
-    <dependency>
-      <groupId>net.sf.m-m-m</groupId>
-      <artifactId>mmm-util-entity</artifactId>
-    </dependency>
-
     <!-- Orika (not yet default but will once replace dozer) -->
     <dependency>
       <groupId>ma.glasnost.orika</groupId>
       <artifactId>orika-core</artifactId>
+      <version>1.5.2</version>
       <optional>true</optional>
     </dependency>
 

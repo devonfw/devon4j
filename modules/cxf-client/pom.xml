@@ -28,6 +28,10 @@
       <artifactId>spring-boot</artifactId>
     </dependency>
     <dependency>
+      <groupId>net.sf.m-m-m</groupId>
+      <artifactId>mmm-util-exception</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-test</artifactId>
       <scope>test</scope>

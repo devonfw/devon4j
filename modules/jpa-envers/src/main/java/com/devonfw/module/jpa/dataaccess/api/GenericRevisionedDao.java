@@ -6,12 +6,7 @@ import java.util.List;
 
 import javax.persistence.PersistenceException;
 
-import net.sf.mmm.util.entity.api.RevisionedEntity;
-import net.sf.mmm.util.exception.api.ObjectNotFoundException;
-
-import com.devonfw.module.jpa.dataaccess.api.GenericDao;
-import com.devonfw.module.jpa.dataaccess.api.MutablePersistenceEntity;
-import com.devonfw.module.jpa.dataaccess.api.RevisionMetadata;
+import com.devonfw.module.basic.common.api.entity.RevisionedEntity;
 
 /**
  * This is the interface for a {@link GenericDao} with the ability of revision-control. It organizes a revision-history
@@ -23,16 +18,17 @@ import com.devonfw.module.jpa.dataaccess.api.RevisionMetadata;
  * @param <ENTITY> is the type of the managed entity.
  *
  */
-public interface GenericRevisionedDao<ID, ENTITY extends MutablePersistenceEntity<ID>> extends GenericDao<ID, ENTITY> {
+public interface GenericRevisionedDao<ID, ENTITY extends RevisionedPersistenceEntity<ID>>
+    extends GenericDao<ID, ENTITY> {
 
   /**
-   * This method will get the {@link List} of historic {@link MutablePersistenceEntity#getRevision() revisions} of the
-   * {@link MutablePersistenceEntity entity} with the given <code>id</code>.<br>
+   * This method will get the {@link List} of historic {@link RevisionedPersistenceEntity#getRevision() revisions} of
+   * the {@link RevisionedPersistenceEntity entity} with the given <code>id</code>.<br>
    * If the <code>entity</code> is NOT revision controlled, an {@link java.util.Collections#emptyList() empty list} is
    * returned.
    *
-   * @param id the {@link MutablePersistenceEntity#getId() primary key} of the {@link MutablePersistenceEntity entity}
-   *        to retrieve the history for.
+   * @param id the {@link RevisionedPersistenceEntity#getId() primary key} of the {@link RevisionedPersistenceEntity
+   *        entity} to retrieve the history for.
    * @return the {@link List} of historic {@link RevisionedEntity#getRevision() revisions}.
    */
   List<Number> getRevisionHistory(ID id);
@@ -61,18 +57,18 @@ public interface GenericRevisionedDao<ID, ENTITY extends MutablePersistenceEntit
    *        {@link RevisionedEntity#LATEST_REVISION} to get the {@link #find(Object) latest} revision. A specific
    *        revision has to be greater than <code>0</code>.
    * @return the requested {@link RevisionedEntity entity}.
-   * @throws ObjectNotFoundException if the requested {@link RevisionedEntity entity} could NOT be found.
+   * @throws RuntimeException if the requested {@link RevisionedEntity entity} could NOT be found.
    */
-  ENTITY load(ID id, Number revision) throws ObjectNotFoundException;
+  ENTITY load(ID id, Number revision);
 
   /**
    * {@inheritDoc}
    *
    * The behavior of this method depends on the revision-control strategy of the implementation. <br>
    * <ul>
-   * <li>In case of an <em>audit-proof revision-history</em> the deletion of the
-   * {@link RevisionedEntity#LATEST_REVISION latest revision} of an entity will only move it to the history while the
-   * deletion of a {@link RevisionedEntity#getRevision() historic entity} is NOT permitted and will cause a
+   * <li>In case of an <em>audit-proof revision-history</em> the deletion of the {@link RevisionedEntity#LATEST_REVISION
+   * latest revision} of an entity will only move it to the history while the deletion of a
+   * {@link RevisionedEntity#getRevision() historic entity} is NOT permitted and will cause a
    * {@link PersistenceException}.</li>
    * <li>In case of an <em>on-demand revision-history</em> the deletion of the {@link RevisionedEntity#LATEST_REVISION
    * latest revision} of an entity will either move it to the history or</li>

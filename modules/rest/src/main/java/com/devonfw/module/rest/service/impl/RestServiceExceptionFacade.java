@@ -23,10 +23,9 @@ import javax.ws.rs.ext.Provider;
 
 import net.sf.mmm.util.exception.api.NlsRuntimeException;
 import net.sf.mmm.util.exception.api.NlsThrowable;
+import net.sf.mmm.util.exception.api.SecurityErrorUserException;
 import net.sf.mmm.util.exception.api.TechnicalErrorUserException;
 import net.sf.mmm.util.exception.api.ValidationErrorUserException;
-import net.sf.mmm.util.lang.api.StringUtil;
-import net.sf.mmm.util.security.api.SecurityErrorUserException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,38 +44,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @Provider
 public class RestServiceExceptionFacade implements ExceptionMapper<Throwable> {
-
-  /**
-   * JSON key for {@link Throwable#getMessage() error message}.
-   *
-   * @deprecated use {@link ServiceConstants#KEY_MESSAGE}.
-   */
-  @Deprecated
-  public static final String KEY_MESSAGE = ServiceConstants.KEY_MESSAGE;
-
-  /**
-   * JSON key for {@link NlsRuntimeException#getUuid() error ID}.
-   *
-   * @deprecated use {@link ServiceConstants#KEY_UUID}.
-   */
-  @Deprecated
-  public static final String KEY_UUID = ServiceConstants.KEY_UUID;
-
-  /**
-   * JSON key for {@link NlsRuntimeException#getCode() error code}.
-   *
-   * @deprecated use {@link ServiceConstants#KEY_CODE}.
-   */
-  @Deprecated
-  public static final String KEY_CODE = ServiceConstants.KEY_CODE;
-
-  /**
-   * JSON key for (validation) errors.
-   *
-   * @deprecated use {@link ServiceConstants#KEY_ERRORS}.
-   */
-  @Deprecated
-  public static final String KEY_ERRORS = ServiceConstants.KEY_ERRORS;
 
   /** Logger instance. */
   private static final Logger LOG = LoggerFactory.getLogger(RestServiceExceptionFacade.class);
@@ -302,7 +269,7 @@ public class RestServiceExceptionFacade implements ExceptionMapper<Throwable> {
     } else {
       error = new SecurityErrorUserException(catched);
     }
-    LOG.error("Service failed due to security error", error);
+    LOG.warn("Service failed due to security error", error);
     // NOTE: for security reasons we do not send any details about the error to the client!
     String message;
     String code = null;
@@ -367,7 +334,7 @@ public class RestServiceExceptionFacade implements ExceptionMapper<Throwable> {
     Throwable e = error;
     while (e != null) {
       if (buffer.length() > 0) {
-        buffer.append(StringUtil.LINE_SEPARATOR);
+        buffer.append(System.lineSeparator());
       }
       buffer.append(e.getClass().getSimpleName());
       buffer.append(": ");
@@ -554,8 +521,7 @@ public class RestServiceExceptionFacade implements ExceptionMapper<Throwable> {
 
     this.exposeInternalErrorDetails = exposeInternalErrorDetails;
     if (exposeInternalErrorDetails) {
-      String message =
-          "****** Exposing of internal error details is enabled! This violates OWASP A6 (Sensitive Data Exposure) and shall only be used for testing/debugging and never in production. ******";
+      String message = "****** Exposing of internal error details is enabled! This violates OWASP A6 (Sensitive Data Exposure) and shall only be used for testing/debugging and never in production. ******";
       LOG.warn(message);
       // CHECKSTYLE:OFF (for development only)
       System.err.println(message);

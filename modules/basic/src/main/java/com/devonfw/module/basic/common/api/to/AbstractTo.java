@@ -1,16 +1,17 @@
 package com.devonfw.module.basic.common.api.to;
 
-import net.sf.mmm.util.transferobject.api.TransferObject;
+import java.io.Serializable;
 
 /**
- * Abstract class for a plain {@link net.sf.mmm.util.transferobject.api.TransferObject} that is neither a
- * {@link AbstractEto ETO} nor a {@link AbstractCto CTO}. Classes extending this class should carry the suffix
- * <code>Cto</code>. <br>
+ * Abstract base class for any <em>transfer-object</em>. Such transfer-object is used to transfer data between
+ * components including services over the network. All transfer-objects should be derived from this class. In case they
+ * inherit indirectly via {@link AbstractEto ETO} or {@link AbstractCto CTO} they should carry the according suffixes
+ * {@code Eto} or {@code Cto}. Otherwise subclasses should carry the suffix {@code To}.
  *
+ * @since 3.0.0
  */
-public abstract class AbstractTo implements TransferObject {
+public abstract class AbstractTo implements Serializable {
 
-  /** UID for serialization. */
   private static final long serialVersionUID = 1L;
 
   /**

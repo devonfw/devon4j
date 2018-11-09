@@ -1,6 +1,6 @@
 package com.devonfw.module.jpa.dataaccess.api.data;
 
-import net.sf.mmm.util.entity.api.PersistenceEntity;
+import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
 
 /**
  * {@link GenericRevisionedRepository} with defaults applied for simple usage.

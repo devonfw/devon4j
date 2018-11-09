@@ -1,12 +1,10 @@
 package com.devonfw.module.beanmapping.common.impl;
 
-import net.sf.mmm.util.entity.api.PersistenceEntity;
-import net.sf.mmm.util.entity.api.RevisionedEntity;
-import net.sf.mmm.util.entity.base.AbstractRevisionedEntity;
-import net.sf.mmm.util.transferobject.api.EntityTo;
-
 import org.junit.Test;
 
+import com.devonfw.module.basic.common.api.entity.GenericEntity;
+import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
+import com.devonfw.module.basic.common.api.to.AbstractEto;
 import com.devonfw.module.beanmapping.common.api.BeanMapper;
 import com.devonfw.module.test.common.base.ModuleTest;
 
@@ -22,9 +20,9 @@ public abstract class AbstractBeanMapperTest extends ModuleTest {
   protected abstract BeanMapper getBeanMapper();
 
   /**
-   * Tests {@link BeanMapper#mapTypesafe(Class, Object, Class)} for an {@link PersistenceEntity entity} to an
-   * {@link EntityTo ETO} and ensures that if the {@link PersistenceEntity#getModificationCounter() modification
-   * counter} gets updated after conversion that the {@link EntityTo ETO} reflects this change.
+   * Tests {@link BeanMapper#mapTypesafe(Class, Object, Class)} for a persistence entity to an {@link AbstractEto ETO}
+   * and ensures that if the {@link GenericEntity#getModificationCounter() modification counter} gets updated after
+   * conversion that the {@link AbstractEto ETO} reflects this change.
    */
   @Test
   public void testMapEntity2Eto() {
@@ -36,8 +34,6 @@ public abstract class AbstractBeanMapperTest extends ModuleTest {
     entity.setId(id);
     int version = 1;
     entity.setModificationCounter(version);
-    Number revision = 10L;
-    entity.setRevision(revision);
     String property = "its magic";
     entity.setProperty(property);
 
@@ -48,7 +44,6 @@ public abstract class AbstractBeanMapperTest extends ModuleTest {
     assertThat(eto).isNotNull();
     assertThat(eto.getId()).isEqualTo(id);
     assertThat(eto.getModificationCounter()).isEqualTo(version);
-    assertThat(eto.getRevision()).isEqualTo(revision);
     assertThat(eto.getProperty()).isEqualTo(property);
     // sepcial feature: update of modificationCounter is performed when TX is closed what is typically after conversion
     int newVersion = version + 1;
@@ -59,7 +54,7 @@ public abstract class AbstractBeanMapperTest extends ModuleTest {
   /**
    * Interface for {@link MyBeanEntity} and {@link MyBeanEto}.
    */
-  public static interface MyBean extends RevisionedEntity<Long> {
+  public static interface MyBean extends GenericEntity<Long> {
 
     /**
      * @return property
@@ -70,17 +65,44 @@ public abstract class AbstractBeanMapperTest extends ModuleTest {
      * @param property the property to set
      */
     void setProperty(String property);
-
   }
 
   /**
    * {@link PersistenceEntity} for testing.
    */
-  public static class MyBeanEntity extends AbstractRevisionedEntity<Long> implements PersistenceEntity<Long>, MyBean {
+  public static class MyBeanEntity implements MyBean, PersistenceEntity<Long> {
 
     private static final long serialVersionUID = 1L;
 
+    private Long id;
+
+    private int modificationCounter;
+
     private String property;
+
+    @Override
+    public Long getId() {
+
+      return this.id;
+    }
+
+    @Override
+    public void setId(Long id) {
+
+      this.id = id;
+    }
+
+    @Override
+    public int getModificationCounter() {
+
+      return this.modificationCounter;
+    }
+
+    @Override
+    public void setModificationCounter(int modificationCounter) {
+
+      this.modificationCounter = modificationCounter;
+    }
 
     @Override
     public String getProperty() {
@@ -97,9 +119,9 @@ public abstract class AbstractBeanMapperTest extends ModuleTest {
   }
 
   /**
-   * {@link EntityTo ETO} for testing.
+   * {@link AbstractEto ETO} for testing.
    */
-  public static class MyBeanEto extends EntityTo<Long> implements MyBean {
+  public static class MyBeanEto extends AbstractEto implements MyBean {
 
     private static final long serialVersionUID = 1L;
 

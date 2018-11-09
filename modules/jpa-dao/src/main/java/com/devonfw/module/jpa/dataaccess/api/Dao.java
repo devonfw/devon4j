@@ -1,6 +1,6 @@
 package com.devonfw.module.jpa.dataaccess.api;
 
-import net.sf.mmm.util.entity.api.PersistenceEntity;
+import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
 
 /**
  * This is a simplified variant of {@link GenericDao} for the suggested and common case that you have a {@link Long} as

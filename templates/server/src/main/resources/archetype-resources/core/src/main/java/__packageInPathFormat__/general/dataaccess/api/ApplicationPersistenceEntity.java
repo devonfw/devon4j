@@ -8,24 +8,22 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import ${package}.general.common.api.ApplicationEntity;
-import com.devonfw.module.jpa.dataaccess.api.MutablePersistenceEntity;
+import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
 
 /**
- * Abstract Entity for all Entities with an id and a version field.
+ * Abstract base class for all {@link PersistenceEntity persistence entities} with an {@link #getId() id} and a
+ * {@link #getModificationCounter() modificationCounter} (version) field. All persistence entities of this application
+ * should inherit from this class. It is using JPA annotations at the getters what has several advantages but also
+ * implies that you have to annotate transient getter methods with the {@link Transient} annotation.
  */
 @MappedSuperclass
-public abstract class ApplicationPersistenceEntity implements ApplicationEntity, MutablePersistenceEntity<Long> {
+public abstract class ApplicationPersistenceEntity implements ApplicationEntity, PersistenceEntity<Long> {
 
   private static final long serialVersionUID = 1L;
 
-  /** @see #getId() */
   private Long id;
 
-  /** @see #getModificationCounter() */
   private int modificationCounter;
-
-  /** @see #getRevision() */
-  private Number revision;
 
   /**
    * The constructor.
@@ -60,22 +58,6 @@ public abstract class ApplicationPersistenceEntity implements ApplicationEntity,
   public void setModificationCounter(int version) {
 
     this.modificationCounter = version;
-  }
-
-  @Override
-  @Transient
-  public Number getRevision() {
-
-    return this.revision;
-  }
-
-  /**
-   * @param revision the revision to set
-   */
-  @Override
-  public void setRevision(Number revision) {
-
-    this.revision = revision;
   }
 
   @Override

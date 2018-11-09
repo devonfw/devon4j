@@ -5,6 +5,8 @@ import javax.persistence.PersistenceContext;
 
 /**
  * Initializer bean for {@link EntityManager}. Will be auto configured via {@code devon4j-starter-jpa}.
+ *
+ * @since 3.0.0
  */
 public class JpaInitializer {
 

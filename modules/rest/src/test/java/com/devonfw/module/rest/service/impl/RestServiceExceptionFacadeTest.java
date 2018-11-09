@@ -18,10 +18,9 @@ import javax.ws.rs.core.Response;
 import net.sf.mmm.util.exception.api.IllegalCaseException;
 import net.sf.mmm.util.exception.api.NlsRuntimeException;
 import net.sf.mmm.util.exception.api.ObjectNotFoundUserException;
+import net.sf.mmm.util.exception.api.SecurityErrorUserException;
 import net.sf.mmm.util.exception.api.TechnicalErrorUserException;
-import net.sf.mmm.util.lang.api.StringUtil;
-import net.sf.mmm.util.security.api.SecurityErrorUserException;
-import net.sf.mmm.util.validation.api.ValidationErrorUserException;
+import net.sf.mmm.util.exception.api.ValidationErrorUserException;
 
 import org.junit.Test;
 import org.springframework.security.access.AccessDeniedException;
@@ -30,7 +29,7 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 
-import com.devonfw.module.rest.service.impl.RestServiceExceptionFacade;
+import com.devonfw.module.service.common.api.constants.ServiceConstants;
 import com.devonfw.module.test.common.base.ModuleTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -126,12 +125,12 @@ public class RestServiceExceptionFacadeTest extends ModuleTest {
     String secretMessage = "Secret information not to be revealed on client - only to be logged on server!";
 
     int statusCode = 403;
-    String message =
-        "The operation failed due to security restrictions. Please contact the support in case of a permission problem.";
+    String message = "The operation failed due to security restrictions. Please contact the support in case of a permission problem.";
     String code = null;
 
-    checkFacade(exceptionFacade, new AccessDeniedException(secretMessage), statusCode, "SecurityErrorUserException: "
-        + message + StringUtil.LINE_SEPARATOR + "AccessDeniedException: " + secretMessage, UUID_ANY, code);
+    checkFacade(exceptionFacade, new AccessDeniedException(secretMessage), statusCode,
+        "SecurityErrorUserException: " + message + System.lineSeparator() + "AccessDeniedException: " + secretMessage,
+        UUID_ANY, code);
   }
 
   /**
@@ -142,8 +141,7 @@ public class RestServiceExceptionFacadeTest extends ModuleTest {
    * @param error is the {@link Throwable} to convert.
    * @param statusCode is the expected {@link Response#getStatus() status} code.
    * @param message is the expected {@link Throwable#getMessage() error message} from the JSON result.
-   * @param uuid is the expected {@link NlsRuntimeException#getUuid() UUID} from the JSON result. May be
-   *        {@code null}.
+   * @param uuid is the expected {@link NlsRuntimeException#getUuid() UUID} from the JSON result. May be {@code null}.
    * @param code is the expected {@link NlsRuntimeException#getCode() error code} from the JSON result. May be
    *        {@code null}.
    * @return the JSON result for potential further asserts.
@@ -162,8 +160,7 @@ public class RestServiceExceptionFacadeTest extends ModuleTest {
    * @param error is the {@link Throwable} to convert.
    * @param statusCode is the expected {@link Response#getStatus() status} code.
    * @param message is the expected {@link Throwable#getMessage() error message} from the JSON result.
-   * @param uuid is the expected {@link NlsRuntimeException#getUuid() UUID} from the JSON result. May be
-   *        {@code null}.
+   * @param uuid is the expected {@link NlsRuntimeException#getUuid() UUID} from the JSON result. May be {@code null}.
    * @param code is the expected {@link NlsRuntimeException#getCode() error code} from the JSON result. May be
    *        {@code null}.
    * @param errors is the expected validation errors in a format key-value
@@ -187,12 +184,12 @@ public class RestServiceExceptionFacadeTest extends ModuleTest {
       if (msg == null) {
         msg = error.getLocalizedMessage();
       }
-      assertThat(valueMap.get(RestServiceExceptionFacade.KEY_MESSAGE)).isEqualTo(msg);
+      assertThat(valueMap.get(ServiceConstants.KEY_MESSAGE)).isEqualTo(msg);
       if ((statusCode == 403) && (!exceptionFacade.isExposeInternalErrorDetails())) {
         assertThat(result).doesNotContain(error.getMessage());
       }
-      assertThat(valueMap.get(RestServiceExceptionFacade.KEY_CODE)).isEqualTo(code);
-      String actualUuid = (String) valueMap.get(RestServiceExceptionFacade.KEY_UUID);
+      assertThat(valueMap.get(ServiceConstants.KEY_CODE)).isEqualTo(code);
+      String actualUuid = (String) valueMap.get(ServiceConstants.KEY_UUID);
       if (UUID_ANY.equals(uuid)) {
         if (actualUuid == null) {
           fail("UUID expected but not found in response: " + result);
@@ -201,8 +198,7 @@ public class RestServiceExceptionFacadeTest extends ModuleTest {
         assertThat(actualUuid).isEqualTo(uuid);
       }
 
-      Map<String, List<String>> errorsMap =
-          (Map<String, List<String>>) valueMap.get(RestServiceExceptionFacade.KEY_ERRORS);
+      Map<String, List<String>> errorsMap = (Map<String, List<String>>) valueMap.get(ServiceConstants.KEY_ERRORS);
 
       if (errors == null) {
         if (errorsMap != null) {
@@ -315,9 +311,8 @@ public class RestServiceExceptionFacadeTest extends ModuleTest {
     exceptionFacade.setExposeInternalErrorDetails(true);
     String message = "Internal server error occurred";
     IllegalCaseException error = new IllegalCaseException(message);
-    String expectedMessage =
-        "TechnicalErrorUserException: An unexpected error has occurred! We apologize any inconvenience. Please try again later."
-            + StringUtil.LINE_SEPARATOR + error.getClass().getSimpleName() + ": " + error.getLocalizedMessage();
+    String expectedMessage = "TechnicalErrorUserException: An unexpected error has occurred! We apologize any inconvenience. Please try again later."
+        + System.lineSeparator() + error.getClass().getSimpleName() + ": " + error.getLocalizedMessage();
     checkFacade(exceptionFacade, error, 500, expectedMessage, error.getUuid().toString(), CODE_TECHNICAL_ERROR);
   }
 

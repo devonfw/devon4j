@@ -1,11 +1,11 @@
 package com.devonfw.module.basic.common.api.reference;
 
-import net.sf.mmm.util.entity.api.GenericEntity;
+import com.devonfw.module.basic.common.api.entity.GenericEntity;
 
 /**
  * A {@link Ref} using {@link Long} values as {@link #getId() ID}.
  *
- * @param <E> generic type of the referenced {@link net.sf.mmm.util.entity.api.Entity}.
+ * @param <E> generic type of the referenced {@link GenericEntity entity}.
  */
 public class IdRef<E> extends GenericIdRef<Long, E> {
 

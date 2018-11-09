@@ -2,8 +2,7 @@ package com.devonfw.module.jpa.dataaccess.base;
 
 import java.util.List;
 
-import net.sf.mmm.util.entity.api.PersistenceEntity;
-
+import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
 import com.devonfw.module.jpa.dataaccess.api.MasterDataDao;
 
 /**

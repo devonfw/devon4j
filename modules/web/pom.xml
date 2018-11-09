@@ -24,10 +24,12 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
     </dependency>
+    <!--
     <dependency>
       <groupId>net.sf.m-m-m</groupId>
       <artifactId>mmm-util-core</artifactId>
     </dependency>
+    -->
     
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>

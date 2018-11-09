@@ -1,7 +1,5 @@
 package com.devonfw.module.service.common.api.constants;
 
-import net.sf.mmm.util.exception.api.NlsRuntimeException;
-
 /**
  * Constants for {@link com.devonfw.module.service.common.api.Service}s.
  *
@@ -12,10 +10,10 @@ public class ServiceConstants {
   /** Key for {@link Throwable#getMessage() error message}. */
   public static final String KEY_MESSAGE = "message";
 
-  /** Key for {@link NlsRuntimeException#getUuid() error ID}. */
+  /** Key for error {@link java.util.UUID}. */
   public static final String KEY_UUID = "uuid";
 
-  /** Key for {@link NlsRuntimeException#getCode() error code}. */
+  /** Key for error code. */
   public static final String KEY_CODE = "code";
 
   /** Key for (validation) error details. */
@@ -40,14 +38,16 @@ public class ServiceConstants {
   public static final String URL_PATH_WEB_SERVICES = URL_PATH_SERVICES + "/" + URL_FOLDER_WEB_SERVICE;
 
   /**
-   * The variable that resolves to the {@link com.devonfw.module.basic.common.api.reflect.Devon4jPackage#getApplication()
-   * technical name of the application}.
+   * The variable that resolves to the
+   * {@link com.devonfw.module.basic.common.api.reflect.Devon4jPackage#getApplication() technical name of the
+   * application}.
    */
   public static final String VARIABLE_APP = "${app}";
 
   /**
-   * The variable that resolves to the {@link com.devonfw.module.basic.common.api.reflect.Devon4jPackage#getApplication()
-   * technical name of the application}.
+   * The variable that resolves to the
+   * {@link com.devonfw.module.basic.common.api.reflect.Devon4jPackage#getApplication() technical name of the
+   * application}.
    */
   public static final String VARIABLE_LOCAL_SERVER_PORT = "${local.server.port}";
 

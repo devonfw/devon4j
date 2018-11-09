@@ -1,20 +1,18 @@
 package com.devonfw.module.jpa.dataaccess.api.feature;
 
-import net.sf.mmm.util.entity.api.PersistenceEntity;
-
 /**
  * Feature for DAO or repository to {@link #forceIncrementModificationCounter(Object)}.
  *
- * @param <E> generic type of the managed {@link PersistenceEntity entity}. Typically implementing
- *        {@link net.sf.mmm.util.entity.api.PersistenceEntity}.
+ * @param <E> generic type of the managed {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity entity}.
+ *        Typically implementing {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity}.
  *
  * @since 3.0.0
  */
 public interface FeatureForceIncrementModificationCounter<E> {
 
   /**
-   * Enforces to increment the {@link PersistenceEntity#getModificationCounter() modificationCounter} e.g. to enforce
-   * that a parent object gets locked when its children are modified.<br>
+   * Enforces to increment the {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity#getModificationCounter()
+   * modificationCounter} e.g. to enforce that a parent object gets locked when its children are modified.<br>
    * As an example we assume that we have the two optimistic locked entities {@code Order} and its contained
    * {@code OrderPosition}. By default the users can modify an {@code Order} and each of its {@code OrderPosition}s in
    * parallel without getting a locking conflict. This can be desired. However, it can also be a demand that an

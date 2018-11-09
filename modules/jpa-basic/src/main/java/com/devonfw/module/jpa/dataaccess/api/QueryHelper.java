@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
-import net.sf.mmm.util.exception.api.IllegalCaseException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -266,7 +264,7 @@ public class QueryHelper {
       case GE:
         return exp.goe(v);
       default:
-        throw new IllegalCaseException(StringSearchOperator.class, operator);
+        throw new IllegalStateException("" + operator);
     }
   }
 
