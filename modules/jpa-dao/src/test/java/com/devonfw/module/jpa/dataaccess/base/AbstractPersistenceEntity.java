@@ -7,7 +7,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
-import com.devonfw.module.jpa.dataaccess.api.RevisionedPersistenceEntity;
+import com.devonfw.module.basic.common.api.entity.RevisionedPersistenceEntity;
 
 /**
  * Abstract base implementation of {@link RevisionedPersistenceEntity}.

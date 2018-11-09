@@ -8,7 +8,7 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import com.devonfw.example.general.common.api.TestApplicationEntity;
-import com.devonfw.module.jpa.dataaccess.api.RevisionedPersistenceEntity;
+import com.devonfw.module.basic.common.api.entity.RevisionedPersistenceEntity;
 
 /**
  * Abstract Entity for all Entities with an id and a version field.

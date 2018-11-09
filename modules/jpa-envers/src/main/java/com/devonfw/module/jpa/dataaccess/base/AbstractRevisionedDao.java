@@ -1,7 +1,7 @@
 package com.devonfw.module.jpa.dataaccess.base;
 
+import com.devonfw.module.basic.common.api.entity.RevisionedPersistenceEntity;
 import com.devonfw.module.jpa.dataaccess.api.RevisionedDao;
-import com.devonfw.module.jpa.dataaccess.api.RevisionedPersistenceEntity;
 
 /**
  * Abstract base implementation of {@link RevisionedDao} interface.

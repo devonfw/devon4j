@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.PersistenceException;
 
 import com.devonfw.module.basic.common.api.entity.RevisionedEntity;
+import com.devonfw.module.basic.common.api.entity.RevisionedPersistenceEntity;
 
 /**
  * This is the interface for a {@link GenericDao} with the ability of revision-control. It organizes a revision-history

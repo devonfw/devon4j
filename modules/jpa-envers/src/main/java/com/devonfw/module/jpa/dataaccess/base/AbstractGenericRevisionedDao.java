@@ -8,9 +8,9 @@ import java.util.List;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 
+import com.devonfw.module.basic.common.api.entity.RevisionedPersistenceEntity;
 import com.devonfw.module.jpa.dataaccess.api.GenericRevisionedDao;
 import com.devonfw.module.jpa.dataaccess.api.RevisionMetadata;
-import com.devonfw.module.jpa.dataaccess.api.RevisionedPersistenceEntity;
 import com.devonfw.module.jpa.dataaccess.impl.LazyRevisionMetadata;
 
 /**
