@@ -17,7 +17,7 @@ import com.querydsl.core.types.dsl.SimpleExpression;
 import com.querydsl.jpa.impl.JPADeleteClause;
 
 /**
- * {@link JpaRepository} with {@link QueryDslSupport} as well as typical Devon4j standard operations. It is recommended
+ * {@link JpaRepository} with {@link QueryDslSupport} as well as typical devon4j standard operations. It is recommended
  * to use {@link DefaultRepository} instead.
  *
  * @param <E> generic type of the managed {@link #getEntityClass() entity}. Typically implementing

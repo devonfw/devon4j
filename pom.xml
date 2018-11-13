@@ -8,7 +8,7 @@
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
   <description>Open Application Standard Platform for Java (devon4j).</description>
-  <url>http://oasp.io/devon4j/maven/devon4j</url>
+  <url>http://www.devonfw.com/devon4j/</url>
   <inceptionYear>2014</inceptionYear>
 
   <modules>
@@ -500,16 +500,6 @@
           </plugin>
         </plugins>
       </build>
-      <distributionManagement>
-        <snapshotRepository>
-          <id>ossrh</id>
-          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-          <id>ossrh</id>
-          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-      </distributionManagement>
     </profile>
     <profile>
       <id>licenses</id>
@@ -555,16 +545,16 @@
 
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/oasp/devon4j/issues</url>
+    <url>https://github.com/devonfw/devon4j/issues</url>
   </issueManagement>
 
   <scm>
-    <url>https://github.com/oasp/devon4j/tree/develop</url>
+    <url>https://github.com/devonfw/devon4j/tree/develop</url>
   </scm>
 
   <organization>
-    <name>Devon4j-Team</name>
-    <url>http://oasp.io/devon4j/maven/team-list.html</url>
+    <name>devon4j-Team</name>
+    <url>https://github.com/devonfw/devon4j/graphs/contributors</url>
   </organization>
 
   <developers>
@@ -608,16 +598,14 @@
   </licenses>
 
   <distributionManagement>
-    <repository>
-      <id>devon4j.releases</id>
-      <name>Devon4j Releases</name>
-      <url>http://oasp-ci.cloudapp.net/nexus/content/repositories/releases/</url>
-    </repository>
     <snapshotRepository>
-      <id>devon4j.snapshots</id>
-      <name>Devon4j Snapshots</name>
-      <url>http://oasp-ci.cloudapp.net/nexus/content/repositories/snapshots/</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
     <site>
       <id>devon4j-site</id>
       <url>file://${user.dir}/target/devon4j/maven</url>

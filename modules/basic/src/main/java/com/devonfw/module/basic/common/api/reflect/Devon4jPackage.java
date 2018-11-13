@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * This class represents a {@link Package} following the
- * <a href="https://github.com/oasp/oasp4j/wiki/coding-conventions#packages">OASP coding convetion</a>. <br>
+ * <a href="https://github.com/devonfw/devon4j/wiki/coding-conventions#packages">devonfw coding convetion</a>. <br>
  * After parsing a {@link Package} as {@link Devon4jPackage} you can get individual parts/segments such as
  * {@link #getComponent() compoent}, {@link #getLayer() layer}, {@link #getScope() scope}, etc.<br>
  * This is useful for advanced features and tools such as service clients and exception facades, code-generators,
@@ -22,39 +22,39 @@ import java.util.Set;
 public final class Devon4jPackage {
 
   /**
-   * The <a href="https://github.com/oasp/oasp4j/wiki/coding-conventions#packages">common "layer"</a> for cross-cutting
+   * The <a href="https://github.com/devonfw/devon4j/wiki/coding-conventions#packages">common "layer"</a> for cross-cutting
    * code.
    */
   public static final String LAYER_COMMON = "common";
 
-  /** The <a href="https://github.com/oasp/oasp4j/wiki/guide-dataaccess-layer">data-access layer</a>. */
+  /** The <a href="https://github.com/devonfw/devon4j/wiki/guide-dataaccess-layer">data-access layer</a>. */
   public static final String LAYER_DATA_ACCESS = "dataaccess";
 
-  /** The <a href="https://github.com/oasp/oasp4j/wiki/guide-logic-layer">logic layer</a>. */
+  /** The <a href="https://github.com/devonfw/devon4j/wiki/guide-logic-layer">logic layer</a>. */
   public static final String LAYER_LOGIC = "logic";
 
-  /** The <a href="https://github.com/oasp/oasp4j/wiki/guide-service-layer">service layer</a>. */
+  /** The <a href="https://github.com/devonfw/devon4j/wiki/guide-service-layer">service layer</a>. */
   public static final String LAYER_SERVICE = "service";
 
-  /** The <a href="https://github.com/oasp/oasp4j/wiki/guide-batch-layer">batch layer</a>. */
+  /** The <a href="https://github.com/devonfw/devon4j/wiki/guide-batch-layer">batch layer</a>. */
   public static final String LAYER_BATCH = "batch";
 
   /**
-   * The <a href="https://github.com/oasp/oasp4j/wiki/guide-client-layer">client layer</a>. Please note that OASP does
+   * The <a href="https://github.com/devonfw/devon4j/wiki/guide-client-layer">client layer</a>. Please note that devonfw does
    * not recommend to implement the client layer in Java.
    */
   public static final String LAYER_CLIENT = "client";
 
-  /** The <a href="https://github.com/oasp/oasp4j/wiki/coding-conventions#packages">scope</a> for APIs. */
+  /** The <a href="https://github.com/devonfw/devon4j/wiki/coding-conventions#packages">scope</a> for APIs. */
   public static final String SCOPE_API = "api";
 
   /**
-   * The <a href="https://github.com/oasp/oasp4j/wiki/coding-conventions#packages">scope</a> for reusable base
+   * The <a href="https://github.com/devonfw/devon4j/wiki/coding-conventions#packages">scope</a> for reusable base
    * implementations.
    */
   public static final String SCOPE_BASE = "base";
 
-  /** The <a href="https://github.com/oasp/oasp4j/wiki/coding-conventions#packages">scope</a> for implementations. */
+  /** The <a href="https://github.com/devonfw/devon4j/wiki/coding-conventions#packages">scope</a> for implementations. */
   public static final String SCOPE_IMPL = "impl";
 
   private static final Set<String> LAYERS = new HashSet<>(
@@ -133,8 +133,8 @@ public final class Devon4jPackage {
   }
 
   /**
-   * @return {@code true} if this {@link Devon4jPackage} is a valid according to OASP
-   *         <a href="https://github.com/oasp/oasp4j/wiki/coding-conventions#packages">package conventions"</a>,
+   * @return {@code true} if this {@link Devon4jPackage} is a valid according to devonfw
+   *         <a href="https://github.com/devonfw/devon4j/wiki/coding-conventions#packages">package conventions"</a>,
    *         {@code false} otherwise.
    */
   public boolean isValid() {

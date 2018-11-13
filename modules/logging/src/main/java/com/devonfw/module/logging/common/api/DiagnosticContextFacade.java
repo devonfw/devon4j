@@ -4,7 +4,7 @@ package com.devonfw.module.logging.common.api;
  * This is the interface for a simple facade to write data into the {@link org.slf4j.MDC mapped diagnostic context}. As
  * additional value you can easily hook in custom extensions without interfering the logger implementation. A use case
  * may be to provide diagnostic informations also to additional components such as a performance monitoring module.
- * Therefore setting diagnostic information from Devon4j code is always indirected via this interface so the
+ * Therefore setting diagnostic information from devon4j code is always indirected via this interface so the
  * implementation can be extended or replaced (what is not as easy for {@link org.slf4j.MDC#put(String, String) static
  * methods}).
  *

@@ -21,7 +21,7 @@ public class MixInAnnotationsModule extends SimpleModule {
    */
   public MixInAnnotationsModule(Class<?>... polymorphicClasses) {
 
-    super("oasp.PolymorphyModule",
+    super("devonfw.PolymorphyModule",
         new Version(1, 0, 0, null, ObjectMapperFactory.GROUP_ID, ObjectMapperFactory.ARTIFACT_ID));
     this.polymorphicClasses = polymorphicClasses;
   }
