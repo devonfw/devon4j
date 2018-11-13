@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="MMM">
   <bannerLeft>
-    <src>http://oasp.github.io/img/logo/oasp-logo-72dpi.png</src>
-    <href>http://oasp.github.io/</href>
+    <src>http://www.devonfw.com/assets/images/devonfw.png</src>
+    <href>http://www.devonfw.com/</href>
   </bannerLeft>
   <body>
     <links>
-      <item name="Github" href="https://github.com/oasp/oasp4j"/>
-      <item name="Wiki" href="https://github.com/oasp/oasp4j/wiki"/>
+      <item name="Github" href="https://github.com/devonfw/devon4j"/>
+      <item name="Wiki" href="https://github.com/devonfw/devon4j/wiki"/>
       <item name="Javadoc" href="apidocs/index.html"/>
-      <item name="Home" href="http://oasp.io/"/>
+      <item name="Home" href="http://www.devonfw.com/devon4j/"/>
     </links>
 
     <menu ref="parent" inherit="top"/>
 
     <menu name="General Information">
       <item name="Introduction" href="index.html"/>
-      <item name="Milestones" href="https://github.com/oasp/oasp4j/milestones"/>
+      <item name="Milestones" href="https://github.com/devonfw/devon4j/milestones"/>
     </menu>
 
     <menu ref="modules" inherit="bottom"/>

@@ -37,7 +37,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * This is an implementation of {@link ExceptionMapper} that acts as generic exception facade for REST services. It
  * {@link #toResponse(Throwable) maps} {@link Throwable exceptions} to an according HTTP status code and JSON result as
- * defined by <a href="https://github.com/oasp-forge/oasp4j-wiki/wiki/guide-rest#error-results">OASP REST error
+ * defined by <a href="https://github.com/devonfw-wiki/devon4j/wiki/guide-rest#error-results">devonfw REST error
  * specification</a>.
  *
  * @since 2.0.0

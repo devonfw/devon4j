@@ -23,7 +23,7 @@ public class ApplicationObjectMapperFactory extends ObjectMapperFactory {
   public ApplicationObjectMapperFactory() {
 
     super();
-    // see https://github.com/oasp-forge/oasp4j-wiki/wiki/guide-json#json-and-inheritance
+    // see https://github.com/devonfw-wiki/devon4j/wiki/guide-json#json-and-inheritance
     SimpleModule module = getExtensionModule();
     module.addAbstractTypeMapping(CsrfToken.class, CsrfTokenImpl.class);
 	// register spring-data Pageable

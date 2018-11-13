@@ -50,7 +50,7 @@ public class ObjectMapperFactory {
   public SimpleModule getExtensionModule() {
 
     if (this.extensionModule == null) {
-      this.extensionModule = new SimpleModule("oasp.ExtensionModule",
+      this.extensionModule = new SimpleModule("devonfw.ExtensionModule",
           new Version(1, 0, 0, null, GROUP_ID, ARTIFACT_ID));
     }
     return this.extensionModule;

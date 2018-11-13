@@ -87,7 +87,7 @@
           <!--<additionalparam>-Xdoclint:none -source ${java.version}</additionalparam>-->
           <links>
             <link>http://docs.oracle.com/javase/7/docs/api/</link>
-            <link>http://oasp.github.io/devon4j/maven/apidocs/</link>
+            <link>http://www.devonfw.com/devon4j//</link>
           </links>
           <doctitle>JavaDocs for ${project.name}</doctitle>
           <windowtitle>JavaDocs for ${project.name}</windowtitle>

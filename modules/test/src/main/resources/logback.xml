@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- OASP4J Test-Configuration file for logback -->
+<!-- devon4j Test-Configuration file for logback -->
 <configuration>
   <property name="logPattern" value="[D: %d{ISO8601}] [P: %-5p] [C: %X{correlationId}] [T: %t] [L: %c] - [M: %m]  %n" />
 
