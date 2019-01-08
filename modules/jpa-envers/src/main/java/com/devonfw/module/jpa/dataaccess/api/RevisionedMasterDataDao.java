@@ -3,6 +3,7 @@ package com.devonfw.module.jpa.dataaccess.api;
 import java.util.List;
 
 import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
+import com.devonfw.module.basic.common.api.entity.RevisionedPersistenceEntity;
 
 /**
  * This is the interface for a {@link Dao} responsible for a {@link RevisionedPersistenceEntity} that represents
