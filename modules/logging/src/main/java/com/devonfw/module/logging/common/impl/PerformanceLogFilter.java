@@ -3,6 +3,7 @@ package com.devonfw.module.logging.common.impl;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.devonfw.module.logging.common.api.DiagnosticContextFacade;
 
 /**
  *
@@ -31,6 +34,9 @@ public class PerformanceLogFilter implements Filter {
    */
   private String urlFilter;
 
+  @Inject
+  private DiagnosticContextFacade diagnosticContextFacade;
+
   /**
    * The constructor.
    */
@@ -46,8 +52,8 @@ public class PerformanceLogFilter implements Filter {
   }
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-      ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
 
     long startTime;
     String path = ((HttpServletRequest) request).getServletPath();
@@ -89,8 +95,11 @@ public class PerformanceLogFilter implements Filter {
       errorClass = error.getClass().getName();
       errorMessage = error.getMessage();
     }
-    String message =
-        createMessage(url, Long.toString(duration), Integer.toString(statusCode), errorClass, errorMessage);
+    String correlationId = this.diagnosticContextFacade.getCorrelationId();
+    String message = correlationId != null
+        ? createMessage(correlationId, url, Long.toString(duration), Integer.toString(statusCode), errorClass,
+            errorMessage)
+        : createMessage(url, Long.toString(duration), Integer.toString(statusCode), errorClass, errorMessage);
     LOG.info(message);
   }
 

@@ -35,6 +35,7 @@ public class WebConfig {
     this.beanFactory.autowireBean(performanceLogFilter);
     registration.setFilter(performanceLogFilter);
     registration.addUrlPatterns("/*");
+    registration.setOrder(2);
     return registration;
   }
 
@@ -59,6 +60,7 @@ public class WebConfig {
     this.beanFactory.autowireBean(diagnosticContextFilter);
     registration.setFilter(diagnosticContextFilter);
     registration.addUrlPatterns(ServiceConstants.URL_PATH_SERVICES + "/*");
+    registration.setOrder(1);
     return registration;
   }
 
