@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<access-control-schema>
+  <group id="Chief">
+    <inherits>
+      <group-ref>Waiter</group-ref>
+    </inherits>
+  </group>
+</access-control-schema>

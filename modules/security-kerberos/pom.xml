@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.devonfw.java.dev</groupId>
+    <artifactId>devon4j-modules</artifactId>
+    <version>dev-SNAPSHOT</version>
+  </parent>
+  <groupId>com.devonfw.java.modules</groupId>
+  <artifactId>security-kerberos</artifactId>
+  <version>${devon4j.version}</version>
+  <packaging>jar</packaging>
+  <name>${project.artifactId}</name>
+  <description>Security Module of the Open Application Standard Platform for Java (devon4j).</description>
+
+  <dependencies>
+  <dependency>
+   <groupId>com.devonfw.java.modules</groupId>
+  <artifactId>devon4j-cxf-server-ws</artifactId>
+  </dependency>
+ <!-- https://mvnrepository.com/artifact/org.apache.directory.server/apacheds-jdbm-partition -->
+<dependency>
+    <groupId>org.apache.directory.server</groupId>
+    <artifactId>apacheds-jdbm-partition</artifactId>
+    <version>2.0.0.AM25</version>
+</dependency>
+
+  <!-- https://mvnrepository.com/artifact/org.apache.directory.studio/org.apache.directory.server.core -->
+<dependency>
+    <groupId>org.apache.directory.studio</groupId>
+    <artifactId>org.apache.directory.server.core</artifactId>
+    <version>2.0.0-M10</version>
+</dependency>
+
+
+  <!-- https://mvnrepository.com/artifact/org.apache.directory.server/apacheds-ldif-partition -->
+<dependency>
+    <groupId>org.apache.directory.server</groupId>
+    <artifactId>apacheds-ldif-partition</artifactId>
+    <version>2.0.0-M2</version>
+</dependency>
+
+  <!-- https://mvnrepository.com/artifact/org.apache.directory.server/apacheds-kerberos-shared -->
+<dependency>
+    <groupId>org.apache.directory.server</groupId>
+    <artifactId>apacheds-kerberos-shared</artifactId>
+    <version>1.5.5</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.apache.directory.server/apacheds-core-api -->
+<dependency>
+    <groupId>org.apache.directory.server</groupId>
+    <artifactId>apacheds-core-api</artifactId>
+    <version>2.0.0.AM25</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.directory.server/apacheds-core -->
+<dependency>
+    <groupId>org.apache.directory.server</groupId>
+    <artifactId>apacheds-core</artifactId>
+    <version>2.0.0.AM25</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.directory.server/apacheds-protocol-kerberos -->
+<dependency>
+    <groupId>org.apache.directory.server</groupId>
+    <artifactId>apacheds-protocol-kerberos</artifactId>
+    <version>2.0.0.AM25</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.springframework.security.kerberos/spring-security-kerberos-client -->
+<dependency>
+    <groupId>org.springframework.security.kerberos</groupId>
+    <artifactId>spring-security-kerberos-client</artifactId>
+    <version>1.0.1.RELEASE</version>
+</dependency>
+
+  <dependency>
+      <groupId>org.springframework.security.kerberos</groupId>
+      <artifactId>spring-security-kerberos-web</artifactId>
+      <version>1.0.1.RELEASE</version>
+    </dependency>
+  <!-- https://mvnrepository.com/artifact/org.springframework.security.kerberos/spring-security-kerberos-core -->
+<dependency>
+    <groupId>org.springframework.security.kerberos</groupId>
+    <artifactId>spring-security-kerberos-core</artifactId>
+    <version>1.0.1.RELEASE</version>
+</dependency>
+    <!-- Spring Web & Servlet necessary for Request Filters -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Spring Security -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+    </dependency>
+
+    <!-- JSR 330 -->
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+    </dependency>
+    <!-- JAXB -->
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <!-- Used by JsonUsernamePasswordAuthenticationFilter -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>devon4j-logging</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <profiles>
+    <profile>
+      <id>java9</id>
+      <activation>
+        <jdk>[9,12]</jdk>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.glassfish.jaxb</groupId>
+          <artifactId>jaxb-runtime</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>javax.activation</groupId>
+          <artifactId>javax.activation-api</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+</project>
