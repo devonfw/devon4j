@@ -196,7 +196,7 @@
       <groupId>cglib</groupId>
       <artifactId>cglib</artifactId>
     </dependency>
-    
+
     <!-- Enable JSON logging for easy integration with xPaaS and ELK/Graylog/Splunk/etc. -->
     <dependency>
       <groupId>net.logstash.logback</groupId>
@@ -267,6 +267,7 @@
         <configuration>
           <excludes>
             <exclude>config/application.properties</exclude>
+            <exclude>logback.xml</exclude>
           </excludes>
         </configuration>
       </plugin>
