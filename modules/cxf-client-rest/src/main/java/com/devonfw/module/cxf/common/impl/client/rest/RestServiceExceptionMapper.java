@@ -62,9 +62,10 @@ public class RestServiceExceptionMapper implements ResponseExceptionMapper<Throw
 
     String code = (String) jsonMap.get(ServiceConstants.KEY_CODE);
     String message = (String) jsonMap.get(ServiceConstants.KEY_MESSAGE);
-    String uuid = (String) jsonMap.get(ServiceConstants.KEY_UUID);
+    String uuidStr = (String) jsonMap.get(ServiceConstants.KEY_UUID);
+    UUID uuid = uuidStr != null ? UUID.fromString(uuidStr) : null;
 
-    return createException(code, message, UUID.fromString(uuid));
+    return createException(code, message, uuid);
   }
 
   private Throwable createException(String code, String message, UUID uuid) {

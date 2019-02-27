@@ -85,7 +85,8 @@
       <dependency>
         <groupId>org.javamoney</groupId>
         <artifactId>moneta</artifactId>
-        <version>0.8</version>
+        <version>1.3</version>
+        <type>pom</type>
       </dependency>
       <!-- Java Persistence API (2.x not available in groupId javax.persistence) -->
       <dependency>
