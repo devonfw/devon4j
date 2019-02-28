@@ -12,6 +12,19 @@
       <copy-by-reference>java.lang.Long</copy-by-reference>
       <copy-by-reference>java.lang.Integer</copy-by-reference>
       <copy-by-reference>java.lang.Number</copy-by-reference>
+      <copy-by-reference>java.time.LocalDate</copy-by-reference>
+      <copy-by-reference>java.time.LocalDateTime</copy-by-reference>
+      <copy-by-reference>java.time.LocalTime</copy-by-reference>
+      <copy-by-reference>java.time.ZonedDateTime</copy-by-reference>
+      <copy-by-reference>java.time.Instant</copy-by-reference>
+      <copy-by-reference>java.time.Year</copy-by-reference>
+      <copy-by-reference>java.time.Duration</copy-by-reference>
+      <copy-by-reference>java.time.Clock</copy-by-reference>
+      <copy-by-reference>java.time.MonthDay</copy-by-reference>
+      <copy-by-reference>java.time.OffsetDateTime</copy-by-reference>
+      <copy-by-reference>java.time.OffsetTime</copy-by-reference>
+      <copy-by-reference>java.time.Period</copy-by-reference>
+      <copy-by-reference>java.time.YearMonth</copy-by-reference>
       <!--
       <copy-by-reference>javax.money.MonetaryAmount</copy-by-reference>
       <copy-by-reference>org.javamoney.moneta.Money</copy-by-reference>
