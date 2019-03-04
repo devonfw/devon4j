@@ -89,10 +89,6 @@
         <type>pom</type>
       </dependency>
       <dependency>
-        <groupId>javax.persistence</groupId>
-        <artifactId>javax.persistence-api</artifactId>
-      </dependency>
-      <dependency>
         <groupId>cglib</groupId>
         <artifactId>cglib</artifactId>
         <version>3.2.5</version>
