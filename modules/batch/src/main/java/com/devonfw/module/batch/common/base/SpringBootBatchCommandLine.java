@@ -19,6 +19,7 @@ import org.springframework.batch.core.launch.support.CommandLineJobRunner;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.StringUtils;
 
@@ -172,7 +173,7 @@ public class SpringBootBatchCommandLine {
     SpringApplication app = new SpringApplication(configurationClasses);
 
     // no (web) server needed
-    app.setWebEnvironment(false);
+    app.setWebApplicationType(WebApplicationType.NONE);
 
     // start the application
     ConfigurableApplicationContext ctx = app.run(new String[0]);
