@@ -485,9 +485,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <configuration>
-              <keyname>${devon.gpg.keyname}</keyname>
-            </configuration>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
