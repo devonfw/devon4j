@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.jsontype.SubtypeResolver;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -34,6 +33,12 @@ public class ObjectMapperFactory {
   private List<NamedType> subtypeList;
 
   private SimpleModule extensionModule;
+
+  private List<String> configPropertiesJavaTime;
+
+  private static final String INCLUDE_NON_NULL = "Include_NON_NULL";
+
+  private static final String DESERIALIZATIONFEATURE_FAIL_ON_UNKNOWN_PROPERTIES = "DeserializationFeature_FAIL_ON_UNKNOWN_PROPERTIES";
 
   /**
    * The constructor.
@@ -139,13 +144,34 @@ public class ObjectMapperFactory {
       }
       mapper.setSubtypeResolver(subtypeResolver);
     }
-
-    mapper.setSerializationInclusion(Include.NON_NULL);
-    mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    if (this.configPropertiesJavaTime != null) {
+      for (String config : this.configPropertiesJavaTime) {
+        switch (config) {
+          case INCLUDE_NON_NULL:
+            // omit properies in JSON that are null
+            mapper.setSerializationInclusion(Include.NON_NULL);
+            break;
+          case DESERIALIZATIONFEATURE_FAIL_ON_UNKNOWN_PROPERTIES:
+            // ignore unknown properties in JSON to prevent errors
+            // e.g. when the service has been updated/extended but the calling REST client is not yet updated
+            // see https://github.com/devonfw-wiki/devon4j/wiki/guide-service-layer#versioning
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+            break;
+        }
+      }
+    }
+    // JavaTimeModule should be register in any case
     mapper.registerModule(new JavaTimeModule());
 
     return mapper;
+  }
+
+  /**
+   * @param configPropertiesJavaTime new value of {@link #getconfigPropertiesJavaTime}.
+   */
+  protected void setConfigPropertiesJavaTime(List<String> configPropertiesJavaTime) {
+
+    this.configPropertiesJavaTime = configPropertiesJavaTime;
   }
 
 }
