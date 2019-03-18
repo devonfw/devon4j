@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 /**
  * Abstract base class for {@link ComponentTest}s of this application.
  */
-@SpringBootTest(classes = { SpringBootApp.class }, webEnvironment = WebEnvironment.NONE)
+@SpringBootTest(classes = { SpringBootApp.class }, webEnvironment = WebEnvironment.MOCK)
 public abstract class ApplicationComponentTest extends ComponentTest {
 
   @Override
