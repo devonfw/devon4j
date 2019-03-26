@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.jsontype.SubtypeResolver;
@@ -33,12 +31,6 @@ public class ObjectMapperFactory {
   private List<NamedType> subtypeList;
 
   private SimpleModule extensionModule;
-
-  private List<String> configPropertiesJavaTime;
-
-  private static final String INCLUDE_NON_NULL = "Include_NON_NULL";
-
-  private static final String DESERIALIZATIONFEATURE_FAIL_ON_UNKNOWN_PROPERTIES = "DeserializationFeature_FAIL_ON_UNKNOWN_PROPERTIES";
 
   /**
    * The constructor.
@@ -144,34 +136,9 @@ public class ObjectMapperFactory {
       }
       mapper.setSubtypeResolver(subtypeResolver);
     }
-    if (this.configPropertiesJavaTime != null) {
-      for (String config : this.configPropertiesJavaTime) {
-        switch (config) {
-          case INCLUDE_NON_NULL:
-            // omit properies in JSON that are null
-            mapper.setSerializationInclusion(Include.NON_NULL);
-            break;
-          case DESERIALIZATIONFEATURE_FAIL_ON_UNKNOWN_PROPERTIES:
-            // ignore unknown properties in JSON to prevent errors
-            // e.g. when the service has been updated/extended but the calling REST client is not yet updated
-            // see https://github.com/devonfw-wiki/devon4j/wiki/guide-service-layer#versioning
-            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-            break;
-        }
-      }
-    }
-    // JavaTimeModule should be register in any case
+    // register JavaTimeModule
     mapper.registerModule(new JavaTimeModule());
 
     return mapper;
   }
-
-  /**
-   * @param configPropertiesJavaTime new value of {@link #getconfigPropertiesJavaTime}.
-   */
-  protected void setConfigPropertiesJavaTime(List<String> configPropertiesJavaTime) {
-
-    this.configPropertiesJavaTime = configPropertiesJavaTime;
-  }
-
 }
