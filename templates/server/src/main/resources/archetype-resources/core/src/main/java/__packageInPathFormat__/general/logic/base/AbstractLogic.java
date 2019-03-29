@@ -31,7 +31,7 @@ public abstract class AbstractLogic extends AbstractBeanMapperSupport {
 
   /**
    * Creates a {@link Map} with all {@link MasterCto}s from the given {@link Collection} using their
-   * {@link MasterCto#getMaster() master ETO} {@link AbstractEto#getId() ID} as key. All {@link AbstractEto ETO}s being
+   * {@link MasterCto#getEto() main ETO} {@link AbstractEto#getId() ID} as key. All {@link AbstractEto ETO}s being
    * {@code null} or without an {@link AbstractEto#getId() ID} will be ignored.
    *
    * @param <C> is the generic type of the {@link MasterCto}s.
@@ -42,7 +42,7 @@ public abstract class AbstractLogic extends AbstractBeanMapperSupport {
 
     Map<Long, C> id2CtoMap = new HashMap<>();
     for (C cto : ctos) {
-      AbstractEto eto = cto.getMaster();
+      AbstractEto eto = cto.getEto();
       if (eto != null) {
         Long id = eto.getId();
         if (id != null) {
