@@ -1,41 +1,41 @@
 package com.devonfw.module.basic.common.api.to;
 
 /**
- * Abstract base class for a {@link AbstractCto CTO} that holds a {@link #getMaster() master} {@link AbstractEto ETO}
+ * Abstract base class for a {@link AbstractCto CTO} that holds a {@link #getEto() master} {@link AbstractEto ETO}
  * together with other related {@link AbstractTo TOs} defined by its concrete sub-class.
- * 
- * @param <E> the generic type of the {@link #getMaster() master} {@link AbstractEto ETO}.
+ *
+ * @param <E> the generic type of the {@link #getEto() master} {@link AbstractEto ETO}.
  * @since 3.0.0
  */
 public abstract class MasterCto<E extends AbstractEto> extends AbstractCto {
 
   private static final long serialVersionUID = 1L;
 
-  private E master;
+  private E eto;
 
   /**
-   * @return master
+   * @return the {@link AbstractEto ETO} of the main entity transferred with this {@link MasterCto}.
    */
-  public E getMaster() {
+  public E getEto() {
 
-    return this.master;
+    return this.eto;
   }
 
   /**
-   * @param master new value of {@link #getMaster()}.
+   * @param master new value of {@link #getEto()}.
    */
-  public void setMaster(E master) {
+  public void setEto(E master) {
 
-    this.master = master;
+    this.eto = master;
   }
 
   @Override
   protected void toString(StringBuilder buffer) {
 
     super.toString(buffer);
-    if (this.master != null) {
+    if (this.eto != null) {
       buffer.append('[');
-      this.master.toString(buffer);
+      this.eto.toString(buffer);
       buffer.append(']');
     }
   }
