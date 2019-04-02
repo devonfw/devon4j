@@ -33,7 +33,7 @@ public class ApplicationObjectMapperFactory extends ObjectMapperFactory {
     module.addSerializer(Pageable.class, new PageableJsonSerializer());
     module.addDeserializer(Pageable.class, new PageableJsonDeserializer());
 
-    ObjectMapper objectMapper = super.createInstance();
+    ObjectMapper objectMapper = createInstance();
     // omit properties in JSON that are null
     objectMapper.setSerializationInclusion(Include.NON_NULL);
     // Write legacy date/calendar as readable text instead of numeric value
@@ -44,5 +44,14 @@ public class ApplicationObjectMapperFactory extends ObjectMapperFactory {
     // e.g. when the service has been updated/extended but the calling REST client is not yet updated
     // see https://github.com/devonfw-wiki/devon4j/wiki/guide-service-layer#versioning
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+  }
+
+  /**
+   * override createInstance method.
+   */
+  @Override
+  public ObjectMapper createInstance() {
+
+    return super.createInstance();
   }
 }
