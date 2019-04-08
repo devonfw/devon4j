@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.jsontype.SubtypeResolver;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
  * A generic factory to {@link #createInstance() create} instances of a Jackson {@link ObjectMapper}. It allows to
@@ -135,8 +136,9 @@ public class ObjectMapperFactory {
       }
       mapper.setSubtypeResolver(subtypeResolver);
     }
+    // register JavaTimeModule
+    mapper.registerModule(new JavaTimeModule());
 
     return mapper;
   }
-
 }

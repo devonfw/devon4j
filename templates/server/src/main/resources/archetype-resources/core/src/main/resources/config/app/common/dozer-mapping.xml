@@ -8,10 +8,24 @@
     <stop-on-errors>true</stop-on-errors>
 
     <copy-by-references>
-      
+
       <copy-by-reference>java.lang.Long</copy-by-reference>
       <copy-by-reference>java.lang.Integer</copy-by-reference>
       <copy-by-reference>java.lang.Number</copy-by-reference>
+      <copy-by-reference>java.time.LocalDate</copy-by-reference>
+      <copy-by-reference>java.time.LocalDateTime</copy-by-reference>
+      <copy-by-reference>java.time.LocalTime</copy-by-reference>
+      <copy-by-reference>java.time.ZonedDateTime</copy-by-reference>
+      <copy-by-reference>java.time.Instant</copy-by-reference>
+      <copy-by-reference>java.time.Year</copy-by-reference>
+      <copy-by-reference>java.time.Duration</copy-by-reference>
+      <copy-by-reference>java.time.Clock</copy-by-reference>
+      <copy-by-reference>java.time.MonthDay</copy-by-reference>
+      <copy-by-reference>java.time.OffsetDateTime</copy-by-reference>
+      <copy-by-reference>java.time.OffsetTime</copy-by-reference>
+      <copy-by-reference>java.time.Period</copy-by-reference>
+      <copy-by-reference>java.time.YearMonth</copy-by-reference>
+      <copy-by-reference>java.time.Month</copy-by-reference>
       <!--
       <copy-by-reference>javax.money.MonetaryAmount</copy-by-reference>
       <copy-by-reference>org.javamoney.moneta.Money</copy-by-reference>
@@ -19,7 +33,7 @@
     </copy-by-references>
   </configuration>
 
-  
+
 
   <!-- If a persistence entity is converted to an ETO then the original entity is stored as hidden reference.
        The modificationCounter of a persistence entity is updated by the JPA provider (hibernate) after the transaction

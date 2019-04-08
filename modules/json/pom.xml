@@ -34,6 +34,10 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-test</artifactId>
       <scope>test</scope>
