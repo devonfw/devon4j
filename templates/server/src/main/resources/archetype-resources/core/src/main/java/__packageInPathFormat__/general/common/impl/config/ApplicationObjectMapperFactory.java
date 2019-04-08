@@ -40,7 +40,7 @@ public class ApplicationObjectMapperFactory extends ObjectMapperFactory {
   @Override
   public ObjectMapper createInstance() {
 
-    ObjectMapper objectMapper = super.createInstance()
+    ObjectMapper objectMapper = super.createInstance();
     // omit properties in JSON that are null
     objectMapper.setSerializationInclusion(Include.NON_NULL);
     // Write legacy date/calendar as readable text instead of numeric value
