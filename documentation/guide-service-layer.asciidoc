@@ -3,7 +3,7 @@ toc::[]
 
 = Service Layer
 
-The service layer is responsible for exposing functionality made available by the link:guide-logic-layer[logical layer] to external consumers over a network via xref:protocol[technical protocols].
+The service layer is responsible for exposing functionality made available by the link:guide-logic-layer.asciidoc[logical layer] to external consumers over a network via xref:protocol[technical protocols].
 
 == Types of Services
 We distinguish between the following types of services:
@@ -27,7 +27,7 @@ The choices for technology and protocols will depend on the type of service. The
 |*Aspect*                     |*External Service*|*Back-end Service*|*JS-Client Service*|*Java-Client Service*
 |xref:versioning[*Versioning*]|required          |required          |not required       |not required
 |xref:interoperability[*Interoperability*]|mandatory         |not required      |implicit           |not required
-|xref:protocol[Recommended *Protocol*]|link:guide-soap[SOAP] or link:guide-rest[REST]|link:guide-rest[REST]|link:guide-rest[REST]+JSON|link:guide-rest[REST]
+|xref:protocol[Recommended *Protocol*]|link:guide-soap.asciidoc[SOAP] or link:guide-rest.asciidoc[REST]|link:guide-rest.asciidoc[REST]|link:guide-rest.asciidoc[REST]+JSON|link:guide-rest.asciidoc[REST]
 |=======================
 
 == Versioning
@@ -56,11 +56,11 @@ complete, no redundancy, minimal
 * *coarse-grained* +
 Service provides rather large operations (save entire entity or set of entities rather than individual attributes)
 * *atomic* +
-Process individual entities (for processing large sets of data, use a link:guide-batch-layer[batch] instead of a service)
+Process individual entities (for processing large sets of data, use a link:guide-batch-layer.asciidoc[batch] instead of a service)
 * *simplicity* +
 avoid polymorphism, RPC methods with unique name per signature and no overloading, avoid attachments (consider separate download service), etc.
 
 == Security
 Your services are the major entry point to your application. Hence security considerations are important here.
 
-See link:guide-rest#security[REST Security].
+See link:guide-rest.asciidoc#security[REST Security].

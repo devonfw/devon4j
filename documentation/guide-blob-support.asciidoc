@@ -100,6 +100,6 @@ Following this approach means:  whenever a file is uploaded or downloaded as BLO
 == Further Reading
 - http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html[The multipart content type]
 - http://cxf.apache.org/docs/jax-rs-multiparts.html[JAX-RS : Support for Multiparts]
-- link:guide-logic-layer#component-implementation[Component Implementation]
-- link:guide-dataaccess-layer#blob[BLOBs and the Data Access Layer]
+- link:guide-logic-layer.asciidoc#component-implementation[Component Implementation]
+- link:guide-dataaccess-layer.asciidoc#blob[BLOBs and the Data Access Layer]
 - https://www.owasp.org/index.php/Unrestricted_File_Upload[Security Vulnerability Unrestricted File Upload]

@@ -2,9 +2,9 @@
 toc::[]
 
 = Transaction Handling
-Transactions are technically processed by the link:guide-dataaccess-layer[data access layer]. However, the transaction control has to be performed in upper layers. To avoid dependencies on persistence layer and technical code in upper layers, we use link:guide-aop[AOP] to add transaction control via annotations as aspect.
+Transactions are technically processed by the link:guide-dataaccess-layer.asciidoc[data access layer]. However, the transaction control has to be performed in upper layers. To avoid dependencies on persistence layer and technical code in upper layers, we use link:guide-aop.asciidoc[AOP] to add transaction control via annotations as aspect.
 
-We recommend using the `@Transactional` annotation (the JEE standard `javax.transaction.Transactional` rather than `org.springframework.transaction.annotation.Transactional`). We use this annotation in the link:guide-logic-layer[logic layer] to annotate business methods that participate in transactions (what typically applies to most up to all business components):
+We recommend using the `@Transactional` annotation (the JEE standard `javax.transaction.Transactional` rather than `org.springframework.transaction.annotation.Transactional`). We use this annotation in the link:guide-logic-layer.asciidoc[logic layer] to annotate business methods that participate in transactions (what typically applies to most up to all business components):
 
 [source,java]
 ----
@@ -14,7 +14,7 @@ We recommend using the `@Transactional` annotation (the JEE standard `javax.tran
   }
 ----
 
-In case a link:guide-service-layer[service operation] should invoke multiple use-cases, you would end up with multiple transactions what is undesired (what if the first TX succeeds and then the second TX fails?). Therefore you would then also annotate the service operation. This is not proposed as a pattern in any case as in some rare cases you need to handle constraint-violations from the database to create a specific business exception (with specified message). In such case you have to surround the transaction with a `try {} catch` statement what is not working if that method itself is `@Transactional`.
+In case a link:guide-service-layer.asciidoc[service operation] should invoke multiple use-cases, you would end up with multiple transactions what is undesired (what if the first TX succeeds and then the second TX fails?). Therefore you would then also annotate the service operation. This is not proposed as a pattern in any case as in some rare cases you need to handle constraint-violations from the database to create a specific business exception (with specified message). In such case you have to surround the transaction with a `try {} catch` statement what is not working if that method itself is `@Transactional`.
 
 == Batches
-Transaction control for batches is a lot more complicated and is described in the link:guide-batch-layer[batch layer].
+Transaction control for batches is a lot more complicated and is described in the link:guide-batch-layer.asciidoc[batch layer].

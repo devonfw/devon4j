@@ -8,7 +8,7 @@ You will find the latest stable versions of documents generated from this wiki h
 If you want to search the wiki you might want to try https://github.com/linyows/github-wiki-search[github-wiki-search].
 
 == For contributors
-Contributors who like to contribute to the platform devonfw, please find menu-section devonfw Development on the right. Please read link:devonfw-ide-setup[IDE setup] and link:devonfw-code-contribution[Contribute code to devonfw] to get started. If you want to contribute to the devonfw-documentation (this wiki) please read the very important notes on link:devonfw-documentation[Maintain devonfw documentation] first.
+Contributors who like to contribute to the platform devonfw, please find menu-section devonfw Development on the right. Please read link:devonfw-ide-setup.asciidoc[IDE setup] and link:devonfw-code-contribution.asciidoc[Contribute code to devonfw] to get started. If you want to contribute to the devonfw-documentation (this wiki) please read the very important notes on link:devonfw-documentation.asciidoc[Maintain devonfw documentation] first.
 
 Contributions and improvements to devonfw are very welcome. However, you should be aware of the following aspects:
 

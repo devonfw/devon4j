@@ -15,9 +15,9 @@ In this chapter we will describe the overall architecture (especially concerning
 
 === Layering
 
-Batches are implemented in the batch layer. The batch layer is responsible for batch processes, whereas the business logic is implemented in the logic layer. Compared to the link:guide-service-layer[service layer] you may understand the batch layer just as a different way of accessing the business logic.
+Batches are implemented in the batch layer. The batch layer is responsible for batch processes, whereas the business logic is implemented in the logic layer. Compared to the link:guide-service-layer.asciidoc[service layer] you may understand the batch layer just as a different way of accessing the business logic.
 From a component point of view each batch is implemented as a subcomponent in the corresponding business component.
-The business component is defined by the link:architecture[business architecture].
+The business component is defined by the link:architecture.asciidoc[business architecture].
 
 Let's make an example for that. The sample application implements a batch for exporting bills. This _billExport_ belongs to the salesmanagement business component.
 So the _billExport_ is implemented in the following package:
@@ -38,7 +38,7 @@ The batch calls the use case "create product" in the logic layer for actually cr
 ====  Accessing data access layer
 In practice it is not always appropriate to create use cases for every bit of work a batch should do. Instead, the data access layer can be used directly.
 An example for that is a typical batch for data retention which deletes out-of-time data.
-Often deleting out-dated data is done by invoking a single SQL statement. It is appropriate to implement that SQL in a link:guide-dataaccess-layer#data-access-object[DAO] method and call this method directly from the batch.
+Often deleting out-dated data is done by invoking a single SQL statement. It is appropriate to implement that SQL in a link:guide-dataaccess-layer.asciidoc#data-access-object[DAO] method and call this method directly from the batch.
 But be careful that this pattern is a simplification which could lead to business logic cluttered in different layers which reduces maintainability of your application.
 It is a typical design decision you have to take when designing your specific batches.
 
@@ -706,7 +706,7 @@ Further possibilities for optimizations are query (plan) optimization and adding
 
 === Testing
 
-The Section link:guide-testing[Testing] covers how to unit and integration test in detail. Therefore we focus here on testing batches.
+The Section link:guide-testing.asciidoc[Testing] covers how to unit and integration test in detail. Therefore we focus here on testing batches.
 
 In order for the unit test to run a batch job the unit test class must extend the `AbstractSpringBatchIntegrationTest` class. Annotation used to load the job's `ApplicationContext`:
 

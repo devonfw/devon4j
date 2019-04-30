@@ -82,16 +82,16 @@ To integrate devon4j with various databases namely Microsoft SQL Server 2008, Po
 
 === Database Integration with Microsoft SQL Server
 
-To integrate devon4j with Microsoft SQL Server 2008 , please refer instructions link:DB-Integration-MSSQL-Server-2008[here] 
+To integrate devon4j with Microsoft SQL Server 2008 , please refer instructions link:DB-Integration-MSSQL-Server-2008.asciidoc[here] 
 
 === Database Integration with PostGres
 
-To integrate devon4j with PostGres 9.5.4, please refer instructions link:DB-Integration-PostGres-Server-9.5.4[here]
+To integrate devon4j with PostGres 9.5.4, please refer instructions link:DB-Integration-PostGres-Server-9.5.4.asciidoc[here]
 
 === Database Integration with Oracle
 
-To integrate devon4j with Oracle 11g, please refer instructions link:DB-Integration-Oracle11G[here]
+To integrate devon4j with Oracle 11g, please refer instructions link:DB-Integration-Oracle11G.asciidoc[here]
 
 === Database Integration with MariaDB
 
-To integrate devon4j with MariaDB 10.0.27, please refer instructions link:DB-Integration-MariaDB-10.0.27[here]
+To integrate devon4j with MariaDB 10.0.27, please refer instructions link:DB-Integration-MariaDB-10.0.27.asciidoc[here]

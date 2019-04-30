@@ -16,7 +16,7 @@ Besides general Java naming conventions, we follow the additional rules listed h
 * Names of Generics should be easy to understand. Where suitable follow the common rule `E=Element`, `T=Type`, `K=Key`, `V=Value` but feel free to use longer names for more specific cases such as `ID`, `DTO` or `ENTITY`. The capitalized naming helps to distinguish a generic type from a regular class.
 
 == Packages
-Java Packages are the most important element to structure your code. We use a strict packaging convention to map technical layers and business components (slices) to the code (See link:architecture#technical-architecture[technical architecture] for further details). By using the same names in documentation and code we create a strong link that gives orientation and makes it easy to find from business requirements, specifications or story tickets into the code and back. Further we can use tools such as http://www.sonarqube.org/[SonarQube] and http://www.hello2morrow.com/products/sonargraph[SonarGraph] to verify architectural rules.
+Java Packages are the most important element to structure your code. We use a strict packaging convention to map technical layers and business components (slices) to the code (See link:architecture.asciidoc#technical-architecture[technical architecture] for further details). By using the same names in documentation and code we create a strong link that gives orientation and makes it easy to find from business requirements, specifications or story tickets into the code and back. Further we can use tools such as http://www.sonarqube.org/[SonarQube] and http://www.hello2morrow.com/products/sonargraph[SonarGraph] to verify architectural rules.
 
 For an devonfw based application we use the following Java-Package schema:
 [source]
@@ -31,7 +31,7 @@ E.g. in our example application we find the Spring Data repositories for the `or
 |«rootpackage»|Is the basic Java Package name-space of the organization or IT project owning the code following common Java Package conventions. Consists of multiple segments corresponding to the Internet domain of the organization. |`com.devonfw.application.mtsj`
 | «application» | The name of the application build in this project. | `devonfw`
 | «component» | The (business) component the code belongs to. It is defined by the business architecture and uses terms from the business domain. Use the implicit component `general` for code not belonging to a specific component (foundation code).| `salesmanagement`
-| «layer» | The name of the technical layer (See link:architecture[technical architecture]) which is one of the predefined layers (`dataaccess`, `logic`, `service`, `batch`, `gui`, `client`) or `common` for code not assigned to a technical layer (datatypes, cross-cutting concerns). | `dataaccess`
+| «layer» | The name of the technical layer (See link:architecture.asciidoc[technical architecture]) which is one of the predefined layers (`dataaccess`, `logic`, `service`, `batch`, `gui`, `client`) or `common` for code not assigned to a technical layer (datatypes, cross-cutting concerns). | `dataaccess`
 | «scope» | The scope which is one of `api` (official API to be used by other layers or components),`base` (basic code to be reused by other implementations) and `impl` (implementation that should never be imported from outside) | `api`
 | «detail» | Here you are free to further divide your code into sub-components and other concerns according to the size of your component part. | `dao`
 |=============================================
@@ -73,13 +73,13 @@ As a general goal the code should be easy to read and understand. Besides clear 
 This section gives you best practices to write better code and avoid pitfalls and mistakes.
 
 === BLOBs
-Avoid using `byte[]` for BLOBs as this will load them entirely into your memory. This will cause performance issues or out of memory errors. Instead use streams when dealing with BLOBs. For further details see link:guide-blob-support[BLOB support].
+Avoid using `byte[]` for BLOBs as this will load them entirely into your memory. This will cause performance issues or out of memory errors. Instead use streams when dealing with BLOBs. For further details see link:guide-blob-support.asciidoc[BLOB support].
 
 === Closing Resources
 Resources such as streams (`InputStream`, `OutputStream`, `Reader`, `Writer`) or transactions need to be handled properly. Therefore it is important to follow these rules:
 
 * Each resource has to be closed properly, otherwise you will get out of file handles, TX sessions, memory leaks or the like
-* Where possible avoid to deal with such resources manually. That is why we are recommending `@Transactional` for transactions in devonfw (see link:guide-transactions[Transaction Handling]).
+* Where possible avoid to deal with such resources manually. That is why we are recommending `@Transactional` for transactions in devonfw (see link:guide-transactions.asciidoc[Transaction Handling]).
 * In case you have to deal with resources manually (e.g. binary streams) ensure to close them properly. See the example below for details.
 
 Closing streams and other such resources is error prone. Have a look at the following example:

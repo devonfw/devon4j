@@ -4,8 +4,8 @@ toc::[]
 = Validation
 
 Validation is about checking syntax and semantics of input data. Invalid data is rejected by the application.
-Therefore validation is required in multiple places of an application. E.g. the link:guide-client-layer[GUI] will do validation for usability reasons to assist the user, early feedback and to prevent unnecessary server requests.
-On the server-side validation has to be done for consistency and link:guide-security[security].
+Therefore validation is required in multiple places of an application. E.g. the link:guide-client-layer.asciidoc[GUI] will do validation for usability reasons to assist the user, early feedback and to prevent unnecessary server requests.
+On the server-side validation has to be done for consistency and link:guide-security.asciidoc[security].
 
 In general we distinguish these forms of validation:
 
@@ -33,7 +33,7 @@ A description of how to enable BV can be found in the relevant http://docs.sprin
 * Add the +@Validated+ annotation to the implementation (spring bean) to be validated. The standard use case is to annotate the logic layer implementation, i.e. the use case implementation or component facade in case of simple logic layer pattern. Thus, the validation will be executed for service requests as well as batch processing. For methods to validate go to their declaration and add constraint annotations to the method parameters.
 ** +@Valid+ annotation to the arguments to validate (if that class itself is annotated with constraints to check).
 ** +@NotNull+ for required arguments.
-** Other constraints (e.g. +@Size+) for generic arguments (e.g. of type +String+ or +Integer+). However, consider to create link:guide-datatype[custom datatypes] and avoid adding too much validation logic (especially redundant in multiple places).
+** Other constraints (e.g. +@Size+) for generic arguments (e.g. of type +String+ or +Integer+). However, consider to create link:guide-datatype.asciidoc[custom datatypes] and avoid adding too much validation logic (especially redundant in multiple places).
 //Replaced old example with BookingmanagementRestServiceImpl
 //io.oasp.application.mtsj.bookingmanagement.service.rest
 .*BookingmanagementRestServiceImpl.java*

@@ -38,7 +38,7 @@ In order to get started with client development as a Java developer we give you 
 
 |Test cmd  |gulp test|mvn http://maven.apache.org/components/surefire/maven-surefire-plugin/[test]
 
-.4+|link:guide-testing[Testing]
+.4+|link:guide-testing.asciidoc[Testing]
 
 |Test-Tool |http://jasmine.github.io/[jasmine]|http://junit.org/[junit]
 

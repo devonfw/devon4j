@@ -2,7 +2,7 @@
 toc::[]
 
 = REST
-REST (https://en.wikipedia.org/wiki/Representational_state_transfer[REpresentational State Transfer]) is an inter-operable protocol for link:guide-service-layer[services] that is more lightweight than link:guide-soap[SOAP].
+REST (https://en.wikipedia.org/wiki/Representational_state_transfer[REpresentational State Transfer]) is an inter-operable protocol for link:guide-service-layer.asciidoc[services] that is more lightweight than link:guide-soap.asciidoc[SOAP].
 However, it is no real standard and can cause confusion. Therefore we define best practices here to guide you.
 //Fixed Typo
 *ATTENTION:*
@@ -20,7 +20,7 @@ This fits perfect for https://en.wikipedia.org/wiki/Create,_read,_update_and_del
 
 If you want to provide an entity with a different structure do not append further details to an element URL but create a separate collection URL as base.
 So use `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity-with-details/42` instead of `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity/42/with-details`.
-For offering a link:guide-transferobject#CTO[CTO] simply append `-cto` to the collection URL (e.g. `.../myentity-cto/`).
+For offering a link:guide-transferobject.asciidoc#CTO[CTO] simply append `-cto` to the collection URL (e.g. `.../myentity-cto/`).
 
 == HTTP Methods
 While REST was designed as a pragmatical approach it sometimes leads to "religious discussions" e.g. about using `PUT` vs. `POST` (see ATTENTION notice above).
@@ -80,15 +80,15 @@ devonfw has support for the following metadata in REST service invocations:
 [options="header"]
 |=======
 |Name |Description| Further information
-|X-Correlation-Id|HTTP header for a _correlation ID_ that is a unique identifier to associate different requests belonging to the same session / action| link:guide-logging[Logging guide]
-|Validation errors |Standardized format for a service to communicate validation errors to the client| Server-side validation is documented in the link:guide-validation[Validation guide].
+|X-Correlation-Id|HTTP header for a _correlation ID_ that is a unique identifier to associate different requests belonging to the same session / action| link:guide-logging.asciidoc[Logging guide]
+|Validation errors |Standardized format for a service to communicate validation errors to the client| Server-side validation is documented in the link:guide-validation.asciidoc[Validation guide].
 
 The protocol to communicate these validation errors to the client is worked on at https://github.com/oasp/oasp4j/issues/218
-|Pagination |Standardized format for a service to offer paginated access to a list of entities| Server-side support for pagination is documented in the link:guide-dataaccess-layer#pagination[Data-Access Layer Guide].
+|Pagination |Standardized format for a service to offer paginated access to a list of entities| Server-side support for pagination is documented in the link:guide-dataaccess-layer.asciidoc#pagination[Data-Access Layer Guide].
 |=======
 
 == JAX-RS
-For implementing REST services we use the https://jax-rs-spec.java.net/[JAX-RS] standard. As an implementation we recommend http://cxf.apache.org/[CXF]. For link:guide-json[JSON] bindings we use http://wiki.fasterxml.com/JacksonHome[Jackson] while link:guide-xml[XML] binding works out-of-the-box with http://www.oracle.com/technetwork/articles/javase/index-140168.html[JAXB].
+For implementing REST services we use the https://jax-rs-spec.java.net/[JAX-RS] standard. As an implementation we recommend http://cxf.apache.org/[CXF]. For link:guide-json.asciidoc[JSON] bindings we use http://wiki.fasterxml.com/JacksonHome[Jackson] while link:guide-xml.asciidoc[XML] binding works out-of-the-box with http://www.oracle.com/technetwork/articles/javase/index-140168.html[JAXB].
 To implement a service you write an interface with JAX-RS annotations for the API and a regular implementation class annotated with `@Named` to make it a spring-bean. Here is a simple example:
 com.devonfw.application.mtsj.dishmanagement.service.impl.rest
 [source,java]
@@ -118,8 +118,8 @@ public class ImagemanagementRestServiceImpl implements ImagemanagementRestServic
    
 }
 --------
-Here we can see a REST service for the link:architecture#business-architecture[business component] `imagemanagement`. The method `getImage` can be accessed via HTTP GET (see `@GET`) under the URL path `imagemanagement/image/{id}` (see `@Path` annotations) where `{id}` is the ID of the requested table and will be extracted from the URL and provided as parameter `id` to the method `getImage`. It will return its result (`ImageEto`) as link:guide-json[JSON] (see `@Produces` - should already be defined as defaults in `RestService` marker interface). As you can see it delegates to the link:guide-logic-layer[logic] component `imagemanagement` that contains the actual business logic while the service itself only exposes this logic via HTTP. The REST service implementation is a regular CDI bean that can use link:guide-dependency-injection[dependency injection].
-The separation of the API as a Java interface allows to use it for link:guide-service-client[service client calls].
+Here we can see a REST service for the link:architecture.asciidoc#business-architecture[business component] `imagemanagement`. The method `getImage` can be accessed via HTTP GET (see `@GET`) under the URL path `imagemanagement/image/{id}` (see `@Path` annotations) where `{id}` is the ID of the requested table and will be extracted from the URL and provided as parameter `id` to the method `getImage`. It will return its result (`ImageEto`) as link:guide-json.asciidoc[JSON] (see `@Produces` - should already be defined as defaults in `RestService` marker interface). As you can see it delegates to the link:guide-logic-layer.asciidoc[logic] component `imagemanagement` that contains the actual business logic while the service itself only exposes this logic via HTTP. The REST service implementation is a regular CDI bean that can use link:guide-dependency-injection.asciidoc[dependency injection].
+The separation of the API as a Java interface allows to use it for link:guide-service-client.asciidoc[service client calls].
 
 NOTE: With JAX-RS it is important to make sure that each service method is annotated with the proper HTTP method (`@GET`,`@POST`,etc.) to avoid unnecessary debugging. So you should take care not to forget to specify one of these annotations.
 
@@ -129,7 +129,7 @@ Starting from CXF 3.0.0 it is possible to enable the auto-discovery of JAX-RS ro
 When the jaxrs server is instantiated all the scanned root and provider beans (beans annotated with `javax.ws.rs.Path` and `javax.ws.rs.ext.Provider`) are configured.
 
 == REST Exception Handling
-For exceptions a service needs to have an exception façade that catches all exceptions and handles them by writing proper log messages and mapping them to a HTTP response with an according link:http-status-codes[HTTP status code]. Therefore the devonfw provides a generic solution via `RestServiceExceptionFacade`. You need to follow the link:guide-exceptions[exception guide] so that it works out of the box because the façade needs to be able to distinguish between business and technical exceptions.
+For exceptions a service needs to have an exception façade that catches all exceptions and handles them by writing proper log messages and mapping them to a HTTP response with an according link:http-status-codes.asciidoc[HTTP status code]. Therefore the devonfw provides a generic solution via `RestServiceExceptionFacade`. You need to follow the link:guide-exceptions.asciidoc[exception guide] so that it works out of the box because the façade needs to be able to distinguish between business and technical exceptions.
 Now your service may throw exceptions but the façade with automatically handle them for you.
 
 == Recommendations for REST requests and responses
@@ -310,10 +310,10 @@ If the error is caused by a failed validation of the entity, the above format is
 ----
 
 == REST Media Types
-The payload of a REST service can be in any format as REST by itself does not specify this. The most established ones that the devonfw recommends are link:guide-xml[XML] and link:guide-json[JSON]. Follow these links for further details and guidance how to use them properly. `JAX-RS` and `CXF` properly support these formats (`MediaType.APPLICATION_JSON` and `MediaType.APPLICATION_XML` can be specified for `@Produces` or `@Consumes`). Try to decide for a single format for all services if possible and NEVER mix different formats in a service.
+The payload of a REST service can be in any format as REST by itself does not specify this. The most established ones that the devonfw recommends are link:guide-xml.asciidoc[XML] and link:guide-json.asciidoc[JSON]. Follow these links for further details and guidance how to use them properly. `JAX-RS` and `CXF` properly support these formats (`MediaType.APPLICATION_JSON` and `MediaType.APPLICATION_XML` can be specified for `@Produces` or `@Consumes`). Try to decide for a single format for all services if possible and NEVER mix different formats in a service.
 
 == REST Testing
-For testing REST services in general consult the link:guide-testing[testing guide].
+For testing REST services in general consult the link:guide-testing.asciidoc[testing guide].
 
 For manual testing REST services there are browser plugins:
 

@@ -3,7 +3,7 @@ toc::[]
 
 = SQL
 
-For general guides on dealing or avoiding SQL, preventing SQL-injection, etc. you should study link:guide-dataaccess-layer[data-access layer].
+For general guides on dealing or avoiding SQL, preventing SQL-injection, etc. you should study link:guide-dataaccess-layer.asciidoc[data-access layer].
 
 == Naming Conventions
 
@@ -92,4 +92,4 @@ INSERT INTO Table(id, modificationCounter, seatsNumber) VALUES (8, 1, 8);
 --------
 
 
-See also link:guide-database-migration[Database Migrations].
+See also link:guide-database-migration.asciidoc[Database Migrations].

@@ -15,7 +15,7 @@ For contributions to the code please consider:
 * Before doing any change choose the branch you want to add your feature to. In most cases this will be the `develop` branch to add new features. However, if you want to fix a bug, check if an according maintenance branch `develop-x.y` already exists and switch to that one before.
 * Then the first step is to create a local feature branch (named by the feature you are planning so `feature/«issue-id»-«keyword») and checkout this branch.
 * Start your modifications.
-* Ensure to stick to our link:coding-conventions[].
+* Ensure to stick to our link:coding-conventions.asciidoc[coding-conventions].
 * Check in features or fixes as individual commits associated with an link:../issues[issue] using the commit message format:
 +
 [source]
@@ -33,4 +33,4 @@ devonfw/devon4j#1: added REST service for tablemanagement
 * From here a reviewer should take over and give feedback. In the best case, your contribution gets merged and everything is completed.
 * In case you should not get feedback for weeks, do not hesitate to ask the community.
 * If one (typically the reviewer) has to change the base branch (because the wrong develop branch was used, see above) onto which the changes will be merged, one can do the same by following the instructions at https://github.com/blog/2224-change-the-base-branch-of-a-pull-request/[here].
-* see also the link:devonfw-documentation[documentation] guidelines.
+* see also the link:devonfw-documentation.asciidoc[documentation] guidelines.

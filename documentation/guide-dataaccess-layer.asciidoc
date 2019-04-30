@@ -6,7 +6,7 @@ toc::[]
 The data-access layer is responsible for all outgoing connections to access and process data. This is mainly about accessing data from a persistent data-store but also about invoking external services.
 
 == RDBMS
-The classical approach is to use a Relational Database Management System (RDMS). In such case we strongly recommend to follow our link:guide-jpa[JPA Guide]. In case you are using Oracle you should also consider the link:guide-oracle[Oracle guide].
+The classical approach is to use a Relational Database Management System (RDMS). In such case we strongly recommend to follow our link:guide-jpa.asciidoc[JPA Guide]. In case you are using Oracle you should also consider the link:guide-oracle.asciidoc[Oracle guide].
 
 == NoSQL
 In case of specific demands and requirements you may want to choose for a _Not only SQL_ database (NoSQL). There are different categories of such products so you should first be aware what fits your requirements best:

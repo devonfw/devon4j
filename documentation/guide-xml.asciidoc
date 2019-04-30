@@ -15,6 +15,6 @@ TODO +@XmlSeeAlso+
 http://stackoverflow.com/questions/7499735/jaxb-how-to-create-xml-from-polymorphic-classes
 
 === JAXB Custom Mapping
-In order to map custom link:guide-datatype[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create dedicated objects dedicated for the XML mapping you can easily avoid such situations. When this is not suitable follow these instructions to define the mapping: TODO
+In order to map custom link:guide-datatype.asciidoc[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create dedicated objects dedicated for the XML mapping you can easily avoid such situations. When this is not suitable follow these instructions to define the mapping: TODO
 
 https://weblogs.java.net/blog/kohsuke/archive/2005/09/using_jaxb_20s.html

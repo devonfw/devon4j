@@ -4,7 +4,7 @@ toc::[]
 
 = Service Client
 
-This guide is about consuming (calling) services from other applications (micro-services). For providing services see the link:guide-service-layer[Service-Layer Guide]. Services can be consumed in the link:guide-client-layer[client] or the server. As the client is typically not written in Java you should consult the according guide for your client technology. In case you want to call a service within your Java code this guide is the right place to get help.
+This guide is about consuming (calling) services from other applications (micro-services). For providing services see the link:guide-service-layer.asciidoc[Service-Layer Guide]. Services can be consumed in the link:guide-client-layer.asciidoc[client] or the server. As the client is typically not written in Java you should consult the according guide for your client technology. In case you want to call a service within your Java code this guide is the right place to get help.
 
 == Motivation
 Various solutions already exist for calling services such as `RestTemplate` from spring or the JAX-RS client API. Further each and every service framework offers its own API as well. These solutions might be suitable for very small and simple projects (with one or two such invocations). However, with the trend of microservices the invocation of a service becomes a very common use-case that occurs all over the place. Have a look at the following features to get an idea why you want to use the solution offered here.
@@ -75,12 +75,12 @@ This solution allows a very flexible configuration on the following levels:
 A configuration on a deeper level (e.g. 3) overrides the configuration from a higher level (e.g. 1). 
 
 The configuration on Level 1 and 2 are configured via `application.properties` 
-(see link:guide-configuration[configuration guide]). 
+(see link:guide-configuration.asciidoc[configuration guide]). 
 For Level 1 the prefix `service.client.default.` is used for properties. 
 Further, for level 2. the prefix `service.client.app.«application».` is used where `«application»` is the 
 technical name of the application providing the service. This name will automatically be derived from 
 the java package of the service interface (e.g. `foo` in `MyService` interface before) following our 
-link:coding-conventions#packages[packaging conventions].
+link:coding-conventions.asciidoc#packages[packaging conventions].
 In case these conventions are not met it will fallback to the fully qualified name of the service interface.
 
 Configuration on Level 3 has to be provided as `Map` argument to the method 
@@ -114,7 +114,7 @@ Assuming your service interface would have the fully qualified name
 Additionally, the URL might use the following variables that will automatically be resolved:
 
 * `${app}` to `«application»` (useful for default URL)
-* `${type}` to the type of the service. E.g. `rest` in case of a link:guide-rest[REST] service and `ws` for a link:guide-soap[SOAP] service.
+* `${type}` to the type of the service. E.g. `rest` in case of a link:guide-rest.asciidoc[REST] service and `ws` for a link:guide-soap.asciidoc[SOAP] service.
 * `${local.server.port}` for the port of your current Java servlet container running the JVM. Should only used for testing with spring-boot random port mechanism (technically spring can not resolve this variable but we do it for you here).
 
 Therefore, the default URL may also be configured as:
@@ -125,12 +125,12 @@ service.client.default.url=https://api.company.com/${app}/services/${type}
 As you can use any implementation of `ServiceDiscoverer`, you can also easily use https://github.com/Netflix/eureka#eureka[eureka] (or anything else) instead to discover your services.
 
 === Headers
-A very common demand is to tweak (HTTP) headers in the request to invoke the service. May it be for security (authentication data) or for other cross-cutting concerns (such as the link:guide-logging#correlation-id[Correlation ID]). This is done internally by implementations of the interface  `ServiceHeaderCustomizer`.
+A very common demand is to tweak (HTTP) headers in the request to invoke the service. May it be for security (authentication data) or for other cross-cutting concerns (such as the link:guide-logging.asciidoc#correlation-id[Correlation ID]). This is done internally by implementations of the interface  `ServiceHeaderCustomizer`.
 We already provide several implementations such as:
 
 * `ServiceHeaderCustomizerBasicAuth` for basic authentication (mainly for testing).
 * `ServiceHeaderCustomizerOAuth` for OAuth (passes a security token from security context such as a https://jwt.io/[JWT] via OAuth).
-* `ServiceHeaderCustomizerCorrelationId` passed the link:guide-logging#correlation-id[Correlation ID] to the service request.
+* `ServiceHeaderCustomizerCorrelationId` passed the link:guide-logging.asciidoc#correlation-id[Correlation ID] to the service request.
 
 Additionally, you can add further custom implementations of `ServiceHeaderCustomizer` for your individual requirements and additional headers.
 
@@ -143,7 +143,7 @@ Whilst invoking a remote service an error may occur. This solution will automati
 * *Network error* +
 In such case (host not found, connection refused, time out, etc.) there is not even a response from the server. However, in advance to a low-level exception you will get a wrapped `ServiceInvocationFailedException` (with code `ServiceInvoke`) with a readable message containing the service that could not be invoked.
 * *Service error* +
-In case the service failed on the server-side the link:guide-rest#error-results[error result] will be parsed and thrown as a `ServiceInvocationFailedException` with the received message and code.
+In case the service failed on the server-side the link:guide-rest.asciidoc#error-results[error result] will be parsed and thrown as a `ServiceInvocationFailedException` with the received message and code.
 
 === Logging
 By default this solution will log all invocations including the URL of the invoked service, success or error status flag and the duration in seconds (with decimal nano precision as available). Therefore you can easily monitor the status and performance of the service invocations.

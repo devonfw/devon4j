@@ -36,6 +36,6 @@ Before you get started working on an issue, check out the following points:
 * check the code-style with sonar-qube in eclipse. If there are anomalies in the new or modified code, please rework.
 * check out the latest code from the branch you are working on (+svn update+, +git pull+ after +git commit+)
 * test that all builds and tests are working (+mvn clean install+)
-* commit your code (+svn commit+, +git push+) - for all your commits ensure you stick to the conventions for code contributions (see link:devonfw-code-contribution[code contribution]) and provide proper comments (see link:coding-conventions[coding conventions]).
+* commit your code (+svn commit+, +git push+) - for all your commits ensure you stick to the conventions for code contributions (see link:devonfw-code-contribution.asciidoc[code contribution]) and provide proper comments (see link:coding-conventions.asciidoc[coding conventions]).
 * if no milestone was assigned please assign suitable milestone
 * set the issue as done

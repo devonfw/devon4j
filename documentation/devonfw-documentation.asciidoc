@@ -15,6 +15,6 @@ Contributions and improvements to the documentation are welcome. However, you sh
 * Your contributions will become part of the devon4j documentation and is licensed under creative commons (see footer).
 * If you want to contribute larger changes (beyond fixing a typo or a link) please consider to get in contact with the community (by creating an https://github.com/devonfw/devon4j/issues[issue]) before getting started. You do not want to write complete chapters and then get your work rejected afterwards.
 * Please consult the https://github.com/devonfw/devon-docgen/wiki#guidelines[DocGen manual] as we are using DocGen
-to generate the documentation starting from link:devon4j-doc[].
+to generate the documentation starting from link:devon4j-doc.asciidoc[].
 
 If you consider all the aspects above you can just edit the community wiki (in `devonfw-wiki`, see above) if you have a https://github.com/join[github-account].

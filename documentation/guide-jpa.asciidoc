@@ -4,7 +4,7 @@ toc::[]
 = Java Persistence API
 
 For mapping java objects to a relational database we use the http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[Java Persistence API (JPA)]. 
-As JPA implementation we recommend to use http://hibernate.org/orm/[hibernate]. For general documentation about JPA and hibernate follow the links above as we will not replicate the documentation. Here you will only find guidelines and examples how we recommend to use it properly. The following examples show how to map the data of a database to an entity. As we use JPA we abstract from link:guide-sql[SQL] here. However, you will still need a https://en.wikipedia.org/wiki/Data_definition_language[DDL] script for your schema and during maintenance also link:guide-database-migration[database migrations]. Please follow our link:guide-sql[SQL guide] for such artefacts.
+As JPA implementation we recommend to use http://hibernate.org/orm/[hibernate]. For general documentation about JPA and hibernate follow the links above as we will not replicate the documentation. Here you will only find guidelines and examples how we recommend to use it properly. The following examples show how to map the data of a database to an entity. As we use JPA we abstract from link:guide-sql.asciidoc[SQL] here. However, you will still need a https://en.wikipedia.org/wiki/Data_definition_language[DDL] script for your schema and during maintenance also link:guide-database-migration.asciidoc[database migrations]. Please follow our link:guide-sql.asciidoc[SQL guide] for such artefacts.
 
 == Entity
 Entities are part of the persistence layer and contain the actual data. They are POJOs (Plain Old Java Objects) on which the relational data of a database is mapped and vice versa. The mapping is configured via JPA annotations (`javax.persistence`). Usually an entity class corresponds to a table of a database and a property to a column of that table. A persistent entity instance then represents a row of the database table.
@@ -40,7 +40,7 @@ Note that every entity class needs a constructor with public or protected visibi
 Entities should be simple POJOs and not contain business logic.
 
 === Entities and Datatypes
-Standard datatypes like `Integer`, `BigDecimal`, `String`, etc. are mapped automatically by JPA. Custom link:guide-datatype[datatypes] are mapped as serialized xref:blob[BLOB] by default what is typically undesired. 
+Standard datatypes like `Integer`, `BigDecimal`, `String`, etc. are mapped automatically by JPA. Custom link:guide-datatype.asciidoc[datatypes] are mapped as serialized xref:blob[BLOB] by default what is typically undesired. 
 In order to map atomic custom datatypes (implementations of`+SimpleDatatype`) we implement an `AttributeConverter`. ere is a simple example:
 [source,java]
 ----
@@ -220,7 +220,7 @@ Application based on the devon are strongly advised to always use lazy loading. 
 * `@OneToOne`: EAGER
 
 So at least for `@ManyToOne` and `@OneToOne` you always need to override the default by providing `fetch = FetchType.LAZY`. 
-IMPORTANT: Please read the link:guide-jpa-performance[performance guide].
+IMPORTANT: Please read the link:guide-jpa-performance.asciidoc[performance guide].
 
 === Cascading Relationships
 For relations it is also possible to define whether operations are cascaded (like a recursion) to the related entity.
@@ -316,17 +316,17 @@ public class MyOtherEntity extends MyParentEntity implements MyChild {
 As a best practice we advise you to avoid entity hierarchies at all where possible and otherwise to keep the hierarchy as small as possible. In order to just ensure reuse or establish a common API you can consider a shared interface, a `@MappedSuperclass` or an `@Embeddable` instead of an entity hierarchy.
 
 == Repositories and DAOs
-For each entity a code unit is created that groups all database operations for that entity. We recommend to use link:guide-repository[spring-data respositories] for that as it is most efficient for developers. As an alternative there is still the classic approach using link:guide-dao[DAOs].
+For each entity a code unit is created that groups all database operations for that entity. We recommend to use link:guide-repository.asciidoc[spring-data respositories] for that as it is most efficient for developers. As an alternative there is still the classic approach using link:guide-dao.asciidoc[DAOs].
 
 === Concurrency Control
 The concurrency control defines the way concurrent access to the same data of a database is handled. When several users (or threads of application servers) concurrently access a database, anomalies may happen, e.g. a transaction is able to see changes from another transaction although that one did, not yet commit these changes. Most of these anomalies are automatically prevented by the database system, depending on the http://en.wikipedia.org/wiki/Isolation_(database_systems)[_isolation level_] (property `hibernate.connection.isolation` in the `jpa.xml`, see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html[here]).
 
 Another anomaly is when two stakeholders concurrently access a record, do some changes and write them back to the database. The JPA addresses this with different locking strategies (see http://www.objectdb.com/java/jpa/persistence/lock[here]).
 
-As a best practice we are using optimistic locking for regular end-user link:guide-service-layer[services] (OLTP) and pessimistic locking for link:guide-batch-layer[batches].
+As a best practice we are using optimistic locking for regular end-user link:guide-service-layer.asciidoc[services] (OLTP) and pessimistic locking for link:guide-batch-layer.asciidoc[batches].
 
 === Optimistic Locking
-The class `com.devonfw.module.jpa.persistence.api.AbstractPersistenceEntity` already provides optimistic locking via a `modificationCounter` with the `@Version` annotation. Therefore JPA takes care of optimistic locking for you. When entities are transferred to clients, modified and sent back for update you need to ensure the `modificationCounter` is part of the game. If you follow our guides about link:guide-transferobject[transfer-objects] and link:guide-service-layer[services] this will also work out of the box.
+The class `com.devonfw.module.jpa.persistence.api.AbstractPersistenceEntity` already provides optimistic locking via a `modificationCounter` with the `@Version` annotation. Therefore JPA takes care of optimistic locking for you. When entities are transferred to clients, modified and sent back for update you need to ensure the `modificationCounter` is part of the game. If you follow our guides about link:guide-transferobject.asciidoc[transfer-objects] and link:guide-service-layer.asciidoc[services] this will also work out of the box.
 You only have to care about two things:
 
 * How to deal with optimistic locking in xref:relationships[relationships]? +
@@ -335,7 +335,7 @@ Assume an entity `A` contains a collection of `B` entities. Should there be a lo
 According to KISS our recommendation is that the user gets an error displayed that tells him to do his change again on the recent data. Try to design your system and the work processing in a way to keep such conflicts rare and you are fine.
 
 === Pessimistic Locking
-For back-end link:guide-service-layer[services] and especially for link:guide-batch-layer[batches] optimistic locking is not suitable. A human user shall not cause a large batch process to fail because he was editing the same entity. Therefore such use-cases use pessimistic locking what gives them a kind of priority over the human users.
+For back-end link:guide-service-layer.asciidoc[services] and especially for link:guide-batch-layer.asciidoc[batches] optimistic locking is not suitable. A human user shall not cause a large batch process to fail because he was editing the same entity. Therefore such use-cases use pessimistic locking what gives them a kind of priority over the human users.
 In your xref:data-access-object[DAO] implementation you can provide methods that do pessimistic locking via http://docs.oracle.com/javaee/7/api/javax/persistence/EntityManager.html[`EntityManager`] operations that take a http://docs.oracle.com/javaee/7/api/javax/persistence/LockModeType.html[`LockModeType`]. Here is a simple example:
 [source,java]
 ----
@@ -347,10 +347,10 @@ Use one of the types if you want to modify the entity later on, for read only ac
 As you might have noticed, the behavior of Hibernate deviates from what one would expect by looking at the `LockModeType` (especially `LockModeType.READ` should not cause a `SELECT ... FOR UPDATE` to be issued). The framework actually deviates from what is http://docs.oracle.com/javaee/7/api/javax/persistence/LockModeType.html[specified] in the JPA for unknown reasons.
 
 == Database Auditing
-See link:guide-auditing[auditing guide].
+See link:guide-auditing.asciidoc[auditing guide].
 
 == Testing Entities and DAOs
-See link:guide-testing#integration-testing[testing guide].
+See link:guide-testing#integration-testing.asciidoc[testing guide].
 
 == Principles
 We strongly recommend these principles:
@@ -360,7 +360,7 @@ We strongly recommend these principles:
 * Keep your entities simple and avoid putting advanced logic into entity methods.
 
 == Database Configuration
-The link:guide-configuration[configuration] for spring and hibernate is already provided by devonfw in our sample application and the application template. So you only need to worry about a few things to customize.
+The link:guide-configuration.asciidoc[configuration] for spring and hibernate is already provided by devonfw in our sample application and the application template. So you only need to worry about a few things to customize.
 
 === Database System and Access
 Obviously you need to configure which type of database you want to use as well as the location and credentials to access it. The defaults are configured in `application-default.properties` that is bundled and deployed with the release of the software. It should therefore contain the properties as in the given example:
@@ -373,7 +373,7 @@ Obviously you need to configure which type of database you want to use as well a
   database.hibernate.hbm2ddl.auto=validate
 ----
 
-The environment specific settings (especially passwords) are configured by the operators in `application.properties`. For further details consult the link:guide-configuration[configuration guide]. It can also override the default values. The relevant configuration properties can be seen by the following example for the development environment (located in `src/test/resources`):
+The environment specific settings (especially passwords) are configured by the operators in `application.properties`. For further details consult the link:guide-configuration.asciidoc[configuration guide]. It can also override the default values. The relevant configuration properties can be seen by the following example for the development environment (located in `src/test/resources`):
 
 [source, properties]
 ----
@@ -382,10 +382,10 @@ The environment specific settings (especially passwords) are configured by the o
   database.hibernate.hbm2ddl.auto=create
 ----
 
-For further details about `database.hibernate.hbm2ddl.auto` please see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html#configuration-misc-properties[here]. For production and acceptance environments we use the value `validate` that should be set as default. In case you want to use Oracle RDBMS you can find additional hints link:guide-oracle#driver[here].
+For further details about `database.hibernate.hbm2ddl.auto` please see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html#configuration-misc-properties[here]. For production and acceptance environments we use the value `validate` that should be set as default. In case you want to use Oracle RDBMS you can find additional hints link:guide-oracle.asciidoc#driver[here].
 
 === Database Migration
-See link:guide-database-migration[database migration].
+See link:guide-database-migration.asciidoc[database migration].
 
 === Database Logging
 Add the following properties to `application.properties` to enable logging of database queries for debugging purposes.
@@ -397,11 +397,11 @@ spring.jpa.properties.hibernate.format_sql=true
 ```
 
 === Pooling
-You typically want to pool JDBC connections to boost performance by recycling previous connections. There are many libraries available to do connection pooling. We recommend to use https://github.com/brettwooldridge/HikariCP[HikariCP]. For Oracle RDBMS see link:guide-oracle#pooling[here].
+You typically want to pool JDBC connections to boost performance by recycling previous connections. There are many libraries available to do connection pooling. We recommend to use https://github.com/brettwooldridge/HikariCP[HikariCP]. For Oracle RDBMS see link:guide-oracle.asciidoc#pooling[here].
 
 == Security
 === SQL-Injection
-A common link:guide-security[security] threat is http://en.wikipedia.org/wiki/SQL_injection[SQL-injection]. Never build queries with string concatenation or your code might be vulnerable as in the following example:
+A common link:guide-security.asciidoc[security] threat is http://en.wikipedia.org/wiki/SQL_injection[SQL-injection]. Never build queries with string concatenation or your code might be vulnerable as in the following example:
 [source, java]
 ----
   String query = "Select op from OrderPosition op where op.comment = " + userInput;
