@@ -79,7 +79,20 @@
       <artifactId>h2</artifactId>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
-
+  <profiles>
+    <profile>
+      <id>java9</id>
+      <activation>
+        <jdk>[9,)</jdk>
+      </activation>
+      <dependencies>
+        <!-- JSR- -->
+        <dependency>
+          <groupId>javax.annotation</groupId>
+          <artifactId>javax.annotation-api</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 </project>

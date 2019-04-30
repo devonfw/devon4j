@@ -24,12 +24,6 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
     </dependency>
-    <!--
-    <dependency>
-      <groupId>net.sf.m-m-m</groupId>
-      <artifactId>mmm-util-core</artifactId>
-    </dependency>
-    -->
     
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
@@ -37,5 +31,19 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
+  <profiles>
+    <profile>
+      <id>java9</id>
+      <activation>
+        <jdk>[9,)</jdk>
+      </activation>
+      <dependencies>
+        <!-- JSR-250 (annotations including PostContruct and PreDestroy) -->
+        <dependency>
+          <groupId>javax.annotation</groupId>
+          <artifactId>javax.annotation-api</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 </project>

@@ -29,5 +29,24 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
+  <profiles>
+    <profile>
+      <id>java9</id>
+      <activation>
+        <jdk>[9,)</jdk>
+      </activation>
+      <dependencies>
+        <!-- JAXWS (SOAP) -->
+        <dependency>
+          <groupId>javax.xml.ws</groupId>
+          <artifactId>jaxws-api</artifactId>
+        </dependency>
+        <!-- JWS (SOAP) -->
+        <dependency>
+          <groupId>javax.jws</groupId>
+          <artifactId>javax.jws-api</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 </project>
