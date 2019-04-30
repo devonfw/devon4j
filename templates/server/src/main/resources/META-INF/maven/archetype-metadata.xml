@@ -6,9 +6,6 @@
   <id>devon4j-template-server</id>
 
   <requiredProperties>
-    <requiredProperty key="version">
-            <defaultValue>${projectVersion}</defaultValue>
-    </requiredProperty>
     <requiredProperty key="earProjectName">
       <defaultValue>.</defaultValue>
     </requiredProperty>
