@@ -1,0 +1,36 @@
+:toc: macro
+toc::[]
+
+= Code contribution
+
+We are looking forward to your contribution to devon4j. This page describes the few conventions to follow. Please note that this is an open and international project and all content has to be in (American) English language.
+
+For contributions to the code please consider:
+
+* We are working issue-based so check if there is already an issue in our tracker for the task you want to work on or create a new issue for it.
+* In case of more complex issues please get involved with the community and ensure that there is a common understanding of what and how to do it. You do not want to invest into something that will later be rejected by the community.
+* Before you get started ensure that you comment the issue accordingly and you are the person assigned to the issue. If there is already someone else assigned get in contact with him if you still want to contribute to the same issue. You do not want to invest into something that is already done by someone else.
+* Create a https://help.github.com/articles/fork-a-repo/[fork] of the repository on github to your private github space.
+* Clone this fork.
+* Before doing any change choose the branch you want to add your feature to. In most cases this will be the `develop` branch to add new features. However, if you want to fix a bug, check if an according maintenance branch `develop-x.y` already exists and switch to that one before.
+* Then the first step is to create a local feature branch (named by the feature you are planning so `feature/«issue-id»-«keyword») and checkout this branch.
+* Start your modifications.
+* Ensure to stick to our link:coding-conventions[].
+* Check in features or fixes as individual commits associated with an link:../issues[issue] using the commit message format:
++
+[source]
+#<issueId>: <describe your change>
++
+Then github will automatically link the commit in the issue. In case you worked on an issue from a different repository (e.g. change in +devon4j-sample+ due to issue in +devon4j+) we use this commit message format:
+[source]
+devonfw/<repository>#<issueId>: <describe your change>
++
+So as an example:
+[source]
+devonfw/devon4j#1: added REST service for tablemanagement
+* If you completed your feature (bugfix, improvement, etc.) use a https://help.github.com/articles/using-pull-requests/[pull request] to give it back to the community.
+* Your pull request will automatically be checked if it builds correctly (no compile or test errors), can be merged without conflicts, and https://github.com/devonfw-forge/devon-guide/wiki/cookbook-cla[CLA] has been signed. Please ensure to do the required tasks and reworks unless all checks are satisfied.
+* From here a reviewer should take over and give feedback. In the best case, your contribution gets merged and everything is completed.
+* In case you should not get feedback for weeks, do not hesitate to ask the community.
+* If one (typically the reviewer) has to change the base branch (because the wrong develop branch was used, see above) onto which the changes will be merged, one can do the same by following the instructions at https://github.com/blog/2224-change-the-base-branch-of-a-pull-request/[here].
+* see also the link:devonfw-documentation[documentation] guidelines.

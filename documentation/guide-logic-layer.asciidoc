@@ -1,0 +1,155 @@
+:toc: macro
+toc::[]
+
+= Logic Layer
+
+The logic layer is the heart of the application and contains the main business logic.
+According to our link:architecture#business-architecture[business architecture] we divide an application into _business components_. The _component part_ link:architecture#technical-architecture[(see architecture overview)] assigned to the logic layer contains the functional use-cases the business component is responsible for. For further understanding, consult the link:architecture#application-architecture[application architecture].
+
+== Component Part
+
+=== Component Part Interface
+A component part is accessed through its component part interface.
+The API of the component part interface has to be business oriented. This means that all parameters and return types of a method have to be business link:guide-transferobject[transfer-objects], link:guide-datatype[datatypes] (+String+, +Integer+, +MyCustomerNumber+, etc.), or collections of these. 
+The API may only access objects of other business components listed in the (transitive) link:architecture#business-architecture[dependencies] of the declaring business component part.
+
+First we create the interface that contains the method(s) with the business operations documented with JavaDoc. 
+
+There are two ways of designing a component part interface at the logic layer. Depending on the application's complexity one of the following approaches should be consistently applied (i.e. you should not use both approaches within the same application).
+
+* Component Part with Simple Interface
+* Component Part Interface with Use Case Decomposition
+
+=== Component Part with Simple Interface
+For less complex apps with fairly simple component interfaces (even if it contains many methods, e.g. several find methods), you put all methods to be exposed directly into a single interface. The implementation of the component part interface provides all the corresponding methods in one class.
+
+Here is an example of a simple interface:
+[source,java]
+----
+/**
+ * ... StaffManagement.java
+ */
+public interface StaffManagement {
+
+  /**
+   * @param id the {@link StaffMemberEto#getId() ID} of the requested staff member.
+   * @return The {@link StaffMemberEto} with the given <code>id</code> 
+   *         or {@code null} if no such object exists.
+   */
+  StaffMemberEto findStaffMember(Long id);
+
+  /**
+   * @param login The {@link StaffMemberEto#getName() login} of the requested staff member.
+   * @return The {@link StaffMemberEto} with the given <code>login</code> 
+   *         or {@code null} if no such object exists.
+   */
+  StaffMemberEto findStaffMemberByLogin(String login);
+  
+  ...
+}
+----
+
+=== Component Part Interface with Use Case Decomposition
+For complex applications, component part interfaces consisting of many different use cases, it is recommended to further sub-divide it into separate use-case-interfaces to be aggregated in the main component interface. This suits for better maintainability. 
+
+image::images/component-facade-with-use-cases.png["Component facade with use cases.", width="450"]
+
+The component part interface then extends the available use case interfaces to offer a single interface to the next higher layer, e.g. the service layer. Then, the implementation of the component part interface holds references to all use cases and only delegates method calls. All business logic and data-layer access is performed within the implementations of the use cases. Also, if a use case needs to use functionality of another use case provided by the same layer it will use a reference to the component part interface and _not_ to the use case itself.
+
+[source,java]
+----
+
+/**
+ * ... Salesmanagement.java
+ */
+public interface Salesmanagement extends UcChangeTable, UcFindBill, 
+    UcFindOrder, UcFindOrderPosition, UcManageBill,
+    UcManageOrder, UcManageOrderPosition {
+
+}
+
+// ...
+
+/**
+ * ... UcChangeTable.java
+ */
+public interface UcChangeTable {
+
+  /**
+   * UseCase to change from one {@link TableEto table} to another. 
+   * The people sitting at a table are identified by their
+   * {@link OrderEto order} that has to be provided as argument.
+   *
+   * @param orderId the {@link OrderEto order}
+   * @param newTableId the new {@link TableEto table} to switch to.
+   */
+  void changeTable(long orderId, long newTableId);
+
+}
+----
+
+== Component Implementation
+
+The implementation of the use case typically needs access to the persistent data. This is done by link:guide-dependency-injection[injecting] the corresponding link:guide-dataaccess-layer#data-access-object[DAO]. According to the  link:architecture#architecture-principles[principle _data sovereignty_] , only DAOs of the same business component may be accessed directly from the use case. For accessing data from other components the use case has to use the corresponding xref:component-interface[component interface]. Further, it shall not expose persistent entities from the persistence layer and has to map them to link:guide-transferobject[transfer objects].
+
+Within a use-case implementation, entities are mapped via a +BeanMapper+ to link:guide-dataaccess-layer#entity[persistent entities]. Let's take a quick look at some of the Ordermanagement methods: 
+[source,java]
+----
+
+@Named
+@Transactional
+public class OrdermanagementImpl extends AbstractComponentFacade 
+    implements Ordermanagement {
+
+  @Inject
+  private OrderRepository orderRepository;
+
+  @Override
+  public OrderCto findOrder(Long id) {
+
+    LOG.debug("Get Order with id {} from database.", id);
+    OrderEntity entity = this.orderRepository.find(id);
+    OrderCto cto = new OrderCto();
+    cto.setBooking(getBeanMapper().map(entity.getBooking(), BookingEto.class));
+    cto.setHost(getBeanMapper().map(entity.getHost(), BookingEto.class));
+    cto.setOrderLines(
+      getBeanMapper().mapList(entity.getOrderLines(), OrderLineCto.class));
+    cto.setOrder(getBeanMapper().map(entity, OrderEto.class));
+    cto.setInvitedGuest(
+      getBeanMapper().map(entity.getInvitedGuest(), InvitedGuestEto.class));
+    return cto;
+  }
+----
+
+As you can see, provided entities are mapped to corresponding business objects (e.g. `BookingEto.class`). Further details about this can be found in link:guide-beanmapping[bean-mapping].
+
+Below, a class diagram illustrating the pattern is shown (here: the ``StaffManagement`` business component):
+
+image::images/guide-logic-layer.png["logic layer component pattern", width="450"]
+
+As the picture above illustrates, the necessary link:guide-dataaccess-layer#data-access-object[DAO] entity to access the database is provided by an abstract class. Use Cases that need access to this DAO entity, have to extend that abstract class. Needed dependencies (in this case the +staffMemberDao+) are resolved by Spring, see xref:component-interface[here]. For the validation (e.g. to check if all needed attributes of the +StaffMember+ have been set) either Java code or http://www.jboss.org/drools/[Drools], a business rule management system, can be used.
+
+ 
+== Passing Parameters Among Components
+link:guide-dataaccess-layer#entity[Entities] shall not be passed to the outside of the link:guide-dataaccess-layer[dataaccess layer] for the reasons of data sovereignty. Therefore we are using link:guide-transferobject[transfer-objects] (TO) with the same attributes as the persistence entity. The packages are: +
+
+[cols="1,3"]
+|===
+|Persistence Entities| «rootpackage».«application».«component».dataaccess.api.entity 
+|Transfer Objects(TOs)| «rootpackage».«application».«component».logic.api
+|===
+
+This mapping is a simple copy process. So changes out of the scope of the owning component to any TO do not directly affect the persistent entity.
+
+== Security
+The logic layer is the heart of the application. It is also responsible for authorization and hence security is important here. Every method exposed in an interface needs to be annotated with an authorization check, stating what role(s) a caller must provide in order to be allowed to make the call. The authorization concept is described link:guide-security#authorization[here].
+
+=== Direct Object References
+A security threat are https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References[Insecure Direct Object References]. This simply gives you two options:
+
+* avoid direct object references at all
+* ensure that direct object references are secure
+
+Especially when using REST, direct object references via technical IDs are common sense. This implies that you have a proper xref:authorization[authorization] in place. This is especially tricky when your authorization does not only rely on the type of the data and according static permissions but also on the data itself. Vulnerabilities for this threat can easily happen by design flaws and inadvertence. Here is an example from our sample application: 
+
+We have a generic use-case to manage BLOBs. In the first place it makes sense to write a generic REST service to load and save these BLOBs. However, the permission to read or even update such BLOB depend on the business object hosting the BLOB. Therefore, such a generic REST service would open the door for this OWASP A4 vulnerability. To solve this in a secure way, you need individual services for each hosting business object to manage the linked BLOB and have to check permissions based on the parent business object. In this example the ID of the BLOB would be the direct object reference and the ID of the business object (and a BLOB property indicator) would be the indirect object reference.

@@ -1,0 +1,41 @@
+:toc: macro
+toc::[]
+
+= Issue creation and resolution
+
+== Issue creation
+You can create an issue https://github.com/devonfw/devon4j/issues/new[here]. Please consider the following points:
+
+[square]
+* If your issue is related to a specific building block (like e.g. devon4ng), open an issue on that specific issue tracker. If you're unsure which building block is causing your problem open an issue on this repository.
+* Put a label on the issue to mark whether you suggest an enhancement, report an error or something else.
+
+When reporting errors: 
+
+[square]
+* Include the version of devon4j you are using.
+* Include screenshots, stack traces.
+* Include the behavior you expected.
+* using a debugger you might be able to find the cause of the problem and you could be the one to contribute a bug-fix.
+
+== Preparation for issue resolution
+Before you get started working on an issue, check out the following points:
+
+[square]
+* try to complete all other issues you are working on before. Only postpone issues where you are stuck and consider giving them back in the queue (backlog).
+* check that no-one else is already assigned or working on the issue
+* read through the issue and check that you understand the task completely. Collect any remaining questions and clarify them with the one responsible for the topic.
+* ensure that you are aware on which branch the issue shall be fixed and start your work in the corresponding workspace.
+* if you are using +git+ perform your changes on a feature branch.
+
+== Definition of Done
+
+[square]
+* actual issue is implemented (bug fixed, new feature implemented, etc.)
+* new situation is covered by tests (according to test strategy of the project e.g. for bugs create a unit test first proving the bug and running red, then fix the bug and check that the test gets green, for new essential features create new tests, for GUI features do manual testing)
+* check the code-style with sonar-qube in eclipse. If there are anomalies in the new or modified code, please rework.
+* check out the latest code from the branch you are working on (+svn update+, +git pull+ after +git commit+)
+* test that all builds and tests are working (+mvn clean install+)
+* commit your code (+svn commit+, +git push+) - for all your commits ensure you stick to the conventions for code contributions (see link:devonfw-code-contribution[code contribution]) and provide proper comments (see link:coding-conventions[coding conventions]).
+* if no milestone was assigned please assign suitable milestone
+* set the issue as done

@@ -1,0 +1,97 @@
+:toc: macro
+toc::[]
+
+= Database Migration
+For database migrations we use http://flywaydb.org/[Flyway].
+As illustrated https://flywaydb.org/getstarted/why[here] database migrations have three advantages:
+
+. Recreate a database from scratch
+. Make it clear at all times what state a database is in
+. Migrate in a deterministic way from your current version of the database to a newer one
+
+
+Flyway can be used standalone or can be integrated via its https://flywaydb.org/documentation/api/javadoc/index.html?org/flywaydb/core/Flyway.html[API] to make sure the database migration takes place on startup.
+
+== Organizational Advice
+A few considerations with respect to project organization will help to implement maintainable Flyway migrations.
+
+At first, testing and production environments must be clearly and consistently distinguished. Use the following directory structure to achieve this distinction:
+[source, text]
+----
+  src/main/resources/db
+  src/test/resources/db
+----
+Although this structure introduces redundancies, the benefit overweights this disadvantage.
+An even more fine-grained production directory structure which contains one subfolder per release should be implemented: 
+[source, text]
+----
+  src/main/resources/db/migration/releases/X.Y/x.sql
+----
+Emphasizing that migration scripts below the current version must never be changed will aid the second advantage of migrations: it will always be clearly reproducible in which state the database currently is.
+Here, it is important to mention that, if test data is required, it must be managed separately from the migration data in the following directory:
+[source, text]
+----
+  src/test/resources/db/migration/
+----
+The `migration` directory is added to aid easy usage of Flyway defaults.
+Of course, test data should also be managed per release as like production data.
+
+With regard to content, separation of concerns (SoC) is an important goal. SoC can be achieved by distinguishing and writing multiple scripts with respect to business components/use cases (or database tables in case of large volumes of master data footnote:["Stammdaten" in German.]. Comprehensible file names aid this separation.
+
+It is important to have clear responsibilities regarding the database, the persistence layer (JPA), and migrations. Therefore a dedicated database expert should be in charge of any migrations performed or she should at least be informed before any change to any of the mentioned parts is applied.
+
+== Technical Configuration
+Database migrations can be http://flywaydb.org/documentation/migration/sql.html[SQL] based or http://flywaydb.org/documentation/migration/java.html[Java] based.
+
+To enable auto migration on startup (not recommended for productive environment) set the following property in the `application.properties` file for an environment.
+[source, properties]
+----
+flyway.enabled=true
+flyway.clean-on-validation-error=false
+----
+For development environment it is helpful to set both properties to `true` in order to simplify development. For regular environments `+flyway.clean-on-validation-error+` should be `false`.
+
+If you want to use Flyway set the following property in any case to prevent Hibernate from doing changes on the database (pre-configured by default in devonfw):
+
+[source, properties]
+----
+spring.jpa.hibernate.ddl-auto=validate
+----
+//Changed her to their to generalize it.
+The setting must be communicated to and coordinated with the customer and their needs.
+In acceptance testing the same configuration as for the production environment should be enabled.
+
+Since migration scripts will also be versioned the end-of-line (EOL) style must be fixated according to https://github.com/flyway/flyway/issues/253[this issue]. This is however solved in flyway 4.0+ and the latest devonfw release.
+Also, the version numbers of migration scripts should not consist of simple ascending integer numbers like V0001__..., V0002__..., ... This naming may lead to problems when merging branches. Instead the usage of timestamps as version numbers will help to avoid such problems.
+
+== Naming Conventions
+Database migrations should follow this naming convention:
+V<version>\__<description> (e.g.: V12345__Add_new_table.sql). 
+
+It is also possible to use Flyway for test data. To do so place your test data migrations in +src/main/resources/db/testdata/+ and set property
+
+[source, properties]
+----
+flyway.locations=classpath:db/migration/releases,classpath:db/migration/testdata
+----
+Then Flyway scans the additional location for migrations and applies all in the order specified by their version. If migrations +V0001__...+ and +V0002__...+ exist and a test data migration should be applied in between you can name it +V0001_1__...+.
+
+== Database Integration
+
+To integrate devon4j with various databases namely Microsoft SQL Server 2008, PostGres 9.5.4 , Oracle 11g and MariaDB 10.0.27 , refer the following sections 
+
+=== Database Integration with Microsoft SQL Server
+
+To integrate devon4j with Microsoft SQL Server 2008 , please refer instructions link:DB-Integration-MSSQL-Server-2008[here] 
+
+=== Database Integration with PostGres
+
+To integrate devon4j with PostGres 9.5.4, please refer instructions link:DB-Integration-PostGres-Server-9.5.4[here]
+
+=== Database Integration with Oracle
+
+To integrate devon4j with Oracle 11g, please refer instructions link:DB-Integration-Oracle11G[here]
+
+=== Database Integration with MariaDB
+
+To integrate devon4j with MariaDB 10.0.27, please refer instructions link:DB-Integration-MariaDB-10.0.27[here]

@@ -1,0 +1,56 @@
+:toc: macro
+toc::[]
+
+= Dependency Injection
+Dependency injection is one of the most important design patterns and is a key principle to a modular and component based architecture. The Java Standard for dependency injection is http://docs.oracle.com/javaee/6/api/javax/inject/package-summary.html[javax.inject (JSR330)] that we use in combination with http://docs.oracle.com/javaee/5/api/javax/annotation/package-summary.html[JSR250]. 
+
+There are many frameworks which support this standard including all recent Java EE application servers. We recommend to use http://spring.io/[Spring] (also known as springframework) that we use in our example application. However, the modules we provide typically just rely on JSR330 and can be used with any compliant container.
+
+== Key Principles
+A Bean in CDI (Contexts and Dependency-Injection) or Spring is typically part of a larger component and encapsulates some piece of logic that should in general be replaceable. As an example we can think of a Use-Case, Data-Access-Object (DAO), etc. As best practice we use the following principles:
+
+* *Separation of API and implementation* +
+We create a self-contained API documented with JavaDoc. Then we create an implementation of this API that we annotate with `@Named`. This implementation is treated as secret. Code from other components that wants to use the implementation shall only rely on the API. Therefore we use dependency injection via the interface with the `@Inject` annotation.
+* *Stateless implementation* +
+By default implementations (CDI-Beans) shall always be stateless. If you store state information in member variables you can easily run into concurrency problems and nasty bugs. This is easy to avoid by using local variables and separate state classes for complex state-information. Try to avoid stateful CDI-Beans wherever possible. Only add state if you are fully aware of what you are doing and properly document this as a warning in your JavaDoc.
+* *Usage of JSR330* +
+We use javax.inject (JSR330) and JSR250 as a common standard that makes our code portable (works in any modern Java EE environment). However, we recommend to use the springframework as container. But we never use proprietary annotations such as `@Autowired` instead of standardized annotations like `@Inject`. Generally we avoid proprietary annotations in business code (`common` and link:guide-logic-layer[logic layer]).
+* *Simple Injection-Style* +
+In general you can choose between constructor, setter or field injection. For simplicity we recommend to do private field injection as it is very compact and easy to maintain. We believe that constructor injection is bad for maintenance especially in case of inheritance (if you change the dependencies you need to refactor all sub-classes). Private field injection and public setter injection are very similar but setter injection is much more verbose (often you are even forced to have javadoc for all public methods). If you are writing re-usable library code setter injection will make sense as it is more flexible. In a business application you typically do not need that and can save a lot of boiler-plate code if you use private field injection instead. Nowadays you are using container infrastructure also for your tests (see link:guide-testing[spring integration tests]) so there is no need to inject manually (what would require a public setter).
+* *KISS* +
+To follow the KISS (keep it small and simple) principle we avoid advanced features (e.g. link:guide-aop[AOP], non-singleton beans) and only use them where necessary.
+
+== Example Bean
+Here you can see the implementation of an example bean using JSR330 and JSR250:
+[source, java]
+----
+@Named
+public class MyBeanImpl implements MyBean {
+  @Inject
+  private MyOtherBean myOtherBean;
+
+  @PostConstruct
+  public void init() {
+    // initialization if required (otherwise omit this method)
+  }
+
+  @PreDestroy
+  public void dispose() {
+    // shutdown bean, free resources if required (otherwise omit this method)
+  }
+}
+----
+
+It depends on `MyOtherBean` that should be the interface of an other component that is injected into the field because of the `@Inject` annotation. To make this work there must be exactly one implementation of `MyOtherBean` in the container (in our case spring). In order to put a Bean into the container we use the `@Named` annotation so in our example we put `MyBeanImpl` into the container. Therefore it can be injected into all setters that take the interface `MyBean` as argument and are annotated with `@Inject`. 
+
+In some situations you may have an Interface that defines a kind of "plugin" where you can have multiple implementations in your container and want to have all of them. Then you can request a list with all instances of that interface as in the following example:
+[source, java]
+----
+  @Inject
+  private List<MyConverter> converters;
+----
+
+Please note that when writing library code instead of annotating implementation with `@Named` it is better to provide `@Configuration` classes that choose the implementation via `@Bean` methods (see http://docs.spring.io/spring-javaconfig/docs/1.0.0.M4/reference/html/ch02s02.html[@Bean documentation]). This way you can better "export" specific features instead of relying library users to do a component-scan to your library code and loose control on upgrades.
+
+== Bean configuration
+Wiring and Bean configuration can be found in link:guide-configuration[configuration guide].

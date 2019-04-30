@@ -1,0 +1,20 @@
+:toc: macro
+toc::[]
+
+= devonfw Documentation 
+We are using the github wiki feature to create and maintain the documentation of the devonfw. The WIKI is source for generation of pdf-versions to generate the platform guide and tutorials. 
+
+There are two editions of this wiki:
+
+* https://github.com/devonfw/devon4j/wiki[devon4j (official wiki)] for stable states of this wiki that is read-only for regular users.
+* https://github.com/devonfw-wiki/devon4j/wiki[devon4j (community wiki)] for development and contributions to this wiki. Here you can edit and contribute.
+
+== Contribution to devon4j documentation
+Contributions and improvements to the documentation are welcome. However, you should be aware of the following aspects:
+
+* Your contributions will become part of the devon4j documentation and is licensed under creative commons (see footer).
+* If you want to contribute larger changes (beyond fixing a typo or a link) please consider to get in contact with the community (by creating an https://github.com/devonfw/devon4j/issues[issue]) before getting started. You do not want to write complete chapters and then get your work rejected afterwards.
+* Please consult the https://github.com/devonfw/devon-docgen/wiki#guidelines[DocGen manual] as we are using DocGen
+to generate the documentation starting from link:devon4j-doc[].
+
+If you consider all the aspects above you can just edit the community wiki (in `devonfw-wiki`, see above) if you have a https://github.com/join[github-account].
