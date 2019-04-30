@@ -42,7 +42,7 @@ The specifics for datatypes are as following:
 Many technologies like Dozer and QueryDSL's (alias API) are heavily based on reflection. For them to work properly with custom datatypes, the frameworks must be able to instantiate custom datatypes with no-argument constructors. It is therefore recommended to implement a no-argument constructor for each datatype of at least +protected+ visibility.
 
 == Datatypes in Entities
-The usage of custom datatypes in entities is explained in the link:guide-dataaccess-layer.asciidoc#entities-and-datatypes[persistence layer guide].
+The usage of custom datatypes in entities is explained in the link:guide-jpa.asciidoc#entities-and-datatypes[persistence layer guide].
 
 == Datatypes in Transfer-Objects
 

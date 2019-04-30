@@ -38,7 +38,7 @@ The batch calls the use case "create product" in the logic layer for actually cr
 ====  Accessing data access layer
 In practice it is not always appropriate to create use cases for every bit of work a batch should do. Instead, the data access layer can be used directly.
 An example for that is a typical batch for data retention which deletes out-of-time data.
-Often deleting out-dated data is done by invoking a single SQL statement. It is appropriate to implement that SQL in a link:guide-dataaccess-layer.asciidoc#data-access-object[DAO] method and call this method directly from the batch.
+Often deleting out-dated data is done by invoking a single SQL statement. It is appropriate to implement that SQL in a link:guide-repository.asciidoc[Repository] or link:guide-dao.asciidoc[DAO] method and call this method directly from the batch.
 But be careful that this pattern is a simplification which could lead to business logic cluttered in different layers which reduces maintainability of your application.
 It is a typical design decision you have to take when designing your specific batches.
 

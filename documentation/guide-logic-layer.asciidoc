@@ -4,14 +4,14 @@ toc::[]
 = Logic Layer
 
 The logic layer is the heart of the application and contains the main business logic.
-According to our link:architecture.asciidoc#business-architecture[business architecture] we divide an application into _business components_. The _component part_ link:architecture.asciidoc#technical-architecture[(see architecture overview)] assigned to the logic layer contains the functional use-cases the business component is responsible for. For further understanding, consult the link:architecture.asciidoc#application-architecture[application architecture].
+According to our link:architecture.asciidoc#business-architecture[business architecture] we divide an application into _business components_. The _component part_ (see link:architecture.asciidoc#technical-architecture[architecture overview]) assigned to the logic layer contains the functional use-cases the business component is responsible for. For further understanding, consult the link:architecture.asciidoc#application-architecture[application architecture].
 
 == Component Part
 
 === Component Part Interface
 A component part is accessed through its component part interface.
 The API of the component part interface has to be business oriented. This means that all parameters and return types of a method have to be business link:guide-transferobject.asciidoc[transfer-objects], link:guide-datatype.asciidoc[datatypes] (+String+, +Integer+, +MyCustomerNumber+, etc.), or collections of these. 
-The API may only access objects of other business components listed in the (transitive) link:architecture#business-architecture.asciidoc[dependencies] of the declaring business component part.
+The API may only access objects of other business components listed in the (transitive) link:architecture.asciidoc#business-architecture[dependencies] of the declaring business component part.
 
 First we create the interface that contains the method(s) with the business operations documented with JavaDoc. 
 
@@ -90,9 +90,9 @@ public interface UcChangeTable {
 
 == Component Implementation
 
-The implementation of the use case typically needs access to the persistent data. This is done by link:guide-dependency-injection.asciidoc[injecting] the corresponding link:guide-dataaccess-layer.asciidoc#data-access-object[DAO]. According to the  link:architecture.asciidoc#architecture-principles[principle _data sovereignty_] , only DAOs of the same business component may be accessed directly from the use case. For accessing data from other components the use case has to use the corresponding xref:component-interface[component interface]. Further, it shall not expose persistent entities from the persistence layer and has to map them to link:guide-transferobject.asciidoc[transfer objects].
+The implementation of the use case typically needs access to the persistent data. This is done by link:guide-dependency-injection.asciidoc[injecting] the corresponding link:guide-dao.asciidoc[DAO]. According to the  link:architecture.asciidoc#architecture-principles[principle _data sovereignty_] , only DAOs of the same business component may be accessed directly from the use case. For accessing data from other components the use case has to use the corresponding xref:component-interface[component interface]. Further, it shall not expose persistent entities from the persistence layer and has to map them to link:guide-transferobject.asciidoc[transfer objects].
 
-Within a use-case implementation, entities are mapped via a +BeanMapper+ to link:guide-dataaccess-layer.asciidoc#entity[persistent entities]. Let's take a quick look at some of the Ordermanagement methods: 
+Within a use-case implementation, entities are mapped via a +BeanMapper+ to link:guide-jpa.asciidoc#entity[persistent entities]. Let's take a quick look at some of the Ordermanagement methods: 
 [source,java]
 ----
 
@@ -127,11 +127,11 @@ Below, a class diagram illustrating the pattern is shown (here: the ``StaffManag
 
 image::images/guide-logic-layer.png["logic layer component pattern", width="450"]
 
-As the picture above illustrates, the necessary link:guide-dataaccess-layer.asciidoc#data-access-object[DAO] entity to access the database is provided by an abstract class. Use Cases that need access to this DAO entity, have to extend that abstract class. Needed dependencies (in this case the +staffMemberDao+) are resolved by Spring, see xref:component-interface[here]. For the validation (e.g. to check if all needed attributes of the +StaffMember+ have been set) either Java code or http://www.jboss.org/drools/[Drools], a business rule management system, can be used.
+As the picture above illustrates, the necessary link:guide-dao.asciidoc[DAO] entity to access the database is provided by an abstract class. Use Cases that need access to this DAO entity, have to extend that abstract class. Needed dependencies (in this case the +staffMemberDao+) are resolved by Spring, see xref:component-interface[here]. For the validation (e.g. to check if all needed attributes of the +StaffMember+ have been set) either Java code or http://www.jboss.org/drools/[Drools], a business rule management system, can be used.
 
  
 == Passing Parameters Among Components
-link:guide-dataaccess-layer.asciidoc#entity[Entities] shall not be passed to the outside of the link:guide-dataaccess-layer.asciidoc[dataaccess layer] for the reasons of data sovereignty. Therefore we are using link:guide-transferobject.asciidoc[transfer-objects] (TO) with the same attributes as the persistence entity. The packages are: +
+link:guide-jpa.asciidoc#entity[Entities] shall not be passed to the outside of the link:guide-dataaccess-layer.asciidoc[dataaccess layer] for the reasons of data sovereignty. Therefore we are using link:guide-transferobject.asciidoc[transfer-objects] (TO) with the same attributes as the persistence entity. The packages are: +
 
 [cols="1,3"]
 |===

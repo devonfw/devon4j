@@ -87,7 +87,7 @@ The general dependencies allowed between business components are defined by the 
 In our reference architecture diagram we assume that the business component `X` is allowed to depend
 on component `A`. Therefore a use-case within the logic component part of `X` is allowed to call a 
 use-case from `A` via a dependency on the component API. The same applies for dialogs on the client layer.
-This is illustrated by the horizontal connectors. Please note that link:guide-dataaccess-layer.asciidoc#entity[persistence entities] are part of the API of the data-access component part so only the logic component part of the same
+This is illustrated by the horizontal connectors. Please note that link:guide-jpa.asciidoc#entity[persistence entities] are part of the API of the data-access component part so only the logic component part of the same
 business component may depend on them.
 
 The technical architecture has to address non-functional requirements:

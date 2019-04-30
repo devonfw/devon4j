@@ -3,7 +3,7 @@ toc::[]
 //The guide itself is fine only the diagram is outdated -needs existing classes-
 = Transfer-Objects
 
-The technical data model is defined in form of link:guide-dataaccess-layer.asciidoc#entity[persistent entities].
+The technical data model is defined in form of link:guide-jpa.asciidoc#entity[persistent entities].
 However, passing persistent entities via _call-by-reference_ across the entire application will soon cause problems:
 
 * Changes to a persistent entity are directly written back to the persistent store when the transaction is committed. When the entity is send across the application also changes tend to take place in multiple places endangering data sovereignty and leading to inconsistency.
@@ -13,7 +13,7 @@ However, passing persistent entities via _call-by-reference_ across the entire a
 To prevent such problems transfer-objects are used leading to a _call-by-value_ model and decoupling changes to persistent entities.
 
 == Business-Transfer-Objects
-For each link:guide-dataaccess-layer.asciidoc#entity[persistent entity] we create or generate a corresponding _entity transfer object_ (ETO) that has the same properties except for relations. In order to centralize the properties (getters and setters with their javadoc) we use a common interface for the entity and its ETO.
+For each link:guide-jpa.asciidoc#entity[persistent entity] we create or generate a corresponding _entity transfer object_ (ETO) that has the same properties except for relations. In order to centralize the properties (getters and setters with their javadoc) we use a common interface for the entity and its ETO.
 
 If we need to pass an entity with its relation(s) we create a corresponding _composite transfer object_ (CTO) that only contains other transfer-objects or collections of them. This pattern is illustrated by the following UML diagram from our sample application.
 
@@ -24,7 +24,7 @@ image::images/transfer-objects.png["ETOs and CTOs", width="450", link="images/tr
 &#160; +
 Finally, there are typically transfer-objects for data that is never persistent. A common example are search criteria objects (derived from +SearchCriteriaTo+ in our sample application).
 
-The link:guide-logic-layer.asciidoc[logic layer] defines these transfer-objects (ETOs, CTOs, etc.) and will only pass such objects instead of link:guide-dataaccess-layer.asciidoc#entity[persistent entities].
+The link:guide-logic-layer.asciidoc[logic layer] defines these transfer-objects (ETOs, CTOs, etc.) and will only pass such objects instead of link:guide-jpa.asciidoc#entity[persistent entities].
 
 == Service-Transfer-Objects
 If we need to do link:guide-service-layer.asciidoc#versioning[service versioning] and support previous APIs or for external services with a different view on the data, we create separate transfer-objects to keep the service API stable (see link:guide-service-layer.asciidoc[service layer]).
