@@ -16,6 +16,7 @@
     <module>modules</module>
     <module>starters</module>
     <module>templates</module>
+    <module>documentation</module>
   </modules>
 
   <properties>

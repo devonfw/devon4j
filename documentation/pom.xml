@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.devonfw.tools</groupId>
+    <artifactId>devon-docgen</artifactId>
+    <version>3.1.0</version>
+  </parent>
+  <groupId>com.devonfw.java.doc</groupId>
+  <artifactId>devon4j-doc</artifactId>
+  <version>${revision}${changelist}</version>
+  <packaging>pom</packaging>
+  <name>The devon4j documentation that gives detailed guidance for the Java stack of devonfw.</name>
+  <description>The devon4j documentation that gives detailed guidance for the Java stack of devonfw.</description>
+
+  <properties>
+    <docgen.wiki.page>devon4j-doc</docgen.wiki.page>
+    <revision>dev</revision>
+    <changelist>-SNAPSHOT</changelist>
+  </properties>
+
+  <!-- run "mvn package" and get the PDF result in target/generated-docs/*.pdf -->
+  
+</project>

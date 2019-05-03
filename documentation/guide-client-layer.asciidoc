@@ -1,0 +1,61 @@
+:toc: macro
+toc::[]
+
+= Client Layer
+
+There are various technical approaches to building GUI clients. The devonfw proposes rich clients that connect to the server via data-oriented services (e.g. using REST with JSON).
+In general, we have to distinguish among the following types of clients:
+
+* web clients
+* native desktop clients
+* (native) mobile clients
+
+Our main focus is on web-clients. In our sample application https://github.com/devonfw/my-thai-star/[my-thai-star] we offer a responsive web-client based on Angular following https://github.com/devonfw/devon4ng/[devon4ng] that integrates seamlessly with the backends of my-thai-star available for Java using devon4j as well as .NET/C# using https://github.com/devonfw/devon4net/[devon4net]. For building angular clients read the separate https://github.com/devonfw/devon4ng/wiki[devon4ng guide].
+
+== JavaScript for Java Developers
+
+In order to get started with client development as a Java developer we give you some hints to get started. Also if you are an experienced JavaScript developer and want to learn Java this can be helpful. First, you need to understand that the JavaScript ecosystem is as large as the Java ecosystem and developing a modern web client requires a lot of knowledge. The following table helps you as experienced developer to get an overview of the tools, configuration-files, and other related aspects from the new world to learn. Also it helps you to map concepts between the ecosystems. Please note that we list the tools recommended by devonfw here (and we know that there are alternatives not listed here such as gradle, grunt, bower, etc.).
+
+.Aspects in JavaScript and Java ecosystem
+[options="header"]
+|=======================
+|*Topic*                |*Aspect*  |*JavaScript*|*Java*
+|Programming            |Language  |https://www.typescriptlang.org/[TypeScript] (extends https://www.javascript.com/[JavaScript])|https://docs.oracle.com/javase/tutorial/[Java]
+|Runtime                |VM        |https://nodejs.org/[nodejs] (or web-browser)|http://www.oracle.com/technetwork/java/javase/[jvm]
+.3+|Dependency-Management |Tool      |http://yarnpkg.com/[yarn] (or https://github.com/npm/npm[npm])|https://maven.apache.org/[maven]
+|Config    |https://docs.npmjs.com/files/package.json[package.json]|https://maven.apache.org/pom.html[pom.xml]
+|Repository|https://www.npmjs.com/[npm repo]|http://repo.maven.apache.org/maven2[maven central] (https://mvnrepository.com/[repo search])
+
+.5+|Build-Management       
+
+|Taskrunner|http://gulpjs.com/[gulp]|https://maven.apache.org/[maven] (or more comparable http://ant.apache.org/[ant])
+
+|Config    |https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md[gulpfile.js] (and `gulp/*`)|https://maven.apache.org/pom.html[pom.xml] (or https://ant.apache.org/manual/using.html[build.xml])
+
+|Clean cmd |gulp clean|mvn https://maven.apache.org/plugins/maven-clean-plugin/[clean]
+
+|Build cmd |yarn install && gulp build:dist|mvn https://maven.apache.org/plugins/maven-install-plugin/usage.html[install] (see https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html[lifecycle])
+
+|Test cmd  |gulp test|mvn http://maven.apache.org/components/surefire/maven-surefire-plugin/[test]
+
+.4+|link:guide-testing.asciidoc[Testing]
+
+|Test-Tool |http://jasmine.github.io/[jasmine]|http://junit.org/[junit]
+
+|Test-Framework|https://karma-runner.github.io/[karma]|http://junit.org/[junit] / http://maven.apache.org/components/surefire/maven-surefire-plugin/[surefire]
+
+|Browser Testing|http://phantomjs.org/[PhantomJS]|http://www.seleniumhq.org/[Selenium]
+
+|Extensions|https://karma-runner.github.io/[karma]-*, http://phantomjs.org/[PhantomJs] for browser emulation|http://joel-costigliola.github.io/assertj/[AssertJ],*Unit and http://docs.spring.io/spring/docs/current/spring-framework-reference/html/integration-testing.html[spring-test], etc.)
+
+.1+|Code Analysis
+
+|Code Coverage|https://github.com/karma-runner/karma-coverage[karma-coverage] (and https://github.com/SitePen/remap-istanbul[remap-istanbul] for TypeScript)|http://www.eclemma.org/jacoco/[JaCoCo/EclEmma]
+
+.2+|Development
+
+|IDE  |https://code.visualstudio.com/[MS VS Code] or https://www.jetbrains.com/idea/[IntelliJ]|https://eclipse.org/downloads/[Eclipse] or https://www.jetbrains.com/idea/[IntelliJ]
+
+|Framework  |https://angularjs.org/[Angular] (etc.)|https://spring.io/[Spring] (etc.)
+|=======================
+
