@@ -15,7 +15,6 @@
   <modules>
     <module>logging</module>
     <module>test</module>
-    <module>configuration</module>
     <module>beanmapping</module>
     <module>service</module>
     <module>json</module>
