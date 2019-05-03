@@ -1,0 +1,27 @@
+:toc:
+toc::[]
+
+= Monitoring
+
+TODO
+
+
+== JMX
+We use JMX to provide monitoring information via MBeans.
+
+=== MBeans
+[source,java]
+TODO MBean example
+
+=== Using JMX
+TODO: explain +jvisualvm+ and +VisualVM-MBeans+ Plugin
+give some hints and links on heap analysis and samplers
+
+=== Integration with Nagios
+
+== GC-Logging
+TODO: Explain JVM options, minimum overhead, always turn on, link to gcvisualizer
+Explain G1 collector that scales for large heaps
+
+== Loadbalancing
+TODO explain status URL and integration with LB

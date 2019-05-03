@@ -1,0 +1,79 @@
+:toc: macro
+toc::[]
+
+= Security
+//Fixed Typo
+Security is todays most important cross-cutting concern of an application and an enterprise IT-landscape. We seriously care about security and give you detailed guides to prevent pitfalls, vulnerabilities, and other disasters. While many mistakes can be avoided by following our guidelines you still have to consider security and think about it in your design and implementation. The security guide will not only automatically prevent you from any harm, but will provide you hints and best practices already used in different software products.
+
+An important aspect of security is proper authentication and authorization as described in link:guide-access-control.asciidoc[access-control]. In the following we discuss about potential vulnerabilities and protection to prevent them.
+
+== Vulnerabilities and Protection
+Independent from classical authentication and authorization mechanisms there are many common pitfalls that can lead to vulnerabilities and security issues in your application such as XSS, CSRF, SQL-injection, log-forging, etc. A good source of information about this is the https://www.owasp.org[OWASP].
+We address these common threats individually in _security_ sections of our technological guides as a concrete solution to prevent an attack typically depends on the according technology. The following table illustrates common threats and contains links to the solutions and protection-mechanisms provided by the devonfw:
+
+.Security threats and protection-mechanisms
+[options="header"]
+|=======================
+|*Threat*|*Protection*|*Link to details*
+|https://www.owasp.org/index.php/Top_10_2013-A1-Injection[A1 Injection]
+|validate input, escape output, use proper frameworks
+|link:guide-jpa.asciidoc#security[SQL Injection]
+
+|https://www.owasp.org/index.php/Top_10_2013-A2-Broken_Authentication_and_Session_Management[A2 Broken Authentication and Session Management]
+|encrypt all channels, use a central identity management with strong password-policy
+|link:guide-access-control.asciidoc#authentication[Authentication]
+
+|https://www.owasp.org/index.php/Top_10_2013-A3-Cross-Site_Scripting_(XSS)[A3 XSS]
+|prevent injection (see A1) for HTML, JavaScript and CSS and understand same-origin-policy
+|link:guide-client-layer.asciidoc#security[client-layer]
+
+|https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References[A4 Insecure Direct Object References]
+|Using direct object references (IDs) only with appropriate authorization
+|link:guide-logic-layer.asciidoc#direct-object-references[logic-layer]
+
+|https://www.owasp.org/index.php/Top_10_2013-A5-Security_Misconfiguration[A5 Security Misconfiguration]
+|Use devonfw application template and guides to avoid
+|http://repo1.maven.org/maven2/io/oasp/java/templates/[application template] and link:guide-configuration.asciidoc#security[sensitive configuration]
+
+|https://www.owasp.org/index.php/Top_10_2013-A6-Sensitive_Data_Exposure[A6 Sensitive Data Exposure]
+|Use secured exception facade, design your data model accordingly
+|link:guide-service-layer.asciidoc#rest-exception-handling[REST exception handling]
+
+|https://www.owasp.org/index.php/Top_10_2013-A7-Missing_Function_Level_Access_Control[A7 Missing Function Level Access Control]
+|Ensure proper authorization for all use-cases, use `@DenyAll` as default to enforce
+|link:guide-access-control.asciidoc#configuration-on-java-method-level[Method authorization]
+
+|https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)[A8 CSRF]
+|secure mutable service operations with an explicit CSRF security token sent in HTTP header and verified on the server
+|link:guide-service-layer.asciidoc#csrf[service-layer security]
+
+|https://www.owasp.org/index.php/Top_10_2013-A9-Using_Components_with_Known_Vulnerabilities[A9 Using Components with Known Vulnerabilities]
+|subscribe to security newsletters, recheck products and their versions continuously, use devonfw dependency management
+|https://cve.mitre.org/news/newsletter.html[CVE newsletter] and xref:dependency-check[dependency check]
+
+|https://www.owasp.org/index.php/Top_10_2013-A10-Unvalidated_Redirects_and_Forwards[A10 Unvalidated Redirects and Forwards]
+|Avoid using redirects and forwards, in case you need them do a security audit on the solution.
+|devonfw proposes to use rich-clients (SPA/RIA). We only use redirects for login in a safe way.
+
+|https://www.owasp.org/index.php/Log_Forging[Log-Forging]
+|Escape newlines in log messages
+|link:guide-logging.asciidoc#security[logging security]
+|=======================
+
+== Tools
+=== Dependency Check
+To address https://www.owasp.org/index.php/Top_10_2013-A9-Using_Components_with_Known_Vulnerabilities[A9 Using Components with Known Vulnerabilities] we integrated https://www.owasp.org/index.php/OWASP_Dependency_Check[OWASP dependency check] into the devonfw maven build. If you build an devonfw application (sample or any app created from our link:tutorial-newapp.asciidoc[app-template]) you can activate dependency check with the `security` profile:
+[source,bash]
+---- 
+mvn clean install -P security
+---- 
+This does not run by default as it causes a huge overhead for the build performance. However , consider to build this in your CI at least nightly.
+After the dependency check is performed , you will find the results in `target/dependency-check-report.html` of each module. The report will also always be generated when the site is build (`mvn site`).
+
+=== Penetration Testing
+For penetration testing (testing for vulnerabilities) of your web application, we recommend the following tools:
+
+* https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project[ZAP] (OWASP Zed Attack Proxy Project)
+* http://sqlmap.org/[sqlmap] (or https://github.com/PaulSec/HQLmap[HQLmap])
+* https://nmap.org/[nmap]
+* See the marvellous presentation https://jaxenter.com/security-open-source-toolbox-video-151314.html[Toolbox of a security professional] from https://www.Christian-Schneider.net[Christian Schneider].

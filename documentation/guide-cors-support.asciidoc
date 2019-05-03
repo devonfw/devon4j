@@ -1,0 +1,28 @@
+:toc: macro
+toc::[]
+
+= CORS support
+
+When you are developing Javascript client and server application separately, you have to deal with cross domain issues. We have to request from a origin domain distinct to target domain and browser does not allow this. 
+
+So , we need to prepare server side to accept request from other domains. We need to cover the following points:
+
+* Accept request from other domains.
+
+* Accept devonfw used headers like `X-CSRF-TOKEN` or `correlationId.`
+
+* Be prepared to receive secured request (cookies).
+
+It is important to note that if you are using security in your request (sending cookies) you have to set  `withCredentials` flag to `true` in your client side request and deal with special IE8 characteristics.
+
+== Configuring CORS support
+
+On the server side we have defined a new filter in Spring security chain filters to support CORS and we have configured devonfw security chain filter to use it.
+
+You only have to change `CORSDisabled` property value in `application-default.properties` properties file.
+
+[source]
+----
+#CORS support
+security.cors.enabled=false
+----
