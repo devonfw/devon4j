@@ -1,0 +1,64 @@
+=== link:architecture.asciidoc[Architecture Overview]
+
+=== Layers
+* link:guide-client-layer.asciidoc[Client Layer (GUI)]
+* link:guide-service-layer.asciidoc[Service Layer]
+* link:guide-logic-layer.asciidoc[Logic Layer]
+* link:guide-dataaccess-layer.asciidoc[Data Access Layer]
+* link:guide-batch-layer.asciidoc[Batch Layer]
+
+=== Guides
+* link:guide-dependency-injection.asciidoc[Bean Dependency Injection]
+* link:guide-configuration.asciidoc[Configuration]
+* link:guide-logging.asciidoc[Logging]
+* link:guide-exceptions.asciidoc[Exception Handling]
+* link:guide-i18n.asciidoc[Internationalization (I18N)]
+* link:guide-transferobject.asciidoc[Transferobjects]
+* link:guide-beanmapping.asciidoc[Bean-Mapping]
+* link:guide-datatype.asciidoc[Datatypes]
+* link:guide-xml.asciidoc[XML]
+* link:guide-json.asciidoc[JSON]
+* link:guide-rest.asciidoc[REST]
+* link:guide-soap.asciidoc[SOAP]
+* link:guide-service-client.asciidoc[Service Client]
+* link:guide-validation.asciidoc[Validation]
+* link:guide-security.asciidoc[Security]
+* link:guide-access-control.asciidoc[Access Control]
+* link:guide-testing.asciidoc[Testing]
+* link:guide-transactions.asciidoc[Transaction Handling]
+* link:guide-aop.asciidoc[AOP]
+* link:guide-jpa.asciidoc[JPA]
+* link:guide-repository.asciidoc[Repository]
+* link:guide-dao.asciidoc[DAO]
+* link:guide-jpa-query.asciidoc[Queries]
+* link:guide-jpa-performance.asciidoc[JPA Performance]
+* link:guide-auditing.asciidoc[Auditing]
+* link:guide-database-migration.asciidoc[Database Migration]
+* link:guide-accessibility.asciidoc[Accessibility]
+* link:guide-caching.asciidoc[Caching]
+* link:guide-cors-support.asciidoc[CORS support]
+* link:guide-blob-support.asciidoc[BLOB support]
+* link:guide-sql.asciidoc[SQL]
+* link:guide-apm.asciidoc[Application Performance Management]
+
+== Options
+* link:guide-hana.asciidoc[SAP Hana]
+* link:guide-oracle.asciidoc[Oracle]
+* link:guide-jee.asciidoc[JEE]
+
+=== Coding 
+* link:coding-conventions.asciidoc[Coding Conventions]
+* link:coding-tools.asciidoc[Development Tools]
+
+=== devonfw Development 
+* link:devonfw-ide-setup.asciidoc[Setup devonfw IDE]
+* link:devonfw-issue-work.asciidoc[Issue creation & resolution]
+* link:devonfw-code-contribution.asciidoc[Contribution of code]
+* link:devonfw-documentation.asciidoc[Contribution to documentation]
+
+=== devonfw Tutorial
+* link:tutorial-newapp.asciidoc[Start a new application]
+* link:tutorial-sample.asciidoc[Sample application]
+
+=== For Core-Developers
+* link:devonfw-release.asciidoc[Release Process]

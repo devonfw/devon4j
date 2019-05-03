@@ -1,0 +1,22 @@
+:toc: macro
+toc::[]
+
+= Full Text Search
+
+If you want to all your users fast and simple searches with just a single search field (like in google), you need full text indexing and search support.
+
+== Solutions
+
+* http://lucene.apache.org/[Lucene]
+* https://lucene.apache.org/core/4_4_0/analyzers-common/org/apache/lucene/analysis/ngram/NGramTokenizer.html[NGram]
+* http://lucene.apache.org/solr/[Solr]
+* https://www.elastic.co/products/elasticsearch[elastic-search]
+
+Maybe you also want to use native features of your database
+
+* https://blogs.sap.com/2012/10/10/the-not-so-fuzzy-fuzzy-search/[SAP Hana Fuzzy Search]
+* https://www.oracle.com/technetwork/database/enterprise-edition/index-098492.html[Oracle Text]
+
+== Best Practices
+
+TODO
