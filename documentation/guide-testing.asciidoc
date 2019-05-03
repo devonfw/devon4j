@@ -107,7 +107,7 @@ There are many discussions about the right level of integration for test automat
 The following picture shows a simplified view of an application based on the link:architecture.asciidoc#technical-architecture[devonfw reference architecture]. We define four integration levels that are explained in detail below. 
 The boxes in the picture contain parenthesized numbers. These numbers depict the lowest integration level, a box belongs to. Higher integration levels also contain all boxes of lower integration levels. When writing tests for a given integration level, related boxes with a lower integration level must be replaced by test xref:test-doubles[doubles] or drivers.
 
-image::images/integration-levels.png[Integration Levels, width="450"]
+image::images/integration-levels.png["Integration Levels",scaledwidth="80%",align="center"]
 
 The main difference between the integration levels is the amount of infrastructure needed to test them. The more infrastructure you need, the more bugs you will find, but the more instable and the slower your tests will be. So each project has to make a trade-off between pros and contras of including much infrastructure in tests and has to select the integration levels that fit best to the project. 
 

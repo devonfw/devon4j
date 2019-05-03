@@ -22,7 +22,7 @@ We have defined two different points to bind locale information to user, dependi
 
 This image shows the entire process:
 
-image::images/oasp-i18n.png[scaledwidth="80%",align="center"]
+image::images/i18n.png["Internationalization",scaledwidth="80%",align="center"]
 
 == Getting internationalizated messages
 

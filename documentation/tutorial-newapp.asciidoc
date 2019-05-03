@@ -7,17 +7,22 @@ toc::[]
 
 In order to create a new application you must use the archetype provided by devon4j which uses the maven archetype functionality.
 
-To use the archetype provided by devon4j you can choose between 2 alternatives, create it from command line or, in more visual manner, within eclipse.
-
+To create a new application, you should have installed devonfw IDE.
+You can choose between 2 alternatives, create it from command line or, in more visual manner, within eclipse.
 
 === From command Line
-To create a new application from command line, you must execute one of the following commands.
-
-For only war packaging (arguments before `archetype:generate` identifies devonfw artifact): 
+To create a new devon4j application from command line, you can simply run the following command:
 
 [source,bash]
 ---- 
-mvn -DarchetypeVersion=3.0.0 -DarchetypeGroupId=com.devonfw.java.templates -DarchetypeArtifactId=devon4j-template-server archetype:generate -DgroupId=com.devonfw.application -DartifactId=sampleapp -Dversion=0.1.0-SNAPSHOT -Dpackage=com.devonfw.application.sampleapp 
+devon java create com.example.application.sampleapp
+---- 
+
+For low-level creation you can also manually call this command: 
+
+[source,bash]
+---- 
+mvn -DarchetypeVersion=3.1.0 -DarchetypeGroupId=com.devonfw.java.templates -DarchetypeArtifactId=devon4j-template-server archetype:generate -DgroupId=com.example.application -DartifactId=sampleapp -Dversion=1.0.0-SNAPSHOT -Dpackage=com.devonfw.application.sampleapp 
 ---- 
 
 Further providing additional properties (using `-D` parameter) you can customize the generated app:
@@ -25,24 +30,24 @@ Further providing additional properties (using `-D` parameter) you can customize
 .Options for app template
 [options="header"]
 |=======================
-|*property*|*comment*|*example*
-|`dbType`  |Choose the type of RDBMS to use (`hana`, `oracle`, `mssql`, `postgresql`, `mariadb`, `mysql`, etc.)|`-DdbTpye=postgresql`
-|`batch`|Option to add an `batch` module|`-Dbatch=batch`
-|`earProjectName`|Option to add an EAR module with the given name|`-DearProjectName=ear`
+|*property*      |*comment*                                                                                           |*example*
+|`dbType`        |Choose the type of RDBMS to use (`hana`, `oracle`, `mssql`, `postgresql`, `mariadb`, `mysql`, etc.) |`-DdbTpye=postgresql`
+|`batch`         |Option to add an `batch` module                                                                     |`-Dbatch=batch`
+|`earProjectName`|Option to add an EAR module with the given name                                                     |`-DearProjectName=ear`
 |=======================
 
 === From Eclipse
-To create a new application, you should have installed devonfw IDE. After that, you should follow this Eclipse steps to create your application:
+ After that, you should follow this Eclipse steps to create your application:
 
 * Create a new Maven Project.
 * Choose the devon4j-template-server archetype, just like the image.
 
-image::images/Start-a-new-application/new_maven_project_version.PNG[scaledwidth="80%",align="center"]
+image::images/eclipse-m2e-create-devon4j-project.png["Select archetype",scaledwidth="80%",align="center"]
 
 * Fill the Group Id, Artifact Id, Version and Package for your project.
 If you want to add an EAR generation mechanism to your project, you should fill the property earProjectName with the value Artifact Id + "-ear". For example, "sampleapp-ear". If you only want WAR generation, you can remove the property earProjectName.
 
-image::https://cloud.githubusercontent.com/assets/11404205/7963678/43421092-0a14-11e5-86a1-ed9202674339.PNG[EAR]
+image::images/eclipse-m2e-create-devon4j-project-parameters.png["Configure archetype",scaledwidth="80%",align="center"]
 
 * Finish the Eclipse assistant and you are ready to start your project.
 

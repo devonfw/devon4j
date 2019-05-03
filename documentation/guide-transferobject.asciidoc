@@ -19,7 +19,7 @@ If we need to pass an entity with its relation(s) we create a corresponding _com
 
 [[img-transfer-objects]]
 .ETOs and CTOs
-image::images/transfer-objects.png["ETOs and CTOs", width="450", link="images/transfer-objects.png"]
+image::images/transfer-objects.png["ETOs and CTOs",scaledwidth="80%",align="center",link="images/transfer-objects.png"]
 
 &#160; +
 Finally, there are typically transfer-objects for data that is never persistent. A common example are search criteria objects (derived from +SearchCriteriaTo+ in our sample application).

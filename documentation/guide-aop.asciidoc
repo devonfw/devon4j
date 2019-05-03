@@ -25,10 +25,10 @@ We recommend to use AOP with care but we consider it established for the followi
 //Exchange picture with one of the current version?
 When using AOP with dynamic proxies the debugging of your code can get nasty. As you can see by the red boxes in the call stack in the debugger there is a lot of magic happening while you often just want to step directly into the implementation skipping all the AOP clutter. When using Eclipse this can easily be archived by enabling _step filters_. Therefore you have to enable the feature in the Eclipse tool bar (highlighted in read).
 
-image::images/eclipse-debug-aop.png["AOP debugging", width="450", link="images/eclipse-debug-aop.png"]
+image::images/eclipse-debug-aop.png["AOP debugging",scaledwidth="80%",align="center",link="images/eclipse-debug-aop.png"]
 In order to properly make this work you need to ensure that the step filters are properly configured:
 
-image::images/eclipse-debug-step-filters.png["Step Filter Configuration", width="450", link="images/eclipse-debug-step-filters.png"]
+image::images/eclipse-debug-step-filters.png["Step Filter Configuration",scaledwidth="80%",align="center",link="images/eclipse-debug-step-filters.png"]
 Ensure you have at least the following step-filters configured and active:
 [source]
 ----

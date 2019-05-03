@@ -74,7 +74,7 @@ Further, there are technical components for cross-cutting aspects grouped by the
 
 [[img-t-architecture]]
 .Technical Reference Architecture
-image::images/t-architecture.png["Technical architecture", width="450"]
+image::images/T-Architecture.png["Technical architecture",scaledwidth="80%",align="center"]
 
 We reflect this architecture in our code as described in our link:coding-conventions.asciidoc#packages[coding conventions] allowing a traceability of business components, use-cases, layers, etc. into the code and giving
 developers a sound orientation within the project.

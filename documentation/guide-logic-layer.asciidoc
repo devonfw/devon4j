@@ -52,7 +52,7 @@ public interface StaffManagement {
 === Component Part Interface with Use Case Decomposition
 For complex applications, component part interfaces consisting of many different use cases, it is recommended to further sub-divide it into separate use-case-interfaces to be aggregated in the main component interface. This suits for better maintainability. 
 
-image::images/component-facade-with-use-cases.png["Component facade with use cases.", width="450"]
+image::images/component-facade-with-use-cases.png["Component facade with use cases.",scaledwidth="80%",align="center"]
 
 The component part interface then extends the available use case interfaces to offer a single interface to the next higher layer, e.g. the service layer. Then, the implementation of the component part interface holds references to all use cases and only delegates method calls. All business logic and data-layer access is performed within the implementations of the use cases. Also, if a use case needs to use functionality of another use case provided by the same layer it will use a reference to the component part interface and _not_ to the use case itself.
 
@@ -125,9 +125,9 @@ As you can see, provided entities are mapped to corresponding business objects (
 
 Below, a class diagram illustrating the pattern is shown (here: the ``StaffManagement`` business component):
 
-image::images/guide-logic-layer.png["logic layer component pattern", width="450"]
+image::images/guide-logic-layer.png["logic layer component pattern",scaledwidth="80%",align="center"]
 
-As the picture above illustrates, the necessary link:guide-dao.asciidoc[DAO] entity to access the database is provided by an abstract class. Use Cases that need access to this DAO entity, have to extend that abstract class. Needed dependencies (in this case the +staffMemberDao+) are resolved by Spring, see xref:component-interface[here]. For the validation (e.g. to check if all needed attributes of the +StaffMember+ have been set) either Java code or http://www.jboss.org/drools/[Drools], a business rule management system, can be used.
+As the picture above illustrates, the necessary link:guide-dao.asciidoc[DAO] entity to access the database is provided by an abstract class. Use Cases that need access to this DAO entity, have to extend that abstract class. Needed dependencies (in this case the +staffMemberDao+) are resolved by Spring, see xref:component-interface[here]. For the validation (e.g. to check if all needed attributes of the +StaffMember+ have been set) see link:guide-validation.asciidoc[validation guide].
 
  
 == Passing Parameters Among Components
