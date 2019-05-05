@@ -218,7 +218,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.1.0</version>
           <configuration>
             <additionalDependencies>
               <additionalDependency>
@@ -237,7 +237,7 @@
               <additionalOption>${javadoc.option.doclint}</additionalOption>
             </additionalOptions>
             <links>
-              <link>http://docs.oracle.com/javase/7/docs/api/</link>
+              <link>https://docs.oracle.com/en/java/javase/11/docs/api/index.html</link>
               <link>http://m-m-m.sourceforge.net/apidocs/</link>
             </links>
             <doctitle>JavaDocs for ${project.name}</doctitle>
@@ -381,7 +381,7 @@
             <additionalOption>${javadoc.option.doclint}</additionalOption>
           </additionalOptions>
           <links>
-            <link>http://docs.oracle.com/javase/7/docs/api/</link>
+            <link>https://docs.oracle.com/en/java/javase/11/docs/api/index.html</link>
           </links>
           <doctitle>JavaDocs for ${project.name}</doctitle>
           <windowtitle>JavaDocs for ${project.name}</windowtitle>
@@ -463,6 +463,7 @@
       <build>
         <plugins>
           <!-- also generate javadoc JARs -->
+<!--
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
@@ -484,6 +485,7 @@
               </execution>
             </executions>
           </plugin>
+-->
           <!-- Sign artifacts with PGP -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
