@@ -28,7 +28,6 @@ public class BeansDozerConfig {
 
     List<String> beanMappings = new ArrayList<>();
     beanMappings.add(DOZER_MAPPING_XML);
-
     Mapper mapper = DozerBeanMapperBuilder.create().withMappingFiles(beanMappings).build();
     return mapper;
 

@@ -23,7 +23,6 @@ public class BeanMapperImplDozerTest extends AbstractBeanMapperTest {
 
     BeanMapperImplDozer mapper = new BeanMapperImplDozer();
     List<String> mappingFiles = Arrays.asList("config/app/common/dozer-mapping.xml");
-    // DozerBeanMapper dozer = new DozerBeanMapper(mappingFiles);
     BeanMappingBuilder builder = new BeanMappingBuilder() {
 
       @Override
@@ -34,7 +33,6 @@ public class BeanMapperImplDozerTest extends AbstractBeanMapperTest {
       }
     };
     Mapper dozer = DozerBeanMapperBuilder.create().withMappingBuilder(builder).withMappingFiles(mappingFiles).build();
-    // dozer.addMapping(builder);
     mapper.setDozer(dozer);
     return mapper;
   }
