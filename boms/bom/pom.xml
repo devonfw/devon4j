@@ -166,11 +166,12 @@
         <artifactId>json</artifactId>
         <version>20180130</version>
       </dependency>
-      <!-- Dozer for bean-mapping/conversion (Alternative to Orika) -->
+      <!-- Dozer for bean-mapping/conversion -->
+      <!-- https://mvnrepository.com/artifact/com.github.dozermapper/dozer-core -->
       <dependency>
-        <groupId>net.sf.dozer</groupId>
-        <artifactId>dozer</artifactId>
-        <version>5.5.1</version>
+        <groupId>com.github.dozermapper</groupId>
+        <artifactId>dozer-core</artifactId>
+        <version>6.4.1</version>
       </dependency>
       <!-- Orika for bean-mapping/conversion (Alternative to Dozer) -->
       <dependency>
