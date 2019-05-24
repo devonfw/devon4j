@@ -50,7 +50,7 @@ With devonfw we experienced the same for the codebase (what is inside `src/main/
 [subs=+macros]
 ----
 «rootpackage».«application»
-├──.«component»
+├──.link:guide-component.asciidoc#business-component[«component»]
 |  ├──.common
 |  |  ├──.api[.«detail»]
 |  |  |  ├──.link:guide-datatype.asciidoc[datatype]
@@ -103,7 +103,7 @@ With devonfw we experienced the same for the codebase (what is inside `src/main/
 |        |  └──.link:guide-rest.asciidoc#rest-service-implementation[«Component»RestServiceImpl]
 |        └──.link:guide-soap.asciidoc[ws]
 |           └──.link:guide-soap.asciidoc#web-service-implementation[«Component»WebServiceImpl]
-├──.general
+├──.link:guide-component.asciidoc#general[general]
 │  ├──.common
 │  |  ├──.api
 |  |  |  ├──.to
