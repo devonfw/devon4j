@@ -39,9 +39,14 @@ public class PageableJsonDeserializer extends JsonDeserializer<Pageable> {
 
     JsonNode node = jp.getCodec().readTree(jp);
     Sort sort = null;
-
-    int pageNumber = node.get(PROPERTY_PAGE_NUMBER).asInt();
-    int pageSize = node.get(PROPERTY_PAGE_SIZE).asInt();
+    int pageNumber = 0;
+    int pageSize = 1;
+    if (node.get(PROPERTY_PAGE_NUMBER) != null) {
+      pageNumber = node.get(PROPERTY_PAGE_NUMBER).asInt();
+    }
+    if (node.get(PROPERTY_PAGE_SIZE) != null) {
+      pageSize = node.get(PROPERTY_PAGE_SIZE).asInt();
+    }
 
     JsonNode sortNode = node.get(PROPERTY_SORT);
     if ((sortNode != null) && !sortNode.isNull() && sortNode.isArray()) {
