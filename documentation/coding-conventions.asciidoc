@@ -37,6 +37,98 @@ E.g. in our example application we find the Spring Data repositories for the `or
 |=============================================
 Please note that for library modules where we use `com.devonfw.module` as `«basepackage»` and the name of the module as `«component»`. E.g. the API of our `beanmapping` module can be found in the package `com.devonfw.module.beanmapping.common.api`.
 
+== Architecture Mapping
+
+We combine the above naming and packaging conventions to map the entire architecture to the code.
+This also allows tools such as https://github.com/devonfw/tools-cobigen[CobiGen] or https://github.com/devonfw/sonar-devon-plugin/[sonar-devon-plugin] to "understand" the code.
+Also this helps developers going from one devon4j project to the next to quickly understand the code-base.
+If every developer knows where to find what, the project gets more efficient.
+A long time ago maven standardized the project structure with `src/main/java`, etc. and turned chaos into structure.
+With devonfw we experienced the same for the codebase (what is inside `src/main/java`).
+
+.Architecture mapped to code
+[subs=+macros]
+----
+«rootpackage».«application»
+├──.«component»
+|  ├──.common
+|  |  ├──.api[.«detail»]
+|  |  |  ├──.link:guide-datatype.asciidoc[datatype]
+|  |  |  |  └──.link:guide-datatype.asciidoc[«Datatype»]
+|  |  |  └──.link:guide-transferobject.asciidoc#bo[«BusinessObject»]
+|  |  └──.impl[.«detail»]
+|  |     ├──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonSerializer]
+|  |     └──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonDeserializer]
+|  ├──.link:guide-dataaccess-layer.asciidoc[dataaccess]
+|  |  ├──.api[.«detail»]
+|  |  |  ├──.link:guide-repository.asciidoc[repo]
+|  |  |  |  └──.link:guide-repository.asciidoc#repository[«BusinessObject»Repository]
+|  |  |  ├──.link:guide-dao.asciidoc[dao] (alternative to repo)
+|  |  |  |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»Dao] (alternative to Repository)
+|  |  |  └──.link:guide-jpa.asciidoc#entity[«BusinessObject»Entity]
+|  |  └──.impl[.«detail»]
+|  |     ├──.link:guide-dao.asciidoc[dao] (alternative to repo)
+|  |     |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»DaoImpl] (alternative to Repository)
+|  |     └──.link:guide-jpa.asciidoc#entities-and-datatypes[«Datatype»AttributeConverter]
+|  ├──.link:guide-logic-layer.asciidoc[logic]
+|  |  ├──.api
+|  |  |  ├──.[«detail».]link:guide-transferobject.asciidoc[to]
+|  |  |  |   ├──.link:guide-transferobject.asciidoc#to[«MyCustom»«To]
+|  |  |  |   ├──.link:guide-transferobject.asciidoc#cto[«BusinessObject»«Subset»Cto]
+|  |  |  |   └──.link:guide-transferobject.asciidoc#eto[«BusinessObject»Eto]
+|  |  |  ├──.[«detail».]link:guide-usecase.asciidoc[usecase]
+|  |  |  |   ├──.link:guide-usecase.asciidoc#find[UcFind«BusinessObject»]
+|  |  |  |   ├──.link:guide-usecase.asciidoc#manage[UcManage«BusinessObject»]
+|  |  |  |   └──.link:guide-usecase.asciidoc#custom[Uc«Operation»«BusinessObject»]
+|  |  |  └──.link:guide-logic-layer.asciidoc#component[«Component»]
+|  |  ├──.base
+|  |  |  └──.[«detail».]link:guide-usecase.asciidoc[usecase]
+|  |  |     └──.link:guide-usecase.asciidoc[Abstract«BusinessObject»Uc]
+|  |  └──.impl
+|  |     ├──.[«detail».]link:guide-usecase.asciidoc[usecase]
+|  |     |   ├──.link:guide-usecase.asciidoc#find[UcFind«BusinessObject»Impl]
+|  |     |   ├──.link:guide-usecase.asciidoc#manage[UcManage«BusinessObject»Impl]
+|  |     |   └──.link:guide-usecase.asciidoc#custom[Uc«Operation»«BusinessObject»Impl]
+|  |     └──.link:guide-logic-layer.asciidoc#component[«Component»Impl]
+|  └──.link:guide-service-layer.asciidoc[service]
+|     ├──.api[.«detail»]
+|     |  ├──.link:guide-rest.asciidoc[rest]
+|     |  |  └──.link:guide-rest.asciidoc#rest-service-api[«Component»RestService]
+|     |  └──.link:guide-soap.asciidoc[ws]
+|     |     └──.link:guide-soap.asciidoc#web-service-api[«Component»WebService]
+|     └──.impl[.«detail»]
+|        ├──.link:guide-jms.asciidoc[jms]
+|        |  └──.link:guide-jms.asciidoc#jms-listener[«BusinessObject»Receiver]
+|        ├──.link:guide-rest.asciidoc[rest]
+|        |  └──.link:guide-rest.asciidoc#rest-service-implementation[«Component»RestServiceImpl]
+|        └──.link:guide-soap.asciidoc[ws]
+|           └──.link:guide-soap.asciidoc#web-service-implementation[«Component»WebServiceImpl]
+├──.general
+│  ├──.common
+│  |  ├──.api
+|  |  |  ├──.to
+|  |  |  |  ├──.AbstractSearchCriteriaTo
+|  |  |  └──.ApplicationEntity
+│  |  ├──.base
+|  |  |  └──.AbstractBeanMapperSupport
+│  |  └──.impl
+│  |     ├──.config
+│  |     |  └──.ApplicationObjectMapperFactory
+│  |     └──.security
+│  |        └──.ApplicationWebSecurityConfig
+│  ├──.dataaccess
+│  |  └──.api
+|  |     └──.ApplicationPersistenceEntity
+│  ├──.logic
+│  |  └──.base
+|  |     ├──.AbstractComponentFacade
+|  |     ├──.AbstractLogic
+|  |     └──.AbstractUc
+|  └──.service
+|     └──...
+└──.SpringBootApp
+----
+
 == Code Tasks
 Code spots that need some rework can be marked with the following tasks tags. These are already properly pre-configured in your development environment for auto completion and to view tasks you are responsible for. It is important to keep the number of code tasks low. Therefore every member of the team should be responsible for the overall code quality. So if you change a piece of code and hit a code task that you can resolve in a reliable way do this as part of your change and remove the according tag.
 

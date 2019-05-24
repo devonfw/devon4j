@@ -12,19 +12,40 @@ However, passing persistent entities via _call-by-reference_ across the entire a
 
 To prevent such problems transfer-objects are used leading to a _call-by-value_ model and decoupling changes to persistent entities.
 
-== Business-Transfer-Objects
-For each link:guide-jpa.asciidoc#entity[persistent entity] we create or generate a corresponding _entity transfer object_ (ETO) that has the same properties except for relations. In order to centralize the properties (getters and setters with their javadoc) we use a common interface for the entity and its ETO.
+In the following sections the different types of transfer-objects are explained.
+You will find all according naming-conventions in the link:coding-conventions.asciidoc#architecture-mapping[architecture-mapping]
 
-If we need to pass an entity with its relation(s) we create a corresponding _composite transfer object_ (CTO) that only contains other transfer-objects or collections of them. This pattern is illustrated by the following UML diagram from our sample application.
+=== ETO
+For each link:guide-jpa.asciidoc#entity[persistent entity] `«BusinessObject»Entity` we create or generate a corresponding _entity transfer object_ (ETO) named `«BusinessObject»Eto`. It has the same properties except for relations.
+
+=== BO
+In order to centralize the properties (getters and setters with their javadoc) we create a common interface `«BusinessObject»` implemented both by the entity and its ETO. This also gives us compile-time safty that
+link:guide-beanmapping.asciidoc[bean-mapper] can properly map all properties between entity and ETO.
+
+=== CTO
+If we need to pass an entity with its relation(s) we create a corresponding _composite transfer object_ (CTO) named `«BusinessObject»«Subset»Cto` that only contains other transfer-objects or collections of them. Here `«Subset»` is empty for the canonical CTO that holds the ETO together with all its relations.
+This is what can be gemerated automatically with https://github.com/devonfw/tools-cobigen[CobiGen].
+However, be careful to generate CTOs without thinking and considering design.
+If there are no relations at all a CTO is pointless and shall be omitted.
+However, if there are multiple relations you typically need  multiple CTOs for the same `«BusinessObject»` that define different subsets of the related data.
+These will typically be designed and implemented by hand.
+E.g. you may have `CustomerWithAddressCto` and `CustomerWithContractCto`. Most CTOs correspond to a specific `«BusinessObject»` and therefore contain a `«BusinessObject»Eto`. Such CTOs should inherit from `MasterCto`.
+
+This pattern with entities, ETOs and CTOs is illustrated by the following UML diagram from our sample application.
 
 [[img-transfer-objects]]
 .ETOs and CTOs
 image::images/transfer-objects.png["ETOs and CTOs",scaledwidth="80%",align="center",link="images/transfer-objects.png"]
 
-&#160; +
-Finally, there are typically transfer-objects for data that is never persistent. A common example are search criteria objects (derived from +SearchCriteriaTo+ in our sample application).
+== TO
+Finally, there are typically transfer-objects for data that is never persistent. For very generic cases
+these just carry the suffix `To`.
 
-The link:guide-logic-layer.asciidoc[logic layer] defines these transfer-objects (ETOs, CTOs, etc.) and will only pass such objects instead of link:guide-jpa.asciidoc#entity[persistent entities].
+== SearchCriteriaTo
+ For searching we create or generate a `«BusinessObject»SearchCriteriaTo` representing a query to find instances of `«BusinessObject»`.
 
-== Service-Transfer-Objects
-If we need to do link:guide-service-layer.asciidoc#versioning[service versioning] and support previous APIs or for external services with a different view on the data, we create separate transfer-objects to keep the service API stable (see link:guide-service-layer.asciidoc[service layer]).
+== STO
+We can potentially create separate _service transfer objects_ (STO) (if possible named `«BusinessObject»Sto`) to keep the link:guide-service-layer.asciidoc[service] API stable and independent of the actual data-model.
+However, we usually do not need this and want to keep our architecture simple.
+Only create STOs if you need link:guide-service-layer.asciidoc#versioning[service versioning] and support previous APIs or to provide legacy service technologies that require their own isolated data-model.
+In such case you also need link:guide-beanmapping.asciidoc[beanmapping] between STOs and ETOs what means extra effort and complexity that should be avoided.

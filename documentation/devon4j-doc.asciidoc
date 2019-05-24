@@ -23,6 +23,10 @@ This document contains the complete compendium of the http://www.devonfw.com/dev
 
 include::architecture.asciidoc[leveloffset=1]
 
+<<<<
+
+include::guide-component.asciidoc[leveloffset=2]
+
 == Coding
 
 include::coding-conventions.asciidoc[leveloffset=2]
@@ -38,6 +42,10 @@ include::guide-service-layer.asciidoc[leveloffset=2]
 <<<<
 
 include::guide-logic-layer.asciidoc[leveloffset=2]
+
+include::guide-component-facade.asciidoc[leveloffset=2]
+
+include::guide-usecase.asciidoc[leveloffset=2]
 
 <<<<
 
