@@ -3,18 +3,44 @@ toc::[]
 
 = Messaging
 
-http://en.wikipedia.org/wiki/XML[XML] (Extensible Markup Language) is a W3C standard format for structured information. It has a large eco-system of additional standards and tools.
+Messaging in Java is done using the https://en.wikipedia.org/wiki/Java_Message_Service[JMS] standard from JEE.
 
-In Java there are many different APIs and frameworks for accessing, producing and processing XML. For the devonfw we recommend to use xref:jaxb[JAXB] for mapping Java objects to XML and vice-versa. Further there is the popular http://docs.oracle.com/javase/7/docs/api/org/w3c/dom/package-summary.html[DOM API] for reading and writing smaller XML documents directly. When processing large XML documents http://en.wikipedia.org/wiki/StAX[StAX] is the right choice.
+== Products
+For messaging you need to choose a JMS provider such as:
 
-== JAXB
-We use http://en.wikipedia.org/wiki/Java_Architecture_for_XML_Binding[JAXB] to serialize Java objects to XML or vice-versa.
+* https://www.rabbitmq.com/[RabbitMQ]
+* https://activemq.apache.org/jms[ActiveMQ]
+* link:guide-oracle.asciidoc#messaging[Oracle Advanced Queuing] (esp. if you already use link:guide-oracle.asciidoc[Oracle RDBMS])
 
-=== JAXB and Inheritance
-TODO +@XmlSeeAlso+
-http://stackoverflow.com/questions/7499735/jaxb-how-to-create-xml-from-polymorphic-classes
+== Reciver
+As a receiver of messages is receiving data from other systems it is located in the link:guide-service-layer.asciidoc[service-layer].
 
-=== JAXB Custom Mapping
-In order to map custom link:guide-datatype.asciidoc[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create dedicated objects dedicated for the XML mapping you can easily avoid such situations. When this is not suitable follow these instructions to define the mapping: TODO
+=== JMS Listener
+A receiver is implemented as `JmsListener`. This is illustrated by the following example:
 
-https://weblogs.java.net/blog/kohsuke/archive/2005/09/using_jaxb_20s.html
+[source,java]
+----
+@Named
+@Transactional
+public class BookingReceiver {
+
+  @Inject
+  private Bookingmanagement bookingmanagement;
+
+  @Inject
+  private MessageConverter messageConverter;
+
+  @JmsListener(destination = "BOOKING_QUEUE", containerFactory = "jmsListenerContainerFactory")
+  public void receiveMessage(Message message) {
+    try {
+      BookingTo bookingTo = (BookingTo) this.messageConverter.fromMessage(message);
+      this.bookingmanagement.importBooking(bookingTo);
+    } catch (MessageConversionException | JMSException e) {
+      throw new InvalidMessageException(message);
+    }
+  }
+}
+----
+
+== Sender
+A sender of messages is 
