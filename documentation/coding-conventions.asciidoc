@@ -103,7 +103,7 @@ With devonfw we experienced the same for the codebase (what is inside `src/main/
 |        |  └──.link:guide-rest.asciidoc#rest-service-implementation[«Component»RestServiceImpl]
 |        └──.link:guide-soap.asciidoc[ws]
 |           └──.link:guide-soap.asciidoc#web-service-implementation[«Component»WebServiceImpl]
-├──.link:guide-component.asciidoc#general[general]
+├──.link:guide-component.asciidoc#general-component[general]
 │  ├──.common
 │  |  ├──.api
 |  |  |  ├──.to
