@@ -23,7 +23,7 @@ Tayloring an business domain into applications and applications into components 
 Also the tayloring should follow the business and not split by technical reasons or only by size.
 Size is only an indicator but not a driver of tayloring.
 Whatever hypes like microservices are telling you, never get misslead in this regard:
-If your system grows and reaches `MAX+1` lines of code, it is not the right motivation to split it into two microservices of `~MAX/2` lines of code - such approaches will waste hugh amounts of money and lead to chaos.
+If your system grows and reaches `MAX+1` lines of code, it is not the right motivation to split it into two microservices of `~MAX/2` lines of code - such approaches will waste huge amounts of money and lead to chaos.
 
 == App Component
 Only in case you need cross-cutting code that aggregates other component you may introduce the component `app`.
