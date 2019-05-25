@@ -74,8 +74,9 @@ With devonfw we experienced the same for the codebase (what is inside `src/main/
 |  |  ├──.api
 |  |  |  ├──.[«detail».]link:guide-transferobject.asciidoc[to]
 |  |  |  |   ├──.link:guide-transferobject.asciidoc#to[«MyCustom»«To]
-|  |  |  |   ├──.link:guide-transferobject.asciidoc#cto[«BusinessObject»«Subset»Cto]
-|  |  |  |   └──.link:guide-transferobject.asciidoc#eto[«BusinessObject»Eto]
+|  |  |  |   ├──.link:guide-jpa.asciidoc#embeddable[«DataStructure»Embeddable]
+|  |  |  |   ├──.link:guide-transferobject.asciidoc#eto[«BusinessObject»Eto]
+|  |  |  |   └──.link:guide-transferobject.asciidoc#cto[«BusinessObject»«Subset»Cto]
 |  |  |  ├──.[«detail».]link:guide-usecase.asciidoc[usecase]
 |  |  |  |   ├──.link:guide-usecase.asciidoc#find[UcFind«BusinessObject»]
 |  |  |  |   ├──.link:guide-usecase.asciidoc#manage[UcManage«BusinessObject»]
