@@ -111,6 +111,13 @@ This approach is also illustrated by the following UML diagram:
 
 image::images/component-facade-with-use-cases.png["Component facade with use cases.",scaledwidth="80%",align="center"]
 
+== Internal use case
+Sometimes a component with multiple related entities and many use-cases needs to reuse business logic internally.
+Of course this can be exposed as official use-case API but this will imply using transfer-objects (ETOs) instead of entities. In some cases this is undesired e.g. for better performance to prevent unnecessary mapping of entire collections of entities.
+In the first place you should try to use abstract base implementations providing reusable methods the actual use-case implementations can inherit from.
+If your business logic is even more complex and you have multiple aspects of business logic to share and reuse but also run into multi-inheritance issues, you may also just create use-cases that have their interface located in the `impl` scope package right next to the implementation (or you may just skip the interface). In such case you may define methods that directly take or return entity objects.
+To avoid confusion with regular use-cases we recommend to add the `Internal` suffix to the type name leading to `Uc«Operation»«BusinessObject»Internal[Impl]`.
+
 == Injection issues
 Technically now you have two implementations of your use-case:
 
