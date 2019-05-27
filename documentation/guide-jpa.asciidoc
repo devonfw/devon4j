@@ -262,6 +262,9 @@ public class AddressEmbeddable {
 }
 ----
 As you can see an embeddable is similar to an entity class, but with an `@Embeddable` annotation instead of the `@Entity` annotation and without primary key or modification counter.
+An Embeddable does not exist on its own but in the context of an entity.
+As a simplification Embeddables do not require a separate interface and link:guide-transferobject.asciidoc#ETO[ETO] as the link:guide-beanmapping.asciidoc[bean-mapper] will create a copy automatically when converting the owning entity to an ETO.
+However, in this case the embeddable becoms part of your `api` module that therefore needs a dependency on the `JPA`.
 
 In addition to that the methods `equals(Object)` and `hashCode()` need to be implemented as this is required by Hibernate (it is not required for entities because they can be unambiguously identified by their primary key). For some hints on how to implement the `hashCode()` method please have a look http://stackoverflow.com/questions/113511/hash-code-implementation[here]. 
         
