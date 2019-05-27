@@ -1,0 +1,39 @@
+:toc: macro
+toc::[]
+
+= Components
+
+Following link:architecture.asciidoc#architecture-principles[separation-of-concerns] we divide an application into components using our link:coding-conventions.asciidoc#packages[package-conventions] and link:coding-conventions.asciidoc#architecture-mapping[architecture-mapping].
+As described by the link:architecture.asciidoc[architecture] each component is divided into these layers:
+
+* link:guide-client-layer.asciidoc[client-layer] with the dialogs to view and modify the component's data.
+* link:guide-service-layer.asciidoc[service-layer] with the services to access the component's data remotely.
+* link:guide-logic-layer.asciidoc[logic-layer] with the link:guide-component-facade.asciidoc[component-facade] providing the business-logic to manage the component's data.
+* link:guide-dataaccess-layer.asciidoc[dataaccess-layer] with the link:guide-jpa.asciidoc#entity[entities] defining and the link:guide-repository.asciidoc[repositories] (or link:guide-dao.asciidoc[DAOs]) accessing the component's data.
+
+Please note that only CRUD oriented components will have all four layers within the same component.
+Some types of applications may have completely different components for the client.
+
+== General Component
+Cross-cutting aspects belong to the implicit component `general`. It contains technical configurations and very general code that is not business specific. Such code shall not have any dependencies to other components and therefore business related code.
+
+== Business Component
+The link:architecture.asciidoc#business-architecture[business-architecture] defines the business componets with their allowed dependencies. A small application (microservice) may just have one component and no dependencies making it simple while the same architecture can scale up to large and complex applications (from bigger microservice up to modulith).
+Tayloring an business domain into applications and applications into components is a tricky task that needs the skills of an experinced architect.
+Also the tayloring should follow the business and not split by technical reasons or only by size.
+Size is only an indicator but not a driver of tayloring.
+Whatever hypes like microservices are telling you, never get misslead in this regard:
+If your system grows and reaches `MAX+1` lines of code, it is not the right motivation to split it into two microservices of `~MAX/2` lines of code - such approaches will waste huge amounts of money and lead to chaos.
+
+== App Component
+Only in case you need cross-cutting code that aggregates other component you may introduce the component `app`.
+It is allowed to depend on all other components but no other component may depend on it.
+With the modularity and flexibility of spring you typically do not need this.
+However, when you need to have a class that registers all services or component-facades using direct code dependencies, you can introduce this component.
+
+== Component Example
+The following class diagram illustrates an example of the business component `Staffmanagement`:
+
+image::images/guide-logic-layer.png["logic layer component pattern",scaledwidth="80%",align="center"]
+
+Here you can see the structure and flow from the link:guide-service-layer.asciidoc[service-layer] (REST service call) via the link:guide-logic-layer.asciidoc[logic-layer] to the link:guide-dataaccess-layer.asciidoc[dataaccess-layer] (and back).

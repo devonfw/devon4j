@@ -12,6 +12,8 @@ There are two approaches:
 * contract first
 
 Here is an example in case you define a code-first service.
+
+=== Web-Service Interface
 We define a regular interface to define the API of the service and annotate it with JAX-WS annotations:
 [source,java]
 --------
@@ -24,10 +26,13 @@ public interface TablemanagmentWebService {
 
 }
 --------
+
+=== Web-Service Implementation
+
 And here is a simple implementation of the service:
 [source,java]
 --------
-@Named("TablemanagementWebService")
+@Named
 @WebService(endpointInterface = "com.devonfw.application.mtsj.tablemanagement.service.api.ws.TablemanagmentWebService")
 public class TablemanagementWebServiceImpl implements TablemanagmentWebService {
 
@@ -39,13 +44,6 @@ public class TablemanagementWebServiceImpl implements TablemanagmentWebService {
     return this.tableManagement.findTable(id);
   }
 --------
-Finally we have to register our service implementation in the spring configuration file `beans-service.xml`:
-[source,xml]
---------
-  <jaxws:endpoint id="tableManagement" implementor="#TablemanagementWebService" address="/ws/Tablemanagement/v1_0"/>
---------
-
-The `implementor` attribute references an existing bean with the ID `TablemanagementWebService` that corresponds to the `@Named` annotation of our implementation (see link:guide-dependency-injection.asciidoc[dependency injection guide]). The `address` attribute defines the URL path of the service.
 
 == SOAP Custom Mapping
 In order to map custom link:guide-datatype.asciidoc[datatypes] or other types that do not follow the Java bean conventions, you need to write adapters for JAXB (see link:guide-xml.asciidoc[XML]).

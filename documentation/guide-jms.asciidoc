@@ -1,0 +1,46 @@
+:toc: macro
+toc::[]
+
+= Messaging
+
+Messaging in Java is done using the https://en.wikipedia.org/wiki/Java_Message_Service[JMS] standard from JEE.
+
+== Products
+For messaging you need to choose a JMS provider such as:
+
+* https://www.rabbitmq.com/[RabbitMQ]
+* https://activemq.apache.org/jms[ActiveMQ]
+* link:guide-oracle.asciidoc#messaging[Oracle Advanced Queuing] (esp. if you already use link:guide-oracle.asciidoc[Oracle RDBMS])
+
+== Reciver
+As a receiver of messages is receiving data from other systems it is located in the link:guide-service-layer.asciidoc[service-layer].
+
+=== JMS Listener
+A receiver is implemented as `JmsListener`. This is illustrated by the following example:
+
+[source,java]
+----
+@Named
+@Transactional
+public class BookingReceiver {
+
+  @Inject
+  private Bookingmanagement bookingmanagement;
+
+  @Inject
+  private MessageConverter messageConverter;
+
+  @JmsListener(destination = "BOOKING_QUEUE", containerFactory = "jmsListenerContainerFactory")
+  public void receiveMessage(Message message) {
+    try {
+      BookingTo bookingTo = (BookingTo) this.messageConverter.fromMessage(message);
+      this.bookingmanagement.importBooking(bookingTo);
+    } catch (MessageConversionException | JMSException e) {
+      throw new InvalidMessageException(message);
+    }
+  }
+}
+----
+
+== Sender
+A sender of messages is writing to a data storage and hence is located in the link:guide-dataaccess-layer.asciidoc[dataaccess-layer].

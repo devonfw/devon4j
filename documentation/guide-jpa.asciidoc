@@ -16,7 +16,7 @@ The following listing shows a simple example:
 ----
 @Entity
 @Table(name="TEXTMESSAGE")
-public class MessageEntity extends ApplicationPersistenceEntity implements Message{
+public class MessageEntity extends ApplicationPersistenceEntity implements Message {
 
   private String text;
  
@@ -128,18 +128,18 @@ The following listing shows how this can be modeled using JPA:
 ...
 
 @Entity
-public class WorkingTime {
+public class WorkingTimeEntity {
    ...
 
-   private StaffMember staffMember;
+   private StaffMemberEntity staffMember;
  
    @ManyToOne
    @JoinColumn(name="STAFFMEMBER")
-   public StaffMember getStaffMember() {
-      return staffMember;
+   public StaffMemberEntity getStaffMember() {
+      return this.staffMember;
    }
  
-   public void setStaffMember(StaffMember staffMember) {
+   public void setStaffMember(StaffMemberEntity staffMember) {
       this.staffMember = staffMember;
    }
 }
@@ -153,14 +153,14 @@ The relationship of the example listed above is currently an unidirectional one,
 To make it a bidirectional one, the following code has to be added to `StaffMember`:
 [source,java]
 ----
-  private Set<WorkingTimes> workingTimes;
+  private Set<WorkingTimeEntity> workingTimes;
  
   @OneToMany(mappedBy="staffMember")
-  public Set<WorkingTime> getWorkingTimes() {
-    return workingTimes;
+  public Set<WorkingTimeEntity> getWorkingTimes() {
+    return this.workingTimes;
   }
        
-  public void setWorkingTimes(Set<WorkingTime> workingTimes) {
+  public void setWorkingTimes(Set<WorkingTimeEntity> workingTimes) {
     this.workingTimes = workingTimes;
   }
 ----
@@ -173,15 +173,15 @@ For 1:n and n:m relations, the devon4j demands that (unordered) Sets and no othe
 For example, if `WorkingTime` objects should be sorted by their start time, this could be done like this:
 [source,java]
 ----
-  private List<WorkingTimes> workingTimes;
+  private List<WorkingTimeEntity> workingTimes;
  
   @OneToMany(mappedBy = "staffMember")
   @OrderBy("startTime asc")
-  public List<WorkingTime> getWorkingTimes() {
-    return workingTimes;
+  public List<WorkingTimeEntity> getWorkingTimes() {
+    return this.workingTimes;
   }
  
-  public void setWorkingTimes(List<WorkingTime> workingTimes) {
+  public void setWorkingTimes(List<WorkingTimeEntity> workingTimes) {
     this.workingTimes = workingTimes;
   }
 ----
@@ -191,15 +191,15 @@ To store information about a n:m relationship, a separate table has to be used, 
 For example if one wanted to extend the example application so that all ingredients of one `FoodDrink` can be saved and to model the ingredients themselves as entities (e.g. to store additional information about them), this could be modeled as follows (extract of class `FoodDrink`):
 [source,java]
 ----
-  private Set<Order> ingredients;
+  private Set<IngredientEntity> ingredients;
  
   @ManyToMany()
   @JoinTable
-  public Set<Ingredient> getIngredients() {
-    return ingredients;
+  public Set<IngredientEntity> getIngredients() {
+    return this.ingredients;
   }
  
-  public void setOrders(Set<Ingredient> ingredients) {
+  public void setOrders(Set<IngredientEntity> ingredients) {
     this.ingredients = ingredients;
   }
 ----
@@ -242,7 +242,7 @@ The following example shows an `Address` implemented as an embeddable class:
 [source,java]
 ----
 @Embeddable
-public class Address {
+public class AddressEmbeddable {
     
   private String street;
   private String number;
@@ -265,17 +265,17 @@ As you can see an embeddable is similar to an entity class, but with an `@Embedd
 
 In addition to that the methods `equals(Object)` and `hashCode()` need to be implemented as this is required by Hibernate (it is not required for entities because they can be unambiguously identified by their primary key). For some hints on how to implement the `hashCode()` method please have a look http://stackoverflow.com/questions/113511/hash-code-implementation[here]. 
         
-Using this `Address` inside an entity class can be done like this:
+Using this `AddressEmbeddable` inside an entity class can be done like this:
 [source,java]
 ----
-  private Address address;
+  private AddressEmbeddable address;
  
   @Embedded
-  public Address getAddress() {
-    return address;
+  public AddressEmbeddable getAddress() {
+    return this.address;
   }
  
-  public void setAddress(Address address) {
+  public void setAddress(AddressEmbeddable address) {
     this.address = address;
   }
 } 

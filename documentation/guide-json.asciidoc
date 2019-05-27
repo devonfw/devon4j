@@ -46,7 +46,7 @@ addSubtypes(new NamedType(MealEto.class, "Meal"), new NamedType(DrinkEto.class, 
 
 We use `setBaseClasses` to register all top-level classes of polymorphic objects. Further we declare all concrete polymorphic sub-classes together with their symbolic name for the JSON format via `addSubtypes`.
 
-== JSON Custom Mapping
+== Custom Mapping
 In order to map custom link:guide-datatype.asciidoc[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create objects dedicated for the JSON mapping you can easily avoid such situations. When this is not suitable follow these instructions to define the mapping:
 
 . As an example, the use of JSR354 (`javax.money`) is appreciated in order to process monetary amounts properly. However, without custom mapping, the default mapping of Jackson will produce the following JSON for a `MonetaryAmount`:
