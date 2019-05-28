@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--<!DOCTYPE mappings PUBLIC "-//DOZER//DTD MAPPINGS//EN" "http://dozer.sourceforge.net/dtd/dozerbeanmapping.dtd"> -->
+<!--<!DOCTYPE mappings PUBLIC "-//DOZER//DTD MAPPINGS//EN" "https://github.com/DozerMapper/DozerMapper.github.io/blob/master/dtd/bean-mapping.dtd"> -->
 <!-- <mappings> -->
 <mappings xmlns="http://dozermapper.github.io/schema/bean-mapping"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
