@@ -24,7 +24,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <devon4j.version>3.0.2-SNAPSHOT</devon4j.version>
     <devon4j.flatten.mode>oss</devon4j.flatten.mode>
-    <spring.boot.version>2.0.4.RELEASE</spring.boot.version>
+    <spring.boot.version>2.0.9.RELEASE</spring.boot.version>
     <javadoc.option.doclint></javadoc.option.doclint>
     <maven.archetype.version>3.0.1</maven.archetype.version>
   </properties>
@@ -338,7 +338,7 @@
         <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
-          <version>2.0.4.RELEASE</version>
+          <version>2.0.9.RELEASE</version>
         </plugin>
       </plugins>
     </pluginManagement>
