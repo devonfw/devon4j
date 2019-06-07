@@ -168,6 +168,10 @@ include::guide-cors-support.asciidoc[leveloffset=2]
 
 include::guide-blob-support.asciidoc[leveloffset=2]
 
+<<<<
+
+include::guide-jdk.asciidoc[leveloffset=2]
+
 == Tutorials
 
 include::tutorial-introduction.asciidoc[leveloffset=2]
