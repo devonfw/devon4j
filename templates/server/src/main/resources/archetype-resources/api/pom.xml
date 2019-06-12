@@ -29,11 +29,18 @@
       <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-security</artifactId>
     </dependency>
-    <!-- Required for secrutiy REST service -->
+    <!-- Required for security REST service -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <scope>provided</scope>
+    </dependency>
+    <!-- EqualsVerifier -->
+    <dependency>
+      <groupId>nl.jqno.equalsverifier</groupId>
+      <artifactId>equalsverifier</artifactId>
+      <version>3.1.9</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
