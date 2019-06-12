@@ -22,7 +22,7 @@
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <devon4j.version>3.0.3-SNAPSHOT</devon4j.version>
+    <devon4j.version>3.0.2</devon4j.version>
     <devon4j.flatten.mode>oss</devon4j.flatten.mode>
     <spring.boot.version>2.0.9.RELEASE</spring.boot.version>
     <javadoc.option.doclint></javadoc.option.doclint>
