@@ -177,7 +177,7 @@
       <dependency>
         <groupId>ma.glasnost.orika</groupId>
         <artifactId>orika-core</artifactId>
-        <version>1.4.6</version>
+        <version>1.5.2</version>
       </dependency>
       <!-- JSR303 API for annotation based validation -->
       <dependency>

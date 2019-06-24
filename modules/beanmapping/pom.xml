@@ -22,7 +22,6 @@
     <dependency>
       <groupId>com.github.dozermapper</groupId>
       <artifactId>dozer-core</artifactId>
-      <version>6.4.1</version>
     </dependency>
     <dependency>
       <groupId>javax.inject</groupId>
@@ -32,7 +31,6 @@
     <dependency>
       <groupId>ma.glasnost.orika</groupId>
       <artifactId>orika-core</artifactId>
-      <version>1.5.2</version>
       <optional>true</optional>
     </dependency>
 
