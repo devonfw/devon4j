@@ -3,16 +3,14 @@ package com.devonfw.module.beanmapping.common.impl.dozer;
 import java.util.Arrays;
 import java.util.List;
 
-import org.dozer.DozerBeanMapper;
-import org.dozer.loader.api.BeanMappingBuilder;
-import org.dozer.loader.api.FieldsMappingOptions;
-
 import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
 import com.devonfw.module.basic.common.api.to.AbstractEto;
 import com.devonfw.module.beanmapping.common.api.BeanMapper;
 import com.devonfw.module.beanmapping.common.impl.AbstractBeanMapperTest;
-import com.devonfw.module.beanmapping.common.impl.dozer.BeanMapperImplDozer;
-import com.devonfw.module.beanmapping.common.impl.dozer.IdentityConverter;
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
+import com.github.dozermapper.core.loader.api.BeanMappingBuilder;
+import com.github.dozermapper.core.loader.api.FieldsMappingOptions;
 
 /**
  * Test of {@link BeanMapperImplDozer} based on {@link AbstractBeanMapperTest}.
@@ -25,7 +23,6 @@ public class BeanMapperImplDozerTest extends AbstractBeanMapperTest {
 
     BeanMapperImplDozer mapper = new BeanMapperImplDozer();
     List<String> mappingFiles = Arrays.asList("config/app/common/dozer-mapping.xml");
-    DozerBeanMapper dozer = new DozerBeanMapper(mappingFiles);
     BeanMappingBuilder builder = new BeanMappingBuilder() {
 
       @Override
@@ -35,7 +32,7 @@ public class BeanMapperImplDozerTest extends AbstractBeanMapperTest {
             FieldsMappingOptions.customConverter(IdentityConverter.class));
       }
     };
-    dozer.addMapping(builder);
+    Mapper dozer = DozerBeanMapperBuilder.create().withMappingBuilder(builder).withMappingFiles(mappingFiles).build();
     mapper.setDozer(dozer);
     return mapper;
   }

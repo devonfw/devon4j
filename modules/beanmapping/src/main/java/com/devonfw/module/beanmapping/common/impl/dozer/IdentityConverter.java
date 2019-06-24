@@ -1,6 +1,6 @@
 package com.devonfw.module.beanmapping.common.impl.dozer;
 
-import org.dozer.CustomConverter;
+import com.github.dozermapper.core.CustomConverter;
 
 /**
  * Dozer {@link CustomConverter} that returns the original source object reference (identity conversion).

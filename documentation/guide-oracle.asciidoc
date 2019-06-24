@@ -5,6 +5,18 @@ toc::[]
 
 This section contains hints for those who use Oracle RDBMS. If you use a different persistence technology you can simply ignore it. Besides general hints about the driver there are tips for more tight integration with other Oracle features or products. However, if you work for a project where Oracle RDBMS is settled and not going to be replaced (you are in a vendor lock-in anyway), you might want to use even more from Oracle technology to take advantage from a closer integration.
 
+== XE
+For local development you should setup Oracle XE (eXpress Edition).
+You need an oracle account, then you can download it from https://www.oracle.com/technetwork/database/database-technologies/express-edition/downloads/index.html[here].
+
+The most comfortable way to run it as needed is using docker. You can build your own docker image from the downloaded RPM using the https://github.com/oracle/docker-images/tree/master/OracleDatabase/SingleInstance[instructions and dockerfile from oracle]. (In case the build of the docker-image https://github.com/oracle/docker-images/issues/1133[fails reproducably] and you want to give up with the Dockerfiles from Oracle you can also try this inofficial https://github.com/fuzziebrain/docker-oracle-xe[docker-oracle-xe] solution).
+
+To connect to your local XE database you need to use `xe` as the `SID` of your main database that can not be changed. The `hostname` should be `localhost` and the `port` is by default `1521` if you did not remap it with docker to something else. However, starting with XE 18c you need to be aware that oracle introduced a https://docs.oracle.com/database/121/CNCPT/cdbovrvw.htm[multi-tenant architecture]. Hence `xe` refers to the root `CDB` while you typically want to connect to the `PDB` (pluggable database) and XE ships with exactly one of this called `xepdb1`. To connect with `SQL Developer` switch `Connection Type` from `Basic` to `Advanced` and enter the `Custom JDBC URL` like e.g.
+```
+jdbc:oracle:thin:@//localhost:1521/xepdb1
+```
+The same way you can also connect from your devon4j app via JDBC.
+
 == Driver
 The oracle JDBC driver is not available in maven central. Depending on the Oracle DB version and the Java version, you can use either the 11g/ojdbc6, 12c/ojdbc7, or 12c/ojdbc8 version of the driver. Oracle JDBC drivers usually are backward and forward compatible so you should be able to use the 12c/ojdbc8 driver with an 11g DB etc. As a rule of thumb, use the 12c/ojdbc8 driver unless you must use Java7. All JDBC drivers can be downloaded without registration: http://www.oracle.com/technetwork/database/enterprise-edition/jdbc-112010-090769.html[11g/ojdbc6], http://www.oracle.com/technetwork/database/features/jdbc/jdbc-drivers-12c-download-1958347.html[12c/ojdbc7], and http://www.oracle.com/technetwork/database/features/jdbc/jdbc-ucp-122-3110062.html[12c/ojdbc8]. Your project should use a maven repository server such as http://www.sonatype.org/nexus/[nexus] or https://www.jfrog.com/open-source/[artifactory].
 Your dependency for the oracle driver should look as follows (use artifactId "ojdbc6" or "ojdbc7" for the older drivers):
