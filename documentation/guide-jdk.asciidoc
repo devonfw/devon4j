@@ -49,9 +49,9 @@ The following table gives you the required hints to make your software work even
 [options="header"]
 |=============================================
 |*Class*              |*GroupId*           |*ArtifactId*           |*Version*
-|`javax.xml.bind.*`   |`javax.xml.bind`    |`jaxb-api`             |`2.3.0`
-|`com.sun.xml.bind.*` |`com.sun.xml.bind`  |`jaxb-impl`            |`2.3.0`
-|`java.activation.*`  |`com.sun.activation`|`javax.activation`     |`1.2.0`
+|`javax.xml.bind.*`   |`javax.xml.bind`    |`jaxb-api`             |`2.3.1`
+|`com.sun.xml.bind.*` |`org.glassfish.jaxb`|`jaxb-runtime`         |`2.3.1`
+|`java.activation.*`  |`javax.activation`  |`javax.activation-api` |`1.2.0`
 |`java.transaction.*` |`javax.transaction` |`javax.transaction-api`|`1.2`
 |`java.xml.ws.*`      |`javax.xml.ws`      |`jaxws-api`            |`2.3.1`
 |`javax.jws.*`        |`javax.jws`         |`javax.jws-api`        |`1.1`
@@ -126,3 +126,5 @@ We want to give credits and say thanks to the following artircles that have been
 * https://blog.codefx.org/java/java-9-migration-guide/[Java 9 Migration Guide: The Seven Most Common Challenges]
 * https://medium.com/criciumadev/its-time-migrating-to-java-11-5eb3868354f9[It’s time! Migrating to Java 11]
 * https://winterbe.com/posts/2018/08/29/migrate-maven-projects-to-java-11-jigsaw/[Migrate Maven Projects to Java 11]
+* https://www.jesperdj.com/2018/09/30/jaxb-on-java-9-10-11-and-beyond/[JAXB on Java 9, 10, 11 and beyond]
+* https://stackoverflow.com/questions/26413431/which-artifacts-should-i-use-for-jaxb-ri-in-my-maven-project[JAXB Artifacts]
