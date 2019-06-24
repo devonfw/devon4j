@@ -61,11 +61,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-configuration</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-orm</artifactId>
       <scope>test</scope>
