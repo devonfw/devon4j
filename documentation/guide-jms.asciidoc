@@ -16,13 +16,13 @@ For messaging you need to choose a JMS provider such as:
 As a receiver of messages is receiving data from other systems it is located in the link:guide-service-layer.asciidoc[service-layer].
 
 === JMS Listener
-A receiver is implemented as `JmsListener`. This is illustrated by the following example:
+A `JmsListener` is a class listening and consuming JMS messages. It should carry the suffix `JmsListener` and implement the `MessageListener` interface or have its listener method annotated with `@JmsListener`. This is illustrated by the following example:
 
 [source,java]
 ----
 @Named
 @Transactional
-public class BookingReceiver {
+public class BookingJmsListener /* implements MessageListener */ {
 
   @Inject
   private Bookingmanagement bookingmanagement;
@@ -31,7 +31,7 @@ public class BookingReceiver {
   private MessageConverter messageConverter;
 
   @JmsListener(destination = "BOOKING_QUEUE", containerFactory = "jmsListenerContainerFactory")
-  public void receiveMessage(Message message) {
+  public void onMessage(Message message) {
     try {
       BookingTo bookingTo = (BookingTo) this.messageConverter.fromMessage(message);
       this.bookingmanagement.importBooking(bookingTo);
