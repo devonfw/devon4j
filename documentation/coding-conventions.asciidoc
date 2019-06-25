@@ -99,7 +99,7 @@ With devonfw we experienced the same for the codebase (what is inside `src/main/
 |     |     └──.link:guide-soap.asciidoc#web-service-api[«Component»WebService]
 |     └──.impl[.«detail»]
 |        ├──.link:guide-jms.asciidoc[jms]
-|        |  └──.link:guide-jms.asciidoc#jms-listener[«BusinessObject»Receiver]
+|        |  └──.link:guide-jms.asciidoc#jms-listener[«BusinessObject»JmsListener]
 |        ├──.link:guide-rest.asciidoc[rest]
 |        |  └──.link:guide-rest.asciidoc#rest-service-implementation[«Component»RestServiceImpl]
 |        └──.link:guide-soap.asciidoc[ws]
