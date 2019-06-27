@@ -1,6 +1,6 @@
 = devon4j
 
-The Java stack of http://devonfw.com[devonfw].
+The Java stack of http://devonfw.com[devonfw]. It allows you to build business applications (backends) using Java technology in a highly efficient and standardized way based on established best-practices.
 
 image:https://img.shields.io/github/license/devonfw/devon4j.svg?label=License["Apache License, Version 2.0",link=https://github.com/devonfw/devon4j/blob/develop/LICENSE.txt]
 image:https://img.shields.io/maven-central/v/com.devonfw.java.modules/devon4j-basic.svg?label=Maven%20Central["Maven Central",link=https://search.maven.org/search?q=g:com.devonfw.java.modules]
