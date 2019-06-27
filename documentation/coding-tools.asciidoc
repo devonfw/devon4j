@@ -10,6 +10,7 @@ toc::[]
 |build-management|*|http://maven.apache.org/[maven]
 |IDE|IDE|https://www.eclipse.org/[Eclipse]
 |IDE|setup & update|https://github.com/devonfw/devon-ide[devonfw-ide]
+|IDE|code generation|https://github.com/devonfw/tools-cobigen[CobiGen]
 |Testing|Unit-Testing|http://junit.org/[JUnit]
 |Testing|Mocking|https://code.google.com/p/mockito/[Mockito] & http://wiremock.org/getting-started.html[WireMock]
 |Testing|Integration-Testing|http://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/testing.html[spring-test] (http://arquillian.org/[arquillian] for JEE)
