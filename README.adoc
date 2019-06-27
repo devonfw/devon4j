@@ -1,7 +1,67 @@
 = devon4j
 
-The Java stack of http://devonfw.com[devonfw]. See link:../../wiki[wiki] for a detailed documentation.
+The Java stack of http://devonfw.com[devonfw].
 
 image:https://img.shields.io/github/license/devonfw/devon4j.svg?label=License["Apache License, Version 2.0",link=https://github.com/devonfw/devon4j/blob/develop/LICENSE.txt]
 image:https://img.shields.io/maven-central/v/com.devonfw.java.modules/devon4j-basic.svg?label=Maven%20Central["Maven Central",link=https://search.maven.org/search?q=g:com.devonfw.java.modules]
 image:https://travis-ci.org/devonfw/devon4j.svg?branch=develop["Build Status",link="https://travis-ci.org/devonfw/devon4j"]
+
+== Documentation
+
+* link:documentation/architecture.asciidoc[Architecture Overview]
+* link:documentation/guide-dataaccess-layer.asciidoc[Data Access Layer]
+* link:documentation/guide-logic-layer.asciidoc[Logic Layer]
+* link:documentation/guide-service-layer.asciidoc[Service Layer]
+* link:documentation/guide-batch-layer.asciidoc[Batch Layer]
+* link:documentation/guide-client-layer.asciidoc[Client Layer (GUI)]
+
+=== Coding 
+
+* link:documentation/coding-conventions.asciidoc[Coding Conventions]
+* link:documentation/coding-tools.asciidoc[Development Tools]
+
+=== Guides
+
+* link:documentation/guide-dependency-injection.asciidoc[Bean Dependency Injection]
+* link:documentation/guide-configuration.asciidoc[Configuration]
+* link:documentation/guide-logging.asciidoc[Logging]
+* link:documentation/guide-exceptions.asciidoc[Exception Handling]
+* link:documentation/guide-i18n.asciidoc[Internationalization (I18N)]
+* link:documentation/guide-transferobject.asciidoc[Transferobjects]
+* link:documentation/guide-beanmapping.asciidoc[Bean-Mapping]
+* link:documentation/guide-datatype.asciidoc[Datatypes]
+* link:documentation/guide-xml.asciidoc[XML]
+* link:documentation/guide-json.asciidoc[JSON]
+* link:documentation/guide-rest.asciidoc[REST]
+* link:documentation/guide-soap.asciidoc[SOAP]
+* link:documentation/guide-service-client.asciidoc[Service Client]
+* link:documentation/guide-validation.asciidoc[Validation]
+* link:documentation/guide-security.asciidoc[Security]
+* link:documentation/guide-access-control.asciidoc[Access Control]
+* link:documentation/guide-testing.asciidoc[Testing]
+* link:documentation/guide-transactions.asciidoc[Transaction Handling]
+* link:documentation/guide-aop.asciidoc[AOP]
+* link:documentation/guide-jpa.asciidoc[JPA]
+* link:documentation/guide-repository.asciidoc[Repository]
+* link:documentation/guide-dao.asciidoc[DAO]
+* link:documentation/guide-jpa-query.asciidoc[Queries]
+* link:documentation/guide-jpa-performance.asciidoc[JPA Performance]
+* link:documentation/guide-auditing.asciidoc[Auditing]
+* link:documentation/guide-database-migration.asciidoc[Database Migration]
+* link:documentation/guide-accessibility.asciidoc[Accessibility]
+* link:documentation/guide-caching.asciidoc[Caching]
+* link:documentation/guide-cors-support.asciidoc[CORS support]
+* link:documentation/guide-blob-support.asciidoc[BLOB support]
+* link:documentation/guide-sql.asciidoc[SQL]
+* link:documentation/guide-apm.asciidoc[Application Performance Management]
+
+== Options
+
+* link:documentation/guide-hana.asciidoc[SAP Hana]
+* link:documentation/guide-oracle.asciidoc[Oracle]
+* link:documentation/guide-jee.asciidoc[JEE]
+
+=== Tutorials
+
+* link:documentation/tutorial-newapp.asciidoc[Start a new application]
+* link:documentation/tutorial-sample.asciidoc[Sample application]
