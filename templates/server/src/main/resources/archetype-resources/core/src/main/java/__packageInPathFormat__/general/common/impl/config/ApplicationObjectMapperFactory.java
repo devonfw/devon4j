@@ -2,6 +2,7 @@ package ${package}.general.common.impl.config;
 
 import javax.inject.Named;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.web.csrf.CsrfToken;
 
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.devonfw.module.json.common.base.ObjectMapperFactory;
 import com.devonfw.module.json.common.base.type.PageableJsonSerializer;
 import com.devonfw.module.json.common.base.type.PageableJsonDeserializer;
+import com.devonfw.module.json.common.base.type.JsonPage;
 
 /**
  * The MappingFactory class to resolve polymorphic conflicts within the ${rootArtifactId} application.
@@ -32,6 +34,9 @@ public class ApplicationObjectMapperFactory extends ObjectMapperFactory {
     // register spring-data Pageable
     module.addSerializer(Pageable.class, new PageableJsonSerializer());
     module.addDeserializer(Pageable.class, new PageableJsonDeserializer());
+    // register spring-data Page
+    module.addAbstractTypeMapping(Page.class, JsonPage.class);
+    module.setMixInAnnotation(Page.class, JsonPage.class);
   }
 
   /**
