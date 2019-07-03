@@ -336,7 +336,7 @@
         <plugin>
           <groupId>org.owasp</groupId>
           <artifactId>dependency-check-maven</artifactId>
-          <version>3.1.1</version>
+          <version>5.1.0</version>
         </plugin>
         <plugin>
           <groupId>org.springframework.boot</groupId>
@@ -445,7 +445,7 @@
             <groupId>org.owasp</groupId>
             <artifactId>dependency-check-maven</artifactId>
             <configuration>
-              <failBuildOnCVSS>8</failBuildOnCVSS>
+              <failOnError>false</failOnError>
             </configuration>
             <executions>
               <execution>
