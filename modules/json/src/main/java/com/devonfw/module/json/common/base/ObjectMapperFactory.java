@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.devonfw.module.json.common.base.type.JsonPage;
+import com.devonfw.module.json.common.base.type.PageableJsonDeserializer;
+import com.devonfw.module.json.common.base.type.PageableJsonSerializer;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
@@ -140,5 +146,18 @@ public class ObjectMapperFactory {
     mapper.registerModule(new JavaTimeModule());
 
     return mapper;
+  }
+
+  /**
+   * @return an instance of {@link SimpleModule} for registering configurations
+   */
+  protected SimpleModule initMapping() {
+
+    SimpleModule module = getExtensionModule();
+    module.addSerializer(Pageable.class, new PageableJsonSerializer());
+    module.addDeserializer(Pageable.class, new PageableJsonDeserializer());
+    module.addAbstractTypeMapping(Page.class, JsonPage.class);
+    module.setMixInAnnotation(Page.class, JsonPage.class);
+    return module;
   }
 }
