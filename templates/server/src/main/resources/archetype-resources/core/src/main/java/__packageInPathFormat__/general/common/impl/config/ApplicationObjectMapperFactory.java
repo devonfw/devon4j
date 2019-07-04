@@ -25,7 +25,7 @@ public class ApplicationObjectMapperFactory extends ObjectMapperFactory {
 
     super();
     // see https://github.com/devonfw-wiki/devon4j/wiki/guide-json#json-and-inheritance
-    SimpleModule module = super.initMapping();
+    SimpleModule module =  getExtensionModule();
     module.addAbstractTypeMapping(CsrfToken.class, CsrfTokenImpl.class);
   }
 

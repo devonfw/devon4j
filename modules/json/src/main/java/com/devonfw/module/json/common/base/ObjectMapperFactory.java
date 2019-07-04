@@ -44,6 +44,7 @@ public class ObjectMapperFactory {
   public ObjectMapperFactory() {
 
     super();
+    initMapping();
   }
 
   /**
