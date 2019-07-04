@@ -27,7 +27,7 @@
     <changelist>-SNAPSHOT</changelist>
     <devon4j.version>${revision}${changelist}</devon4j.version>
     <devon4j.flatten.mode>oss</devon4j.flatten.mode>
-    <spring.boot.version>2.1.2.RELEASE</spring.boot.version>
+    <spring.boot.version>2.1.6.RELEASE</spring.boot.version>
     <javadoc.option.doclint></javadoc.option.doclint>
     <maven.archetype.version>3.0.1</maven.archetype.version>
   </properties>
@@ -341,7 +341,7 @@
         <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
-          <version>2.0.4.RELEASE</version>
+          <version>${spring.boot.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
