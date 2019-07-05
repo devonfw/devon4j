@@ -19,13 +19,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
+import com.devonfw.module.json.common.base.ObjectMapperFactory;
 import com.devonfw.module.test.common.base.ModuleTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Test of mapping {@link Pageable} from/to JSON.
+ * Test of {@link ObjectMapperFactory} to test specific configurations and mappings from/to JSON.
  */
-public class PageableJsonTest extends ModuleTest {
+public class ObjectMapperFactoryTest extends ModuleTest {
 
   private static final Order SORT_ORDER1 = new Order(Direction.ASC, "ascendingProperty");
 

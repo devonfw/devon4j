@@ -7,7 +7,6 @@ import java.util.List;
 import com.devonfw.module.basic.common.api.reference.IdRef;
 import com.devonfw.module.json.common.base.type.IdRefJsonDeserializer;
 import com.devonfw.module.json.common.base.type.IdRefJsonSerializer;
-import com.devonfw.module.json.common.base.type.JsonPage;
 import com.devonfw.module.json.common.base.type.PageableJsonDeserializer;
 import com.devonfw.module.json.common.base.type.PageableJsonSerializer;
 import com.fasterxml.jackson.core.Version;
@@ -158,8 +157,10 @@ public class ObjectMapperFactory {
     // use fully qualified names for spring-data so users can override this method and opt-out
     module.addSerializer(org.springframework.data.domain.Pageable.class, new PageableJsonSerializer());
     module.addDeserializer(org.springframework.data.domain.Pageable.class, new PageableJsonDeserializer());
-    module.addAbstractTypeMapping(org.springframework.data.domain.Page.class, JsonPage.class);
-    module.setMixInAnnotation(org.springframework.data.domain.Page.class, JsonPage.class);
+    module.addAbstractTypeMapping(org.springframework.data.domain.Page.class,
+        com.devonfw.module.json.common.base.type.JsonPage.class);
+    module.setMixInAnnotation(org.springframework.data.domain.Page.class,
+        com.devonfw.module.json.common.base.type.JsonPage.class);
     module.addSerializer(IdRef.class, new IdRefJsonSerializer());
     module.addDeserializer(IdRef.class, new IdRefJsonDeserializer());
     return module;
