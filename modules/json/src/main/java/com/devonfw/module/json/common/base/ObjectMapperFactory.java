@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
+import com.devonfw.module.basic.common.api.reference.IdRef;
+import com.devonfw.module.json.common.base.type.IdRefJsonDeserializer;
+import com.devonfw.module.json.common.base.type.IdRefJsonSerializer;
 import com.devonfw.module.json.common.base.type.JsonPage;
 import com.devonfw.module.json.common.base.type.PageableJsonDeserializer;
 import com.devonfw.module.json.common.base.type.PageableJsonSerializer;
@@ -58,8 +58,8 @@ public class ObjectMapperFactory {
   public SimpleModule getExtensionModule() {
 
     if (this.extensionModule == null) {
-      this.extensionModule = new SimpleModule("devonfw.ExtensionModule",
-          new Version(1, 0, 0, null, GROUP_ID, ARTIFACT_ID));
+      this.extensionModule =
+          new SimpleModule("devonfw.ExtensionModule", new Version(1, 0, 0, null, GROUP_ID, ARTIFACT_ID));
     }
     return this.extensionModule;
   }
@@ -155,10 +155,13 @@ public class ObjectMapperFactory {
   protected SimpleModule initMapping() {
 
     SimpleModule module = getExtensionModule();
-    module.addSerializer(Pageable.class, new PageableJsonSerializer());
-    module.addDeserializer(Pageable.class, new PageableJsonDeserializer());
-    module.addAbstractTypeMapping(Page.class, JsonPage.class);
-    module.setMixInAnnotation(Page.class, JsonPage.class);
+    // use fully qualified names for spring-data so users can override this method and opt-out
+    module.addSerializer(org.springframework.data.domain.Pageable.class, new PageableJsonSerializer());
+    module.addDeserializer(org.springframework.data.domain.Pageable.class, new PageableJsonDeserializer());
+    module.addAbstractTypeMapping(org.springframework.data.domain.Page.class, JsonPage.class);
+    module.setMixInAnnotation(org.springframework.data.domain.Page.class, JsonPage.class);
+    module.addSerializer(IdRef.class, new IdRefJsonSerializer());
+    module.addDeserializer(IdRef.class, new IdRefJsonDeserializer());
     return module;
   }
 }
