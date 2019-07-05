@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
@@ -25,15 +24,14 @@ public class JsonPage<T> extends PageImpl<T> {
    * The constructor.
    *
    * @param content - see {@link #getContent()}.
-   * @param page - see {@link Pageable#getPageNumber()}.
-   * @param size - see {@link Pageable#getPageSize()}.
+   * @param pageable - see {@link #getPageable()}.
    * @param total - see {@link #getTotalElements()}.
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public JsonPage(@JsonProperty("content") List<T> content, @JsonProperty("number") int page,
-      @JsonProperty("size") int size, @JsonProperty("totalElements") long total) {
+  public JsonPage(@JsonProperty("content") List<T> content, @JsonProperty("pageable") Pageable pageable,
+      @JsonProperty("totalElements") long total) {
 
-    super(content, PageRequest.of(page, size), total);
+    super(content, pageable, total);
   }
 
   @Override
@@ -76,6 +74,20 @@ public class JsonPage<T> extends PageImpl<T> {
   public boolean isEmpty() {
 
     return super.isEmpty();
+  }
+
+  @Override
+  @JsonIgnore
+  public int getNumber() {
+
+    return super.getNumber();
+  }
+
+  @Override
+  @JsonIgnore
+  public int getSize() {
+
+    return super.getSize();
   }
 
 }

@@ -26,6 +26,8 @@
       <copy-by-reference>java.time.Period</copy-by-reference>
       <copy-by-reference>java.time.YearMonth</copy-by-reference>
       <copy-by-reference>java.time.Month</copy-by-reference>
+      <copy-by-reference>java.util.regex.Pattern</copy-by-reference>
+      <copy-by-reference>com.devonfw.module.basic.common.api.reference.IdRef</copy-by-reference>
       <!--
       <copy-by-reference>javax.money.MonetaryAmount</copy-by-reference>
       <copy-by-reference>org.javamoney.moneta.Money</copy-by-reference>

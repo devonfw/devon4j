@@ -45,7 +45,7 @@ public class ApplicationObjectMapperFactory extends ObjectMapperFactory {
     // ignore unknown properties in JSON to prevent errors
     // e.g. when the service has been updated/extended but the calling REST client is not yet updated
     // see https://github.com/devonfw-wiki/devon4j/wiki/guide-service-layer#versioning
-    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     return objectMapper;
   }
 }
