@@ -52,11 +52,6 @@
       </dependency>
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
-        <artifactId>devon4j-configuration</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-security</artifactId>
         <version>${project.version}</version>
       </dependency>
