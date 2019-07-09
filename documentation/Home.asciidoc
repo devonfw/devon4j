@@ -4,7 +4,7 @@ Welcome to the Java edition of devonfw. devon4j is documented by a platform guid
 
 You will find the latest stable versions of documents generated from this wiki here:
 
-* https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.0.0/devon4j-doc-3.0.0.pdf[stable devonfw devon4j guide as PDF].
+* https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.1.0/devon4j-doc-3.1.0.pdf[stable devonfw devon4j guide as PDF].
 If you want to search the wiki you might want to try https://github.com/linyows/github-wiki-search[github-wiki-search].
 
 == For contributors
