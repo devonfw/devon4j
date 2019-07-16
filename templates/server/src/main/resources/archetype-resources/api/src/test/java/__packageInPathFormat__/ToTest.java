@@ -60,7 +60,7 @@ public class ToTest extends ModuleTest {
     if ((exclusion != null) && (exclusion.ignoreEquals)) {
       return;
     }
-    EqualsVerifierApi<?> verifier = EqualsVerifier.forClass(clazz).withRedefinedSuperclass().usingGetClass().suppress(Warning.NONFINAL_FIELDS, Warning.INHERITED_DIRECTLY_FROM_OBJECT);
+    EqualsVerifierApi<?> verifier = EqualsVerifier.forClass(clazz).withRedefinedSuperclass().usingGetClass().suppress(Warning.NONFINAL_FIELDS, Warning.INHERITED_DIRECTLY_FROM_OBJECT, Warning.ALL_FIELDS_SHOULD_BE_USED, Warning.TRANSIENT_FIELDS);
     try {
       verifier.verify();
     } catch (AssertionError e) {
