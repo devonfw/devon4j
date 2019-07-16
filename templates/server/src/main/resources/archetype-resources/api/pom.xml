@@ -35,6 +35,12 @@
       <artifactId>javax.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
+    <!-- Tests -->
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-test</artifactId>
+      <scope>test</scope>
+    </dependency>
     <!-- EqualsVerifier -->
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>

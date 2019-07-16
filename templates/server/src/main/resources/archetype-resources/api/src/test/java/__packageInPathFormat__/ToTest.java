@@ -24,6 +24,7 @@ import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.util.ReflectionUtils;
 
 import com.devonfw.module.basic.common.api.reflect.Devon4jPackage;
+import com.devonfw.module.basic.common.api.to.AbstractTo;
 import com.devonfw.module.test.common.base.ModuleTest;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
