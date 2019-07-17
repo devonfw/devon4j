@@ -52,7 +52,7 @@ jobs:
             git remote add origin-wiki "https://${USER}:${GITHUB_TOKEN}@${GH_REPO_DEST}"
             git push origin-wiki master
             cd ../${REPO_CONSOLIDATE}
-            if [ ! -d ${REPO_DEST} ]; then git submodule add https://${GH_REPO_DEST}; else return 0; fi;
+            if [ ! -d ${REPO_DEST} ]; then git submodule add https://${GH_REPO_DEST}; fi;
             git submodule init
             git submodule update --recursive --remote
             cd ${REPO_DEST}
