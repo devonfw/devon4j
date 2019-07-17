@@ -54,7 +54,7 @@ jobs:
             cd ../${REPO_CONSOLIDATE}
             if [ ! -d ${REPO_DEST} ]; then git submodule add https://${GH_REPO_DEST}; else return 0; fi;
             git submodule init
-            git submodule update
+            git submodule update --recursive --remote
             cd ${REPO_DEST}
             git checkout master
             git pull
