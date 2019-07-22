@@ -1,6 +1,8 @@
 package ${package}.general.logic.api.to;
 
-import ${package}.general.common.api.BinaryObject;
+import $
+import it.pkg.general.logic.api.to.BinaryObjectEto;
+
 import com.devonfw.module.basic.common.api.to.AbstractEto;
 
 /**
@@ -45,6 +47,12 @@ public class BinaryObjectEto extends AbstractEto implements BinaryObject {
   public void setSize(long size) {
 
     this.size = size;
+  }
+
+  @Override
+  protected void toString(StringBuilder buffer) {
+
+	buffer.append(getClass().getSimpleName() + ": " + "mimeType = " + mimeType + ", size = "  + size + ", hashcode = " + this.hashCode() + ";");
   }
 
 }
