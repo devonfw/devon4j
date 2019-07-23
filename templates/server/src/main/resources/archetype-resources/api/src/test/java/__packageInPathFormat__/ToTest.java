@@ -75,7 +75,11 @@ public class ToTest extends ModuleTest {
 
   private void testEqualsAndHashcode(Class<?> clazz, SoftAssertions assertion, ToExclusion exclusion) {
 
-    if ((exclusion != null) && (exclusion.ignoreEquals) && (!doEqualsAndHashCodeExist(clazz))) {
+	if(!doEqualsAndHashCodeExist(clazz)) {
+	  return;
+	}
+
+    if ((exclusion != null) && (exclusion.ignoreEquals)) {
       return;
     }
     EqualsVerifierApi<?> verifier = EqualsVerifier.forClass(clazz).withRedefinedSuperclass().usingGetClass().suppress(Warning.NONFINAL_FIELDS, Warning.INHERITED_DIRECTLY_FROM_OBJECT);
