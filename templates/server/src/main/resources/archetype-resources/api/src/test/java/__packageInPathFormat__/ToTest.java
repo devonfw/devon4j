@@ -55,12 +55,30 @@ public class ToTest extends ModuleTest {
     assertion.assertAll();
   }
 
+  /**
+   * Checks if there is an overridden version of the equals() and hashCode() method
+   */
+  private boolean doEqualsAndHashCodeExist(Class<?> clazz) {
+
+	boolean existing = false;
+
+	try {
+	  if(clazz.getMethod("equals", Object.class).getAnnotation(Override.class) != null) existing = true;
+	} catch(NoSuchMethodException noEquals) { existing = false; }
+
+	try {
+	  if(clazz.getMethod("hashCode", null).getAnnotation(Override.class) != null) existing = true;
+	} catch(NoSuchMethodException noHashCode) { existing = false; }
+
+	return existing;
+  }
+
   private void testEqualsAndHashcode(Class<?> clazz, SoftAssertions assertion, ToExclusion exclusion) {
 
-    if ((exclusion != null) && (exclusion.ignoreEquals)) {
+    if ((exclusion != null) && (exclusion.ignoreEquals) && (!doEqualsAndHashCodeExist(clazz))) {
       return;
     }
-    EqualsVerifierApi<?> verifier = EqualsVerifier.forClass(clazz).withRedefinedSuperclass().usingGetClass().suppress(Warning.NONFINAL_FIELDS, Warning.INHERITED_DIRECTLY_FROM_OBJECT, Warning.ALL_FIELDS_SHOULD_BE_USED, Warning.TRANSIENT_FIELDS);
+    EqualsVerifierApi<?> verifier = EqualsVerifier.forClass(clazz).withRedefinedSuperclass().usingGetClass().suppress(Warning.NONFINAL_FIELDS, Warning.INHERITED_DIRECTLY_FROM_OBJECT);
     try {
       verifier.verify();
     } catch (AssertionError e) {
