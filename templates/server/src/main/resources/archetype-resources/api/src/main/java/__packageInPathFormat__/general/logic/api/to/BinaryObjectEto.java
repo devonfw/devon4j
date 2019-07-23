@@ -1,7 +1,6 @@
 package ${package}.general.logic.api.to;
 
-import $
-import it.pkg.general.logic.api.to.BinaryObjectEto;
+import ${package}.general.common.api.BinaryObject;
 
 import com.devonfw.module.basic.common.api.to.AbstractEto;
 

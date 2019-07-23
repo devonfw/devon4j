@@ -1,7 +1,6 @@
 package ${package}.general.common.api.to;
 
-import $
-import it.pkg.general.common.api.to.UserProfileTo;
+import ${package}.general.common.api.UserProfile;
 
 import com.devonfw.module.basic.common.api.to.AbstractTo;
 
