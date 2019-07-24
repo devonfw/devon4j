@@ -56,26 +56,34 @@ public class ToTest extends ModuleTest {
   }
 
   /**
-   * Checks if there is an overridden version of the equals() and hashCode() method
+   * Checks for an overridden equals() method of a given class object
    */
-  private boolean doEqualsAndHashCodeExist(Class<?> clazz) {
-
-	boolean existing = false;
+  private boolean checkForEquals(Class<?> clazz) {
 
 	try {
-	  if(clazz.getMethod("equals", Object.class).getAnnotation(Override.class) != null) existing = true;
-	} catch(NoSuchMethodException noEquals) { existing = false; }
+	  clazz.getMethod("java.lang.Object.equals", Object.class);
+	  return false;													// No custom implementation
+	} catch(NoSuchMethodException noEquals) {}
+
+	return true;
+  }
+
+  /**
+   * Checks for an overridden hashCode() method of a given class object
+   */
+  private boolean checkForHashCode(Class<?> clazz) {
 
 	try {
-	  if(clazz.getMethod("hashCode", null).getAnnotation(Override.class) != null) existing = true;
-	} catch(NoSuchMethodException noHashCode) { existing = false; }
+	  clazz.getMethod("java.lang.Object.hashCode");
+	  return false;											// No custom implementation
+	} catch(NoSuchMethodException noHashCode) {}
 
-	return existing;
+	return true;
   }
 
   private void testEqualsAndHashcode(Class<?> clazz, SoftAssertions assertion, ToExclusion exclusion) {
 
-	if(!doEqualsAndHashCodeExist(clazz)) {
+	if(checkForEquals(clazz) && checkForHashCode(clazz)) {
 	  return;
 	}
 
