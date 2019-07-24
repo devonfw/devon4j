@@ -83,7 +83,7 @@ public class ToTest extends ModuleTest {
 
   private void testEqualsAndHashcode(Class<?> clazz, SoftAssertions assertion, ToExclusion exclusion) {
 
-	if(checkForEquals(clazz) && checkForHashCode(clazz)) {
+	if(checkForEquals(clazz) || checkForHashCode(clazz)) {
 	  return;
 	}
 
