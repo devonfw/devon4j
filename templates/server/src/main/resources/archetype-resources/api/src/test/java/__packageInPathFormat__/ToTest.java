@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
@@ -58,12 +60,11 @@ public class ToTest extends ModuleTest {
   /**
    * Checks for an overridden equals() method of a given class object
    */
-  private boolean checkForEquals(Class<?> clazz) {
+  private boolean checkForCustomEquals(Class<?> clazz) {
 
-	try {
-	  clazz.getMethod("java.lang.Object.equals", Object.class);
-	  return false;													// No custom implementation
-	} catch(NoSuchMethodException noEquals) {}
+	for(Method method : clazz.getMethods()) {
+	  if(method.toString().equals("public boolean java.lang.Object.equals(java.lang.Object)")) return false;
+	}
 
 	return true;
   }
@@ -71,19 +72,18 @@ public class ToTest extends ModuleTest {
   /**
    * Checks for an overridden hashCode() method of a given class object
    */
-  private boolean checkForHashCode(Class<?> clazz) {
+  private boolean checkForCustomHashCode(Class<?> clazz) {
 
-	try {
-	  clazz.getMethod("java.lang.Object.hashCode");
-	  return false;											// No custom implementation
-	} catch(NoSuchMethodException noHashCode) {}
+	for(Method method : clazz.getMethods()) {
+	  if(method.toString().equals("public native int java.lang.Object.hashCode()")) return false;
+	}
 
 	return true;
   }
 
   private void testEqualsAndHashcode(Class<?> clazz, SoftAssertions assertion, ToExclusion exclusion) {
 
-	if(checkForEquals(clazz) || checkForHashCode(clazz)) {
+	if((checkForCustomEquals(clazz) == false) || (checkForCustomHashCode(clazz) == false)) {
 	  return;
 	}
 
