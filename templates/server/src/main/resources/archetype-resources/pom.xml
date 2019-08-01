@@ -32,6 +32,14 @@
 
   <dependencyManagement>
     <dependencies>
+    <!-- overriding BOM of jackson -->
+    <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>2.10.0.pr1</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <!-- BOM of spring-boot -->
       <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -48,11 +56,6 @@
         </version>
         <type>pom</type>
         <scope>import</scope>
-      </dependency>
-      <dependency>
-          <groupId>com.fasterxml.jackson.core</groupId>
-          <artifactId>jackson-databind</artifactId>
-          <version>2.9.9.1</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

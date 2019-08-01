@@ -30,6 +30,7 @@
     <spring.boot.version>2.1.6.RELEASE</spring.boot.version>
     <javadoc.option.doclint></javadoc.option.doclint>
     <maven.archetype.version>3.0.1</maven.archetype.version>
+    <jackson.version>2.10.0.pr1</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
   </properties>
 
   <build>
