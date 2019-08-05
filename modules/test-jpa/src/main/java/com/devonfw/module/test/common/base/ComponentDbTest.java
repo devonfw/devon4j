@@ -4,23 +4,21 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import com.devonfw.module.test.common.api.category.CategoryComponentTest;
-import com.devonfw.module.test.common.base.ComponentTest;
 import com.devonfw.module.test.common.base.clean.TestCleaner;
 
 /**
  * Combination of {@link DbTest} with {@link ComponentTest}.
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @TestExecutionListeners({ TransactionalTestExecutionListener.class, DependencyInjectionTestExecutionListener.class })
-@Category(CategoryComponentTest.class)
+@Tag("component")
 public abstract class ComponentDbTest extends DbTest {
 
   @PersistenceContext

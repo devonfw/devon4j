@@ -1,8 +1,8 @@
 package com.devonfw.module.test.common.base;
 
 import org.assertj.core.api.Assertions;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * This is the {@code abstract} base class for all tests. In most cases it will be convenient to extend this class. <br>
@@ -48,7 +48,7 @@ public abstract class BaseTest extends Assertions {
   /**
    * Suggests to use {@link #doSetUp()} method before each tests.
    */
-  @Before
+  @BeforeEach
   public final void setUp() {
 
     // Simply sets INITIALIZED to true when setUp is called for the first time.
@@ -61,7 +61,7 @@ public abstract class BaseTest extends Assertions {
   /**
    * Suggests to use {@link #doTearDown()} method before each tests.
    */
-  @After
+  @AfterEach
   public final void tearDown() {
 
     doTearDown();

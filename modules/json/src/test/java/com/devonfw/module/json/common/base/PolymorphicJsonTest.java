@@ -3,7 +3,7 @@ package com.devonfw.module.json.common.base;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.devonfw.module.test.common.base.ModuleTest;
 import com.fasterxml.jackson.databind.ObjectMapper;

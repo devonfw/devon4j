@@ -1,8 +1,7 @@
 package com.devonfw.module.test.common.base;
 
 import org.junit.experimental.categories.Category;
-
-import com.devonfw.module.test.common.api.category.CategorySystemTest;
+import org.junit.jupiter.api.Tag;
 
 /**
  * This is the abstract base class for a system test. You are free to create your system tests as you like just by
@@ -11,7 +10,7 @@ import com.devonfw.module.test.common.api.category.CategorySystemTest;
  *
  * @see CategorySystemTest
  */
-@Category(CategorySystemTest.class)
+@Tag("system")
 public abstract class SystemTest extends BaseTest {
 
 }

@@ -14,10 +14,17 @@
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+     <groupId>org.junit.jupiter</groupId>
+     <artifactId>junit-jupiter-engine</artifactId>
     </dependency>
-
+    <dependency>
+     <groupId>org.junit.platform</groupId>
+     <artifactId>junit-platform-runner</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -26,5 +33,6 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
     </dependency>
+    
   </dependencies>
 </project>

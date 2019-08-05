@@ -1,10 +1,8 @@
 package com.devonfw.module.test.common.base;
 
 import org.assertj.core.api.Assertions;
-import org.junit.After;
-import org.junit.Test;
-
-import com.devonfw.module.test.common.base.BaseTest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * This test verifies the proper working of the {@link BaseTest} class.
@@ -38,7 +36,7 @@ public class BaseTestTest extends Assertions {
 
   }
 
-  @After
+  @AfterEach
   public void tearDown() {
 
     // Just in case some test method will be added
