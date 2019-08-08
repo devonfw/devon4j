@@ -1,11 +1,10 @@
-package com.devonfw.module.jpa.dataaccess.api;
+package com.devonfw.module.basic.common.api;
 
 import java.util.Date;
 
 /**
  * Implementation of {@link RevisionMetadata} as immutable type.
  */
-@Deprecated
 public class RevisionMetadataType implements RevisionMetadata {
 
   private final Number revision;

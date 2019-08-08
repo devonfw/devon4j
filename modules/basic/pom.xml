@@ -15,6 +15,12 @@
   <description>Basic code for common usage (such as base classes for transfer objects) of the Open Application Standard Platform for Java (devon4j).</description>
 
   <dependencies>
+  <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-envers</artifactId>
+      <optional>true</optional>
+    </dependency>
+  
     <!-- JPA only for JavaDoc links -->
     <dependency>
       <groupId>javax.persistence</groupId>
