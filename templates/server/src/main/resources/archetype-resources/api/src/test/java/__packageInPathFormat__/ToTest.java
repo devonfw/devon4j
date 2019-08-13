@@ -58,32 +58,43 @@ public class ToTest extends ModuleTest {
   }
 
   /**
-   * Checks for an overridden equals() method of a given class object
+   * Checks if a certain class has a custom equals method
+   * @param clazz class to be checked
+   * @return boolean value if the class to be checked has a custom equals()
+   *         method or not
    */
-  private boolean checkForCustomEquals(Class<?> clazz) {
+  private boolean hasCustomEquals(Class<?> clazz) {
 
-	for(Method method : clazz.getMethods()) {
-	  if(method.toString().equals("public boolean java.lang.Object.equals(java.lang.Object)")) return false;
-	}
+    try {
+      clazz.getDeclaredMethod("equals", new Class[] {});
+    } catch (NoSuchMethodException noCustomEquals) {
+      return false;
+    }
 
-	return true;
+    return true;
   }
 
   /**
-   * Checks for an overridden hashCode() method of a given class object
+   * Checks if a certain class has a custom hashCode method
+   *
+   * @param clazz class to be checked
+   * @return boolean value if the class to be checked has a custom hashCode()
+   *         method or not
    */
-  private boolean checkForCustomHashCode(Class<?> clazz) {
+  private boolean hasCustomHashCode(Class<?> clazz) {
 
-	for(Method method : clazz.getMethods()) {
-	  if(method.toString().equals("public native int java.lang.Object.hashCode()")) return false;
-	}
+    try {
+      clazz.getDeclaredMethod("hashCode", new Class[] { Object.class });
+    } catch (NoSuchMethodException noCustomHashCode) {
+      return false;
+    }
 
-	return true;
+    return true;
   }
 
   private void testEqualsAndHashcode(Class<?> clazz, SoftAssertions assertion, ToExclusion exclusion) {
 
-	if((checkForCustomEquals(clazz) == false) || (checkForCustomHashCode(clazz) == false)) {
+	if(!hasCustomEquals(clazz) && !hasCustomHashCode(clazz)) {
 	  return;
 	}
 
