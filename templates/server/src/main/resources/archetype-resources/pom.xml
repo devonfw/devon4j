@@ -16,6 +16,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <devonfw.test.excluded.groups>com.devonfw.module.test.common.api.category.CategorySystemTest</devonfw.test.excluded.groups>
+    <jackson.version>$[jackson.version]</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
   </properties>
 
   <modules>
@@ -32,6 +33,14 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- overriding BOM of jackson -->
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <!-- BOM of spring-boot -->
       <dependency>
         <groupId>org.springframework.boot</groupId>
