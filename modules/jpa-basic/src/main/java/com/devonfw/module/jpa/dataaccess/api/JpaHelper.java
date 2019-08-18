@@ -2,6 +2,7 @@ package com.devonfw.module.jpa.dataaccess.api;
 
 import java.util.Collection;
 
+import com.devonfw.module.basic.common.api.RevisionMetadataType;
 import com.devonfw.module.basic.common.api.entity.GenericEntity;
 import com.devonfw.module.basic.common.api.reference.GenericIdRef;
 import com.devonfw.module.basic.common.api.reference.Ref;
@@ -72,6 +73,22 @@ public class JpaHelper {
       }
       output.add(entity);
     }
+  }
+
+  /**
+   * This is the newer implementation of RevisionMetadataType should be used with
+   * {@link com.devonfw.module.basic.common.api.RevisionMetadata}
+   *
+   * @param revEntity die {@link AdvancedRevisionEntity}.
+   * @return die Instanz von {@link RevisionMetadataType} bzw. {@code null} falls {@code revision} den Wert {@code null}
+   *         hat.
+   */
+  public static RevisionMetadataType of(AdvancedRevisionEntity revEntity) {
+
+    if (revEntity == null) {
+      return null;
+    }
+    return new RevisionMetadataType(revEntity.getId(), revEntity.getDate(), revEntity.getUserLogin());
   }
 
 }
