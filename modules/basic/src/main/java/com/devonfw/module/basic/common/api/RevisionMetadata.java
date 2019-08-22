@@ -9,7 +9,7 @@ import java.util.Date;
  * {@link com.devonfw.module.basic.common.api.entity.RevisionedEntity#getRevision() historic revision} of an
  * {@link com.devonfw.module.basic.common.api.entity.RevisionedEntity revisioned entity}.
  *
- * @since 3.0.0
+ * @since 3.2.0
  */
 public interface RevisionMetadata {
 
@@ -33,6 +33,6 @@ public interface RevisionMetadata {
    *
    * @return the author. May be {@code null} (if committed outside user scope).
    */
-  String getUserLogin();
+  String getAuthor();
 
 }

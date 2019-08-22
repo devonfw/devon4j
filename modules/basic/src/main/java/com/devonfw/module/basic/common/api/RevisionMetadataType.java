@@ -11,7 +11,7 @@ public class RevisionMetadataType implements RevisionMetadata {
 
   private final Date date;
 
-  private final String userLogin;
+  private final String author;
 
   /**
    * The constructor.
@@ -20,11 +20,11 @@ public class RevisionMetadataType implements RevisionMetadata {
    * @param date the {@link #getDate() date}.
    * @param author the {@link #getAuthor() author}.
    */
-  public RevisionMetadataType(Number revision, Date date, String userLogin) {
+  public RevisionMetadataType(Number revision, Date date, String author) {
 
     this.revision = revision;
     this.date = date;
-    this.userLogin = userLogin;
+    this.author = author;
   }
 
   @Override
@@ -40,15 +40,15 @@ public class RevisionMetadataType implements RevisionMetadata {
   }
 
   @Override
-  public String getUserLogin() {
+  public String getAuthor() {
 
-    return this.userLogin;
+    return this.author;
   }
 
   @Override
   public String toString() {
 
-    return this.revision + "@" + this.date + " by " + this.userLogin;
+    return this.revision + "@" + this.date + " by " + this.author;
   }
 
 }

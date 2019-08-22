@@ -3,9 +3,9 @@ package com.devonfw.module.jpa.dataaccess.api;
 import java.util.Date;
 
 /**
- * @Deprecated use {@link com.devonfw.module.basic.common.api.RevisionMetadataType} instead.
+ * @deprecated use {@link com.devonfw.module.basic.common.api.RevisionMetadataType} instead.
  *
- * Implementation of {@link RevisionMetadata} as immutable type.
+ *             Implementation of {@link RevisionMetadata} as immutable type.
  */
 @Deprecated
 public class RevisionMetadataType implements RevisionMetadata {
