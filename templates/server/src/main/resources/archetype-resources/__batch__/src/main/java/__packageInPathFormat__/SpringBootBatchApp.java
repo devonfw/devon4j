@@ -13,10 +13,8 @@ import com.devonfw.module.jpa.dataaccess.api.AdvancedRevisionEntity;
 /**
  * {@link SpringBootApplication} for running this batch.
  */
-@SpringBootApplication(exclude = { EndpointAutoConfiguration.class, SecurityAutoConfiguration.class,
-SecurityFilterAutoConfiguration.class, })
+@SpringBootApplication
 @EntityScan(basePackages = { "${package}" }, basePackageClasses = { AdvancedRevisionEntity.class })
-@EnableGlobalMethodSecurity(jsr250Enabled = false)
 public class SpringBootBatchApp {
 
   /**

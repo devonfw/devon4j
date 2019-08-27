@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.devonfw.module.basic.common.api.reference.IdRef;
+import com.devonfw.module.json.common.base.type.IdRefJsonDeserializer;
+import com.devonfw.module.json.common.base.type.IdRefJsonSerializer;
+import com.devonfw.module.json.common.base.type.PageableJsonDeserializer;
+import com.devonfw.module.json.common.base.type.PageableJsonSerializer;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
@@ -38,6 +43,7 @@ public class ObjectMapperFactory {
   public ObjectMapperFactory() {
 
     super();
+    initMapping();
   }
 
   /**
@@ -51,8 +57,8 @@ public class ObjectMapperFactory {
   public SimpleModule getExtensionModule() {
 
     if (this.extensionModule == null) {
-      this.extensionModule = new SimpleModule("devonfw.ExtensionModule",
-          new Version(1, 0, 0, null, GROUP_ID, ARTIFACT_ID));
+      this.extensionModule =
+          new SimpleModule("devonfw.ExtensionModule", new Version(1, 0, 0, null, GROUP_ID, ARTIFACT_ID));
     }
     return this.extensionModule;
   }
@@ -140,5 +146,23 @@ public class ObjectMapperFactory {
     mapper.registerModule(new JavaTimeModule());
 
     return mapper;
+  }
+
+  /**
+   * @return an instance of {@link SimpleModule} for registering configurations
+   */
+  protected SimpleModule initMapping() {
+
+    SimpleModule module = getExtensionModule();
+    // use fully qualified names for spring-data so users can override this method and opt-out
+    module.addSerializer(org.springframework.data.domain.Pageable.class, new PageableJsonSerializer());
+    module.addDeserializer(org.springframework.data.domain.Pageable.class, new PageableJsonDeserializer());
+    module.addAbstractTypeMapping(org.springframework.data.domain.Page.class,
+        com.devonfw.module.json.common.base.type.JsonPage.class);
+    module.setMixInAnnotation(org.springframework.data.domain.Page.class,
+        com.devonfw.module.json.common.base.type.JsonPage.class);
+    module.addSerializer(IdRef.class, new IdRefJsonSerializer());
+    module.addDeserializer(IdRef.class, new IdRefJsonDeserializer());
+    return module;
   }
 }

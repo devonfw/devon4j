@@ -3,11 +3,13 @@ package ${package}.general.common.impl.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+import com.github.dozermapper.core.DozerBeanMapper;
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
 
 /**
  * Java bean configuration for Dozer
@@ -26,7 +28,8 @@ public class BeansDozerConfig {
 
     List<String> beanMappings = new ArrayList<>();
     beanMappings.add(DOZER_MAPPING_XML);
-    return new DozerBeanMapper(beanMappings);
+    Mapper mapper = DozerBeanMapperBuilder.create().withMappingFiles(beanMappings).build();
+    return mapper;
 
   }
 }

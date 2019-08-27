@@ -1,0 +1,45 @@
+:toc: macro
+toc::[]
+
+= Aspect Oriented Programming (AOP)
+
+http://en.wikipedia.org/wiki/Aspect-oriented_programming[AOP] is a powerful feature for cross-cutting concerns. However, if used extensive and for the wrong things an application can get unmaintainable. Therefore we give you the best practices where and how to use AOP properly.
+
+== AOP Key Principles
+We follow these principles:
+
+* We use http://docs.spring.io/spring/docs/2.5.4/reference/aop.html[spring AOP] based on dynamic proxies (and fallback to cglib).
+* We avoid AspectJ and other mighty and complex AOP frameworks whenever possible
+* We only use AOP where we consider it as necessary (see below).
+
+== AOP Usage
+We recommend to use AOP with care but we consider it established for the following cross cutting concerns:
+
+* link:guide-transactions.asciidoc[Transaction-Handling]
+* link:guide-security.asciidoc#method-authorization[Authorization]
+* link:guide-validation.asciidoc[Validation]
+* link:guide-logging.asciidoc#tracing[Trace-Logging] (for testing and debugging)
+* Exception facades for link:guide-service-layer.asciidoc[services] but only if no other solution is possible (use alternatives such as link:guide-service-layer.asciidoc#rest-exception-handling[JAX-RS provider] instead).
+
+== AOP Debugging
+//Exchange picture with one of the current version?
+When using AOP with dynamic proxies the debugging of your code can get nasty. As you can see by the red boxes in the call stack in the debugger there is a lot of magic happening while you often just want to step directly into the implementation skipping all the AOP clutter. When using Eclipse this can easily be archived by enabling _step filters_. Therefore you have to enable the feature in the Eclipse tool bar (highlighted in read).
+
+image::images/eclipse-debug-aop.png["AOP debugging",scaledwidth="80%",align="center",link="images/eclipse-debug-aop.png"]
+In order to properly make this work you need to ensure that the step filters are properly configured:
+
+image::images/eclipse-debug-step-filters.png["Step Filter Configuration",scaledwidth="80%",align="center",link="images/eclipse-debug-step-filters.png"]
+Ensure you have at least the following step-filters configured and active:
+[source]
+----
+ch.qos.logback.*
+com.devonfw.module.security.*
+java.lang.reflect.*
+java.security.*
+javax.persistence.*
+org.apache.commons.logging.*
+org.apache.cxf.jaxrs.client.*
+org.apache.tomcat.*
+org.h2.*
+org.springframework.*
+----

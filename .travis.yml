@@ -1,10 +1,66 @@
 language: java
 dist: trusty
 jdk:
-  - oraclejdk8
-script: 
- - mvn install
+  - openjdk8
+  - openjdk11
 cache:
   directories:
     - "$HOME/.m2/repository"
 sudo: false
+env:
+  global:
+    - ORG="devonfw"
+    - EMAIL="icsddevonfwsupport.apps2@capgemini.com"
+    - REPO_SOURCE="devon4j"
+    - REPO_DEST="devon4j.wiki"
+    - REPO_CONSOLIDATE="devonfw-guide"
+    - GH_REPO_SOURCE="github.com/${ORG}/${REPO_SOURCE}.git"
+    - GH_REPO_DEST="github.com/${ORG}/${REPO_DEST}.git"
+    - GH_REPO_CONSOLIDATE="github.com/${ORG}/${REPO_CONSOLIDATE}.git"
+    - secure: kJD4+ZMSvJT8W041hR90kxkrkdk/b5A1AkG/7M1W+2OlWz/IBO+lil9yyzVG0Uy7pEa6u7RHRoApy+N2kgnqOOS7Rgc8MRObPyK9SoBXmYH9WNTQIDjYGlfsJcyaCAb1NV0SxWrCKFdEdoVmca8a+qJjhM8Dix92REB7txmvJvq3t0pHIYT3YU2W8pvn4yCORjThipdIRn7cMkr5lhpwSfUyQ/Dal+1bAIsAg3GSAt2k5PeQ/pdlmcLYfSCgdsd7+vXllLXsIP+xSY0A2Sz5QTMQyxTYS8te+o6xJQERyt4HlBiLsjDznPVIMrmiDPciteDtgwJlDzKJ7hJHQxmrIZbZNyXbKqB3rdukspK276/k3YVya6rCwQd9GAUwLMXl1/c2ebFXBvMCjaMaHgf/EVbHQCHrAwy2J/IvtRlKNT4sQfovLmi7NYtKZ0+VStxxDkth/+dSN1lXm+KVmffjinAe9pIDhVFLPFBPR21igigSM+BU2lH6x3TYEJJQNZW8WRHk7qslP6tBmW6RGx41R+05J1qsqrFR4gNfKTMQ6Rg/ooXdo3nwQRM2jrvIGgJLJ8t1CD5WpV5js9QI2yNeQzyIKpDXeaZspKMkh/EUsK/ntfpBsNLfH6+WfKJOi1d/BLro9A9XEjvfkCIS6FyagCJxnewKmei+reEknULQmdo=
+stages:
+  - name: Build
+  - name: Documentation
+    if: (branch = develop) AND (type = push)
+jobs:
+  include:
+    - stage: Build
+      script:
+        - mvn install
+    - stage: Documentation
+      script:
+        # Clone repositories
+        - git clone -b develop --single-branch https://${GH_REPO_SOURCE}
+        - git clone https://${GH_REPO_DEST}
+        - git clone https://${GH_REPO_CONSOLIDATE}
+        # Update wiki repository with documentation folder contents
+        - yes | cp -rf ${REPO_SOURCE}/documentation/* ${REPO_DEST}/
+        - cd ${REPO_DEST}
+        - grep -lr "link:[a-zA-Z0-9_.-]*.asciidoc.*" .| xargs -r sed -i "s/.asciidoc//g"
+        # Terminate Travis CI build when no changes detected
+        - |
+          if git diff-index --quiet HEAD && [ ! -n "$(git status -s)" ]; then 
+            set +e 
+            pkill -9 -P $$ &> /dev/null || true 
+            exit 0
+          else 
+            git config user.email ${EMAIL}
+            git config user.name ${USER}
+            git status
+            git add .
+            git commit -m "${REPO_SOURCE} documentation | Travis CI build number $TRAVIS_BUILD_NUMBER"
+            git remote add origin-wiki "https://${USER}:${GITHUB_TOKEN}@${GH_REPO_DEST}"
+            git push origin-wiki master
+            cd ../${REPO_CONSOLIDATE}
+            if [ ! -d ${REPO_DEST} ]; then git submodule add https://${GH_REPO_DEST}; fi;
+            git submodule init
+            git submodule update --recursive --remote
+            cd ${REPO_DEST}
+            git checkout master
+            git pull
+            cd ..
+            git add .
+            git commit -m "${REPO_SOURCE} documentation | Travis CI build number $TRAVIS_BUILD_NUMBER"
+            git remote add origin-wiki "https://${USER}:${GITHUB_TOKEN}@${GH_REPO_CONSOLIDATE}"
+            git push origin-wiki master
+          fi

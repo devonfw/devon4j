@@ -1,0 +1,41 @@
+:toc:
+toc::[]
+
+= Decision Sheet for Choosing a Service Framework
+
+We need to choose which framework(s) we are using to build services. For the devonfw we focus on a standard API if available. However, we also want to recommend an implementation to use. While projects would still be able to choose whatever they want, we want to suggest the best, most robust and established solution. This way projects do not have to worry about the decision and can rely on a production ready framework without getting into trouble. Also besides the standard the configuration of the implementation framework differs and we want to give instructions how to do this in the documentation and by our sample application. This is why in the end the implementation also matters. If a project has a customer demand to use something else then the project has to take care of this. We will always suggest and "support" ONE solution.
+
+== REST Services
+For REST services we rely on the JAX-RS standard (and NOT on spring-mvc with its proprietary annotations).
+As JAX-RS implementation had Jersey (Reference-Implementation) and Apache CXF on the short-list. As it turned out, Jersey is build for HK2 and the spring integration is rather a quickfix. So we ran into bugs when we used it with spring. There are various issues open in the jersey tracker related to this. E.g. https://java.net/jira/browse/JERSEY-2112
+For Apache CXF the spring container was first choice but container abstraction has been properly introduced by design so it can be used in JEE application servers. Everything works smooth in our sample application and we collected feedback from various projects doing JAX-RS based on CXF either with XML or JSON with success in production. 
+
+Therefore we decided for Apache CXF here.
+
+== WebServices
+For WebServices we rely on the JAX-WS standard. On our short list we have https://metro.java.net[Metro2] and http://cxf.apache.org[Apache CXF]. Here a collection of facts and considerations:
+
+.Decision for JAX-WS implementation
+[cols="asciidoc",options="header",grid="cols"]
+|=======================
+|        |*Metro2*|*Apache CXF*
+|*Pro*   |
+- reference implementation +
+- proven in many projects +
+- standard in RF
+|
+- supports both JAX-WS and JAX-RS therefore consistent configuration, single integration into servlet-container and spring +
+- proven in a lot of projects +
+- already chosen by devonfw for JAX-RS (so we already have a JAX-WS implementation on board).
+|*Contra*|
+- We expect trouble if use the planned URL path scheme +<app>/services/(rest\|ws)/...+ as CXF and Metro2 would both occupy +services/*+ +
+- ugly endorsed trouble and small spring-integration issues with WSDL/XSD link resolution (input from Martin Girschik)
+|
+- IMHO currently used in less projects than metro2 so less existing experience +
+|=======================
+
+See also
+http://predic8.de/axis2-cxf-jax-ws-vergleich.htm
+We also had an evaluation at CSD research on CXF vs. Axis2. vs. Metro that suggested CXF.
+
+BTW: Axis(2) is definitely out of discussion for devonfw.

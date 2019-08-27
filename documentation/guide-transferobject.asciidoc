@@ -1,0 +1,52 @@
+:toc: macro
+toc::[]
+//The guide itself is fine only the diagram is outdated -needs existing classes-
+= Transfer-Objects
+
+The technical data model is defined in form of link:guide-jpa.asciidoc#entity[persistent entities].
+However, passing persistent entities via _call-by-reference_ across the entire application will soon cause problems:
+
+* Changes to a persistent entity are directly written back to the persistent store when the transaction is committed. When the entity is send across the application also changes tend to take place in multiple places endangering data sovereignty and leading to inconsistency.
+* You want to send and receive data via services across the network and have to define what section of your data is actually transferred. If you have relations in your technical model you quickly end up loading and transferring way too much data.
+* Modifications to your technical data model shall not automatically have impact on your external services causing incompatibilities.
+
+To prevent such problems transfer-objects are used leading to a _call-by-value_ model and decoupling changes to persistent entities.
+
+In the following sections the different types of transfer-objects are explained.
+You will find all according naming-conventions in the link:coding-conventions.asciidoc#architecture-mapping[architecture-mapping]
+
+=== ETO
+For each link:guide-jpa.asciidoc#entity[persistent entity] `«BusinessObject»Entity` we create or generate a corresponding _entity transfer object_ (ETO) named `«BusinessObject»Eto`. It has the same properties except for relations.
+
+=== BO
+In order to centralize the properties (getters and setters with their javadoc) we create a common interface `«BusinessObject»` implemented both by the entity and its ETO. This also gives us compile-time safty that
+link:guide-beanmapping.asciidoc[bean-mapper] can properly map all properties between entity and ETO.
+
+=== CTO
+If we need to pass an entity with its relation(s) we create a corresponding _composite transfer object_ (CTO) named `«BusinessObject»«Subset»Cto` that only contains other transfer-objects or collections of them. Here `«Subset»` is empty for the canonical CTO that holds the ETO together with all its relations.
+This is what can be gemerated automatically with https://github.com/devonfw/tools-cobigen[CobiGen].
+However, be careful to generate CTOs without thinking and considering design.
+If there are no relations at all a CTO is pointless and shall be omitted.
+However, if there are multiple relations you typically need  multiple CTOs for the same `«BusinessObject»` that define different subsets of the related data.
+These will typically be designed and implemented by hand.
+E.g. you may have `CustomerWithAddressCto` and `CustomerWithContractCto`. Most CTOs correspond to a specific `«BusinessObject»` and therefore contain a `«BusinessObject»Eto`. Such CTOs should inherit from `MasterCto`.
+
+This pattern with entities, ETOs and CTOs is illustrated by the following UML diagram from our sample application.
+
+[[img-transfer-objects]]
+.ETOs and CTOs
+image::images/transfer-objects.png["ETOs and CTOs",scaledwidth="80%",align="center",link="images/transfer-objects.png"]
+
+== TO
+Finally, there are typically transfer-objects for data that is never persistent. For very generic cases
+these just carry the suffix `To`.
+
+== SearchCriteriaTo
+ For searching we create or generate a `«BusinessObject»SearchCriteriaTo` representing a query to find instances of `«BusinessObject»`.
+
+== STO
+We can potentially create separate _service transfer objects_ (STO) (if possible named `«BusinessObject»Sto`) to keep the link:guide-service-layer.asciidoc[service] API stable and independent of the actual data-model.
+However, we usually do not need this and want to keep our architecture simple.
+Only create STOs if you need link:guide-service-layer.asciidoc#versioning[service versioning] and support previous APIs or to provide legacy service technologies that require their own isolated data-model.
+In such case you also need link:guide-beanmapping.asciidoc[beanmapping] between STOs and ETOs what means extra effort and complexity that should be avoided.
+In such case you also need link:guide-beanmapping.asciidoc[beanmapping] between STOs and ETOs what means extra effort and complexity that should be avoided.

@@ -3,12 +3,12 @@ package com.devonfw.module.beanmapping.common.impl.dozer;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.dozer.Mapper;
-
 import com.devonfw.module.beanmapping.common.base.AbstractBeanMapper;
+import com.github.dozermapper.core.Mapper;
 
 /**
- * This is the implementation of {@link com.devonfw.module.beanmapping.common.api.BeanMapper} using dozer {@link Mapper}.
+ * This is the implementation of {@link com.devonfw.module.beanmapping.common.api.BeanMapper} using dozer
+ * {@link Mapper}.
  *
  * @since 1.3.0
  */
