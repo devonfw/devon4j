@@ -81,7 +81,7 @@ public class GenericRevisionedRepositoryImpl<E, ID extends Serializable> extends
       QueryUtil.get().whereIn(query, Alias.$(rev.getId()), (List<Long>) revList);
       query.orderBy(Alias.$(rev.getId()).asc());
       List<AdvancedRevisionEntity> resultList = query.fetch();
-      return resultList.stream().map(x -> JpaHelper.of(x)).collect(Collectors.toList());
+      return resultList.stream().map(x -> JpaHelper.asRevisionMetaData(x)).collect(Collectors.toList());
     }
   }
 
@@ -98,7 +98,7 @@ public class GenericRevisionedRepositoryImpl<E, ID extends Serializable> extends
     if (revisionEntity == null) {
       throw new IllegalStateException("Could not find AdvancedRevisionEntity for ID '" + id + "'.");
     }
-    return JpaHelper.of(revisionEntity);
+    return JpaHelper.asRevisionMetaData(revisionEntity);
   }
 
 }

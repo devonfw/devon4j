@@ -83,7 +83,7 @@ public class JpaHelper {
    * @return die Instanz von {@link RevisionMetadataType} bzw. {@code null} falls {@code revision} den Wert {@code null}
    *         hat.
    */
-  public static RevisionMetadataType of(AdvancedRevisionEntity revEntity) {
+  public static RevisionMetadataType asRevisionMetaData(AdvancedRevisionEntity revEntity) {
 
     if (revEntity == null) {
       return null;
