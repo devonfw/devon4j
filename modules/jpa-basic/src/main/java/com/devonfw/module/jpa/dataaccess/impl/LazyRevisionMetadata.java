@@ -6,8 +6,8 @@ import java.util.Date;
 
 import javax.persistence.EntityManager;
 
+import com.devonfw.module.basic.common.api.RevisionMetadata;
 import com.devonfw.module.jpa.dataaccess.api.AdvancedRevisionEntity;
-import com.devonfw.module.jpa.dataaccess.api.RevisionMetadata;
 
 /**
  * This is a lazy implementation of the {@link RevisionMetadata} interface.

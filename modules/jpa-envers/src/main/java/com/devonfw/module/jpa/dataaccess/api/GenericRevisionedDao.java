@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.PersistenceException;
 
+import com.devonfw.module.basic.common.api.RevisionMetadata;
 import com.devonfw.module.basic.common.api.entity.RevisionedEntity;
 import com.devonfw.module.basic.common.api.entity.RevisionedPersistenceEntity;
 
