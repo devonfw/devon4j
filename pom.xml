@@ -7,7 +7,7 @@
   <version>dev-SNAPSHOT</version> <!-- This POM will never be released -->
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
-  <description>Open Application Standard Platform for Java (devon4j).</description>
+  <description>Java stack of devonfw.com (devon4j): develop Java apps standardized, faster and with less risk.</description>
   <url>http://www.devonfw.com/devon4j/</url>
   <inceptionYear>2014</inceptionYear>
 
