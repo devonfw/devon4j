@@ -15,4 +15,4 @@ Contributions and improvements to the documentation are welcome. However, you sh
 to generate the documentation starting from link:devon4j-doc.asciidoc[].
 
 If you consider all the aspects above you can start editing the documentation if you have a https://github.com/join[github-account]. For small and simple changes just go to the AsciiDoc file in the `documentation` folder. Then click on the pencil-icon (you have to be signed in). Now github will allow you to edit the raw AsciiDoc text. Do your changes and preview them (using the `Preview` tab). Once complete, commit the changes as a new branch. From there click on `compare and pull-request` and finally confirm your pull-request.
-For larger changes, you should create a fork just as for link:devonfw-code-contributions.asciidoc[code-contributions]. Often larger changes imply changes to documentation and code.
+For larger changes, you should create a fork just as for link:devonfw-code-contribution.asciidoc[code-contributions]. Often larger changes imply changes to documentation and code.
