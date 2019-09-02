@@ -155,61 +155,8 @@ git commit -m "#«issue»: open next snapshot version"
 [source,bash]
 git push
 
-== Releasing the documentation
+== Releasing the maven-site
 
-* Initially and only once you have to create a local checkout of the github pages and of the wiki repository connected to the https://github.com/devonfw-wiki/devon4j/wiki/[community wiki]:
-+
-[source,bash]
-git clone https://github.com/devonfw/devonfw.github.io.git
-git clone https://github.com/devonfw/devon4j.wiki.git
-cd devon4j.wiki
-git remote add source https://github.com/devonfw-wiki/devon4j.wiki.git
-+
-* Pull from `origin` as well as from `source`:
-+
-[source,bash]
-git pull origin
-git pull source
-+
-* Carefully review all changes that have been done on the forge wiki. Potentially reject changes if necessary.
-* When you are complete push your changes:
-+
-[source,bash]
-git push origin
-+
-* Edit the `pom.xml` and change `version` to bump it to the release version (remove the `-SNAPSHOT` suffix).
-* Commit the changes:
-+
-[source,bash]
-git commit -m "#«issue»: bumped release version «x.y.z»"
-* Create an annotated tag for your release:
-+
-[source,bash]
-git tag -a release/x.y.z -m "#«issue»: tagged «x.y.z»"
-+
-* Build and deploy the documentation PDF from the cloned wiki repository via
-+
-[source,bash]
-mvn clean deploy -P oss
-+
-* Open https://oss.sonatype.org/[OSSRH], login and open staging repositories.
-* Find your deployment repository as `comdevonfw-NNNN` and check its `Content`
-* Only proceed if the PDF is sane (otherwise check what failed and restart)
-* Then click on `Close` to close the repository and wait a minute.
-* Refresh the repository.
-* Click on `Release` to publish the release and stage to maven central.
-* Edit the top-level `pom.xml` and change `version` property to the next planned release version including the `-SNAPSHOT` suffix.
-* Commit and push the changes:
-+
-[source,bash]
-git commit -m "#«issue»: open next snapshot version"
-git push --tags
-+
-* Also push the changes back to the community wiki:
-+
-[source,bash]
-git push source master
-+
 * Create a new folder for your version in your checkout of https://github.com/devonfw/devonfw.github.io/tree/master/devon4j[devonfw.github.io/devon4j] (as `«x.y.z»`).
 * Copy the just generated `devon4j-doc.pdf` into the new release version folder.
 * Copy the `index.html` from the previous release to the new release version folder.
