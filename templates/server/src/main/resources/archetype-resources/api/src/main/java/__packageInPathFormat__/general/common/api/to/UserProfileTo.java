@@ -38,7 +38,7 @@ public class UserProfileTo extends AbstractTo implements UserProfile {
   @Override
   protected void toString(StringBuilder buffer) {
 
-	buffer.append(getClass().getSimpleName() + ": " + "login = " + login + ", hashcode = " + this.hashCode() + ";");
+	buffer.append(getClass().getSimpleName() + ": " + "login = " + login + ";");
   }
 
 }
