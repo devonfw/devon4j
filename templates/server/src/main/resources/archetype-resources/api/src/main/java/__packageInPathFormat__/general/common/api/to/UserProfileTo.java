@@ -1,6 +1,7 @@
 package ${package}.general.common.api.to;
 
 import ${package}.general.common.api.UserProfile;
+
 import com.devonfw.module.basic.common.api.to.AbstractTo;
 
 /**
@@ -32,6 +33,12 @@ public class UserProfileTo extends AbstractTo implements UserProfile {
   public void setLogin(String login) {
 
     this.login = login;
+  }
+
+  @Override
+  protected void toString(StringBuilder buffer) {
+
+	buffer.append(getClass().getSimpleName() + ": " + "login = " + login + ";");
   }
 
 }
