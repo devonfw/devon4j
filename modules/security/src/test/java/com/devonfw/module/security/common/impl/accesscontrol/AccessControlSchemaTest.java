@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 
 import com.devonfw.module.security.common.api.accesscontrol.AccessControl;

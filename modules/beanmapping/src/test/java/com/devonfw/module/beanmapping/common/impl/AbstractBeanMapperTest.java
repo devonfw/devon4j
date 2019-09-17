@@ -1,6 +1,6 @@
 package com.devonfw.module.beanmapping.common.impl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.devonfw.module.basic.common.api.entity.GenericEntity;
 import com.devonfw.module.basic.common.api.entity.PersistenceEntity;

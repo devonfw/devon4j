@@ -2,19 +2,18 @@ package com.devonfw.module.logging.common.impl;
 
 import static org.mockito.Mockito.verify;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.owasp.security.logging.filter.ExcludeClassifiedMarkerFilter;
 import org.owasp.security.logging.mask.MaskingConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 
-import com.devonfw.module.logging.common.impl.SecureLogging;
 import com.devonfw.module.test.common.base.BaseTest;
 import com.devonfw.module.test.common.base.ModuleTest;
 
@@ -35,7 +34,7 @@ import ch.qos.logback.core.spi.FilterReply;
  * owasp-security-logging-logback/src/test/java/org/owasp/security/logging/mask/MaskingConverterTest and
  * ../filter/ExcludeClassifiedMarkerFilterTest
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SecureLoggingLogbackTest extends ModuleTest {
 
   private static final LoggerContext LOGGER_CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();

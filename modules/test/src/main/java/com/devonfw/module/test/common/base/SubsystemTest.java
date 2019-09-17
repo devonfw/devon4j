@@ -1,13 +1,12 @@
 package com.devonfw.module.test.common.base;
 
 import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-
-import com.devonfw.module.test.common.api.category.CategorySubsystemTest;
 
 /**
  * This is the abstract base class for an integrative test of a sub-system (e.g. your application backend). You are free
@@ -25,9 +24,9 @@ import com.devonfw.module.test.common.api.category.CategorySubsystemTest;
  *
  * @see CategorySubsystemTest
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @TestExecutionListeners({ TransactionalTestExecutionListener.class, DependencyInjectionTestExecutionListener.class })
-@Category(CategorySubsystemTest.class)
+@Tag("subsystem")
 public abstract class SubsystemTest extends BaseTest {
 
 }
