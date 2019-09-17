@@ -1,4 +1,4 @@
-=== IDE Setup
+= IDE Setup
 
 This Tutorial explains how to setup the development environment to work on and contribute to devonfw4j with your Windows computer.
 
@@ -41,4 +41,6 @@ Do another check whether there are files in folder `workspaces\main\my-thai-star
 +
 image::images/eclipse-run-as.png[width="813", high="390", align="center"]
 +
-Once started, the sample application runs on http://localhost:8081/mythaistar[], login with waiter/waiter and have a look at the services list provided.
+Once started, the backend part of the application runs on http://localhost:8081/mythaistar[]. This is protected by Spring Security, so an additional frontend needs to be started, that will be able to get the needed access tokens.
+.  Now switch within command line to `workspaces\main\my-thai-star\angular` and run `yarn install` followed by `yarn start`. Finally 
+login with `waiter/waiter` at `http://localhost:4200/restaurant/`.

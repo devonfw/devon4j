@@ -12,10 +12,6 @@
   <name>${project.artifactId}</name>
   <description>Server for the ${rootArtifactId} application - a simple example using the Open Application Standard Platform for Java (devon4j).</description>
 
-  <properties>
-    <java.version>1.8</java.version>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>

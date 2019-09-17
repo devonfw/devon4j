@@ -12,11 +12,11 @@ import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 
+import com.devonfw.module.basic.common.api.RevisionMetadata;
 import com.devonfw.module.basic.common.api.entity.RevisionedEntity;
 import com.devonfw.module.jpa.dataaccess.api.AdvancedRevisionEntity;
+import com.devonfw.module.jpa.dataaccess.api.JpaHelper;
 import com.devonfw.module.jpa.dataaccess.api.QueryUtil;
-import com.devonfw.module.jpa.dataaccess.api.RevisionMetadata;
-import com.devonfw.module.jpa.dataaccess.api.RevisionMetadataType;
 import com.devonfw.module.jpa.dataaccess.api.data.GenericRevisionedRepository;
 import com.devonfw.module.jpa.dataaccess.impl.LazyRevisionMetadata;
 import com.querydsl.core.alias.Alias;
@@ -26,8 +26,8 @@ import com.querydsl.jpa.impl.JPAQuery;
  * Implementation of {@link GenericRevisionedRepository}.
  *
  * @param <E> generic type of the managed {@link #getEntityClass() entity}.
- * @param <ID> generic type of the {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity#getId() primary key}
- *        of the entity.
+ * @param <ID> generic type of the {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity#getId() primary
+ *        key} of the entity.
  *
  * @since 3.0.0
  */
@@ -81,7 +81,7 @@ public class GenericRevisionedRepositoryImpl<E, ID extends Serializable> extends
       QueryUtil.get().whereIn(query, Alias.$(rev.getId()), (List<Long>) revList);
       query.orderBy(Alias.$(rev.getId()).asc());
       List<AdvancedRevisionEntity> resultList = query.fetch();
-      return resultList.stream().map(x -> RevisionMetadataType.of(x)).collect(Collectors.toList());
+      return resultList.stream().map(x -> JpaHelper.asRevisionMetaData(x)).collect(Collectors.toList());
     }
   }
 
@@ -98,7 +98,7 @@ public class GenericRevisionedRepositoryImpl<E, ID extends Serializable> extends
     if (revisionEntity == null) {
       throw new IllegalStateException("Could not find AdvancedRevisionEntity for ID '" + id + "'.");
     }
-    return RevisionMetadataType.of(revisionEntity);
+    return JpaHelper.asRevisionMetaData(revisionEntity);
   }
 
 }

@@ -2,12 +2,9 @@
 toc::[]
 
 = devonfw Documentation 
-We are using the github wiki feature to create and maintain the documentation of the devonfw. The WIKI is source for generation of pdf-versions to generate the platform guide and tutorials. 
+We are using the github AsciiDoc feature to create and maintain the documentation for devonfw. Also the documentation PDFs are generated from these AsciiDoc files.
 
-There are two editions of this wiki:
-
-* https://github.com/devonfw/devon4j/wiki[devon4j (official wiki)] for stable states of this wiki that is read-only for regular users.
-* https://github.com/devonfw-wiki/devon4j/wiki[devon4j (community wiki)] for development and contributions to this wiki. Here you can edit and contribute.
+The source of the documentation is always located in the `documentation` folder of the main git repository (see `Code` tab and then click on `documentation`). These files are automatically synchronized to the wiki. This is for pure usability reasons as people typically go to the `Wiki` tab on github repositories to look for documentation. However, the wiki is a read-only copy of the `documentation` folder from the `Code` repo.
 
 == Contribution to devon4j documentation
 Contributions and improvements to the documentation are welcome. However, you should be aware of the following aspects:
@@ -17,4 +14,5 @@ Contributions and improvements to the documentation are welcome. However, you sh
 * Please consult the https://github.com/devonfw/devon-docgen/wiki#guidelines[DocGen manual] as we are using DocGen
 to generate the documentation starting from link:devon4j-doc.asciidoc[].
 
-If you consider all the aspects above you can just edit the community wiki (in `devonfw-wiki`, see above) if you have a https://github.com/join[github-account].
+If you consider all the aspects above you can start editing the documentation if you have a https://github.com/join[github-account]. For small and simple changes just go to the AsciiDoc file in the `documentation` folder. Then click on the pencil-icon (you have to be signed in). Now github will allow you to edit the raw AsciiDoc text. Do your changes and preview them (using the `Preview` tab). Once complete, commit the changes as a new branch. From there click on `compare and pull-request` and finally confirm your pull-request.
+For larger changes, you should create a fork just as for link:devonfw-code-contribution.asciidoc[code-contributions]. Often larger changes imply changes to documentation and code.

@@ -2,8 +2,8 @@
 
 To create or resove issues or to contribute code or documentation, please visit the following WIKI pages:
 
-* for  https://github.com/devonfw-wiki/devon4j/wiki/devonfw-issue-work[Issue creation and resolution]
-* for  https://github.com/devonfw-wiki/devon4j/wiki/devonfw-code-contributions[Contributions of code]
-* for  https://github.com/devonfw-wiki/devon4j/wiki/devonfw-documentation[Contributions to documentation]
+* for  https://github.com/devonfw/devon4j/wiki/devonfw-issue-work[Issue creation and resolution]
+* for  https://github.com/devonfw/devon4j/wiki/devonfw-code-contributions[Contributions of code]
+* for  https://github.com/devonfw/devon4j/wiki/devonfw-documentation[Contributions to documentation]
 
 Thanks for your contribution!
