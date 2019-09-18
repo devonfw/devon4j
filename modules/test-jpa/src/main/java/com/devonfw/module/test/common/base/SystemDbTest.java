@@ -1,11 +1,11 @@
 package com.devonfw.module.test.common.base;
 
-import org.junit.jupiter.api.Tag;
+import com.devonfw.module.test.common.api.category.TagSystemTest;
 
 /**
  * Combination of {@link DbTest} with {@link SystemTest}.
  */
-@Tag("system")
+@TagSystemTest
 public class SystemDbTest extends DbTest {
 
 }
