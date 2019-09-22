@@ -26,6 +26,7 @@
     <module>cxf-server-rest</module>
     <module>cxf-server-ws</module>
     <module>security</module>
+    <module>security-jwt</module>
     <module>jpa-basic</module>
     <module>jpa-dao</module>
     <module>jpa-envers</module>
