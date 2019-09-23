@@ -15,8 +15,8 @@
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <devonfw.test.excluded.groups>com.devonfw.module.test.common.api.category.CategorySystemTest</devonfw.test.excluded.groups>
     <jackson.version>$[jackson.version]</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
+    <devonfw.test.excluded.groups>system</devonfw.test.excluded.groups>
   </properties>
 
   <modules>
@@ -63,8 +63,13 @@
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-runner</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -306,25 +311,25 @@
     <profile>
       <id>moduletest</id>
       <properties>
-        <devonfw.test.excluded.groups>com.devonfw.module.test.common.api.category.CategoryComponentTest,com.devonfw.module.test.common.api.category.CategorySubsystemTest,com.devonfw.module.test.common.api.category.CategorySystemTest</devonfw.test.excluded.groups>
+      <devonfw.test.excluded.groups>component,subsystem,system</devonfw.test.excluded.groups>
       </properties>
     </profile>
     <profile>
       <id>componenttest</id>
       <properties>
-        <devonfw.test.excluded.groups>com.devonfw.module.test.common.api.category.CategorySubsystemTest,com.devonfw.module.test.common.api.category.CategorySystemTest</devonfw.test.excluded.groups>
+        <devonfw.test.excluded.groups>subsystem,system</devonfw.test.excluded.groups>
       </properties>
     </profile>
     <profile>
       <id>subsystemtest</id>
-      <properties>
-        <devonfw.test.excluded.groups>com.devonfw.module.test.common.api.category.CategorySystemTest</devonfw.test.excluded.groups>
+       <properties>
+        <devonfw.test.excluded.groups>system</devonfw.test.excluded.groups>
       </properties>
     </profile>
     <profile>
       <id>systemtest</id>
       <properties>
-        <devonfw.test.excluded.groups></devonfw.test.excluded.groups>
+        <devonfw.test.excluded.groups>none</devonfw.test.excluded.groups>
       </properties>
     </profile>
     <profile>
