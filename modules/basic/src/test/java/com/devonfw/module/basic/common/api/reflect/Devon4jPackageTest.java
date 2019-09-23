@@ -1,6 +1,7 @@
 package com.devonfw.module.basic.common.api.reflect;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import com.devonfw.module.test.common.base.ModuleTest;
 
@@ -164,11 +165,14 @@ public class Devon4jPackageTest extends ModuleTest {
   /**
    * Test of {@link Devon4jPackage#of(String)} with an illegal package.
    */
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testOfStringIllegal() {
 
-    String packageName = "...batch.api.impl";
-    Devon4jPackage.of(packageName);
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      String packageName = "...batch.api.impl";
+      Devon4jPackage.of(packageName);
+    });
+
   }
 
   /**

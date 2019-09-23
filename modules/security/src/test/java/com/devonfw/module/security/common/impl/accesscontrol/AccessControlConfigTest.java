@@ -7,7 +7,7 @@ import java.util.Set;
 
 import javax.annotation.security.RolesAllowed;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.devonfw.module.security.common.api.accesscontrol.AccessControl;
 import com.devonfw.module.security.common.api.accesscontrol.AccessControlGroup;

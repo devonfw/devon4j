@@ -1,6 +1,6 @@
 package com.devonfw.module.basic.common.api.query;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.devonfw.module.basic.common.api.query.LikePatternSyntax;
 import com.devonfw.module.test.common.base.ModuleTest;
