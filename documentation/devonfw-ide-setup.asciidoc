@@ -1,3 +1,6 @@
+:toc:
+toc::[]
+
 = IDE Setup
 
 This Tutorial explains how to setup the development environment to work on and contribute to devonfw4j with your Windows computer.
