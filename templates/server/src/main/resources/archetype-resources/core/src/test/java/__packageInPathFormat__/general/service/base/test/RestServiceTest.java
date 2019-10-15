@@ -11,6 +11,7 @@ import ${package}.general.common.base.test.DbTestHelper;
 import ${package}.general.common.base.test.TestUtil;
 
 import com.devonfw.module.test.common.base.SubsystemTest;
+import com.devonfw.module.test.common.base.SubsystemDbTest;
 import com.devonfw.module.service.common.api.client.ServiceClientFactory;
 
 /**
@@ -19,7 +20,7 @@ import com.devonfw.module.service.common.api.client.ServiceClientFactory;
  * The local server's port is randomly assigned.
  */
 @SpringBootTest(classes = { SpringBootApp.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
-public abstract class RestServiceTest extends SubsystemTest {
+public abstract class RestServiceTest extends SubsystemDbTest {
 
   /**
    * The port of the web server during the test.

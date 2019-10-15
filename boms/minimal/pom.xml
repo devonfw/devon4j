@@ -32,6 +32,11 @@
       </dependency>
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-test-jpa</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-logging</artifactId>
         <version>${project.version}</version>
       </dependency>
