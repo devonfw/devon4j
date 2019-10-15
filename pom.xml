@@ -31,6 +31,7 @@
     <javadoc.option.doclint></javadoc.option.doclint>
     <maven.archetype.version>3.0.1</maven.archetype.version>
     <jackson.version>2.9.9.20190727</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
+    <guava.version>28.1-jre</guava.version>
   </properties>
 
   <build>
