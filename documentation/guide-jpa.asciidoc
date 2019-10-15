@@ -113,6 +113,28 @@ Using the Aliases API of QueryDSL might result in an `InvalidDataAccessApiUsageE
 
 . Make sure, that all your custom types used in entities provide a non-argument constructor with at least visibility level `protected`.
 
+==== IdRef
+
+IdRef can be used to reference the other entities in TOs
+
+IdRef is just a wrapper for reference ID as Long. so instead of 
+
+[source,java]
+----
+private Long orderId;
+----
+
+you can write
+
+[source,java]
+----
+private IdRef<Order> orderId;
+----
+
+When using IdRef make sure that the Junit tests contains the following
+
+Junit test should be derived from DbTest (e.g. ComponentDbTest and SubsystemDbTest).
+
 === Primary Keys
 We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). This is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` that you can extend.
 In case you have business oriented keys (often as `String`), you can define an additional property for it and declare it as unique (`@Column(unique=true)`).
