@@ -16,9 +16,9 @@ Besides general Java naming conventions, we follow the additional rules listed h
 * Names of Generics should be easy to understand. Where suitable follow the common rule `E=Element`, `T=Type`, `K=Key`, `V=Value` but feel free to use longer names for more specific cases such as `ID`, `DTO` or `ENTITY`. The capitalized naming helps to distinguish a generic type from a regular class.
 
 == Packages
-Java Packages are the most important element to structure your code. We use a strict packaging convention to map technical layers and business components (slices) to the code (See link:architecture.asciidoc#technical-architecture[technical architecture] for further details). By using the same names in documentation and code we create a strong link that gives orientation and makes it easy to find from business requirements, specifications or story tickets into the code and back. Further we can use tools such as http://www.sonarqube.org/[SonarQube] and http://www.hello2morrow.com/products/sonargraph[SonarGraph] to verify architectural rules.
+Java Packages are the most important element to structure your code. We use a strict packaging convention to map technical layers and business components (slices) to the code (See link:architecture.asciidoc#technical-architecture[technical architecture] for further details). By using the same names in documentation and code we create a strong link that gives orientation and makes it easy to find from business requirements, specifications or story tickets into the code and back. 
 
-For an devonfw based application we use the following Java-Package schema:
+For an devon4j based application we use the following Java-Package schema:
 [source]
 «rootpackage».«application».«component».«layer».«scope»[.«detail»]*
 
@@ -40,7 +40,7 @@ Please note that for library modules where we use `com.devonfw.module` as `«bas
 == Architecture Mapping
 
 We combine the above naming and packaging conventions to map the entire architecture to the code.
-This also allows tools such as https://github.com/devonfw/tools-cobigen[CobiGen] or https://github.com/devonfw/sonar-devon-plugin/[sonar-devon-plugin] to "understand" the code.
+This also allows tools such as https://github.com/devonfw/tools-cobigen[CobiGen] or https://github.com/devonfw/sonar-devon4j-plugin/[sonar-devon4j-plugin] to "understand" the code.
 Also this helps developers going from one devon4j project to the next to quickly understand the code-base.
 If every developer knows where to find what, the project gets more efficient.
 A long time ago maven standardized the project structure with `src/main/java`, etc. and turned chaos into structure.
