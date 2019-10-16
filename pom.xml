@@ -27,10 +27,11 @@
     <changelist>-SNAPSHOT</changelist>
     <devon4j.version>${revision}${changelist}</devon4j.version>
     <devon4j.flatten.mode>oss</devon4j.flatten.mode>
-    <spring.boot.version>2.1.6.RELEASE</spring.boot.version>
+    <spring.boot.version>2.1.9.RELEASE</spring.boot.version>
     <javadoc.option.doclint></javadoc.option.doclint>
     <maven.archetype.version>3.0.1</maven.archetype.version>
     <jackson.version>2.9.9.20190727</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
+    <guava.version>28.1-jre</guava.version>
   </properties>
 
   <build>
