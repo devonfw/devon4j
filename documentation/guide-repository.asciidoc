@@ -2,7 +2,7 @@
 toc::[]
 
 = Spring-Data
-If you are using the springframework and have no restrictions regarding that, we recommend to use https://projects.spring.io/spring-data-jpa/[spring-data-jpa] via http://repo1.maven.org/maven2/com/devonfw/java/starters/devon4j-starter-spring-data-jpa/3.0.0/[devon4j-starter-spring-data-jpa] that brings advanced integration (esp. for QueryDSL).
+If you are using the springframework and have no restrictions regarding that, we recommend to use https://projects.spring.io/spring-data-jpa/[spring-data-jpa] via http://repo1.maven.org/maven2/com/devonfw/java/starters/devon4j-starter-spring-data-jpa/[devon4j-starter-spring-data-jpa] that brings advanced integration (esp. for QueryDSL).
 
 == Motivation
 The benefits of spring-data are (for examples and explanations see next sections):
