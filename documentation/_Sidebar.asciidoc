@@ -8,7 +8,7 @@
 * link:guide-batch-layer.asciidoc[Batch Layer]
 
 === Guides
-* link:guide-dependency-injection.asciidoc[Bean Dependency Injection]
+* link:guide-dependency-injection.asciidoc[Dependency Injection]
 * link:guide-configuration.asciidoc[Configuration]
 * link:guide-logging.asciidoc[Logging]
 * link:guide-exceptions.asciidoc[Exception Handling]
