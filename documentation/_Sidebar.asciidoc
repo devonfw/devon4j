@@ -50,15 +50,6 @@
 * link:coding-conventions.asciidoc[Coding Conventions]
 * link:coding-tools.asciidoc[Development Tools]
 
-=== devonfw Development 
-* link:devonfw-ide-setup.asciidoc[Setup devonfw IDE]
-* link:devonfw-issue-work.asciidoc[Issue creation & resolution]
-* link:devonfw-code-contribution.asciidoc[Contribution of code]
-* link:devonfw-documentation.asciidoc[Contribution to documentation]
-
-=== devonfw Tutorial
+=== Tutorials
 * link:tutorial-newapp.asciidoc[Start a new application]
 * link:tutorial-sample.asciidoc[Sample application]
-
-=== For Core-Developers
-* link:devonfw-release.asciidoc[Release Process]
