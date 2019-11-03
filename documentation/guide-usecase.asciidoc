@@ -41,7 +41,7 @@ public interface UcManageBooking {
 
 == Custom
 Any other non CRUD operation `Uc«Operation»«BusinessObject»` uses any other custom verb for `«Operation»`.
-Typically such custom use-cases only defing a single method.
+Typically such custom use-cases only define a single method.
 Here is an example:
 [source,java]
 ----
@@ -122,12 +122,12 @@ To avoid confusion with regular use-cases we recommend to add the `Internal` suf
 Technically now you have two implementations of your use-case:
 
 * the direct implementation of the use-case (`Uc*Impl`)
-* the component facade implemenation (`«Component»Impl`)
+* the component facade implementation (`«Component»Impl`)
 
 When injecting a use-case interface this could cause ambiguities.
 This is addressed as following:
 
-* In the component facade implemenation (`«Component»Impl`) spring is smart enough to resolve the ambiguity as it assumes that a spring bean never wants to inject itself (can already be access via `this`).
+* In the component facade implementation (`«Component»Impl`) spring is smart enough to resolve the ambiguity as it assumes that a spring bean never wants to inject itself (can already be access via `this`).
 Therefore only the proper use-case implementation remains as candidate and injection works as expected.
 * In all other places simply always inject the component facade interface instead of the use-case. 
 

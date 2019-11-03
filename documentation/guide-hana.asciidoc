@@ -3,7 +3,7 @@ toc::[]
 
 = SAP HANA
 
-This section contains hints for those who use https://www.sap.com/products/hana.html[SAP HANA], a very powerful and fast RDBMS. If you have choosen a different persistence technology on purpose you can simply ignore this guide. Besides general hints about the driver there are tips for more tight integration with other SAP features or products.
+This section contains hints for those who use https://www.sap.com/products/hana.html[SAP HANA], a very powerful and fast RDBMS. If you have chosen a different persistence technology on purpose you can simply ignore this guide. Besides general hints about the driver there are tips for more tight integration with other SAP features or products.
 
 == Driver
 The hana JDBC driver is available in Maven Central what makes your life very easy. All you need is the following maven dependency:

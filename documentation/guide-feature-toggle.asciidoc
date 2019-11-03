@@ -48,7 +48,7 @@ togglz.console.secured=false
 
 === Small features
 
-For small features, a simple query of the toggle state is often enough to acheive the desired functionality. To illustrate this, a simple example follows, which implements a toggle to limit the page size returned by the staffmanagement. See https://github.com/florianluediger/oasp4j/commit/e55c3c7cfcb42efe4f279dc673cced730abd580a[here] for further details.
+For small features, a simple query of the toggle state is often enough to achieve the desired functionality. To illustrate this, a simple example follows, which implements a toggle to limit the page size returned by the staffmanagement. See https://github.com/florianluediger/oasp4j/commit/e55c3c7cfcb42efe4f279dc673cced730abd580a[here] for further details.
 
 This is the current implementation to _toggle_ the feature:
 [source,java]
@@ -148,19 +148,19 @@ private PaginatedListTo<OfferEntity> addDiscountToOffers(PaginatedListTo<OfferEn
 ----
 
 == Guidelines for a successful use of feature-toggles
-The use of feature-toggles requires a specified set of guidelines to maintain the overview on the software. The following is a colllection of considerations and examples for conventions that are reasonable to use.
+The use of feature-toggles requires a specified set of guidelines to maintain the overview on the software. The following is a collection of considerations and examples for conventions that are reasonable to use.
 
 === Minimize the number of toggles
-When using too many toggles at the same time, it is hard to maintain a good overview of the system and things like finding bugs are getting much harder. Additionaly, the management of toggles in the configuration interface gets more difficult due to the amount of toggles.
+When using too many toggles at the same time, it is hard to maintain a good overview of the system and things like finding bugs are getting much harder. Additionally, the management of toggles in the configuration interface gets more difficult due to the amount of toggles.
 
-To prevent toggles from piling up during development, a toggle and the associated obsolete source code should be removed after the completion of the corresponding feature. In addidion to that, the existing toggles should be revisited periodically to verify that these are still needed and therefore remove legacy toggles.
+To prevent toggles from piling up during development, a toggle and the associated obsolete source code should be removed after the completion of the corresponding feature. In addition to that, the existing toggles should be revisited periodically to verify that these are still needed and therefore remove legacy toggles.
 
 === Consistent naming scheme
 A consistent naming scheme is the key to a structured and easily maintainable set of features. This should include the naming of toggles in the source code and the appropriate naming of commit messages in the VCS. The following section contains an example for a useful naming scheme including a small example.
 
 Every Feature-Toggle in the system has to get its own unique name without repeating any names of features, which were removed from the system. The chosen names should be descriptive names to simplify the association between toggles and their purpose. If the feature should be split into multiple sub-features, you might want to name the feature like the parent feature with a describing addition. If for example you want to split the `DISCOUNT` feature into the logic and the UI part, you might want to name the sub-features `DISCOUNT_LOGIC` and `DISCOUNT_UI`.
 
-The entry in the togglz configuration enum should be named identically to the beforementioned feature name. The explicitness of feature names prevents a confusion between toggles due to using multiple enums.
+The entry in the togglz configuration enum should be named identically to the aforementioned feature name. The explicitness of feature names prevents a confusion between toggles due to using multiple enums.
 
 Commit messages are very important for the use of feature-toggles and also should follow a predefined naming scheme. You might want to state the feature name at the beginning of the message, followed by the actual message, describing what the commit changes to the feature. An example commit message could look like the following:
 

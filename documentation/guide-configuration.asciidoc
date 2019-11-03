@@ -113,7 +113,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 === Database Configuration
 
-To choose database of your choice , set `spring.profiles.active=XXX` in `src/main/resources/config/application.properties`. Also, one has to set all the active spring profiles in this `application.properties` and not in any of the other `application.properies`. 
+To choose database of your choice , set `spring.profiles.active=XXX` in `src/main/resources/config/application.properties`. Also, one has to set all the active spring profiles in this `application.properties` and not in any of the other `application.properties`. 
 
 == Externalized Configuration
 
@@ -178,7 +178,7 @@ In order to support encrypted passwords in spring-boot `application.properties` 
   <version>1.17</version>
 </dependency>
 ----
-This will smoothly integrate http://jasypt.org/[jasypt] into your https://projects.spring.io/spring-boot/[spring-boot] application. Read this https://wiki.jasig.org/display/CASUM/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files[HOWTO] to learn how to encrypt and decrypt passwords using jasypt. Here is a simple example output of an enctrypted password (of course you have to use strong passwords instead of `secret` and `postgres` - this is only an example):
+This will smoothly integrate http://jasypt.org/[jasypt] into your https://projects.spring.io/spring-boot/[spring-boot] application. Read this https://wiki.jasig.org/display/CASUM/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files[HOWTO] to learn how to encrypt and decrypt passwords using jasypt. Here is a simple example output of an encrypted password (of course you have to use strong passwords instead of `secret` and `postgres` - this is only an example):
 [source, bash]
 ----
 ----ARGUMENTS-------------------

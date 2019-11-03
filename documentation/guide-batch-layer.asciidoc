@@ -291,7 +291,7 @@ The most important advantages of chunk processing are:
 
 Note that you could actually achieve similar results using xref:tasklet-based-processing[tasklets] as described below. However, you would have to write many lines of additional code whereas you get these advantages out of the box using chunk processing (logging exceptions and items where these exceptions occurred is an extension, see xref:example-batch[example batch]).
 
-Also note that items should not be too "big". For example, one might consider processing all bills within one month as one item. However, doing so you would not have those advantages any more. For instance, you would have larger transactions, as there are usually quite a lot of bills per month or payment method and if an exception occurs, you would not know which bill actually caused the exception. Additionally you would lose control of commit size, since one commit would process many bills hard coded and you cannot choose smaller chuncks.
+Also note that items should not be too "big". For example, one might consider processing all bills within one month as one item. However, doing so you would not have those advantages any more. For instance, you would have larger transactions, as there are usually quite a lot of bills per month or payment method and if an exception occurs, you would not know which bill actually caused the exception. Additionally you would lose control of commit size, since one commit would process many bills hard coded and you cannot choose smaller chunks.
 
 Nevertheless, there are sometimes, situations where you cannot further "divide" items, e.g. when these are needed for one single call to an external system (e.g. for creating a PDF of all bills within a certain month, if PDFs are created by an external system). In this case you should do as much of the processing as possible on the basis of "small" items and then add an extra step to do what cannot be done based on these "small" items.
 
@@ -698,7 +698,7 @@ Most important for performance are of course the algorithms that you write and h
 
 If you are retrieving information from the database, you can have one complex query executed in the `ItemReader` (via a DAO) retrieving all the information needed for the current set of items, or you can execute further queries in the `ItemProcessor` (or `ItemWriter`) on a per item basis to retrieve further information.
 
-The first approach is usually by far more performant, because there is an overhead for every query being executed and this approach results in less queries being executed. Note that there is a tradeoff between performance and maintainability here. If you put everything into the query executed by an `ItemReader`, this query can get quite complex.
+The first approach usually results in far more performance, because there is an overhead for every query being executed and this approach results in less queries being executed. Note that there is a tradeoff between performance and maintainability here. If you put everything into the query executed by an `ItemReader`, this query can get quite complex.
 
 Using cursors instead of pagination as described in the section on xref:itemreader[ItemReaders] can result in a better performance for the same reason: When using a cursor, the query is only executed once, when using pagination, the query is usually executed once per chunk. You could of course manually cache items, however this easily leads to a high memory consumption.
 

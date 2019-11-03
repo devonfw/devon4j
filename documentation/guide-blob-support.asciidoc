@@ -7,10 +7,10 @@ BLOB stands for **B**inary **L**arge **Ob**ject. A BLOB may be an image, an offi
 | `general.common.api.BinaryObject` | Interface for a BinaryObject
 | `general.dataaccess.api.BinaryObjectEntity`     | Instance of BinaryObject entity, contains the actual BLOB
 | `general.dataaccess.api.dao.BinaryObjectDao.java`    | DAO for BinaryObject entity
-| `general.dataaccess.base.dao.BinaryObjectDaoImpl`    | Implemenentation of the BinaryObjectDao
+| `general.dataaccess.base.dao.BinaryObjectDaoImpl`    | Implementation of the BinaryObjectDao
 | `general.logic.api.to.BinaryObjectEto`    | ETO for BinaryObject
 | `general.logic.base.UcManageBinaryObject`    | Use case for managing BinaryObject. This use case contains methods for finding, getting, deleting and saving a BLOB.
-| `general.logic.impl.UCManageBinaryObjectImpl`    | Implemenentation of the UcManageBinaryObject
+| `general.logic.impl.UCManageBinaryObjectImpl`    | Implementation of the UcManageBinaryObject
 |=============================================
 //Blobs are no longer used in the sample application
 == Implementing BLOB support: an example
