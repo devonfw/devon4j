@@ -2,12 +2,12 @@
 toc::[]
 
 = Spring-Data
-If you are using the springframework and have no restrictions regarding that, we recommend to use https://projects.spring.io/spring-data-jpa/[spring-data-jpa] via http://repo1.maven.org/maven2/com/devonfw/java/starters/devon4j-starter-spring-data-jpa/[devon4j-starter-spring-data-jpa] that brings advanced integration (esp. for QueryDSL).
+If you are using the Spring Framework and have no restrictions regarding that, we recommend to use https://projects.spring.io/spring-data-jpa/[spring-data-jpa] via http://repo1.maven.org/maven2/com/devonfw/java/starters/devon4j-starter-spring-data-jpa/[devon4j-starter-spring-data-jpa] that brings advanced integration (esp. for QueryDSL).
 
 == Motivation
 The benefits of spring-data are (for examples and explanations see next sections):
 
-* All you need is one single repository interface for each entity. No need for a separate implementation or other code artefacts like XML descriptors, `NamedQueries` class, etc.
+* All you need is one single repository interface for each entity. No need for a separate implementation or other code artifacts like XML descriptors, `NamedQueries` class, etc.
 * You have all information together in one place (the repository interface) that actually belong together (where as in the classic approach you have the static link:guide-jpa-query.asciidoc[queries] in an XML file, constants to them in `NamedQueries` class and referencing usages in DAO implementation classes).
 * Static link:guide-jpa-query.asciidoc[queries] are most simple to realize as you do not need to write any method body. This means you can develop faster.
 * Support for paging is already build-in. Again for static link:guide-jpa-query.asciidoc[query] method the is nothing you have to do except using the paging objects in the signature.

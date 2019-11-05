@@ -64,7 +64,7 @@ public class BookingmanagementRestServiceImpl implements BookingmanagementRestSe
   private Timestamp bookingDate;
 ----
 
-A list with all bean validation constraint annotations available for hibernate-validator can be found http://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#table-spec-constraints[here]. In addition it is possible to configure custom constraints. Therefor it is neccessary to implement a annotation and a corresponding validator. A description can also be found in the http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/htmlsingle/#validation-beanvalidation-spring-constraints[Spring documentation] or with more details in the http://docs.jboss.org/hibernate/validator/4.3/reference/en-US/html/validator-customconstraints.html[hibernate documentation].
+A list with all bean validation constraint annotations available for hibernate-validator can be found http://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#table-spec-constraints[here]. In addition it is possible to configure custom constraints. Therefore it is necessary to implement a annotation and a corresponding validator. A description can also be found in the http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/htmlsingle/#validation-beanvalidation-spring-constraints[Spring documentation] or with more details in the http://docs.jboss.org/hibernate/validator/4.3/reference/en-US/html/validator-customconstraints.html[hibernate documentation].
 
 NOTE: **Bean Validation in Wildfly >v8:** Wildfly v8 is the first version of Wildfly implementing the JEE7 specification. It comes with bean validation based on https://samaxes.com/2014/04/jaxrs-beanvalidation-javaee7-wildfly/[hibernate-validator out of the box]. In case someone is running Spring in Wildfly for whatever reasons, the spring based annotation @Validated would duplicate bean validation at runtime and thus should be omitted.
 
@@ -103,7 +103,7 @@ For complex and stateful business validations we do not use BV (possible with gr
 An example is the deletion of a table in the example application. Here the state of the table must be checked first:
 //io.oasp.application.mtsj.bookingmanagement.logic.impl
 //Replaced the old example with is not stateful anymore -which I think is weird- with a new one
-//Text needs adjustments aswell
+//Text needs adjustments as well
 *BookingmanagementImpl.java*
 [source,java]
 ----

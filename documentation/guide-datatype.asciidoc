@@ -10,7 +10,7 @@ A datatype is an object representing a value of a specific type with the followi
 * It has a technical or business specific semantic.
 * Its JavaDoc explains the meaning and semantic of the value.
 * It is immutable and therefore stateless (its value assigned at construction time and can not be modified).
-* It is Serializable.
+* It is serializable.
 * It properly implements #equals(Object) and #hashCode() (two different instances with the same value are equal and have the same hash).
 * It shall ensure syntactical validation so it is NOT possible to create an instance with an invalid value.
 * It is responsible for formatting its value to a string representation suitable for sinks such as UI, loggers, etc. Also consider cases like a Datatype representing a password where toString() should return something like "********" instead of the actual password to prevent security accidents.

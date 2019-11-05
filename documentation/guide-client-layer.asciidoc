@@ -10,7 +10,7 @@ In general, we have to distinguish among the following types of clients:
 * native desktop clients
 * (native) mobile clients
 
-Our main focus is on web-clients. In our sample application https://github.com/devonfw/my-thai-star/[my-thai-star] we offer a responsive web-client based on Angular following https://github.com/devonfw/devon4ng/[devon4ng] that integrates seamlessly with the backends of my-thai-star available for Java using devon4j as well as .NET/C# using https://github.com/devonfw/devon4net/[devon4net]. For building angular clients read the separate https://github.com/devonfw/devon4ng/wiki[devon4ng guide].
+Our main focus is on web-clients. In our sample application https://github.com/devonfw/my-thai-star/[my-thai-star] we offer a responsive web-client based on Angular following https://github.com/devonfw/devon4ng/[devon4ng] that integrates seamlessly with the back ends of my-thai-star available for Java using devon4j as well as .NET/C# using https://github.com/devonfw/devon4net/[devon4net]. For building angular clients read the separate https://github.com/devonfw/devon4ng/wiki[devon4ng guide].
 
 == JavaScript for Java Developers
 

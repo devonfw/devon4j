@@ -6,7 +6,7 @@ toc::[]
 The logic layer is the heart of the application and contains the main business logic.
 According to our link:architecture.asciidoc#business-architecture[business architecture] we divide an application into link:guide-component.asciidoc[components].
 For each component the logic layer defines a link:guide-component-facade.asciidoc[component-facade].
-According to the complexity you can further devide this into indivudual link:guide-usecase.asciidoc[use-cases].
+According to the complexity you can further divide this into individual link:guide-usecase.asciidoc[use-cases].
 It is very important that you follow the links to understand the concept of component-facade and use-case in order to properly implement your business logic.
 
 == Responsibility

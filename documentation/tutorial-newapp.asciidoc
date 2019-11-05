@@ -71,7 +71,7 @@ The toplevel `pom.xml` of the generated project has the following features:
 
 === Core Module
 
-Core module constains the base classes and the base configuration for the application. We are going to describe each Java file and each XML configuration file that archetype has generated.
+Core module contains the base classes and the base configuration for the application. We are going to describe each Java file and each XML configuration file that archetype has generated.
 
 ==== Java 
 
@@ -82,7 +82,7 @@ Those are the different Java files contained in each package:
 [options="header"]
 [cols="40,60"]
 |=============================================
-|*File*   |*Descripcion*
+|*File*   |*Description*
 |api.ApplicationEntity.java|Abstract interface for a MutableGenericEntity of this application.
 |api.BinaryObject.java|Interface for a BinaryObject.
 |api.NlsBundleApplicationRoot.java|NlsBundle for this application.
@@ -114,7 +114,7 @@ PrincipalAccessControlProviderImpl.java|Implementation of PrincipalAccessControl
 
 [options="header"]
 |=============================================
-|*File* | *Descripcion*
+|*File* | *Description*
 |api.ApplicationPersistenceEntity.java|Abstract Entity for all Entities with an id and a version field.
 |api.BinaryObjectEntity.java|BinaryObject entity.
 |api.dao.ApplicationDao.java|Interface for all DAOs of the application.
@@ -127,7 +127,7 @@ PrincipalAccessControlProviderImpl.java|Implementation of PrincipalAccessControl
 
 [options="header"]
 |=============================================
-| *File* | *Descripcion*
+| *File* | *Description*
 |LoginController.java|Controller for login page.
 
 |=============================================
@@ -136,7 +136,7 @@ PrincipalAccessControlProviderImpl.java|Implementation of PrincipalAccessControl
 
 [options="header"]
 |=============================================
-|*File* | *Descripcion*
+|*File* | *Description*
 |api.UseCase.java|Annotation to mark all use-cases.
 |api.to.BinaryObjectEto.java|ETO for a BinaryObject.
 |base.AbstractUc.java|Abstract base class for any use case in the application.
@@ -150,7 +150,7 @@ PrincipalAccessControlProviderImpl.java|Implementation of PrincipalAccessControl
 
 [options="header"]
 |=============================================
-| *File* | *Descripcion*
+| *File* | *Description*
 |ApplicationAccessDeniedHandler.java|Class to manage denied access.
 |ApplicationObjectMapperFactory.java| MappingFactory class to resolve polymorphic conflicts within the application.
 |SecurityRestServiceImpl.java|Class that represents REST service for security.
@@ -165,14 +165,14 @@ Those are the different XML files contained in resources folder:
 
 [options="header"]
 |=============================================
-|*File* | *Descripcion*
-|app.common.beans-common.xml|Constains beans definition for application common beans like propertyConfigurer bean.
+|*File* | *Description*
+|app.common.beans-common.xml|Contains beans definition for application common beans like propertyConfigurer bean.
 |app.common.beans-dozer.xml|Beans relationated with Dozer Mappers.
 |app.common.dozer-mapping.xml|Dozer mapping configuration.
 |app.dataaccess.beans-dataaccess.xml|Parent from the other data access files.
 |app.dataaccess.beans-db-plain.xml|Data source configuration for profile `db-plain` (testing).
 |app.dataaccess.beans-db-server.xml|Data source configuration for profile distinct to `db-plain.`
-|app.dataaccess.beans-jpa.xml|Contains neccessary beans to configure JPA.
+|app.dataaccess.beans-jpa.xml|Contains necessary beans to configure JPA.
 |app.dataaccess.NamedQueries.xml|
 |app.gui.dispatcher-servlet.xml|
 |app.logic.beans-logic.xml|Component scan configuration for classes in `logic` path.
@@ -181,7 +181,7 @@ Those are the different XML files contained in resources folder:
 |app.security.beans-security.xml|Application security configuration.
 |app.service.beans-monitoring.xml|
 |app.service.beans-service.xml|Importing configuration files, REST beans definition and configuration.
-|app.websocket.websocket-context.xml|Scan component package definition for websockects.
+|app.websocket.websocket-context.xml|Scan component package definition for websockets.
 |app.application.default.properties|Default application properties values.
 |app|beans-application|Root file configuration. It starts the chain and imports other configuration files.
 |env|application|Specific application properties values.
@@ -192,7 +192,7 @@ Those are the different XML files contained in resources folder:
 
 [options="header"]
 |=============================================
-|*File* | *Descripcion*
+|*File* | *Description*
 |migration.V0001__Create_schema.slq|Script template to create the database schema and tables definition.
 
 |=============================================
@@ -205,7 +205,7 @@ Those are different Java files to serve as base classes in testing:
 
 [options="header"]
 |=============================================
-|*File* | *Descripcion*
+|*File* | *Description*
 |AbstractSpringIntegrationTest.java|.
 |AccessControlSchemaXmlValidationTest.java|Tests if the access-control-schema.xml is valid.
 |PermissionCheckTest.java|Test to check if all relevant methods in use case implementations have permission checks.
@@ -214,9 +214,9 @@ Those are different Java files to serve as base classes in testing:
 
 === Server Module
 
-This module is constains two files:
+This module is contains two files:
 
-* lockback.xml: This file is in the resources folder and it is the responsible to configure the log.
+* logback.xml: This file is in the resources folder and it is the responsible to configure the log.
 
 * pom.xml: This file has Maven configuration for packaging the application as a WAR. Also, this file has a profile to package the Javascript client ZIP file into the WAR.
 

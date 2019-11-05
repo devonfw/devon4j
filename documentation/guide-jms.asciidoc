@@ -12,7 +12,7 @@ For messaging you need to choose a JMS provider such as:
 * https://activemq.apache.org/jms[ActiveMQ]
 * link:guide-oracle.asciidoc#messaging[Oracle Advanced Queuing] (esp. if you already use link:guide-oracle.asciidoc[Oracle RDBMS])
 
-== Reciver
+== Receiver
 As a receiver of messages is receiving data from other systems it is located in the link:guide-service-layer.asciidoc[service-layer].
 
 === JMS Listener

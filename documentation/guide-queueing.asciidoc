@@ -11,7 +11,7 @@ TODO
 
 TODO
 
-== Receiving Messges
+== Receiving Messages
 
 TODO
 
