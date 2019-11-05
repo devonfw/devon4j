@@ -4,12 +4,9 @@ import static org.mockito.Mockito.when;
 
 import javax.servlet.FilterConfig;
 
-import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -24,9 +21,6 @@ public class DiagnosticContextFilterTest extends ModuleTest {
   private static final String CORRELATION_ID_HEADER_NAME_PARAM = "correlationIdHttpHeaderName";
 
   private static final String CORRELATION_ID_HEADER_NAME_PARAM_FIELD_NAME = "CORRELATION_ID_HEADER_NAME_PARAM";
-
-  @Rule
-  public MockitoRule rule = MockitoJUnit.rule();
 
   @Mock
   private FilterConfig config;

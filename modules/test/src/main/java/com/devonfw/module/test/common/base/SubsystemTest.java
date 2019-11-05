@@ -1,9 +1,8 @@
 package com.devonfw.module.test.common.base;
 
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
@@ -25,7 +24,7 @@ import com.devonfw.module.test.common.api.category.TagSubsystemTest;
  *
  * @see TagSubsystemTest
  */
-@ExtendWith(SpringExtension.class)
+@SpringJUnitConfig
 @TestExecutionListeners({ TransactionalTestExecutionListener.class, DependencyInjectionTestExecutionListener.class })
 @TagSubsystemTest
 public abstract class SubsystemTest extends BaseTest {
