@@ -12,7 +12,7 @@
   <version>${devon4j.version}</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
-  <description>Basic code for common usage (such as base classes for transfer objects) of the Open Application Standard Platform for Java (devon4j).</description>
+  <description>Basic code for common usage (such as base classes for transfer objects).</description>
 
   <dependencies>
     <!-- JPA only for JavaDoc links -->

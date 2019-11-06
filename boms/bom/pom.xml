@@ -12,7 +12,7 @@
   <version>${devon4j.version}</version>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
-  <description>Dependencies (BOM) of the Open Application Standard Platform for Java (devon4j) based on spring boot.</description>
+  <description>Dependencies (BOM) of devon4j based on spring boot.</description>
   <url>https://devon4j.github.io/</url>
   <inceptionYear>2014</inceptionYear>
 

@@ -10,7 +10,7 @@
   <artifactId>${rootArtifactId}-core</artifactId>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
-  <description>Core of the server for the ${rootArtifactId} application - a simple example using the Open Application Standard Platform for Java (devon4j).</description>
+  <description>Core of the server for the ${rootArtifactId} application - a simple example based on devon4j.</description>
 
   <dependencies>
     <dependency>

@@ -10,7 +10,7 @@
   <artifactId>devon4j-modules</artifactId>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
-  <description>Reusable modules of the Open Application Standard Platform for Java (devon4j).</description>
+  <description>Reusable modules of devon4j.</description>
 
   <modules>
     <module>logging</module>

@@ -10,7 +10,7 @@
   <artifactId>devon4j-starters</artifactId>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
-  <description>Spring-boot starters of the Open Application Standard Platform for Java (devon4j).</description>
+  <description>Spring-boot starters of devon4j.</description>
 
   <modules>
     <module>starter-cxf-client</module>

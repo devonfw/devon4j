@@ -10,7 +10,7 @@
   <artifactId>devon4j-test</artifactId>
   <version>${devon4j.version}</version>
   <name>${project.artifactId}</name>
-  <description>Module with code and configuration for tests of the Open Application Standard Platform for Java (devon4j).</description>
+  <description>Module with code and configuration for tests.</description>
 
   <dependencies>
     <dependency>

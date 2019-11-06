@@ -7,7 +7,7 @@
   <version>${version}</version>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
-  <description>Application based on the Open Application Standard Platform for Java (devon4j).</description>
+  <description>Application based on the devon4j.</description>
 
   <properties>
     <spring.boot.version>$[spring.boot.version]</spring.boot.version>
@@ -23,12 +23,12 @@
   <modules>
     <module>api</module>
     <module>core</module>
-    #if ($earProjectName != '.')
+#if ($earProjectName != '.')
     <module>${earProjectName}</module>
-    #end
-    #if ($batch == 'batch')
+#end
+#if ($batch == 'batch')
     <module>batch</module>
-    #end
+#end
     <module>server</module>
   </modules>
 
@@ -60,8 +60,7 @@
       <dependency>
         <groupId>com.devonfw.java.boms</groupId>
         <artifactId>devon4j-bom</artifactId>
-        <version>${devon4j.version}
-        </version>
+        <version>${devon4j.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>

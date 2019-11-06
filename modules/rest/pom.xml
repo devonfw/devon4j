@@ -12,7 +12,7 @@
   <version>${devon4j.version}</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
-  <description>REST-Service Support Module of the Open Application Standard Platform for Java (devon4j).</description>
+  <description>REST-Service Support Module.</description>
 
   <dependencies>
     <dependency>

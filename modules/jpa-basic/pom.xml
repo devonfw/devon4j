@@ -13,7 +13,7 @@
   <version>${devon4j.version}</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
-  <description>JPA-based persistence infrastructure of the Open Application Standard Platform for Java (devon4j).</description>
+  <description>JPA-based persistence infrastructure.</description>
 
   <dependencies>
     <dependency>
