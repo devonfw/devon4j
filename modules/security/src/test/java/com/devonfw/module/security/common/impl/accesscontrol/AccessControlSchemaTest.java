@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 
@@ -19,9 +18,6 @@ import com.devonfw.module.security.common.api.accesscontrol.AccessControlGroup;
 import com.devonfw.module.security.common.api.accesscontrol.AccessControlPermission;
 import com.devonfw.module.security.common.api.accesscontrol.AccessControlProvider;
 import com.devonfw.module.security.common.api.accesscontrol.AccessControlSchema;
-import com.devonfw.module.security.common.impl.accesscontrol.AccessControlProviderImpl;
-import com.devonfw.module.security.common.impl.accesscontrol.AccessControlSchemaProviderImpl;
-import com.devonfw.module.security.common.impl.accesscontrol.AccessControlSchemaXmlMapper;
 import com.devonfw.module.test.common.base.ModuleTest;
 
 /**
@@ -181,14 +177,14 @@ public class AccessControlSchemaTest extends ModuleTest {
     AccessControlSchema accessControlSchema = accessControlSchemaProvider.loadSchema();
     List<AccessControlGroup> groups = accessControlSchema.getGroups();
 
-    Assert.assertNotNull(groups);
-    Assert.assertEquals(3, groups.size());
+    assertThat(groups).isNotNull();
+    assertThat(groups).hasSize(3);
 
     for (AccessControlGroup group : groups) {
       if (group.getId().equals("Admin")) {
-        Assert.assertEquals("role", group.getType());
+        assertThat(group.getType()).isEqualTo("role");
       } else if (group.getId().equals("ReadOnly") || group.getId().equals("ReadWrite")) {
-        Assert.assertEquals("group", group.getType());
+        assertThat(group.getType()).isEqualTo("group");
       }
     }
   }
