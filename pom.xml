@@ -32,6 +32,7 @@
     <maven.archetype.version>3.0.1</maven.archetype.version>
     <jackson.version>2.9.9.20190727</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
     <guava.version>28.1-jre</guava.version>
+    <junit.version>5.5.2</junit.version>
   </properties>
 
   <build>

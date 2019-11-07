@@ -12,7 +12,7 @@
   <version>${devon4j.version}</version>
   <packaging>maven-archetype</packaging>
   <name>${project.artifactId}</name>
-  <description>Application template for the server of the Open Application Standard Platform for Java (devon4j).</description>
+  <description>Application template for a server app based on devon4j.</description>
 
   <build>
     <resources>

@@ -10,7 +10,7 @@
   <artifactId>${rootArtifactId}-core</artifactId>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
-  <description>Core of the server for the ${rootArtifactId} application - a simple example using the Open Application Standard Platform for Java (devon4j).</description>
+  <description>Core of the server for the ${rootArtifactId} application - a simple example based on devon4j.</description>
 
   <dependencies>
     <dependency>
@@ -206,19 +206,7 @@
     <!-- Tests -->
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-test-jpa</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
 

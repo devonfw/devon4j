@@ -7,12 +7,13 @@
   <version>${version}</version>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
-  <description>Application based on the Open Application Standard Platform for Java (devon4j).</description>
+  <description>Application based on the devon4j.</description>
 
   <properties>
     <spring.boot.version>$[spring.boot.version]</spring.boot.version>
     <devon4j.version>$[devon4j.version]</devon4j.version>
     <java.version>1.8</java.version>
+    <junit.version>$[junit.version]</junit.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <jackson.version>$[jackson.version]</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
@@ -23,18 +24,18 @@
   <modules>
     <module>api</module>
     <module>core</module>
-    #if ($earProjectName != '.')
+#if ($earProjectName != '.')
     <module>${earProjectName}</module>
-    #end
-    #if ($batch == 'batch')
+#end
+#if ($batch == 'batch')
     <module>batch</module>
-    #end
+#end
     <module>server</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
-      <!-- overriding BOM of jackson -->
+      <!-- overriding jackson version from spring-boot by importing BOM before -->
       <dependency>
         <groupId>com.fasterxml.jackson</groupId>
         <artifactId>jackson-bom</artifactId>
@@ -42,6 +43,14 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <!-- overriding junit version from spring-boot by importing BOM before -->
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${junit.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>      
       <!-- Library with general utilities -->
       <dependency>
         <groupId>com.google.guava</groupId>
@@ -60,8 +69,7 @@
       <dependency>
         <groupId>com.devonfw.java.boms</groupId>
         <artifactId>devon4j-bom</artifactId>
-        <version>${devon4j.version}
-        </version>
+        <version>${devon4j.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -69,16 +77,6 @@
   </dependencyManagement>
 
   <dependencies>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-runner</artifactId>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
