@@ -79,6 +79,9 @@ Therefore the following table gives an overview of common 3rd party libraries th
 |`org.javassist`|`javassist`|`3.25.0-GA`|https://github.com/jboss-javassist/javassist/issues/194[194], https://github.com/jboss-javassist/javassist/issues/228[228], https://github.com/jboss-javassist/javassist/issues/246[246], https://github.com/jboss-javassist/javassist/issues/171[171]
 |=============================================
 
+==== ResourceBundles
+For internationalization (i18n) and localization (l10n) `ResourceBundle` is used for language and country specific texts and configurations as properties (e.g. `MyResourceBundle_de.properties`). With Java modules there are changes and impacts you need to know to get things working. The most important change is documented in the https://docs.oracle.com/javase/9/docs/api/java/util/ResourceBundle.html#bundleprovider[JavaDoc of ResourceBundle]. However, instead of using https://docs.oracle.com/javase/9/docs/api/java/util/spi/ResourceBundleProvider.html[ResourceBundleProvider] and refactoring your entire code causing incompatibilities, you can simply put the resource bundles in a regular JAR on the classpath rather than a named module (or into the lauching app).
+If you want to implement (new) Java modules with i18n support, you can have a look at https://github.com/m-m-m/nls#mmm-nls[mmm-nls].
 
 === Buildtime Changes
 If you also want to change your build to work with a recent JDK you also need to ensure that test frameworks and maven plugins properly support this.
@@ -119,6 +122,21 @@ For maven the new solution is https://spotbugs.github.io/spotbugs-maven-plugin/[
 |`org.apache.maven.plugins`|`maven-javadoc-plugin`|`3.1.0`|x
 |`org.jacoco`|`jacoco-maven-plugin`|`0.8.3`|https://github.com/jacoco/jacoco/issues/663[663]
 |=============================================
+
+==== Maven Usage
+
+With Java modules you can not run Javadoc standalone anymore or you will get this error when running `mvn javadoc:javadoc`:
+```
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-javadoc-plugin:3.1.1:javadoc (default-cli) on project mmm-base: An error has occurred in Javadoc report generation:
+[ERROR] Exit code: 1 - error: module not found: io.github.mmm.base
+[ERROR]
+[ERROR] Command line was: /projects/mmm/software/java/bin/javadoc @options @packages @argfile
+```
+
+As a solution or workaround you need to include the `compile` goal into your build lifecycle so the module-path is properly configured:
+```
+mvn compile javadoc:javadoc
+```
 
 == Sources and Links
 We want to give credits and say thanks to the following articles that have been there before and helped us on our way:
