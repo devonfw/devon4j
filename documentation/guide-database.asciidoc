@@ -23,7 +23,7 @@ Here are the most common options:
 * link:guide-oracle.asciidoc#oracle-rdbms[Oracle] (most established, well featured for enterprise)
 * link:guide-postgresql.asciidoc#postgresql[PostgreSQL] (great open-source RDBMS)
 * link:guide-mariadb.asciidoc#mariadb[MariaDB] (true OSS successor of MySQL)
-* link:guide-mysqlserver.asciidoc#[MS SQL Server] (best choice for Microsoft and Windows dominated IT landscapes)
+* link:guide-mssqlserver.asciidoc#ms-sql-server[MS SQL Server] (best choice for Microsoft and Windows dominated IT landscapes)
 
 Please click on any of the above choices and go to the according guide to find specific detials such as link:guide-jdbc.asciidoc[JDBC] driver.
 
