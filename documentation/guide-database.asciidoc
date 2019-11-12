@@ -24,7 +24,7 @@ To choose an RDBMS here are the most common options:
 Please click on any of the above choices and go to the according guide to find specific detials such as link:guide-jdbc.asciidoc[JDBC] driver.
 
 == NoSQL
-While not (yet) officially supported and recommendet there are also interesting NoSQL (Not Only SQL) databases that could be an interesting alternative. Please be aware that you will typically not be able to use link:guide-jpa.asciidoc[JPA] (and hibernate). Further before choosing a NoSQL database you should check the following aspects:
+While not (yet) officially supported and recommendet there are also interesting NoSQL (Not Only SQL) databases that could be an alternative. Please be aware that you will typically not be able to use link:guide-jpa.asciidoc[JPA] (and hibernate). Further before choosing a NoSQL database you should check the following aspects:
 
 * Is the database of choice reliable and mature enough for your project?
 * Can the operators of your product support the database of choice properly (provisioning, administration, backup, scaling & clustering, monitoring, etc.)?
