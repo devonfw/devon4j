@@ -12,12 +12,8 @@ The classical and well-established form of a database is a relational database m
 In devon4j we recommend to use an RDBMS unless you have specific need.
 However, in case you have the need for big data, graph-data, BLOB focus, or schema-less dynamic data you can have a look at xref:nosql[NoSQL] options but be aware that these may be experimental and are not fully supported by devon4j.
 
-Please read about the link:guide-dataaccess-layer.asciidoc[dataaccess-layer] as we are using link:guide-jpa.asciidoc[JPA] as a higher-level standard to communicate with RDBMS.
-However, in this guide you will find some information about JDBC for connecting your RDBMS of choice and for advanced tuning options.
-
 === Options
-In devonfw we are not biased for a particular RDBMS so you have the freedom of choice.
-Here are the most common options:
+To choose an RDBMS here are the most common options:
 
 * link:guide-hana.asciidoc#sap-hana[SAP Hana] (high performance in-memory, many advanced features)
 * link:guide-oracle.asciidoc#oracle-rdbms[Oracle] (most established, well featured for enterprise)
