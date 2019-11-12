@@ -1,0 +1,15 @@
+:toc: macro
+toc::[]
+
+= OrientDB
+
+This section is the place to share experience for those who use https://orientdb.com/[OrientDB] (see also https://orientdb.org/[Open-Source community edition]) as link:guide-database.asciidoc#nosql[NoSQL database].
+
+== Attention
+NOTE: In devonfw we do not properly support this. You are free to use this database but do not expect advanced integration, CobiGen templates, etc.
+
+== Driver
+For driver options see https://orientdb.com/docs/2.1.x/Programming-Language-Bindings.html[here].
+
+== Administration
+OrientDB comes with a powerful, impressive admin interface for your web-browser called https://orientdb.com/docs/2.0/orientdb-studio.wiki/Home-page.html[Studio].

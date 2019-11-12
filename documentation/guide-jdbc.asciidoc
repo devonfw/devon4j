@@ -1,0 +1,19 @@
+:toc: macro
+toc::[]
+
+= Java Database Connectivity
+
+https://docs.oracle.com/javase/8/docs/technotes/guides/jdbc/[JDBC] (see https://docs.oracle.com/en/java/javase/12/docs/api/java.sql/module-summary.html[java.sql]) is the Java low-level standard to communicate with a relational database management system (RDBMS).
+Please read about the link:guide-dataaccess-layer.asciidoc[dataaccess-layer] as devon4j typically suggests to use link:guide-jpa.asciidoc[JPA] as a higher-level standard to communicate with link:guide-database.asciidoc#rdbms[RDBMS].
+However, in this guide you will find some information about JDBC for connecting your RDBMS of choice and for advanced tuning options.
+
+== Connection Pooling
+A JDBC connection is used to communicate with the database.
+However, creating such connection comes with some cost (performance, resources).
+Therefore, a professional application is using a pool to reuse such connections.
+Unless you prefer a vendor-specific solution from your database-vendor, you can use a generic JDBC connection pool.
+There are established OSS products for this purpose.
+
+A good choice is e.g. https://github.com/brettwooldridge/HikariCP/[HikariCP].
+For a rationale see also https://github.com/brettwooldridge/HikariCP/wiki/Pool-Analysis[here].
+For integration into spring-boot and devon4j see https://www.baeldung.com/spring-boot-hikari[here].

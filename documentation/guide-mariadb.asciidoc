@@ -1,0 +1,20 @@
+:toc: macro
+toc::[]
+
+= MariaDB
+
+This section gives guidance and hints for those who use https://mariadb.org/[MariaDB] as link:guide-database.asciidoc#rdbms[RDBMS].
+
+== Driver
+MariaDB is fully open-source. The driver is therefore available in maven central.
+Your dependency for the driver should look as following:
+
+```
+<dependency>
+    <groupId>org.mariadb.jdbc</groupId>
+    <artifactId>mariadb-java-client</artifactId>
+    <version>${mariadb.driver.version}</version>
+</dependency>
+```
+Of course the version (`${mariadb.driver.version}`) needs to be adopted to your needs (MariaDB installtion in production and JDK version, e.g. `2.5.1`).
+For an overview of available driver versions see https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client[here].

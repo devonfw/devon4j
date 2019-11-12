@@ -42,6 +42,7 @@
 * link:guide-apm.asciidoc[Application Performance Management]
 
 == Options
+* link:guide-database.asciidoc[Database]
 * link:guide-hana.asciidoc[SAP Hana]
 * link:guide-oracle.asciidoc[Oracle]
 * link:guide-jee.asciidoc[JEE]

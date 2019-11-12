@@ -44,3 +44,13 @@ SELECT sum(dish.extras.price) FROM DishEntity dish
 As you can see you need to understand the concepts in order to get good performance. 
 
 There are many advanced topics such as creating database indexes or calculating statistics for the query optimizer to get the best performance. For such advanced topics we recommend to have a database expert in your team that cares about such things. However, understanding the _N+1 Problem_ and its solutions is something that every Java developer in the team needs to understand.
+
+== Advanced tuning
+Under the hood everything is still link:guide-jdbc.asciidoc#jdbc[JDBC].
+Therefore `ResultSet` is used to get result data from the DB.
+The `JDBC fetch size` parameter configures how many rows are read by `ResultSet` from the DB per page.
+A typical default is `10` but it can boost your performance to increase this value for specific queries:
+```
+// 100 is just an example, always meassure to get it right
+query.setFetchSize(100);
+```
