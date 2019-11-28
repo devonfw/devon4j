@@ -26,7 +26,6 @@
       <extension>
         <groupId>org.apache.maven.archetype</groupId>
         <artifactId>archetype-packaging</artifactId>
-        <version>${maven.archetype.version}</version>
       </extension>
     </extensions>
 
