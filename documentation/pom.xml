@@ -11,7 +11,7 @@
   <artifactId>devon4j-doc</artifactId>
   <version>${revision}${changelist}</version>
   <packaging>pom</packaging>
-  <name>The devon4j documentation that gives detailed guidance for the Java stack of devonfw.</name>
+  <name>${project.artifactId}</name>
   <description>The devon4j documentation that gives detailed guidance for the Java stack of devonfw.</description>
 
   <properties>
