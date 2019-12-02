@@ -59,13 +59,13 @@ public class AccessControlConfigSimple extends AccessControlConfig {
 
   public static final String GROUP_READ_MASTER_DATA = PREFIX + "ReadMasterData";
 
-  public static final String GROUP_USER3 = PREFIX + "User3";// cook
+  public static final String GROUP_USER3 = PREFIX + "User3";
 
-  public static final String GROUP_USER2 = PREFIX + "User2";// barkeeper
+  public static final String GROUP_USER2 = PREFIX + "User2";
 
-  public static final String GROUP_USER1 = PREFIX + "User1";// waiter
+  public static final String GROUP_USER1 = PREFIX + "User1";
 
-  public static final String GROUP_ADMIN = PREFIX + "Admin";// cheif
+  public static final String GROUP_ADMIN = PREFIX + "Admin";
 
   /**
    * The constructor.
