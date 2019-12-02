@@ -128,92 +128,91 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.2</version>
+          <version>$[maven.resources.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.7.0</version>
+          <version>$[maven.compiler.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
+          <version>$[maven.install.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
+          <version>$[maven.deploy.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>$[maven.clean.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.0.2</version>
+          <version>$[maven.jar.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.0.1</version>
+          <version>$[maven.source.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.7</version>
+          <version>$[maven.site.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>$[maven.checkstyle.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-antrun-plugin</artifactId>
-          <version>1.8</version>
+          <artifactId>maven-changes-plugin</artifactId>
+          <version>$[maven.changes.plugin.version]</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-changelog-plugin</artifactId>
+          <version>$[maven.changelog.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>2.9</version>
+          <version>$[maven.project.info.reports.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jxr-plugin</artifactId>
-          <version>2.5</version>
+          <version>$[maven.jxr.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>$[maven.javadoc.plugin.version]</version>
           <configuration>
-            <additionalDependencies>
-              <additionalDependency>
-                <groupId>javax.interceptor</groupId>
-                <artifactId>javax.interceptor-api</artifactId>
-                <version>1.2</version>
-              </additionalDependency>
-            </additionalDependencies>
-            <!-- https://issues.apache.org/jira/browse/MJAVADOC-308 -->
-            <!-- <notree>true</notree> -->
-            <show>private</show>
+            <!-- http://jira.codehaus.org/browse/MJAVADOC-308 -->
+            <!--<maxmemory>5048m</maxmemory>-->
+            <notree>true</notree>
+            <show>protected</show>
             <encoding>${project.reporting.outputEncoding}</encoding>
             <charset>${project.build.sourceEncoding}</charset>
             <docfilessubdirs>true</docfilessubdirs>
-            <links>
-              <link>http://docs.oracle.com/javase/8/docs/api/</link>
-            </links>
-            <doctitle>JavaDocs for ${project.name}</doctitle>
-            <windowtitle>JavaDocs for ${project.name}</windowtitle>
+            <stylesheetfile>${user.dir}/src/main/javadoc/stylesheet.css</stylesheetfile>
+            <doclint>none</doclint>
+            <source>${java.version}</source>
+            <doctitle>JavaDocs for ${project.name} ${project.version}</doctitle>
+            <windowtitle>JavaDocs for ${project.name} ${project.version}</windowtitle>
           </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0-M3</version>
+          <version>$[maven.surefire.plugin.version]</version>
           <configuration>
             <!-- Surefire changed the default to the project.build.directory causing trouble with file paths to test resources -->
             <workingDirectory>${basedir}</workingDirectory>
@@ -222,12 +221,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>2.20.1</version>
+          <version>$[maven.surefire.report.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.9.0</version>
+          <version>$[maven.pmd.plugin.version]</version>
           <configuration>
             <targetJdk>${java.version}</targetJdk>
           </configuration>
@@ -235,62 +234,52 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>$[maven.war.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.6</version>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>$[maven.antrun.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-help-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>$[maven.help.plugin.version]</version>
         </plugin>
         <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>cobertura-maven-plugin</artifactId>
-          <version>2.7</version>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>$[maven.gpg.plugin.version]</version>
         </plugin>
         <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.4.0.905</version>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-archetype-plugin</artifactId>
+          <version>$[maven.archetype.version]</version>
         </plugin>
         <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>3.0.5</version>
+          <groupId>org.apache.maven.archetype</groupId>
+          <artifactId>archetype-packaging</artifactId>
+          <version>$[maven.archetype.version]</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>taglist-maven-plugin</artifactId>
-          <version>2.4</version>
+          <version>$[mojo.taglist.plugin.version]</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>$[mojo.cobertura.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>flatten-maven-plugin</artifactId>
-          <version>1.0.1</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>servicedocgen-maven-plugin</artifactId>
-          <version>1.0.0-beta-3</version>
-        </plugin>
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.3</version>
-        </plugin>
-        <plugin>
-          <groupId>org.owasp</groupId>
-          <artifactId>dependency-check-maven</artifactId>
-          <version>5.1.0</version>
+          <version>$[mojo.flatten.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>license-maven-plugin</artifactId>
-          <version>1.14</version>
+          <version>$[mojo.license.plugin.version]</version>
           <configuration>
             <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
             <sortArtifactByName>true</sortArtifactByName>
@@ -298,10 +287,34 @@
             <useMissingFile>true</useMissingFile>
             <failOnMissing>true</failOnMissing>
             <licenseMerges>
-              <licenseMerge>Apache Software License, Version 2.0|The Apache Software License, Version 2.0|Apache
-                2.0|Apache License, Version 2.0</licenseMerge>
+              <licenseMerge>Apache Software License, Version 2.0|The Apache Software License, Version 2.0|Apache 2.0|Apache License, Version 2.0</licenseMerge>
             </licenseMerges>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>servicedocgen-maven-plugin</artifactId>
+          <version>$[mojo.servicedocgen.plugin.version]</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>$[sonar.maven.plugin.version]</version>
+        </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>$[jacoco.maven.plugin.version]</version>
+        </plugin>
+        <plugin>
+          <groupId>org.owasp</groupId>
+          <artifactId>dependency-check-maven</artifactId>
+          <version>$[owasp.dependency.check.plugin.version]</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
+          <version>$[spotbugs.plugin.version]</version>
         </plugin>
         <plugin>
           <groupId>org.springframework.boot</groupId>
@@ -336,28 +349,6 @@
       <properties>
         <devonfw.test.excluded.groups>none</devonfw.test.excluded.groups>
       </properties>
-    </profile>
-    <profile>
-      <id>doclint-disabled</id>
-      <activation>
-        <jdk>[1.8,)</jdk>
-      </activation>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-javadoc-plugin</artifactId>
-              <!--<version>3.0.0</version> -->
-              <configuration>
-                <additionalOptions>
-                  <additionalOption>-Xdoclint:none</additionalOption>
-                </additionalOptions>
-              </configuration>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-      </build>
     </profile>
     <profile>
       <id>security</id>
