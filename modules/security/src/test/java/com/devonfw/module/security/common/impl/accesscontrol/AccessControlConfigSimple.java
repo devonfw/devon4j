@@ -59,13 +59,13 @@ public class AccessControlConfigSimple extends AccessControlConfig {
 
   public static final String GROUP_READ_MASTER_DATA = PREFIX + "ReadMasterData";
 
-  public static final String GROUP_COOK = PREFIX + "Cook";
+  public static final String GROUP_USER3 = PREFIX + "User3";
 
-  public static final String GROUP_BARKEEPER = PREFIX + "Barkeeper";
+  public static final String GROUP_USER2 = PREFIX + "User2";
 
-  public static final String GROUP_WAITER = PREFIX + "Waiter";
+  public static final String GROUP_USER1 = PREFIX + "User1";
 
-  public static final String GROUP_CHIEF = PREFIX + "Chief";
+  public static final String GROUP_ADMIN = PREFIX + "Admin";
 
   /**
    * The constructor.
@@ -75,13 +75,13 @@ public class AccessControlConfigSimple extends AccessControlConfig {
     super();
     AccessControlGroup readMasterData = group(GROUP_READ_MASTER_DATA, PERMISSION_FIND_OFFER, PERMISSION_FIND_PRODUCT,
         PERMISSION_FIND_STAFF_MEMBER, PERMISSION_FIND_TABLE);
-    AccessControlGroup cook = group(GROUP_COOK, readMasterData, PERMISSION_FIND_ORDER, PERMISSION_SAVE_ORDER,
+    AccessControlGroup user3 = group(GROUP_USER3, readMasterData, PERMISSION_FIND_ORDER, PERMISSION_SAVE_ORDER,
         PERMISSION_FIND_ORDER_POSITION, PERMISSION_SAVE_ORDER_POSITION);
-    AccessControlGroup barkeeper = group(GROUP_BARKEEPER, cook, PERMISSION_FIND_BILL, PERMISSION_SAVE_BILL,
+    AccessControlGroup user2 = group(GROUP_USER2, user3, PERMISSION_FIND_BILL, PERMISSION_SAVE_BILL,
         PERMISSION_DELETE_BILL, PERMISSION_DELETE_ORDER);
-    AccessControlGroup waiter = group(GROUP_WAITER, barkeeper, PERMISSION_SAVE_TABLE);
+    AccessControlGroup user1 = group(GROUP_USER1, user2, PERMISSION_SAVE_TABLE);
     // AccessControlGroup chief =
-    group(GROUP_CHIEF, waiter, PERMISSION_SAVE_OFFER, PERMISSION_SAVE_PRODUCT, PERMISSION_SAVE_STAFF_MEMBER,
+    group(GROUP_ADMIN, user1, PERMISSION_SAVE_OFFER, PERMISSION_SAVE_PRODUCT, PERMISSION_SAVE_STAFF_MEMBER,
         PERMISSION_DELETE_OFFER, PERMISSION_DELETE_PRODUCT, PERMISSION_DELETE_STAFF_MEMBER,
         PERMISSION_DELETE_ORDER_POSITION, PERMISSION_DELETE_TABLE);
   }

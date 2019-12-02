@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <access-control-schema>
-  <group id="Waiter">
+  <group id="User1">
     <permissions>
       <permission id="GET_TABLE"/>
     </permissions>
   </group>
-  <group id="Barkeeper">
+  <group id="User2">
     <inherits>
-      <group-ref>Chief</group-ref>
+      <group-ref>Admin</group-ref>
     </inherits>
   </group>
-  <group id="Cook">
+  <group id="User3">
     <inherits>
-      <group-ref>Barkeeper</group-ref>
+      <group-ref>User2</group-ref>
     </inherits>
   </group>
-  <group id="Chief">
+  <group id="Admin">
     <inherits>
-      <group-ref>Waiter</group-ref>
-      <group-ref>Cook</group-ref>
+      <group-ref>User1</group-ref>
+      <group-ref>User3</group-ref>
     </inherits>
     <permissions>
       <permission id="ADD_TABLE"/>

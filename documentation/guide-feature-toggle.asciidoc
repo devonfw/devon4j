@@ -91,7 +91,7 @@ if (StaffmanagementFeatures.LIMIT_STAFF_PAGE_SIZE.isActive()) {
 
 // _ - comment is needed to fix syntax highlighting
 
-This way, you can easily switch the feature on or off by using the administration console at http://localhost:8081/devon4j-sample-server/togglz-console. If you are getting redirected to the login page, just sign in with any valid user (eg. waiter).
+This way, you can easily switch the feature on or off by using the administration console at http://localhost:8081/devon4j-sample-server/togglz-console. If you are getting redirected to the login page, just sign in with any valid user (eg. admin).
 
 === Extensive features
 

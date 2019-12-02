@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <access-control-schema>
-  <group id="Waiter">
+  <group id="User1">
     <permissions>
       <permission id="GET_TABLE"/>
     </permissions>
   </group>
 
-  <group id="Barkeeper">
+  <group id="User2">
   </group>
 
-  <group id="Cook">
+  <group id="User3">
   </group>
 
-  <group id="Chief">
+  <group id="Admin">
     <permissions>
       <permission id="ADD_TABLE"/>
       <permission id="REMOVE_TABLE"/>
