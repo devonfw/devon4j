@@ -33,10 +33,10 @@ The i18n properties file must be called `ApplicationMessages_la_CO.properties` w
 ApplicationMessages_en_US.properties
 [source]
 ----
-waiter=Waiter
-chief=Chief
-cook=Cook
-barkeeper=Barkeeper
+user1=User1
+admin=Admin
+user3=User3
+user2=User2
 ----
 
 You should define an ApplicationMessages_la_CO.properties file for every language that your application needs.

@@ -107,7 +107,7 @@ public class AccessControlSchemaTest extends ModuleTest {
       createProvider(SCHEMA_XML_CYCLIC);
       fail("Exception expected!");
     } catch (Exception e) {
-      assertThat(e).hasMessageContaining("Cook-->Chief-->Barkeeper");
+      assertThat(e).hasMessageContaining("User3-->Admin-->User2");
     }
   }
 
@@ -137,7 +137,7 @@ public class AccessControlSchemaTest extends ModuleTest {
       String message = e.getMessage();
       assertThat(message).contains(SCHEMA_XML_ILLEGAL.toString());
       String causeMessage = e.getCause().getMessage();
-      assertThat(causeMessage).contains("Undefined ID \"Waiter\"");
+      assertThat(causeMessage).contains("Undefined ID \"User1\"");
     }
   }
 

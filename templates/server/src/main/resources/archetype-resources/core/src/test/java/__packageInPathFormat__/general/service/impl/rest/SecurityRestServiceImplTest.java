@@ -36,8 +36,8 @@ public class SecurityRestServiceImplTest extends RestServiceTest {
   @Test
   public void testLogin() {
 
-    String login = "waiter";
-    String password = "waiter";
+    String login = "admin";
+    String password = "admin";
 
     ResponseEntity<String> postResponse = login(login, password);
     LOG.debug("Body: " + postResponse.getBody());
@@ -51,8 +51,8 @@ public class SecurityRestServiceImplTest extends RestServiceTest {
   @Test
   public void testGetCsrfToken() {
 
-    String login = "waiter";
-    String password = "waiter";
+    String login = "admin";
+    String password = "admin";
     SecurityRestService securityService = getServiceClientFactory().create(SecurityRestService.class,
         new ServiceClientConfigBuilder().host("localhost").authBasic().userLogin(login).userPassword(password)
             .buildMap());
@@ -68,8 +68,8 @@ public class SecurityRestServiceImplTest extends RestServiceTest {
    */
   @Test
   public void testGetCurrentUser() {
-    String login = "waiter";
-    String password = "waiter";
+    String login = "admin";
+    String password = "admin";
     SecurityRestService securityService = getServiceClientFactory().create(SecurityRestService.class,
         new ServiceClientConfigBuilder().host("localhost").authBasic().userLogin(login).userPassword(password)
             .buildMap());
