@@ -21,13 +21,13 @@ env:
 stages:
   - name: Build
   - name: Documentation
-    if: (branch = develop) AND (type = push)
 jobs:
   include:
     - stage: Build
       script:
         - mvn install
     - stage: Documentation
+      if: (branch = develop) AND (type = push)
       script:
         # Clone repositories
         - git clone -b develop --single-branch https://${GH_REPO_SOURCE}
