@@ -10,6 +10,7 @@ import com.devonfw.module.json.common.base.type.IdRefJsonSerializer;
 import com.devonfw.module.json.common.base.type.PageableJsonDeserializer;
 import com.devonfw.module.json.common.base.type.PageableJsonSerializer;
 import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.jsontype.SubtypeResolver;
@@ -57,8 +58,8 @@ public class ObjectMapperFactory {
   public SimpleModule getExtensionModule() {
 
     if (this.extensionModule == null) {
-      this.extensionModule =
-          new SimpleModule("devonfw.ExtensionModule", new Version(1, 0, 0, null, GROUP_ID, ARTIFACT_ID));
+      this.extensionModule = new SimpleModule("devonfw.ExtensionModule",
+          new Version(1, 0, 0, null, GROUP_ID, ARTIFACT_ID));
     }
     return this.extensionModule;
   }
@@ -144,6 +145,7 @@ public class ObjectMapperFactory {
     }
     // register JavaTimeModule
     mapper.registerModule(new JavaTimeModule());
+    mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
 
     return mapper;
   }
