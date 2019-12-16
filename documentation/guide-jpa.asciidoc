@@ -355,7 +355,7 @@ The class `com.devonfw.module.jpa.persistence.api.AbstractPersistenceEntity` alr
 You only have to care about two things:
 
 * How to deal with optimistic locking in xref:relationships[relationships]? +
-Assume an entity `A` contains a collection of `B` entities. Should there be a locking conflict if one user modifies an instance of `A` while another user in parallel modifies an instance of `B` that is contained in the other instance? To address this , take a look at https://oasp.github.io/oasp4j_content/2.4.0/maven/apidocs/io/oasp/module/jpa/dataaccess/api/GenericDao.html#forceIncrementModificationCounter(E)[GenericDao.forceIncrementModificationCounter].
+Assume an entity `A` contains a collection of `B` entities. Should there be a locking conflict if one user modifies an instance of `A` while another user in parallel modifies an instance of `B` that is contained in the other instance? To address this , take a look at https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/feature/FeatureForceIncrementModificationCounter.java[FeatureForceIncrementModificationCounter].
 * What should happen in the UI if an `OptimisticLockException` occurred? +
 According to KISS our recommendation is that the user gets an error displayed that tells him to do his change again on the recent data. Try to design your system and the work processing in a way to keep such conflicts rare and you are fine.
 
