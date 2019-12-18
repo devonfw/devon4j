@@ -57,6 +57,7 @@ With devonfw we experienced the same for the codebase (what is inside `src/main/
 |  |  |  |  └──.link:guide-datatype.asciidoc[«Datatype»]
 |  |  |  └──.link:guide-transferobject.asciidoc#bo[«BusinessObject»]
 |  |  └──.impl[.«detail»]
+|  |     ├──.link:guide-configuration-mapping.asciidoc#mapping-advanced-configuration[«Aspect»ConfigProperties]
 |  |     ├──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonSerializer]
 |  |     └──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonDeserializer]
 |  ├──.link:guide-dataaccess-layer.asciidoc[dataaccess]
