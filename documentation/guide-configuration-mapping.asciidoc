@@ -1,0 +1,100 @@
+:toc: macro
+toc::[]
+
+= Mapping configuration to your code
+
+If you are using `spring-boot` as suggested by `devon4j` your application can be configured by `application.properties` file as described in link:guide-configuration.asciidoc[configuration].
+To get a single configuration option into your code for flexibility, you can use
+
+```java
+@Value("${my.property.name}")
+private String myConfigurableField;
+```
+
+Now, in your `application.properties` you can add the property:
+```
+my.property.name=my-property-value
+```
+
+You may even use `@Value("${my.property.name:my-default-value}")` to make the property optional.
+
+== Naming conventions for configuration properties
+
+As a best practice your configruation properties should follow these naming conventions:
+
+* build the property-name as a path of segments separated by the dot character (`.`)
+* segments should get more specific from left to right
+* a property-name should either be a leaf value or a tree node (prefix of other property-names) but never both! So never have something like `foo.bar=value` and `foo.bar.child=value2`.
+* start with a segment namespace unique to your context or application
+* a good example would be `«myapp».billing.service.email.sender` for the sender address of billing service emails send by `«myapp»`.
+
+== Mapping advanced configuration
+
+However, in many scenarios you will have features that require more than just one property.
+Injecting those via `@Value` is not leading to good code quality.
+Instead we create a class with the suffix `ConfigProperties` containing all configuration properties for our aspect that is annotated with `@ConfigurationProperties`:
+```java
+@ConfigurationProperties(prefix = "myapp.billing.service")
+public class BillingServiceConfigProperties {
+
+  private final Email email = new Email();
+  private final Smtp smtp = new Smtp();
+  
+  public Email getEmail() { return this.email; }
+  public Email getSmtp() { return this.smtp; }
+  
+  public static class Email {
+    
+    private String sender;
+    private String subject;
+    
+    public String getSender() { return this.sender; }
+    public void setSender(String sender) { this.sender = sender; }
+    public String getSubject() { return this.subject; }
+    public void setSubject(String subject) { this.subject = subject; }
+  }
+
+  public static class Smtp {
+    
+    private String host;
+    private int port = 25;
+    
+    public String getHost() { return this.host; }
+    public void setHost(String host) { this.host = host; }
+    public int getPort() { return this.port; }
+    public void setPort(int port) { this.port = port; }
+  }
+
+}
+```
+
+Of course this is just an example to demonstrate this feature of `spring-boot`.
+In order to send emails you would typically use the existing https://www.baeldung.com/spring-email[spring-email] feature.
+But as you can see this allows us to define and access our configuration in a very structured and comfortable way.
+The annotation `@ConfigurationProperties(prefix = "myapp.billing.service")` will automatically map spring configuration properties starting with `myapp.billing.service` via the according getters and setters into our `BillingServiceConfigProperties`.
+We can easily define defaults (e.g. `25` as default value for `myapp.billing.service.smtp.port`).
+Also `Email` or `Smtp` could be top-level classes to be reused in multiple configurations.
+Of course you would also add helpful `JavaDoc` comments to the `getters` and classes to document your configuration options.
+Further to access this configuration, we can use standard link:guide-dependency-injection.asciidoc[dependency-injection]:
+```java
+@Inject
+private BillingServiceConfigProperties config;
+```
+For very generic cases you may also use `Map<String, String>` to map any kind of property in an untyped way.
+An example for generic configuration from `devon4j` can be found in
+https://github.com/devonfw/devon4j/blob/9b8f9461997bb5d8048a9fec42bec3625652eec3/modules/service/src/main/java/com/devonfw/module/service/common/base/config/ServiceConfigProperties.java[ServiceConfigProperties].
+
+For further details about this feature also consult https://www.baeldung.com/configuration-properties-in-spring-boot[Guide to @ConfigurationProperties in Spring Boot].
+
+== Generate configuration metadata
+
+You should further add this `dependency` to your module containing the `*ConfigProperties`:
+```xml
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
+```
+This will generate configuration metadata so projects using your code can benefit from autocompletion and getting your JavaDoc as tooltip when editing `application.properites` what makes this approach very powerful.
+For further details about this please read https://www.baeldung.com/spring-boot-configuration-metadata[A Guide to Spring Boot Configuration Metadata].
