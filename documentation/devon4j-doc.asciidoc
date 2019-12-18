@@ -65,6 +65,8 @@ include::guide-dependency-injection.asciidoc[leveloffset=2]
 
 include::guide-configuration.asciidoc[leveloffset=2]
 
+include::guide-configuration-mapping.asciidoc[leveloffset=2]
+
 <<<<
 
 include::guide-jpa.asciidoc[leveloffset=2]
