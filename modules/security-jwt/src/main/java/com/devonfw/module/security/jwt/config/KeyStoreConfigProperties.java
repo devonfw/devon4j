@@ -1,80 +1,109 @@
 package com.devonfw.module.security.jwt.config;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.security.KeyStore;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * This class contains properties related with keystore.
+ * This class contains properties related with {@link KeyStore}.
+ *
+ * @since 3.2.0
  *
  */
 
-@ConfigurationProperties(prefix="server.ssl")
+@Configuration
+@ConfigurationProperties(prefix = "security.authentication.keystore")
 public class KeyStoreConfigProperties {
 
+  private String keyStoreLocation;
 
-	private String keyStoreLocation;
+  private String keystoreType;
 
-	private String keystoreType;
+  private String password;
 
-	private String password;
+  private String keyAlias;
 
-	private String keyAlias;
+  private String keyPassword;
 
-	private String keyPassword;
+  /**
+   * @return keyStoreLocation
+   */
+  public String getKeyStoreLocation() {
 
-	Map<String,String> customPropMap=new HashMap<>();
+    return this.keyStoreLocation;
+  }
 
-	public String getKeyStoreLocation() {
-		return keyStoreLocation;
-	}
+  /**
+   * @param keyStoreLocation new value of {@link #getkeyStoreLocation}.
+   */
+  public void setKeyStoreLocation(String keyStoreLocation) {
 
-	public void setKeyStoreLocation(String keyStoreLocation) {
-		this.keyStoreLocation = keyStoreLocation;
-	}
+    this.keyStoreLocation = keyStoreLocation;
+  }
 
-	public String getKeystoreType() {
-		return keystoreType;
-	}
+  /**
+   * @return keystoreType
+   */
+  public String getKeystoreType() {
 
-	public void setKeystoreType(String keystoreType) {
-		this.keystoreType = keystoreType;
-	}
+    return this.keystoreType;
+  }
 
-	public String getPassword() {
-		return password;
-	}
+  /**
+   * @param keystoreType new value of {@link #getkeystoreType}.
+   */
+  public void setKeystoreType(String keystoreType) {
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    this.keystoreType = keystoreType;
+  }
 
-	public Map<String, String> getCustomPropMap() {
-		return customPropMap;
-	}
+  /**
+   * @return password
+   */
+  public String getPassword() {
 
-	public void setCustomPropMap(Map<String, String> customPropMap) {
-		this.customPropMap = customPropMap;
-	}
+    return this.password;
+  }
 
-	public String getKeyAlias() {
-		return keyAlias;
-	}
+  /**
+   * @param password new value of {@link #getpassword}.
+   */
+  public void setPassword(String password) {
 
-	public void setKeyAlias(String keyAlias) {
-		this.keyAlias = keyAlias;
-	}
+    this.password = password;
+  }
 
-	public String getKeyPassword() {
-		return keyPassword;
-	}
+  /**
+   * @return keyAlias
+   */
+  public String getKeyAlias() {
 
-	public void setKeyPassword(String keyPassword) {
-		this.keyPassword = keyPassword;
-	}
+    return this.keyAlias;
+  }
 
+  /**
+   * @param keyAlias new value of {@link #getkeyAlias}.
+   */
+  public void setKeyAlias(String keyAlias) {
 
+    this.keyAlias = keyAlias;
+  }
+
+  /**
+   * @return keyPassword
+   */
+  public String getKeyPassword() {
+
+    return this.keyPassword;
+  }
+
+  /**
+   * @param keyPassword new value of {@link #getkeyPassword}.
+   */
+  public void setKeyPassword(String keyPassword) {
+
+    this.keyPassword = keyPassword;
+  }
 
 }

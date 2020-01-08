@@ -1,5 +1,8 @@
 package com.devonfw.module.security.jwt.config;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -8,87 +11,83 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.security.cert.CertificateException;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.devonfw.module.security.jwt.util.SignatureAlgorithm;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 /**
- * Implementation of KeystorAccess functionalities
+ * Implementation of {@link KeyStoreAccess}
+ *
+ * @since 3.2.0
  *
  */
-
+@Named
 public class KeyStoreAccessImpl implements KeyStoreAccess {
 
-	private static final Logger LOG = LoggerFactory.getLogger(KeyStoreAccessImpl.class);
+  private static final Logger LOG = LoggerFactory.getLogger(KeyStoreAccessImpl.class);
 
-	@Inject
-	KeyStoreConfigProperties keyStoreProps;
+  @Inject
+  private KeyStoreConfigProperties keyStoreConfigProperties;
 
-	@Inject
-	JwtTokenConfigProperties tokenProps;
+  /**
+   * Gets the instance of {@link KeyStore} and loads the {@link KeyStore} from JKS file
+   *
+   * @return {@link KeyStore}
+   */
+  private KeyStore getKeyStore() {
 
-	private List<SignatureAlgorithm> algorithmList = loadAllAlgorithmList();;
+    KeyStore keyStore = null;
+    try {
 
-	public List<SignatureAlgorithm> getAlgorithmList() {
-		return algorithmList;
-	}
+      keyStore = KeyStore.getInstance(this.keyStoreConfigProperties.getKeystoreType());
 
-	@Inject
-	private KeyStore keyStore;
+      Resource keyStoreLocation = new FileSystemResource(new File(this.keyStoreConfigProperties.getKeyStoreLocation()));
+      try (InputStream in = keyStoreLocation.getInputStream()) {
 
-	public void setKeyStore(KeyStore keyStore) {
-		this.keyStore = keyStore;
-	}
+        keyStore.load(in, this.keyStoreConfigProperties.getKeyPassword().toCharArray()); // "changeit".toCharArray()
 
-	@Override
-	public KeyStore getKeyStore() {
-		Objects.requireNonNull(this.keyStore, "KeyStore");
-		return this.keyStore;
-	}
+        LOG.info("Keystore aliases " + keyStore.aliases().nextElement().toString());
+      } catch (IOException | NoSuchAlgorithmException | CertificateException e) {
 
-	public List<SignatureAlgorithm> loadAllAlgorithmList() {
-		List<SignatureAlgorithm> algoLists = Arrays.asList(SignatureAlgorithm.values());
-		LOG.info("AlgoLists-- " + algoLists);
-		return algoLists;
+        throw new IllegalStateException("Failed to load the KeyStore!", e);
+      }
+    } catch (KeyStoreException e) {
 
-	}
+      throw new IllegalStateException("Failed to instantiate the KeyStore!", e);
+    }
+    return keyStore;
+  }
 
-	@Override
-	public PublicKey getPublicKey() {
-		PublicKey publicKey = null;
-		try {
-			Certificate certificate = keyStore.getCertificate(keyStoreProps.getKeyAlias());
-			publicKey = certificate.getPublicKey();
-		} catch (KeyStoreException e) {
+  @Override
+  public PublicKey getPublicKey() {
 
-			LOG.error(e.getMessage());
+    PublicKey publicKey = null;
+    try {
+      Certificate certificate = getKeyStore().getCertificate(this.keyStoreConfigProperties.getKeyAlias());
+      publicKey = certificate.getPublicKey();
+    } catch (KeyStoreException e) {
+      throw new IllegalStateException("keystore has not been initialized .", e);
+    }
+    return publicKey;
+  }
 
-		}
-		return publicKey;
-	}
+  @Override
+  public PrivateKey getPrivateKey(String alias, String password) {
 
-	@Override
-	public PrivateKey getPrivateKey(String alias, String password) {
-		try {
-			Key key = keyStore.getKey(alias, "changeit".toCharArray());
-			 if (key instanceof PrivateKey) {
-				 return (PrivateKey) key;
-			    }
-		} catch (UnrecoverableKeyException e) {
-			e.printStackTrace();
-		} catch (KeyStoreException e) {
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    Key key = null;
+    try {
+      key = getKeyStore().getKey(alias, this.keyStoreConfigProperties.getKeyPassword().toCharArray());
+
+    } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
+      throw new IllegalStateException("Failed to get the key from KeyStore!", e);
+    }
+    return (PrivateKey) key;
+  }
 
 }

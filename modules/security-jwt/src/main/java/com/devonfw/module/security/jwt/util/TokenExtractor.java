@@ -4,137 +4,146 @@ import java.io.IOException;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
-import org.springframework.security.jwt.crypto.sign.MacSigner;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
 
 import com.devonfw.module.security.jwt.config.KeyStoreAccess;
-import com.devonfw.module.security.jwt.config.KeyStoreAccessImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Class to take request object and extract token and validate it.
  *
+ * @since 3.2.0
+ *
  */
-@Configuration
+@Named
 public class TokenExtractor {
 
-	private static final Logger LOG = LoggerFactory.getLogger(TokenExtractor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TokenExtractor.class);
 
-	private ObjectMapper objectMapper;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
-	private KeyStoreAccess keyStoreAccess;
+  @Inject
+  private KeyStoreAccess keyStoreAccess;
 
-	private Map<String, Object> tokenClaims;
+  private Map<String, Object> tokenClaims;
 
-	public TokenExtractor(KeyStoreAccess keyStoreAccess,ObjectMapper objectMapper) {
-		this.keyStoreAccess = keyStoreAccess;
-		this.objectMapper=objectMapper;
-	}
+  /**
+   * Validates the token
+   *
+   * @param token
+   *
+   * @return {@link Authentication}
+   */
+  public Authentication validateTokenAndSignature(String token) {
 
-	public Authentication validateTokenAndSignature(String token) {
+    Authentication authentication = null;
 
-		Authentication authentication = null;
-		// get algorithm from header
-		// create signatureverifier of particular type
-		// extract token
-		// deserialize it
-		// verify signature
-		// TODO:validate timestamp
-		// TODO: take data from token and create authentication
+    SignatureVerifier verifier = signatureVerifierFactory((this.keyStoreAccess.getPublicKey()),
+        getAlgorithmFamilyType(JwtHelper.headers(token).get("alg")));
 
-		String algorithms = JwtHelper.headers(token).get("alg");
+    Jwt jwt = JwtHelper.decodeAndVerify(token, verifier);
 
-		String algorithmFamilyType = getAlgorithmFamilyType(algorithms);
-		if (algorithmFamilyType == null) {
-			// throw exception
-		}
+    String claims = jwt.getClaims();
+    try {
+      this.tokenClaims = this.objectMapper.readValue(claims, Map.class);
 
-		SignatureVerifier verifier = signatureVerifierFactory(((RSAPublicKey)this.keyStoreAccess.getPublicKey()),
-				algorithmFamilyType);
+      LOG.info("Token Claims " + this.tokenClaims.toString());
 
-		Jwt jwt = JwtHelper.decodeAndVerify(token, verifier);
+      Instant now = Instant.now();
 
-		String claims = jwt.getClaims();
-		try {
-			tokenClaims = this.objectMapper.readValue(claims, Map.class);
+      Object nbfObj = this.tokenClaims.get("nbf");
+      Object expObj = this.tokenClaims.get("exp");
 
-			LOG.info("Token Claims " + tokenClaims.toString());
+      if (nbfObj != null) {
+        Instant nbf = Instant.ofEpochSecond(((Number) nbfObj).longValue());
+        if (now.isBefore(nbf)) {
+          throw new IllegalStateException("Token is not valid before " + nbf);
+        }
 
-			Instant now = Instant.now();
+      }
 
-			if(tokenClaims.get("nbf")!=null) {
-				Instant nbf = Instant.ofEpochSecond(((Number) tokenClaims.get("nbf")).longValue());
-				if (now.isBefore(nbf)) {
-					// Throw exception
-					LOG.info("Token is not valid before " + nbf);
-				}
+      if (expObj != null) {
+        Instant expiration_time = Instant.ofEpochSecond(((Number) expObj).longValue());
 
-			}
+        if (now.isAfter(expiration_time)) {
+          throw new IllegalStateException("Token is expired" + expiration_time);
+        }
+      }
 
-			if(tokenClaims.get("exp") !=null) {
-				Instant expiration_time = Instant.ofEpochSecond(((Number) tokenClaims.get("exp")).longValue());
+      String user = this.tokenClaims.get("sub").toString();
 
-				if (now.isAfter(expiration_time)) {
-					// Throw exception
-					LOG.info("Token is expired");
-				}
-			}
+      List<String> roles = (List<String>) this.tokenClaims.get("roles");
 
+      List<GrantedAuthority> authorities = new ArrayList<>();
+      for (String role : roles) {
+        authorities.add(new SimpleGrantedAuthority(role));
+      }
 
-			String user = tokenClaims.get("sub").toString();
-			// If token do not throw any exception above it is valid and we need to create
-			// authentication object from it
+      authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
+    } catch (IOException e) {
 
-			authentication = new UsernamePasswordAuthenticationToken(user,
-					tokenClaims.get("roles").toString());
-		} catch (IOException e) {
+      throw new IllegalStateException("Token claims cannot be read:" + e);
+    }
+    return authentication;
+  }
 
-			LOG.error(e.getMessage());
-		}
-		return authentication;
-	}
+  /**
+   * Returns algorithms from Enum {@link JwtSignatureAlgorithm}
+   *
+   * @param algorithms
+   * @return
+   */
+  private String getAlgorithmFamilyType(String algorithms) {
 
-	private String getAlgorithmFamilyType(String algorithms) {
-		StringBuilder familyAlgorithm = null;
-		List<SignatureAlgorithm> algos = this.keyStoreAccess.loadAllAlgorithmList();
-		for (SignatureAlgorithm algorithm : algos) {
-			if (algorithm.getValue().equalsIgnoreCase(algorithms)) {
-				LOG.info("Algorithm exists--");
-				familyAlgorithm = new StringBuilder(algorithm.getFamilyName());
-				LOG.info("Parent algo is " + familyAlgorithm.toString());
-				return familyAlgorithm.toString();
-			}
-		}
-		return null;
-	}
+    StringBuilder familyAlgorithm = null;
+    List<JwtSignatureAlgorithm> algoLists = Arrays.asList(JwtSignatureAlgorithm.values());
+    for (JwtSignatureAlgorithm algorithm : algoLists) {
+      if (algorithm.getValue().equalsIgnoreCase(algorithms)) {
+        familyAlgorithm = new StringBuilder(algorithm.getFamilyName());
+        return familyAlgorithm.toString();
+      }
+    }
+    return null;
+  }
 
-	public SignatureVerifier signatureVerifierFactory(PublicKey publicKey, String algorithm) {
-		switch (algorithm) {
-		case "Elliptic Curve":
-			return null;
+  /**
+   * This factory method return {@link RsaVerifier} based on RSA algorithm. Current default is RSA
+   *
+   * @param publicKey , algorithm
+   *
+   * @return {@link SignatureVerifier}
+   */
+  private SignatureVerifier signatureVerifierFactory(PublicKey publicKey, String algorithm) {
 
-		case "HMAC":
-			return null;
+    SignatureVerifierAlgorithm signatureVerifierAlgorithm = SignatureVerifierAlgorithm.valueOf(algorithm);
+    switch (signatureVerifierAlgorithm) {
+      case ELLIPTICCURVE:
+        return null;
+      case HMAC:
+        return null;
+      case RSA:
+        return new RsaVerifier((RSAPublicKey) publicKey);
 
-		case "RSA":
-			return new RsaVerifier((RSAPublicKey) publicKey);
-
-		default:
-			return new RsaVerifier((RSAPublicKey) publicKey);
-		}
-	}
+      default:
+        return new RsaVerifier((RSAPublicKey) publicKey);
+    }
+  }
 
 }
