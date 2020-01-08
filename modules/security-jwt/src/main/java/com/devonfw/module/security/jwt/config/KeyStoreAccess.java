@@ -1,25 +1,31 @@
 package com.devonfw.module.security.jwt.config;
 
-import java.security.KeyPair;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.List;
-
-import com.devonfw.module.security.jwt.util.SignatureAlgorithm;
 
 /**
- * Interface which provides access to Keystore functionality. Check {@link KeyStoreAccessImpl} for implementation.
+ * Interface which provides access to {@link KeyStore} functionality. Check {@link KeyStoreAccessImpl} for
+ * implementation.
  *
+ * @since 3.2.0
  */
 public interface KeyStoreAccess {
 
-	 KeyStore getKeyStore();
+  /**
+   * Loads the public key using keyalias
+   *
+   * @return {@link PublicKey}
+   */
+  public PublicKey getPublicKey();
 
-	 PublicKey getPublicKey();
-
-	 List<SignatureAlgorithm> loadAllAlgorithmList();
-
-	 PrivateKey getPrivateKey(String alias, String password);
+  /**
+   * Loads the private key using keyalias
+   *
+   * @param alias
+   * @param password
+   * @return {@link PrivateKey}
+   */
+  public PrivateKey getPrivateKey(String alias, String password);
 
 }
