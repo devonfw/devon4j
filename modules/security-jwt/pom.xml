@@ -34,7 +34,6 @@
 			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
 			<version>2.2.2.RELEASE</version>
 		</dependency>
-
 		<!-- Spring Web & Servlet necessary for Request Filters -->
 		<dependency>
 			<groupId>org.springframework</groupId>

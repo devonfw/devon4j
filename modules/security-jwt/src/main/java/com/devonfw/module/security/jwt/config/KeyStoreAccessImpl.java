@@ -89,5 +89,4 @@ public class KeyStoreAccessImpl implements KeyStoreAccess {
     }
     return (PrivateKey) key;
   }
-
 }

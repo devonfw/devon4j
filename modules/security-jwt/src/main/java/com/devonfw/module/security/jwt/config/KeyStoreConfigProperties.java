@@ -105,5 +105,4 @@ public class KeyStoreConfigProperties {
 
     this.keyPassword = keyPassword;
   }
-
 }
