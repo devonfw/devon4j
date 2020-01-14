@@ -1,11 +1,8 @@
 package com.devonfw.module.security.jwt.util;
 
 import java.io.IOException;
-import java.security.PublicKey;
-import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -20,11 +17,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
-
-import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
 
 import com.devonfw.module.security.jwt.config.KeyStoreAccess;
+import com.devonfw.module.security.jwt.sign.JwtSignatureAlgorithmFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -45,6 +41,9 @@ public class TokenExtractor {
 
   private Map<String, Object> tokenClaims;
 
+  @Inject
+  private JwtSignatureAlgorithmFactory jwtSignatureAlgorithmFactory;
+
   /**
    * Validates the token
    *
@@ -56,9 +55,10 @@ public class TokenExtractor {
 
     Authentication authentication = null;
 
-    SignatureVerifier verifier = signatureVerifierFactory((this.keyStoreAccess.getPublicKey()),
-        getAlgorithmFamilyType(JwtHelper.headers(token).get("alg")));
+    com.devonfw.module.security.jwt.sign.JwtSignatureAlgorithm jwtSignatureAlgorithm = this.jwtSignatureAlgorithmFactory
+        .getAlgorithms("RSA");
 
+    SignatureVerifier verifier = jwtSignatureAlgorithm.createVerifier();
     Jwt jwt = JwtHelper.decodeAndVerify(token, verifier);
 
     String claims = jwt.getClaims();
@@ -105,45 +105,4 @@ public class TokenExtractor {
     return authentication;
   }
 
-  /**
-   * Returns algorithms from Enum {@link JwtSignatureAlgorithm}
-   *
-   * @param algorithms
-   * @return
-   */
-  private String getAlgorithmFamilyType(String algorithms) {
-
-    StringBuilder familyAlgorithm = null;
-    List<JwtSignatureAlgorithm> algoLists = Arrays.asList(JwtSignatureAlgorithm.values());
-    for (JwtSignatureAlgorithm algorithm : algoLists) {
-      if (algorithm.getValue().equalsIgnoreCase(algorithms)) {
-        familyAlgorithm = new StringBuilder(algorithm.getFamilyName());
-        return familyAlgorithm.toString();
-      }
-    }
-    return null;
-  }
-
-  /**
-   * This factory method return {@link RsaVerifier} based on RSA algorithm. Current default is RSA
-   *
-   * @param publicKey , algorithm
-   *
-   * @return {@link SignatureVerifier}
-   */
-  private SignatureVerifier signatureVerifierFactory(PublicKey publicKey, String algorithm) {
-
-    SignatureVerifierAlgorithm signatureVerifierAlgorithm = SignatureVerifierAlgorithm.valueOf(algorithm);
-    switch (signatureVerifierAlgorithm) {
-      case ELLIPTICCURVE:
-        return null;
-      case HMAC:
-        return null;
-      case RSA:
-        return new RsaVerifier((RSAPublicKey) publicKey);
-
-      default:
-        return new RsaVerifier((RSAPublicKey) publicKey);
-    }
-  }
 }

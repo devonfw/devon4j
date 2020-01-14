@@ -61,6 +61,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
     super(new AntPathRequestMatcher(url));
     setAuthenticationManager(authManager);
     this.userDetailsService = userDetailsService;
+
   }
 
   @Override
@@ -77,8 +78,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
   protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
       Authentication auth) throws IOException, ServletException {
 
-    this.tokenAuthenticationUtil.addAuthentication(res, auth, this.keyStoreAccess
-        .getPrivateKey(this.keyStoreConfigProperties.getKeyAlias(), this.keyStoreConfigProperties.getPassword()));
+    this.tokenAuthenticationUtil.addAuthentication(res, auth);
     this.tokenAuthenticationUtil.addAllowedHeader(res);
     this.tokenAuthenticationUtil.addRequiredAuthentication(res, auth);
 

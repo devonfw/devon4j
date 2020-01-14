@@ -14,7 +14,7 @@ public class TokenConfigProperties {
 
   private String issuer;
 
-  private Integer expiratioHours;
+  private int expirationHours;
 
   private String tokenPrefix;
 
@@ -36,6 +36,8 @@ public class TokenConfigProperties {
 
   private String claimRoles;
 
+  private String algorithm;
+
   /**
    * @return issuer
    */
@@ -50,22 +52,6 @@ public class TokenConfigProperties {
   public void setIssuer(String issuer) {
 
     this.issuer = issuer;
-  }
-
-  /**
-   * @return expiratioHours
-   */
-  public Integer getExpiratioHours() {
-
-    return this.expiratioHours;
-  }
-
-  /**
-   * @param expiratioHours new value of {@link #getexpiratioHours}.
-   */
-  public void setExpiratioHours(Integer expiratioHours) {
-
-    this.expiratioHours = expiratioHours;
   }
 
   /**
@@ -226,6 +212,38 @@ public class TokenConfigProperties {
   public void setClaimRoles(String claimRoles) {
 
     this.claimRoles = claimRoles;
+  }
+
+  /**
+   * @return expirationHours
+   */
+  public int getExpirationHours() {
+
+    return this.expirationHours;
+  }
+
+  /**
+   * @param expirationHours new value of {@link #getexpirationHours}.
+   */
+  public void setExpirationHours(int expirationHours) {
+
+    this.expirationHours = expirationHours;
+  }
+
+  /**
+   * @return algorithm
+   */
+  public String getAlgorithm() {
+
+    return this.algorithm;
+  }
+
+  /**
+   * @param algorithm new value of {@link #getalgorithm}.
+   */
+  public void setAlgorithm(String algorithm) {
+
+    this.algorithm = algorithm;
   }
 
 }

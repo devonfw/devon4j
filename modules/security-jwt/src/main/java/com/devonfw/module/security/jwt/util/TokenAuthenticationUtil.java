@@ -1,8 +1,6 @@
 package com.devonfw.module.security.jwt.util;
 
-import java.io.UnsupportedEncodingException;
 import java.security.PrivateKey;
-import java.security.interfaces.RSAPrivateKey;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -21,11 +19,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.jwt.JwtHelper;
-import org.springframework.security.jwt.crypto.sign.RsaSigner;
 import org.springframework.security.jwt.crypto.sign.Signer;
 import org.springframework.security.oauth2.common.util.JsonParser;
 import org.springframework.security.oauth2.common.util.JsonParserFactory;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+import com.devonfw.module.security.jwt.sign.JwtSignatureAlgorithmFactory;
 
 /**
  * Utility class for JWT token managing
@@ -45,13 +44,12 @@ public class TokenAuthenticationUtil extends JwtAccessTokenConverter implements 
   @Inject
   private TokenExtractor tokenExtractor;
 
+  @Inject
+  private JwtSignatureAlgorithmFactory jwtSignatureAlgorithmFactory;
+
   private JsonParser jsonParser = JsonParserFactory.create();
 
-  private CharSequence content;
-
   private Signer signer;
-
-  private Map<String, String> headers;
 
   /**
    * This method allows the clients to be able to access other headers <Access-Control-Expose-Headers>
@@ -70,9 +68,9 @@ public class TokenAuthenticationUtil extends JwtAccessTokenConverter implements 
    * @param res the {@HttpServletResponse}
    * @param auth the {@Authentication} object with the user credentials
    */
-  public void addAuthentication(HttpServletResponse res, Authentication auth, PrivateKey privateKey) {
+  public void addAuthentication(HttpServletResponse res, Authentication auth) {
 
-    String token = generateToken(auth, privateKey);
+    String token = generateToken(auth);
     res.addHeader(this.tokenConfigProperties.getExposeHeaders(), this.tokenConfigProperties.getHeaderString());
     res.addHeader(this.tokenConfigProperties.getHeaderString(),
         this.tokenConfigProperties.getTokenPrefix() + " " + token);
@@ -100,11 +98,7 @@ public class TokenAuthenticationUtil extends JwtAccessTokenConverter implements 
   public Authentication getAuthentication(HttpServletRequest request) {
 
     Authentication authentication = null;
-    try {
-      request.setCharacterEncoding("ISO-8859-1");
-    } catch (UnsupportedEncodingException e) {
-      throw new IllegalStateException("Problem with Encoding " + e);
-    }
+
     String authToken = request.getHeader(this.tokenConfigProperties.getHeaderString());
 
     if (authToken != null) {
@@ -121,7 +115,7 @@ public class TokenAuthenticationUtil extends JwtAccessTokenConverter implements 
    * @param privateKey the {@link PrivateKey}
    * @return token
    */
-  private String generateToken(Authentication auth, PrivateKey privateKey) {
+  private String generateToken(Authentication auth) {
 
     List<String> scopes = new ArrayList<>();
     Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
@@ -137,7 +131,9 @@ public class TokenAuthenticationUtil extends JwtAccessTokenConverter implements 
     claims.put(this.tokenConfigProperties.getClaimCreated(), generateCreationDate() / 1000);
     claims.put(this.tokenConfigProperties.getClaimExpiration(), generateExpirationDate() / 1000);
     String payload = this.jsonParser.formatMap(claims);
-    this.signer = new RsaSigner((RSAPrivateKey) privateKey);
+    com.devonfw.module.security.jwt.sign.JwtSignatureAlgorithm jwtSignatureAlgorithm = this.jwtSignatureAlgorithmFactory
+        .getAlgorithms(this.tokenConfigProperties.getAlgorithm());
+    this.signer = jwtSignatureAlgorithm.createSigner();
     payload = JwtHelper.encode(payload, this.signer).getEncoded();
     return payload;
   }
@@ -149,7 +145,7 @@ public class TokenAuthenticationUtil extends JwtAccessTokenConverter implements 
 
   private Long generateExpirationDate() {
 
-    int expirationTerm = (60 * 60 * 1000) * this.tokenConfigProperties.getExpiratioHours();
+    int expirationTerm = (60 * 60 * 1000) * this.tokenConfigProperties.getExpirationHours();
     return new Date(new Date().getTime() + expirationTerm).getTime();
   }
 
