@@ -29,26 +29,60 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.StringUtils;
 
 /**
- * Launcher for launching batch jobs from the command line when Spring Boot is used. Similar to the
- * {@link CommandLineJobRunner}, which does not work very well with Spring Boot.
- * <p>
- * Do not use this class if Spring Boot is not used!
- * <p>
- * It expects the full class name of the Spring Boot configuration class to be used as first argument, the class/XML
- * file for configuring the job as second argument and the job name as third.<br>
+ * Launcher for launching batch jobs from the command line when Spring Boot is used. It is somewhat similar to the
+ * {@link CommandLineJobRunner}. The main difference is, that this launcher disables the web-app for the spring context.
+ *
+ * It expects the full class name of the Spring Boot configuration class to be used as first argument and the jobs
+ * beanname as the second.<br>
  * Moreover parameters can be specified as further arguments (convention: key1=value1 key2=value2 ...).
  * <p>
  * Example:<br>
- * java com.devonfw.module.batch.common.base.SpringBootBatchCommandLine
- * com.devonfw.gastronomy.restaurant.SpringBootBatchApp classpath:config/app/batch/beans-productimport.xml
- * productImportJob drinks.file=file:import/drinks.csv date(date)=2015/12/20
+ * {@code java -jar my-app-batch-bootified.jar com.devonfw.application.example.SpringBootApp myJob param=value...}
+ * </p>
  * <p>
  * For stopping all running executions of a job, use the -stop option.
- * <p>
+ *
  * Example:<br>
- * java com.devonfw.module.batch.common.base.SpringBootBatchCommandLine
- * com.devonfw.gastronomy.restaurant.SpringBootBatchApp classpath:config/app/batch/beans-productimport.xml
- * productImportJob -stop
+ * {@code  java -jar my-app-batch-bootified.jar com.devonfw.application.example.SpringBootApp myJob -stop}
+ * </p>
+ * <p>
+ * To make that work expect that the batchs is deployed in form of a "bootified" jar, whith this class here als the
+ * start-class. For that you have to add the following snipped to your pom.xml:
+ *
+ * <pre>
+ * {@code
+ <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>config/application.properties</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>com.devonfw.module.batch.common.base.SpringBootBatchCommandLine</mainClass>
+          <classifier>bootified</classifier>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+ * }
+ * </pre>
+ * </p>
+ * <p>
  */
 public class SpringBootBatchCommandLine {
 
@@ -82,22 +116,18 @@ public class SpringBootBatchCommandLine {
    */
   public static void main(String[] args) throws Exception {
 
-    if (args.length < 3) {
+    if (args.length < 2) {
 
       handleIncorrectParameters();
       return;
     }
 
-    List<String> configurations = new ArrayList<>(2);
-    configurations.add(args[0]);
-    configurations.add(args[1]);
-
     List<String> parameters = new ArrayList<>();
 
     Operation op = Operation.START;
-    if (args.length > 3 && args[3].equalsIgnoreCase("-stop")) {
+    if (args.length > 2 && args[2].equalsIgnoreCase("-stop")) {
 
-      if (args.length > 4) {
+      if (args.length > 3) {
 
         handleIncorrectParameters();
         return;
@@ -106,29 +136,25 @@ public class SpringBootBatchCommandLine {
       op = Operation.STOP;
     } else {
 
-      for (int i = 3; i < args.length; i++) {
+      for (int i = 2; i < args.length; i++) {
 
         parameters.add(args[i]);
       }
     }
 
-    new SpringBootBatchCommandLine().execute(op, configurations, args[2], parameters);
+    new SpringBootBatchCommandLine().execute(op, args[0], args[1], parameters);
   }
 
   private static void handleIncorrectParameters() {
 
     LOG.error("Incorrect parameters.");
     LOG.info("Usage:");
-    LOG.info("java com.devonfw.module.batch.common.base.SpringBootBatchCommandLine"
-        + " <SpringBootConfiguration> <BatchJobConfiguration>" + " <JobName> param1=value1 param2=value2 ...");
+    LOG.info(
+        "java -jar my-app-batch-bootified.jar <SpringBootConfiguration> <JobName> param1=value1 param2=value2 ...");
     LOG.info("For stopping all running executions of a batch job:");
-    LOG.info("java com.devonfw.module.batch.common.base.BatchCommandLine"
-        + " <SpringBootConfiguration> <BatchJobConfiguration>" + " <JobName> -stop");
+    LOG.info("java -jar my-app-batch-bootified.jar <SpringBootConfiguration> <JobName> -stop");
     LOG.info("Example:");
-    LOG.info("java com.devonfw.module.batch.common.base.SpringBootBatchCommandLine"
-        + " com.devonfw.gastronomy.restaurant.SpringBootBatchApp"
-        + " classpath:config/app/batch/beans-productimport.xml" + " productImportJob drinks.file=file:import/drinks.csv"
-        + " date(date)=2015/12/20");
+    LOG.info("java com.devonfw.application.example.SpringBootApp exportJob pathToFile=myfile.csv");
   }
 
   /**
@@ -149,23 +175,15 @@ public class SpringBootBatchCommandLine {
    * The application context is closed after the operation has finished.
    *
    * @param operation The operation to start.
-   * @param configurations The sources of bean configurations (either JavaConfig classes or XML files).
+   * @param configuration The sources of app context configuration.
    * @param jobName The name of the job to launch/stop.
    * @param parameters The parameters (key=value).
    * @throws Exception in case of an error.
    */
-  @SuppressWarnings("deprecation")
-  public void execute(Operation operation, List<String> configurations, String jobName, List<String> parameters)
+  public void execute(Operation operation, String configuration, String jobName, List<String> parameters)
       throws Exception {
 
-    // get sources of configuration
-    Class<?>[] configurationClasses = new Class[configurations.size()];
-    for (int i = 0; i < configurations.size(); i++) {
-
-      configurationClasses[i] = Class.forName(configurations.get(i));
-    }
-
-    SpringApplication app = new SpringApplication(configurationClasses);
+    SpringApplication app = new SpringApplication(Class.forName(configuration));
 
     // no (web) server needed
     app.setWebApplicationType(WebApplicationType.NONE);
@@ -173,6 +191,7 @@ public class SpringBootBatchCommandLine {
     // start the application
     ConfigurableApplicationContext ctx = app.run(new String[0]);
 
+    // start injection for properties of this class (here), by manually invoking autowiring for the new context.
     ctx.getAutowireCapableBeanFactory().autowireBeanProperties(this, AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE,
         false);
 
