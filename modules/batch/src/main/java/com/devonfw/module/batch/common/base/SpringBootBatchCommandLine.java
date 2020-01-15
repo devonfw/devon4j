@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
+import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.configuration.JobLocator;
@@ -15,8 +18,10 @@ import org.springframework.batch.core.converter.JobParametersConverter;
 import org.springframework.batch.core.launch.JobExecutionNotRunningException;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
+import org.springframework.batch.core.launch.NoSuchJobException;
 import org.springframework.batch.core.launch.support.CommandLineJobRunner;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -59,12 +64,16 @@ public class SpringBootBatchCommandLine {
     STOP
   };
 
+  @Inject
   private JobLauncher launcher;
 
+  @Inject
   private JobLocator locator;
 
-  private JobParametersConverter parametersConverter;
+  @Autowired(required = false) // Use Autowired here, since @Inject does not support required = false.
+  private JobParametersConverter parametersConverter = new DefaultJobParametersConverter();;
 
+  @Inject
   private JobOperator operator;
 
   /**
@@ -134,20 +143,6 @@ public class SpringBootBatchCommandLine {
       return 1;
   }
 
-  private void findBeans(ConfigurableApplicationContext ctx) {
-
-    this.launcher = ctx.getBean(JobLauncher.class);
-    this.locator = ctx.getBean(JobLocator.class); // supertype of JobRegistry
-    this.operator = ctx.getBean(JobOperator.class);
-    try {
-
-      this.parametersConverter = ctx.getBean(JobParametersConverter.class);
-    } catch (NoSuchBeanDefinitionException e) {
-
-      this.parametersConverter = new DefaultJobParametersConverter();
-    }
-  }
-
   /**
    * Initialize the application context and execute the operation.
    * <p>
@@ -178,6 +173,9 @@ public class SpringBootBatchCommandLine {
     // start the application
     ConfigurableApplicationContext ctx = app.run(new String[0]);
 
+    ctx.getAutowireCapableBeanFactory().autowireBeanProperties(this, AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE,
+        false);
+
     switch (operation) {
       case START:
         startBatch(ctx, jobName, parameters);
@@ -197,15 +195,22 @@ public class SpringBootBatchCommandLine {
     JobExecution jobExecution = null;
     try {
 
-      findBeans(ctx);
-
       JobParameters params = this.parametersConverter
           .getJobParameters(StringUtils.splitArrayElementsIntoProperties(parameters.toArray(new String[] {}), "="));
 
       // execute the batch
-      // the JobOperator would require special logic for a restart, so we
-      // are using the JobLauncher directly here
-      jobExecution = this.launcher.run(this.locator.getJob(jobName), params);
+      Job job = null;
+      if (this.locator != null) {
+        try {
+          job = this.locator.getJob(jobName);
+        } catch (NoSuchJobException e) {
+        }
+      }
+      if (job == null) {
+        job = (Job) ctx.getBean(jobName);
+      }
+
+      jobExecution = this.launcher.run(job, params);
 
     } finally {
 
@@ -244,8 +249,6 @@ public class SpringBootBatchCommandLine {
 
     int returnCode = 0;
     try {
-
-      findBeans(ctx);
 
       Set<Long> runningJobExecutionIDs = this.operator.getRunningExecutions(jobName);
       if (runningJobExecutionIDs.isEmpty()) {
