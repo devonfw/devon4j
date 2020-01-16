@@ -57,11 +57,8 @@ image:https://travis-ci.com/devonfw/devon4j.svg?branch=develop["Build Status",li
 
 == Options
 
-* link:documentation/guide-hana.asciidoc[SAP Hana]
-* link:documentation/guide-oracle.asciidoc[Oracle]
 * link:documentation/guide-jee.asciidoc[JEE]
 
 === Tutorials
 
 * link:documentation/tutorial-newapp.asciidoc[Start a new application]
-* link:documentation/tutorial-sample.asciidoc[Sample application]
