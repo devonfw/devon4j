@@ -1,23 +1,28 @@
-= devonfw for Java ${project.version}
+= devonfw for Java (devon4j)
 The devonfw community
-${project.version}, ${buildtime}: Subtitle {doctitle}
+${project.version}, ${buildtime}
 :description: comprehensive documentation for the Java stack of devonfw.
-:sectnums:
+:doctype: book
 :toc:
 :toc-title: Table of Contents
-ifdef::backend-pdf[]
-:title-logo-image: image:./images/devonfw.png[pdfwidth=5in,align=center]
-endif::[]
+:idprefix:
+:idseparator: -
+:sectnums:
+:reproducible:
+:source-highlighter: rouge
+:listing-caption: Listing
+:chapter-label:
+:partnums:
 :imagesdir: ./
-:footnote: test footnote
-:productname: test productname
 
 [preface]
 == Introduction
-The http://www.devonfw.com/[_devonfw_] provides a solution to building applications which combine best-in-class frameworks and libraries as well as industry proven practices and code conventions.
+http://www.devonfw.com/[_devonfw_] provides a solution to building applications which combine best-in-class frameworks and libraries as well as industry proven practices and code conventions.
 It massively speeds up development, reduces risks and helps you to deliver better results.
 
-This document contains the complete compendium of the http://www.devonfw.com/devon4j/[devon4j], the Java stack of devonfw. From this link you will also find the latest release or nightly snapshot of this documentation.
+This document contains the complete compendium of http://www.devonfw.com/devon4j/[devon4j], the Java stack of devonfw.
+You can also read the latest version of this documentation online in the http://www.devonfw.com/devon4j/wiki[devon4j wiki]
+or at https://devonfw.com/website/pages/docs/master-devon4j.asciidoc.html[devon4j on devonfw.com].
 
 :toc:
 
