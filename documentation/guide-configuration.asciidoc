@@ -44,6 +44,8 @@ public class SpringBootApp {
 
 In an devonfw application this main class is always located in the `<basepackage>` of the application package namespace (see link:coding-conventions.asciidoc#packages[package-conventions]). This is because a spring boot application will automatically do a classpath scan for components (spring-beans) and entities in the package where the application main class is located including all sub-packages. You can use the `@ComponentScan` and `@EntityScan` annotations to customize this behaviour.
 
+If you want to map spring configuration properties into your custom code please see link:guide-configuration-mapping.asciidoc[configuration mapping].
+
 === Standard beans configuration
 
 For basic bean configuration we rely on spring boot using mainly configuration classes and only occasionally XML configuration files. Some key principle to understand Spring Boot auto-configuration features:
