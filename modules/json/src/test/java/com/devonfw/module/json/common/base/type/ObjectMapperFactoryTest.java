@@ -9,7 +9,6 @@ import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -153,7 +152,6 @@ public class ObjectMapperFactoryTest extends ModuleTest {
    * @throws Exception on error
    */
   @Test
-  @Disabled("https://github.com/devonfw/devon4j/issues/116")
   public void testJavaTimeZonedDateTime() throws Exception {
 
     // given

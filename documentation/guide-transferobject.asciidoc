@@ -15,14 +15,14 @@ To prevent such problems transfer-objects are used leading to a _call-by-value_ 
 In the following sections the different types of transfer-objects are explained.
 You will find all according naming-conventions in the link:coding-conventions.asciidoc#architecture-mapping[architecture-mapping]
 
-=== ETO
+== ETO
 For each link:guide-jpa.asciidoc#entity[persistent entity] `«BusinessObject»Entity` we create or generate a corresponding _entity transfer object_ (ETO) named `«BusinessObject»Eto`. It has the same properties except for relations.
 
-=== BO
+== BO
 In order to centralize the properties (getters and setters with their javadoc) we create a common interface `«BusinessObject»` implemented both by the entity and its ETO. This also gives us compile-time safety that
 link:guide-beanmapping.asciidoc[bean-mapper] can properly map all properties between entity and ETO.
 
-=== CTO
+== CTO
 If we need to pass an entity with its relation(s) we create a corresponding _composite transfer object_ (CTO) named `«BusinessObject»«Subset»Cto` that only contains other transfer-objects or collections of them. Here `«Subset»` is empty for the canonical CTO that holds the ETO together with all its relations.
 This is what can be generated automatically with https://github.com/devonfw/tools-cobigen[CobiGen].
 However, be careful to generate CTOs without thinking and considering design.
@@ -38,11 +38,11 @@ This pattern with entities, ETOs and CTOs is illustrated by the following UML di
 image::images/transfer-objects.png["ETOs and CTOs",scaledwidth="80%",align="center",link="images/transfer-objects.png"]
 
 == TO
-Finally, there are typically transfer-objects for data that is never persistent. For very generic cases
-these just carry the suffix `To`.
+Finally, there are typically transfer-objects for data that is never persistent.
+For very generic cases these just carry the suffix `To`.
 
 == SearchCriteriaTo
- For searching we create or generate a `«BusinessObject»SearchCriteriaTo` representing a query to find instances of `«BusinessObject»`.
+For searching we create or generate a `«BusinessObject»SearchCriteriaTo` representing a query to find instances of `«BusinessObject»`.
 
 == STO
 We can potentially create separate _service transfer objects_ (STO) (if possible named `«BusinessObject»Sto`) to keep the link:guide-service-layer.asciidoc[service] API stable and independent of the actual data-model.

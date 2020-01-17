@@ -13,6 +13,7 @@ Besides general Java naming conventions, we follow the additional rules listed h
 * Avoid having duplicate type names. The name of a class, interface, enum or annotation should be unique within your project unless this is intentionally desired in a special and reasonable situation.
 * Avoid artificial naming constructs such as prefixes (`I*`) or suffixes (`*IF`) for interfaces.
 * Use CamelCase even for abbreviations (`XmlUtil` instead of [line-through]`XMLUtil`)
+* Avoid property/field names where the second character is upper-case at all (e.g. 'aBc'). See https://github.com/devonfw/cobigen/issues/1095[#1095] for details.
 * Names of Generics should be easy to understand. Where suitable follow the common rule `E=Element`, `T=Type`, `K=Key`, `V=Value` but feel free to use longer names for more specific cases such as `ID`, `DTO` or `ENTITY`. The capitalized naming helps to distinguish a generic type from a regular class.
 
 == Packages
@@ -57,6 +58,7 @@ With devonfw we experienced the same for the codebase (what is inside `src/main/
 |  |  |  |  └──.link:guide-datatype.asciidoc[«Datatype»]
 |  |  |  └──.link:guide-transferobject.asciidoc#bo[«BusinessObject»]
 |  |  └──.impl[.«detail»]
+|  |     ├──.link:guide-configuration-mapping.asciidoc#mapping-advanced-configuration[«Aspect»ConfigProperties]
 |  |     ├──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonSerializer]
 |  |     └──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonDeserializer]
 |  ├──.link:guide-dataaccess-layer.asciidoc[dataaccess]
