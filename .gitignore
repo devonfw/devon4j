@@ -1,18 +1,21 @@
-*.class
-*.classpath
-*.project
-*.iml
 .*
-target/
-jsclient/
-eclipse-target/
-**/src/generated/
-**/tmp/
-
-# Package Files #
+!.github
+!.gitignore
+!.mvn
+!.travis.yml
+*.bak
+*.log
+*.class
+*.diff
+*.patch
+*.iml
 *.jar
 *.war
 *.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+target
+eclipse-target
+war
+**/src/generated/
+**/tmp/

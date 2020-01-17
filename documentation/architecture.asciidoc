@@ -5,10 +5,10 @@ toc::[]
 
 = Architecture
 
-There are many different views on what is summarized by the term _architecture_. First we introduce the xref:key-principles[key principles] and xref:architecture-principles[architecture principles] of the devonfw. Then we go into details of the the xref:application-architecture[architecture of an application].
+There are many different views on what is summarized by the term _architecture_. First we introduce the xref:key-principles[key principles] and xref:architecture-principles[architecture principles] of devonfw. Then we go into details of the the xref:application-architecture[architecture of an application].
 
 == Key Principles
-For the devonfw we follow these fundamental key principles for all decisions about architecture, design, or choosing standards, libraries, and frameworks:
+For devonfw we follow these fundamental key principles for all decisions about architecture, design, or choosing standards, libraries, and frameworks:
 
 * *KISS* +
 Keep it small and simple
