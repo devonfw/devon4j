@@ -18,4 +18,5 @@ ${project.version}, ${buildtime}
 :toc:
 
 [preface]
-include::master-devon4j.asciidoc[leveloffset=0]
+include::master-doc.asciidoc[leveloffset=0]
+
