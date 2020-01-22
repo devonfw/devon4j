@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -23,16 +24,24 @@ import com.devonfw.module.reporting.common.ReportingModuleApp;
 import com.devonfw.module.reporting.common.api.Report;
 import com.devonfw.module.reporting.common.api.Reporting;
 import com.devonfw.module.reporting.common.config.ReportingConstants;
-import com.devonfw.module.test.common.base.ComponentTest;
+import com.devonfw.module.test.common.base.ModuleTest;
+
+import ch.qos.logback.classic.Level;
 
 /**
  * Tests the Reporting functionality
  *
  */
 @SpringBootTest(classes = ReportingModuleApp.class)
-public class ReportingTest extends ComponentTest {
+public class ReportingTest extends ModuleTest {
 
   private Resource template = new ClassPathResource("ReportingTest/reportingtest.jrxml");
+
+  ch.qos.logback.classic.Logger loggerJasper = (ch.qos.logback.classic.Logger) LoggerFactory
+      .getLogger("net.sf.jasperreports");
+
+  ch.qos.logback.classic.Logger loggerApacheCommons = (ch.qos.logback.classic.Logger) LoggerFactory
+      .getLogger("org.apache.commons.digester.Digester");
 
   @SuppressWarnings("rawtypes")
   private Report report = null;
@@ -50,6 +59,9 @@ public class ReportingTest extends ComponentTest {
   @SuppressWarnings({ "javadoc", "rawtypes", "unchecked" })
   @BeforeEach
   public void init() throws IOException {
+
+    this.loggerJasper.setLevel(Level.ERROR);
+    this.loggerApacheCommons.setLevel(Level.ERROR);
 
     this.report = new Report();
 

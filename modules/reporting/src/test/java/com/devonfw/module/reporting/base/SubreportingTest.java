@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -23,6 +24,8 @@ import com.devonfw.module.reporting.common.api.Report;
 import com.devonfw.module.reporting.common.api.Reporting;
 import com.devonfw.module.reporting.common.config.ReportingConstants;
 import com.devonfw.module.test.common.base.ComponentTest;
+
+import ch.qos.logback.classic.Level;
 
 /**
  * Test class to test the subreports functionality
@@ -51,9 +54,18 @@ public class SubreportingTest extends ComponentTest {
 
   private Resource addressTemplate = new ClassPathResource("SubreportingTest/AddressReport.jrxml");
 
+  ch.qos.logback.classic.Logger loggerJasper = (ch.qos.logback.classic.Logger) LoggerFactory
+      .getLogger("net.sf.jasperreports");
+
+  ch.qos.logback.classic.Logger loggerApacheCommons = (ch.qos.logback.classic.Logger) LoggerFactory
+      .getLogger("org.apache.commons.digester.Digester");
+
   @SuppressWarnings({ "javadoc", "rawtypes", "unchecked" })
   @BeforeEach
   public void init() throws IOException {
+
+    this.loggerJasper.setLevel(Level.ERROR);
+    this.loggerApacheCommons.setLevel(Level.ERROR);
 
     this.masterReport = new Report();
     this.subreports = new ArrayList<>();
