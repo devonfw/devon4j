@@ -43,7 +43,7 @@ public class ConcatenatedReportingTest extends ComponentTest {
   private static Random rnd = new Random();
 
   @SuppressWarnings("rawtypes")
-  List<Report> reports = null;
+  List<Report> subReports = null;
 
   private OutputStream stream = null;
 
@@ -62,7 +62,7 @@ public class ConcatenatedReportingTest extends ComponentTest {
     this.loggerJasper.setLevel(Level.ERROR);
     this.loggerApacheCommons.setLevel(Level.ERROR);
 
-    this.reports = getReportsList();
+    this.subReports = getReportsList();
   }
 
   /**
@@ -74,21 +74,8 @@ public class ConcatenatedReportingTest extends ComponentTest {
   public void generateConcatenatedPdfReport() throws IOException {
 
     File pdf = File.createTempFile("concReports_", ".pdf");
-    this.reportManager.concatenateReports(this.reports, pdf, ReportingConstants.PDF);
+    this.reportManager.concatenateReports(this.subReports, pdf, ReportingConstants.PDF);
     assertThat(pdf.length()).isGreaterThan(0);
-  }
-
-  /**
-   * Test that checks the creation of a concatenation of reports in a file with xls format.
-   *
-   * @throws IOException if the temporal file can not be created.
-   */
-  @Test
-  public void generateConcatenatedXlsReport() throws IOException {
-
-    File excel = File.createTempFile("concReports_", ".xls");
-    this.reportManager.concatenateReports(this.reports, excel, ReportingConstants.XLS);
-    assertThat(excel.length()).isGreaterThan(0);
   }
 
   /**
@@ -100,7 +87,7 @@ public class ConcatenatedReportingTest extends ComponentTest {
   public void generateConcatenatedXlsxReport() throws IOException {
 
     File excel_xlsx = File.createTempFile("concReports_", ".xlsx");
-    this.reportManager.concatenateReports(this.reports, excel_xlsx, ReportingConstants.XLSX);
+    this.reportManager.concatenateReports(this.subReports, excel_xlsx, ReportingConstants.XLSX);
     assertThat(excel_xlsx.length()).isGreaterThan(0);
   }
 
@@ -113,7 +100,7 @@ public class ConcatenatedReportingTest extends ComponentTest {
   public void generateConcatenatedHtmlReport() throws IOException {
 
     File html = File.createTempFile("concReports_", ".html");
-    this.reportManager.concatenateReports(this.reports, html, ReportingConstants.HTML);
+    this.reportManager.concatenateReports(this.subReports, html, ReportingConstants.HTML);
     assertThat(html.length()).isGreaterThan(0);
   }
 
@@ -126,7 +113,7 @@ public class ConcatenatedReportingTest extends ComponentTest {
   public void generateConcatenatedOdsReport() throws IOException {
 
     File ods = File.createTempFile("concReports_", ".ods");
-    this.reportManager.concatenateReports(this.reports, ods, ReportingConstants.ODS);
+    this.reportManager.concatenateReports(this.subReports, ods, ReportingConstants.ODS);
     assertThat(ods.length()).isGreaterThan(0);
   }
 
@@ -139,7 +126,7 @@ public class ConcatenatedReportingTest extends ComponentTest {
   public void generateConcatenatedOdtReport() throws IOException {
 
     File odt = File.createTempFile("concReports_", ".odt");
-    this.reportManager.concatenateReports(this.reports, odt, ReportingConstants.ODT);
+    this.reportManager.concatenateReports(this.subReports, odt, ReportingConstants.ODT);
     assertThat(odt.length()).isGreaterThan(0);
   }
 
@@ -152,7 +139,7 @@ public class ConcatenatedReportingTest extends ComponentTest {
   public void generateConcatenatedDocReport() throws IOException {
 
     File doc = File.createTempFile("concReports_", ".doc");
-    this.reportManager.concatenateReports(this.reports, doc, ReportingConstants.WORD);
+    this.reportManager.concatenateReports(this.subReports, doc, ReportingConstants.WORD);
     assertThat(doc.length()).isGreaterThan(0);
   }
 
@@ -165,7 +152,7 @@ public class ConcatenatedReportingTest extends ComponentTest {
   public void generateConcatenatedDocxReport() throws IOException {
 
     File docx = File.createTempFile("concReports_", ".docx");
-    this.reportManager.concatenateReports(this.reports, docx, ReportingConstants.DOCX);
+    this.reportManager.concatenateReports(this.subReports, docx, ReportingConstants.DOCX);
     assertThat(docx.length()).isGreaterThan(0);
   }
 
@@ -178,7 +165,7 @@ public class ConcatenatedReportingTest extends ComponentTest {
   public void generateConcatenatedPptxReport() throws IOException {
 
     File pptx = File.createTempFile("concReports_", ".pptx");
-    this.reportManager.concatenateReports(this.reports, pptx, ReportingConstants.PPTX);
+    this.reportManager.concatenateReports(this.subReports, pptx, ReportingConstants.PPTX);
     assertThat(pptx.length()).isGreaterThan(0);
   }
 
@@ -191,7 +178,7 @@ public class ConcatenatedReportingTest extends ComponentTest {
   public void generateConcatenatedRtfReport() throws IOException {
 
     File rtf = File.createTempFile("concReports_", ".rtf");
-    this.reportManager.concatenateReports(this.reports, rtf, ReportingConstants.RTF);
+    this.reportManager.concatenateReports(this.subReports, rtf, ReportingConstants.RTF);
     assertThat(rtf.length()).isGreaterThan(0);
   }
 
@@ -204,7 +191,7 @@ public class ConcatenatedReportingTest extends ComponentTest {
   public void generateConcatenatedCsvReport() throws IOException {
 
     File csv = File.createTempFile("concReports_", ".csv");
-    this.reportManager.concatenateReports(this.reports, csv, ReportingConstants.CSV);
+    this.reportManager.concatenateReports(this.subReports, csv, ReportingConstants.CSV);
     assertThat(csv.length()).isGreaterThan(0);
   }
 
@@ -217,7 +204,7 @@ public class ConcatenatedReportingTest extends ComponentTest {
   public void generateConcatenatedTxtReport() throws IOException {
 
     File txt = File.createTempFile("concReports_", ".txt");
-    this.reportManager.concatenateReports(this.reports, txt, ReportingConstants.TEXT);
+    this.reportManager.concatenateReports(this.subReports, txt, ReportingConstants.TEXT);
     assertThat(txt.length()).isGreaterThan(0);
   }
 
@@ -230,7 +217,7 @@ public class ConcatenatedReportingTest extends ComponentTest {
   public void generateConcatenatedStreamReport() throws IOException {
 
     this.stream = new ByteArrayOutputStream();
-    this.reportManager.concatenateReports(this.reports, this.stream, ReportingConstants.PDF);
+    this.reportManager.concatenateReports(this.subReports, this.stream, ReportingConstants.PDF);
     assertThat(((ByteArrayOutputStream) this.stream).size()).isGreaterThan(0);
   }
 
