@@ -7,7 +7,7 @@ public class VisioFixer {
     StreamSource stylesource = new StreamSource("fix-visio-svg.xslt");
     Transformer transformer = TransformerFactory.newInstance().newTransformer(stylesource);
     transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-    transformer.transform(new StreamSource("T-Architecture.svg"), new StreamResult("T-Architecture-fixed.svg"));
+    transformer.transform(new StreamSource("T-Architecture-visio.svg"), new StreamResult("T-Architecture.svg"));
   }
 }
  -->
@@ -17,7 +17,16 @@ xmlns="http://www.w3.org/2000/svg" exclude-result-prefixes="svg">
 
 <!-- Use description as title (for tooltips) rather than shape ID -->
 <xsl:template match="svg:title">
-  <title><xsl:value-of select="../svg:desc"/></title>
+  <xsl:variable name="description" select="../svg:desc" />
+  <xsl:choose>
+    <xsl:when test="string-length($description)&lt;1">
+      <title><xsl:value-of select="."/></title>
+    </xsl:when>
+    <xsl:otherwise>
+      <title><xsl:value-of select="$description"/></title>
+    </xsl:otherwise>
+  </xsl:choose>
+  
 </xsl:template>
 
 <xsl:template match="@*|node()">
