@@ -24,7 +24,7 @@ link:guide-beanmapping.asciidoc[bean-mapper] can properly map all properties bet
 
 == CTO
 If we need to pass an entity with its relation(s) we create a corresponding _composite transfer object_ (CTO) named `«BusinessObject»«Subset»Cto` that only contains other transfer-objects or collections of them. Here `«Subset»` is empty for the canonical CTO that holds the ETO together with all its relations.
-This is what can be generated automatically with https://github.com/devonfw/tools-cobigen[CobiGen].
+This is what can be generated automatically with https://github.com/devonfw/cobigen[CobiGen].
 However, be careful to generate CTOs without thinking and considering design.
 If there are no relations at all a CTO is pointless and shall be omitted.
 However, if there are multiple relations you typically need  multiple CTOs for the same `«BusinessObject»` that define different subsets of the related data.

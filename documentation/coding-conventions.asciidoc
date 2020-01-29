@@ -41,7 +41,7 @@ Please note that for library modules where we use `com.devonfw.module` as `«bas
 == Architecture Mapping
 
 We combine the above naming and packaging conventions to map the entire architecture to the code.
-This also allows tools such as https://github.com/devonfw/tools-cobigen[CobiGen] or https://github.com/devonfw/sonar-devon4j-plugin/[sonar-devon4j-plugin] to "understand" the code.
+This also allows tools such as https://github.com/devonfw/cobigen[CobiGen] or https://github.com/devonfw/sonar-devon4j-plugin/[sonar-devon4j-plugin] to "understand" the code.
 Also this helps developers going from one devon4j project to the next to quickly understand the code-base.
 If every developer knows where to find what, the project gets more efficient.
 A long time ago maven standardized the project structure with `src/main/java`, etc. and turned chaos into structure.
