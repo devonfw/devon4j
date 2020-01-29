@@ -19,14 +19,15 @@ import com.devonfw.module.batch.common.cli.ExecutionsCommand.StatusCommand;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.HelpCommand;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @Component
-@Command(name = "executions", subcommands = { ListCommand.class, StatusCommand.class }, description = {
-"Manage single execution instances.",
+@Command(name = "executions", subcommands = { HelpCommand.class, ListCommand.class,
+StatusCommand.class }, description = { "Manage single execution instances.",
 "This is an advanced feature, normally managing your job via 'jobs' command should be sufficient.",
-"Enter 'executions help SUBCOMMAND' to find out parameters for the specified subcommand." })
+"Enter 'executions help SUBCOMMAND' to find out parameters for the specified subcommand." }, synopsisSubcommandLabel = "SUBCOMMAND")
 public class ExecutionsCommand implements Callable<Integer> {
 
   @Inject

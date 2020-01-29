@@ -25,7 +25,7 @@ import picocli.CommandLine.Spec;
 
 @Component
 @Command(name = "jobs", subcommands = { HelpCommand.class, ListCommand.class, StopCommand.class,
-AbandonCommand.class }, description = "Manage executed jobs.")
+AbandonCommand.class }, description = "Manage executed jobs.", synopsisSubcommandLabel = "SUBCOMMAND")
 public class JobsCommand implements Callable<Integer> {
   @Spec
   CommandSpec spec;
