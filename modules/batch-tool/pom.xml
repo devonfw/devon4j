@@ -8,11 +8,11 @@
   </parent>
 
   <groupId>com.devonfw.java.modules</groupId>
-  <artifactId>devon4j-batch</artifactId>
+  <artifactId>devon4j-batch-tool</artifactId>
   <version>${devon4j.version}</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
-  <description>Batch infrastructure.</description>
+  <description>Tools to manage spring batch jobs.</description>
 
   <dependencies>
     <!-- devon4j modules -->
@@ -27,6 +27,18 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-batch</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>optional</scope>
+    </dependency>
+
+		<dependency>
+		  <groupId>info.picocli</groupId>
+		  <artifactId>picocli-spring-boot-starter</artifactId>
+		  <version>4.1.4</version>
+		</dependency>
     
   </dependencies>
 </project>
