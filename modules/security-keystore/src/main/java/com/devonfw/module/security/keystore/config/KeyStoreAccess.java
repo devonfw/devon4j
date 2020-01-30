@@ -1,4 +1,4 @@
-package com.devonfw.module.security.jwt.config;
+package com.devonfw.module.security.keystore.config;
 
 import java.security.KeyStore;
 import java.security.PrivateKey;
@@ -26,6 +26,6 @@ public interface KeyStoreAccess {
    * @param password
    * @return {@link PrivateKey}
    */
-  public PrivateKey getPrivateKey(String alias, String password);
+  public PrivateKey getPrivateKey();
 
 }

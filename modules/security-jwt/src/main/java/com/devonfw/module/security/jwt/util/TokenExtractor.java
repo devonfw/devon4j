@@ -19,7 +19,6 @@ import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
 
-import com.devonfw.module.security.jwt.config.KeyStoreAccess;
 import com.devonfw.module.security.jwt.sign.JwtSignatureAlgorithmFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -35,9 +34,6 @@ public class TokenExtractor {
   private static final Logger LOG = LoggerFactory.getLogger(TokenExtractor.class);
 
   private ObjectMapper objectMapper = new ObjectMapper();
-
-  @Inject
-  private KeyStoreAccess keyStoreAccess;
 
   private Map<String, Object> tokenClaims;
 

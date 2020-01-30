@@ -19,8 +19,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.devonfw.module.security.jwt.config.KeyStoreAccess;
-import com.devonfw.module.security.jwt.config.KeyStoreConfigProperties;
 import com.devonfw.module.security.jwt.util.AccountCredentials;
 import com.devonfw.module.security.jwt.util.TokenAuthenticationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,12 +44,6 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
   private static final Logger LOG = LoggerFactory.getLogger(JwtLoginFilter.class);
 
   private UserDetailsService userDetailsService;
-
-  @Inject
-  private KeyStoreAccess keyStoreAccess;
-
-  @Inject
-  private KeyStoreConfigProperties keyStoreConfigProperties;
 
   @Inject
   private TokenAuthenticationUtil tokenAuthenticationUtil;

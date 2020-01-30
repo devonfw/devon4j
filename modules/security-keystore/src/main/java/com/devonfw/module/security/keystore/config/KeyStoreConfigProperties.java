@@ -1,4 +1,4 @@
-package com.devonfw.module.security.jwt.config;
+package com.devonfw.module.security.keystore.config;
 
 import java.security.KeyStore;
 
@@ -23,8 +23,6 @@ public class KeyStoreConfigProperties {
   private String password;
 
   private String keyAlias;
-
-  private String keyPassword;
 
   /**
    * @return keyStoreLocation
@@ -90,19 +88,4 @@ public class KeyStoreConfigProperties {
     this.keyAlias = keyAlias;
   }
 
-  /**
-   * @return keyPassword
-   */
-  public String getKeyPassword() {
-
-    return this.keyPassword;
-  }
-
-  /**
-   * @param keyPassword new value of {@link #getkeyPassword}.
-   */
-  public void setKeyPassword(String keyPassword) {
-
-    this.keyPassword = keyPassword;
-  }
 }

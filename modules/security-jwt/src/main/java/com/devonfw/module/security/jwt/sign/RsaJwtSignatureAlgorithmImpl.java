@@ -11,8 +11,7 @@ import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
 import org.springframework.security.jwt.crypto.sign.Signer;
 
-import com.devonfw.module.security.jwt.config.KeyStoreAccess;
-import com.devonfw.module.security.jwt.config.KeyStoreConfigProperties;
+import com.devonfw.module.security.keystore.config.KeyStoreAccess;
 
 /**
  * Implementation of {@link JwtSignatureAlgorithm}
@@ -28,9 +27,6 @@ public class RsaJwtSignatureAlgorithmImpl implements JwtSignatureAlgorithm {
   @Inject
   private KeyStoreAccess keyStoreAccess;
 
-  @Inject
-  private KeyStoreConfigProperties keyStoreConfigProperties;
-
   @Override
   public String getName() {
 
@@ -40,8 +36,7 @@ public class RsaJwtSignatureAlgorithmImpl implements JwtSignatureAlgorithm {
   @Override
   public Signer createSigner() {
 
-    return new RsaSigner((RSAPrivateKey) this.keyStoreAccess.getPrivateKey(this.keyStoreConfigProperties.getKeyAlias(),
-        this.keyStoreConfigProperties.getPassword()));
+    return new RsaSigner((RSAPrivateKey) this.keyStoreAccess.getPrivateKey());
   }
 
   @Override
