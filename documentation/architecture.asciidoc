@@ -77,7 +77,7 @@ image::images/T-Architecture.png["devonfw architecture blueprint",scaledwidth="8
 
 Please click on the architecture image to open it as SVG and click on the layers and cross-cutting topics to open the according documentation guide.
 
-We reflect this architecture in our code as described in our link:coding-conventions.asciidoc#packages[coding conventions] allowing a traceability of business components, use-cases, layers, etc. into the code and giving
+We reflect this architecture in our code as described in our link:coding-conventions[coding conventions] allowing a traceability of business components, use-cases, layers, etc. into the code and giving
 developers a sound orientation within the project.
 
 Further, the architecture diagram shows the allowed dependencies illustrated by the dark green connectors.
