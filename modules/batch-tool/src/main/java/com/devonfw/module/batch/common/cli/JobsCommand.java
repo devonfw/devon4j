@@ -59,7 +59,7 @@ public class JobsCommand implements Callable<Integer> {
   @Command(name = "stop", description = "Stop all running executions for the job.")
   static class StopCommand extends AbstractJobSubCommand implements Callable<Integer> {
 
-    @Parameters(index = "0", paramLabel = "jobName", description = "The name of the job, which should managed.")
+    @Parameters(index = "0", paramLabel = "jobName", description = "The name of the job, which should stopped.")
     protected String jobIdentifier;
 
     @Override
@@ -78,10 +78,10 @@ public class JobsCommand implements Callable<Integer> {
   }
 
   @Component
-  @Command(name = "abandon", description = "Abandong all stopped executions for the job.")
+  @Command(name = "abandon", description = "Abandon all stopped executions for the job.")
   static class AbandonCommand extends AbstractJobSubCommand implements Callable<Integer> {
 
-    @Parameters(index = "0", paramLabel = "jobName", description = "The name of the job, which should managed.")
+    @Parameters(index = "0", paramLabel = "jobName", description = "The name of the job, which should abandoned.")
     protected String jobIdentifier;
 
     @Override

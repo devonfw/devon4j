@@ -31,7 +31,7 @@ Only "batch specific" technical aspects should be implemented in the batch layer
 
 ==========================
 Example:
-For a batch, which imports product data to a CSV file, this means that all code for actually reading and parsing the CSV input file is implemented in the batch layer.
+For a batch, which imports product data from a CSV file, this means that all code for actually reading and parsing the CSV input file is implemented in the batch layer.
 The batch calls the use case "create product" in the logic layer for actually creating the products for each line read from the CSV input file.
 ==========================
 
@@ -198,16 +198,16 @@ For that cases you have to change the status of the execution in the database.
 
 === CLI-Tool
 Devonfw provides a simple cli-tool to manage the executing status of your jobs.
-The tool is implemented in the devonfw module 'batch-tool'. It will provide a runnable jar, which may be used as follows:
+The tool is implemented in the devonfw module `devon4j-batch-tool`. It will provide a runnable jar, which may be used as follows:
 
 List names of all previous executed jobs::
-`java -D'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar devonfw-batch-tool.jar jobs list`
+`java -D\'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar devon4j-batch-tool.jar jobs list`
 
 Stop job named 'countJob'::
-`java -D'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar devonfw-batch-tool.jar jobs stop countJob`
+`java -D\'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar devon4j-batch-tool.jar jobs stop countJob`
 
 Show help::
-`java -D'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar devonfw-batch-tool.jar`
+`java -D\'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar devon4j-batch-tool.jar`
 
 As you can the each invocation includes the jdbc connection string to your database.
 This means that you have to make sure that the corresponding DB driver is in the classpath (the prepared jar only contains H2).
