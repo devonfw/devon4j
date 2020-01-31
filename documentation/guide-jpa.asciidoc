@@ -375,7 +375,7 @@ As you might have noticed, the behavior of Hibernate deviates from what one woul
 See link:guide-auditing.asciidoc[auditing guide].
 
 == Testing Entities and DAOs
-See link:guide-testing#integration-testing.asciidoc[testing guide].
+See link:guide-testing[testing guide].
 
 == Principles
 We strongly recommend these principles:
