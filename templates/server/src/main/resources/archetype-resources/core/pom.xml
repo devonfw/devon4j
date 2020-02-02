@@ -22,7 +22,7 @@
     <!-- Bean-Mapping for conversion from TO to Entity and vice versa -->
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-beanmapping</artifactId>
+      <artifactId>devon4j-beanmapping-orika</artifactId>
     </dependency>
 
     <!-- Security for authorization integration with spring-security -->

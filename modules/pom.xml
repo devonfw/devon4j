@@ -16,6 +16,8 @@
     <module>logging</module>
     <module>test</module>
     <module>beanmapping</module>
+	  <module>beanmapping-orika</module>
+	  <module>beanmapping-dozer</module>
     <module>service</module>
     <module>json</module>
     <module>rest</module>

@@ -1,6 +1,7 @@
 package com.devonfw.module.beanmapping.common.impl.orika;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import com.devonfw.module.beanmapping.common.base.AbstractBeanMapper;
 
@@ -11,6 +12,7 @@ import ma.glasnost.orika.MapperFacade;
  * {@link MapperFacade}.
  *
  */
+@Named
 public class BeanMapperImplOrika extends AbstractBeanMapper {
 
   private MapperFacade orika;
