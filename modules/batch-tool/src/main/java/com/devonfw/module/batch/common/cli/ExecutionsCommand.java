@@ -23,6 +23,10 @@ import picocli.CommandLine.HelpCommand;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+/**
+ * This class bundles subcommands which manage executions. Each subcommand is implemented in a static sub-class.
+ *
+ */
 @Component
 @Command(name = "executions", subcommands = { HelpCommand.class, ListCommand.class,
 StatusCommand.class }, description = { "Manage single execution instances.",

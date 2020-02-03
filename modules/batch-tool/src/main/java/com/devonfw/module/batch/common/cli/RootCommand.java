@@ -32,6 +32,7 @@ public class RootCommand implements Callable<Integer> {
   @Override
   public Integer call() {
 
+    // This command cannot be run directly. Print help instead.
     new CommandLine(this).usage(System.out);
     return -1;
   }

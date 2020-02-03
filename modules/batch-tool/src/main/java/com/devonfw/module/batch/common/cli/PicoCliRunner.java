@@ -10,7 +10,7 @@ import picocli.CommandLine;
 import picocli.CommandLine.IFactory;
 
 /**
- * @author simon
+ * Spring Application Runner, which executes our CLI application via PicoCli.
  *
  */
 @Component
@@ -20,7 +20,7 @@ public class PicoCliRunner implements ExitCodeGenerator, CommandLineRunner {
   private RootCommand topCommand;
 
   @Inject
-  private IFactory factory; // auto-configured to inject PicocliSpringFactory
+  private IFactory factory;
 
   private int exitCode;
 
