@@ -14,7 +14,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringBatchCli {
 
   /**
-   * @param args
+   * Main-Method.
+   *
+   * @param args Command Line args.
    */
   public static void main(String[] args) {
 

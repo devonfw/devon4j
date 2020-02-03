@@ -27,6 +27,9 @@ import picocli.CommandLine.HelpCommand;
     "@|white,bold java -D'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar " + RootCommand.JAR_NAME
         + " jobs list|@%n" })
 public class RootCommand implements Callable<Integer> {
+  /**
+   * Name of the JAR, used to print help texts.
+   */
   public final static String JAR_NAME = "devon4j-batch-tool.jar";
 
   @Override

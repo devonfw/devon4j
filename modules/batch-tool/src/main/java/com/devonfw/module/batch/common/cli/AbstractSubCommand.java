@@ -1,7 +1,6 @@
 package com.devonfw.module.batch.common.cli;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,7 +33,7 @@ abstract class AbstractSubCommand {
    */
   protected List<JobExecution> findAllExecutions(String jobIdentifier) throws NoSuchJobException {
 
-    List<JobExecution> jobExecutions = new LinkedList<>();
+    List<JobExecution> jobExecutions = new ArrayList<>();
     for (JobInstance jobInstance : this.jobExplorer.findJobInstancesByJobName(jobIdentifier, 0,
         this.jobExplorer.getJobInstanceCount(jobIdentifier))) {
       jobExecutions.addAll(this.jobExplorer.getJobExecutions(jobInstance));
@@ -53,7 +52,7 @@ abstract class AbstractSubCommand {
   protected List<JobExecution> findJobExecutionsWithStatus(String jobIdentifier, BatchStatus batchStatus)
       throws NoSuchJobException {
 
-    List<JobExecution> result = new ArrayList<JobExecution>();
+    List<JobExecution> result = new ArrayList<>();
     for (JobExecution jobExecution : findAllExecutions(jobIdentifier)) {
       if (jobExecution.getStatus() != batchStatus) {
         result.add(jobExecution);

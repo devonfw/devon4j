@@ -34,9 +34,6 @@ StatusCommand.class }, description = { "Manage single execution instances.",
 "Enter 'executions help SUBCOMMAND' to find out parameters for the specified subcommand." }, synopsisSubcommandLabel = "SUBCOMMAND")
 public class ExecutionsCommand implements Callable<Integer> {
 
-  @Inject
-  private JobExplorer jobExplorer;
-
   @Override
   public Integer call() {
 
