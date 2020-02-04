@@ -15,17 +15,48 @@
   <description>Minimal shim for bean mapping to convert between compatible Java beans (e.g. JPA entity to transfer-object and vice versa).</description>
 
   <dependencies>
-    <dependency>
-      <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-basic</artifactId>
-    </dependency>
-	 <dependency>
+	  <dependency>
 	    <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-beanmapping</artifactId>
     </dependency>
     <dependency>
       <groupId>com.github.dozermapper</groupId>
       <artifactId>dozer-core</artifactId>
+    </dependency>
+    <!-- 
+		    [ERROR] Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.332 s <<< FAILURE! - in com.devonfw.module.beanmapping.common.impl.dozer.BeanMapperImplDozerTest
+				[ERROR] testMapEntity2Eto  Time elapsed: 1.282 s  <<< ERROR!
+				com.github.dozermapper.core.MappingException: 
+				org.xml.sax.SAXException: javax.xml.bind.JAXBException: Implementation of JAXB-API has not been found on module path or classpath.
+				 - with linked exception:
+				[java.lang.ClassNotFoundException: com.sun.xml.internal.bind.v2.ContextFactory]
+				javax.xml.bind.JAXBException: Implementation of JAXB-API has not been found on module path or classpath.
+				 - with linked exception:
+				[java.lang.ClassNotFoundException: com.sun.xml.internal.bind.v2.ContextFactory]
+				  at com.devonfw.module.beanmapping.common.impl.dozer.BeanMapperImplDozerTest.getBeanMapper(BeanMapperImplDozerTest.java:37)
+				  at com.devonfw.module.beanmapping.common.impl.dozer.BeanMapperImplDozerTest.testMapEntity2Eto(BeanMapperImplDozerTest.java:51)
+				Caused by: org.xml.sax.SAXException: 
+				javax.xml.bind.JAXBException: Implementation of JAXB-API has not been found on module path or classpath.
+				 - with linked exception:
+				[java.lang.ClassNotFoundException: com.sun.xml.internal.bind.v2.ContextFactory]
+				  at com.devonfw.module.beanmapping.common.impl.dozer.BeanMapperImplDozerTest.getBeanMapper(BeanMapperImplDozerTest.java:37)
+				  at com.devonfw.module.beanmapping.common.impl.dozer.BeanMapperImplDozerTest.testMapEntity2Eto(BeanMapperImplDozerTest.java:51)
+				Caused by: javax.xml.bind.JAXBException: Implementation of JAXB-API has not been found on module path or classpath.
+				  at com.devonfw.module.beanmapping.common.impl.dozer.BeanMapperImplDozerTest.getBeanMapper(BeanMapperImplDozerTest.java:37)
+				  at com.devonfw.module.beanmapping.common.impl.dozer.BeanMapperImplDozerTest.testMapEntity2Eto(BeanMapperImplDozerTest.java:51)
+				Caused by: java.lang.ClassNotFoundException: com.sun.xml.internal.bind.v2.ContextFactory
+				  at com.devonfw.module.beanmapping.common.impl.dozer.BeanMapperImplDozerTest.getBeanMapper(BeanMapperImplDozerTest.java:37)
+				  at com.devonfw.module.beanmapping.common.impl.dozer.BeanMapperImplDozerTest.testMapEntity2Eto(BeanMapperImplDozerTest.java:51)
+				  
+				  jaxb-api and jaxb-runtime dependencies has been added due to above error
+     -->
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
     </dependency>
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>

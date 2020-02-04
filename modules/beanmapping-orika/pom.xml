@@ -15,10 +15,6 @@
   <description>Minimal shim for bean mapping to convert between compatible Java beans (e.g. JPA entity to transfer-object and vice versa).</description>
 
   <dependencies>
-    <dependency>
-      <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-basic</artifactId>
-    </dependency>
 	  <dependency>
 	    <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-beanmapping</artifactId>
