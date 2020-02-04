@@ -1,23 +1,5 @@
-= devonfw for Java (devon4j)
-The devonfw community
-${project.version}, ${buildtime}
-:description: comprehensive documentation for the Java stack of devonfw.
-:doctype: book
-:toc:
-:toc-title: Table of Contents
-:idprefix:
-:idseparator: -
-:sectnums:
-:reproducible:
-:source-highlighter: rouge
-:listing-caption: Listing
-:chapter-label:
-:partnums:
-:imagesdir: ./
+= devon4j
 
-:toc:
-
-[preface]
 http://www.devonfw.com/[_devonfw_] provides a solution to building applications which combine best-in-class frameworks and libraries as well as industry proven practices and code conventions.
 It massively speeds up development, reduces risks and helps you to deliver better results.
 

@@ -1,0 +1,23 @@
+= Layers
+
+include::guide-client-layer.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-service-layer.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-logic-layer.asciidoc[leveloffset=2]
+
+include::guide-component-facade.asciidoc[leveloffset=3]
+
+include::guide-usecase.asciidoc[leveloffset=3]
+
+<<<<
+
+include::guide-dataaccess-layer.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-batch-layer.asciidoc[leveloffset=2]

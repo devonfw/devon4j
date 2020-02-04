@@ -34,7 +34,6 @@ We follow a strictly component oriented design to address the following sub-prin
 Solve similar problems in similar ways and establish a uniform link:coding-conventions.asciidoc[code-style].
 
 == Application Architecture
-// It is based on common and established concepts and aims at the _separation of concerns_ principle enabling good maintainability.
 
 For the architecture of an application we distinguish the following views:
 
@@ -74,7 +73,9 @@ Further, there are technical components for cross-cutting aspects grouped by the
 
 [[img-t-architecture]]
 .Technical Reference Architecture
-image::images/T-Architecture.png["Technical architecture",scaledwidth="80%",align="center"]
+image::images/T-Architecture.png["devonfw architecture blueprint",scaledwidth="80%",align="center",link="https://devonfw.com/website/pages/docs/images/T-Architecture.svg"]
+
+Please click on the architecture image to open it as SVG and click on the layers and cross-cutting topics to open the according documentation guide.
 
 We reflect this architecture in our code as described in our link:coding-conventions.asciidoc#packages[coding conventions] allowing a traceability of business components, use-cases, layers, etc. into the code and giving
 developers a sound orientation within the project.
