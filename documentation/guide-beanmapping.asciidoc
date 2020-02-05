@@ -21,9 +21,9 @@ public UserEto mapUser(UserEntity source) {
 Therefore we are using a `BeanMapper` for this purpose that makes our lives a lot easier.
 
 == Bean-Mapper Dependency
-To get access to the `BeanMapper` we have to use either of below dependency in our POM(we recommend orika for new projects but still support dozer):
+To get access to the `BeanMapper` we have to use either of below dependency in our POM:
 
-Please see performance benefit using Orika https://www.baeldung.com/java-performance-mapping-frameworks#2-orika
+We recommend orika for new projects but still support dozer ,please see https://www.baeldung.com/java-performance-mapping-frameworks#2-orika
 
 [source,xml]
 ----
@@ -33,7 +33,7 @@ Please see performance benefit using Orika https://www.baeldung.com/java-perform
     </dependency>
 ----
 
-OR
+or
 
 [source,xml]
 ----
