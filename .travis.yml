@@ -29,8 +29,9 @@ jobs:
     - stage: Documentation
       if: (branch = develop) AND (type = push)
       script:
+        # Exit devon4j folder
+        - cd ..
         # Clone repositories
-        - git clone -b develop --single-branch https://${GH_REPO_SOURCE}
         - git clone https://${GH_REPO_DEST}
         - git clone https://${GH_REPO_CONSOLIDATE}
         # Update wiki repository with documentation folder contents
