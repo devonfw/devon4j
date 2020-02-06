@@ -22,7 +22,7 @@ import org.springframework.batch.core.repository.JobRestartException;
  * the 'run.id' parameter). It is actually just a convenience functionality so that the one starting batches does not
  * have to change the parameters manually.
  *
- * <b>Deprecated</b> Using springs {@link RunIdIncrementer} is sufficient for most use cases.
+ * @deprecated Using springs {@link RunIdIncrementer} is sufficient for most use cases.
  *
  */
 @Deprecated

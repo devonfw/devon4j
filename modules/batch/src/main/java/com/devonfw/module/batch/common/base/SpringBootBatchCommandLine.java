@@ -84,9 +84,9 @@ import org.springframework.util.StringUtils;
  * </p>
  * <p>
  *
- * <b>Deprecated</b> Since spring batch and spring boot are nicely integrated it is possible to start batches without
- * any custom launcher. This is documented in the current devonfw batch documentation. This launcher is no longer
- * required and will be removed in one of the next releases.
+ * @deprecated Since spring batch and spring boot are nicely integrated it is possible to start batches without any
+ *             custom launcher. This is documented in the current devonfw batch documentation. This launcher is no
+ *             longer required and will be removed in one of the next releases.
  */
 @Deprecated
 public class SpringBootBatchCommandLine {
