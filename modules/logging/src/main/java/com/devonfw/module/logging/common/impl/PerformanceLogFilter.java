@@ -91,28 +91,8 @@ public class PerformanceLogFilter implements Filter {
       errorClass = error.getClass().getName();
       errorMessage = error.getMessage();
     }
-    String message = createMessage(url, Long.toString(duration), Integer.toString(statusCode), errorClass,
-        errorMessage);
     LOG.info("{};{};{};{};{}", v("url", url), v("duration", duration), v("statuscode", statusCode),
         v("errorClass", errorClass), v("errorMessage", errorMessage));
-  }
-
-  /**
-   * Returns a {@link String} representing the log message, which contains the given arguments separated by ';'
-   *
-   * @param args - the arguments for the log message
-   * @return a {@link String} representing the log message
-   */
-  private String createMessage(String... args) {
-
-    StringBuilder buffer = new StringBuilder();
-    for (String s : args) {
-      if (buffer.length() > 0) {
-        buffer.append(';');
-      }
-      buffer.append(s);
-    }
-    return buffer.toString();
   }
 
   @Override
