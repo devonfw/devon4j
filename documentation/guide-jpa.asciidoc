@@ -72,7 +72,7 @@ public byte[] getIcon() {
   return this.icon;
 }
 ----
-WARNING: Using a byte array will cause problems if BLOBs get large because the entire BLOB is loaded into the RAM of the server and has to be processed by the garbage collector. For larger BLOBs the type http://docs.oracle.com/javase/7/docs/api/java/sql/Blob.html[Blob] and streaming should be used.
+WARNING: Using a byte array will cause problems if BLOBs get large because the entire BLOB is loaded into the RAM of the server and has to be processed by the garbage collector. For larger BLOBs the type http://docs.oracle.com/javase/7/docs/api/java/sql/Blob.html[Blob] and link:guide-blob-support[streaming] should be used.
 
 [source,java]
 ----
