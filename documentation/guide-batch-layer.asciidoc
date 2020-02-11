@@ -45,7 +45,7 @@ It is a typical design decision you have to take when designing your specific ba
 
 == Project structure and packaging
 
-Batches will be implememented in a separate maven module to keep the application core free of batch dependencies. The batch module includes a dependency to the application core-module to allow reuse of the use cases, DAOs etc.
+Batches will be implemented in a separate Maven module to keep the application core free of batch dependencies. The batch module includes a dependency to the application core-module to allow reuse of the use cases, DAOs etc.
 Additionally the batch module has dependencies to the required spring batch jars:
 
 [source,xml]
@@ -197,7 +197,7 @@ E.g. the state will be running, despite the process crashed sometime ago.
 For that cases you have to change the status of the execution in the database.
 
 === CLI-Tool
-Devonfw provides a simple cli-tool to manage the executing status of your jobs.
+Devonfw provides a easy to use cli-tool to manage the executing status of your jobs.
 The tool is implemented in the devonfw module `devon4j-batch-tool`. It will provide a runnable jar, which may be used as follows:
 
 List names of all previous executed jobs::
@@ -211,8 +211,6 @@ Show help::
 
 As you can the each invocation includes the jdbc connection string to your database.
 This means that you have to make sure that the corresponding DB driver is in the classpath (the prepared jar only contains H2).
-
-
 
 == Tipps & tricks
 
