@@ -7,23 +7,24 @@ We understand batch processing as bulk-oriented, non-interactive, typically long
 
 devonfw uses link:http://projects.spring.io/spring-batch/[Spring Batch] as batch framework. 
 
-This guide explains how Spring Batch is used in devonfw applications. Please note that it is not yet fully consistent concerning batches with the sample application. You should adhere to this guide by now.
+This guide explains how Spring Batch is used in devonfw applications. It focuses on aspects which are special to devonfw if you want to learn about spring-batch you should adhere to springs references documentation.
 
-== Batch architecture
+There is an example of simple batch implementation in the https://github.com/devonfw/my-thai-star/tree/develop/java/mtsj/batch[my-thai-star batch module]. 
+
 
 In this chapter we will describe the overall architecture (especially concerning layering) and how to administer batches. 
 
-=== Layering
+== Layering
 
 Batches are implemented in the batch layer. The batch layer is responsible for batch processes, whereas the business logic is implemented in the logic layer. Compared to the link:guide-service-layer.asciidoc[service layer] you may understand the batch layer just as a different way of accessing the business logic.
 From a component point of view each batch is implemented as a subcomponent in the corresponding business component.
 The business component is defined by the link:architecture.asciidoc[business architecture].
 
-Let's make an example for that. The sample application implements a batch for exporting bills. This _billExport_ belongs to the salesmanagement business component.
-So the _billExport_ is implemented in the following package:
+Let's make an example for that. The sample application implements a batch for exporting ingredients. This ingredientExportJob belongs to the dishmanagement business component.
+So the ingredientExportJob is implemented in the following package:
 //Example doesn't exist anymore and I didn't find any other used batches. 
 [source]
-<basepackage>.salesmanagement.batch.impl.billexport.*
+<basepackage>.dishmanagement.batch.impl.*
 
 Batches should invoke use cases in the logic layer for doing their work. 
 Only "batch specific" technical aspects should be implemented in the batch layer.
@@ -35,71 +36,105 @@ The batch calls the use case "create product" in the logic layer for actually cr
 ==========================
 
 
-====  Accessing data access layer
+===  Directly accessing data access layer
 In practice it is not always appropriate to create use cases for every bit of work a batch should do. Instead, the data access layer can be used directly.
 An example for that is a typical batch for data retention which deletes out-of-time data.
 Often deleting out-dated data is done by invoking a single SQL statement. It is appropriate to implement that SQL in a link:guide-repository.asciidoc[Repository] or link:guide-dao.asciidoc[DAO] method and call this method directly from the batch.
 But be careful that this pattern is a simplification which could lead to business logic cluttered in different layers which reduces maintainability of your application.
 It is a typical design decision you have to take when designing your specific batches.
 
-=== Batch administration and execution
+== Project structure and packaging
 
-[[start-and-stop-batch]]
-==== Starting and Stopping Batches
+Batches will be implememented in a separate maven module to keep the application core free of batch dependencies. The batch module includes a dependency to the application core-module to allow reuse of the use cases, DAOs etc.
+Additionally the batch module has dependencies to the required spring batch jars:
 
-Spring Batch provides a simple command line API for execution and parameterization of batches, the `CommandLineJobRunner`. It is not yet fully compatible with Spring Boot, however. For those using Spring Boot, devonfw provides the `SpringBootBatchCommandLine` with similar functionalities.
-
-Both execute batches as a "simple" standalone process (instantiating a new JVM and creating a new ApplicationContext).
-
-==== Starting a Batch Job
-
-For starting a batch job, the following parameters are required:
-
-===== jobPath(s)
-
-The location of the JavaConfig classes (usually annotated with `@Configuration` or `@SpringBootApplication`) and/or XML files that will be used to create an `ApplicationContext`.
-
-The CommandLineJobRunner only accepts one class/file, which must contain everything needed to run a job (potentially by referencing other classes/files), the SpringBootBatchCommandLine, however, expects that there are two paths given: one for the general batch setup and one for the XML file containing the batch job to be executed.
-
-There is an example of a general batch setup for Spring Boot in the https://github.com/devonfw/my-thai-star/tree/develop/java/mtsj/batch[my-thai-star batch module]. The main class is `SpringBootBatchApp`, which also imports the general configuration class introduced in the chapter on the xref:general-configuration[general configuration]. Note that `SpringBootBatchApp` deactivates the evaluation of annotations used for authorization, especially the `@RolesAllowed` annotation. You should of course make sure that only authorized users can start batches, but once the batch is started there is usually no need to check any authorization.
-
-===== jobName
-
-The name of the job to be run.
-
-All arguments after the job name are considered to be job parameters and must be in the format of `name=value`:
-
-Example for the CommandLineJobRunner:
+[source,xml]
 ----
-java org.springframework.batch.core.launch.support.CommandLineJobRunner classpath:config/app/batch/beans-billexport.xml billExportJob -outputFile=file:out.csv date(date)=2015/12/20
-----
-Example for the SpringBootBatchCommandLine:
-----
-java com.devonfw.module.batch.common.base.SpringBootBatchCommandLine com.devonfw.application.mtsj.SpringBootBatchApp classpath:config/app/batch/beans-billexport.xml billExportJob -outputFile=file:out.csv date(date)=2015/12/20
+  <dependencies>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>mtsj-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-batch</artifactId>
+    </dependency>
+
+  </dependencies>
 ----
 
-The date parameter will be explained in the section on xref:parameters[parameters].
+To allow an easy xref:start-batch[start of the batches] from the command line it is advised to create a bootified jar for the batch module by adding the following to the `pom.xml` of the batch module:
 
-Note that when a batch is started with the same parameters as a previous execution of the same batch job, the new execution is considered a restart, see xref:restarts[restarts] for further details. Parameters starting with a "-" are ignored when deciding whether an execution is a restart or not (so called non identifying parameters).
-
-When trying to restart a batch that was already complete, there will either be an exception (message: `"A job instance already exists and is complete for parameters={...}.  If you want to run this job again, change the parameters."`) or the batch will simply do nothing (might happen when no or only non identifying parameters are set; in this case the console log contains the following message for every step: `"Step already complete or not restartable, so no action to execute: ..."`).
-
-==== Stopping a Job
-
-The command line option to stop a running execution is as follows:
-//Batch doesn't exist anymore and I didn't find a new example in the code
+[source,xml]
 ----
-java org.springframework.batch.core.launch.support.CommandLineJobRunner classpath:config/app/batch/beans-billexport.xml –stop billExportJob
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>config/application.properties</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <!-- Create bootified jar for batch execution via commmand line.
+           Your applications spring boot app is used as main-class.
+       -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>com.devonfw.application.mtsj.SpringBootApp</mainClass>
+          <classifier>bootified</classifier>
+        </configuration>        
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 ----
 
-or
+== Implementation
+
+Most of the details about implementation of batches is described in the https://spring.io/projects/spring-batch[spring batch documentation].
+There is nothing special about implementing batches in devonfw. You will find an easy https://github.com/devonfw/my-thai-star/tree/develop/java/mtsj/batch[example in my-thai-star].
+
+[[start-batch]]
+== Starting from command line
+
+Devonfw advises to start batches via command line. This is most common to many ops teams and allows easy integration in existing xref:scheduling[schedulers]. In general batches are started with the following command:
+
 ----
-java com.devonfw.module.batch.common.base.SpringBootBatchCommandLine com.devonfw.application.mtsj.SpringBootBatchApp classpath:config/app/batch/beans-billexport.xml billExportJob –stop
+java -jar <app>-batch-<version>-bootified.jar --spring.main.web-application-type=none --spring.batch.job.enabled=true --spring.batch.job.names=<myJob> <params>
 ----
 
-Note that the job is not shutdown immediately, but might actually take some time to stop.
+[%header]
+|===
+|Parameter |Explanation
+|`--spring.main.web-application-type=none`| This disables the web app (e.g. Tomcat) 
+|`--spring.batch.job.names=<myJob>`| This specifies the name of the job to run. If you leave this out ALL jobs will be executed. Which probably does not make to much sense.
+|`<params>`| (Optional) additonal parameters which are passed to your job
+|===
 
-==== Scheduling
+This will launch your normal spring boot app, disables the web application part and runs the designated job via Spring Boots `org.springframework.boot.autoconfigure.batch.JobLauncherCommandLineRunner`.
+
+[scheduling]
+== Scheduling
 
 In real world scheduling of batches is not as simple as it first might look like.
 
@@ -107,691 +142,80 @@ In real world scheduling of batches is not as simple as it first might look like
 * Input files or those created by batches have to be copied from one node to another.
 * Scheduling batch executing could get complex easily (quarterly jobs, run job on first workday of a month, ...)
 
-For devonfw we propose the batches themselves should not mess around with details of batch administration.
-Likewise your application should not do so.
-
-Batch administration should be externalized to a dedicated batch administration service or scheduler.
+For devonfw we propose the batches themselves should not mess around with details of scheduling.
+Likewise your application should not do so. This complexity should be externalized to a dedicated batch administration service or scheduler.
 This service could be a complex product or a simple tool like cron. We propose link:http://rundeck.org[Rundeck] as an open source job scheduler.
  
 This gives full control to operations to choose the solution which fits best into existing administration procedures.
 
-== Implementation
+== Handling restarts
 
-In this chapter we will describe how to properly setup and implement batches.
+If you start a job with the same parameters set after a failed run (BatchStatus.FAILED) a restart will occur.
+In many cases your batch should then not reprocess all items it processed in the previous runs.
+For that you need some logic to start at the desired offset. There different ways to implement such logic:
 
-=== Main Challenges
+* Marking processed items in the database in a dedicated column
+* Write all IDs of items to process in a separate table as an initialization step of your batch. You can then delete IDs of already processed items from that table during the batch execution.
+* Storing restart information in springs ExecutionContext (see below)
 
-At a first glimpse, implementing batches is much like implementing a backend for client processing.
-There are, however, some points at which batches have to be implemented totally different. This is especially true if large data volumes are to be processed.
+=== Using spring batch ExecutionContext for restarts
 
-The most important points are:
+By implementing the `ÌteamStream` interface in your `ItemReader` or `ItemWriter` you may store information about the batch progress in the `ExecutionContext`. You will find an example for that in the CountJob in My Thai Star.
 
-==== Transaction handling
+Addtional hint: It is important that bean definition method of your `ItemReader`/`ItemWriter` return types implementing `ItemStream`(and not just `ItemReader` or `ItemWriter` alone). For that the `ItemStreamReder` and `ItemStreamWriter` interfaces are provided.
 
-For processing request made by clients there is usually one transaction for each request. If anything goes wrong, the transaction is rolled back and all changes are reverted.
+== Exit codes
 
-A naive approach for batches would be to execute a whole batch in one single transaction so that if anything goes wrong, all changes are reverted and the batch could start from scratch. For processing large amounts of data, this is technically not feasible, because the database system would have to be able to undo every action made within this transaction. And the space for storing the undo information needed for this (the so called "undo tablespace") is usually quite limited.
-
-So there is a need of short running transactions. To help programmers to do so, Spring Batch offers the so called chunk processing which will be explained xref:chunk-processing[here].
-
-==== Restarting Batches
-
-In client processing mode, when an exception occurs, the transaction is rolled back and there is no need to worry about data inconsistencies.
-
-This is not true for batches however, due to the fact that you usually can't have just one transaction. When an unexpected error occurs and the batch aborts, the system is in a state where the data is partly processed and partly not and there needs to be some sort of plan on how to continue from there.
-
-Even if a batch was perfectly reliable, there might be errors that are not under the control of the application, e.g. lost connection to the database, so that there is always a need for being able to restart.
-
-The section on xref:restarts[restarts] describes how to design a batch that is restartable. What's important is that a programmer has to invest some time upfront for a batch to be able restart after aborts.
-
-==== Exception handling in Batches
-
-The problem with exception handling is that a single record can cause a whole batch to fail and many records will remain unprocessed. In contrast to this, in client processing mode when processing fails this usually affects only one user.
-
-To prevent this situation, Spring Batch allows to skip data when certain exceptions occur. However, the feature should not be misused in a way that you just skip all exceptions independently of their cause.
-
-So when implementing a batch, you should think about what exceptional situations might occur and how to deal with that and weather it is okay to skip those exceptions or not. When an unexpected exception occurs, the batch should still fail so that this exception is not ignored but its causes are analyzed.
-
-Another way of handling exceptions in batches is retrying: Simply try to process the data once more and hope that everything works well this time. This approach often works for database problems, e.g. timeouts.
-
-The section on xref:exception-handling[exception handling] explains skipping and retrying in more detail.
-
-Note that exceptions are another reason why you should not execute a whole batch in one transaction. If anything goes wrong, you could either rollback the transaction and start the batch from scratch or you could manually revert all relevant changes. Both are not very good solutions.
-
-==== Performance issues
-
-In client processing mode, optimizing throughput (and response times) is an important topic as well, of course.
-
-However, a performance that is still considered okay for client processing might be problematic for batches as these usually have to process large volumes of data and the time for their execution is usually quite limited (batches are often executed at night when no one is using the application).
-
-An example: If processing the data of one person takes a second, this is usually still considered OK for client processing (even though performance could be better). However if a batch has to process the data of 100.000 persons in one night and is not executed with multiple threads, this takes roughly 28 hours, which is by far too much.
-
-The section on xref:performance-tuning[performance] contains some tips on how to deal with performance problems.
-
-=== Setup
-
-==== Database
-
-Spring Batch needs some meta data tables for monitoring batch executions and for restoring state for xref:restarts[restarts]. Detailed description about needed tables, sequences and indexes can be found in http://docs.spring.io/spring-batch/reference/html/metaDataSchema.html[Spring Batch - Reference Documentation: Appendix B. Meta-Data Schema].
-
-It is not recommended to add additional meta data tables, because this easily leads to inconsistencies with what is stored in those tables maintained by Spring Batch.
-You should rather try to extract all needed information out of the standard tables in case the standard API (especially `JobRepository` and `JobExplorer`, see below) does not fit your needs.
-
-
-[[debug-information-columns-in-meta-data-tables]]
-===== Failure information
-
-`BATCH_JOB_EXECUTION.EXIT_MESSAGE` and `BATCH_STEP_EXECUTION.EXIT_MESSAGE` store a detailed description of how the job exited. In the case of failure, this might include as much of the stack trace as is possible. 
-`BATCH_STEP_EXECUTION_CONTEXT.SHORT_CONTEXT` stores a stringified version of the step's `ExecutionContext` (see xref:saving-and-restoring-state[saving and restoring state], the rest is stored in a BLOB if needed). 
-The default length of those columns in the sample schema scripts is `2500`. 
-
-It is good to increase the length of those columns as far as the database allows it to make it easier to find out which exception failed a batch (not every exception causes a failure, see xref:exception-handling[exception handling]). Some JDBC drivers cast CLOBs to string automatically. If this is the case, you can use CLOBs instead.
-
-[[config]]
-==== General Configuration
-
-For configuring batches, we recommend not to use annotations (would not work very well for batches) or JavaConfig, but XML, because this makes the whole batch configuration more transparent, as its structure and implementing beans are immediately visible. Moreover the Spring Batch documentation focuses rather on XML based configurations than on JavaConfig.
-
-For explanations on how these XML files are build in general, have a look at the http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/html/beans.html#beans-factory-metadata[spring documentation].
-
-There is, however, some general configuration needed for all batches, for which we use JavaConfig, as it is also used for the setup of all other layers. You can find an example of such a configuration in the `samples/core` project: `BeansBatchConfig`. In this section, we will explain the most important parts of this class.
-
-The `jobRepository` is used to update the meta data tables.
-
-The database type can optionally be set on the `jobRepository` for correctly handling database specific things using the `setDatabaseType` method. Possible values are oracle, mysql, postgres etc.
-
-If the size of all three columns, which by default have a length limitation of 2500, has been increased as proposed xref:failure-information[here], the property maxVarCharLength should be adjusted accordingly using the corresponding setter method in order to actually utilize the additional space.
-
-The `jobExplorer` offers methods for reading from the meta data tables in addition to those methods provided by the `jobRepository`, e.g. getting the last executions of a batch.
-
-The `jobLauncher` is used to actually start batches.
-
-We use our own implementation (`JobLauncherWithAdditionalRestartCapabilities`) here, which can be found in the module `modules/batch` (`devon4j-batch`). It enables a special form of restarting a batch ("restart from scratch", see the section on xref:restarts[restarts] for further details).
-
-The `jobRegistry` is basically a map, which contains all batch jobs. It is filled by the bean of type `JobRegistryBeanPostProcessor` automatically.
-
-A `JobParametersIncremeter` (bean `incrementer`) can be used to generate unique parameters, see xref:restarts[restarts] and xref:parameters[parameters] for further details. It should be configured manually for each batch job, see example batch below, otherwise exceptions might occur when starting batches.
-
-[[example-batch]]
-=== Example-Batch
-
-As already mentioned, every batch job consists of one or more batch steps, which internally either use chunk processing or tasklet based processing.
-
-Our bill export batch job consists of the following to steps:
-
-1. Read all (not processed) bills from the database, mark them as processed (additional attribute) and write them into a CSV file (to be further processed by other systems). This step is implemented using chunk processing (see xref:chunk-processing[chunk processing]).
-
-2. Delete all bill from the database which are marked as processed. This step is implemented in a tasklet (see xref:tasklet-based-processing[tasklet based processing]).
-
-Note that you could also delete the bills directly. However, for being able to demonstrate tasklet based processing, we have created a separate step here.
-
-Also note that in real systems you would usually create a backup of data as important as bills, which is not done here.
-
-The https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/batch/src/main/resources/config/app/batch/beans-billexport.xml[beans-billexport.xml] configures the batch for exporting the bills.
-
-As you can see, there is a job element (`billExportJob`), which contains the two step elements (`createCsvFile` and `deleteBills`). Note that for every step you have to explicitly specify which step comes next (using the next attribute), unless it is the last step.
-
-The step elements always contains a tasklet element, even if chunk processing is used. The transaction-attributes element is especially used to set timeout of transactions (in seconds). Note that there is usually more than one transaction per step (see below).
-
-What follows is either a chunk element with `ItemReader`, `ItemProcessor`, `ItemWriter` and a commit interval (see xref:chunk-processing[chunk processing]) or the tasklet element containing a reference to a tasklet.
-
-In the example above the `ItemReader` named `unprocessedBillsReader` always reads 1000 ids of unprocessed bills (via a DAO) and returns them one after another. The `ItemProcessor` `processedMarker` reads the corresponding bills from the database (see xref:chunk-processing[chunk processing] why we do not read them directly in the `ItemReader`) and marks them as processed. The `ItemWriter` `csvFileWriter` (see below on how this writer is configured) writes them to a CSV file. The path of this file is provided as batch parameter (`outputFile`).
-
-The `tasklet` `billsDeleter` deletes all processed bills (10.000 in one transaction).
-
-The `chunkLoggingListener`, which is also used in the example above, can be utilized for all chunk steps to log exceptions together with the items where these exceptions occurred (see xref:listeners[listeners] for further details on listeners). It's implementation can be found in the module modules/batch. Note that classes used for items have to have an appropriate `toString()` method in order for this listener to be useful.
-
-
-[[restarts]]
-=== Restarts
-
-A batch execution is considered a restart, if it was run already (with the same parameters) and there was a (non skippable) failure or the batch has been stopped.
-
-There are basically two ways to do a restart:
-
-* Undo all changes and restart from scratch.
-* Restore the state of that batch at the time the error occurred and continue processing.
-
-The first approach has two major disadvantages:
-One is that depending on what the batch does, reverting all of its changes can get quite complex. And you easily end up having implemented a batch that is restartable, but not if it fails in the wrong step.
-
-The second disadvantage is that if a batch runs for several hours and then it fails it has to start all over again. And as the time for executing batches is usually quite limited, this can be problematic.
-
-If reverting all changes is as easy as deleting all files in a given directory or something like that and the expected duration for an execution of the batch is rather short, you might consider the option of always starting at the beginning, otherwise you shouldn’t.
-
-Spring Batch supports implementing the second option. By default, if a batch is restarted with the same parameters as a previous execution of this batch, then this new execution continues processing at the step where the last execution was stopped or failed. If the last execution was already complete, an exception is raised.
-
-The step itself has to be implemented in a way so that it can restore its internal state, which is the main drawback of this second option.
-
-However, there are 'standard implementations' that are capable of doing so and these can easily be adapted to your needs. They are introduced in the section on xref:chunk-processing[chunk processing].
-
-For instructing Spring Batch to always restart a batch at the very beginning even though there has been an execution of this batch with the same parameters already, set the `restartable` attribute of the `Job` element to false.
-
-By default, setting this attribute to false means that the batch is not restartable (i.e. it cannot be started with the same parameters once more). It would raise an error if there was attempt to do so, so that it cannot be restarted where it left off.
-
-We use our own `JobLauncher` (`JobLauncherWithAdditionalRestartCapabilities`) as described in the section on the xref:general-configuration[general configuration] to modify this behavior so that those batches are always restarted from the first step on by adding an extra parameter (instead of raising an exception), so that you do not have to take care of that yourself. So don't think of a batch marked with `restartable="false"` as a batch that is not restartable (as most people would probably assume just looking at the attribute) but as a batch that restarts always from the first step on.
-
-Note that if a batch is restartable by restoring its internal state, it might not work correctly if the batch is started with different parameters after it failed, which usually comes down to the same thing as restating it from scratch. So, the batch has to be restarted and completed successfully before executing the next regular 'run'. When scheduling batches, you should make that sure.
-
-[[chunk-processing]] 
-=== Chunk Processing
-
-Chunk processing is item based processing. Items can be bills, persons or whatever needs to be processed. Those items are grouped into chunks of a fixed size and all items within such a chunk are processed in one transaction. There is not one transaction for every single (small) item because there would be too many commits which degrades performance.
-
-All items of a chunk are read by an `ItemReader` (e.g. from a file or from database), processed by an `ItemProcessor` (e.g. modified or converted) and written out as a whole by an `ItemWriter` (e.g. to a file or to database).
-
-The size of a chunk is also called commit interval. One has to be careful , while choosing a large chunk size: When a skip or retry occurs for a single item (see xref:exception-handling[exception handling]), the current transaction has to be rolled back and all items of the chunk have to be reprocessed. This is especially a problem when skips and retries occur more often and results in long runtimes. 
-
-The most important advantages of chunk processing are:
-
-* good trade-off between size and number of transactions (configurable via commit size)
-* transaction timeouts that do not have to be adapted for larger amounts of data that needs to be processed (as there is always one transaction for a fixed number of items)
-* an exception handling that is more fain-grained than aborting/restarting the whole batch (item based skipping and retrying, see xref:exception-handling[exception handling])
-* logging items where exceptions occurred (which makes failure analysis much more easy)
-
-Note that you could actually achieve similar results using xref:tasklet-based-processing[tasklets] as described below. However, you would have to write many lines of additional code whereas you get these advantages out of the box using chunk processing (logging exceptions and items where these exceptions occurred is an extension, see xref:example-batch[example batch]).
-
-Also note that items should not be too "big". For example, one might consider processing all bills within one month as one item. However, doing so you would not have those advantages any more. For instance, you would have larger transactions, as there are usually quite a lot of bills per month or payment method and if an exception occurs, you would not know which bill actually caused the exception. Additionally you would lose control of commit size, since one commit would process many bills hard coded and you cannot choose smaller chunks.
-
-Nevertheless, there are sometimes, situations where you cannot further "divide" items, e.g. when these are needed for one single call to an external system (e.g. for creating a PDF of all bills within a certain month, if PDFs are created by an external system). In this case you should do as much of the processing as possible on the basis of "small" items and then add an extra step to do what cannot be done based on these "small" items.
-
-[[itemreader]]
-==== ItemReader
-
-A reader has to implement the `ItemReader` interface, which has the following method:
+Your batches should create a meaningful exit code to allow reaction to batch errors e.g. in a xref:scheduling[scheduler].
+For that spring batch automatically registers an `org.springframework.boot.autoconfigure.batch.JobExecutionExitCodeGenerator`. To make this mechanism work your spring boot app main class as to populate this exit code to the JVM:
 
 [source,java]
 ----
-public T read() throws Exception;
-----
-
-T is a type parameter of the `ItemReader` interface to be replaced with the type of items to be read.
-
-The method returns all items (one at a time) that need to be processed or null if there are no more items.
-
-If an exception occurs during read, Spring Batch cannot tell which item caused the exception (as it has not been read yet). That is why a reader should contain as little processing logic as possible, minimizing the potential for failures.
-
-===== Caching
-
-By default, all items read by an `ItemReader` are cached by Spring Batch. This is useful because when a skippable exception occurs during processing of a chunk, all items (or at least those, that did not cause the exception) have to be reprocessed. These items are not read twice but taken from the cache then.
-
-This is often necessary, because if a reader saves it's current state in member variables (e.g. the current position within a list of items) or uses some sort of cursor, these will be updated already and the next calls of the read method would deliver the next items ready and not those that have to be reprocessed.
-
-However this also means that when the items read by an `ItemReader` are entities, these might be detached, because these might have been read in a different transaction. In some standard implementations Spring Batch even manually detaches entities in `ItemReaders`.
-
-In case these entities are to be modified it is a good practice that the `ItemReader` only reads IDs and the `ItemProcessor` loads the entities for these IDs to avoid the problem.
-
-===== Reading from Transactional Queues
-
-In case the reader reads from a transactional queue (e.g. using JMS), you must not use caching, because then an item might get processed twice: Once from cache and once from queue to where it has been returned after the rollback. To achieve this, set `reader-transactional-queue="true"` in the chunk element in the step definition.
-
-Moreover the `equals` and `hashCode` methods of the class used for items have to be appropriately implemented for Spring Batch to be able to identify items that were processed before unsuccessfully (causing a rollback and thereby returning them to the queue). Otherwise the batch might be caught in an infinite loop trying to process the same item over and over again (e.g. when the item is about to be skipped, see xref:exception-handling[exception handling]).
-
-===== Reading from the Database
-
-When selecting data from a database, there is usually some sort of cursor used. One challenge is to make this cursor not participate in the chunk's transaction, because it would be closed after the first chunk.
-
-We will show how to use JDBC based cursors for `ItemReader` implementations in later releases of this documentation.
-
-For JPA/JPQL based queries, cursors cannot be used, because JPA does not know of the concept of a cursor. Instead it supports pagination as introduced in the chapter on the data access layer, which can be used for this purpose as well. Note that pagination requires the result set to be sorted in an unambiguous order to work reliably. The order itself is irrelevant as long as it does not change (you can e.g. sort the entities by their primary key).
-
-An `ItemReader` using pagination should inherit from the `AbstractPagingItemReader`, which already provides most of the needed functionality. It manages the internal state, i.e. the current position, which can be correctly restored after a restart (when using an unambiguous order for the result set).
-
-Classes inheriting from `AbstractPagingItemReader` must implement two methods. 
-
-The method `doReadPage()` performs the actual read of a page. The result is not returned (return type is void) but used to replace the content of the 'results' instance variable (type: List).
-
-Due to our layering concept and the persistence layer being the only place where access to the database should take place, you should not directly execute a query in this method, but call a DAO, which itself executes the query (using pagination). 
-
-`AbstractPagingItemReader` provides methods for finding out the current position: use `getPage()` for the current page and `getPageSize()` for the (max.) page size. These values should be passed to the DAO as parameters. Note that the `AbstractPagingItemReader` starts counting pages from zero, whereas the `PaginationTo` used for pagination (retrieved by calling `SearchCriteriaTo.getPagination()`) starts counting from one, which is why you always have to increment the page number by one.
-
-The second method is `doJumpToPage(int)`, which usually only requires an empty implementation.
-
-Furthermore, you need to set the property `pageSize`, which specifies how many items should be read at once. A page size that is as big as the commit interval usually results in the best performance.
-
-The approach of using pagination for `ItemReader` should not be used when items (usually entities) are added or removed or modified by the batch step itself or in parallel with the execution of the batch step so that the order changes, e.g. by other batches or due to operations started by clients (i.e. if the batch is executed in online mode). In this case there might be items processed twice or not processed at all. Be aware that due to hibernate's Hi/Lo-Algorithm newer entities could get lower IDs than existing IDs and you probably will not process all entities if you rely on strict ID monotony!
-
-A simple solution for such scenarios would be to introduce a new flag 'processed' for the entities read if that is an option (as it is also done in the example batch). The query should be rewritten then so that only unprocessed items are read (additionally limiting the result set size to the number of items to be processed in the current chunk, but not more).
-
-Note that most of the standard implementations provided by Spring Batch do not fit to the layering approach in devonfw applications, as these mostly require direct access to an `EntityManager` or a JDBC connection for example.  You should think twice when using them and not break the layering concept.
-
-===== Reading from Files
-
-For reading simply structured files, e.g. for those in which every line corresponds to an item to be processed by the batch, the `FlatFileItemReader` can be used. It requires two properties to be set: The first one the `LineMapper` (property `lineMapper`), which is used to convert a line (i.e. a String) to an item. It is a very simple interface which will not be discussed in more detail here. The second one is the resource, which is actually the file to be read. When set in the XML, it is sufficient to specify the path with a "file:" in front of it if it is a normal file from the file system. 
-
-In addition to that, the property `linesToSkip` (integer) can be set to skip headers for example. For reading more than one line before for creating an item, a `RecordSeparatorPolicy` can be used, which will not be discussed in more detail here, too. By default, all lines starting with a '#' will be considered to be a comment, which can be changed by changing the comment property (string array). The encoding property can be used to set the encoding. A `FlatFileItemReader` can restore its state after restarts.
-
-For reading XML files, you can use the `StaxEventItemReader` (StAX is an alternative to DOM and SAX), which will not be discussed in further detail here.
-
-In case the standard implementations introduced here do not fit your needs, you will need to implement your own `ItemReader`. If this `ItemReader` has some internal state (usually stored in member variables), which needs to be restored in case of restarts, see the section on xref:saving-and-restoring-state[saving and restoring state] for information on how to do this.
-
-==== ItemProcessor
-
-A processor must implement the `ItemProcessor` interface, which has the following method:
-
-[source,java]
-----
-public O process(I item) throws Exception;
-----
-
-As you can see, there are two type parameters involved: one for the type of items received from the `ItemReader` and one for the type of items passed to the `ItemWriter`. These can be the same.
-
-If an item has been selected by the `ItemReader`, but there is no need to further process this item (i.e. it should not be passed to the `ItemWriter`), the `ItemProcessor` can return null instead of an item.
-
-Strictly interpreting chunk processing, the `ItemProcessor` should not modify anything but should only give instructions to the `ItemWriter` on how to do modifications. For entities however this is not really practical and as it requires no special logic in case of rollbacks/restarts (as all modifications are transactional), it is usually OK to modify them directly.
-
-In contrast to this, performing accesses to files or calling external systems should only be done in `ItemReader`/`ItemWriter` and the code needed for properly handling failures (restarts for example) should be encapsulated there.
-
-It is usually a good practice to make `ItemProcessor` implementations stateless, as the process method might be called more than once for one item (see the section on `ItemReader` why). If your ItemProcessor really needs to have some internal state, see xref:saving-and-restoring-state[saving and restoring state] on how to save and restore the state for restarts.
-
-Do not forget to implement use cases instead of implementing everything directly in the ItemProcessor if the processing logic gets more complex.
-
-==== ItemWriter
-
-A writer has to implement the ItemWriter interface, which has the following method:
-
-[source,java]
-----
-public void write(List<? extends T> items) Exception;
-----
-
-This method is called at the end of each chunk with a list of all (processed) items. It is not called once for every item, because it is often more efficient doing 'bulk writes', e.g. when writing to files. 
-
-Note that this method might also be called more than once for one item (see the section on ItemReader's why).
-
-At the end of the write method, there should always be a flush.
-
-When writing to files, this should be obvious, because when a chunks completes, it is expected that all changes are already there in case of restarts, which is not true if these changes were only buffered but have not been written out.
-
-When modifying the database, the flush method on the `EntityManager` should be called, too (via a DAO), because there might be changes not written out yet and therefore constraints were not checked yet. This can be problematic, because Spring Batch considers all exceptions that occur during commit as critical, which is why these exceptions cannot be skipped. You should be careful using deferred constraints for the same reason.
-
-===== Writing to Database or Transactional Queues
-
-All changes made which are transactional can be conducted directly, there is no special logic needed for restarts, because these changes are applied if and only if the chunk succeeds.
-
-===== Writing to Files
-
-For writing simply structured files, the `FlatFileItemWriter` can be used. Similar to the FlatFileItemReader it requires the resource (i.e. the file) and a `LineAggregator` (property `lineAggregator` instead of the `lineMapper`) to be set.
-
-There are various properties that can be used of which we will only present the most important ones here. As with the FlatFileItemReader, the encoding property is used to set the encoding. A FlatFileHeaderCallback (property headerCallback) can be used to write a header.
-
-The `FlatFileItemWriter` can restore its state correctly after restarts. In case, the files contain too many lines (written out in chunks that did not complete successfully), these lines are removed before continuing execution.
-
-For writing XML files, you can use the `StaxEventItemWriter`, which will not be discussed in further detail here.
-
-Just as with `ItemReader` and `ItemProcessor`: In case your `ItemWriter` has some internal state this state is not managed by a standard implementation, see xref:saving-and-restoring-state[saving and restoring state] on how to make your implementation restartable (restart by restoring the internal state).
-
-[[save-restore-state]]
-==== Saving and Restoring State
-
-For saving and restoring (in case of restarts) state, e.g. saving and restoring values of member variables, the ItemStream interface should be implemented by the `ItemReader`/`ItemProcessor`/`ItemWriter`, which has the following methods:
-
-[source,java]
-----
-public void open(ExecutionContext executionContext) throws ItemStreamException;
-public void update(ExecutionContext executionContext) throws ItemStreamException;
-public void close() throws ItemStreamException;
-----
-
-The open method is always called before the actual processing starts for the current step and can be used to restore state when restarting. 
-
-The `ExecutionContext` passed in as parameter is basically a map to be used to retrieve values set before the failure. The method `containsKey(String)` can be used to check if a value for a given key is set. If it is not set, this might be because the current batch execution is no restart or no value has been set before the failure.
-
-There are several getter methods for actually retrieving a value for a given key: `get(String)` for objects (must be serializable), `getInt(String)`, `getLong(String)`, `getDouble(String)` and `getString(String)`. These values will be the same as after the subsequent call to the update method after the last chunk that completed successfully. Note that if you update the ExecutionContext outside of the update method (e.g. in the read method of an `ItemReader`), it might contain values set in chunks that did not finish successfully after restarts, which is why you should not do that.
-
-So the update method is the right place to update the current state. It is called after each chunk (and before and after each step).
-
-For setting values, there are several put methods: `put(String, Object)`, `putInt(String, int)`, `putLong(String, long)`, `putDouble(String, double)` and `putString(String, String)`. You can choose keys (`String`) freely as long as these are unique within the current step.
-
-Note that when a skip occurs, the update method is sometimes but not always called, so you should design your code in a way that it can deal with both situations.
-
-The close method is usually not needed.
-
-Do not misuse the ItemStream interface for purposes other than storing/restoring state. For instance, do not use the update method for flushing, because you will not have the chance to properly handle failure (e.g. skipping). For opening or closing a file handle, you should rather use a StepExecutionListener as introduced in the section on xref:listeners[listeners]. The state can also be restored in the beforeStep(ExecutionListener) method (instead of the open method).
-
-Note that when a batch that always starts from scratch (i.e. the restartable attribute has been set to false for the batch job) is restarted, the ExecutionContext will not contain any state from the previous (failed) execution, so there is no use in storing the state in this case and usually no need to, of course, because the batch will start all over again.
-
-[[tasklet-based-processing]]
-=== Tasklet based Processing
-
-Tasklets are the alternative to chunk processing. In the section on xref:chunk-processing[chunk processing] we already mentioned the advantages of chunk processing as compared to tasklets. However, if only very few data needs to be processed (within one transaction) or if you need to do some sort of bulk operation (e.g. deleting all records from a database table), where the currently processed item does not matter and it is unlikely that a 'fine grained' exception handling will be needed, tasklets might still be considered an option. Note that for the latter use case you should still use more than one transaction, which is possible when using tasklets, too.
-
-Tasklets have to implement the interface with the same name, which has the following method:
-
-[source,java]
-----
-public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception;
-----
-
-This method might be called several times. Every call is executed inside a new transaction automatically. If processing is not finished yet and the execute method should be called once more, just use RepeatStatus.CONTINUABLE as return value and `RepeatStatus.FINISHED` otherwise.
-
-The `StepContribution` parameter can be used to set how many items have been processed manually (which is done automatically using chunk processing), there is, however, usually no need to do so.
-
-The ChunkContext is similar to the `ExecutionContext`, but is only used within one chunk. If there is a retry in chunk processing, the same context should be used (with the same state that this context had when the exception occurred). 
-
-Note that tasklets serve as the basis for chunk processing internally. For chunk processing there is a Spring Batch internal tasklet, which has an execute method that is called for every chunk and itself calls `ItemReader`, `ItemProcessor` and `ItemWriter`.
-
-That is the reason why a `StepContribution` and a `ChunkContext` are passed to tasklets as parameters, even though they are more useful in chunk processing. Moreover this is also the reason why you have to use the tasklet element in the XML even though you want to specify a step that uses chunk processing (see xref:example-batch[the example batch]).
-
-[[exception-handling]]
-=== Exception Handling
-
-As already mentioned, in chunk processing you can configure a step so that items are skipped or retried when certain exceptions occur.
-
-If retries are exhausted (by default, there is no retry) and the exception that occurred cannot be skipped (by default, no exception can be skipped), the batch will fail (i.e. stop executing).
-
-In tasklet based processing this cannot be done, the only chance is to implement the needed logic yourself.
-
-==== Skipping
-
-Before skipping items you should think about what to do if a skip occurs. If a skip occurs, the exception will be logged in the server log. However if no one evaluates those logs on a regular basis and informs those who are affected further actions need to take place when implementing the batch.
-
-Implement the `SkipListener` interface to be informed when a skip occurs. For example, you could store a notification or send a message to someone. For skips that occurred in ItemReader's there is no information available about the item that was skipped (as it has not been read yet) which is why there should be as little processing logic as possible in an `ItemReader`. It might also be a reason why you might want to forbid  to skip exceptions that might occur in readers.
-
-Do not try to catch skipped exceptions and write something into the database in a new transaction (e.g. a notification) instead of using a SkipListener, because a skipped item might be processed more than once before actually being skipped (for example, if a skippable exception is thrown during a call of an `ItemWriter`, Spring Batch does not know which item of the current chunk actually caused the exception and therefore has to retry each item separately in order to know which item actually caused the exception).
-
-Skippable exception classes can be specified as shown below:
-
-[source,xml]
-----
-      <batch:chunk ... skip-limit="10">
-         <batch:skippable-exception-classes>
-            <batch:include class="..."/>
-            <batch:include class="..."/>
-            ...
-         </batch:skippable-exception-classes>
-      </batch:chunk>
-----
-
-The attribute skip-limit, which has to be set in case there is any skippable exception class configured, is used to set how many items should be skipped at most. It is useful to avoid situations where many items are skipped but the batch still completes successfully and no one notices this situation.
-
-Skippable exception classes are specified by their fully qualified name (e.g. `java.lang.Exception`), each of such class set in its own include element as shown above. Subclasses of such classes are also skipped.
-
-To programmatically decide whether to skip an exception or not, you can set a skip policy as shown below:
-
-[source,xml]
-----
-<batch:chunk ... skip-policy="mySkipPolicy">
-----
-
-The skip policy (here `mySkipPolicy`) has to be a bean that implements the interface `SkipPolicy` with the following method:
-
-[source,java]
-----
-public boolean shouldSkip(java.lang.Throwable t,
-                   int skipCount)
-            throws SkipLimitExceededException
-----
-
-To skip the exception and continue processing, just return true and otherwise false.
-
-The parameter `skipCount` can be used for a skip limit. A `SkipLimitExceededException` should be thrown if there should be no more skips. Note that this method is sometimes called with a skipCount less than zero to test if an exception is skippable in general.
-
-When a `SkipPolicy` is set, the attribute `skip-limit` and element `skippable-exception-classes` are ignored.
-
-You could of course skip every exception (using `java.lang.Exception` as skippable exception class). This is, however, not a good practice as it might easily result in an error in the code that is ignored as the batch still completes successfully and everything seems to be fine. Instead, you should think about what kind of exceptions might actually occur, what to do if they occur and if it is OK to skip them. If an unexpected exception occurs, it is usually better to fail the batch execution and analyze the cause of the exception before restarting the batch.
-
-Exceptions that can occur in instances of `ItemWriter` that write something to file should not be skipped unless the `ItemWriter` can properly deal with that. Otherwise there might be data written out even though the according item is skipped, because operations in the file systems are not transactional.
-
-Another situation where skips can be problematic is when calls to external interfaces are being made and these calls change something "on the other side", as these calls are usually not transactional. So be careful using skips here, too.
-
-==== Retrying
-
-For some types of exceptions, processing should be retried independently of weather the exception can be skipped or would otherwise fail the batch execution.
-
-For example, if there was a database timeout, this might be because there were too many requests at the time the chunk was processed. And it is not unlikely that retrying to successfully complete the chunk would succeed.
-
-There are, of course, also exceptions where retrying does not make much sense. E.g. exceptions caused by the business logic should be deterministic and therefore retrying does not make much sense in this case.
-
-Nevertheless, retrying every exception results in longer runtime but should in general be considered OK if you do not know which exceptions might occur or do not have the time to think about it.
-
-Retryable exception classes can be set similarly to setting skippable exception classes:
-
-[source,xml]
-----
-      <batch:chunk ... retry-limit="3">
-         <batch:retryable-exception-classes>
-            <batch:include class="..."/>
-            <batch:include class="..."/>
-            ...
-         </batch:retryable-exception-classes>
-      </batch:chunk>
-----
-
-The `retry-limit` attribute specifies how many times one individual item can be retried, as long as the exception thrown is "retryable".
-
-As with skippable exception classes, retryable exception classes are set in include elements and their subclasses are retried, too.
-
-To programmatically decide, whether to retry an exception or not, you can use a `RetryPolicy`, which is not covered in more detail here.
-
-Note that even if no retry is configured, an item might nevertheless be processed more than once. This is because if a skippable exception occurs in a chunk, all items of the chunk that did not cause the exception have to reprocessed, which is done in a separate transaction for every item, as the transaction in which these items were processed in the first place was rolled back. And even if the exception is not skippable, there is no guarantee that Spring Batch will not attempt to reprocess each item separately.
-
-[[listeners]]
-=== Listeners
-
-Spring Batch provides various listeners for various events to be notified about.
-
-For every listener there is an interface which can either be implemented by an ItemReader, ItemProcessor, ItemWriter or Tasklet or by a separate listener class, which can be registered for a step like this:
-
-[source,xml]
-----
-    <batch:tasklet>
-        <batch:chunk .../>
-        <batch:listeners>
-            <batch:listener ref="listener1"/>
-            <batch:listener ref="listener2"/>
-            ....
-        </batch:listeners>
-    </batch:tasklet>
-    <beans:bean id="listener1" class=".."/>
-    <beans:bean id="listener2" class=".."/>
-    ...
-----
-
-The most commonly use listener is probably the `StepExecutionListener`, which has methods that are called before and after the execution of the step. It can be utilized e.g. for opening and closing files.
-
-The following example shows how to use the listener:
-
-[source,java]
-----
-public class MyListener implements StepExecutionListener {
-
-	public void beforeStep(StepExecution stepExecution) {
-		// take actions before processing of the step starts
-	}
-
-	public ExitStatus afterStep(StepExecution stepExecution) {
-		try {
-			// take actions after processing is finished
-		} catch (Exception e) {
-			stepExecution.addFailureException(e);
-			stepExecution.setStatus(BatchStatus.FAILED);
-			return ExitStatus.FAILED.addExitDescription(e);
-		}
-		return null;
-	}
-
-}
-----
-
-In the `afterStep(StepExecution)` method, you can check the outcome of the batch execution (completed, failed, stopped etc.) checking the `ExitStatus`, which can be accessed via `StepExecution.getExitStatus()`. You can even modify the `ExitStatus` by returning a new `ExitStatus`, which is something we will not discuss in further detail here. If you do not want to modify the `ExitStatus`, just return null.
-
-Throwing an exception in this method has no effect. If you want to fail the whole batch in case an exception occurs, you have to do an exception handling as shown above. This does not apply to the `beforeStep` method.
-
-For other types of listeners (among others the `SkipListener` mentioned already) see http://docs.spring.io/spring-batch/reference/html/configureStep.html#interceptingStepExecution[Spring Batch Reference Documentation - 5. Configuring a Step - Intercepting Step Execution].
-
-Note that exception handling for listeners is often a problem, because exceptions are mostly ignored, which is not always documented very well. If an important part of a batch is implemented in listener methods, you should always test what happens when exceptions occur. Or you might think about not implementing important things in listeners ...
-
-If you want an exception to fail the whole batch, you can always wrap it in a `FatalStepExecutionException`, which will stop the execution. 
-
-[[parameters]]
-=== Parameters
-
-The section on xref:starting-and-stopping-batches[starting and stopping batches] already showed how to start a batch with parameters.
-
-One way to get access to the values set is using the `StepExecutionListener` introduced in the section on xref:listeners[listeners] like this:
-
-[source,java]
-----
-public void beforeStep(StepExecution stepExecution) {
-
-	String parameterValue = stepExecution.getJobExecution().getJobParameters().
-		getString("parameterKey");
-}
-----
-
-There are getter methods for strings, doubles, longs and dates. Note that when set via the `CommandLineJobRunner` or `SpringBootBatchCommandLine`, all parameters will be of type string unless the type is specified in brackets after the parameter key, e.g. `processUntil(date)=2015/12/31`. The parameter key here is `processUntil`.
-
-Another way is to inject values. In order for this to work, the bean has to have step scope, which means there is a new object created for every execution of a batch step. It works like this:
-
-[source,xml]
-----
-<bean id="myProcessor" class="...MyItemProcessor" scope="step">
-	<property name="parameter" value="#{jobParameters['parameterKey']}" />
-<bean>
-----
-
-There has to be an appropriate setter method for the parameter of course.
-
-As already mentioned in the section on xref:restarts[restarts], a batch that successfully completed with a certain set of parameters cannot be started once more with the same parameters as this would be considered a restart, which is not necessary, because the batch was already finished.
-
-So using no parameters for a batch would mean that it can be started until it completes successfully once, which usually does not make much sense.
-
-As batches are usually not executed more than once a day, we propose introducing a general `date` parameter (without time) for all batch executions. 
-
-It is advisable to add the date parameter automatically in the `JobLauncher` if it has not been set manually, which can be done as shown below:
-
-[source,java]
-----
-private static final String DATE_PARAMETER = "date";
-
-...
-
-if (jobParameters.getDate("DATE_PARAMETER") == null) {
-
-	Date dateWithoutTime = new Date();
-	Calendar cal = Calendar.getInstance();
-	cal.setTime(dateWithoutTime);
-	cal.set(Calendar.HOUR_OF_DAY, 0);
-	cal.set(Calendar.MINUTE, 0);
-	cal.set(Calendar.SECOND, 0);
-	cal.set(Calendar.MILLISECOND, 0);
-	dateWithoutTime = cal.getTime();
-
-	jobParameters = new JobParametersBuilder(jobParameters).addDate(
-		DATE_PARAMETER, dateWithoutTime).toJobParameters();
-
-	... // using the jobParametersIncrementer as shown above
-}
-----
-
-Keep in mind that you might need to set the date parameter explicitly for restarts. Also note that automatically setting the date parameter can be problematic if a batch is sometimes started before and sometimes after midnight, which might result in a batch not being executed (as it has already been executed with the same parameters), so at least for productive systems you should always set it explicitly.
-
-The date parameters can also be useful for controlling the business logic, e.g. a batch can process all data that was created until the current date (as set in the date parameter), thereby giving a chance to control how much is actually processed.
-
-If your batch has to run more than once a day you could easily adapt the concept of timestamps. If you are using an external batch scheduler, they often provide a counter for the execution and you might automatically pass this instead of the date parameter.
-
-[[performance-tuning]]
-=== Performance Tuning
-
-Most important for performance are of course the algorithms that you write and how fast (and scalable) these are, which is the same as for client processing. Apart from that, the performance of batches is usually closely related to the performance of the database system.
-
-If you are retrieving information from the database, you can have one complex query executed in the `ItemReader` (via a DAO) retrieving all the information needed for the current set of items, or you can execute further queries in the `ItemProcessor` (or `ItemWriter`) on a per item basis to retrieve further information.
-
-The first approach usually results in far more performance, because there is an overhead for every query being executed and this approach results in less queries being executed. Note that there is a tradeoff between performance and maintainability here. If you put everything into the query executed by an `ItemReader`, this query can get quite complex.
-
-Using cursors instead of pagination as described in the section on xref:itemreader[ItemReaders] can result in a better performance for the same reason: When using a cursor, the query is only executed once, when using pagination, the query is usually executed once per chunk. You could of course manually cache items, however this easily leads to a high memory consumption.
-
-Further possibilities for optimizations are query (plan) optimization and adding missing database indexes.
-
-=== Testing
-
-The Section link:guide-testing.asciidoc[Testing] covers how to unit and integration test in detail. Therefore we focus here on testing batches.
-
-In order for the unit test to run a batch job the unit test class must extend the `AbstractSpringBatchIntegrationTest` class. Annotation used to load the job's `ApplicationContext`:
-
-`@SpringBootTest(classes = {...})`: Indicates which JavaConfig classes (attribute `classes`) 
-`@ImportResource("classpath:../sample_BatchContext.xml") : Indicates XML files that contain the `ApplicationContext`. Use `@ContextConfiguration(...)` if Spring Boot is not used.
-
-[source,java]
-----
-public abstract class AbstractSpringBatchIntegrationTest extends AbstractComponentTest {..}
----- 
-
-[source,java]
-----
-@SpringBootTest(classes = { SpringBootBatchApp.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
-@ImportResource("classpath:config/app/batch/beans-productimport.xml")
-@EnableAutoConfiguration
-public class ProductImportJobTest extends AbstractSpringBatchIntegrationTest {..}
----- 
-
-==== Testing Batch Jobs
-
-For testing the complete run of a batch job from beginning to end involves following steps: 
-
-* set up a test condition
-* execute the job
-* verify the end result.
-
-The test method below begins by setting up the database with test data. The test then launches the Job using the `launchJob()` method. The `launchJob()` method is provided by the `JobLauncherTestUtils` class. 
-
-Also provided by the utils class is `launchJob(JobParameters)`, which allows the test to give particular parameters. The `launchJob()` method returns the `JobExecution` object which is useful for asserting particular information about the Job run. In the case below, the test verifies that the Job ended with `ExitStatus` `COMPLETED`.
-
-[source,java]
-----
-@SpringBootTest(classes = { SpringBootBatchApp.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
-@ImportResource("classpath:config/app/batch/beans-productimport.xml")
-@EnableAutoConfiguration
-public class ProductImportJobTest extends AbstractSpringBatchIntegrationTest {
-
-  @Inject
-  private Job productImportJob;
-
-  @Test
-  public void testJob() throws Exception {
-    ......
-    ......
-    JobExecution jobExecution = getJobLauncherTestUtils(this.productImportJob).launchJob(jobParameters);
-    assertThat(jobExecution.getStatus()).isEqualTo(BatchStatus.COMPLETED);
-    ......
-    ......
+@SpringBootApplication
+public class SpringBootApp {
+
+  public static void main(String[] args) {
+    if (Arrays.stream(args).anyMatch((String e) -> e.contains("--spring.batch.job.names"))) {
+      // if executing batch job, explicitly exit jvm to report error code from batch
+      System.exit(SpringApplication.exit(SpringApplication.run(SpringBootApp.class, args)));
+    } else {
+      // normal web application start
+      SpringApplication.run(SpringBootApp.class, args);
+    }
   }
 }
----- 
 
-Note that when using the `launchJob()` method, the batch execution will never be considered as a restart (i.e. it will always start from scratch). This is achieved by adding a unique (random) parameter.
-
-This is not true for the method `launchJob(JobParameters)` however, which will result in an exception if the test is executed twice or a batch is executed in two different tests with the same parameters.
-
-We will add methods for appropriately handling this situation in future releases of devonfw. Until then you can help yourself by using the method `getUniqueJobParameters()` and then add all required parameters to those parameters returned by the method (as shown in the section on xref:parameters[parameters]). 
-
-Also note that even if skips occurred, the BatchStatus is still COMPLETED. That is one reason why you should always check whether the batch did what it was supposed to do or not.
-
-===== Testing Individual Steps
-
-For complex batch jobs individual steps can be tested. For example to test a `createCsvFile`, run just that particular Step. This approach allows for more targeted tests by allowing the test to set up data for just that step and to validate its results directly.
-
-[source,java]
 ----
-JobExecution jobExecution = getJobLauncherTestUtils(this.billExportJob).launchStep(“createCsvFile”);
----- 
 
-===== Validating Output Files
+== Stop batches and manage batch status
 
-When a batch job writes to the database, it is easy to query the database to verify the output. To facilitate the verification of output files Spring Batch provides the class `AssertFile`. The method `assertFileEquals` takes two File objects and asserts, line by line, that the two files have the same content. Therefore, it is possible to create a file with the expected output and to compare it to the actual result:
+Spring batch uses several database tables to store the status of batch executions.
+Each execution may have link:https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#jobexecution[different status].
+You may use this mechanism to link:https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#stoppingAJob[gracefully stop batches].
+Additonally in some edge cases (batch process crashed) the execution status may be in an undesired state.
+E.g. the state will be running, despite the process crashed sometime ago.
+For that cases you have to change the status of the execution in the database.
 
-[source,java]
-----
-private static final String EXPECTED_FILE = "classpath:expected.csv";
-private static final String OUTPUT_FILE = " file:./temp/output.csv";
-AssertFile.assertFileEquals(new FileSystemResource(EXPECTED_FILE), new FileSystemResource(OUTPUT_FILE));
----- 
+=== CLI-Tool
+Devonfw provides a simple cli-tool to manage the executing status of your jobs.
+The tool is implemented in the devonfw module `devon4j-batch-tool`. It will provide a runnable jar, which may be used as follows:
 
-===== Testing Restarts
+List names of all previous executed jobs::
+`java -D\'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar devon4j-batch-tool.jar jobs list`
 
-Simulating an exception at an arbitrary method in the code can be done relatively easy using https://eclipse.org/aspectj/[AspectJ]. Afterwards you should restart the batch and check if the outcome is still correct.
+Stop job named 'countJob'::
+`java -D\'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar devon4j-batch-tool.jar jobs stop countJob`
 
-Note that when using the `launchJob()` method, the batch is always started from the beginning (as already mentioned). Use the `launchJob(JobParameters)` instead with the same parameters for the initial (failing) execution and for the restart.
+Show help::
+`java -D\'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar devon4j-batch-tool.jar`
 
-Test your code thoroughly. There should be at least one restart test for every step of the batch job.
+As you can the each invocation includes the jdbc connection string to your database.
+This means that you have to make sure that the corresponding DB driver is in the classpath (the prepared jar only contains H2).
+
+
+
+== Tipps & tricks
+
+=== Identifying job parameters
+
+String uses a jobs parameters to identify https://docs.spring.io/spring-batch/docs/current/reference/html/domain.html#jobexecution[job executions]. Parameters starting with "-" are not considered for identifying a job execution.
