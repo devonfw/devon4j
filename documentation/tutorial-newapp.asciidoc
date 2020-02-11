@@ -138,10 +138,7 @@ PrincipalAccessControlProviderImpl.java|Implementation of PrincipalAccessControl
 |=============================================
 |*File* | *Description*
 |api.UseCase.java|Annotation to mark all use-cases.
-|api.to.BinaryObjectEto.java|ETO for a BinaryObject.
 |base.AbstractUc.java|Abstract base class for any use case in the application.
-|base.UcManageBinaryObject.java|Use case for managing BinaryObject.
-|impl.UcManageBinaryObjectImpl.java|Implementation of the UcManageBinaryObject interface.
 |impl.UsermanagementDummyImpl.java|Implementation of Usermanagement.
 
 |=============================================
