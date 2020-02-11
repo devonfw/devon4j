@@ -5,6 +5,7 @@ import static com.querydsl.core.alias.Alias.$;
 import java.io.Serializable;
 import java.util.Collection;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 
@@ -22,8 +23,8 @@ import com.querydsl.jpa.impl.JPADeleteClause;
  *
  * @param <E> generic type of the managed {@link #getEntityClass() entity}. Typically implementing
  *        {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity}.
- * @param <ID> generic type of the {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity#getId() primary key}
- *        of the entity.
+ * @param <ID> generic type of the {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity#getId() primary
+ *        key} of the entity.
  *
  * @since 3.0.0
  */
@@ -43,13 +44,13 @@ public interface GenericRepository<E, ID extends Serializable>
    */
   default E find(ID id) {
 
-    return findById(id).orElseThrow(() -> new IllegalStateException(
-        "Entity " + getEntityClass().getSimpleName() + " with ID '" + id + "' was not found!"));
+    return findById(id).orElseThrow(() -> new EmptyResultDataAccessException(
+        "Entity " + getEntityClass().getSimpleName() + " with ID '" + id + "' was not found!", 1));
   }
 
   /**
-   * @param ids the {@link Collection} of {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity#getId() IDs} to
-   *        delete.
+   * @param ids the {@link Collection} of {@link com.devonfw.module.basic.common.api.entity.PersistenceEntity#getId()
+   *        IDs} to delete.
    * @return the number of entities that have actually been deleted.
    */
   @Modifying
