@@ -91,8 +91,8 @@ public class PerformanceLogFilter implements Filter {
       errorClass = error.getClass().getName();
       errorMessage = error.getMessage();
     }
-    LOG.info("{};{};{};{};{}", v("url", url), v("duration", duration), v("statuscode", statusCode),
-        v("errorClass", errorClass), v("errorMessage", errorMessage));
+    LOG.info("{};{};{};{};{}", v("url", url), v("ms", duration), v("sc", statusCode), v("errCls", errorClass),
+        v("errMsg", errorMessage));
   }
 
   @Override
