@@ -21,6 +21,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <cxf.version>3.2.5</cxf.version>
     <mmm.util.version>8.7.0</mmm.util.version>
+    <slf4j.version>1.7.28</slf4j.version>
     <flatten.mode>bom</flatten.mode>
   </properties>
 
@@ -103,8 +104,13 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.7.7</version>
+        <version>${slf4j.version}</version>
       </dependency>
+	    <dependency>
+	      <groupId>org.slf4j</groupId>
+	      <artifactId>jcl-over-slf4j</artifactId>
+        <version>${slf4j.version}</version>	      
+	    </dependency>      
       <!-- Servlet API -->
       <dependency>
         <groupId>javax.servlet</groupId>

@@ -18,45 +18,15 @@
     <!-- devon4j modules -->
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-jpa-basic</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-logging</artifactId>
     </dependency>
 
 
     <!-- Spring Batch -->
     <dependency>
-      <groupId>org.springframework.batch</groupId>
-      <artifactId>spring-batch-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.batch</groupId>
-      <artifactId>spring-batch-infrastructure</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.batch</groupId>
-      <artifactId>spring-batch-integration</artifactId>
-    </dependency>
-
-	<!-- Spring Boot: Only needed if SpringBootBatchCommandLine is used -->
-    <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot</artifactId>
-      <optional>true</optional>
+      <artifactId>spring-boot-starter-batch</artifactId>
     </dependency>
-
-    <!-- Test dependencies -->
-    <dependency>
-      <groupId>org.springframework.batch</groupId>
-      <artifactId>spring-batch-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-test</artifactId>
-      <scope>test</scope>
-    </dependency>
+    
   </dependencies>
 </project>
