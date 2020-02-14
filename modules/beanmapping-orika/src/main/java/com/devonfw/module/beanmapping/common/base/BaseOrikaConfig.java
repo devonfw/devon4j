@@ -7,7 +7,7 @@ import com.devonfw.module.beanmapping.common.impl.orika.CustomMapperEto;
 import ma.glasnost.orika.MapperFactory;
 
 /**
- * This is a base class which will add Custom Mapping for Entity to ETO. The method
+ * Base class which will add Custom Mapping for Entity to ETO. The method
  * {@link #configureCustomMapping(MapperFactory)} can be overridden as per requirements
  *
  */
