@@ -7,23 +7,25 @@ import org.springframework.context.annotation.Configuration;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
+import com.devonfw.module.beanmapping.common.base.BaseOrikaConfig;
 
 /**
- * Java bean configuration for Dozer
+ * Java bean configuration for Orika
  */
 @Configuration
 @ComponentScan(basePackages = { "com.devonfw.module.beanmapping" })
-public class BeansOrikaConfig {
+public class BeansOrikaConfig extends BaseOrikaConfig{
 
  
   /**
-   * @return the {@link DozerBeanMapper}.
+   * @return the {@link MapperFacade}.
    */
   @Bean
   public MapperFacade getOrika() {
 
     MapperFactory factory = new DefaultMapperFactory.Builder().build();
-    MapperFacade orika = factory.getMapperFacade();
+    //{@link #configureCustomMapping(MapperFactory)} can be overridden as per requirements
+    MapperFacade orika = configureCustomMapping(factory).getMapperFacade();
     return orika;
   }
 }
