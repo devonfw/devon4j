@@ -1,120 +1,132 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.devonfw.java.dev</groupId>
-    <artifactId>devon4j</artifactId>
-    <version>dev-SNAPSHOT</version>
-  </parent>
-  <artifactId>devon4j-modules</artifactId>
-  <packaging>pom</packaging>
-  <name>${project.artifactId}</name>
-  <description>Reusable modules of devon4j.</description>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modules>
-    <module>logging</module>
-    <module>test</module>
-    <module>beanmapping</module>
-    <module>service</module>
-    <module>json</module>
-    <module>rest</module>
-    <module>cxf-client</module>
-    <module>cxf-client-rest</module>
-    <module>cxf-client-ws</module>
-    <module>cxf-server</module>
-    <module>cxf-server-rest</module>
-    <module>cxf-server-ws</module>
-    <module>security</module>
-    <module>jpa-basic</module>
-    <module>jpa-dao</module>
-    <module>jpa-envers</module>
-    <module>jpa-spring-data</module>
-    <module>test-jpa</module>
-    <module>batch</module>
-    <module>web</module>
-    <module>basic</module>
-  </modules>
+	<modelVersion>4.0.0</modelVersion>
 
-  <dependencyManagement>
-    <dependencies>
-    <!-- overriding BOM of jackson -->
-      <dependency>
-        <groupId>com.fasterxml.jackson</groupId>
-        <artifactId>jackson-bom</artifactId>
-        <version>${jackson.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <!-- BOM of devon4j -->
-      <dependency>
-        <groupId>com.devonfw.java.boms</groupId>
-        <artifactId>devon4j-bom</artifactId>
-        <version>${devon4j.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <!-- BOM of spring-boot -->
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>${spring.boot.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+	<parent>
+		<groupId>com.devonfw.java.dev</groupId>
+		<artifactId>devon4j</artifactId>
+		<version>dev-SNAPSHOT</version>
+	</parent>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-  </dependencies>
+	<artifactId>devon4j-modules</artifactId>
+	<packaging>pom</packaging>
+	<name>${project.artifactId}</name>
+	<description>Reusable modules of devon4j.</description>
 
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <additionalDependencies>
-            <additionalDependency>
-              <groupId>javax.interceptor</groupId>
-              <artifactId>javax.interceptor-api</artifactId>
-              <version>1.2</version>
-            </additionalDependency>
-          </additionalDependencies>
-          <!--<notree>true</notree>-->
-          <show>private</show>
-          <encoding>${project.reporting.outputEncoding}</encoding>
-          <charset>${project.build.sourceEncoding}</charset>
-          <docfilessubdirs>true</docfilessubdirs>
-          <stylesheetfile>${user.dir}/src/main/javadoc/stylesheet.css</stylesheetfile>
-          <!--<additionalparam>-Xdoclint:none -source ${java.version}</additionalparam>-->
-          <links>
-            <link>http://docs.oracle.com/javase/7/docs/api/</link>
-            <link>http://www.devonfw.com/devon4j//</link>
-          </links>
-          <doctitle>JavaDocs for ${project.name}</doctitle>
-          <windowtitle>JavaDocs for ${project.name}</windowtitle>
-        </configuration>
-        <reportSets>
-          <reportSet>
-            <id>devon4j.javadoc</id>
-            <reports>
-              <report>javadoc</report>
-            </reports>
-          </reportSet>
-          <reportSet>
-            <id>devon4j.javadoc.aggregate</id>
-            <reports>
-              <report>aggregate</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-    </plugins>
-  </reporting>
+	<modules>
+		<module>logging</module>
+		<module>test</module>
+		<module>beanmapping</module>
+		<module>service</module>
+		<module>json</module>
+		<module>rest</module>
+		<module>cxf-client</module>
+		<module>cxf-client-rest</module>
+		<module>cxf-client-ws</module>
+		<module>cxf-server</module>
+		<module>cxf-server-rest</module>
+		<module>cxf-server-ws</module>
+		<module>security</module>
+		<module>jpa-basic</module>
+		<module>jpa-dao</module>
+		<module>jpa-envers</module>
+		<module>jpa-spring-data</module>
+		<module>test-jpa</module>
+		<module>batch</module>
+		<module>web</module>
+		<module>basic</module>
+		<module>kafka</module>
+	</modules>
 
+	<dependencyManagement>
+		<dependencies>
+			<!-- overriding BOM of jackson -->
+			<dependency>
+				<groupId>com.fasterxml.jackson</groupId>
+				<artifactId>jackson-bom</artifactId>
+				<version>${jackson.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- BOM of devon4j -->
+			<dependency>
+				<groupId>com.devonfw.java.boms</groupId>
+				<artifactId>devon4j-bom</artifactId>
+				<version>${devon4j.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- BOM of spring-boot -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+	</dependencies>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<additionalDependencies>
+						<additionalDependency>
+							<groupId>javax.interceptor</groupId>
+							<artifactId>javax.interceptor-api</artifactId>
+							<version>1.2</version>
+						</additionalDependency>
+					</additionalDependencies>
+
+					<!--<notree>true</notree> -->
+					<show>private</show>
+					<encoding>${project.reporting.outputEncoding}</encoding>
+					<charset>${project.build.sourceEncoding}</charset>
+					<docfilessubdirs>true</docfilessubdirs>
+					<stylesheetfile>${user.dir}/src/main/javadoc/stylesheet.css</stylesheetfile>
+
+					<!--<additionalparam>-Xdoclint:none -source ${java.version}</additionalparam> -->
+					<links>
+						<link>http://docs.oracle.com/javase/7/docs/api/</link>
+						<link>http://www.devonfw.com/devon4j//</link>
+					</links>
+					<doctitle>JavaDocs for ${project.name}</doctitle>
+					<windowtitle>JavaDocs for ${project.name}</windowtitle>
+				</configuration>
+				<reportSets>
+
+					<reportSet>
+						<id>devon4j.javadoc</id>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+
+					<reportSet>
+						<id>devon4j.javadoc.aggregate</id>
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
