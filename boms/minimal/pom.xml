@@ -55,6 +55,16 @@
         <artifactId>devon4j-beanmapping</artifactId>
         <version>${project.version}</version>
       </dependency>
+       <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-beanmapping-dozer</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+       <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-beanmapping-orika</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-security</artifactId>
