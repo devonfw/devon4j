@@ -212,6 +212,68 @@ Show help::
 As you can the each invocation includes the jdbc connection string to your database.
 This means that you have to make sure that the corresponding DB driver is in the classpath (the prepared jar only contains H2).
 
+== Authentication
+
+Most business application incorporate authentication and autorisation.
+Your spring boot application will implement some kind of security, e.g. integrated login with username+password or in many cases authentication via an existing IAM.
+For security reasons your batch should also implement an authentication mechanism and obey the authorization implemented in your application (e.g. via @RolesAllowed).
+
+Since there are many different authentication mechanism we cannot provide an out-of-the-box solution in devonfw, but we describe a pattern who this can be implemeneted in devonfw batches.
+
+We suggest to implement the authentication in a Spring Batch Tasklet, which runs as the first step in your batch. This tasklet will do all of the work which is required to authenticate the batch. A simple example which authenticates the batch "locally" via username and password could be implemente like this:
+
+[source,java]
+----
+@Named
+public class SimpleAuthenticationTasklet implements Tasklet {
+
+  @Override
+  public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+
+    String username = chunkContext.getStepContext().getStepExecution().getJobParameters().getString("username");
+    String password = chunkContext.getStepContext().getStepExecution().getJobParameters().getString("password");
+    Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
+
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    return RepeatStatus.FINISHED;
+  }
+
+}
+----
+
+The username and password have to be supplied via two cli parameters `-username` and `-password`. This implementation creates an "authenticated" `Authentication` and sets in the Spring Security context. This is just for demonstration normally you should not provide passwords via commandline. The acutal authentication will be done automatically via Spring Security as in your "normal" application. 
+If you have a more complex authentication mechanism in your application e.g. via OpenID connect just call this in the tasklet. Naturally you may read authentication parameters (e.g. secrets) from the commandline or more securely from a configuration file.
+
+In your Job Configuration set this tasklet as the first step:
+
+[source,java]
+----
+@Configuration
+@EnableBatchProcessing
+public class BookingsExportBatchConfig {
+  @Inject
+  private JobBuilderFactory jobBuilderFactory;
+
+  @Inject
+  private StepBuilderFactory stepBuilderFactory;
+
+  @Bean
+  public Job myBatchJob() {
+    return this.jobBuilderFactory.get("myJob").start(myAuthenticationStep()).next(...).build();
+  }
+
+  @Bean
+  public Step myAuthenticationStep() {
+    return this.stepBuilderFactory.get("myAuthenticationStep").tasklet(myAuthenticatonTasklet()).build();
+  }
+
+  @Bean
+  public Tasklet myAuthenticatonTasklet() {
+    return new SimpleAuthenticationTasklet();
+  }
+...
+----
+
 == Tipps & tricks
 
 === Identifying job parameters
