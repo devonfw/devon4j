@@ -21,7 +21,7 @@
     </dependency>
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-beanmapping</artifactId>
+      <artifactId>devon4j-beanmapping-orika</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

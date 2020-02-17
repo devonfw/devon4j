@@ -177,13 +177,13 @@
       <dependency>
         <groupId>com.github.dozermapper</groupId>
         <artifactId>dozer-core</artifactId>
-        <version>6.4.1</version>
+        <version>6.5.0</version>
       </dependency>
       <!-- Orika for bean-mapping/conversion (Alternative to Dozer) -->
       <dependency>
         <groupId>ma.glasnost.orika</groupId>
         <artifactId>orika-core</artifactId>
-        <version>1.5.2</version>
+        <version>1.5.4</version>
       </dependency>
       <!-- JSR303 API for annotation based validation -->
       <dependency>
