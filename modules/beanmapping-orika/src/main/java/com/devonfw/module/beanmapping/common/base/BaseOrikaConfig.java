@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 
 import com.devonfw.module.basic.common.api.entity.GenericEntity;
 import com.devonfw.module.basic.common.api.to.AbstractEto;
+import com.devonfw.module.beanmapping.common.api.BeanMapper;
+import com.devonfw.module.beanmapping.common.impl.orika.BeanMapperImplOrika;
 import com.devonfw.module.beanmapping.common.impl.orika.CustomMapperEto;
 
 import ma.glasnost.orika.MapperFacade;
@@ -11,28 +13,39 @@ import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 
 /**
- * Base class which will add Custom Mapping for Entity to ETO. The method {@link #configureCustomMapping(MapperFactory)}
- * can be overridden as per requirements
+ * Base configuration for Orika {@link MapperFacade}.
  *
+ * @see #getOrika()
+ * @see #configureCustomMapping(MapperFactory)
  */
 public class BaseOrikaConfig {
 
   /**
-   * @return {@link MapperFacade}
+   * @return the {@link BeanMapper} implementation.
+   */
+  @Bean
+  public BeanMapper getBeanMapper() {
+
+    return new BeanMapperImplOrika();
+  }
+
+  /**
+   * @return the Orika {@link MapperFacade} required by
+   *         {@link com.devonfw.module.beanmapping.common.impl.orika.BeanMapperImplOrika}.
    */
   @Bean
   public MapperFacade getOrika() {
 
     MapperFactory factory = new DefaultMapperFactory.Builder().build();
-    // {@link #configureCustomMapping(MapperFactory)} can be overridden as per requirements
     MapperFacade orika = configureCustomMapping(factory).getMapperFacade();
     return orika;
   }
 
   /**
-   * Custom mapping for Entity to ETO
+   * Configures the Orika {@link MapperFacade}. By default it adds the custom mapping for {@link GenericEntity} to
+   * {@link AbstractEto} via {@link CustomMapperEto}. You may override to extend or replace the configuration.
    *
-   * @param factory
+   * @param factory the {@link MapperFacade} to configure.
    * @return {@link MapperFactory}
    */
   protected MapperFactory configureCustomMapping(MapperFactory factory) {

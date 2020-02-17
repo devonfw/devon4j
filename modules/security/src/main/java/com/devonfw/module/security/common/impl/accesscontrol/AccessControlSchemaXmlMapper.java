@@ -25,7 +25,6 @@ import com.devonfw.module.security.common.base.accesscontrol.AccessControlSchema
 /**
  * This class is a simple wrapper for {@link #read(InputStream) reading} and
  * {@link #write(AccessControlSchema, OutputStream) writing} the {@link AccessControlSchema} from/to XML.
- *
  */
 public class AccessControlSchemaXmlMapper implements AccessControlSchemaMapper {
 
@@ -135,14 +134,14 @@ public class AccessControlSchemaXmlMapper implements AccessControlSchemaMapper {
 
       if (event != null) {
         switch (event.getSeverity()) {
-        case ValidationEvent.ERROR:
-        case ValidationEvent.FATAL_ERROR:
-          throw new IllegalArgumentException(event.toString());
-        case ValidationEvent.WARNING:
-          LOG.warn(event.toString());
-          break;
-        default:
-          LOG.debug(event.toString());
+          case ValidationEvent.ERROR:
+          case ValidationEvent.FATAL_ERROR:
+            throw new IllegalArgumentException(event.toString());
+          case ValidationEvent.WARNING:
+            LOG.warn(event.toString());
+            break;
+          default:
+            LOG.debug(event.toString());
         }
       }
       return true;
