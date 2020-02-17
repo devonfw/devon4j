@@ -278,4 +278,4 @@ public class BookingsExportBatchConfig {
 
 === Identifying job parameters
 
-String uses a jobs parameters to identify https://docs.spring.io/spring-batch/docs/current/reference/html/domain.html#jobexecution[job executions]. Parameters starting with "-" are not considered for identifying a job execution.
+Spring uses a jobs parameters to identify https://docs.spring.io/spring-batch/docs/current/reference/html/domain.html#jobexecution[job executions]. Parameters starting with "-" are not considered for identifying a job execution.
