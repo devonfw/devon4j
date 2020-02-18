@@ -23,9 +23,7 @@
       <groupId>com.github.dozermapper</groupId>
       <artifactId>dozer-core</artifactId>
     </dependency>
-    <!-- 
-		    Dozer requires JAX-B what is not included in JDK since version 9+
-     -->
+    <!--  Dozer requires JAX-B what is not included in JDK since version 9+ -->
     <dependency>
       <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-runtime</artifactId>

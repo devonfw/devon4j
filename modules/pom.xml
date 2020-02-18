@@ -16,8 +16,8 @@
     <module>logging</module>
     <module>test</module>
     <module>beanmapping</module>
-	<module>beanmapping-orika</module>
-	<module>beanmapping-dozer</module>
+    <module>beanmapping-orika</module>
+    <module>beanmapping-dozer</module>
     <module>service</module>
     <module>json</module>
     <module>rest</module>
@@ -34,14 +34,14 @@
     <module>jpa-spring-data</module>
     <module>test-jpa</module>
     <module>batch</module>
-    <module>batch-tool</module>    
+    <module>batch-tool</module>
     <module>web</module>
     <module>basic</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
-    <!-- overriding BOM of jackson -->
+      <!-- overriding BOM of jackson -->
       <dependency>
         <groupId>com.fasterxml.jackson</groupId>
         <artifactId>jackson-bom</artifactId>
@@ -88,13 +88,13 @@
               <version>1.2</version>
             </additionalDependency>
           </additionalDependencies>
-          <!--<notree>true</notree>-->
+          <!--<notree>true</notree> -->
           <show>private</show>
           <encoding>${project.reporting.outputEncoding}</encoding>
           <charset>${project.build.sourceEncoding}</charset>
           <docfilessubdirs>true</docfilessubdirs>
           <stylesheetfile>${user.dir}/src/main/javadoc/stylesheet.css</stylesheetfile>
-          <!--<additionalparam>-Xdoclint:none -source ${java.version}</additionalparam>-->
+          <!--<additionalparam>-Xdoclint:none -source ${java.version}</additionalparam> -->
           <links>
             <link>http://docs.oracle.com/javase/7/docs/api/</link>
             <link>http://www.devonfw.com/devon4j//</link>

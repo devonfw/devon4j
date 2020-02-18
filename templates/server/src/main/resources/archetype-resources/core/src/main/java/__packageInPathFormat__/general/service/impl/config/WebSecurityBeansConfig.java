@@ -11,7 +11,6 @@ import ${package}.general.logic.impl.config.DefaultRolesPrefixPostProcessor;
 
 /**
  * This configuration class provides factory methods for several Spring security related beans.
- *
  */
 @Configuration
 public class WebSecurityBeansConfig {
