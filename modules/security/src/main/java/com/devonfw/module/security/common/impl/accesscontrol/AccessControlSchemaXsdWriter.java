@@ -5,7 +5,6 @@ import java.io.File;
 /**
  * This is a simple programm to generate (create or update) the XSD for the
  * {@link com.devonfw.module.security.common.api.accesscontrol.AccessControlSchema}.
- *
  */
 public class AccessControlSchemaXsdWriter extends AccessControlSchemaXmlMapper {
 

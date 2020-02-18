@@ -10,11 +10,13 @@ import java.util.Set;
 import com.devonfw.module.security.common.api.accesscontrol.PrincipalAccessControlProvider;
 
 /**
- * This is an implementation of {@link PrincipalAccessControlProvider} based on {@link Group}. Due to the confusing API of
- * {@link Group} that mixes a {@link Principal} with permissions and permission groups it is not commonly used even
+ * This is an implementation of {@link PrincipalAccessControlProvider} based on {@link Group}. Due to the confusing API
+ * of {@link Group} that mixes a {@link Principal} with permissions and permission groups it is not commonly used even
  * though it is available in the Java standard edition.
  *
+ * @deprecated since {@link Group} is deprecated, we also deprecate this class.
  */
+@Deprecated
 public class PrincipalGroupProviderGroupImpl implements PrincipalAccessControlProvider<Group> {
 
   /**
