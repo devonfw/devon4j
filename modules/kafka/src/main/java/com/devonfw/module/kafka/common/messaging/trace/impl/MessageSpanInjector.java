@@ -28,7 +28,6 @@ public class MessageSpanInjector implements TraceContext.Injector<MessageKafkaPa
       return;
     }
 
-    // payloadBuilder.header(MessageTraceHeaders.TRACE_ID_NAME, traceContext.traceIdString());
     if (this.diagnosticContextFacade.getCorrelationId() == null) {
       this.diagnosticContextFacade.setCorrelationId(UUID.randomUUID().toString());
     }
@@ -40,9 +39,6 @@ public class MessageSpanInjector implements TraceContext.Injector<MessageKafkaPa
 
     Optional.ofNullable(parentId).ifPresent(
         id -> payloadBuilder.header(MessageTraceHeaders.PARENT_ID_NAME, toLowerHex(traceContext.parentIdAsLong())));
-    // if (parentId != null) {
-    // payloadBuilder.header(MessageTraceHeaders.PARENT_ID_NAME, toLowerHex(traceContext.parentIdAsLong()));
-    // }
   }
 
 }

@@ -105,11 +105,6 @@ public class MessageListenerLoggingAspect {
       return;
     }
 
-    // MessageVersion version = MessageUtil.getMessageVersion(kafkaRecord);
-    // if (MessageVersion.V1 != version) {
-    // return;
-    // }
-
     MessageTraceSupport.startSpan(kafkaRecord, this.spanExtractor);
 
     Span span = this.tracer.currentSpan();

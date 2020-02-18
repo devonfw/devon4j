@@ -19,10 +19,10 @@
 	</properties>
 
  <dependencies>
-		<dependency>
+	<!--	<dependency 
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
-		</dependency>
+		</dependenc -->
 
 		<dependency>
 			<groupId>org.springframework.kafka</groupId>

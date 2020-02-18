@@ -68,7 +68,7 @@ public class MessageDefaultRetryConfig {
    * @return
    */
   @Bean
-  public MessageRetryTemplate xxxMessageDefaultRetryTemplate(
+  public MessageRetryTemplate messageDefaultRetryTemplate(
       @Qualifier("messageDefaultRetryPolicy") DefaultRetryPolicy retryPolicy,
       @Qualifier("messageDefaultBackOffPolicy") DefaultBackOffPolicy backOffPolicy,
       @Qualifier("messageSender") MessageSender sender) {

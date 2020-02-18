@@ -42,27 +42,12 @@ public final class MessageTraceSupport {
       return;
     }
 
-    // MessageVersion version = MessageUtil.getMessageVersion(kafkaRecord);
-    // if (MessageVersion.V1 != version) {
-    // return;
-    // }
-
     TraceContextOrSamplingFlags extracted = spanExtractor.extract(kafkaRecord);
 
     Optional.ofNullable(extracted).ifPresentOrElse(
         nonNull -> checkTraceHeadersAndSetContextAsSpanInScope(tracer, extracted),
         () -> getCurrentSpanAndLog(kafkaRecord, tracer));
 
-    // if (extracted != null) {
-    //
-    // // if (MDC.get(BraveMdcTraceNames.TRACE_ID_NAME) != null && extracted.context() != null
-    // // && !MDC.get(BraveMdcTraceNames.TRACE_ID_NAME).equals(extracted.context().traceIdString())) {
-    // checkTraceHeadersAndSetContextAsSpanInScope(tracer, extracted);
-    //
-    // } else {
-    //
-    // getCurrentSpanAndLog(kafkaRecord, tracer);
-    // }
   }
 
   /**

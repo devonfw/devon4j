@@ -44,32 +44,13 @@ public class MessageSenderImpl implements MessageSender {
 
   private MessageSpanInjector spanInjector;
 
-  // private MessageVersion messageFormatVersion;
-
   /**
    * The constructor.
    */
   public MessageSenderImpl() {
 
     super();
-    // this(MessageVersion.V2);
   }
-
-  /**
-   * The constructor.
-   *
-   * @param messageVersion
-   * @param diagnosticContextFacade
-   */
-  // public MessageSenderImpl(MessageVersion messageVersion) {
-  //
-  // Assert.isTrue(MessageVersion.V1 == messageVersion || MessageVersion.V2 == messageVersion,
-  // "The value of the 'messageVersion' parameter is" + messageVersion + ", Allowed values ​​are:"
-  // + MessageVersion.V1 + ", " + MessageVersion.V2);
-  //
-  // this.diagnosticContextFacade.setCorrelationId(UUID.randomUUID().toString());
-  // this.messageFormatVersion = messageVersion;
-  // }
 
   /**
    * @param senderProperties
@@ -140,13 +121,6 @@ public class MessageSenderImpl implements MessageSender {
     return createAndSendRecord(message, topic, null, null);
   }
 
-  // @Override
-  // public <T> ListenableFuture<SendResult<String, String>> sendMessage(Message<T> message)
-  // throws JsonProcessingException {
-  //
-  // return createAndSendRecord(message, null, null, null);
-  // }
-
   @Override
   public <T> void sendMessageAndWait(String topic, int partition, Message<T> message) throws Exception {
 
@@ -165,12 +139,6 @@ public class MessageSenderImpl implements MessageSender {
     createAndSendRecordWaited(message, topic, null, null, this.senderProperties.getDefaultSendTimeoutSeconds());
   }
 
-  // @Override
-  // public <T> void sendMessageAndWait(Message<T> message) throws Exception {
-  //
-  // createAndSendRecordWaited(message, null, null, null, this.senderProperties.getDefaultSendTimeoutSeconds());
-  // }
-
   @Override
   public <T> void sendMessageAndWait(String topic, int partition, Message<T> message, int timeout) throws Exception {
 
@@ -188,12 +156,6 @@ public class MessageSenderImpl implements MessageSender {
 
     createAndSendRecordWaited(message, topic, null, null, timeout);
   }
-
-  // @Override
-  // public <T> void sendMessageAndWait(Message<T> message, int timeout) throws Exception {
-  //
-  // createAndSendRecordWaited(message, null, null, null, timeout);
-  // }
 
   /**
    * @param <T>
@@ -274,10 +236,6 @@ public class MessageSenderImpl implements MessageSender {
     MessageKafkaPayloadBuilder<T> builder = MessageKafkaPayloadBuilder.with(this.jacksonMapper);
     builder.from(message);
 
-    // if (topic != null) {
-    // builder.topic(topic);
-    // }
-
     Optional.ofNullable(topic).ifPresent(value -> builder.topic(value));
 
     builder.partition(partition);
@@ -286,11 +244,6 @@ public class MessageSenderImpl implements MessageSender {
 
     builder.headers(message.getHeaders());
 
-    // if (MessageVersion.V1 == this.messageFormatVersion) {
-    //
-    // checkTracerCurrentSpanAndInject(builder);
-    // return builder.buildV1();
-    // }
     checkTracerCurrentSpanAndInject(builder);
     return builder.build();
   }

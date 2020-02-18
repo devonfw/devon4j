@@ -49,7 +49,6 @@ public class MessageParserImpl implements MessageParser {
     this.jacksonMapper = jacksonMapper;
   }
 
-  // @SuppressWarnings("unchecked")
   @Override
   public <T> Message<T> parseMessage(ConsumerRecord<String, String> consumerRecord, Class<T> payloadClass)
       throws Exception {
@@ -58,44 +57,7 @@ public class MessageParserImpl implements MessageParser {
       return null;
     }
 
-    // MessageVersion messageVersion = getMessageVersion(consumerRecord);
-
-    // if (messageVersion == MessageVersion.V1) {
     return parse(consumerRecord, payloadClass);
-    // }
-
-    // if (messageVersion != MessageVersion.V2) {
-    // throw new UnsupportedVersionException(messageVersion.toString());
-    // }
-
-    // Map<String, String> headers = new HashMap<>();
-    // Headers kafkaHeaders = consumerRecord.headers();
-    // Iterator<Header> headersIterator = kafkaHeaders.iterator();
-    //
-    // Header header;
-    //
-    // while (headersIterator.hasNext()) {
-    // header = headersIterator.next();
-    // headers.put(header.key(), getHeaderValue(kafkaHeaders, header.key()));
-    // }
-    //
-    // String pclValue = headers.get(MessageMetaData.SYSTEM_HEADER_KEY_PAYLOAD_CLASS);
-    // Class<?> valueType = payloadClass;
-    //
-    // if (!StringUtils.isEmpty(pclValue)) {
-    // valueType = getClassTypeOrThrowError(payloadClass, pclValue, valueType);
-    // }
-    //
-    // T payload = null;
-    // try {
-    // payload = (T) this.jacksonMapper.readValue(consumerRecord.value(), valueType);
-    // } catch (IOException e) {
-    // throw new IOException("incorrect value: " + "[" + consumerRecord.value() + "]", e);
-    // }
-    //
-    // parseKafkaMetaData(consumerRecord, headers);
-    //
-    // return new Message<>(payload, headers);
   }
 
   /**
@@ -142,10 +104,6 @@ public class MessageParserImpl implements MessageParser {
     if (StringUtils.isEmpty(markerRow) || !checkMessageMarker(markerRow)) {
       throw new IllegalArgumentException(consumerRecord.value());
     }
-
-    // if (!MessageMetaData.MESSAGE_MARKER_V1.equals(markerRow)) {
-    // throw new UnsupportedVersionException(markerRow);
-    // }
 
     Map<String, String> headers = new HashMap<>();
     headers.put(MessageMetaData.SYSTEM_HEADER_KEY_MESSAGE_ID, consumerRecord.key());

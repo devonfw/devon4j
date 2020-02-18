@@ -46,25 +46,4 @@ public class MessageUtil {
     return new String(header.value(), UTF_8);
   }
 
-  // /**
-  // * @param consumerRecord
-  // * @return
-  // */
-  // public static MessageVersion getMessageVersion(ConsumerRecord<String, String> consumerRecord) {
-  //
-  // if (consumerRecord == null) {
-  // return null;
-  // }
-  //
-  // String messageVersion = getHeaderValue(consumerRecord.headers(),
-  // MessageMetaData.SYSTEM_HEADER_KEY_MESSAGE_VERSION);
-  // if (messageVersion == null) {
-  // return MessageVersion.V1;
-  // }
-  // if (MessageVersion.V2.toString().equals(messageVersion)) {
-  // return MessageVersion.V2;
-  // }
-  // throw new UnsupportedVersionException(messageVersion);
-  // }
-
 }

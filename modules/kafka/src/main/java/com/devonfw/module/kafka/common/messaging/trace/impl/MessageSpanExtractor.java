@@ -31,10 +31,6 @@ public class MessageSpanExtractor implements Extractor<ConsumerRecord<String, St
 
     if (consumerRecord != null) {
 
-      // MessageVersion messageVersion = getMessageVersion(consumerRecord);
-      // if (messageVersion == MessageVersion.V1) {
-      // traceIdExists = extractV1(consumerRecord.value(), tcBuilder);
-      // } else {
       String traceId = getHeaderValue(consumerRecord.headers(), MessageTraceHeaders.TRACE_ID_NAME);
       if (traceId != null && !traceId.isEmpty()) {
         traceIdExists = true;
@@ -43,17 +39,10 @@ public class MessageSpanExtractor implements Extractor<ConsumerRecord<String, St
 
         Optional.ofNullable(spanId).ifPresent(id -> tcBuilder.spanId(lowerHexToUnsignedLong(id)));
 
-        // if (spanId != null) {
-        // tcBuilder.spanId(lowerHexToUnsignedLong(spanId));
-        // }
         String parentId = getHeaderValue(consumerRecord.headers(), MessageTraceHeaders.PARENT_ID_NAME);
 
         Optional.ofNullable(parentId).ifPresent(id -> tcBuilder.parentId(lowerHexToUnsignedLong(id)));
-        // if (parentId != null) {
-        // tcBuilder.parentId(lowerHexToUnsignedLong(parentId));
-        // }
       }
-      // }
     }
 
     if (traceIdExists) {
@@ -76,6 +65,7 @@ public class MessageSpanExtractor implements Extractor<ConsumerRecord<String, St
     }
 
     tcBuilder.traceId(lowerHexToUnsignedLong(headers.get(MessageTraceHeaders.TRACE_ID_NAME)));
+
     if (headers.containsKey(MessageTraceHeaders.SPAN_ID_NAME)) {
       tcBuilder.spanId(lowerHexToUnsignedLong(headers.get(MessageTraceHeaders.SPAN_ID_NAME)));
     }

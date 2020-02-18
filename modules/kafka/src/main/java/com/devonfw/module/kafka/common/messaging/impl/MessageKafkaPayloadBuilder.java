@@ -142,35 +142,6 @@ public class MessageKafkaPayloadBuilder<T> {
 
   /**
    * @return
-   * @throws KafkaPayloadBuilderException
-   */
-  // public ProducerRecord<String, String> buildV1() throws JsonProcessingException {
-  //
-  // if (ObjectUtils.isEmpty(this.payload)) {
-  // return null;
-  // }
-  //
-  // header(MessageMetaData.SYSTEM_HEADER_KEY_PAYLOAD_CLASS, this.payload.getClass().getName());
-  // header(MessageMetaData.SYSTEM_HEADER_KEY_PAYLOAD_TYPE, "application/json");
-  //
-  // StringBuilder payloadBuilder = new StringBuilder();
-  // payloadBuilder.append(MessageMetaData.MESSAGE_MARKER_V1).append('\n');
-  //
-  // this.headers.forEach((k, value) -> payloadBuilder.append(k).append(':').append(value).append('\n'));
-  //
-  // payloadBuilder.append('\n');
-  //
-  // try {
-  // payloadBuilder.append(this.jacksonMapper.writer().writeValueAsString(this.payload));
-  // } catch (JsonProcessingException e) {
-  // throw e;
-  // }
-  //
-  // return new ProducerRecord<>(this.topic, this.partition, this.key, payloadBuilder.toString());
-  // }
-
-  /**
-   * @return
    * @throws JsonProcessingException
    * @throws KafkaPayloadBuilderException
    */
@@ -189,7 +160,6 @@ public class MessageKafkaPayloadBuilder<T> {
 
     Headers kafkaHeaders = new RecordHeaders();
 
-    // addHeaderValue(kafkaHeaders, MessageMetaData.SYSTEM_HEADER_KEY_MESSAGE_VERSION, MessageVersion.V2.toString());
     addHeaderValue(kafkaHeaders, MessageMetaData.SYSTEM_HEADER_KEY_PAYLOAD_CLASS, this.payload.getClass().getName());
     addHeaderValue(kafkaHeaders, MessageMetaData.SYSTEM_HEADER_KEY_PAYLOAD_TYPE, "application/json");
 

@@ -4,16 +4,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-import com.devonfw.module.kafka.common.messaging.api.config.MessageReceiverConfig;
-import com.devonfw.module.kafka.common.messaging.api.config.MessageSenderConfig;
-import com.devonfw.module.kafka.common.messaging.trace.api.config.TraceConfig;
+import com.devonfw.example.base.config.TestMessageSenderConfig;
 
 /**
  * @author ravicm
  *
  */
 @SpringBootApplication
-@Import({ MessageSenderConfig.class, MessageReceiverConfig.class, TraceConfig.class })
+@Import({ TestMessageSenderConfig.class })
+// @Import({ MessageSenderConfig.class, MessageReceiverConfig.class, TraceConfig.class })
 public class TestApplication {
 
   /**

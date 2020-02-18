@@ -11,6 +11,9 @@ import org.slf4j.MDC;
 import org.springframework.kafka.support.ProducerListener;
 import org.springframework.util.ObjectUtils;
 
+import com.devonfw.module.logging.common.api.DiagnosticContextFacade;
+import com.devonfw.module.logging.common.impl.DiagnosticContextFacadeImpl;
+
 import brave.Tracer;
 import brave.propagation.TraceContext;
 
@@ -21,6 +24,8 @@ import brave.propagation.TraceContext;
 public class ProducerLoggingListener implements ProducerListener<String, String> {
 
   private static final Logger LOG = LoggerFactory.getLogger(ProducerLoggingListener.class);
+
+  private DiagnosticContextFacade diagnosticContextFacade = new DiagnosticContextFacadeImpl();
 
   private Tracer tracer;
 
@@ -58,7 +63,7 @@ public class ProducerLoggingListener implements ProducerListener<String, String>
     setMdc();
 
     this.loggingSupport.logMessageNotSent(LOG, key, topic, partition,
-        (exception != null ? exception.getLocalizedMessage() : "unbekannt"));
+        (exception != null ? exception.getLocalizedMessage() : "unknown"));
   }
 
   /**
@@ -76,7 +81,7 @@ public class ProducerLoggingListener implements ProducerListener<String, String>
     MDC.remove("spanId");
     MDC.remove("parentId");
 
-    MDC.put("traceId", traceContext.traceIdString());
+    MDC.put("traceId", this.diagnosticContextFacade.getCorrelationId());
     MDC.put("spanId", toLowerHex(traceContext.spanId()));
     Long parentId = traceContext.parentId();
 

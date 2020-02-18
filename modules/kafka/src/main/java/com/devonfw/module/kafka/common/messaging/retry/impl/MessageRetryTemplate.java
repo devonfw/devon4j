@@ -175,16 +175,6 @@ public class MessageRetryTemplate {
 
     result.setRetryNext(pBackOffPolicy.getNextRetryTimestamp(result.getRetryCount(), result.getRetryUntil()));
 
-    // if (e != null && e instanceof MessageRetryableException) {
-    // result.setRetryCheckpoint(((MessageRetryableException) e).getCheckpoint());
-
-    // ---------------------- Have a look on this ..
-    // if (e != null && e instanceof MessageRetryableException) {
-    // result.setRetryCheckpoint(((MessageRetryableException) e).getCheckpoint());
-    // } else {
-    // result.setRetryCheckpoint(null);
-    // }
-
     return result;
   }
 

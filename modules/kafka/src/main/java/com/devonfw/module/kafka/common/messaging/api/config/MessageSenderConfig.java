@@ -63,7 +63,7 @@ public class MessageSenderConfig {
    * @return the ProducerFactory
    */
   @Bean
-  public ProducerFactory<String, String> xxxMessageKafkaProducerFactory(
+  public ProducerFactory<String, String> messageKafkaProducerFactory(
       @Qualifier("messageKafkaCommonProperties") KafkaCommonProperties messageKafkaCommonProperties,
       @Qualifier("messageKafkaProducerProperties") KafkaProducerProperties messageKafkaProducerProperties) {
 
@@ -75,7 +75,7 @@ public class MessageSenderConfig {
    *
    * @param messageProducerLoggingListener the {@link #messageProducerLoggingListener(MessageLoggingSupport, Tracer)}
    * @param messageKafkaProducerFactory the
-   *        {@link #xxxMessageKafkaProducerFactory(KafkaCommonProperties, KafkaProducerProperties)}
+   *        {@link #messageKafkaProducerFactory(KafkaCommonProperties, KafkaProducerProperties)}
    *
    * @return the KafkaTemplate
    */
@@ -147,7 +147,6 @@ public class MessageSenderConfig {
    * @param producerFactory the {@link ProducerFactory}
    * @return KafkaTemplate
    */
-
   public static KafkaTemplate<String, String> createKafkaTemplate(ProducerLoggingListener producerLogListener,
       ProducerFactory<String, String> producerFactory) {
 

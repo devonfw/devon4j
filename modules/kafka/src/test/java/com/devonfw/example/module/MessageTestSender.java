@@ -38,8 +38,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 @ExtendWith(value = { SpringExtension.class })
 @SpringBootTest(classes = { TestMessageSenderConfig.class }, webEnvironment = WebEnvironment.NONE)
 @DirtiesContext
-// @EmbeddedKafka // not required when we instantiate it in config class.
-// @ContextConfiguration(classes = { TestMessageSenderConfig.class })
 @TestInstance(Lifecycle.PER_CLASS)
 public class MessageTestSender extends ComponentTest {
 
@@ -71,9 +69,7 @@ public class MessageTestSender extends ComponentTest {
     this.message.setTopic(testTopicNames[0]);
 
     Map<String, Object> consumerProperties = KafkaTestUtils.consumerProps(GROUP, "true", this.embeddedKafka);
-    // Map<String, Object> consumerProperties = new HashMap<>();
     consumerProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, this.embeddedKafka.getBrokersAsString());
-    // consumerProperties.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP);
     consumerProperties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
     consumerProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
@@ -122,30 +118,6 @@ public class MessageTestSender extends ComponentTest {
   /**
    * @throws JsonProcessingException
    */
-  // @Test
-  // public void shouldSendMessageToKafkaBroker_whenMessageIsGiven() throws JsonProcessingException {
-  //
-  // // Act
-  // this.messageSender.sendMessage(this.message);
-  //
-  // // Assert
-  // ConsumerRecords<String, String> records = KafkaTestUtils.getRecords(this.consumer);
-  //
-  // assertThat(records).isNotEmpty();
-  //
-  // Iterable<ConsumerRecord<String, String>> messageOfGivenTopic = records.records(testTopicNames[0]);
-  // assertThat(messageOfGivenTopic).isNotEmpty();
-  //
-  // messageOfGivenTopic.forEach(record -> {
-  // assertThat(record).isNotNull();
-  // assertThat(record.topic()).isEqualTo(this.message.getTopic());
-  // });
-  //
-  // }
-
-  /**
-   * @throws JsonProcessingException
-   */
   @Test
   public void shouldSendMessageToKafkaBroker_whenMessageAndTopicIsGiven() throws JsonProcessingException {
 
@@ -190,55 +162,6 @@ public class MessageTestSender extends ComponentTest {
     });
 
   }
-
-  /**
-   * @throws Exception
-   */
-  // @Test
-  // public void shouldSendMessageToKafkaBrokerAndWaitTillTimeout_whenMessageIsGiven() throws Exception {
-  //
-  // // Act
-  // this.messageSender.sendMessageAndWait(this.message);
-  //
-  // // Assert
-  // ConsumerRecords<String, String> records = KafkaTestUtils.getRecords(this.consumer);
-  //
-  // assertThat(records).isNotEmpty();
-  //
-  // Iterable<ConsumerRecord<String, String>> messageOfGivenTopic = records.records(testTopicNames[0]);
-  // assertThat(messageOfGivenTopic).isNotEmpty();
-  //
-  // messageOfGivenTopic.forEach(record -> {
-  // assertThat(record).isNotNull();
-  // assertThat(record.topic()).isEqualTo(this.message.getTopic());
-  // });
-  //
-  // }
-
-  /**
-   * @throws Exception
-   */
-  // @Test
-  // public void shouldSendMessageToKafkaBrokerAndWaitTillTimeout_whenMessageAndTimeoutIsGiven() throws Exception {
-  //
-  // // Act
-  // this.messageSender.sendMessageAndWait(this.message, 100);
-  // ;
-  //
-  // // Assert
-  // ConsumerRecords<String, String> records = KafkaTestUtils.getRecords(this.consumer);
-  //
-  // assertThat(records).isNotEmpty();
-  //
-  // Iterable<ConsumerRecord<String, String>> messageOfGivenTopic = records.records(testTopicNames[0]);
-  // assertThat(messageOfGivenTopic).isNotEmpty();
-  //
-  // messageOfGivenTopic.forEach(record -> {
-  // assertThat(record).isNotNull();
-  // assertThat(record.topic()).isEqualTo(this.message.getTopic());
-  // });
-  //
-  // }
 
   /**
    * @throws Exception

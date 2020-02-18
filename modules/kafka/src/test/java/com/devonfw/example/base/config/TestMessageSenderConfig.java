@@ -38,46 +38,12 @@ import kafka.server.KafkaConfig;
 @Configuration
 public class TestMessageSenderConfig {
 
-  /**
-   *
-   */
-  // private String bootstrapServers = System.getProperty("test.messaging.kafka.common.bootstrapServers");
-
-  // // @Autowired
-  // private EmbeddedKafkaBroker embeddedKafkaBroker;
-  //
-  // /**
-  // * @return embeddedKafkaBroker
-  // */
-  // public EmbeddedKafkaBroker getEmbeddedKafkaBroker() {
-  //
-  // return this.embeddedKafkaBroker;
-  // }
-
-  // /**
-  // * @param embeddedKafkaBroker
-  // */
-  // public void setEmbeddedKafkaBroker(EmbeddedKafkaBroker embeddedKafkaBroker) {
-  //
-  // this.embeddedKafkaBroker = embeddedKafkaBroker;
-  // }
-
   public static int port;
 
   /**
    * @return
    * @throws IOException
    */
-  // @Bean
-  // public static EmbeddedKafkaBroker broker() throws IOException {
-  //
-  // ServerSocket ss = ServerSocketFactory.getDefault().createServerSocket(0);
-  // port = ss.getLocalPort();
-  // ss.close();
-  //
-  // return new EmbeddedKafkaBroker(1, true, MessageTestSender.testTopicNames[0]).kafkaPorts(port);
-  // }
-
   @Bean
   public EmbeddedKafkaBroker broker() throws IOException {
 
@@ -90,7 +56,7 @@ public class TestMessageSenderConfig {
    * @throws IOException
    */
   @Bean
-  public KafkaCommonProperties xxxMessageKafkaCommonProperties() throws IOException {
+  public KafkaCommonProperties testMessageKafkaCommonProperties() throws IOException {
 
     KafkaCommonProperties kafkaCommonProperties = new KafkaCommonProperties();
     kafkaCommonProperties.setBootstrapServers(broker().getBrokersAsString());
@@ -102,7 +68,7 @@ public class TestMessageSenderConfig {
    * @return
    */
   @Bean
-  public MessageLoggingSupport xxxMessageLoggingSupport() {
+  public MessageLoggingSupport testMessageLoggingSupport() {
 
     return new MessageLoggingSupport();
   }
@@ -111,32 +77,32 @@ public class TestMessageSenderConfig {
    * @return
    */
   @Bean
-  public KafkaHealthIndicatorProperties xxxMessageKafkaHealthIndicatorProperties() {
+  public KafkaHealthIndicatorProperties testMessageKafkaHealthIndicatorProperties() {
 
     return new KafkaHealthIndicatorProperties();
   }
 
   /**
-   * @param xxxMessageKafkaHealthIndicatorProperties
-   * @param xxxMessageKafkaCommonProperties
-   * @param xxxKafkaConsumerProperty
+   * @param testMessageKafkaHealthIndicatorProperties
+   * @param testMessageKafkaCommonProperties
+   * @param testKafkaConsumerProperty
    * @return
    */
   @Bean
   public KafkaHealthIndicator kafkaHealthIndicator(
-      @Qualifier("xxxMessageKafkaHealthIndicatorProperties") KafkaHealthIndicatorProperties xxxMessageKafkaHealthIndicatorProperties,
-      @Qualifier("xxxMessageKafkaCommonProperties") KafkaCommonProperties xxxMessageKafkaCommonProperties,
-      @Qualifier("xxxKafkaConsumerProperty") KafkaConsumerProperties xxxKafkaConsumerProperty) {
+      @Qualifier("testMessageKafkaHealthIndicatorProperties") KafkaHealthIndicatorProperties testMessageKafkaHealthIndicatorProperties,
+      @Qualifier("testMessageKafkaCommonProperties") KafkaCommonProperties testMessageKafkaCommonProperties,
+      @Qualifier("testKafkaConsumerProperty") KafkaConsumerProperties testKafkaConsumerProperty) {
 
-    return new KafkaHealthIndicator(createConsumerFactory(xxxMessageKafkaCommonProperties, xxxKafkaConsumerProperty),
-        xxxMessageKafkaHealthIndicatorProperties);
+    return new KafkaHealthIndicator(createConsumerFactory(testMessageKafkaCommonProperties, testKafkaConsumerProperty),
+        testMessageKafkaHealthIndicatorProperties);
   }
 
   /**
    * @return
    */
   @Bean
-  public KafkaConsumerProperties xxxKafkaConsumerProperty() {
+  public KafkaConsumerProperties testKafkaConsumerProperty() {
 
     KafkaConsumerProperties kafkaConsumerProperties = new KafkaConsumerProperties();
     kafkaConsumerProperties.setGroupId("test-group");
@@ -163,7 +129,7 @@ public class TestMessageSenderConfig {
    * @return
    */
   @Bean
-  public KafkaProducerProperties xxxMessageKafkaProducerProperties() {
+  public KafkaProducerProperties testMessageKafkaProducerProperties() {
 
     KafkaProducerProperties kafkaProducerproperties = new KafkaProducerProperties();
     kafkaProducerproperties.setKeySerializer("org.apache.kafka.common.serialization.StringSerializer");
@@ -176,22 +142,22 @@ public class TestMessageSenderConfig {
    * @return
    */
   @Bean
-  public MessageSenderProperties xxxMessageSenderProperties() {
+  public MessageSenderProperties testMessageSenderProperties() {
 
     return new MessageSenderProperties();
   }
 
   /**
-   * @param xxxMessageKafkaCommonProperties
-   * @param xxxMessageKafkaProducerProperties
+   * @param testMessageKafkaCommonProperties
+   * @param testMessageKafkaProducerProperties
    * @return
    */
   @Bean
-  public ProducerFactory<String, String> xxxMessageKafkaProducerFactory(
-      @Qualifier("xxxMessageKafkaCommonProperties") KafkaCommonProperties xxxMessageKafkaCommonProperties,
-      @Qualifier("xxxMessageKafkaProducerProperties") KafkaProducerProperties xxxMessageKafkaProducerProperties) {
+  public ProducerFactory<String, String> testMessageKafkaProducerFactory(
+      @Qualifier("testMessageKafkaCommonProperties") KafkaCommonProperties testMessageKafkaCommonProperties,
+      @Qualifier("testMessageKafkaProducerProperties") KafkaProducerProperties testMessageKafkaProducerProperties) {
 
-    return createProducerFactory(xxxMessageKafkaCommonProperties, xxxMessageKafkaProducerProperties);
+    return createProducerFactory(testMessageKafkaCommonProperties, testMessageKafkaProducerProperties);
   }
 
   /**
@@ -206,17 +172,18 @@ public class TestMessageSenderConfig {
     return new DefaultKafkaProducerFactory<>(mapper.producerProperties(kafkaCommonProperties, kafkaProducerProperties));
   }
 
+  //
   /**
-   * @param xxxMessageProducerLoggingListener
-   * @param xxxMessageKafkaProducerFactory
+   * @param testMessageProducerLoggingListener
+   * @param testMessageKafkaProducerFactory
    * @return
    */
   @Bean
-  public KafkaTemplate<String, String> xxxMessageKafkaTemplate(
-      @Qualifier("xxxMessageProducerLoggingListener") ProducerLoggingListener xxxMessageProducerLoggingListener,
-      @Qualifier("xxxMessageKafkaProducerFactory") ProducerFactory<String, String> xxxMessageKafkaProducerFactory) {
+  public KafkaTemplate<String, String> testMessageKafkaTemplate(
+      @Qualifier("testMessageProducerLoggingListener") ProducerLoggingListener testMessageProducerLoggingListener,
+      @Qualifier("testMessageKafkaProducerFactory") ProducerFactory<String, String> testMessageKafkaProducerFactory) {
 
-    return createKafkaTemplate(xxxMessageProducerLoggingListener, xxxMessageKafkaProducerFactory);
+    return createKafkaTemplate(testMessageProducerLoggingListener, testMessageKafkaProducerFactory);
   }
 
   /**
@@ -224,7 +191,6 @@ public class TestMessageSenderConfig {
    * @param producerFactory
    * @return
    */
-
   public static KafkaTemplate<String, String> createKafkaTemplate(ProducerLoggingListener producerLogListener,
       ProducerFactory<String, String> producerFactory) {
 
@@ -237,47 +203,47 @@ public class TestMessageSenderConfig {
    * @return
    */
   @Bean
-  public ObjectMapper xxxObjectMapper() {
+  public ObjectMapper testObjectMapper() {
 
     return new ObjectMapper();
   }
 
   /**
-   * @param xxxObjectMapper
-   * @param xxxMessageKafkaTemplate
-   * @param xxxMessageLoggingSupport
-   * @param xxxMessageSenderProperties
+   * @param testObjectMapper
+   * @param testMessageKafkaTemplate
+   * @param testMessageLoggingSupport
+   * @param testMessageSenderProperties
    * @param spanInjector
    * @param tracer
    * @return
    */
   @Bean
-  public MessageSenderImpl xxxMessageSender(@Qualifier("xxxObjectMapper") ObjectMapper xxxObjectMapper,
-      @Qualifier("xxxMessageKafkaTemplate") KafkaTemplate<String, String> xxxMessageKafkaTemplate,
-      @Qualifier("xxxMessageLoggingSupport") MessageLoggingSupport xxxMessageLoggingSupport,
-      @Qualifier("xxxMessageSenderProperties") MessageSenderProperties xxxMessageSenderProperties,
+  public MessageSenderImpl testMessageSender(@Qualifier("testObjectMapper") ObjectMapper testObjectMapper,
+      @Qualifier("testMessageKafkaTemplate") KafkaTemplate<String, String> testMessageKafkaTemplate,
+      @Qualifier("testMessageLoggingSupport") MessageLoggingSupport testMessageLoggingSupport,
+      @Qualifier("testMessageSenderProperties") MessageSenderProperties testMessageSenderProperties,
       @Autowired(required = false) MessageSpanInjector spanInjector, @Autowired(required = false) Tracer tracer) {
 
     MessageSenderImpl bean = new MessageSenderImpl();
-    bean.setJacksonMapper(xxxObjectMapper);
-    bean.setKafkaTemplate(xxxMessageKafkaTemplate);
-    bean.setLoggingSupport(xxxMessageLoggingSupport);
-    bean.setSenderProperties(xxxMessageSenderProperties);
+    bean.setJacksonMapper(testObjectMapper);
+    bean.setKafkaTemplate(testMessageKafkaTemplate);
+    bean.setLoggingSupport(testMessageLoggingSupport);
+    bean.setSenderProperties(testMessageSenderProperties);
     bean.setSpanInjector(spanInjector);
     bean.setTracer(tracer);
     return bean;
   }
 
   /**
-   * @param xxxMessageLoggingSupport
+   * @param messageLoggingSupport
    * @param tracer
    * @return
    */
   @Bean
-  public ProducerLoggingListener xxxMessageProducerLoggingListener(MessageLoggingSupport xxxMessageLoggingSupport,
+  public ProducerLoggingListener testMessageProducerLoggingListener(MessageLoggingSupport messageLoggingSupport,
       @Autowired(required = false) Tracer tracer) {
 
-    return new ProducerLoggingListener(xxxMessageLoggingSupport, tracer);
+    return new ProducerLoggingListener(messageLoggingSupport, tracer);
   }
 
 }

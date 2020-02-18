@@ -13,8 +13,6 @@ public class MessageMetaData {
 
   public static final String MESSAGE_MARKER = "message:";
 
-  // public static final String MESSAGE_MARKER_V1 = MESSAGE_MARKER + MessageVersion.V1.toString();
-
   public static final String SYSTEM_HEADER_KEY_MESSAGE_VERSION = "imv";
 
   public static final String SYSTEM_HEADER_KEY_MESSAGE_ID = "messageId";
