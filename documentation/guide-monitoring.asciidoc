@@ -96,6 +96,42 @@ The healthcheck should a return a simple OK/NOK result for use in dashboards, an
 
 To implement a monitoring API for your systems we suggest to use link:https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html[Spring Boot Actuator]. Actuator offers APIs which provide monitoring information including metrics via HTTP and JMX. It also contains a framework to implement xref:health[health checks].
 Please consult the original documentation for information about how to use it.
+Basically to use it by adding the following dependency to the `pom.xml` of your application core:
+
+[source,xml]
+----
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+</dependencies>
+----
+
+There will be several link:https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-endpoints[endpoints] with monitoring information available out-of-the-box.
+We *strongly* advice to check carefully which information is required in your context, normally this is `ìnfo`, `health` and `metrics`. Be careful not to expose any security related information via this mechanismen (e.g. by exposing those endpoints externally).
+
+To make the info-endpoint useful you need to provide information to actuactor. A goodway to achive this is by using the provided link:https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto-automatic-expansion[maven module].
+
+For first steps it might be useful to deactive security for the actuator endpoints (this is *just for testing*, *never release it!*). This can be accomblished by implementing the following class:
+
+[source, java]
+----
+@Configuration
+@EnableWebSecurity
+@Profile(SpringProfileConstants.NOT_JUNIT)
+public class WebSecurityConfig extends BaseWebSecurityConfig {
+
+  @Override
+  public void configure(WebSecurity web) throws Exception {
+
+    super.configure(web);
+    web.ignoring().requestMatchers(EndpointRequest.toAnyEndpoint());
+  }
+
+}
+----
+
 
 === Devonfw additions
 
