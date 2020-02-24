@@ -3,8 +3,8 @@ toc::[]
 
 = Monitoring
 
-Monitoring is a very comprehensive topic. For devon4j we will focus on selected core topics which are most important when developing production-ready applications.
-On a high level view we strongly suggest to separate the application to be monitoring from the "monitoring tool" itself.
+Monitoring is a very comprehensive topic. For `devon4j` we focus on selected core topics which are most important when developing production-ready applications.
+On a high level view we strongly suggest to separate the application to be monitored from the `monitoring system` itself.
 The monitoring system covers aspects like
 
 - Collect monitoring information
@@ -12,14 +12,14 @@ The monitoring system covers aspects like
 - Provide alarms
 - ...
 
-In distributed systems it is crucial that a monitoring systems provides a central overview over all applications in your application landscape. So it is not feasible to provide a monitoring system as part of your application. Your application is responsible for providing information to the monitoring system.
+In distributed systems it is crucial that a monitoring system provides a central overview over all applications in your application landscape. So it is not feasible to provide a monitoring system as part of your application. Your application is responsible for providing information to the monitoring system.
 
 == How to provide monitoring information
 
 === Java Management Extensions (JMX)
 
-JMX is the official java monitoring solution. It is part of the JDK. Your application may provide monitoring information or receive monitoring related commands via MBeans. There is a huge amount of information about JMX available. A good starting point might be link:https://en.wikipedia.org/wiki/Java_Management_Extensions:[Wikipedia].
-Traditionally JMX uses RMI for communication. In many environments HTTP is preffered, so be careful on deciding if JMX is the right solution.
+JMX is the official java monitoring solution. It is part of the JDK. Your application may provide monitoring information or receive monitoring related commands via `MBeans`. There is a huge amount of information about JMX available. A good starting point might be link:https://en.wikipedia.org/wiki/Java_Management_Extensions:[JMX on wikipedia].
+Traditionally JMX uses RMI for communication. In many environments HTTP(S) is preferred, so be careful on deciding if JMX is the right solution.
 Alternativly your application could provide a monitoring API via REST.
 
 === REST APIs
@@ -28,7 +28,7 @@ Since REST APIs are very popular it is quite natural to provide monitoring infor
 
 === Logging
 
-Some aspects of monitoring are covered by "logging". A typical case might be the requirement to "monitor" the application your REST APIs. For that it is perfectly fine to log the perfomance of all (or some) request and ship this information to a logging system like link:www.graylog.org[Graylog]. So please carefully read the link:guide-logging.asciidoc[logging guide]. To allow efficient processing of those logs you should use JSON based logs.
+Some aspects of monitoring are covered by "logging". A typical case might be the requirement to "monitor" the application REST APIs. For that it is perfectly fine to log the perfomance of all (or some) request and ship this information to a logging system like link:www.graylog.org[Graylog]. So please carefully read the link:guide-logging.asciidoc[logging guide]. To allow efficient processing of those logs you should use JSON based logs.
 
 == Which monitoring informaton to provide?
 
@@ -64,11 +64,11 @@ Metric means providing key figures about your applications like
 ** ...
 * ...
 
-Remember that processing of this data should be done mainly in the monitoring system. You might have noticed that there are different types of metrics those that represent current values (like JVM heap usage, queue length, ...), others base on (timed) events like (duration of requests). Handling of different types of metrics might be different. 
+Remember that processing of this data should be done mainly in the monitoring system. You might have noticed that there are different types of metrics: those that represent current values (like JVM heap usage, queue length, ...), others base on (timed) events like (duration of requests). Handling of different types of metrics might be different. 
 For handling events you may:
 
 * Write log statements for each (or a sample of) event. These logs must then be shipped to your monitoring systems.
-* Send data for the event via an API of your monitoring systems
+* Send data for the event via an API of your monitoring system
 * Provide a REST API (or JMX MBeans) with pre-aggregated key figures, which is periodically polled by your monitoring system. This solution is a bit inferior since the aggregation is part of your application and might not fit to the desired visualization in your monitoring systems.
 
 For actual values you may:
@@ -80,7 +80,7 @@ For actual values you may:
 [health]
 === Health (Watchdog)
 
-For monitoring a complex application landscaper it is crucial to have a exact overview if all applications are up and running. So your application should offer an API for the monitoring systems which allows to easily check if the application is alive. Often this alive information is polled by the monitoring systems with a kind of watchdog.
+For monitoring a complex application landscape it is crucial to have an exact overview if all applications are up and running. So your application should offer an API for the monitoring system which allows to easily check if the application is alive. Often this alive information is polled by the monitoring system with a kind of watchdog.
 The health check should include checks if the application is working "correctly". For that we suggest to check if all required neighbour systems and infrastructure components are usable:
 
 * Check if your database can be queried (with a dummy query)
@@ -89,14 +89,13 @@ The health check should include checks if the application is working "correctly"
 
 You should be very careful to not cascade those requests, e.g. your system should only test their direct neighbours. This test should not lead to additional tests in these systems.
 
-The healthcheck should a return a simple OK/NOK result for use in dashboards, and may addtionally include detail results for each check.
-
+The healthcheck should return a simple OK/NOK result for use in dashboards, but addtionally include detailed results for each check.
 
 == Implementation with Spring Boot Actuator
 
 To implement a monitoring API for your systems we suggest to use link:https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html[Spring Boot Actuator]. Actuator offers APIs which provide monitoring information including metrics via HTTP and JMX. It also contains a framework to implement xref:health[health checks].
 Please consult the original documentation for information about how to use it.
-Basically to use it by adding the following dependency to the `pom.xml` of your application core:
+Basically to use it, add the following dependency to the `pom.xml` of your application core:
 
 [source,xml]
 ----
@@ -111,7 +110,7 @@ Basically to use it by adding the following dependency to the `pom.xml` of your 
 There will be several link:https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-endpoints[endpoints] with monitoring information available out-of-the-box.
 We *strongly* advice to check carefully which information is required in your context, normally this is `ìnfo`, `health` and `metrics`. Be careful not to expose any security related information via this mechanismen (e.g. by exposing those endpoints externally).
 
-To make the info-endpoint useful you need to provide information to actuactor. A goodway to achive this is by using the provided link:https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto-automatic-expansion[maven module].
+To make the info-endpoint useful you need to provide information to actuactor. A good way to achive this is by using the provided link:https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto-automatic-expansion[maven module].
 
 For first steps it might be useful to deactive security for the actuator endpoints (this is *just for testing*, *never release it!*). This can be accomblished by implementing the following class:
 
@@ -148,4 +147,4 @@ To configure this you may use the healthcheck of the service to find out if the 
 
 === Docker
 
-Docker supports a link:https://docs.docker.com/engine/reference/builder/#healthcheck[healtcheck]. You may but a simple local curl to your application here to find out if the service is healthy or not. But be careful often unhealthy containers are automatically restarted. If you use the xref:health[health information] of your application this may lead to undesired effects. Since the health checks rellies on querying all neighbour systems and infrastucure components, applications often become unhealthy because of 3rd system has problems. Restarting the application itself will not heal the problem and be inexpedient. So generally it is better you query the info endpoint of your application to just check if the service itself is up and running.  
+Docker supports a link:https://docs.docker.com/engine/reference/builder/#healthcheck[healtcheck]. You may use a simple local `curl` to your application here to find out if the service is healthy or not. But be careful often unhealthy containers are automatically restarted. If you use the xref:health[health information] of your application this may lead to undesired effects. Since the health checks relies on querying all neighbour systems and infrastucure components, applications often become unhealthy because a 3rd system has problems. Restarting the application itself will not heal the problem and be inexpedient. So generally it is better you query the info endpoint of your application to just check if the service itself is up and running.  
