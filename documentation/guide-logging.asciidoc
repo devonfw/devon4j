@@ -111,34 +111,4 @@ In order to correlate separate HTTP requests to services belonging to the same u
 == Monitoring
 In highly distributed systems (from clustering up to microservices) it might get tedious to search for problems and details in log files. Therefore, we recommend to setup a central log and analysis server for your application landscape. Then you feed the logs from all your applications (using http://logstash.net/[logstash]) into that central server that adds them to a search index to allow fast searches (using http://www.elasticsearch.org/[elasticsearch]). This should be completed with a UI that allows dashboards and reports based on data aggregated from all the logs.
 This is addressed by https://www.elastic.co/webinars/introduction-elk-stack[ELK] or https://www.graylog.org/[Graylog].
-
-=== Adding custom values to JSON log
-
-When you use a external system for gathering distrubited logs, we strongly suggest that you use a JSON based log format (e.g. by using the provided `logback.xml`, see above).
-In that case it might be useful to log customs field to the produced JSON. This is fully supported by slf4j together with logstash. The _trick_ is to use the class `net.logstash.logback.argument.StructuredArguments` for adding the arguments to you log message, e.g.
-
-[source,java]
-----
-import static net.logstash.logback.argument.StructuredArguments.v;
-
-...
-
-  public void processMessage(MyMessage msg) {
-    LOG.info("Processing message with {}", v("msgId", msg.getId());
-  ...
-  }
-----
  
-This will produce something like:
-[source,javascript]
-----
-{ "timestamp":"2018-11-06T18:36:37.638+00:00",
-  "@version":"1",
-  "message":"Processing message with msgId=MSG-999-000",
-  "msgId":"MSG-999-000",
-  "logger_name":"com.myapplication...Processor",
-  "thread_name":"http-nio-8081-exec-6",
-  "level":"INFO",
-  "level_value":20000,
-  "appname":"basic",}
-----
