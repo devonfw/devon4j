@@ -87,7 +87,7 @@ To allow an easy xref:start-batch[start of the batches] from the command line it
           </excludes>
         </configuration>
       </plugin>
-      <!-- Create bootified jar for batch execution via commmand line.
+      <!-- Create bootified jar for batch execution via command line.
            Your applications spring boot app is used as main-class.
        -->
       <plugin>
@@ -128,7 +128,7 @@ java -jar <app>-batch-<version>-bootified.jar --spring.main.web-application-type
 |Parameter |Explanation
 |`--spring.main.web-application-type=none`| This disables the web app (e.g. Tomcat) 
 |`--spring.batch.job.names=<myJob>`| This specifies the name of the job to run. If you leave this out ALL jobs will be executed. Which probably does not make to much sense.
-|`<params>`| (Optional) additonal parameters which are passed to your job
+|`<params>`| (Optional) additional parameters which are passed to your job
 |===
 
 This will launch your normal spring boot app, disables the web application part and runs the designated job via Spring Boots `org.springframework.boot.autoconfigure.batch.JobLauncherCommandLineRunner`.
@@ -160,9 +160,9 @@ For that you need some logic to start at the desired offset. There different way
 
 === Using spring batch ExecutionContext for restarts
 
-By implementing the `ÌteamStream` interface in your `ItemReader` or `ItemWriter` you may store information about the batch progress in the `ExecutionContext`. You will find an example for that in the CountJob in My Thai Star.
+By implementing the `ItemStream` interface in your `ItemReader` or `ItemWriter` you may store information about the batch progress in the `ExecutionContext`. You will find an example for that in the CountJob in My Thai Star.
 
-Addtional hint: It is important that bean definition method of your `ItemReader`/`ItemWriter` return types implementing `ItemStream`(and not just `ItemReader` or `ItemWriter` alone). For that the `ItemStreamReder` and `ItemStreamWriter` interfaces are provided.
+Additional hint: It is important that bean definition method of your `ItemReader`/`ItemWriter` return types implementing `ItemStream`(and not just `ItemReader` or `ItemWriter` alone). For that the `ItemStreamReader` and `ItemStreamWriter` interfaces are provided.
 
 == Exit codes
 
@@ -192,7 +192,7 @@ public class SpringBootApp {
 Spring batch uses several database tables to store the status of batch executions.
 Each execution may have link:https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#jobexecution[different status].
 You may use this mechanism to link:https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#stoppingAJob[gracefully stop batches].
-Additonally in some edge cases (batch process crashed) the execution status may be in an undesired state.
+Additionally in some edge cases (batch process crashed) the execution status may be in an undesired state.
 E.g. the state will be running, despite the process crashed sometime ago.
 For that cases you have to change the status of the execution in the database.
 
@@ -209,18 +209,18 @@ Stop job named 'countJob'::
 Show help::
 `java -D\'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar devon4j-batch-tool.jar`
 
-As you can the each invocation includes the jdbc connection string to your database.
+As you can the each invocation includes the JDBC connection string to your database.
 This means that you have to make sure that the corresponding DB driver is in the classpath (the prepared jar only contains H2).
 
 == Authentication
 
-Most business application incorporate authentication and autorisation.
+Most business application incorporate authentication and authorization.
 Your spring boot application will implement some kind of security, e.g. integrated login with username+password or in many cases authentication via an existing IAM.
 For security reasons your batch should also implement an authentication mechanism and obey the authorization implemented in your application (e.g. via @RolesAllowed).
 
-Since there are many different authentication mechanism we cannot provide an out-of-the-box solution in devonfw, but we describe a pattern who this can be implemeneted in devonfw batches.
+Since there are many different authentication mechanism we cannot provide an out-of-the-box solution in devonfw, but we describe a pattern how this can be implemented in devonfw batches.
 
-We suggest to implement the authentication in a Spring Batch Tasklet, which runs as the first step in your batch. This tasklet will do all of the work which is required to authenticate the batch. A simple example which authenticates the batch "locally" via username and password could be implemente like this:
+We suggest to implement the authentication in a Spring Batch tasklet, which runs as the first step in your batch. This tasklet will do all of the work which is required to authenticate the batch. A simple example which authenticates the batch "locally" via username and password could be implemented like this:
 
 [source,java]
 ----
@@ -241,8 +241,8 @@ public class SimpleAuthenticationTasklet implements Tasklet {
 }
 ----
 
-The username and password have to be supplied via two cli parameters `-username` and `-password`. This implementation creates an "authenticated" `Authentication` and sets in the Spring Security context. This is just for demonstration normally you should not provide passwords via commandline. The acutal authentication will be done automatically via Spring Security as in your "normal" application. 
-If you have a more complex authentication mechanism in your application e.g. via OpenID connect just call this in the tasklet. Naturally you may read authentication parameters (e.g. secrets) from the commandline or more securely from a configuration file.
+The username and password have to be supplied via two cli parameters `-username` and `-password`. This implementation creates an "authenticated" `Authentication` and sets in the Spring Security context. This is just for demonstration normally you should not provide passwords via command line. The actual authentication will be done automatically via Spring Security as in your "normal" application. 
+If you have a more complex authentication mechanism in your application e.g. via OpenID connect just call this in the tasklet. Naturally you may read authentication parameters (e.g. secrets) from the command line or more securely from a configuration file.
 
 In your Job Configuration set this tasklet as the first step:
 
