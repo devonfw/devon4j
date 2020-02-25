@@ -1,5 +1,0 @@
-= Coding Conventions
-
-include::coding-conventions.asciidoc[leveloffset=1]
-
-<<<<

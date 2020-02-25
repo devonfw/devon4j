@@ -1,7 +1,0 @@
-= Architecture
-
-include::architecture.asciidoc[leveloffset=1]
-
-<<<<
-
-include::guide-component.asciidoc[leveloffset=2]
