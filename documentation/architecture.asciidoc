@@ -83,9 +83,9 @@ Within a business component a component part can call the next component part on
 While this is natural and obvious it is generally forbidden to have dependencies upwards the layers
 or to skip a layer by a direct dependency on a component part two or more layers below.
 The general dependencies allowed between business components are defined by the xref:business-architecture[business architecture].
-In our reference architecture diagram we assume that the business component `X` is allowed to depend
-on component `A`. Therefore a use-case within the logic component part of `X` is allowed to call a 
-use-case from `A` via a dependency on the component API. The same applies for dialogs on the client layer.
+In our reference architecture diagram we assume that the business component `A1` is allowed to depend
+on component `A2`. Therefore a use-case within the logic component part of `A1` is allowed to call a 
+use-case from `A2` via a dependency on the component API. The same applies for dialogs on the client layer.
 This is illustrated by the horizontal connectors. Please note that link:guide-jpa.asciidoc#entity[persistence entities] are part of the API of the data-access component part so only the logic component part of the same
 business component may depend on them.
 
