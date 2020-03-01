@@ -6,7 +6,7 @@ import org.springframework.security.jwt.crypto.sign.Signer;
 /**
  * Interface used in the Signing or Verification process of a Token
  *
- * @since 3.2.0
+ * @since 3.3.0
  */
 public interface JwtSignatureAlgorithm {
 

@@ -11,12 +11,13 @@ import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
 import org.springframework.security.jwt.crypto.sign.Signer;
 
-import com.devonfw.module.security.keystore.config.KeyStoreAccess;
+import com.devonfw.module.security.keystore.config.KeyStoreAccessFactory;
+import com.devonfw.module.security.keystore.config.KeyStoreConfigProperties;
 
 /**
  * Implementation of {@link JwtSignatureAlgorithm}
  *
- * @since 3.2.0
+ * @since 3.3.0
  *
  */
 @Named
@@ -25,7 +26,10 @@ public class RsaJwtSignatureAlgorithmImpl implements JwtSignatureAlgorithm {
   private final static String ALGORITHM = "RSA";
 
   @Inject
-  private KeyStoreAccess keyStoreAccess;
+  private KeyStoreAccessFactory keyStoreAccessFactory;
+
+  @Inject
+  private KeyStoreConfigProperties keyStoreConfigProperties;
 
   @Override
   public String getName() {
@@ -36,13 +40,15 @@ public class RsaJwtSignatureAlgorithmImpl implements JwtSignatureAlgorithm {
   @Override
   public Signer createSigner() {
 
-    return new RsaSigner((RSAPrivateKey) this.keyStoreAccess.getPrivateKey());
+    return new RsaSigner((RSAPrivateKey) this.keyStoreAccessFactory
+        .getKeys(this.keyStoreConfigProperties.getKeyStoreAlias()).getPrivateKey());
   }
 
   @Override
   public SignatureVerifier createVerifier() {
 
-    return new RsaVerifier((RSAPublicKey) this.keyStoreAccess.getPublicKey());
+    return new RsaVerifier((RSAPublicKey) this.keyStoreAccessFactory
+        .getKeys(this.keyStoreConfigProperties.getKeyStoreAlias()).getPublicKey());
   }
 
 }

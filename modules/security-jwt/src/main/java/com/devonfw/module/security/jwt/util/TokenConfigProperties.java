@@ -1,12 +1,16 @@
 package com.devonfw.module.security.jwt.util;
 
+import java.time.Duration;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import com.devonfw.module.security.jwt.authentication.AuthenticationTokenDetails;
+
 /**
- * This class contain properties related to {@link TokenAuthenticationUtil}
+ * This class contain properties related to {@link JwtAccessTokenConverterImpl}
  *
- * @since 3.2.0
+ * @since 3.3.0
  */
 @Configuration
 @ConfigurationProperties(prefix = "security.authentication.token")
@@ -14,32 +18,21 @@ public class TokenConfigProperties {
 
   private String issuer;
 
-  private int expirationHours;
+  private Duration expirationHours;
 
   private String tokenPrefix;
 
   private String headerString;
 
-  private String headerOtp;
-
   private String exposeHeaders;
-
-  private String claimSubject;
-
-  private String claimIssuer;
-
-  private String claimExpiration;
-
-  private String claimCreated;
-
-  private String claimScope;
-
-  private String claimRoles;
 
   private String algorithm;
 
+  private String tokenDetailsName;
+
   /**
-   * @return issuer
+   * @return The name of the application that created this JWT (see
+   *         <a href="https://tools.ietf.org/html/rfc7519#section-4.1.1">issuer claim</a> for details)
    */
   public String getIssuer() {
 
@@ -47,7 +40,7 @@ public class TokenConfigProperties {
   }
 
   /**
-   * @param issuer new value of {@link #getissuer}.
+   * @param issuer new value of {@link #getIssuer()}.
    */
   public void setIssuer(String issuer) {
 
@@ -55,7 +48,8 @@ public class TokenConfigProperties {
   }
 
   /**
-   * @return tokenPrefix
+   * @return The "Bearer" as token prefix (see <a href="https://tools.ietf.org/html/rfc6750">Bearer Token usage</a> for
+   *         details)
    */
   public String getTokenPrefix() {
 
@@ -63,7 +57,7 @@ public class TokenConfigProperties {
   }
 
   /**
-   * @param tokenPrefix new value of {@link #gettokenPrefix}.
+   * @param tokenPrefix new value of {@link #getTokenPrefix()}.
    */
   public void setTokenPrefix(String tokenPrefix) {
 
@@ -71,7 +65,7 @@ public class TokenConfigProperties {
   }
 
   /**
-   * @return headerString
+   * @return The "Authorization" as header String
    */
   public String getHeaderString() {
 
@@ -79,7 +73,7 @@ public class TokenConfigProperties {
   }
 
   /**
-   * @param headerString new value of {@link #getheaderString}.
+   * @param headerString new value of {@link #getHeaderString()}.
    */
   public void setHeaderString(String headerString) {
 
@@ -87,23 +81,8 @@ public class TokenConfigProperties {
   }
 
   /**
-   * @return headerOtp
-   */
-  public String getHeaderOtp() {
-
-    return this.headerOtp;
-  }
-
-  /**
-   * @param headerOtp new value of {@link #getheaderOtp}.
-   */
-  public void setHeaderOtp(String headerOtp) {
-
-    this.headerOtp = headerOtp;
-  }
-
-  /**
-   * @return exposeHeaders
+   * @return The "Access-Control-Expose-Headers" response header indicates which headers can be exposed as part of the
+   *         response
    */
   public String getExposeHeaders() {
 
@@ -111,7 +90,7 @@ public class TokenConfigProperties {
   }
 
   /**
-   * @param exposeHeaders new value of {@link #getexposeHeaders}.
+   * @param exposeHeaders new value of {@link #getExposeHeaders()}.
    */
   public void setExposeHeaders(String exposeHeaders) {
 
@@ -119,119 +98,25 @@ public class TokenConfigProperties {
   }
 
   /**
-   * @return claimSubject
+   * @return The expiration hour used combination with expiration time "exp" , after which the JWT must not be accepted
+   *         for processing (see <a href="https://tools.ietf.org/html/rfc7519#section-4.1.4">Expiration Time Claim</a>
+   *         for details)
    */
-  public String getClaimSubject() {
-
-    return this.claimSubject;
-  }
-
-  /**
-   * @param claimSubject new value of {@link #getclaimSubject}.
-   */
-  public void setClaimSubject(String claimSubject) {
-
-    this.claimSubject = claimSubject;
-  }
-
-  /**
-   * @return claimIssuer
-   */
-  public String getClaimIssuer() {
-
-    return this.claimIssuer;
-  }
-
-  /**
-   * @param claimIssuer new value of {@link #getclaimIssuer}.
-   */
-  public void setClaimIssuer(String claimIssuer) {
-
-    this.claimIssuer = claimIssuer;
-  }
-
-  /**
-   * @return claimExpiration
-   */
-  public String getClaimExpiration() {
-
-    return this.claimExpiration;
-  }
-
-  /**
-   * @param claimExpiration new value of {@link #getclaimExpiration}.
-   */
-  public void setClaimExpiration(String claimExpiration) {
-
-    this.claimExpiration = claimExpiration;
-  }
-
-  /**
-   * @return claimCreated
-   */
-  public String getClaimCreated() {
-
-    return this.claimCreated;
-  }
-
-  /**
-   * @param claimCreated new value of {@link #getclaimCreated}.
-   */
-  public void setClaimCreated(String claimCreated) {
-
-    this.claimCreated = claimCreated;
-  }
-
-  /**
-   * @return claimScope
-   */
-  public String getClaimScope() {
-
-    return this.claimScope;
-  }
-
-  /**
-   * @param claimScope new value of {@link #getclaimScope}.
-   */
-  public void setClaimScope(String claimScope) {
-
-    this.claimScope = claimScope;
-  }
-
-  /**
-   * @return claimRoles
-   */
-  public String getClaimRoles() {
-
-    return this.claimRoles;
-  }
-
-  /**
-   * @param claimRoles new value of {@link #getclaimRoles}.
-   */
-  public void setClaimRoles(String claimRoles) {
-
-    this.claimRoles = claimRoles;
-  }
-
-  /**
-   * @return expirationHours
-   */
-  public int getExpirationHours() {
+  public Duration getExpirationHours() {
 
     return this.expirationHours;
   }
 
   /**
-   * @param expirationHours new value of {@link #getexpirationHours}.
+   * @param expirationHours new value of {@link #getExpirationHours()}.
    */
-  public void setExpirationHours(int expirationHours) {
+  public void setExpirationHours(Duration expirationHours) {
 
     this.expirationHours = expirationHours;
   }
 
   /**
-   * @return algorithm
+   * @return algorithm, which can be configured
    */
   public String getAlgorithm() {
 
@@ -239,11 +124,29 @@ public class TokenConfigProperties {
   }
 
   /**
-   * @param algorithm new value of {@link #getalgorithm}.
+   * @param algorithm new value of {@link #getAlgorithm()}.
    */
   public void setAlgorithm(String algorithm) {
 
     this.algorithm = algorithm;
+  }
+
+  /**
+   * default configuration in application.properties - security.authentication.token.tokendetailsname=JWT_DEFAULT
+   *
+   * @return configured token details for (see {@link AuthenticationTokenDetails#getName()})
+   */
+  public String getTokenDetailsName() {
+
+    return this.tokenDetailsName;
+  }
+
+  /**
+   * @param tokenDetailsName new value of {@link #gettokenDetailsName}.
+   */
+  public void setTokenDetailsName(String tokenDetailsName) {
+
+    this.tokenDetailsName = tokenDetailsName;
   }
 
 }

@@ -3,7 +3,7 @@ package com.devonfw.module.security.jwt.util;
 /**
  * Simple POJO that contain only the fields to retrieve from the request
  *
- * @since 3.2.0
+ * @since 3.3.0
  */
 public class AccountCredentials {
 

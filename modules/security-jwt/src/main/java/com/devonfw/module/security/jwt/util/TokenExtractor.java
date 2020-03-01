@@ -11,7 +11,6 @@ import javax.inject.Named;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,13 +18,16 @@ import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
 
+import com.devonfw.module.security.jwt.authentication.AuthenticationTokenDetails;
+import com.devonfw.module.security.jwt.authentication.AuthenticationTokenDetailsFactory;
+import com.devonfw.module.security.jwt.sign.JwtSignatureAlgorithm;
 import com.devonfw.module.security.jwt.sign.JwtSignatureAlgorithmFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Class to take request object and extract token and validate it.
  *
- * @since 3.2.0
+ * @since 3.3.0
  *
  */
 @Named
@@ -40,6 +42,12 @@ public class TokenExtractor {
   @Inject
   private JwtSignatureAlgorithmFactory jwtSignatureAlgorithmFactory;
 
+  @Inject
+  private AuthenticationTokenDetailsFactory authenticationTokenFactory;
+
+  @Inject
+  private TokenConfigProperties tokenConfigProperties;
+
   /**
    * Validates the token
    *
@@ -51,8 +59,10 @@ public class TokenExtractor {
 
     Authentication authentication = null;
 
-    com.devonfw.module.security.jwt.sign.JwtSignatureAlgorithm jwtSignatureAlgorithm = this.jwtSignatureAlgorithmFactory
-        .getAlgorithms("RSA");
+    JwtSignatureAlgorithm jwtSignatureAlgorithm = this.jwtSignatureAlgorithmFactory
+        .getAlgorithms(this.tokenConfigProperties.getAlgorithm());
+    AuthenticationTokenDetails authenticationToken = this.authenticationTokenFactory
+        .getAuthenticationTokenDetails(this.tokenConfigProperties.getTokenDetailsName());
 
     SignatureVerifier verifier = jwtSignatureAlgorithm.createVerifier();
     Jwt jwt = JwtHelper.decodeAndVerify(token, verifier);
@@ -65,40 +75,39 @@ public class TokenExtractor {
 
       Instant now = Instant.now();
 
-      Object nbfObj = this.tokenClaims.get("nbf");
-      Object expObj = this.tokenClaims.get("exp");
-
-      if (nbfObj != null) {
-        Instant nbf = Instant.ofEpochSecond(((Number) nbfObj).longValue());
-        if (now.isBefore(nbf)) {
-          throw new IllegalStateException("Token is not valid before " + nbf);
-        }
-
-      }
+      Object expObj = this.tokenClaims.get(JwtTokenConstants.CLAIM_EXPIRATION);
 
       if (expObj != null) {
-        Instant expiration_time = Instant.ofEpochSecond(((Number) expObj).longValue());
-
+        Instant expiration_time = getTimeAsInstant(expObj);
         if (now.isAfter(expiration_time)) {
           throw new IllegalStateException("Token is expired" + expiration_time);
         }
       }
 
-      String user = this.tokenClaims.get("sub").toString();
+      String user = this.tokenClaims.get(JwtTokenConstants.CLAIM_SUBJECT).toString();
 
-      List<String> roles = (List<String>) this.tokenClaims.get("roles");
+      List<String> roles = (List<String>) this.tokenClaims.get(JwtTokenConstants.CLAIM_ROLES);
 
       List<GrantedAuthority> authorities = new ArrayList<>();
-      for (String role : roles) {
-        authorities.add(new SimpleGrantedAuthority(role));
+      if (roles != null) {
+        for (String role : roles) {
+          authorities.add(new SimpleGrantedAuthority(role));
+        }
       }
+      authenticationToken.setAuthorities(authorities);
+      authenticationToken.setPrincipal(user);
+      authentication = authenticationToken.composeAuthenticationTokenDetails();
 
-      authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
     } catch (IOException e) {
-
       throw new IllegalStateException("Token claims cannot be read:" + e);
     }
     return authentication;
+  }
+
+  private Instant getTimeAsInstant(Object obj) {
+
+    Instant time = Instant.ofEpochSecond(((Number) obj).longValue());
+    return time;
   }
 
 }

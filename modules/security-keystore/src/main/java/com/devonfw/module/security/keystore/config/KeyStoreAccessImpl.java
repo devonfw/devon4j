@@ -24,13 +24,15 @@ import org.springframework.core.io.Resource;
 /**
  * Implementation of {@link KeyStoreAccess}
  *
- * @since 3.2.0
+ * @since 3.3.0
  *
  */
 @Named
 public class KeyStoreAccessImpl implements KeyStoreAccess {
 
   private static final Logger LOG = LoggerFactory.getLogger(KeyStoreAccessImpl.class);
+
+  private final static String ALIAS = "JWT_DEFAULT";
 
   @Inject
   private KeyStoreConfigProperties keyStoreConfigProperties;
@@ -50,9 +52,8 @@ public class KeyStoreAccessImpl implements KeyStoreAccess {
       Resource keyStoreLocation = new FileSystemResource(new File(this.keyStoreConfigProperties.getKeyStoreLocation()));
       try (InputStream in = keyStoreLocation.getInputStream()) {
 
-        keyStore.load(in, this.keyStoreConfigProperties.getPassword().toCharArray()); // "changeit".toCharArray()
+        keyStore.load(in, this.keyStoreConfigProperties.getPassword().toCharArray());
 
-        LOG.info("Keystore aliases " + keyStore.aliases().nextElement().toString());
       } catch (IOException | NoSuchAlgorithmException | CertificateException e) {
 
         throw new IllegalStateException("Failed to load the KeyStore!", e);
@@ -89,6 +90,12 @@ public class KeyStoreAccessImpl implements KeyStoreAccess {
       throw new IllegalStateException("Failed to get the key from KeyStore!", e);
     }
     return (PrivateKey) key;
+  }
+
+  @Override
+  public String getAlias() {
+
+    return ALIAS;
   }
 
 }

@@ -10,7 +10,7 @@ import javax.inject.Named;
 /**
  * Factory class to load algorithms
  *
- * @since 3.2.0
+ * @since 3.3.0
  */
 @Named
 public class JwtSignatureAlgorithmFactory {

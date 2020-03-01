@@ -16,18 +16,18 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
-import com.devonfw.module.security.jwt.util.TokenAuthenticationUtil;
+import com.devonfw.module.security.jwt.util.JwtAccessTokenConverterImpl;
 
 /**
  * This Filter validates the token and sets {@link Authentication} object in {@link SecurityContext}
  *
- * @since 3.2.0
+ * @since 3.3.0
  *
  */
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
   @Inject
-  private TokenAuthenticationUtil tokenAuthenticationUtil;
+  private JwtAccessTokenConverterImpl jwtAccessTokenConverter;
 
   private static final Logger LOG = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
       throws IOException, ServletException {
 
-    Authentication authentication = this.tokenAuthenticationUtil.getAuthentication((HttpServletRequest) request);
+    Authentication authentication = this.jwtAccessTokenConverter.getAuthentication((HttpServletRequest) request);
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
     filterChain.doFilter(request, response);
