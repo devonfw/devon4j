@@ -1,4 +1,4 @@
-package com.devonfw.module.security.jwt.config;
+package com.devonfw.module.security.keystore.config;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,13 +24,15 @@ import org.springframework.core.io.Resource;
 /**
  * Implementation of {@link KeyStoreAccess}
  *
- * @since 3.2.0
+ * @since 3.3.0
  *
  */
 @Named
 public class KeyStoreAccessImpl implements KeyStoreAccess {
 
   private static final Logger LOG = LoggerFactory.getLogger(KeyStoreAccessImpl.class);
+
+  private final static String ALIAS = "JWT_DEFAULT";
 
   @Inject
   private KeyStoreConfigProperties keyStoreConfigProperties;
@@ -50,9 +52,8 @@ public class KeyStoreAccessImpl implements KeyStoreAccess {
       Resource keyStoreLocation = new FileSystemResource(new File(this.keyStoreConfigProperties.getKeyStoreLocation()));
       try (InputStream in = keyStoreLocation.getInputStream()) {
 
-        keyStore.load(in, this.keyStoreConfigProperties.getKeyPassword().toCharArray()); // "changeit".toCharArray()
+        keyStore.load(in, this.keyStoreConfigProperties.getPassword().toCharArray());
 
-        LOG.info("Keystore aliases " + keyStore.aliases().nextElement().toString());
       } catch (IOException | NoSuchAlgorithmException | CertificateException e) {
 
         throw new IllegalStateException("Failed to load the KeyStore!", e);
@@ -78,16 +79,23 @@ public class KeyStoreAccessImpl implements KeyStoreAccess {
   }
 
   @Override
-  public PrivateKey getPrivateKey(String alias, String password) {
+  public PrivateKey getPrivateKey() {
 
     Key key = null;
     try {
-      key = getKeyStore().getKey(alias, this.keyStoreConfigProperties.getKeyPassword().toCharArray());
+      key = getKeyStore().getKey(this.keyStoreConfigProperties.getKeyAlias(),
+          this.keyStoreConfigProperties.getPassword().toCharArray());
 
     } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
       throw new IllegalStateException("Failed to get the key from KeyStore!", e);
     }
     return (PrivateKey) key;
+  }
+
+  @Override
+  public String getAlias() {
+
+    return ALIAS;
   }
 
 }

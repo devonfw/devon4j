@@ -19,10 +19,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.devonfw.module.security.jwt.config.KeyStoreAccess;
-import com.devonfw.module.security.jwt.config.KeyStoreConfigProperties;
 import com.devonfw.module.security.jwt.util.AccountCredentials;
-import com.devonfw.module.security.jwt.util.TokenAuthenticationUtil;
+import com.devonfw.module.security.jwt.util.JwtAccessTokenConverterImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -35,7 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  * Authentication is performed by the attemptAuthentication method, which must be implemented by subclasses.
  *
- * @since 3.2.0
+ * @since 3.3.0
  *
  */
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
@@ -48,19 +46,14 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
   private UserDetailsService userDetailsService;
 
   @Inject
-  private KeyStoreAccess keyStoreAccess;
-
-  @Inject
-  private KeyStoreConfigProperties keyStoreConfigProperties;
-
-  @Inject
-  private TokenAuthenticationUtil tokenAuthenticationUtil;
+  private JwtAccessTokenConverterImpl jwtAccessTokenConverter;
 
   public JwtLoginFilter(String url, AuthenticationManager authManager, UserDetailsService userDetailsService) {
 
     super(new AntPathRequestMatcher(url));
     setAuthenticationManager(authManager);
     this.userDetailsService = userDetailsService;
+
   }
 
   @Override
@@ -77,11 +70,8 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
   protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
       Authentication auth) throws IOException, ServletException {
 
-    this.tokenAuthenticationUtil.addAuthentication(res, auth, this.keyStoreAccess
-        .getPrivateKey(this.keyStoreConfigProperties.getKeyAlias(), this.keyStoreConfigProperties.getPassword()));
-    this.tokenAuthenticationUtil.addAllowedHeader(res);
-    this.tokenAuthenticationUtil.addRequiredAuthentication(res, auth);
-
+    this.jwtAccessTokenConverter.addAuthentication(res, auth);
+    this.jwtAccessTokenConverter.addAllowedHeader(res);
   }
 
   @Override

@@ -1,4 +1,4 @@
-package com.devonfw.module.security.jwt.config;
+package com.devonfw.module.security.keystore.config;
 
 import java.security.KeyStore;
 
@@ -8,10 +8,9 @@ import org.springframework.context.annotation.Configuration;
 /**
  * This class contains properties related with {@link KeyStore}.
  *
- * @since 3.2.0
+ * @since 3.3.0
  *
  */
-
 @Configuration
 @ConfigurationProperties(prefix = "security.authentication.keystore")
 public class KeyStoreConfigProperties {
@@ -24,10 +23,10 @@ public class KeyStoreConfigProperties {
 
   private String keyAlias;
 
-  private String keyPassword;
+  private String keyStoreAlias;
 
   /**
-   * @return keyStoreLocation
+   * @return the location of keyStore file (e.g. .JKS)
    */
   public String getKeyStoreLocation() {
 
@@ -35,7 +34,7 @@ public class KeyStoreConfigProperties {
   }
 
   /**
-   * @param keyStoreLocation new value of {@link #getkeyStoreLocation}.
+   * @param keyStoreLocation new value of {@link #getKeyStoreLocation}.
    */
   public void setKeyStoreLocation(String keyStoreLocation) {
 
@@ -43,7 +42,7 @@ public class KeyStoreConfigProperties {
   }
 
   /**
-   * @return keystoreType
+   * @return the type of KeyStore (e.g. PKCS12)
    */
   public String getKeystoreType() {
 
@@ -51,7 +50,7 @@ public class KeyStoreConfigProperties {
   }
 
   /**
-   * @param keystoreType new value of {@link #getkeystoreType}.
+   * @param keystoreType new value of {@link #getKeystoreType}.
    */
   public void setKeystoreType(String keystoreType) {
 
@@ -67,7 +66,7 @@ public class KeyStoreConfigProperties {
   }
 
   /**
-   * @param password new value of {@link #getpassword}.
+   * @param password new value of {@link #getPassword}.
    */
   public void setPassword(String password) {
 
@@ -75,7 +74,7 @@ public class KeyStoreConfigProperties {
   }
 
   /**
-   * @return keyAlias
+   * @return alias of the key, that is used while creating keyStore file
    */
   public String getKeyAlias() {
 
@@ -83,7 +82,7 @@ public class KeyStoreConfigProperties {
   }
 
   /**
-   * @param keyAlias new value of {@link #getkeyAlias}.
+   * @param keyAlias new value of {@link #getKeyAlias}.
    */
   public void setKeyAlias(String keyAlias) {
 
@@ -91,19 +90,23 @@ public class KeyStoreConfigProperties {
   }
 
   /**
-   * @return keyPassword
+   * Returns Alias for keyStore (see {@link KeyStoreAccess#getAlias()})
+   *
+   * default configuration in application.properties - security.authentication.keystore.keystorealias=JWT_DEFAULT
+   *
+   * @return keyStoreAlias
    */
-  public String getKeyPassword() {
+  public String getKeyStoreAlias() {
 
-    return this.keyPassword;
+    return this.keyStoreAlias;
   }
 
   /**
-   * @param keyPassword new value of {@link #getkeyPassword}.
+   * @param keyStoreAlias new value of {@link #getKeyStoreAlias}.
    */
-  public void setKeyPassword(String keyPassword) {
+  public void setKeyStoreAlias(String keyStoreAlias) {
 
-    this.keyPassword = keyPassword;
+    this.keyStoreAlias = keyStoreAlias;
   }
 
 }
