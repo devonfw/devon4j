@@ -17,6 +17,8 @@ env:
     - GH_REPO_DEST="github.com/${ORG}/${REPO_DEST}.git"
     - GH_REPO_CONSOLIDATE="github.com/${ORG}/${REPO_CONSOLIDATE}.git"
     - secure: kJD4+ZMSvJT8W041hR90kxkrkdk/b5A1AkG/7M1W+2OlWz/IBO+lil9yyzVG0Uy7pEa6u7RHRoApy+N2kgnqOOS7Rgc8MRObPyK9SoBXmYH9WNTQIDjYGlfsJcyaCAb1NV0SxWrCKFdEdoVmca8a+qJjhM8Dix92REB7txmvJvq3t0pHIYT3YU2W8pvn4yCORjThipdIRn7cMkr5lhpwSfUyQ/Dal+1bAIsAg3GSAt2k5PeQ/pdlmcLYfSCgdsd7+vXllLXsIP+xSY0A2Sz5QTMQyxTYS8te+o6xJQERyt4HlBiLsjDznPVIMrmiDPciteDtgwJlDzKJ7hJHQxmrIZbZNyXbKqB3rdukspK276/k3YVya6rCwQd9GAUwLMXl1/c2ebFXBvMCjaMaHgf/EVbHQCHrAwy2J/IvtRlKNT4sQfovLmi7NYtKZ0+VStxxDkth/+dSN1lXm+KVmffjinAe9pIDhVFLPFBPR21igigSM+BU2lH6x3TYEJJQNZW8WRHk7qslP6tBmW6RGx41R+05J1qsqrFR4gNfKTMQ6Rg/ooXdo3nwQRM2jrvIGgJLJ8t1CD5WpV5js9QI2yNeQzyIKpDXeaZspKMkh/EUsK/ntfpBsNLfH6+WfKJOi1d/BLro9A9XEjvfkCIS6FyagCJxnewKmei+reEknULQmdo=
+    - secure: npqGhLgIf5Sw0sEJCrCI5H5eHseDn0vaXOOgTJpTvCaSxZhQ9h/3QZtfVQc2+RNSw4xqsZUe98JSbm9Bw32HTrixAvwssh4TUH81qjOA8rPV4QJcjQvxPnQvguXC5D1S+gIz+PGoReRv7BI9rtfbyzTxJAsQX//JdYcbXSRGQsqlsEQb2KegGcxaSpqz4ydwJNY0Sfq/uTaAXr/OQ3Z+SReOoyzdAcZPkHw/pm+sf6yTz2VupOw5Ef7dJc+Key6zlT9cVPnSMOYi3gn7ZjUVbGXfh3M4Ndpwxgqv76ELVEKQW5L05VgZTfx7f26wxbL3F+T9frKAUK1kG3WzBKyOq/jDmQ+R+9LfSagt4nu7Se0SOZ7wFL4Vn+IRfWbJPv7G/yiJVU4kUtR6xfACsq1UIrJGK/0XKoAnD2ZODqALPE7RMZ7QFV5SWIGFlp4sFDZ5KqorVDiGT5fvJGZfX1vdnDm0ijdCbgSFBv+QRDcNgCux9gmenD0I62V+q8ZzdtCauxIafwXb+uYNZQz9jqAgBa5YVICHFaWPS9KtLix+bodxbshTuqA9PmZgXD1FmRyOWzN2hUIA0+UQFEQi4OGijnNyhKBAPsgIqkRZD386RRiLPNsFll6eufbYxFoz8FQeewGtNPpZ556wv7iNZYjgcci9prKuEqITGzKlKqx1DqE=
+    - secure: KTB/CGKZlJViFRqYM/TTYDVv9hFsGlFuRejTEXWregCOp8eMWmkAjzkhl5hlYBHDuyu25L8uwW6t9EYdM6c/UV67i9zdQ8fHKtCtZ22kkIKfyry3KKLw29A27dHi+8jKH8xoxpkmEi/s4qzyAgQ5tluhZdD9+4yk01uhdDmSn7g+2lGPKLKL8z6xNvBzCVJYRwj1Zp1i86BwsrnZaU4JzavaYVrWIwjwGg+4erOn/w871QBksQfvZ0LAI+mgKcRuBjTD2qt2SUKA8bevpi/0l6TlnikFsjmLSBp9R4PP8Cz/jBQsqdmAseVupH+IgS2nwrlAcDgqOT8+5Xjmt9LygsiomB6kVwLQ8Cx1slowgZy9b57EGbYTlaiHZr1nIuDIf7QScnCCbkCL94PrgSxg0SB1qGgAaH+ywceKu9I+YLUQLHAh0mgjwLzxur8YUZT2TY5dWwFWEaKUWuG38KcPI15jvB6dKITeQNPOeXHxYauViBVlmdaW4AunYyMdk3lK905aI47R7iSQjLXqNGMVHc4ANxKFstKRGUfzycO1PuYUM3qp8RIAtwME7iVuEaY5F1eE1pXAnnE90onxGYyrDpwtmDbGEywrTDelPekpVwdqWXDeiHNbI5sXqEaKEILkXX3sSiAY19SymJvs/DR3aVZpLHcWDYuEdtuWxAv4Huk=
 stages:
   - name: Build
   - name: Documentation
@@ -24,7 +26,7 @@ jobs:
   include:
     - stage: Build
       script:
-        - mvn install
+        - mvn --settings .mvn/settings.xml install && ([[ $TRAVIS_BRANCH != "develop" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy)
     - stage: Documentation
       if: (branch = develop) AND (type = push)
       script:
