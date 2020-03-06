@@ -10,8 +10,7 @@ Bugfix release:
 * https://github.com/devonfw/devon4j/pull/170[#170]: show SQL from hibernate during development for debugging
 * https://github.com/devonfw/devon4j/pull/168[#168]: fixes for JUnit5 to work properly in all environments
 
-
-
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.2.1/devon4j-doc-3.2.1.pdf[devon4j guide 3.2.1].
 The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/10?closed=1[milestone devon4j 3.2.1].
 
 == 3.2.0
@@ -27,6 +26,7 @@ The following changes have been incorporated in devon4j:
 * https://github.com/devonfw/devon4j/issues/47[#47]: Improved auditing metadata support
 * https://github.com/devonfw/devon4j/pull/140[#140]: Many improvements to documentation (added JDK guide, architecture-mapping, JMS, etc.)
 
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.2.0/devon4j-doc-3.2.0.pdf[devon4j guide 3.2.0].
 The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/6?closed=1[milestone devon4j 3.2.0].
 
 == 3.1.1
@@ -38,7 +38,7 @@ Bugfix release for security fixes:
 * https://github.com/devonfw/devon4j/issues/123[#123]: Update jacskon to 2.9.9.1  
 * https://github.com/devonfw/devon4j/pull/131[#131]: Resolve CVEs identified 
 
-
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.1.1/devon4j-doc-3.1.1.pdf[devon4j guide 3.1.1].
 The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/7?closed=1[milestone devon4j 3.1.1].
 
 == 3.1.0
@@ -55,6 +55,7 @@ The following changes have been incorporated in devon4j:
 * https://github.com/devonfw/devon4j/issues/106[#106]: Completed support (JSON, Beanmapping) for pagination, IdRef, and java.time
 * https://github.com/devonfw/devon4j/pull/32[#32]: Added MasterCto
 
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.1.1/devon4j-doc-3.1.1.pdf[devon4j guide 3.1.1].
 The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/3?closed=1[milestone devon4j 3.1.0].
 
 == 3.0.2
@@ -63,7 +64,6 @@ Bugfix release :
 
 * https://github.com/devonfw/devon4j/issues/93[#93]: Update to latest spring-boot 2.0.x for bugfix release devon4j 3.0.x 
 
-
 The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/5?closed=1[milestone devon4j 3.0.2].
 
 == 3.0.1
@@ -71,7 +71,6 @@ The full list of changes for this release can be found in https://github.com/dev
 Bugfix release :
 
 * https://github.com/devonfw/devon4j/pull/48[#48]: Fixed NPE for uuid instance
-
 
 The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/2?closed=1[milestone devon4j 3.0.1].
 
@@ -86,7 +85,7 @@ The following changes have been incorporated in devon4j:
 * https://github.com/oasp/oasp4j/issues/669[#669]: Updated Pagination support for Spring Data[oasp4j]
 * https://github.com/oasp/oasp4j/pull/671[#671]: Add support for hana as dbType.
 
-
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.0.0/devon4j-doc-3.0.0.pdf[devon4j guide 3.0.0].
 The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/1?closed=1[milestone devon4j 3.0.0].
 and https://github.com/oasp/oasp4j/milestone/24?closed=1[milestone oasp4j 3.0.0]
 
