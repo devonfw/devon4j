@@ -1,9 +1,14 @@
 package com.devonfw.module.kafka.common.messaging.retry.impl;
 
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
+import static com.devonfw.module.kafka.common.messaging.util.MessageUtil.addHeaderValue;
 
-import com.devonfw.module.kafka.common.messaging.api.Message;
+import java.time.Instant;
+
+import org.apache.commons.codec.Charsets;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.header.Headers;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * @author ravicm
@@ -14,18 +19,22 @@ public class MessageRetryContext {
   /**
    *
    */
-  public static final String RETRY_UNTIL_NAME = "messageRetryUntil";
+  public static final String RETRY_UNTIL = "messageRetryUntil";
 
-  public static final String RETRY_NEXT_NAME = "messageRetryNext";
+  public static final String RETRY_NEXT = "messageRetryNext";
 
-  public static final String RETRY_READ_COUNT_NAME = "messageRetryReadCount";
+  public static final String RETRY_READ_COUNT = "messageRetryReadCount";
 
-  public static final String RETRY_COUNT_NAME = "messageRetryCount";
+  public static final String RETRY_COUNT = "messageRetryCount";
 
-  public static final String RETRY_STATE_NAME = "messageRetryState";
+  public static final String RETRY_STATE = "messageRetryState";
 
   public static final String RETRY_CHECKPOINT_NAME = "messageRetryCheckpoint";
 
+  /**
+   * @author ravicm
+   *
+   */
   public enum RetryState {
 
     PENDING,
@@ -40,9 +49,9 @@ public class MessageRetryContext {
 
   private long retryReadCount;
 
-  private String retryUntil;
+  private Instant retryUntil;
 
-  private String retryNext;
+  private Instant retryNext;
 
   private long retryCount;
 
@@ -60,22 +69,22 @@ public class MessageRetryContext {
     this.retryReadCount = retryReadCount;
   }
 
-  public String getRetryUntil() {
+  public Instant getRetryUntil() {
 
     return this.retryUntil;
   }
 
-  public void setRetryUntil(String retryUntil) {
+  public void setRetryUntil(Instant retryUntil) {
 
     this.retryUntil = retryUntil;
   }
 
-  public String getRetryNext() {
+  public Instant getRetryNext() {
 
     return this.retryNext;
   }
 
-  public void setRetryNext(String retryNext) {
+  public void setRetryNext(Instant retryNext) {
 
     this.retryNext = retryNext;
   }
@@ -111,24 +120,28 @@ public class MessageRetryContext {
   }
 
   /**
-   * @param message
+   * @param producerRecord
    * @return
    */
-  public static MessageRetryContext from(Message<?> message) {
+  public static MessageRetryContext from(ProducerRecord<Object, Object> producerRecord) {
 
-    Assert.notNull(message, "The message parameter cannot be null.");
+    if (ObjectUtils.isEmpty(producerRecord)) {
+      throw new IllegalArgumentException("The message parameter cannot be null.");
+    }
 
-    String value = message.getHeaderValue(RETRY_UNTIL_NAME);
+    Headers headers = producerRecord.headers();
+
+    String value = new String(headers.lastHeader(RETRY_UNTIL).value(), Charsets.UTF_8);
     if (StringUtils.isEmpty(value)) {
       return null;
     }
 
     MessageRetryContext result = new MessageRetryContext();
-    result.setRetryUntil(value);
+    result.setRetryUntil(Instant.parse(value));
 
-    result.setRetryNext(message.getHeaderValue(RETRY_NEXT_NAME));
+    result.setRetryNext(Instant.parse(new String(headers.lastHeader(RETRY_NEXT).value())));
 
-    value = message.getHeaderValue(RETRY_READ_COUNT_NAME);
+    value = new String(headers.lastHeader(RETRY_READ_COUNT).value(), Charsets.UTF_8);
     if (value != null) {
       try {
         result.setRetryReadCount(Long.parseLong(value));
@@ -137,7 +150,7 @@ public class MessageRetryContext {
       }
     }
 
-    value = message.getHeaderValue(RETRY_COUNT_NAME);
+    value = new String(headers.lastHeader(RETRY_COUNT).value(), Charsets.UTF_8);
     if (value != null) {
       try {
         result.setRetryCount(Long.parseLong(value));
@@ -146,7 +159,7 @@ public class MessageRetryContext {
       }
     }
 
-    value = message.getHeaderValue(RETRY_STATE_NAME);
+    value = new String(headers.lastHeader(RETRY_STATE).value(), Charsets.UTF_8);
     if (value != null) {
       try {
         result.retryState = RetryState.valueOf(value);
@@ -155,41 +168,40 @@ public class MessageRetryContext {
       }
     }
 
-    result.setRetryCheckpoint(message.getHeaderValue(RETRY_CHECKPOINT_NAME));
-
     return result;
   }
 
   /**
-   * @param message
+   * @param producerRecord
    */
-  public void injectInto(Message<?> message) {
+  public void injectInto(ProducerRecord<Object, Object> producerRecord) {
 
-    Assert.notNull(message, "Parameter message cannot be null.");
+    if (ObjectUtils.isEmpty(producerRecord)) {
+      throw new IllegalArgumentException("The message parameter cannot be null.");
+    }
 
     if (StringUtils.isEmpty(this.retryUntil)) {
       throw new IllegalStateException("Retry-Until must be specified in the retry context.");
     }
 
-    message.setHeader(RETRY_UNTIL_NAME, this.retryUntil);
+    Headers headers = producerRecord.headers();
+
+    addHeaderValue(headers, RETRY_UNTIL, this.retryUntil.toString());
 
     if (StringUtils.isEmpty(this.retryNext)) {
-      message.setHeader(RETRY_NEXT_NAME, this.retryNext);
+      addHeaderValue(headers, RETRY_NEXT, this.retryNext.toString());
     }
 
     if (this.retryReadCount > 0) {
-      message.setHeader(RETRY_READ_COUNT_NAME, Long.toString(this.retryReadCount));
+      addHeaderValue(headers, RETRY_READ_COUNT, Long.toString(this.retryReadCount));
     }
 
     if (this.retryCount > 0) {
-      message.setHeader(RETRY_COUNT_NAME, Long.toString(this.retryCount));
+      addHeaderValue(headers, RETRY_COUNT, Long.toString(this.retryCount));
     }
 
-    message.setHeader(RETRY_STATE_NAME, this.retryState.toString());
+    addHeaderValue(headers, RETRY_STATE, this.retryState.toString());
 
-    if (this.retryCheckpoint != null) {
-      message.setHeader(RETRY_CHECKPOINT_NAME, this.retryCheckpoint);
-    }
   }
 
   public void incRetryReadCount() {

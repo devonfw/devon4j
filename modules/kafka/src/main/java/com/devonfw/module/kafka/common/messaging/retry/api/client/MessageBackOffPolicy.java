@@ -1,5 +1,7 @@
 package com.devonfw.module.kafka.common.messaging.retry.api.client;
 
+import java.time.Instant;
+
 /**
  * @author ravicm
  *
@@ -11,7 +13,7 @@ public interface MessageBackOffPolicy {
    * @param retryUntilTimestamp
    * @return
    */
-  String getNextRetryTimestamp(long retryCount, String retryUntilTimestamp);
+  Instant getNextRetryTimestamp(long retryCount, String retryUntilTimestamp);
 
   /**
    *

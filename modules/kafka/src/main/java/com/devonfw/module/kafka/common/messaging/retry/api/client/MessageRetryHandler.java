@@ -1,6 +1,7 @@
 package com.devonfw.module.kafka.common.messaging.retry.api.client;
 
-import com.devonfw.module.kafka.common.messaging.api.Message;
+import org.apache.kafka.clients.producer.ProducerRecord;
+
 import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryContext;
 
 /**
@@ -10,17 +11,18 @@ import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryContext;
 public interface MessageRetryHandler {
 
   /**
-   * @param message
+   * @param producerRecord
    * @param retryContext
    */
-  void retryTimeout(Message<?> message, MessageRetryContext retryContext);
+  void retryTimeout(ProducerRecord<Object, Object> producerRecord, MessageRetryContext retryContext);
 
   /**
-   * @param message
+   * @param producerRecord
    * @param retryContext
    * @param ex
    * @return
    */
-  boolean retryFailedFinal(Message<?> message, MessageRetryContext retryContext, Exception ex);
+  boolean retryFailedFinal(ProducerRecord<Object, Object> producerRecord, MessageRetryContext retryContext,
+      Exception ex);
 
 }

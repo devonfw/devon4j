@@ -87,11 +87,10 @@ public class KafkaHealthIndicator implements HealthIndicator {
         this.metadataConsumer.listTopics();
         return Health.up().build();
       }
-      // else {
 
       List<TopicHealthInfo> topicHealthInfos = checkPartitionLeaders(this.properties.getTopicsToCheck());
       return checkAllTopicsAndReturnStatus(topicHealthInfos);
-      // }
+
     } catch (Exception e) {
 
       return Health.down(e).build();
@@ -132,7 +131,7 @@ public class KafkaHealthIndicator implements HealthIndicator {
 
     TopicHealthInfo healthInfo = new TopicHealthInfo();
     healthInfo.setTopic(topic);
-    healthInfo.setStatus("UP");
+    healthInfo.setStatus(HealthStatus.UP.toString());
     result.add(healthInfo);
 
     List<PartitionInfo> partitionInfos = this.metadataConsumer.partitionsFor(topic);
@@ -153,7 +152,7 @@ public class KafkaHealthIndicator implements HealthIndicator {
 
       if (partitionInfo.leader().id() == -1) {
 
-        healthInfo.setStatus("DOWN");
+        healthInfo.setStatus(HealthStatus.DOWN.toString());
         healthInfo.setDetails("Partitions without Leader.");
         healthInfo.getPartitionsWithoutLeader().add(partitionInfo.partition());
       }
@@ -165,7 +164,7 @@ public class KafkaHealthIndicator implements HealthIndicator {
    */
   private void setHealthStatusDownwhenPartionInfosAreEmpty(TopicHealthInfo healthInfo) {
 
-    healthInfo.setStatus("DOWN");
+    healthInfo.setStatus(HealthStatus.DOWN.toString());
     healthInfo.setDetails("Topic does not exist.");
   }
 
@@ -176,7 +175,7 @@ public class KafkaHealthIndicator implements HealthIndicator {
   protected boolean isAllUp(List<TopicHealthInfo> healthInfos) {
 
     for (TopicHealthInfo healthInfo : healthInfos) {
-      if ("DOWN".equals(healthInfo.getStatus())) {
+      if (HealthStatus.DOWN.toString().equals(healthInfo.getStatus())) {
         return false;
       }
     }

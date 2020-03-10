@@ -1,15 +1,14 @@
 package com.devonfw.module.kafka.common.messaging.trace.impl;
 
 import static brave.internal.HexCodec.toLowerHex;
+import static com.devonfw.module.kafka.common.messaging.util.MessageUtil.addHeaderValue;
 
 import java.util.Optional;
-import java.util.UUID;
 
+import org.apache.kafka.common.header.Headers;
 import org.springframework.util.ObjectUtils;
 
-import com.devonfw.module.kafka.common.messaging.impl.MessageKafkaPayloadBuilder;
 import com.devonfw.module.logging.common.api.DiagnosticContextFacade;
-import com.devonfw.module.logging.common.impl.DiagnosticContextFacadeImpl;
 
 import brave.propagation.TraceContext;
 
@@ -17,28 +16,32 @@ import brave.propagation.TraceContext;
  * @author ravicm
  *
  */
-public class MessageSpanInjector implements TraceContext.Injector<MessageKafkaPayloadBuilder<?>> {
+public class MessageSpanInjector implements TraceContext.Injector<Headers> {
 
-  private DiagnosticContextFacade diagnosticContextFacade = new DiagnosticContextFacadeImpl();
+  private DiagnosticContextFacade diagnosticContextFacade;
 
   @Override
-  public void inject(TraceContext traceContext, MessageKafkaPayloadBuilder<?> payloadBuilder) {
+  public void inject(TraceContext traceContext, Headers headers) {
 
     if (ObjectUtils.isEmpty(traceContext)) {
       return;
     }
 
-    if (this.diagnosticContextFacade.getCorrelationId() == null) {
-      this.diagnosticContextFacade.setCorrelationId(UUID.randomUUID().toString());
-    }
-    payloadBuilder.header(MessageTraceHeaders.TRACE_ID_NAME, this.diagnosticContextFacade.getCorrelationId());
-
-    payloadBuilder.header(MessageTraceHeaders.SPAN_ID_NAME, toLowerHex(traceContext.spanId()));
+    addHeaderValue(headers, MessageTraceHeaders.TRACE_ID, this.diagnosticContextFacade.getCorrelationId());
+    addHeaderValue(headers, MessageTraceHeaders.SPAN_ID, toLowerHex(traceContext.spanId()));
 
     Long parentId = traceContext.parentId();
 
     Optional.ofNullable(parentId).ifPresent(
-        id -> payloadBuilder.header(MessageTraceHeaders.PARENT_ID_NAME, toLowerHex(traceContext.parentIdAsLong())));
+        id -> addHeaderValue(headers, MessageTraceHeaders.PARENT_ID, toLowerHex(traceContext.parentIdAsLong())));
+  }
+
+  /**
+   * @param diagnosticContextFacade new value of {@link #getdiagnosticContextFacade}.
+   */
+  public void setDiagnosticContextFacade(DiagnosticContextFacade diagnosticContextFacade) {
+
+    this.diagnosticContextFacade = diagnosticContextFacade;
   }
 
 }

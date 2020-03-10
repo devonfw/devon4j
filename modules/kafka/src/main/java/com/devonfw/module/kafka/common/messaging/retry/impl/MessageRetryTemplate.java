@@ -1,27 +1,31 @@
 package com.devonfw.module.kafka.common.messaging.retry.impl;
 
 import java.time.Instant;
+import java.util.Optional;
 
+import javax.inject.Named;
+
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
-import com.devonfw.module.kafka.common.messaging.api.Message;
 import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
 import com.devonfw.module.kafka.common.messaging.logging.impl.EventKey;
+import com.devonfw.module.kafka.common.messaging.retry.api.MessageRetryProcessingResult;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageBackOffPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageProcessor;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryHandler;
+import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryOperations;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryContext.RetryState;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * @author ravicm
  *
  */
-public class MessageRetryTemplate {
+@Named
+public class MessageRetryTemplate implements MessageRetryOperations {
 
   private static final Logger LOG = LoggerFactory.getLogger(MessageRetryTemplate.class);
 
@@ -33,11 +37,16 @@ public class MessageRetryTemplate {
 
   private MessageRetryHandler retryHandler;
 
+  private final String RETRY_TOPIC_SUFFIX = "-retry";
+
+  private final String DEFAULT_RETRY_TOPIC = "default-message" + this.RETRY_TOPIC_SUFFIX;
+
   /**
    * The constructor.
    */
   public MessageRetryTemplate() {
 
+    super();
   }
 
   /**
@@ -48,66 +57,60 @@ public class MessageRetryTemplate {
    */
   public MessageRetryTemplate(MessageRetryPolicy retryPolicy, MessageBackOffPolicy backOffPolicy) {
 
-    Assert.notNull(retryPolicy, "The parameter \" retryPolicy \"must be specified.");
-    Assert.notNull(backOffPolicy, "The parameter \" backOffPolicy \"must be specified.");
+    if (ObjectUtils.isEmpty(retryPolicy)) {
+      throw new IllegalArgumentException("The parameter \" retryPolicy \"must be specified.");
+    }
+
+    if (ObjectUtils.isEmpty(backOffPolicy)) {
+      throw new IllegalArgumentException("The parameter \" backOffPolicy \"must be specified.");
+    }
 
     this.retryPolicy = retryPolicy;
     this.backOffPolicy = backOffPolicy;
   }
 
-  /**
-   * @param <T>
-   * @param message
-   * @param processor
-   * @param retryTopic
-   * @return
-   * @throws JsonProcessingException
-   */
-  public <T> MessageRetryProcessingResult processMessageWithRetry(Message<T> message, MessageProcessor<T> processor,
-      String retryTopic) throws JsonProcessingException {
+  @Override
+  public MessageRetryProcessingResult processMessageWithRetry(ProducerRecord<Object, Object> producerRecord,
+      MessageProcessor processor) {
 
-    return processMessageWithRetry(message, processor, retryTopic, this.retryPolicy, this.backOffPolicy);
+    checkParameters(producerRecord, processor, this.retryPolicy, this.backOffPolicy);
+
+    String retryTopic = Optional.ofNullable(producerRecord.topic()).map(this::setRetryTopic)
+        .orElse(this.DEFAULT_RETRY_TOPIC);
+
+    ProducerRecord<Object, Object> updatedProducerRecord = new ProducerRecord<>(retryTopic, producerRecord.partition(),
+        producerRecord.key(), producerRecord.value(), producerRecord.headers());
+
+    return processRetry(updatedProducerRecord, processor);
   }
 
-  /**
-   * @param <T>
-   * @param message
-   * @param processor
-   * @param retryTopic
-   * @param pRetryPolicy
-   * @param pBackOffPolicy
-   * @return
-   * @throws JsonProcessingException
-   */
-  public <T> MessageRetryProcessingResult processMessageWithRetry(Message<T> message, MessageProcessor<T> processor,
-      String retryTopic, MessageRetryPolicy pRetryPolicy, MessageBackOffPolicy pBackOffPolicy)
-      throws JsonProcessingException {
+  private String setRetryTopic(String topic) {
 
-    Assert.notNull(message, "No message was given.");
-    Assert.notNull(processor, "No message processor was specified.");
-    Assert.notNull(pRetryPolicy, "No retry policy was specified.");
-    Assert.notNull(pBackOffPolicy, "No back-off policy was specified.");
+    return topic + this.RETRY_TOPIC_SUFFIX;
+  }
 
-    MessageRetryContext retryContext = MessageRetryContext.from(message);
+  private <T> MessageRetryProcessingResult processRetry(ProducerRecord<Object, Object> producerRecord,
+      MessageProcessor processor) {
+
+    MessageRetryContext retryContext = MessageRetryContext.from(producerRecord);
 
     if (retryContext != null) {
 
       if (retryContext.getRetryState() != RetryState.PENDING) {
-        LOG.info(EventKey.RETRY_MESSAGE_ALREADY_PROCESSED.getMessage(), message.getMessageId(),
-            retryContext.getRetryState());
+        LOG.info(EventKey.RETRY_MESSAGE_ALREADY_PROCESSED.getMessage(), retryContext.getRetryState());
         return MessageRetryProcessingResult.NO_PROCESSING;
       }
 
-      String now = Instant.now().toString();
+      Instant now = Instant.now();
 
       if (now.compareTo(retryContext.getRetryUntil()) > 0) {
-        LOG.info(EventKey.RETRY_PERIOD_EXPIRED.getMessage(), retryContext.getRetryUntil(), message.getMessageId());
+        LOG.info(EventKey.RETRY_PERIOD_EXPIRED.getMessage(), retryContext.getRetryUntil());
 
         retryContext.setRetryState(RetryState.EXPIRED);
-        enqueueRetry(message, retryContext, retryTopic);
+        enqueueRetry(producerRecord, retryContext);
 
         if (this.retryHandler != null) {
-          this.retryHandler.retryTimeout(message, retryContext);
+          this.retryHandler.retryTimeout(producerRecord, retryContext);
         }
         return MessageRetryProcessingResult.RETRY_PERIOD_EXPIRED;
       }
@@ -116,12 +119,12 @@ public class MessageRetryTemplate {
 
       if (retryContext.getRetryNext() != null && now.compareTo(retryContext.getRetryNext()) < 0) {
 
-        pBackOffPolicy.sleepBeforeReEnqueue();
+        this.backOffPolicy.sleepBeforeReEnqueue();
 
         LOG.info(EventKey.RETRY_TIME_NOT_REACHED.getMessage(), retryContext.getRetryNext(),
-            retryContext.getRetryCount() + 1, message.getMessageId(), retryTopic);
+            retryContext.getRetryCount() + 1, producerRecord.topic());
 
-        enqueueRetry(message, retryContext, retryTopic);
+        enqueueRetry(producerRecord, retryContext);
 
         return MessageRetryProcessingResult.RETRY_WITHOUT_PROCESSING;
       }
@@ -129,33 +132,34 @@ public class MessageRetryTemplate {
     }
 
     try {
-      processor.processMessage(message);
+      processor.processMessage(producerRecord);
+
       if (retryContext != null) {
-        LOG.info(EventKey.RETRY_SUCCESSFUL.getMessage(), message.getMessageId(), retryContext.getRetryCount(),
-            retryTopic);
+        LOG.info(EventKey.RETRY_SUCCESSFUL.getMessage(), retryContext.getRetryCount(), producerRecord.topic());
         retryContext.setRetryState(RetryState.SUCCESSFUL);
-        enqueueRetry(message, retryContext, retryTopic);
+
+        enqueueRetry(producerRecord, retryContext);
       }
       return MessageRetryProcessingResult.PROCESSING_SUCCESSFUL;
     } catch (Exception e) {
-      if (pRetryPolicy.canRetry(message, retryContext, e)) {
+      if (this.retryPolicy.canRetry(producerRecord, retryContext, e)) {
         long retryCount = (retryContext == null ? 1 : retryContext.getRetryCount() + 1);
-        LOG.info(EventKey.RETRY_INITIATED.getMessage(), message.getMessageId(), retryCount, retryTopic);
+        LOG.info(EventKey.RETRY_INITIATED.getMessage(), retryCount, producerRecord.topic());
 
-        enqueueRetry(message, updateRetryContextForNextRetry(message, retryContext, pRetryPolicy, pBackOffPolicy, e),
-            retryTopic);
+        enqueueRetry(producerRecord,
+            updateRetryContextForNextRetry(producerRecord, retryContext, this.retryPolicy, this.backOffPolicy, e));
 
         return MessageRetryProcessingResult.RETRY_AFTER_PROCESSING_TRIAL;
       }
 
       if (retryContext != null) {
-        LOG.info(EventKey.RETRY_FINALLY_FAILED.getMessage(), message.getMessageId(), retryContext.getRetryCount());
+        LOG.info(EventKey.RETRY_FINALLY_FAILED.getMessage(), retryContext.getRetryCount());
 
         retryContext.setRetryState(RetryState.FAILED);
 
-        enqueueRetry(message, retryContext, retryTopic);
+        enqueueRetry(producerRecord, retryContext);
 
-        if (this.retryHandler != null && this.retryHandler.retryFailedFinal(message, retryContext, e)) {
+        if (this.retryHandler != null && this.retryHandler.retryFailedFinal(producerRecord, retryContext, e)) {
           return MessageRetryProcessingResult.FINAL_FAIL_HANDLER_SUCCESSFUL;
         }
       }
@@ -163,26 +167,46 @@ public class MessageRetryTemplate {
     }
   }
 
-  private MessageRetryContext updateRetryContextForNextRetry(Message<?> message, MessageRetryContext retryContext,
-      MessageRetryPolicy pRetryPolicy, MessageBackOffPolicy pBackOffPolicy, Exception e) {
+  private <T> void checkParameters(T message, MessageProcessor processor, MessageRetryPolicy pRetryPolicy,
+      MessageBackOffPolicy pBackOffPolicy) {
+
+    if (ObjectUtils.isEmpty(message)) {
+      throw new IllegalArgumentException("No message was given.");
+    }
+
+    if (ObjectUtils.isEmpty(processor)) {
+      throw new IllegalArgumentException("No message processor was specified.");
+    }
+
+    if (ObjectUtils.isEmpty(pRetryPolicy)) {
+      throw new IllegalArgumentException("No retry policy was specified.");
+    }
+
+    if (ObjectUtils.isEmpty(pBackOffPolicy)) {
+      throw new IllegalArgumentException("No back-off policy was specified.");
+    }
+  }
+
+  private MessageRetryContext updateRetryContextForNextRetry(ProducerRecord<Object, Object> producerRecord,
+      MessageRetryContext retryContext, MessageRetryPolicy pRetryPolicy, MessageBackOffPolicy pBackOffPolicy,
+      Exception e) {
 
     MessageRetryContext result = retryContext;
 
     if (ObjectUtils.isEmpty(result)) {
       result = new MessageRetryContext();
-      result.setRetryUntil(pRetryPolicy.getRetryUntilTimestamp(message, retryContext));
+      result.setRetryUntil(pRetryPolicy.getRetryUntilTimestamp(producerRecord, retryContext));
     }
 
-    result.setRetryNext(pBackOffPolicy.getNextRetryTimestamp(result.getRetryCount(), result.getRetryUntil()));
-
+    result
+        .setRetryNext(pBackOffPolicy.getNextRetryTimestamp(result.getRetryCount(), result.getRetryUntil().toString()));
     return result;
   }
 
-  private void enqueueRetry(Message<?> message, MessageRetryContext retryContext, String retryTopic)
-      throws JsonProcessingException {
+  private void enqueueRetry(ProducerRecord<Object, Object> producerRecord, MessageRetryContext retryContext) {
 
-    retryContext.injectInto(message);
-    this.messageSender.sendMessage(retryTopic, message);
+    retryContext.injectInto(producerRecord);
+    this.messageSender.sendMessage(producerRecord, null);
   }
 
   public void setMessageSender(MessageSender messageSender) {

@@ -1,32 +1,37 @@
 package com.devonfw.module.kafka.common.messaging.impl;
 
+import static com.devonfw.module.kafka.common.messaging.util.MessageUtil.addHeaderValue;
+
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.header.Headers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.kafka.support.SendResult;
-import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.util.concurrent.ListenableFuture;
 
-import com.devonfw.module.kafka.common.messaging.api.Message;
 import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
+import com.devonfw.module.kafka.common.messaging.api.client.converter.MessageConverter;
 import com.devonfw.module.kafka.common.messaging.api.config.MessageSenderProperties;
 import com.devonfw.module.kafka.common.messaging.logging.impl.MessageLoggingSupport;
 import com.devonfw.module.kafka.common.messaging.trace.impl.MessageSpanInjector;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.devonfw.module.logging.common.api.DiagnosticContextFacade;
+import com.devonfw.module.logging.common.api.LoggingConstants;
 
 import brave.Tracer;
 
 /**
  * @author ravicm
- *
  */
 public class MessageSenderImpl implements MessageSender {
 
@@ -34,15 +39,15 @@ public class MessageSenderImpl implements MessageSender {
 
   private MessageSenderProperties senderProperties;
 
-  private KafkaTemplate<String, String> kafkaTemplate;
-
-  private ObjectMapper jacksonMapper;
+  private KafkaTemplate<Object, Object> kafkaTemplate;
 
   private MessageLoggingSupport loggingSupport;
 
   private Tracer tracer;
 
   private MessageSpanInjector spanInjector;
+
+  private DiagnosticContextFacade diagnosticContextFacade;
 
   /**
    * The constructor.
@@ -63,17 +68,9 @@ public class MessageSenderImpl implements MessageSender {
   /**
    * @param kafkaTemplate
    */
-  public void setKafkaTemplate(KafkaTemplate<String, String> kafkaTemplate) {
+  public void setKafkaTemplate(KafkaTemplate<Object, Object> kafkaTemplate) {
 
     this.kafkaTemplate = kafkaTemplate;
-  }
-
-  /**
-   * @param jacksonMapper
-   */
-  public void setJacksonMapper(ObjectMapper jacksonMapper) {
-
-    this.jacksonMapper = jacksonMapper;
   }
 
   /**
@@ -93,6 +90,14 @@ public class MessageSenderImpl implements MessageSender {
   }
 
   /**
+   * @param diagnosticContextFacade new value of {@link #getdiagnosticContextFacade}.
+   */
+  public void setDiagnosticContextFacade(DiagnosticContextFacade diagnosticContextFacade) {
+
+    this.diagnosticContextFacade = diagnosticContextFacade;
+  }
+
+  /**
    * @param tracer
    */
   public void setTracer(Tracer tracer) {
@@ -101,101 +106,97 @@ public class MessageSenderImpl implements MessageSender {
   }
 
   @Override
-  public <T> ListenableFuture<SendResult<String, String>> sendMessage(String topic, int partition, Message<T> message)
-      throws JsonProcessingException {
+  public ListenableFuture<SendResult<Object, Object>> sendMessage(ProducerRecord<Object, Object> producerRecord,
+      MessageConverter messageConverter) {
 
-    return createAndSendRecord(message, topic, partition, null);
+    return createAndSendRecord(producerRecord, messageConverter);
   }
 
   @Override
-  public <T> ListenableFuture<SendResult<String, String>> sendMessage(String topic, String key, Message<T> message)
-      throws JsonProcessingException {
+  public void sendMessageAndWait(ProducerRecord<Object, Object> producerRecord, MessageConverter messageConverter,
+      int timeout) throws Exception {
 
-    return createAndSendRecord(message, topic, null, key);
+    createAndSendRecordWaited(producerRecord, messageConverter, timeout);
   }
 
   @Override
-  public <T> ListenableFuture<SendResult<String, String>> sendMessage(String topic, Message<T> message)
-      throws JsonProcessingException {
+  public void sendMessageAndWait(ProducerRecord<Object, Object> producerRecord, MessageConverter messageConverter)
+      throws Exception {
 
-    return createAndSendRecord(message, topic, null, null);
+    createAndSendRecordWaited(producerRecord, messageConverter, this.senderProperties.getDefaultSendTimeoutSeconds());
   }
 
-  @Override
-  public <T> void sendMessageAndWait(String topic, int partition, Message<T> message) throws Exception {
+  private <T> ListenableFuture<SendResult<Object, Object>> createAndSendRecord(
+      ProducerRecord<Object, Object> producerRecord, MessageConverter messageConverter) {
 
-    createAndSendRecordWaited(message, topic, partition, null, this.senderProperties.getDefaultSendTimeoutSeconds());
-  }
+    Optional.ofNullable(producerRecord).ifPresent(this::checkProducerRecord);
 
-  @Override
-  public <T> void sendMessageAndWait(String topic, String key, Message<T> message) throws Exception {
+    Object message = getMessage(producerRecord, messageConverter);
 
-    createAndSendRecordWaited(message, topic, null, key, this.senderProperties.getDefaultSendTimeoutSeconds());
-  }
-
-  @Override
-  public <T> void sendMessageAndWait(String topic, Message<T> message) throws Exception {
-
-    createAndSendRecordWaited(message, topic, null, null, this.senderProperties.getDefaultSendTimeoutSeconds());
-  }
-
-  @Override
-  public <T> void sendMessageAndWait(String topic, int partition, Message<T> message, int timeout) throws Exception {
-
-    createAndSendRecordWaited(message, topic, partition, null, timeout);
-  }
-
-  @Override
-  public <T> void sendMessageAndWait(String topic, String key, Message<T> message, int timeout) throws Exception {
-
-    createAndSendRecordWaited(message, topic, null, key, timeout);
-  }
-
-  @Override
-  public <T> void sendMessageAndWait(String topic, Message<T> message, int timeout) throws Exception {
-
-    createAndSendRecordWaited(message, topic, null, null, timeout);
-  }
-
-  /**
-   * @param <T>
-   * @param message
-   * @param topic
-   * @param partition
-   * @param key
-   * @return
-   * @throws JsonProcessingException
-   */
-  protected <T> ListenableFuture<SendResult<String, String>> createAndSendRecord(Message<T> message, String topic,
-      Integer partition, String key) throws JsonProcessingException {
-
-    ProducerRecord<String, String> record = buildPayload(message, topic, partition, key);
+    ProducerRecord<Object, Object> updatedRecord = updateProducerRecord(producerRecord, message);
 
     try {
-      return this.kafkaTemplate.send(record);
+      return this.kafkaTemplate.send(updatedRecord);
 
     } catch (Exception e) {
-      this.loggingSupport.logMessageNotSent(LOG, message.getMessageId(), record.topic(), record.partition(),
+      this.loggingSupport.logMessageNotSent(LOG, updatedRecord.topic(), updatedRecord.partition(),
           e.getLocalizedMessage());
       throw e;
     }
   }
 
-  /**
-   * @param <T>
-   * @param message
-   * @param topic
-   * @param partition
-   * @param key
-   * @param timeout
-   * @throws Exception
-   */
-  protected <T> void createAndSendRecordWaited(Message<T> message, String topic, Integer partition, String key,
-      int timeout) throws Exception {
+  private Object getMessage(ProducerRecord<Object, Object> producerRecord, MessageConverter messageConverter) {
+
+    Optional<Object> convertedMessage = Optional.ofNullable(messageConverter)
+        .map(converter -> converter.convertMessage(producerRecord.value()));
+
+    return convertedMessage.orElse(producerRecord.value());
+  }
+
+  private ProducerRecord<Object, Object> updateProducerRecord(ProducerRecord<Object, Object> producerRecord,
+      Object convertedMessage) {
+
+    Headers headers = producerRecord.headers();
+    updateHeadersWithTracers(producerRecord.topic(), producerRecord.key().toString(), headers);
+
+    return new ProducerRecord<>(producerRecord.topic(), producerRecord.partition(), producerRecord.key(),
+        convertedMessage, headers);
+  }
+
+  private void updateHeadersWithTracers(String topic, String key, Headers headers) {
+
+    if (StringUtils.isEmpty(this.diagnosticContextFacade.getCorrelationId())) {
+      this.diagnosticContextFacade.setCorrelationId(UUID.randomUUID().toString());
+    }
+
+    headers.add(LoggingConstants.CORRELATION_ID, this.diagnosticContextFacade.getCorrelationId().getBytes());
+    Optional.ofNullable(key).ifPresent(k -> addHeaderValue(headers, KafkaHeaders.MESSAGE_KEY, k));
+    Optional.ofNullable(topic).ifPresent(t -> addHeaderValue(headers, KafkaHeaders.TOPIC, topic));
+
+    checkTracerCurrentSpanAndInjectHeaders(headers);
+  }
+
+  private void checkProducerRecord(ProducerRecord<Object, Object> producerRecord) {
+
+    if (ObjectUtils.isEmpty(producerRecord)) {
+      throw new IllegalArgumentException("The parameter 'producerRecord' cannot be null");
+    }
+
+    if (ObjectUtils.isEmpty(producerRecord.value())) {
+      throw new IllegalArgumentException("The value in producerRecord cannot be null");
+    }
+
+    if (ObjectUtils.isEmpty(producerRecord.topic())) {
+      throw new IllegalArgumentException("The topic in producerRecord cannot be null");
+    }
+  }
+
+  private void createAndSendRecordWaited(ProducerRecord<Object, Object> producerRecord,
+      MessageConverter messageConverter, int timeout) throws Exception {
 
     try {
-      ListenableFuture<SendResult<String, String>> sendResultFuture = createAndSendRecord(message, topic, partition,
-          key);
+      ListenableFuture<SendResult<Object, Object>> sendResultFuture = createAndSendRecord(producerRecord,
+          messageConverter);
 
       sendResultFuture.get(timeout, TimeUnit.SECONDS);
 
@@ -204,12 +205,7 @@ public class MessageSenderImpl implements MessageSender {
     }
   }
 
-  /**
-   * @param e
-   * @param timeout
-   * @return
-   */
-  protected Exception handleSendWaitedException(Exception e, int timeout) {
+  private Exception handleSendWaitedException(Exception e, int timeout) {
 
     if (e instanceof TimeoutException) {
       return new TimeoutException(String.valueOf(timeout));
@@ -218,45 +214,10 @@ public class MessageSenderImpl implements MessageSender {
     return e;
   }
 
-  /**
-   * @param <T>
-   * @param message
-   * @param topic
-   * @param partition
-   * @param key
-   * @return
-   * @throws JsonProcessingException
-   */
-  protected <T> ProducerRecord<String, String> buildPayload(Message<T> message, String topic, Integer partition,
-      String key) throws JsonProcessingException {
-
-    Assert.notNull(message, "The Parameter 'message' cannot be null.");
-    Assert.notNull(message.getPayload(), "The Parameter 'payload' cannot be null.");
-
-    MessageKafkaPayloadBuilder<T> builder = MessageKafkaPayloadBuilder.with(this.jacksonMapper);
-    builder.from(message);
-
-    Optional.ofNullable(topic).ifPresent(value -> builder.topic(value));
-
-    builder.partition(partition);
-
-    Optional.ofNullable(key).ifPresentOrElse(k -> builder.key(k), () -> builder.key(message.getMessageId()));
-
-    builder.headers(message.getHeaders());
-
-    checkTracerCurrentSpanAndInject(builder);
-    return builder.build();
-  }
-
-  /**
-   * @param <T>
-   * @param builder
-   */
-  private <T> void checkTracerCurrentSpanAndInject(MessageKafkaPayloadBuilder<T> builder) {
+  private <T> void checkTracerCurrentSpanAndInjectHeaders(Headers headers) {
 
     if (this.tracer != null && this.tracer.currentSpan() != null && this.spanInjector != null) {
-
-      this.spanInjector.inject(this.tracer.currentSpan().context(), builder);
+      this.spanInjector.inject(this.tracer.currentSpan().context(), headers);
     }
   }
 
@@ -266,10 +227,21 @@ public class MessageSenderImpl implements MessageSender {
   @PostConstruct
   public void validateBeanProperties() {
 
-    Assert.notNull(this.senderProperties, "The property 'senderProperties' is not set.");
-    Assert.notNull(this.kafkaTemplate, "The property 'kafkaTemplate' is not set.");
-    Assert.notNull(this.jacksonMapper, "The property 'jacksonMapper' is not set.");
-    Assert.notNull(this.loggingSupport, "The property 'loggingSupport' is not set.");
+    if (ObjectUtils.isEmpty(this.senderProperties)) {
+      throw new IllegalStateException("The property 'senderProperties' is not set.");
+    }
+
+    if (ObjectUtils.isEmpty(this.kafkaTemplate)) {
+      throw new IllegalArgumentException("The property 'kafkaTemplate' is not set.");
+    }
+
+    if (ObjectUtils.isEmpty(this.loggingSupport)) {
+      throw new IllegalArgumentException("The property 'loggingSupport' is not set.");
+    }
+
+    if (ObjectUtils.isEmpty(this.diagnosticContextFacade)) {
+      throw new IllegalArgumentException("The property 'diagnosticContextFacade' is not set.");
+    }
   }
 
 }

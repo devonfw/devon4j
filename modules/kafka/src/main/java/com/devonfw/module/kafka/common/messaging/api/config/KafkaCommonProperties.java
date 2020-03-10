@@ -130,20 +130,6 @@ public class KafkaCommonProperties {
    */
   private Integer sendBufferBytes;
 
-  // private String sslKeystoreLocation;
-  //
-  // private String sslKeystorePassword;
-  //
-  // private String sslKeyPassword;
-  //
-  // private String sslTruststoreLocation;
-  //
-  // private String sslTruststorePassword;
-  //
-  // private String saslMechanism = "PLAIN";
-
-  // private String username;
-
   /**
    * Bootstrap Servers are a list of host/port pairs to use for establishing the initial connection to the Kafka
    * cluster.

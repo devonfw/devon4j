@@ -75,8 +75,6 @@ public class KafkaPropertyMapper {
         consumerProperties.getExcludeInternalTopics());
     setConfigValueIfAvailable(props, ConsumerConfig.ISOLATION_LEVEL_CONFIG, consumerProperties.getIsolationLevel());
 
-    // mapSecurityConfig(commonProperties, props);
-
     props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
     props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 
@@ -133,53 +131,17 @@ public class KafkaPropertyMapper {
         producerProperties.getTransactionTimeoutMs());
     setConfigValueIfAvailable(props, ProducerConfig.TRANSACTIONAL_ID_CONFIG, producerProperties.getTransactionalId());
 
-    // mapSecurityConfig(commonProperties, props);
-
     props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
     props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
     return props;
   }
 
-  /**
-   * @param configMap
-   * @param configKey
-   * @param configValue
-   */
-  protected void setConfigValueIfAvailable(Map<String, Object> configMap, String configKey, Object configValue) {
+  private void setConfigValueIfAvailable(Map<String, Object> configMap, String configKey, Object configValue) {
 
     if (configValue != null) {
       configMap.put(configKey, configValue);
     }
   }
 
-  /**
-   * @param commonProperties
-   * @param configMap
-   */
-  // protected void mapSecurityConfig(KafkaCommonProperties commonProperties, Map<String, Object> configMap) {
-  //
-  // setConfigValueIfAvailable(configMap, CommonClientConfigs.SECURITY_PROTOCOL_CONFIG,
-  // commonProperties.getSecurityProtocol());
-  //
-  // setConfigValueIfAvailable(configMap, SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG,
-  // commonProperties.getSslKeystoreLocation());
-  // setConfigValueIfAvailable(configMap, SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG,
-  // commonProperties.getSslKeystorePassword());
-  // setConfigValueIfAvailable(configMap, SslConfigs.SSL_KEY_PASSWORD_CONFIG, commonProperties.getSslKeyPassword());
-  //
-  // setConfigValueIfAvailable(configMap, SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG,
-  // commonProperties.getSslTruststoreLocation());
-  // setConfigValueIfAvailable(configMap, SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG,
-  // commonProperties.getSslTruststorePassword());
-  //
-  // setConfigValueIfAvailable(configMap, SaslConfigs.SASL_MECHANISM, commonProperties.getSaslMechanism());
-  //
-  // if (commonProperties.getSecurityProtocol() != null && commonProperties.getSecurityProtocol().startsWith("SASL_")
-  // && "PLAIN".equals(commonProperties.getSaslMechanism())) {
-  // configMap.put(SaslConfigs.SASL_JAAS_CONFIG,
-  // "org.apache.kafka.common.security.plain.PlainLoginModule required " + "username=\""
-  // + commonProperties.getUsername() + "\" " + "password=\"" + commonProperties.getPassword() + "\";");
-  // }
-  // }
 }

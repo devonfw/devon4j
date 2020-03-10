@@ -1,7 +1,6 @@
 package com.devonfw.module.kafka.common.messaging.api.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,17 +15,33 @@ import com.devonfw.module.kafka.common.messaging.logging.impl.MessageLoggingSupp
 import com.devonfw.module.kafka.common.messaging.logging.impl.ProducerLoggingListener;
 import com.devonfw.module.kafka.common.messaging.trace.impl.MessageSpanInjector;
 import com.devonfw.module.kafka.common.messaging.util.KafkaPropertyMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.devonfw.module.logging.common.api.DiagnosticContextFacade;
+import com.devonfw.module.logging.common.api.LoggingConstants;
+import com.devonfw.module.logging.common.impl.DiagnosticContextFacadeImpl;
 
 import brave.Tracer;
 
 /**
  * A configuration class for the {@link MessageSender}
  *
+ * @param <K>
+ *
  */
 @Configuration
 @Import(MessageCommonConfig.class)
 public class MessageSenderConfig {
+
+  /**
+   * Creates bean for {@link DiagnosticContextFacadeImpl} and used for setting and retrieving correlation-id from
+   * {@link LoggingConstants}.
+   *
+   * @return DiagnosticContextFacade.
+   */
+  @Bean
+  public DiagnosticContextFacade messageDiagnosticContextFacade() {
+
+    return new DiagnosticContextFacadeImpl();
+  }
 
   /**
    * Creates bean for {@link KafkaProducerProperties} and looks for external properties with the prefix
@@ -57,21 +72,22 @@ public class MessageSenderConfig {
   /**
    * Creates bean for {@link ProducerFactory}.
    *
+   *
    * @param messageKafkaCommonProperties the {@link MessageCommonConfig#messageKafkaCommonProperties()}
    * @param messageKafkaProducerProperties the {@link #messageKafkaProducerProperties()}
    *
    * @return the ProducerFactory
    */
   @Bean
-  public ProducerFactory<String, String> messageKafkaProducerFactory(
-      @Qualifier("messageKafkaCommonProperties") KafkaCommonProperties messageKafkaCommonProperties,
-      @Qualifier("messageKafkaProducerProperties") KafkaProducerProperties messageKafkaProducerProperties) {
+  public ProducerFactory<Object, Object> messageKafkaProducerFactory(KafkaCommonProperties messageKafkaCommonProperties,
+      KafkaProducerProperties messageKafkaProducerProperties) {
 
     return createProducerFactory(messageKafkaCommonProperties, messageKafkaProducerProperties);
   }
 
   /**
    * Creates bean for {@link KafkaTemplate}.
+   *
    *
    * @param messageProducerLoggingListener the {@link #messageProducerLoggingListener(MessageLoggingSupport, Tracer)}
    * @param messageKafkaProducerFactory the
@@ -80,49 +96,38 @@ public class MessageSenderConfig {
    * @return the KafkaTemplate
    */
   @Bean
-  public KafkaTemplate<String, String> messageKafkaTemplate(
-      @Qualifier("messageProducerLoggingListener") ProducerLoggingListener messageProducerLoggingListener,
-      @Qualifier("messageKafkaProducerFactory") ProducerFactory<String, String> messageKafkaProducerFactory) {
+  public KafkaTemplate<Object, Object> messageKafkaTemplate(
+      ProducerLoggingListener<Object, Object> messageProducerLoggingListener,
+      ProducerFactory<Object, Object> messageKafkaProducerFactory) {
 
     return createKafkaTemplate(messageProducerLoggingListener, messageKafkaProducerFactory);
   }
 
   /**
-   * Creates bean for {@link ObjectMapper}
-   *
-   * @return ObjectMapper.
-   */
-  @Bean
-  public ObjectMapper objectMapper() {
-
-    return new ObjectMapper();
-  }
-
-  /**
    * Creates bean for {@link MessageSenderImpl}.
    *
-   * @param objectMapper the {@link #objectMapper}
+   *
    * @param messageKafkaTemplate the {@link #messageKafkaTemplate(ProducerLoggingListener, ProducerFactory)}
    * @param messageLoggingSupport the {@link MessageCommonConfig#messageLoggingSupport()}
    * @param messageSenderProperties the {@link #messageSenderProperties()}
-   * @param spanInjector the {@link MessageSpanInjector}
+   * @param diagnosticContextFacade the {@link DiagnosticContextFacade}
+   * @param messageSpanInjector the {@link MessageSpanInjector}
    * @param tracer the {@link Tracer}
    * @return the MessageSenderImpl.
    */
   @Bean
-  public MessageSenderImpl messageSender(@Qualifier("objectMapper") ObjectMapper objectMapper,
-      @Qualifier("messageKafkaTemplate") KafkaTemplate<String, String> messageKafkaTemplate,
-      @Qualifier("messageLoggingSupport") MessageLoggingSupport messageLoggingSupport,
-      @Qualifier("messageSenderProperties") MessageSenderProperties messageSenderProperties,
-      @Autowired(required = false) MessageSpanInjector spanInjector, @Autowired(required = false) Tracer tracer) {
+  public MessageSenderImpl messageSender(KafkaTemplate<Object, Object> messageKafkaTemplate,
+      MessageLoggingSupport messageLoggingSupport, MessageSenderProperties messageSenderProperties,
+      DiagnosticContextFacade diagnosticContextFacade, MessageSpanInjector messageSpanInjector,
+      @Autowired(required = false) Tracer tracer) {
 
     MessageSenderImpl bean = new MessageSenderImpl();
-    bean.setJacksonMapper(objectMapper);
     bean.setKafkaTemplate(messageKafkaTemplate);
     bean.setLoggingSupport(messageLoggingSupport);
     bean.setSenderProperties(messageSenderProperties);
-    bean.setSpanInjector(spanInjector);
+    bean.setSpanInjector(messageSpanInjector);
     bean.setTracer(tracer);
+    bean.setDiagnosticContextFacade(diagnosticContextFacade);
     return bean;
   }
 
@@ -134,23 +139,24 @@ public class MessageSenderConfig {
    * @return the ProducerLoggingListener
    */
   @Bean
-  public ProducerLoggingListener messageProducerLoggingListener(MessageLoggingSupport messageLoggingSupport,
-      @Autowired(required = false) Tracer tracer) {
+  public ProducerLoggingListener<Object, Object> messageProducerLoggingListener(
+      MessageLoggingSupport messageLoggingSupport, @Autowired(required = false) Tracer tracer) {
 
-    return new ProducerLoggingListener(messageLoggingSupport, tracer);
+    return new ProducerLoggingListener<>(messageLoggingSupport, tracer);
   }
 
   /**
    * This method is used to create {@link KafkaTemplate}.
    *
+   *
    * @param producerLogListener the {@link ProducerLoggingListener}
    * @param producerFactory the {@link ProducerFactory}
    * @return KafkaTemplate
    */
-  public static KafkaTemplate<String, String> createKafkaTemplate(ProducerLoggingListener producerLogListener,
-      ProducerFactory<String, String> producerFactory) {
+  public static KafkaTemplate<Object, Object> createKafkaTemplate(
+      ProducerLoggingListener<Object, Object> producerLogListener, ProducerFactory<Object, Object> producerFactory) {
 
-    KafkaTemplate<String, String> template = new KafkaTemplate<>(producerFactory);
+    KafkaTemplate<Object, Object> template = new KafkaTemplate<>(producerFactory);
     template.setProducerListener(producerLogListener);
     return template;
   }
@@ -158,11 +164,12 @@ public class MessageSenderConfig {
   /**
    * This method is used to create {@link ProducerFactory}.
    *
+   *
    * @param kafkaCommonProperties the {@link KafkaCommonProperties}
    * @param kafkaProducerProperties the {@link KafkaProducerProperties}
    * @return ProducerFactory
    */
-  public static ProducerFactory<String, String> createProducerFactory(KafkaCommonProperties kafkaCommonProperties,
+  public static ProducerFactory<Object, Object> createProducerFactory(KafkaCommonProperties kafkaCommonProperties,
       KafkaProducerProperties kafkaProducerProperties) {
 
     KafkaPropertyMapper mapper = new KafkaPropertyMapper();

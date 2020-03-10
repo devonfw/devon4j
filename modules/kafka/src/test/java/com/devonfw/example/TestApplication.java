@@ -12,7 +12,8 @@ import com.devonfw.example.base.config.TestMessageSenderConfig;
  */
 @SpringBootApplication
 @Import({ TestMessageSenderConfig.class })
-// @Import({ MessageSenderConfig.class, MessageReceiverConfig.class, TraceConfig.class })
+// @Import({ MessageSenderConfig.class, MessageReceiverConfig.class, TraceConfig.class, MessageDefaultRetryConfig.class
+// })
 public class TestApplication {
 
   /**

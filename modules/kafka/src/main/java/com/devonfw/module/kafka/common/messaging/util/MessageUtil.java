@@ -31,18 +31,13 @@ public class MessageUtil {
 
   /**
    * @param headers
-   * @param key
+   * @param traceIdName
    * @return
    */
-  public static String getHeaderValue(Headers headers, String key) {
+  public static String getHeaderValue(Headers headers, String traceIdName) {
 
-    if (key == null) {
-      return null;
-    }
-    Header header = headers.lastHeader(key);
-    if (header == null || header.value() == null) {
-      return null;
-    }
+    Header header = headers.lastHeader(traceIdName);
+
     return new String(header.value(), UTF_8);
   }
 

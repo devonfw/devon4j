@@ -1,6 +1,5 @@
 package com.devonfw.module.kafka.common.messaging.api.config;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -64,13 +63,12 @@ public class MessageCommonConfig {
    *
    * @param messageKafkaHealthIndicatorProperties the {@link #messageKafkaHealthIndicatorProperties()} bean.
    * @param messageKafkaCommonProperties the {@link #messageKafkaCommonProperties()}} bean.
-   * @return the bean of {@link KafkaHealthIndicator}}
+   * @return the bean of {@link KafkaHealthIndicator}
    */
   @Bean
   @ConditionalOnProperty("management.endpoint.health.enabled")
-  public KafkaHealthIndicator kafkaHealthIndicator(
-      @Qualifier("messageKafkaHealthIndicatorProperties") KafkaHealthIndicatorProperties messageKafkaHealthIndicatorProperties,
-      @Qualifier("messageKafkaCommonProperties") KafkaCommonProperties messageKafkaCommonProperties) {
+  public KafkaHealthIndicator kafkaHealthIndicator(KafkaHealthIndicatorProperties messageKafkaHealthIndicatorProperties,
+      KafkaCommonProperties messageKafkaCommonProperties) {
 
     return new KafkaHealthIndicator(createConsumerFactory(messageKafkaCommonProperties, new KafkaConsumerProperties()),
         messageKafkaHealthIndicatorProperties);
@@ -83,7 +81,7 @@ public class MessageCommonConfig {
    * @param kafkaConsumerProperties the {@link KafkaConsumerProperties}
    * @return the {@link ConsumerFactory}
    */
-  public static ConsumerFactory<String, String> createConsumerFactory(KafkaCommonProperties kafkaCommonProperties,
+  public static ConsumerFactory<Object, Object> createConsumerFactory(KafkaCommonProperties kafkaCommonProperties,
       KafkaConsumerProperties kafkaConsumerProperties) {
 
     KafkaPropertyMapper mapper = new KafkaPropertyMapper();

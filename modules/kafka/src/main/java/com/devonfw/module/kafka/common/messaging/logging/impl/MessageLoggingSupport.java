@@ -12,12 +12,14 @@ public class MessageLoggingSupport {
    * @param logger
    * @param messageId
    * @param topic
+   * @param value
+   * @param string
    * @param partition
    * @param offset
    */
-  public void logMessageSent(Logger logger, String messageId, String topic, Integer partition, Long offset) {
+  public void logMessageSent(Logger logger, String value, String topic, Integer partition, Long offset) {
 
-    logger.info(EventKey.MESSAGE_SENT_SUCCESSFULLY.getMessage(), messageId, topic, partition, offset);
+    logger.info(EventKey.MESSAGE_SENT_SUCCESSFULLY.getMessage(), value, topic, partition, offset);
   }
 
   /**
@@ -27,9 +29,9 @@ public class MessageLoggingSupport {
    * @param partition
    * @param error
    */
-  public void logMessageNotSent(Logger logger, String messageId, String topic, Integer partition, String error) {
+  public void logMessageNotSent(Logger logger, String topic, Integer partition, String error) {
 
-    logger.error(EventKey.MESSAGE_NOT_SENT.getMessage(), messageId, topic, partition, error);
+    logger.error(EventKey.MESSAGE_NOT_SENT.getMessage(), topic, partition, error);
   }
 
   /**
@@ -41,10 +43,10 @@ public class MessageLoggingSupport {
    * @param offset
    * @param retentionPeriod
    */
-  public void logMessageReceived(Logger logger, String messageId, String group, String topic, Integer partition,
-      Long offset, long retentionPeriod) {
+  public void logMessageReceived(Logger logger, String group, String topic, Integer partition, Long offset,
+      long retentionPeriod) {
 
-    logger.info(EventKey.MESSAGE_RECEIVED.getMessage(), messageId, group, topic, partition, offset, retentionPeriod);
+    logger.info(EventKey.MESSAGE_RECEIVED.getMessage(), group, topic, partition, offset, retentionPeriod);
   }
 
   /**
@@ -56,11 +58,10 @@ public class MessageLoggingSupport {
    * @param offset
    * @param processingPeriod
    */
-  public void logMessageProcessed(Logger logger, String messageId, String group, String topic, Integer partition,
-      Long offset, long processingPeriod) {
+  public void logMessageProcessed(Logger logger, String group, String topic, Integer partition, Long offset,
+      long processingPeriod) {
 
-    logger.info(EventKey.SUCCESSFULLY_PROCESSED.getMessage(), messageId, group, topic, partition, offset,
-        processingPeriod);
+    logger.info(EventKey.SUCCESSFULLY_PROCESSED.getMessage(), group, topic, partition, offset, processingPeriod);
   }
 
   /**
@@ -71,10 +72,9 @@ public class MessageLoggingSupport {
    * @param partition
    * @param offset
    */
-  public void logMessageNotProcessed(Logger logger, String messageId, String group, String topic, Integer partition,
-      Long offset) {
+  public void logMessageNotProcessed(Logger logger, String group, String topic, Integer partition, Long offset) {
 
-    logger.error(EventKey.MESSAGE_NOT_PROCESSED.getMessage(), messageId, group, topic, partition, offset);
+    logger.error(EventKey.MESSAGE_NOT_PROCESSED.getMessage(), group, topic, partition, offset);
   }
 
 }

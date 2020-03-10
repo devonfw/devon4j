@@ -1,18 +1,16 @@
 package com.devonfw.module.kafka.common.messaging.retry.api.client;
 
-import com.devonfw.module.kafka.common.messaging.api.Message;
-
 /**
  * @author ravicm
- * @param <T>
  *
  */
 @FunctionalInterface
-public interface MessageProcessor<T> {
+public interface MessageProcessor {
 
   /**
+   * @param <T>
    * @param message
    */
-  public void processMessage(Message<T> message);
+  public <T> void processMessage(T message);
 
 }

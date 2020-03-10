@@ -1,4 +1,4 @@
-package com.devonfw.module.kafka.common.messaging.retry.impl;
+package com.devonfw.module.kafka.common.messaging.retry.api;
 
 public enum MessageRetryProcessingResult {
 

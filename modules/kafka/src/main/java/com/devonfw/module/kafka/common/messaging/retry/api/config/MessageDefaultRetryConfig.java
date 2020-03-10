@@ -1,12 +1,13 @@
 package com.devonfw.module.kafka.common.messaging.retry.api.config;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
+import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageBackOffPolicy;
+import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.impl.DefaultBackOffPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.impl.DefaultRetryPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryTemplate;
@@ -40,41 +41,35 @@ public class MessageDefaultRetryConfig {
   }
 
   /**
-   * @param props
    * @return
    */
   @Bean
-  public DefaultBackOffPolicy messageDefaultBackOffPolicy(
-      @Qualifier("messageDefaultBackOffPolicyProperties") DefaultBackOffPolicyProperties props) {
+  public MessageBackOffPolicy messageBackOffPolicy() {
 
-    return new DefaultBackOffPolicy(props);
+    return new DefaultBackOffPolicy(messageDefaultBackOffPolicyProperties());
   }
 
   /**
-   * @param props
    * @return
    */
   @Bean
-  public DefaultRetryPolicy messageDefaultRetryPolicy(
-      @Qualifier("messageDefaultRetryPolicyProperties") DefaultRetryPolicyProperties props) {
+  public MessageRetryPolicy messageRetryPolicy() {
 
-    return new DefaultRetryPolicy(props);
+    return new DefaultRetryPolicy(messageDefaultRetryPolicyProperties());
   }
 
   /**
-   * @param retryPolicy
-   * @param backOffPolicy
-   * @param sender
+   * @param messageDefaultRetryPolicy
+   * @param messageDefaultBackOffPolicy
+   * @param messageSender
    * @return
    */
   @Bean
-  public MessageRetryTemplate messageDefaultRetryTemplate(
-      @Qualifier("messageDefaultRetryPolicy") DefaultRetryPolicy retryPolicy,
-      @Qualifier("messageDefaultBackOffPolicy") DefaultBackOffPolicy backOffPolicy,
-      @Qualifier("messageSender") MessageSender sender) {
+  public MessageRetryTemplate messageDefaultRetryTemplate(DefaultRetryPolicy messageDefaultRetryPolicy,
+      DefaultBackOffPolicy messageDefaultBackOffPolicy, MessageSender messageSender) {
 
-    MessageRetryTemplate bean = new MessageRetryTemplate(retryPolicy, backOffPolicy);
-    bean.setMessageSender(sender);
+    MessageRetryTemplate bean = new MessageRetryTemplate(messageDefaultRetryPolicy, messageDefaultBackOffPolicy);
+    bean.setMessageSender(messageSender);
     return bean;
   }
 

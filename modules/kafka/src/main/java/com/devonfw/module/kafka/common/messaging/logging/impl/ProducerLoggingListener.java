@@ -1,27 +1,22 @@
 package com.devonfw.module.kafka.common.messaging.logging.impl;
 
-import static brave.internal.HexCodec.toLowerHex;
-
-import java.util.Optional;
-
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import org.springframework.kafka.support.ProducerListener;
-import org.springframework.util.ObjectUtils;
 
 import com.devonfw.module.logging.common.api.DiagnosticContextFacade;
 import com.devonfw.module.logging.common.impl.DiagnosticContextFacadeImpl;
 
 import brave.Tracer;
-import brave.propagation.TraceContext;
 
 /**
  * @author ravicm
+ * @param <K>
+ * @param <V>
  *
  */
-public class ProducerLoggingListener implements ProducerListener<String, String> {
+public class ProducerLoggingListener<K, V> implements ProducerListener<K, V> {
 
   private static final Logger LOG = LoggerFactory.getLogger(ProducerLoggingListener.class);
 
@@ -44,47 +39,22 @@ public class ProducerLoggingListener implements ProducerListener<String, String>
   }
 
   @Override
-  public void onSuccess(String topic, Integer partition, String key, String value, RecordMetadata recordMetadata) {
-
-    setMdc();
+  public void onSuccess(String topic, Integer partition, K key, V value, RecordMetadata recordMetadata) {
 
     if (recordMetadata != null) {
-      this.loggingSupport.logMessageSent(LOG, key, recordMetadata.topic(), recordMetadata.partition(),
+      this.loggingSupport.logMessageSent(LOG, value.toString(), recordMetadata.topic(), recordMetadata.partition(),
           recordMetadata.offset());
 
     } else {
-      this.loggingSupport.logMessageSent(LOG, key, topic, partition, null);
+      this.loggingSupport.logMessageSent(LOG, value.toString(), topic, partition, null);
     }
   }
 
   @Override
-  public void onError(String topic, Integer partition, String key, String value, Exception exception) {
+  public void onError(String topic, Integer partition, K key, V value, Exception exception) {
 
-    setMdc();
-
-    this.loggingSupport.logMessageNotSent(LOG, key, topic, partition,
+    this.loggingSupport.logMessageNotSent(LOG, topic, partition,
         (exception != null ? exception.getLocalizedMessage() : "unknown"));
   }
 
-  /**
-   *
-   */
-  protected void setMdc() {
-
-    if (ObjectUtils.isEmpty(this.tracer) || ObjectUtils.isEmpty(this.tracer.currentSpan())) {
-      return;
-    }
-
-    TraceContext traceContext = this.tracer.currentSpan().context();
-
-    MDC.remove("traceId");
-    MDC.remove("spanId");
-    MDC.remove("parentId");
-
-    MDC.put("traceId", this.diagnosticContextFacade.getCorrelationId());
-    MDC.put("spanId", toLowerHex(traceContext.spanId()));
-    Long parentId = traceContext.parentId();
-
-    Optional.ofNullable(parentId).ifPresent(id -> MDC.put("parentId", toLowerHex(id)));
-  }
 }

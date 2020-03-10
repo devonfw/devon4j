@@ -2,7 +2,6 @@ package com.devonfw.module.kafka.common.messaging.api.config;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,10 +14,8 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties.AckMode;
 import org.springframework.kafka.listener.LoggingErrorHandler;
 
-import com.devonfw.module.kafka.common.messaging.impl.MessageParserImpl;
 import com.devonfw.module.kafka.common.messaging.logging.impl.ConsumerGroupResolver;
 import com.devonfw.module.kafka.common.messaging.logging.impl.MessageListenerLoggingAspect;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * A class used to create a configuration for the custom message receiver.
@@ -64,26 +61,13 @@ public class MessageReceiverConfig {
    * @return the bean of {@link KafkaListenerContainerFactory}
    */
   @Bean
-  public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory(
-      @Qualifier("messageKafkaCommonProperties") KafkaCommonProperties messageKafkaCommonProperties,
-      @Qualifier("messageKafkaConsumerProperties") KafkaConsumerProperties messageKafkaConsumerProperties,
-      @Qualifier("messageKafkaListenerContainerProperties") KafkaListenerContainerProperties messageKafkaListenerContainerProperties,
-      @Qualifier("messageLoggingErrorHandler") LoggingErrorHandler messageLoggingErrorHandler) {
+  public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> kafkaListenerContainerFactory(
+      KafkaCommonProperties messageKafkaCommonProperties, KafkaConsumerProperties messageKafkaConsumerProperties,
+      KafkaListenerContainerProperties messageKafkaListenerContainerProperties,
+      LoggingErrorHandler messageLoggingErrorHandler) {
 
     return createKafkaListenerContainerFactory(messageKafkaCommonProperties, messageKafkaConsumerProperties,
         messageKafkaListenerContainerProperties, messageLoggingErrorHandler);
-  }
-
-  /**
-   * Creates the bean for {@link MessageParserImpl}
-   *
-   * @param jacksonMapper the {@link ObjectMapper}
-   * @return the bean for {@link MessageParserImpl}
-   */
-  @Bean
-  public MessageParserImpl messageParser(ObjectMapper jacksonMapper) {
-
-    return new MessageParserImpl(jacksonMapper);
   }
 
   /**
@@ -128,12 +112,12 @@ public class MessageReceiverConfig {
    * @param messageLoggingErrorHandler the {@link LoggingErrorHandler}
    * @return the KafkaListenerContainerFactory.
    */
-  public static KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> createKafkaListenerContainerFactory(
+  public static KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> createKafkaListenerContainerFactory(
       KafkaCommonProperties kafkaCommonProperties, KafkaConsumerProperties kafkaConsumerProperties,
       KafkaListenerContainerProperties kafkaListenerContainerProperties,
       LoggingErrorHandler messageLoggingErrorHandler) {
 
-    ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
 
     factory
         .setConsumerFactory(MessageCommonConfig.createConsumerFactory(kafkaCommonProperties, kafkaConsumerProperties));
@@ -168,7 +152,7 @@ public class MessageReceiverConfig {
   }
 
   private static void setAckModeToListenerFactory(String ackModeProperty,
-      ConcurrentKafkaListenerContainerFactory<String, String> factory) {
+      ConcurrentKafkaListenerContainerFactory<Object, Object> factory) {
 
     AckMode ackMode = null;
     try {
@@ -194,7 +178,7 @@ public class MessageReceiverConfig {
         builder.append(mode.name());
       }
 
-      throw new IllegalArgumentException("Invalid ack-mode", e);
+      throw new IllegalArgumentException("Invalid ack-mode " + builder.toString(), e);
     }
 
     factory.getContainerProperties().setAckMode(ackMode);

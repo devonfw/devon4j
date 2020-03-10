@@ -2,8 +2,6 @@ package com.devonfw.module.kafka.common.messaging.api.client.parser;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
-import com.devonfw.module.kafka.common.messaging.api.Message;
-
 /**
  * This interface is used to parse the given message{@link ConsumerRecord consumerRecord}} to the given class
  * type{@link Class payloadClassName} using {@link #parseMessage(ConsumerRecord, Class)}.
@@ -19,10 +17,9 @@ public interface MessageParser {
    * @param <T>
    * @param consumerRecord the record consumed from Kafka broker.
    * @param payloadClassName the class type which should be the parsed result.
-   * @return the {@link Message} with the payloadClassName type.
+   * @return the converted message of type T.
    * @throws Exception when invalid class type is given.
    */
-  <T> Message<T> parseMessage(ConsumerRecord<String, String> consumerRecord, Class<T> payloadClassName)
-      throws Exception;
+  <T> T parseMessage(ConsumerRecord<?, ?> consumerRecord, Class<T> payloadClassName) throws Exception;
 
 }

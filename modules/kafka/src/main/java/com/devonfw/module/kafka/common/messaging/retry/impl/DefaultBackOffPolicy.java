@@ -1,8 +1,7 @@
 package com.devonfw.module.kafka.common.messaging.retry.impl;
 
 import java.time.Instant;
-
-import org.springframework.util.Assert;
+import java.util.Optional;
 
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageBackOffPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.api.config.DefaultBackOffPolicyProperties;
@@ -28,9 +27,7 @@ public class DefaultBackOffPolicy implements MessageBackOffPolicy {
    */
   public DefaultBackOffPolicy(DefaultBackOffPolicyProperties properties) {
 
-    Assert.isTrue(properties.getRetryDelay() > 0, "The property  \"retry-delay \" must be> 0.");
-    Assert.isTrue(properties.getRetryDelayMultiplier() > 0.0, "The property \"retry-delay-multiplier\" must be> 0.");
-    Assert.isTrue(properties.getRetryMaxDelay() > 0, "The property \"retry-max-delay \" must be> 0.");
+    Optional.ofNullable(properties).ifPresent(this::checkProperties);
 
     this.retryReEnqueueDelay = properties.getRetryReEnqueueDelay();
     this.retryDelay = properties.getRetryDelay();
@@ -38,8 +35,25 @@ public class DefaultBackOffPolicy implements MessageBackOffPolicy {
     this.retryMaxDelay = properties.getRetryMaxDelay();
   }
 
+  /**
+   * @param properties
+   */
+  private void checkProperties(DefaultBackOffPolicyProperties properties) {
+
+    if (properties.getRetryDelay() < 0) {
+      throw new IllegalArgumentException("The property  \"retry-delay \" must be> 0.");
+    }
+
+    if (properties.getRetryDelayMultiplier() < 0.0) {
+      throw new IllegalArgumentException("The property \"retry-delay-multiplier\" must be> 0.");
+    }
+    if (properties.getRetryMaxDelay() < 0) {
+      throw new IllegalArgumentException("The property \"retry-max-delay \" must be> 0.");
+    }
+  }
+
   @Override
-  public String getNextRetryTimestamp(long retryCount, String retryUntilTimestamp) {
+  public Instant getNextRetryTimestamp(long retryCount, String retryUntilTimestamp) {
 
     long delayValue = (long) (this.retryDelay * Math.pow(this.retryDelayMultiplier, retryCount));
 
@@ -47,10 +61,10 @@ public class DefaultBackOffPolicy implements MessageBackOffPolicy {
       delayValue = this.retryMaxDelay;
     }
 
-    String result = Instant.now().plusMillis(delayValue).toString();
+    Instant result = Instant.now().plusMillis(delayValue);
 
-    if (result.compareTo(retryUntilTimestamp) > 0) {
-      result = retryUntilTimestamp;
+    if (result.toString().compareTo(retryUntilTimestamp) > 0) {
+      result = Instant.parse(retryUntilTimestamp);
     }
 
     return result;

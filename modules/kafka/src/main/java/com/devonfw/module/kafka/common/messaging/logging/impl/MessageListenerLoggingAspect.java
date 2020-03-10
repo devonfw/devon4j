@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.time.Instant;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.record.TimestampType;
@@ -19,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 import com.devonfw.module.kafka.common.messaging.trace.impl.MessageSpanExtractor;
@@ -38,10 +38,10 @@ public class MessageListenerLoggingAspect {
 
   private static final Logger LOG = LoggerFactory.getLogger(MessageListenerLoggingAspect.class);
 
-  @Autowired
+  @Inject
   private MessageLoggingSupport loggingSupport;
 
-  @Autowired
+  @Inject
   private ConsumerGroupResolver consumerGroupResolver;
 
   /**
@@ -53,7 +53,8 @@ public class MessageListenerLoggingAspect {
   /**
    *
    */
-  @Autowired(required = false)
+  // @Autowired(required = false)
+  @Inject
   protected MessageSpanExtractor spanExtractor;
 
   /**
@@ -63,14 +64,14 @@ public class MessageListenerLoggingAspect {
    * @throws Throwable
    */
   @Around("@annotation(org.springframework.kafka.annotation.KafkaListener) && args(kafkaRecord,..)")
-  public Object logMessageProcessing(ProceedingJoinPoint call, ConsumerRecord<String, String> kafkaRecord)
+  public Object logMessageProcessing(ProceedingJoinPoint call, ConsumerRecord<Object, Object> kafkaRecord)
       throws Throwable {
 
     openSpan(kafkaRecord);
 
     String consumerGroup = identifyConsumerGroup(call);
-    this.loggingSupport.logMessageReceived(LOG, kafkaRecord.key(), consumerGroup, kafkaRecord.topic(),
-        kafkaRecord.partition(), kafkaRecord.offset(), determineRetentionTimeOfQueue(kafkaRecord));
+    this.loggingSupport.logMessageReceived(LOG, consumerGroup, kafkaRecord.topic(), kafkaRecord.partition(),
+        kafkaRecord.offset(), determineLengthOfStayInTopic(kafkaRecord));
 
     boolean isCallSucessFull = false;
     long startTime = Instant.now().toEpochMilli();
@@ -85,11 +86,11 @@ public class MessageListenerLoggingAspect {
       long duration = endTime - startTime;
 
       if (isCallSucessFull) {
-        this.loggingSupport.logMessageProcessed(LOG, kafkaRecord.key(), consumerGroup, kafkaRecord.topic(),
-            kafkaRecord.partition(), kafkaRecord.offset(), duration);
+        this.loggingSupport.logMessageProcessed(LOG, consumerGroup, kafkaRecord.topic(), kafkaRecord.partition(),
+            kafkaRecord.offset(), duration);
       } else {
-        this.loggingSupport.logMessageNotProcessed(LOG, kafkaRecord.key(), consumerGroup, kafkaRecord.topic(),
-            kafkaRecord.partition(), kafkaRecord.offset());
+        this.loggingSupport.logMessageNotProcessed(LOG, consumerGroup, kafkaRecord.topic(), kafkaRecord.partition(),
+            kafkaRecord.offset());
       }
 
       MessageTraceSupport.finishSpan();
@@ -99,7 +100,7 @@ public class MessageListenerLoggingAspect {
   /**
    * @param kafkaRecord
    */
-  protected void openSpan(ConsumerRecord<String, String> kafkaRecord) {
+  protected void openSpan(ConsumerRecord<Object, Object> kafkaRecord) {
 
     if (ObjectUtils.isEmpty(this.tracer)) {
       return;
@@ -118,7 +119,7 @@ public class MessageListenerLoggingAspect {
    * @param kafkaRecord
    * @return
    */
-  protected long determineRetentionTimeOfQueue(ConsumerRecord<String, String> kafkaRecord) {
+  protected long determineLengthOfStayInTopic(ConsumerRecord<Object, Object> kafkaRecord) {
 
     if (kafkaRecord.timestampType() != TimestampType.NO_TIMESTAMP_TYPE) {
       return Instant.now().toEpochMilli() - kafkaRecord.timestamp();
@@ -149,8 +150,11 @@ public class MessageListenerLoggingAspect {
   public void checkTraceConfiguration() {
 
     if (this.tracer != null) {
-      Assert.notNull(this.spanExtractor, "Span extractor must not be null."
-          + "If there is a sleuth tracer, then there must also be a span extractor.");
+
+      if (ObjectUtils.isEmpty(this.spanExtractor)) {
+        throw new IllegalStateException("Span extractor must not be null."
+            + "If there is a sleuth tracer, then there must also be a span extractor.");
+      }
     }
   }
 }

@@ -1,6 +1,9 @@
 package com.devonfw.module.kafka.common.messaging.retry.api.client;
 
-import com.devonfw.module.kafka.common.messaging.api.Message;
+import java.time.Instant;
+
+import org.apache.kafka.clients.producer.ProducerRecord;
+
 import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryContext;
 
 /**
@@ -10,18 +13,18 @@ import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryContext;
 public interface MessageRetryPolicy {
 
   /**
-   * @param message
+   * @param producerRecord
    * @param retryContext
    * @param ex
    * @return
    */
-  boolean canRetry(Message<?> message, MessageRetryContext retryContext, Exception ex);
+  boolean canRetry(ProducerRecord<Object, Object> producerRecord, MessageRetryContext retryContext, Exception ex);
 
   /**
-   * @param message
+   * @param producerRecord
    * @param retryContext
    * @return
    */
-  String getRetryUntilTimestamp(Message<?> message, MessageRetryContext retryContext);
+  Instant getRetryUntilTimestamp(ProducerRecord<Object, Object> producerRecord, MessageRetryContext retryContext);
 
 }

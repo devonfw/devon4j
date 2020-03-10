@@ -3,11 +3,6 @@ package com.devonfw.module.kafka.common.messaging.retry.util;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.util.ObjectUtils;
-
-import com.devonfw.module.kafka.common.messaging.api.Message;
-import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryContext;
-
 /**
  * @author ravicm
  *
@@ -16,19 +11,6 @@ public class MessageRetryUtils {
 
   private MessageRetryUtils() {
 
-  }
-
-  /**
-   * @param message
-   * @return
-   */
-  public static String getRetryCheckpoint(Message<?> message) {
-
-    if (ObjectUtils.isEmpty(message)) {
-      return null;
-    }
-
-    return message.getHeaderValue(MessageRetryContext.RETRY_CHECKPOINT_NAME);
   }
 
   /**
