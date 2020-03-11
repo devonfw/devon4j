@@ -1,6 +1,7 @@
 package com.devonfw.module.kafka.common.messaging.api.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,9 @@ import brave.Tracer;
 @Configuration
 @Import(MessageCommonConfig.class)
 public class MessageSenderConfig {
+
+  @Inject
+  private Tracer tracer;
 
   /**
    * Creates bean for {@link DiagnosticContextFacadeImpl} and used for setting and retrieving correlation-id from
@@ -118,15 +122,14 @@ public class MessageSenderConfig {
   @Bean
   public MessageSenderImpl messageSender(KafkaTemplate<Object, Object> messageKafkaTemplate,
       MessageLoggingSupport messageLoggingSupport, MessageSenderProperties messageSenderProperties,
-      DiagnosticContextFacade diagnosticContextFacade, MessageSpanInjector messageSpanInjector,
-      @Autowired(required = false) Tracer tracer) {
+      DiagnosticContextFacade diagnosticContextFacade, MessageSpanInjector messageSpanInjector) {
 
     MessageSenderImpl bean = new MessageSenderImpl();
     bean.setKafkaTemplate(messageKafkaTemplate);
     bean.setLoggingSupport(messageLoggingSupport);
     bean.setSenderProperties(messageSenderProperties);
     bean.setSpanInjector(messageSpanInjector);
-    bean.setTracer(tracer);
+    bean.setTracer(this.tracer);
     bean.setDiagnosticContextFacade(diagnosticContextFacade);
     return bean;
   }
@@ -140,9 +143,9 @@ public class MessageSenderConfig {
    */
   @Bean
   public ProducerLoggingListener<Object, Object> messageProducerLoggingListener(
-      MessageLoggingSupport messageLoggingSupport, @Autowired(required = false) Tracer tracer) {
+      MessageLoggingSupport messageLoggingSupport) {
 
-    return new ProducerLoggingListener<>(messageLoggingSupport, tracer);
+    return new ProducerLoggingListener<>(messageLoggingSupport, this.tracer);
   }
 
   /**

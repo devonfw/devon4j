@@ -107,11 +107,13 @@
 				<artifactId>slf4j-api</artifactId>
 				<version>1.7.28</version>
 			</dependency>
-			<!-- Brave -->
+			<!--Spring cloud dependencies BOM -->
 			<dependency>
-				<groupId>io.zipkin.brave</groupId>
-				<artifactId>brave</artifactId>
-				<version>5.9.1</version>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Greenwich.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 			<!-- Servlet API -->
 			<dependency>

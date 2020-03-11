@@ -61,6 +61,7 @@ public class MessageTestSender extends ComponentTest {
   @BeforeAll
   protected void doSetUp() {
 
+    // Arrange
     SampleUserTestPojo payload = new SampleUserTestPojo("ashwin", "9876543210", "India");
 
     this.producerRecord = new ProducerRecord<>(testTopicNames[0], 0, "testKey", payload.toString());

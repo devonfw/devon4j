@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Collections;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.ConsumerFactory;
@@ -30,7 +31,6 @@ import com.devonfw.module.logging.common.api.LoggingConstants;
 import com.devonfw.module.logging.common.impl.DiagnosticContextFacadeImpl;
 
 import brave.Tracer;
-import brave.Tracing;
 import kafka.server.KafkaConfig;
 
 /**
@@ -39,6 +39,9 @@ import kafka.server.KafkaConfig;
  */
 @Configuration
 public class TestMessageSenderConfig {
+
+  @Inject
+  private Tracer tracer;
 
   /**
    * @return
@@ -170,10 +173,9 @@ public class TestMessageSenderConfig {
    * @throws IOException
    */
   @Bean
-  public KafkaTemplate<Object, Object> testMessageKafkaTemplate(@Autowired(required = false) Tracer tracer)
-      throws IOException {
+  public KafkaTemplate<Object, Object> testMessageKafkaTemplate() throws IOException {
 
-    return createKafkaTemplate(testMessageProducerLoggingListener(testMessageLoggingSupport(), tracer),
+    return createKafkaTemplate(testMessageProducerLoggingListener(testMessageLoggingSupport()),
         testMessageKafkaProducerFactory());
   }
 
@@ -197,21 +199,16 @@ public class TestMessageSenderConfig {
    * @throws IOException
    */
   @Bean
-  public MessageSenderImpl testMessageSender(/* @Autowired(required = true) Tracer tracer */) throws IOException {
+  public MessageSenderImpl testMessageSender() throws IOException {
 
     MessageSenderImpl bean = new MessageSenderImpl();
-    bean.setKafkaTemplate(testMessageKafkaTemplate(tracer()));
+    bean.setKafkaTemplate(testMessageKafkaTemplate());
     bean.setLoggingSupport(testMessageLoggingSupport());
     bean.setSenderProperties(testMessageSenderProperties());
     bean.setSpanInjector(messageSpanInjector(testDiagnosticContextFacade()));
     bean.setDiagnosticContextFacade(testDiagnosticContextFacade());
-    bean.setTracer(tracer());
+    bean.setTracer(this.tracer);
     return bean;
-  }
-
-  public Tracer tracer() {
-
-    return Tracing.currentTracer();
   }
 
   /**
@@ -231,9 +228,9 @@ public class TestMessageSenderConfig {
    * @return
    */
   public ProducerLoggingListener<Object, Object> testMessageProducerLoggingListener(
-      MessageLoggingSupport testMessageLoggingSupport, @Autowired(required = false) Tracer tracer) {
+      MessageLoggingSupport testMessageLoggingSupport) {
 
-    return new ProducerLoggingListener<>(testMessageLoggingSupport(), tracer);
+    return new ProducerLoggingListener<>(testMessageLoggingSupport(), this.tracer);
   }
 
   /**

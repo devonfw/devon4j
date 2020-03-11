@@ -16,7 +16,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -47,15 +46,28 @@ public class MessageListenerLoggingAspect {
   /**
    *
    */
-  @Autowired(required = false)
   protected Tracer tracer;
 
   /**
    *
    */
-  // @Autowired(required = false)
-  @Inject
   protected MessageSpanExtractor spanExtractor;
+
+  /**
+   * @param tracer new value of {@link #gettracer}.
+   */
+  public void setTracer(Tracer tracer) {
+
+    this.tracer = tracer;
+  }
+
+  /**
+   * @param spanExtractor new value of {@link #getspanExtractor}.
+   */
+  public void setSpanExtractor(MessageSpanExtractor spanExtractor) {
+
+    this.spanExtractor = spanExtractor;
+  }
 
   /**
    * @param call

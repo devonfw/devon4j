@@ -7,13 +7,10 @@ import org.springframework.context.annotation.Import;
 import com.devonfw.example.base.config.TestMessageSenderConfig;
 
 /**
- * @author ravicm
  *
  */
 @SpringBootApplication
 @Import({ TestMessageSenderConfig.class })
-// @Import({ MessageSenderConfig.class, MessageReceiverConfig.class, TraceConfig.class, MessageDefaultRetryConfig.class
-// })
 public class TestApplication {
 
   /**

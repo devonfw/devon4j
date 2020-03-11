@@ -216,8 +216,19 @@ public class MessageSenderImpl implements MessageSender {
 
   private <T> void checkTracerCurrentSpanAndInjectHeaders(Headers headers) {
 
-    if (this.tracer != null && this.tracer.currentSpan() != null && this.spanInjector != null) {
+    Optional.ofNullable(this.tracer).ifPresent(t -> injectTraceHeaders(headers));
+  }
+
+  private void injectTraceHeaders(Headers headers) {
+
+    if (this.tracer.currentSpan() != null && this.spanInjector != null) {
       this.spanInjector.inject(this.tracer.currentSpan().context(), headers);
+      return;
+    }
+
+    if (this.tracer.currentSpan() == null) {
+      this.tracer.nextSpan().start();
+      this.spanInjector.inject(this.tracer.nextSpan().context(), headers);
     }
   }
 

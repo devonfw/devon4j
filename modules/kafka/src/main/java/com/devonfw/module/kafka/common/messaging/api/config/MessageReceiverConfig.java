@@ -2,6 +2,8 @@ package com.devonfw.module.kafka.common.messaging.api.config;
 
 import java.util.Optional;
 
+import javax.inject.Inject;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,9 @@ import org.springframework.kafka.listener.LoggingErrorHandler;
 
 import com.devonfw.module.kafka.common.messaging.logging.impl.ConsumerGroupResolver;
 import com.devonfw.module.kafka.common.messaging.logging.impl.MessageListenerLoggingAspect;
+import com.devonfw.module.kafka.common.messaging.trace.impl.MessageSpanExtractor;
+
+import brave.Tracer;
 
 /**
  * A class used to create a configuration for the custom message receiver.
@@ -26,6 +31,9 @@ import com.devonfw.module.kafka.common.messaging.logging.impl.MessageListenerLog
 @EnableAspectJAutoProxy
 @Import(MessageCommonConfig.class)
 public class MessageReceiverConfig {
+
+  @Inject
+  private Tracer tracer;
 
   /**
    * Creates the bean of {@link KafkaConsumerProperties} and looks for the prefix given to map the properties.
@@ -72,13 +80,18 @@ public class MessageReceiverConfig {
 
   /**
    * Creates the bean for {@link MessageListenerLoggingAspect}.
+   * 
+   * @param messageSpanExtractor
    *
    * @return the {@link MessageListenerLoggingAspect}.
    */
   @Bean
-  public MessageListenerLoggingAspect messageListenerLoggingAspect() {
+  public MessageListenerLoggingAspect messageListenerLoggingAspect(MessageSpanExtractor messageSpanExtractor) {
 
-    return new MessageListenerLoggingAspect();
+    MessageListenerLoggingAspect messageListenerLoggingAspect = new MessageListenerLoggingAspect();
+    messageListenerLoggingAspect.setTracer(this.tracer);
+    messageListenerLoggingAspect.setSpanExtractor(messageSpanExtractor);
+    return messageListenerLoggingAspect;
   }
 
   /**
