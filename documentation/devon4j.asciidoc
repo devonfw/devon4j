@@ -183,6 +183,10 @@ include::guide-blob-support.asciidoc[leveloffset=2]
 
 include::guide-jdk.asciidoc[leveloffset=2]
 
+<<<<
+
+include::guide-microservice.ascidoc[leveloffset=2]
+
 == Tutorials
 
 include::tutorial-newapp.asciidoc[leveloffset=2]
