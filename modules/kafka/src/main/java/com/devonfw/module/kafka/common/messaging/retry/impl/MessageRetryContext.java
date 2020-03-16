@@ -10,42 +10,39 @@ import org.apache.kafka.common.header.Headers;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import com.devonfw.module.kafka.common.messaging.retry.api.RetryState;
+
 /**
- * @author ravicm
+ * The MessageRetryContext is a class used to create retry pattern with the custom headers carries values for the retry
+ * to proceed.
  *
  */
 public class MessageRetryContext {
 
   /**
-   *
+   * The RETRY_UNTIL header.
    */
   public static final String RETRY_UNTIL = "messageRetryUntil";
 
+  /**
+   * RETRY_NEXT header.
+   */
   public static final String RETRY_NEXT = "messageRetryNext";
 
+  /**
+   * RETRY_READ_COUNT header.
+   */
   public static final String RETRY_READ_COUNT = "messageRetryReadCount";
 
+  /**
+   * RETRY_COUNT header.
+   */
   public static final String RETRY_COUNT = "messageRetryCount";
 
-  public static final String RETRY_STATE = "messageRetryState";
-
-  public static final String RETRY_CHECKPOINT_NAME = "messageRetryCheckpoint";
-
   /**
-   * @author ravicm
-   *
+   * RETRY_STATE header.
    */
-  public enum RetryState {
-
-    PENDING,
-
-    SUCCESSFUL,
-
-    FAILED,
-
-    EXPIRED;
-
-  }
+  public static final String RETRY_STATE = "messageRetryState";
 
   private long retryReadCount;
 
@@ -57,71 +54,112 @@ public class MessageRetryContext {
 
   private RetryState retryState = RetryState.PENDING;
 
-  private String retryCheckpoint;
-
+  /**
+   * The retry read count.
+   *
+   * @return long
+   */
   public long getRetryReadCount() {
 
     return this.retryReadCount;
   }
 
+  /**
+   * Set the retry read count for {@link #getRetryReadCount()}
+   *
+   * @param retryReadCount the retry read count.
+   */
   public void setRetryReadCount(long retryReadCount) {
 
     this.retryReadCount = retryReadCount;
   }
 
+  /**
+   * The retry until in {@link Instant} format.
+   *
+   * @return {@link Instant}
+   */
   public Instant getRetryUntil() {
 
     return this.retryUntil;
   }
 
+  /**
+   * Set the retry until in {@link Instant}format for {@link #getRetryUntil()}
+   *
+   * @param retryUntil the retry until.
+   */
   public void setRetryUntil(Instant retryUntil) {
 
     this.retryUntil = retryUntil;
   }
 
+  /**
+   * The next retry {@link Instant}
+   *
+   * @return {@link Instant}
+   */
   public Instant getRetryNext() {
 
     return this.retryNext;
   }
 
+  /**
+   * Set the next retry {@link Instant} for {@link #getRetryNext()}
+   *
+   * @param retryNext the next retry.
+   */
   public void setRetryNext(Instant retryNext) {
 
     this.retryNext = retryNext;
   }
 
+  /**
+   * The retry count
+   *
+   * @return long.
+   */
   public long getRetryCount() {
 
     return this.retryCount;
   }
 
+  /**
+   * Set the retry count for {@link #getRetryCount()}
+   *
+   * @param retryCount the retry count.
+   */
   public void setRetryCount(long retryCount) {
 
     this.retryCount = retryCount;
   }
 
+  /**
+   * The {@link RetryState}
+   *
+   * @return the {@link RetryState}
+   */
   public RetryState getRetryState() {
 
     return this.retryState;
   }
 
+  /**
+   * Set the {@link RetryState} for {@link #getRetryState()}. By Default 'PENDING'.
+   *
+   * @param retryState the {@link RetryState}
+   */
   public void setRetryState(RetryState retryState) {
 
     this.retryState = retryState;
   }
 
-  public String getRetryCheckpoint() {
-
-    return this.retryCheckpoint;
-  }
-
-  public void setRetryCheckpoint(String retryCheckpoint) {
-
-    this.retryCheckpoint = retryCheckpoint;
-  }
-
   /**
-   * @param producerRecord
-   * @return
+   * This method is used to create {@link MessageRetryContext} from its custom headers in
+   * {@link ProducerRecord#headers()}.
+   *
+   * @param producerRecord the {@link ProducerRecord}
+   * @return {@link MessageRetryContext}
    */
   public static MessageRetryContext from(ProducerRecord<Object, Object> producerRecord) {
 
@@ -172,7 +210,9 @@ public class MessageRetryContext {
   }
 
   /**
-   * @param producerRecord
+   * This method is used to inject the custom retry headers to the {@link ProducerRecord#headers()}
+   *
+   * @param producerRecord the {@link ProducerRecord}
    */
   public void injectInto(ProducerRecord<Object, Object> producerRecord) {
 
@@ -204,11 +244,17 @@ public class MessageRetryContext {
 
   }
 
+  /**
+   * This method is used to increment the readReadyCount by 1.
+   */
   public void incRetryReadCount() {
 
     this.retryReadCount++;
   }
 
+  /**
+   * This method is used to increment the retryCount by 1.
+   */
   public void incRetryCount() {
 
     this.retryCount++;

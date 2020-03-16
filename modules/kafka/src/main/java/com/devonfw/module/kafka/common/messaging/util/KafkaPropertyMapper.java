@@ -2,26 +2,28 @@ package com.devonfw.module.kafka.common.messaging.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.StringDeserializer;
-import org.apache.kafka.common.serialization.StringSerializer;
 
 import com.devonfw.module.kafka.common.messaging.api.config.KafkaCommonProperties;
 import com.devonfw.module.kafka.common.messaging.api.config.KafkaConsumerProperties;
 import com.devonfw.module.kafka.common.messaging.api.config.KafkaProducerProperties;
 
 /**
- * @author ravicm
+ * A property mapping class used to map the properties to {@link ProducerConfig} and {@link ConsumerConfig}.
  *
  */
 public class KafkaPropertyMapper {
 
   /**
-   * @param commonProperties
-   * @param consumerProperties
-   * @return
+   * This method used to set properties from {@link KafkaCommonProperties} and {@link KafkaConsumerProperties} to
+   * {@link ConsumerConfig}
+   *
+   * @param commonProperties the {@link KafkaCommonProperties}
+   * @param consumerProperties the {@link KafkaConsumerProperties}
+   * @return the {@link Map}
    */
   public Map<String, Object> consumerProperties(KafkaCommonProperties commonProperties,
       KafkaConsumerProperties consumerProperties) {
@@ -75,16 +77,25 @@ public class KafkaPropertyMapper {
         consumerProperties.getExcludeInternalTopics());
     setConfigValueIfAvailable(props, ConsumerConfig.ISOLATION_LEVEL_CONFIG, consumerProperties.getIsolationLevel());
 
-    props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-    props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+    String valueDeserializer = Optional.ofNullable(consumerProperties.getValueDeserializer())
+        .orElse("org.apache.kafka.common.serialization.StringDeserializer");
+
+    String keyDeserializer = Optional.ofNullable(consumerProperties.getKeyDeserializer())
+        .orElse("org.apache.kafka.common.serialization.StringDeserializer");
+
+    props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, valueDeserializer);
+    props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, keyDeserializer);
 
     return props;
   }
 
   /**
-   * @param commonProperties
-   * @param producerProperties
-   * @return
+   * This method is used to create Producer properties from {@link KafkaCommonProperties} and
+   * {@link KafkaProducerProperties}.
+   *
+   * @param commonProperties the {@link KafkaCommonProperties}
+   * @param producerProperties the {@link KafkaProducerProperties}
+   * @return the {@link Map}
    */
   public Map<String, Object> producerProperties(KafkaCommonProperties commonProperties,
       KafkaProducerProperties producerProperties) {
@@ -131,8 +142,14 @@ public class KafkaPropertyMapper {
         producerProperties.getTransactionTimeoutMs());
     setConfigValueIfAvailable(props, ProducerConfig.TRANSACTIONAL_ID_CONFIG, producerProperties.getTransactionalId());
 
-    props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-    props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+    String keySerializer = Optional.ofNullable(producerProperties.getKeySerializer())
+        .orElse("org.apache.kafka.common.serialization.StringSerializer");
+
+    String valueSerializer = Optional.ofNullable(producerProperties.getValueSerializer())
+        .orElse("org.apache.kafka.common.serialization.StringSerializer");
+
+    props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, keySerializer);
+    props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueSerializer);
 
     return props;
   }

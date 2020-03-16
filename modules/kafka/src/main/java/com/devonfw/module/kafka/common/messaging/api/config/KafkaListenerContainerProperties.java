@@ -4,81 +4,26 @@ import org.springframework.kafka.listener.ContainerProperties.AckMode;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 
 /**
- * @author ravicm
- *
+ * This is a property class used to create configuration for {@link MessageReceiverConfig}.
  */
 public class KafkaListenerContainerProperties {
 
-  /**
-   * The ack count
-   *
-   * @see #getAckCount()
-   * @see #setAckCount(Integer)
-   */
   private Integer ackCount;
 
-  /**
-   * The ack time.
-   *
-   * @see #getAckTime()
-   * @see #setAckTime(Long)
-   */
   private Long ackTime;
 
-  /**
-   * The ack mode
-   *
-   * @see #getAckMode()
-   * @see #setAckMode(String)
-   */
   private String ackMode = "MANUAL_IMMEDIATE";
 
-  /**
-   * The ack on Error
-   *
-   * @see #getAckOnError()
-   * @see #setAckOnError(Boolean)
-   */
   private Boolean ackOnError;
 
-  /**
-   * The concurrency specification for the listener.
-   *
-   * @see #getConcurrency()
-   * @see #setConcurrency(Integer)
-   */
   private Integer concurrency;
 
-  /**
-   * Idle event interval.
-   *
-   * @see #getIdleEventInterval()
-   * @see #setIdleEventInterval(Long)
-   */
   private Long idleEventInterval;
 
-  /**
-   * poll timeout
-   *
-   * @see #getPollTimeout()
-   * @see #setPollTimeout(Long)
-   */
   private Long pollTimeout;
 
-  /**
-   * Shutdown timeout
-   *
-   * @see #getShutdownTimeout()
-   * @see #setShutdownTimeout(Long)
-   */
   private Long shutdownTimeout;
 
-  /**
-   * The sync commits
-   *
-   * @see #getSyncCommits()
-   * @see #setSyncCommits(Boolean)
-   */
   private Boolean syncCommits;
 
   /**

@@ -5,22 +5,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.support.ProducerListener;
 
-import com.devonfw.module.logging.common.api.DiagnosticContextFacade;
-import com.devonfw.module.logging.common.impl.DiagnosticContextFacadeImpl;
-
 import brave.Tracer;
 
 /**
- * @author ravicm
- * @param <K>
- * @param <V>
+ * This is an implementation class of {@link ProducerListener}.
+ *
+ * @param <K> the key type.
+ * @param <V> the value type.
  *
  */
 public class ProducerLoggingListener<K, V> implements ProducerListener<K, V> {
 
   private static final Logger LOG = LoggerFactory.getLogger(ProducerLoggingListener.class);
-
-  private DiagnosticContextFacade diagnosticContextFacade = new DiagnosticContextFacadeImpl();
 
   private Tracer tracer;
 
@@ -29,8 +25,8 @@ public class ProducerLoggingListener<K, V> implements ProducerListener<K, V> {
   /**
    * The constructor.
    *
-   * @param loggingSupport
-   * @param tracer
+   * @param loggingSupport the {@link MessageLoggingSupport}
+   * @param tracer the {@link Tracer}
    */
   public ProducerLoggingListener(MessageLoggingSupport loggingSupport, Tracer tracer) {
 
@@ -56,5 +52,4 @@ public class ProducerLoggingListener<K, V> implements ProducerListener<K, V> {
     this.loggingSupport.logMessageNotSent(LOG, topic, partition,
         (exception != null ? exception.getLocalizedMessage() : "unknown"));
   }
-
 }

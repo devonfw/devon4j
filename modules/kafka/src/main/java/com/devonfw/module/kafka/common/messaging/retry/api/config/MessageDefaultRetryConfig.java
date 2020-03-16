@@ -7,13 +7,14 @@ import org.springframework.context.annotation.Configuration;
 
 import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageBackOffPolicy;
+import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryOperations;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.impl.DefaultBackOffPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.impl.DefaultRetryPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryTemplate;
 
 /**
- * @author ravicm
+ * This configuration class is used to create configurations beans for the {@link MessageRetryOperations}.
  *
  */
 @Configuration
@@ -21,7 +22,9 @@ import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryTemplate
 public class MessageDefaultRetryConfig {
 
   /**
-   * @return
+   * Creates bean for the {@link DefaultBackOffPolicyProperties}.
+   *
+   * @return the {@link DefaultBackOffPolicyProperties}
    */
   @Bean
   @ConfigurationProperties(prefix = "messaging.retry.default.back-off-policy")
@@ -31,7 +34,9 @@ public class MessageDefaultRetryConfig {
   }
 
   /**
-   * @return
+   * Creates bean for the {@link DefaultRetryPolicyProperties}
+   *
+   * @return the {@link DefaultRetryPolicy}
    */
   @Bean
   @ConfigurationProperties(prefix = "messaging.retry.default.retry-policy")
@@ -41,7 +46,9 @@ public class MessageDefaultRetryConfig {
   }
 
   /**
-   * @return
+   * Creates bean for the {@link MessageBackOffPolicy}
+   *
+   * @return the {@link MessageBackOffPolicy}
    */
   @Bean
   public MessageBackOffPolicy messageBackOffPolicy() {
@@ -50,7 +57,9 @@ public class MessageDefaultRetryConfig {
   }
 
   /**
-   * @return
+   * Creates bean for the {@link MessageRetryPolicy}
+   *
+   * @return the {@link MessageRetryPolicy}
    */
   @Bean
   public MessageRetryPolicy messageRetryPolicy() {
@@ -59,10 +68,12 @@ public class MessageDefaultRetryConfig {
   }
 
   /**
-   * @param messageDefaultRetryPolicy
-   * @param messageDefaultBackOffPolicy
-   * @param messageSender
-   * @return
+   * Creates bean for the {@link MessageRetryTemplate}
+   *
+   * @param messageDefaultRetryPolicy the {@link DefaultRetryPolicy}
+   * @param messageDefaultBackOffPolicy the {@link DefaultBackOffPolicy}
+   * @param messageSender the {@link MessageSender}
+   * @return the {@link MessageRetryTemplate}
    */
   @Bean
   public MessageRetryTemplate messageDefaultRetryTemplate(DefaultRetryPolicy messageDefaultRetryPolicy,

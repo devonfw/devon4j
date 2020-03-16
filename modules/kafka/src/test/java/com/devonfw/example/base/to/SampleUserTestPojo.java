@@ -1,7 +1,11 @@
 package com.devonfw.example.base.to;
 
+import org.apache.kafka.clients.producer.ProducerRecord;
+
+import com.devonfw.module.kafka.common.messaging.impl.MessageSenderImpl;
+
 /**
- * @author ravicm
+ * A sample User Pojo class used to test {@link MessageSenderImpl} and used a value for {@link ProducerRecord}.
  *
  */
 public class SampleUserTestPojo {
@@ -22,23 +26,21 @@ public class SampleUserTestPojo {
   @Override
   public int hashCode() {
 
-    // TODO Auto-generated method stub
     return super.hashCode();
   }
 
   @Override
   public boolean equals(Object obj) {
 
-    // TODO Auto-generated method stub
     return super.equals(obj);
   }
 
   /**
    * The constructor.
-   * 
-   * @param name
-   * @param contactNo
-   * @param address
+   *
+   * @param name the name
+   * @param contactNo contactNo
+   * @param address the address
    */
   public SampleUserTestPojo(String name, String contactNo, String address) {
 
@@ -57,6 +59,8 @@ public class SampleUserTestPojo {
   }
 
   /**
+   * The name.
+   *
    * @return name
    */
   public String getName() {
@@ -65,7 +69,9 @@ public class SampleUserTestPojo {
   }
 
   /**
-   * @param name new value of {@link #getname}.
+   * Set the name for {@link #getName()}
+   *
+   * @param name the name.
    */
   public void setName(String name) {
 
@@ -73,6 +79,8 @@ public class SampleUserTestPojo {
   }
 
   /**
+   * The ContactNo.
+   *
    * @return contactNo
    */
   public String getContactNo() {
@@ -81,7 +89,9 @@ public class SampleUserTestPojo {
   }
 
   /**
-   * @param contactNo new value of {@link #getcontactNo}.
+   * Set the Contactno for {@link #getContactNo()}.
+   *
+   * @param contactNo contact number.
    */
   public void setContactNo(String contactNo) {
 
@@ -89,6 +99,8 @@ public class SampleUserTestPojo {
   }
 
   /**
+   * The Address.
+   *
    * @return address
    */
   public String getAddress() {
@@ -97,7 +109,9 @@ public class SampleUserTestPojo {
   }
 
   /**
-   * @param address new value of {@link #getaddress}.
+   * Set the address for {@link #getAddress()}
+   *
+   * @param address the address.
    */
   public void setAddress(String address) {
 

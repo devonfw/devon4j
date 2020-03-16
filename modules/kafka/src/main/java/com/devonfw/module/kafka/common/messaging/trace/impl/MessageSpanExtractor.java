@@ -13,7 +13,8 @@ import brave.propagation.TraceContext.Extractor;
 import brave.propagation.TraceContextOrSamplingFlags;
 
 /**
- * @author ravicm
+ * This is an implementation class for the {@link Extractor} used to extract the {@link MessageTraceHeaders} from
+ * {@link ConsumerRecord}.
  *
  */
 public class MessageSpanExtractor implements Extractor<ConsumerRecord<Object, Object>> {

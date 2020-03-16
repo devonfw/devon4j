@@ -28,7 +28,7 @@ import brave.Span;
 import brave.Tracer;
 
 /**
- * @author ravicm
+ * This aspect class is used to listen the {@link KafkaListener} and to log the {@link ConsumerRecord} received.
  *
  */
 @Aspect
@@ -44,17 +44,19 @@ public class MessageListenerLoggingAspect {
   private ConsumerGroupResolver consumerGroupResolver;
 
   /**
-   *
+   * The {@link Tracer}.
    */
   protected Tracer tracer;
 
   /**
-   *
+   * The {@link MessageSpanExtractor}.
    */
   protected MessageSpanExtractor spanExtractor;
 
   /**
-   * @param tracer new value of {@link #gettracer}.
+   * Set the {@link Tracer}.
+   *
+   * @param tracer the {@link Tracer}.
    */
   public void setTracer(Tracer tracer) {
 
@@ -62,7 +64,9 @@ public class MessageListenerLoggingAspect {
   }
 
   /**
-   * @param spanExtractor new value of {@link #getspanExtractor}.
+   * Set the {@link MessageSpanExtractor}.
+   *
+   * @param spanExtractor .
    */
   public void setSpanExtractor(MessageSpanExtractor spanExtractor) {
 
@@ -70,10 +74,13 @@ public class MessageListenerLoggingAspect {
   }
 
   /**
-   * @param call
-   * @param kafkaRecord
-   * @return
-   * @throws Throwable
+   * This method is used to log the processing message.Checks for the method annotated {@link KafkaListener} and logs
+   * the message processing with the received {@link ConsumerRecord}
+   *
+   * @param call {@link ProceedingJoinPoint}
+   * @param kafkaRecord {@link ConsumerRecord}
+   * @return object the {@link Object}
+   * @throws Throwable the {@link Throwable}
    */
   @Around("@annotation(org.springframework.kafka.annotation.KafkaListener) && args(kafkaRecord,..)")
   public Object logMessageProcessing(ProceedingJoinPoint call, ConsumerRecord<Object, Object> kafkaRecord)
@@ -109,10 +116,7 @@ public class MessageListenerLoggingAspect {
     }
   }
 
-  /**
-   * @param kafkaRecord
-   */
-  protected void openSpan(ConsumerRecord<Object, Object> kafkaRecord) {
+  private void openSpan(ConsumerRecord<Object, Object> kafkaRecord) {
 
     if (ObjectUtils.isEmpty(this.tracer)) {
       return;
@@ -127,11 +131,7 @@ public class MessageListenerLoggingAspect {
         (span.context().parentId() != null ? toLowerHex(span.context().parentId()) : "null"));
   }
 
-  /**
-   * @param kafkaRecord
-   * @return
-   */
-  protected long determineLengthOfStayInTopic(ConsumerRecord<Object, Object> kafkaRecord) {
+  private long determineLengthOfStayInTopic(ConsumerRecord<Object, Object> kafkaRecord) {
 
     if (kafkaRecord.timestampType() != TimestampType.NO_TIMESTAMP_TYPE) {
       return Instant.now().toEpochMilli() - kafkaRecord.timestamp();
@@ -139,11 +139,7 @@ public class MessageListenerLoggingAspect {
     return 0;
   }
 
-  /**
-   * @param call
-   * @return
-   */
-  protected String identifyConsumerGroup(ProceedingJoinPoint call) {
+  private String identifyConsumerGroup(ProceedingJoinPoint call) {
 
     MethodSignature signature = (MethodSignature) call.getSignature();
     Method method = signature.getMethod();
@@ -156,7 +152,8 @@ public class MessageListenerLoggingAspect {
   }
 
   /**
-   *
+   * This method is annotated with {@link PostConstruct} to validate the properties {@link Tracer} and
+   * {@link MessageSpanExtractor}.
    */
   @PostConstruct
   public void checkTraceConfiguration() {

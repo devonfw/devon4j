@@ -7,7 +7,8 @@ import org.springframework.kafka.listener.ErrorHandler;
 import org.springframework.util.ObjectUtils;
 
 /**
- * @author ravicm
+ * This is an implementation class for the {@link ErrorHandler}. This class handles the exception by logging the error
+ * message and the exception thrown.
  *
  */
 public class LoggingErrorHandler implements ErrorHandler {

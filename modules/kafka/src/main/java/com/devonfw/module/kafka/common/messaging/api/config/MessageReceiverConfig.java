@@ -24,7 +24,6 @@ import brave.Tracer;
 
 /**
  * A class used to create a configuration for the custom message receiver.
- *
  */
 @Configuration
 @EnableKafka
@@ -80,8 +79,8 @@ public class MessageReceiverConfig {
 
   /**
    * Creates the bean for {@link MessageListenerLoggingAspect}.
-   * 
-   * @param messageSpanExtractor
+   *
+   * @param messageSpanExtractor the {@link MessageSpanExtractor}
    *
    * @return the {@link MessageListenerLoggingAspect}.
    */

@@ -6,7 +6,7 @@ import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.header.Headers;
 
 /**
- * @author ravicm
+ * An utility class with support methods.
  *
  */
 public class MessageUtil {
@@ -18,9 +18,11 @@ public class MessageUtil {
   }
 
   /**
-   * @param headers
-   * @param key
-   * @param value
+   * This method is used to add header value to the {@link Headers} with the value as bytes in the UTF_8 charset.
+   *
+   * @param headers the {@link Headers}
+   * @param key the key
+   * @param value the value.
    */
   public static void addHeaderValue(Headers headers, String key, String value) {
 
@@ -30,9 +32,11 @@ public class MessageUtil {
   }
 
   /**
-   * @param headers
-   * @param traceIdName
-   * @return
+   * This method is used to get the last header for the given traceIdName from {@link Headers}
+   *
+   * @param headers the {@link Headers}
+   * @param traceIdName the traceId Name
+   * @return the String.
    */
   public static String getHeaderValue(Headers headers, String traceIdName) {
 

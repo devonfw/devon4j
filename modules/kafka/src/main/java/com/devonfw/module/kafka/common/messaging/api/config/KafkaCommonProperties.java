@@ -8,126 +8,34 @@ import org.apache.kafka.clients.producer.KafkaProducer;
  */
 public class KafkaCommonProperties {
 
-  /**
-   * The Bootstrap servers.
-   *
-   * @see #getBootstrapServers()
-   * @see #setBootstrapServers(String)
-   */
   private String bootstrapServers;
 
-  /**
-   * The client id.
-   *
-   * @see #getClientId()
-   * @see #setClientId(String)
-   */
   private String clientId;
 
-  /**
-   * The connection max idle time in milliseconds.
-   *
-   * @see #setConnectionsMaxIdleMs(Integer)
-   * @see #getConnectionsMaxIdleMs()
-   */
   private Integer connectionsMaxIdleMs;
 
-  /**
-   * The meta data max age time in milliseconds.
-   *
-   * @see #getMetadataMaxAgeMs()
-   * @see #setMetadataMaxAgeMs(Integer)
-   */
   private Integer metadataMaxAgeMs;
 
-  /**
-   * The metrics sample window time in milliseconds.
-   *
-   * @see #getMetricsSampleWindowMs()
-   * @see #setMetricsSampleWindowMs(Integer)
-   */
   private Integer metricsSampleWindowMs;
 
-  /**
-   * The number of samples maintained to compute metrics.
-   *
-   * @see #getMetricsNumSamples()
-   * @see #setMetricsNumSamples(Integer)
-   */
   private Integer metricsNumSamples;
 
-  /**
-   * The metrics recording level.
-   *
-   * @see #getMetricsRecordingLevel()
-   * @see #setMetricsRecordingLevel(String)
-   */
   private String metricsRecordingLevel;
 
-  /**
-   * The metric Reporters.
-   *
-   * @see #getMetricReporters()
-   * @see #setMetricReporters(String)
-   */
   private String metricReporters;
 
-  // private String password;
-
-  /**
-   * The size of receive buffer bytes.
-   *
-   * @see #getReceiveBufferBytes()
-   * @see #setReceiveBufferBytes(Integer)
-   */
   private Integer receiveBufferBytes;
 
-  /**
-   * The reconnect back off time in milliseconds.
-   *
-   * @see #getReconnectBackoffMs()
-   * @see #setReconnectBackoffMs(Long)
-   */
   private Long reconnectBackoffMs;
 
-  /**
-   * The reconnect back off max time i milliseconds.
-   *
-   * @see #getReconnectBackoffMaxMs()
-   * @see #setReconnectBackoffMaxMs(Long)
-   */
   private Long reconnectBackoffMaxMs;
 
-  /**
-   * The retry back off time in milliseconds.
-   *
-   * @see #getRetryBackoffMs()
-   * @see #setRetryBackoffMs(Long)
-   */
   private Long retryBackoffMs;
 
-  /**
-   * The request timeout in milliseconds.
-   *
-   * @see #getRequestTimeoutMs()
-   * @see #setRequestTimeoutMs(Integer)
-   */
   private Integer requestTimeoutMs;
 
-  /**
-   * The security protocol.
-   *
-   * @see #getSecurityProtocol()
-   * @see #setSecurityProtocol(String)
-   */
   private String securityProtocol = "PLAINTEXT";
 
-  /**
-   * The size of the TCp send buffer.
-   *
-   * @see #getSendBufferBytes()
-   * @see #setSendBufferBytes(Integer)
-   */
   private Integer sendBufferBytes;
 
   /**
@@ -142,8 +50,7 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * Bootstrap Servers are a list of host/port pairs to use for establishing the initial connection to the Kafka
-   * cluster.
+   * Set the bootstrapServers for {@link #getBootstrapServers()}.
    *
    * @param bootstrapServers the bootstrap servers needs to added as property.
    */
@@ -164,8 +71,7 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * The period of time in milliseconds after which we force a refresh of metadata even if we haven't seen any partition
-   * leadership changes to proactively discover any new brokers or partitions.
+   * Set the metadataMaxAgeMs for {@link #getMetadataMaxAgeMs()}
    *
    * @param metadataMaxAgeMs the meta data max age time in milliseconds.
    */
@@ -186,8 +92,8 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * The size of the TCP send buffer (SO_SNDBUF) to use when sending data. If the value is -1, the OS default will be
-   * used.
+   *
+   * Set the sendBufferBytes for {@link #getSendBufferBytes()}
    *
    * @param sendBufferBytes the size of TCP send buffer.
    */
@@ -208,8 +114,7 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * The size of the TCP receive buffer (SO_RCVBUF) to use when reading data. If the value is -1, the OS default will be
-   * used.
+   * Set the receiveBufferBytes for {@link #getReceiveBufferBytes()}
    *
    * @param receiveBufferBytes the size of the receive buffer.
    */
@@ -231,9 +136,7 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * The client id is the property is used to passed with every request to the kafka. The sole purpose of this is to be
-   * able to track the source of requests beyond just ip and port by allowing a logical application name to be included
-   * in Kafka logs and monitoring aggregates.
+   * Set the clientId for {@link #getClientId()}.
    *
    * @param clientId the client id needs to be added as parameter.
    */
@@ -254,8 +157,7 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * The base amount of time to wait before attempting to reconnect to a given host. This avoids repeatedly connecting
-   * to a host in a tight loop. This backoff applies to all connection attempts by the client to a broker.
+   * Set the reconnectBackoffMs for {@link #getReconnectBackoffMs()}.
    *
    * @param reconnectBackoffMs the back off time in milliseconds.
    */
@@ -277,9 +179,7 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * The maximum amount of time in milliseconds to wait when reconnecting to a broker that has repeatedly failed to
-   * connect. If provided, the backoff per host will increase exponentially for each consecutive connection failure, up
-   * to this maximum. After calculating the backoff increase, 20% random jitter is added to avoid connection storms.
+   * Set the reconnectBackoffMaxMs for {@link #getReconnectBackoffMaxMs()}
    *
    * @param reconnectBackoffMaxMs the back off max time in milliseconds.
    */
@@ -300,8 +200,7 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * The amount of time to wait before attempting to retry a failed request to a given topic partition. This avoids
-   * repeatedly sending requests in a tight loop under some failure scenarios.
+   * Set the retryBackoffMs for {@link #getRetryBackoffMs()}.
    *
    * @param retryBackoffMs the retry backoff time in milliseconds.
    */
@@ -321,7 +220,7 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * The window of time a metrics sample is computed over.
+   * Set the metricsSampleWindowMs for {@link #getMetricsSampleWindowMs()}
    *
    * @param metricsSampleWindowMs the metrics sample window in milliseconds.
    */
@@ -341,7 +240,7 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * The number of samples maintained to compute metrics.
+   * Set the metricsNumSamples for {@link #getMetricsNumSamples()}
    *
    * @param metricsNumSamples the number of samples.
    */
@@ -361,7 +260,7 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * The highest recording level for metrics.
+   * Set the metricsRecordingLevel for {@link #getMetricsRecordingLevel()}.
    *
    * @param metricsRecordingLevel the recording level of metrics.
    */
@@ -383,9 +282,7 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * A list of classes to use as metrics reporters. Implementing the
-   * <code>org.apache.kafka.common.metrics.MetricsReporter</code> interface allows plugging in classes that will be
-   * notified of new metric creation. The JmxReporter is always included to register JMX statistics.
+   * Set the metricReporters for {@link #getMetricReporters()}
    *
    * @param metricReporters the list of reporter classes.
    */
@@ -405,7 +302,7 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * Protocol used to communicate with brokers. Valid values are: Utils.join(SecurityProtocol.names(), ", ").
+   * Set the securityProtocol for {@link #getSecurityProtocol()}
    *
    * @param securityProtocol the security protocol.
    */
@@ -425,7 +322,8 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * Close idle connections after the number of milliseconds specified by this config.
+   *
+   * Set the connectionsMaxIdleMs for {@link #getConnectionsMaxIdleMs()}
    *
    * @param connectionsMaxIdleMs the max idle time in milliseconds.
    */
@@ -447,10 +345,8 @@ public class KafkaCommonProperties {
   }
 
   /**
-   * The configuration controls the maximum amount of time the client will wait for the response of a request. If the
-   * response is not received before the timeout elapses the client will resend the request if necessary or fail the
-   * request if retries are exhausted.
-   *
+   * Set the requestTimeoutMs for {@link #getRequestTimeoutMs()}
+   * 
    * @param requestTimeoutMs the request timeout in milliseconds.
    */
   public void setRequestTimeoutMs(Integer requestTimeoutMs) {

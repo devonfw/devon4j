@@ -20,24 +20,25 @@ import org.springframework.kafka.core.ConsumerFactory;
 import com.devonfw.module.kafka.common.messaging.health.api.config.KafkaHealthIndicatorProperties;
 
 /**
- * @author ravicm
+ * This is an implementation for {@link HealthIndicator}.
  *
  */
 public class KafkaHealthIndicator implements HealthIndicator {
 
-  private final ConsumerFactory<?, ?> consumerFactory;
+  private final ConsumerFactory<Object, Object> consumerFactory;
 
   private KafkaHealthIndicatorProperties properties;
 
-  private Consumer<?, ?> metadataConsumer;
+  private Consumer<Object, Object> metadataConsumer;
 
   /**
    * The constructor.
    *
-   * @param consumerFactory
-   * @param properties
+   * @param consumerFactory the {@link ConsumerFactory}
+   * @param properties the {@link KafkaHealthIndicatorProperties}
    */
-  public KafkaHealthIndicator(ConsumerFactory<?, ?> consumerFactory, KafkaHealthIndicatorProperties properties) {
+  public KafkaHealthIndicator(ConsumerFactory<Object, Object> consumerFactory,
+      KafkaHealthIndicatorProperties properties) {
 
     this.consumerFactory = consumerFactory;
     this.properties = properties;
@@ -71,15 +72,11 @@ public class KafkaHealthIndicator implements HealthIndicator {
     }
   }
 
-  /**
-   * @return
-   */
-  protected Health doCheckKafkaHealth() {
+  private Health doCheckKafkaHealth() {
 
     try {
 
-      Optional.ofNullable(this.metadataConsumer)
-          .ifPresent(metaConsumer -> this.metadataConsumer = this.consumerFactory.createConsumer());
+      Optional.ofNullable(this.metadataConsumer).orElse(this.metadataConsumer = this.consumerFactory.createConsumer());
 
       if (this.properties == null || this.properties.getTopicsToCheck() == null
           || this.properties.getTopicsToCheck().isEmpty()) {
@@ -97,10 +94,6 @@ public class KafkaHealthIndicator implements HealthIndicator {
     }
   }
 
-  /**
-   * @param topicHealthInfos
-   * @return
-   */
   private Health checkAllTopicsAndReturnStatus(List<TopicHealthInfo> topicHealthInfos) {
 
     if (isAllUp(topicHealthInfos)) {
@@ -110,11 +103,7 @@ public class KafkaHealthIndicator implements HealthIndicator {
     return Health.down().withDetail("topics", topicHealthInfos).build();
   }
 
-  /**
-   * @param topics
-   * @return
-   */
-  protected List<TopicHealthInfo> checkPartitionLeaders(Set<String> topics) {
+  private List<TopicHealthInfo> checkPartitionLeaders(Set<String> topics) {
 
     List<TopicHealthInfo> result = new ArrayList<>();
 
@@ -123,10 +112,6 @@ public class KafkaHealthIndicator implements HealthIndicator {
     return result;
   }
 
-  /**
-   * @param result
-   * @param topic
-   */
   private void checkPartitionLeaders(List<TopicHealthInfo> result, String topic) {
 
     TopicHealthInfo healthInfo = new TopicHealthInfo();
@@ -141,10 +126,6 @@ public class KafkaHealthIndicator implements HealthIndicator {
         () -> setHealthStatusDownwhenPartionInfosAreEmpty(healthInfo));
   }
 
-  /**
-   * @param healthInfo
-   * @param partitionInfos
-   */
   private void checkPartionLeaderAndSetHealthStatus(TopicHealthInfo healthInfo, List<PartitionInfo> partitionInfos) {
 
     for (PartitionInfo partitionInfo : partitionInfos) {
@@ -159,20 +140,13 @@ public class KafkaHealthIndicator implements HealthIndicator {
     }
   }
 
-  /**
-   *
-   */
   private void setHealthStatusDownwhenPartionInfosAreEmpty(TopicHealthInfo healthInfo) {
 
     healthInfo.setStatus(HealthStatus.DOWN.toString());
     healthInfo.setDetails("Topic does not exist.");
   }
 
-  /**
-   * @param healthInfos
-   * @return
-   */
-  protected boolean isAllUp(List<TopicHealthInfo> healthInfos) {
+  private boolean isAllUp(List<TopicHealthInfo> healthInfos) {
 
     for (TopicHealthInfo healthInfo : healthInfos) {
       if (HealthStatus.DOWN.toString().equals(healthInfo.getStatus())) {

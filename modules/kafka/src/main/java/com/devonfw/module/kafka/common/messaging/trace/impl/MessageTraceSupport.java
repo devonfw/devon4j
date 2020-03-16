@@ -18,7 +18,7 @@ import brave.Tracing;
 import brave.propagation.TraceContextOrSamplingFlags;
 
 /**
- * @author ravicm
+ * A support class for {@link Tracer} to start and finish the span.
  *
  */
 public final class MessageTraceSupport {
@@ -30,8 +30,10 @@ public final class MessageTraceSupport {
   }
 
   /**
-   * @param kafkaRecord
-   * @param spanExtractor
+   * This method is used to start the span of {@link Tracer}.
+   *
+   * @param kafkaRecord the {@link ConsumerRecord}
+   * @param spanExtractor {@link MessageSpanExtractor}
    */
   public static void startSpan(ConsumerRecord<Object, Object> kafkaRecord, MessageSpanExtractor spanExtractor) {
 
@@ -49,10 +51,6 @@ public final class MessageTraceSupport {
 
   }
 
-  /**
-   * @param kafkaRecord
-   * @param tracer
-   */
   private static void getCurrentSpanAndLog(ConsumerRecord<Object, Object> kafkaRecord, Tracer tracer) {
 
     Span span = tracer.currentSpan();
@@ -62,10 +60,6 @@ public final class MessageTraceSupport {
         span.context().traceIdString());
   }
 
-  /**
-   * @param tracer
-   * @param extracted
-   */
   private static void checkTraceHeadersAndSetContextAsSpanInScope(Tracer tracer,
       TraceContextOrSamplingFlags extracted) {
 
@@ -77,7 +71,7 @@ public final class MessageTraceSupport {
   }
 
   /**
-   *
+   * This method is used to finish the current span of {@link Tracer}
    */
   public static void finishSpan() {
 

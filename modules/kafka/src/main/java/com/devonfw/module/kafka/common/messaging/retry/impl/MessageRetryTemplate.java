@@ -13,12 +13,12 @@ import org.springframework.util.ObjectUtils;
 import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
 import com.devonfw.module.kafka.common.messaging.logging.impl.EventKey;
 import com.devonfw.module.kafka.common.messaging.retry.api.MessageRetryProcessingResult;
+import com.devonfw.module.kafka.common.messaging.retry.api.RetryState;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageBackOffPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageProcessor;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryHandler;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryOperations;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryPolicy;
-import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryContext.RetryState;
 
 /**
  * @author ravicm

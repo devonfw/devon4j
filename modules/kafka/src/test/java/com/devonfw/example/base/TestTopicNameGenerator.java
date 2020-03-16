@@ -1,7 +1,7 @@
 package com.devonfw.example.base;
 
 /**
- * @author ravicm
+ * This class is used to generate the topic names using {@link #generateTopicNames(int)}.
  *
  */
 public class TestTopicNameGenerator {
@@ -15,8 +15,10 @@ public class TestTopicNameGenerator {
   }
 
   /**
-   * @param count
-   * @return
+   * This method is used to create the topic names.
+   *
+   * @param count the no.of topics.
+   * @return String[] of topics.
    */
   public static String[] generateTopicNames(int count) {
 
@@ -28,7 +30,7 @@ public class TestTopicNameGenerator {
   }
 
   /**
-   * @return
+   * @return the latest topic name.
    */
   public static String nextTopicName() {
 

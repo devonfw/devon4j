@@ -15,7 +15,7 @@ import com.devonfw.module.kafka.common.messaging.retry.api.config.DefaultRetryPo
 import com.devonfw.module.kafka.common.messaging.retry.util.MessageRetryUtils;
 
 /**
- * @author ravicm
+ * This is an implementation class for the {@link MessageRetryPolicy}
  *
  */
 public class DefaultRetryPolicy implements MessageRetryPolicy {
@@ -27,7 +27,7 @@ public class DefaultRetryPolicy implements MessageRetryPolicy {
   /**
    * The constructor.
    *
-   * @param properties
+   * @param properties the {@link DefaultRetryPolicyProperties}
    */
   public DefaultRetryPolicy(DefaultRetryPolicyProperties properties) {
 
@@ -74,10 +74,6 @@ public class DefaultRetryPolicy implements MessageRetryPolicy {
     return this.retryableClassifier.classify(ex);
   }
 
-  /**
-   * @param retryContext
-   * @param ex
-   */
   private boolean canRetry(MessageRetryContext retryContext, Exception ex) {
 
     String now = Instant.now().toString();

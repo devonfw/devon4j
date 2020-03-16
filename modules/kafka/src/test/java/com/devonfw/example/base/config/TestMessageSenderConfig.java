@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import javax.inject.Inject;
 
+import org.apache.kafka.common.errors.ProducerFencedException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.ConsumerFactory;
@@ -15,6 +16,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 
+import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
 import com.devonfw.module.kafka.common.messaging.api.config.KafkaCommonProperties;
 import com.devonfw.module.kafka.common.messaging.api.config.KafkaConsumerProperties;
 import com.devonfw.module.kafka.common.messaging.api.config.KafkaProducerProperties;
@@ -34,7 +36,7 @@ import brave.Tracer;
 import kafka.server.KafkaConfig;
 
 /**
- * @author ravicm
+ * A test configuration class for the {@link MessageSender}
  *
  */
 @Configuration
@@ -44,8 +46,10 @@ public class TestMessageSenderConfig {
   private Tracer tracer;
 
   /**
-   * @return
-   * @throws IOException
+   * Creates bean for the {@link EmbeddedKafkaBroker}
+   *
+   * @return the {@link EmbeddedKafkaBroker}
+   * @throws IOException the {@link IOException}
    */
   @Bean
   public EmbeddedKafkaBroker broker() throws IOException {
@@ -55,10 +59,12 @@ public class TestMessageSenderConfig {
   }
 
   /**
-   * @return
-   * @throws IOException
+   * The {@link KafkaCommonProperties}
+   *
+   * @return the kafkaCommonProperties
+   * @throws IOException the {@link IOException}.
    */
-  public KafkaCommonProperties testMessageKafkaCommonProperties() throws IOException {
+  protected KafkaCommonProperties testMessageKafkaCommonProperties() throws IOException {
 
     KafkaCommonProperties kafkaCommonProperties = new KafkaCommonProperties();
     kafkaCommonProperties.setBootstrapServers(broker().getBrokersAsString());
@@ -67,27 +73,30 @@ public class TestMessageSenderConfig {
   }
 
   /**
-   * @return
+   * The {@link MessageLoggingSupport}
+   *
+   * @return MessageLoggingSupport.
    */
-  public MessageLoggingSupport testMessageLoggingSupport() {
+  protected MessageLoggingSupport testMessageLoggingSupport() {
 
     return new MessageLoggingSupport();
   }
 
   /**
-   * @return
+   * The {@link KafkaHealthIndicatorProperties}
+   *
+   * @return KafkaHealthIndicatorProperties.
    */
-  public KafkaHealthIndicatorProperties testMessageKafkaHealthIndicatorProperties() {
+  protected KafkaHealthIndicatorProperties testMessageKafkaHealthIndicatorProperties() {
 
     return new KafkaHealthIndicatorProperties();
   }
 
   /**
-   * @param testMessageKafkaHealthIndicatorProperties
-   * @param testMessageKafkaCommonProperties
-   * @param testKafkaConsumerProperty
-   * @return
-   * @throws IOException
+   * Creates bean for {@link KafkaHealthIndicator}.
+   *
+   * @return KafkaHealthIndicator.
+   * @throws IOException the {@link IOException}.
    */
   @Bean
   public KafkaHealthIndicator kafkaHealthIndicator() throws IOException {
@@ -96,9 +105,11 @@ public class TestMessageSenderConfig {
   }
 
   /**
-   * @return
+   * The {@link KafkaConsumerProperties}.
+   *
+   * @return KafkaConsumerProperties.
    */
-  public KafkaConsumerProperties testKafkaConsumerProperty() {
+  protected KafkaConsumerProperties testKafkaConsumerProperty() {
 
     KafkaConsumerProperties kafkaConsumerProperties = new KafkaConsumerProperties();
     kafkaConsumerProperties.setGroupId("test-group");
@@ -110,12 +121,12 @@ public class TestMessageSenderConfig {
   }
 
   /**
-   * @param testMessageKafkaCommonProperties
-   * @param testKafkaConsumerProperty
-   * @return
-   * @throws IOException
+   * The {@link ConsumerFactory}
+   *
+   * @return ConsumerFactory
+   * @throws IOException the {@link IOException}
    */
-  public ConsumerFactory<Object, Object> createConsumerFactory() throws IOException {
+  protected ConsumerFactory<Object, Object> createConsumerFactory() throws IOException {
 
     KafkaPropertyMapper mapper = new KafkaPropertyMapper();
     return new DefaultKafkaConsumerFactory<>(
@@ -123,9 +134,11 @@ public class TestMessageSenderConfig {
   }
 
   /**
-   * @return
+   * The {@link KafkaProducerProperties}
+   *
+   * @return KafkaProducerProperties.
    */
-  public KafkaProducerProperties testMessageKafkaProducerProperties() {
+  protected KafkaProducerProperties testMessageKafkaProducerProperties() {
 
     KafkaProducerProperties kafkaProducerproperties = new KafkaProducerProperties();
     kafkaProducerproperties.setKeySerializer("org.apache.kafka.common.serialization.StringSerializer");
@@ -135,18 +148,20 @@ public class TestMessageSenderConfig {
   }
 
   /**
-   * @return
+   * The {@link MessageSenderProperties}
+   *
+   * @return MessageSenderProperties.
    */
-  public MessageSenderProperties testMessageSenderProperties() {
+  protected MessageSenderProperties testMessageSenderProperties() {
 
     return new MessageSenderProperties();
   }
 
   /**
-   * @param testMessageKafkaCommonProperties
-   * @param testMessageKafkaProducerProperties
-   * @return
-   * @throws IOException
+   * Creates Bean for the {@link ProducerFactory}.
+   *
+   * @return ProducerFactory
+   * @throws IOException the {@link IOException}.
    */
   @Bean
   public ProducerFactory<Object, Object> testMessageKafkaProducerFactory() throws IOException {
@@ -155,12 +170,12 @@ public class TestMessageSenderConfig {
   }
 
   /**
-   * @param testMessageKafkaCommonProperties
-   * @param testMessageKafkaProducerProperties
-   * @return
-   * @throws IOException
+   * The {@link ProducerFactory}
+   *
+   * @return ProducerFactory.
+   * @throws IOException the {@link IOException}.
    */
-  public ProducerFactory<Object, Object> createProducerFactory() throws IOException {
+  protected ProducerFactory<Object, Object> createProducerFactory() throws IOException {
 
     KafkaPropertyMapper mapper = new KafkaPropertyMapper();
     return new DefaultKafkaProducerFactory<>(
@@ -168,9 +183,10 @@ public class TestMessageSenderConfig {
   }
 
   /**
-   * @param tracer
-   * @return
-   * @throws IOException
+   * Creates Bean for {@link KafkaTemplate}.
+   *
+   * @return KafkaTemplate.
+   * @throws IOException the {@link IOException}.
    */
   @Bean
   public KafkaTemplate<Object, Object> testMessageKafkaTemplate() throws IOException {
@@ -180,13 +196,16 @@ public class TestMessageSenderConfig {
   }
 
   /**
-   * @param producerLogListener
-   * @param producerFactory
-   * @return
-   * @throws IOException
+   * The {@link KafkaTemplate}
+   *
+   * @param producerLogListener the {@link ProducerFencedException}
+   * @param producerFactory the {@link ProducerFactory}
+   * @return KafkaTemplate
+   * @throws IOException the {@link IOException}
    */
-  public KafkaTemplate<Object, Object> createKafkaTemplate(ProducerLoggingListener<Object, Object> producerLogListener,
-      ProducerFactory<Object, Object> producerFactory) throws IOException {
+  protected KafkaTemplate<Object, Object> createKafkaTemplate(
+      ProducerLoggingListener<Object, Object> producerLogListener, ProducerFactory<Object, Object> producerFactory)
+      throws IOException {
 
     KafkaTemplate<Object, Object> template = new KafkaTemplate<>(createProducerFactory());
     template.setProducerListener(producerLogListener);
@@ -194,9 +213,10 @@ public class TestMessageSenderConfig {
   }
 
   /**
-   * @param tracer
-   * @return
-   * @throws IOException
+   * creates bean for the {@link MessageSenderImpl}
+   *
+   * @return MessageSenderImpl
+   * @throws IOException the {@link IOException}.
    */
   @Bean
   public MessageSenderImpl testMessageSender() throws IOException {
@@ -212,10 +232,12 @@ public class TestMessageSenderConfig {
   }
 
   /**
-   * @param diagnosticContextFacade
-   * @return
+   * The {@link MessageSpanInjector}
+   *
+   * @param diagnosticContextFacade the {@link DiagnosticContextFacade}
+   * @return MessageSpanInjector.
    */
-  public MessageSpanInjector messageSpanInjector(DiagnosticContextFacade diagnosticContextFacade) {
+  protected MessageSpanInjector messageSpanInjector(DiagnosticContextFacade diagnosticContextFacade) {
 
     MessageSpanInjector messageSpanInjector = new MessageSpanInjector();
     messageSpanInjector.setDiagnosticContextFacade(diagnosticContextFacade);
@@ -223,11 +245,12 @@ public class TestMessageSenderConfig {
   }
 
   /**
-   * @param testMessageLoggingSupport
-   * @param tracer
-   * @return
+   * The {@link ProducerLoggingListener}
+   * 
+   * @param testMessageLoggingSupport the {@link MessageLoggingSupport}
+   * @return ProducerLoggingListener
    */
-  public ProducerLoggingListener<Object, Object> testMessageProducerLoggingListener(
+  protected ProducerLoggingListener<Object, Object> testMessageProducerLoggingListener(
       MessageLoggingSupport testMessageLoggingSupport) {
 
     return new ProducerLoggingListener<>(testMessageLoggingSupport(), this.tracer);

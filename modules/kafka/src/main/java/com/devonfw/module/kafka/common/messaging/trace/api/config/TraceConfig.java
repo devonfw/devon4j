@@ -8,15 +8,18 @@ import com.devonfw.module.kafka.common.messaging.trace.impl.MessageSpanInjector;
 import com.devonfw.module.logging.common.api.DiagnosticContextFacade;
 
 /**
- * @author ravicm
+ * The configuration class to create configuration bean for the {@link MessageSpanInjector} and
+ * {@link MessageSpanExtractor}
  *
  */
 @Configuration
 public class TraceConfig {
 
   /**
-   * @param diagnosticContextFacade
-   * @return
+   * Creates bean for the {@link MessageSpanExtractor}
+   *
+   * @param diagnosticContextFacade the {@link DiagnosticContextFacade}
+   * @return the {@link MessageSpanInjector}
    */
   @Bean
   public MessageSpanInjector messageSpanInjector(DiagnosticContextFacade diagnosticContextFacade) {
@@ -27,7 +30,9 @@ public class TraceConfig {
   }
 
   /**
-   * @return
+   * Creates bean for the {@link MessageSpanExtractor}
+   *
+   * @return the {@link MessageSpanExtractor}
    */
   @Bean
   public MessageSpanExtractor messageSpanExtractor() {

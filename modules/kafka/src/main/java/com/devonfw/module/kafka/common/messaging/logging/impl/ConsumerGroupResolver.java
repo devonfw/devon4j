@@ -13,7 +13,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.util.StringUtils;
 
 /**
- * @author ravicm
+ * This class is an implementation of {@link BeanPostProcessor}.
  *
  */
 public class ConsumerGroupResolver implements BeanPostProcessor {
@@ -42,8 +42,10 @@ public class ConsumerGroupResolver implements BeanPostProcessor {
   }
 
   /**
-   * @param containerFactory
-   * @return
+   * This method is used to get Consumer group by passing {@link AbstractKafkaListenerContainerFactory}
+   *
+   * @param containerFactory the {@link AbstractKafkaListenerContainerFactory}
+   * @return the groupName if present or else Unknown.
    */
   protected String getConsumerGroup(AbstractKafkaListenerContainerFactory<?, ?, ?> containerFactory) {
 
@@ -60,9 +62,6 @@ public class ConsumerGroupResolver implements BeanPostProcessor {
     return UNKNOWN;
   }
 
-  /**
-   * @param properties
-   */
   private String getGroupIfPresent(Map<String, Object> properties) {
 
     if (properties != null) {
@@ -75,8 +74,10 @@ public class ConsumerGroupResolver implements BeanPostProcessor {
   }
 
   /**
-   * @param factoryBeanName
-   * @return
+   * This method is used to get Consumer group by passing factoryBean.
+   *
+   * @param factoryBeanName the {@link AbstractKafkaListenerContainerFactory}
+   * @return the groupName if present or else Unknown.
    */
   public String getConsumerGroup(String factoryBeanName) {
 

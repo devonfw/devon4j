@@ -14,8 +14,9 @@ import com.devonfw.module.kafka.common.messaging.logging.impl.MessageLoggingSupp
 import com.devonfw.module.kafka.common.messaging.util.KafkaPropertyMapper;
 
 /**
- * A configuration class creates the bean config for the {@link KafkaCommonProperties}, {@link MessageLoggingSupport},
- * {@link KafkaHealthIndicatorProperties}, {@link KafkaHealthIndicator} and {@link ConsumerFactory}.
+ * A configuration class creates the bean configuration for the {@link KafkaCommonProperties},
+ * {@link MessageLoggingSupport}, {@link KafkaHealthIndicatorProperties}, {@link KafkaHealthIndicator} and
+ * {@link ConsumerFactory}.
  *
  */
 @Configuration

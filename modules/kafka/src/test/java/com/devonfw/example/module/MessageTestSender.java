@@ -31,8 +31,7 @@ import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
 import com.devonfw.module.test.common.base.ComponentTest;
 
 /**
- * @author ravicm
- *
+ * A test class to test the methods of {@link MessageSender}.
  */
 @ExtendWith(value = { SpringExtension.class })
 @SpringBootTest(classes = { TestApplication.class }, webEnvironment = WebEnvironment.NONE)
@@ -46,7 +45,7 @@ public class MessageTestSender extends ComponentTest {
   private MessageSender messageSender;
 
   /**
-   *
+   * The generated topic names.
    */
   public static String[] testTopicNames = TestTopicNameGenerator.generateTopicNames(1);
 
@@ -87,7 +86,9 @@ public class MessageTestSender extends ComponentTest {
   }
 
   /**
-   *
+   * Test method to test the
+   * {@link MessageSender#sendMessage(ProducerRecord, com.devonfw.module.kafka.common.messaging.api.client.converter.MessageConverter)}
+   * from {@link MessageSender}.
    */
   @Test
   public void shouldSendMessageToKafKaBroker_whenProducerRecordIsGiven() {
@@ -113,7 +114,11 @@ public class MessageTestSender extends ComponentTest {
   }
 
   /**
-   * @throws Exception
+   * Test method to test the
+   * {@link MessageSender#sendMessageAndWait(ProducerRecord, com.devonfw.module.kafka.common.messaging.api.client.converter.MessageConverter)}
+   * from {@link MessageSender}.
+   *
+   * @throws Exception the {@link Exception}.
    */
   @Test
   public void shouldSendMessageToKafkaBrokerAndWaitTillTimeout_whenproducerRecordIsGiven() throws Exception {
@@ -138,7 +143,11 @@ public class MessageTestSender extends ComponentTest {
   }
 
   /**
-   * @throws Exception
+   * Test method to test the
+   * {@link MessageSender#sendMessageAndWait(ProducerRecord, com.devonfw.module.kafka.common.messaging.api.client.converter.MessageConverter,int)}
+   * from {@link MessageSender}.
+   *
+   * @throws Exception the {@link Exception}.
    */
   @Test
   public void shouldSendMessageToKafkaBrokerAndWaitTillTimeout_whenProducerRecordAndTimoutIsGiven() throws Exception {

@@ -25,8 +25,6 @@ import brave.Tracer;
 /**
  * A configuration class for the {@link MessageSender}
  *
- * @param <K>
- *
  */
 @Configuration
 @Import(MessageCommonConfig.class)
@@ -93,7 +91,7 @@ public class MessageSenderConfig {
    * Creates bean for {@link KafkaTemplate}.
    *
    *
-   * @param messageProducerLoggingListener the {@link #messageProducerLoggingListener(MessageLoggingSupport, Tracer)}
+   * @param messageProducerLoggingListener the {@link #messageProducerLoggingListener(MessageLoggingSupport)}
    * @param messageKafkaProducerFactory the
    *        {@link #messageKafkaProducerFactory(KafkaCommonProperties, KafkaProducerProperties)}
    *
@@ -116,7 +114,6 @@ public class MessageSenderConfig {
    * @param messageSenderProperties the {@link #messageSenderProperties()}
    * @param diagnosticContextFacade the {@link DiagnosticContextFacade}
    * @param messageSpanInjector the {@link MessageSpanInjector}
-   * @param tracer the {@link Tracer}
    * @return the MessageSenderImpl.
    */
   @Bean
@@ -138,7 +135,6 @@ public class MessageSenderConfig {
    * Creates bean for {@link ProducerLoggingListener}.
    *
    * @param messageLoggingSupport {@link MessageLoggingSupport}
-   * @param tracer {@link Tracer}
    * @return the ProducerLoggingListener
    */
   @Bean
@@ -156,8 +152,8 @@ public class MessageSenderConfig {
    * @param producerFactory the {@link ProducerFactory}
    * @return KafkaTemplate
    */
-  public static KafkaTemplate<Object, Object> createKafkaTemplate(
-      ProducerLoggingListener<Object, Object> producerLogListener, ProducerFactory<Object, Object> producerFactory) {
+  private KafkaTemplate<Object, Object> createKafkaTemplate(ProducerLoggingListener<Object, Object> producerLogListener,
+      ProducerFactory<Object, Object> producerFactory) {
 
     KafkaTemplate<Object, Object> template = new KafkaTemplate<>(producerFactory);
     template.setProducerListener(producerLogListener);
@@ -172,7 +168,7 @@ public class MessageSenderConfig {
    * @param kafkaProducerProperties the {@link KafkaProducerProperties}
    * @return ProducerFactory
    */
-  public static ProducerFactory<Object, Object> createProducerFactory(KafkaCommonProperties kafkaCommonProperties,
+  private ProducerFactory<Object, Object> createProducerFactory(KafkaCommonProperties kafkaCommonProperties,
       KafkaProducerProperties kafkaProducerProperties) {
 
     KafkaPropertyMapper mapper = new KafkaPropertyMapper();

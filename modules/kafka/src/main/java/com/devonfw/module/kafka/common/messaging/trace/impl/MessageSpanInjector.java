@@ -5,15 +5,18 @@ import static com.devonfw.module.kafka.common.messaging.util.MessageUtil.addHead
 
 import java.util.Optional;
 
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.Headers;
 import org.springframework.util.ObjectUtils;
 
 import com.devonfw.module.logging.common.api.DiagnosticContextFacade;
+import com.devonfw.module.logging.common.api.LoggingConstants;
 
 import brave.propagation.TraceContext;
 
 /**
- * @author ravicm
+ * This is an implementation class for the {@link brave.propagation.TraceContext.Injector} used to inject the
+ * {@link MessageTraceHeaders} to the {@link ProducerRecord#headers()}
  *
  */
 public class MessageSpanInjector implements TraceContext.Injector<Headers> {
@@ -37,7 +40,9 @@ public class MessageSpanInjector implements TraceContext.Injector<Headers> {
   }
 
   /**
-   * @param diagnosticContextFacade new value of {@link #getdiagnosticContextFacade}.
+   * Set the {@link DiagnosticContextFacade} to retrieve the {@link LoggingConstants#CORRELATION_ID}
+   *
+   * @param diagnosticContextFacade the {@link DiagnosticContextFacade}.
    */
   public void setDiagnosticContextFacade(DiagnosticContextFacade diagnosticContextFacade) {
 

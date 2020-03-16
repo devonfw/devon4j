@@ -25,13 +25,14 @@ import com.devonfw.module.kafka.common.messaging.api.client.converter.MessageCon
 import com.devonfw.module.kafka.common.messaging.api.config.MessageSenderProperties;
 import com.devonfw.module.kafka.common.messaging.logging.impl.MessageLoggingSupport;
 import com.devonfw.module.kafka.common.messaging.trace.impl.MessageSpanInjector;
+import com.devonfw.module.kafka.common.messaging.trace.impl.MessageTraceHeaders;
 import com.devonfw.module.logging.common.api.DiagnosticContextFacade;
 import com.devonfw.module.logging.common.api.LoggingConstants;
 
 import brave.Tracer;
 
 /**
- * @author ravicm
+ * This is an implementation class for {@link MessageSender}
  */
 public class MessageSenderImpl implements MessageSender {
 
@@ -58,7 +59,9 @@ public class MessageSenderImpl implements MessageSender {
   }
 
   /**
-   * @param senderProperties
+   * Set the {@link MessageSenderProperties}.
+   *
+   * @param senderProperties {@link MessageSenderProperties}
    */
   public void setSenderProperties(MessageSenderProperties senderProperties) {
 
@@ -66,7 +69,9 @@ public class MessageSenderImpl implements MessageSender {
   }
 
   /**
-   * @param kafkaTemplate
+   * Set the {@link KafkaTemplate}
+   *
+   * @param kafkaTemplate {@link KafkaTemplate}
    */
   public void setKafkaTemplate(KafkaTemplate<Object, Object> kafkaTemplate) {
 
@@ -74,7 +79,9 @@ public class MessageSenderImpl implements MessageSender {
   }
 
   /**
-   * @param loggingSupport
+   * Set {@link MessageLoggingSupport}
+   *
+   * @param loggingSupport {@link MessageLoggingSupport}.
    */
   public void setLoggingSupport(MessageLoggingSupport loggingSupport) {
 
@@ -82,7 +89,9 @@ public class MessageSenderImpl implements MessageSender {
   }
 
   /**
-   * @param spanInjector
+   * Set the {@link MessageSpanInjector}.
+   *
+   * @param spanInjector {@link MessageSpanInjector}
    */
   public void setSpanInjector(MessageSpanInjector spanInjector) {
 
@@ -90,7 +99,9 @@ public class MessageSenderImpl implements MessageSender {
   }
 
   /**
-   * @param diagnosticContextFacade new value of {@link #getdiagnosticContextFacade}.
+   * Set the {@link DiagnosticContextFacade}.
+   *
+   * @param diagnosticContextFacade {@link DiagnosticContextFacade}
    */
   public void setDiagnosticContextFacade(DiagnosticContextFacade diagnosticContextFacade) {
 
@@ -98,7 +109,9 @@ public class MessageSenderImpl implements MessageSender {
   }
 
   /**
-   * @param tracer
+   * Set the {@link Tracer}.
+   *
+   * @param tracer {@link Tracer}
    */
   public void setTracer(Tracer tracer) {
 
@@ -129,11 +142,7 @@ public class MessageSenderImpl implements MessageSender {
   private <T> ListenableFuture<SendResult<Object, Object>> createAndSendRecord(
       ProducerRecord<Object, Object> producerRecord, MessageConverter messageConverter) {
 
-    Optional.ofNullable(producerRecord).ifPresent(this::checkProducerRecord);
-
-    Object message = getMessage(producerRecord, messageConverter);
-
-    ProducerRecord<Object, Object> updatedRecord = updateProducerRecord(producerRecord, message);
+    ProducerRecord<Object, Object> updatedRecord = validateProducerRecordAndUpdate(producerRecord, messageConverter);
 
     try {
       return this.kafkaTemplate.send(updatedRecord);
@@ -143,6 +152,16 @@ public class MessageSenderImpl implements MessageSender {
           e.getLocalizedMessage());
       throw e;
     }
+  }
+
+  private ProducerRecord<Object, Object> validateProducerRecordAndUpdate(ProducerRecord<Object, Object> producerRecord,
+      MessageConverter messageConverter) {
+
+    Optional.ofNullable(producerRecord).ifPresent(this::checkProducerRecord);
+
+    Object message = getMessage(producerRecord, messageConverter);
+
+    return updateProducerRecord(producerRecord, message);
   }
 
   private Object getMessage(ProducerRecord<Object, Object> producerRecord, MessageConverter messageConverter) {
@@ -227,13 +246,13 @@ public class MessageSenderImpl implements MessageSender {
     }
 
     if (this.tracer.currentSpan() == null) {
-      this.tracer.nextSpan().start();
+      this.tracer.nextSpan().name(MessageTraceHeaders.SPAN_NAME.toString()).start();
       this.spanInjector.inject(this.tracer.nextSpan().context(), headers);
     }
   }
 
   /**
-   *
+   * This method is used to check the given properties are not null.
    */
   @PostConstruct
   public void validateBeanProperties() {

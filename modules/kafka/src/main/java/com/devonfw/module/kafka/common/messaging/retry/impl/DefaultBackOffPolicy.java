@@ -7,7 +7,7 @@ import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageBackOff
 import com.devonfw.module.kafka.common.messaging.retry.api.config.DefaultBackOffPolicyProperties;
 
 /**
- * @author ravicm
+ * This is an implementation class for the {@link MessageBackOffPolicy}.
  *
  */
 public class DefaultBackOffPolicy implements MessageBackOffPolicy {
@@ -23,7 +23,7 @@ public class DefaultBackOffPolicy implements MessageBackOffPolicy {
   /**
    * The constructor.
    *
-   * @param properties
+   * @param properties the {@link DefaultBackOffPolicyProperties}
    */
   public DefaultBackOffPolicy(DefaultBackOffPolicyProperties properties) {
 
@@ -35,9 +35,6 @@ public class DefaultBackOffPolicy implements MessageBackOffPolicy {
     this.retryMaxDelay = properties.getRetryMaxDelay();
   }
 
-  /**
-   * @param properties
-   */
   private void checkProperties(DefaultBackOffPolicyProperties properties) {
 
     if (properties.getRetryDelay() < 0) {

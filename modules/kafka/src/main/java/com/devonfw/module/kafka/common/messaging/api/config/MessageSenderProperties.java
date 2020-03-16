@@ -18,7 +18,7 @@ public class MessageSenderProperties {
   }
 
   /**
-   * Set the default timeout seconds for the KafkaProducer.
+   * Set the default timeout seconds for {@link #getDefaultSendTimeoutSeconds()}.
    *
    * @param defaultSendTimeoutSeconds the default timeout seconds.
    */
