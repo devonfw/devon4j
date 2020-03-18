@@ -3,8 +3,6 @@ package com.devonfw.module.kafka.common.messaging.retry.impl;
 import java.time.Instant;
 import java.util.Optional;
 
-import javax.inject.Named;
-
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +19,9 @@ import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryOp
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryPolicy;
 
 /**
- * @author ravicm
+ * This is an implementation class for the {@link MessageRetryOperations}.
  *
  */
-@Named
 public class MessageRetryTemplate implements MessageRetryOperations {
 
   private static final Logger LOG = LoggerFactory.getLogger(MessageRetryTemplate.class);
@@ -52,8 +49,8 @@ public class MessageRetryTemplate implements MessageRetryOperations {
   /**
    * The constructor.
    *
-   * @param retryPolicy
-   * @param backOffPolicy
+   * @param retryPolicy the {@link MessageRetryPolicy}
+   * @param backOffPolicy the {@link MessageBackOffPolicy}
    */
   public MessageRetryTemplate(MessageRetryPolicy retryPolicy, MessageBackOffPolicy backOffPolicy) {
 
@@ -209,21 +206,41 @@ public class MessageRetryTemplate implements MessageRetryOperations {
     this.messageSender.sendMessage(producerRecord, null);
   }
 
+  /**
+   * Set the {@link MessageSender}
+   *
+   * @param messageSender the MessageSender.
+   */
   public void setMessageSender(MessageSender messageSender) {
 
     this.messageSender = messageSender;
   }
 
+  /**
+   * Set the {@link MessageBackOffPolicy}
+   *
+   * @param backOffPolicy MessageBackOffPolicy
+   */
   public void setBackOffPolicy(MessageBackOffPolicy backOffPolicy) {
 
     this.backOffPolicy = backOffPolicy;
   }
 
+  /**
+   * Set the {@link MessageRetryPolicy}
+   *
+   * @param retryPolicy MessageRetryPolicy
+   */
   public void setRetryPolicy(MessageRetryPolicy retryPolicy) {
 
     this.retryPolicy = retryPolicy;
   }
 
+  /**
+   * Set the {@link MessageRetryHandler}
+   * 
+   * @param retryHandler MessageRetryHandler.
+   */
   public void setRetryHandler(MessageRetryHandler retryHandler) {
 
     this.retryHandler = retryHandler;

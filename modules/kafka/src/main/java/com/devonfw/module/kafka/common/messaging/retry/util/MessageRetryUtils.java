@@ -3,8 +3,10 @@ package com.devonfw.module.kafka.common.messaging.retry.util;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryOperations;
+
 /**
- * @author ravicm
+ * An Utility class to support {@link MessageRetryOperations}.
  *
  */
 public class MessageRetryUtils {
@@ -14,9 +16,11 @@ public class MessageRetryUtils {
   }
 
   /**
-   * @param exceptionNames
-   * @param propertyName
-   * @return
+   * This method is used to get the retryable exceptions
+   *
+   * @param exceptionNames the {@link Set} of exceptions
+   * @param propertyName the exception property name.
+   * @return Set<Class<? extends Throwable>>.
    */
   @SuppressWarnings("unchecked")
   public static Set<Class<? extends Throwable>> getRetryableExceptions(Set<String> exceptionNames,

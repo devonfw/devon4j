@@ -164,14 +164,14 @@ public class MessageRetryContext {
   public static MessageRetryContext from(ProducerRecord<Object, Object> producerRecord) {
 
     if (ObjectUtils.isEmpty(producerRecord)) {
-      throw new IllegalArgumentException("The message parameter cannot be null.");
+      throw new IllegalArgumentException("The producerRecord parameter cannot be null.");
     }
 
     Headers headers = producerRecord.headers();
 
     String value = new String(headers.lastHeader(RETRY_UNTIL).value(), Charsets.UTF_8);
     if (StringUtils.isEmpty(value)) {
-      return null;
+      throw new IllegalArgumentException("The header 'RETRY_UNTIL' is missing in the producerRecord");
     }
 
     MessageRetryContext result = new MessageRetryContext();
@@ -228,7 +228,7 @@ public class MessageRetryContext {
 
     addHeaderValue(headers, RETRY_UNTIL, this.retryUntil.toString());
 
-    if (StringUtils.isEmpty(this.retryNext)) {
+    if (!StringUtils.isEmpty(this.retryNext)) {
       addHeaderValue(headers, RETRY_NEXT, this.retryNext.toString());
     }
 
