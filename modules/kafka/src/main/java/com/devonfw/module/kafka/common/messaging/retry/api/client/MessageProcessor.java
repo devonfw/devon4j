@@ -1,5 +1,7 @@
 package com.devonfw.module.kafka.common.messaging.retry.api.client;
 
+import org.apache.kafka.clients.producer.ProducerRecord;
+
 /**
  * This interface is used to process the received.
  */
@@ -9,9 +11,8 @@ public interface MessageProcessor {
   /**
    * This method is used to process the given message.
    *
-   * @param <T> the type of message to process
    * @param message the message to process.
    */
-  public <T> void processMessage(T message);
+  public void processMessage(ProducerRecord<Object, Object> message);
 
 }
