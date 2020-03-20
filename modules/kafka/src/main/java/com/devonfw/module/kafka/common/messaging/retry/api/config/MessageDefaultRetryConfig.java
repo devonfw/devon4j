@@ -6,9 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
-import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageBackOffPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryOperations;
-import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.impl.DefaultBackOffPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.impl.DefaultRetryPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryTemplate;
@@ -46,23 +44,23 @@ public class MessageDefaultRetryConfig {
   }
 
   /**
-   * Creates bean for the {@link MessageBackOffPolicy}
+   * Creates bean for the {@link DefaultBackOffPolicy}
    *
-   * @return the {@link MessageBackOffPolicy}
+   * @return the {@link DefaultBackOffPolicy}
    */
   @Bean
-  public MessageBackOffPolicy messageBackOffPolicy() {
+  public DefaultBackOffPolicy messageBackOffPolicy() {
 
     return new DefaultBackOffPolicy(messageDefaultBackOffPolicyProperties());
   }
 
   /**
-   * Creates bean for the {@link MessageRetryPolicy}
+   * Creates bean for the {@link DefaultRetryPolicy}
    *
-   * @return the {@link MessageRetryPolicy}
+   * @return the {@link DefaultRetryPolicy}
    */
   @Bean
-  public MessageRetryPolicy messageRetryPolicy() {
+  public DefaultRetryPolicy messageRetryPolicy() {
 
     return new DefaultRetryPolicy(messageDefaultRetryPolicyProperties());
   }
