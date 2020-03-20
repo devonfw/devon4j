@@ -16,13 +16,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.jwt.JwtHelper;
-import org.springframework.security.jwt.crypto.sign.Signer;
-import org.springframework.security.oauth2.common.util.JsonParser;
-import org.springframework.security.oauth2.common.util.JsonParserFactory;
 
-import com.devonfw.module.security.jwt.sign.JwtSignatureAlgorithm;
-import com.devonfw.module.security.jwt.sign.JwtSignatureAlgorithmFactory;
+import com.devonfw.module.security.jwt.authentication.JwtAuthenticationFactory;
+import com.devonfw.module.security.keystore.config.KeyStoreAccessFactory;
+import com.devonfw.module.security.keystore.config.KeyStoreConfigProperties;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
  * Converter class for managing JWT token
@@ -39,15 +39,24 @@ public class JwtAccessTokenConverterImpl {
   @Inject
   private TokenConfigProperties tokenConfigProperties;
 
-  @Inject
-  private TokenExtractor tokenExtractor;
+  private JwtAuthenticationFactory jwtAuthenticationFactory;
 
   @Inject
-  private JwtSignatureAlgorithmFactory jwtSignatureAlgorithmFactory;
+  private TokenValidator tokenValidator;
 
-  private JsonParser jsonParser = JsonParserFactory.create();
+  @Inject
+  private KeyStoreAccessFactory keyStoreAccessFactory;
 
-  private Signer signer;
+  @Inject
+  private KeyStoreConfigProperties keyStoreConfigProperties;
+
+  /**
+   * @param jwtAuthenticationFactory {@link JwtAuthenticationFactory}.
+   */
+  public void setJwtAuthenticationFactory(JwtAuthenticationFactory jwtAuthenticationFactory) {
+
+    this.jwtAuthenticationFactory = jwtAuthenticationFactory;
+  }
 
   /**
    * This method allows the clients to be able to access other headers <Access-Control-Expose-Headers>
@@ -56,7 +65,7 @@ public class JwtAccessTokenConverterImpl {
    */
   public void addAllowedHeader(HttpServletResponse res) {
 
-    res.addHeader(this.tokenConfigProperties.getExposeHeaders(), this.tokenConfigProperties.getHeaderString());
+    res.addHeader(JwtTokenConstants.EXPOSE_HEADERS, JwtTokenConstants.HEADER_STRING);
   }
 
   /**
@@ -68,9 +77,8 @@ public class JwtAccessTokenConverterImpl {
   public void addAuthentication(HttpServletResponse res, Authentication auth) {
 
     String token = generateToken(auth);
-    res.addHeader(this.tokenConfigProperties.getExposeHeaders(), this.tokenConfigProperties.getHeaderString());
-    res.addHeader(this.tokenConfigProperties.getHeaderString(),
-        this.tokenConfigProperties.getTokenPrefix() + " " + token);
+    res.addHeader(JwtTokenConstants.EXPOSE_HEADERS, JwtTokenConstants.HEADER_STRING);
+    res.addHeader(JwtTokenConstants.HEADER_STRING, JwtTokenConstants.TOKEN_PREFIX + " " + token);
   }
 
   /**
@@ -83,11 +91,12 @@ public class JwtAccessTokenConverterImpl {
 
     Authentication authentication = null;
 
-    String authToken = request.getHeader(this.tokenConfigProperties.getHeaderString());
+    String authToken = request.getHeader(JwtTokenConstants.HEADER_STRING);
 
     if (authToken != null) {
-      authentication = this.tokenExtractor
-          .validateTokenAndSignature(authToken.replace(this.tokenConfigProperties.getTokenPrefix(), ""));
+      this.tokenValidator.setJwtAuthenticationFactory(this.jwtAuthenticationFactory);
+      authentication = this.tokenValidator
+          .validateTokenAndSignature(authToken.replace(JwtTokenConstants.TOKEN_PREFIX, ""));
     }
     return authentication;
   }
@@ -112,12 +121,11 @@ public class JwtAccessTokenConverterImpl {
     claims.put(JwtTokenConstants.CLAIM_ROLES, roles);
     claims.put(JwtTokenConstants.CLAIM_CREATED, TimeUnit.MILLISECONDS.toSeconds(generateCreationDate()));
     claims.put(JwtTokenConstants.CLAIM_EXPIRATION, TimeUnit.MILLISECONDS.toSeconds(generateExpirationDate()));
-    String payload = this.jsonParser.formatMap(claims);
-    JwtSignatureAlgorithm jwtSignatureAlgorithm = this.jwtSignatureAlgorithmFactory
-        .getAlgorithms(this.tokenConfigProperties.getAlgorithm());
-    this.signer = jwtSignatureAlgorithm.createSigner();
-    payload = JwtHelper.encode(payload, this.signer).getEncoded();
-    return payload;
+
+    return Jwts.builder().setClaims(claims)
+        .signWith(SignatureAlgorithm.forName(this.tokenConfigProperties.getAlgorithm()),
+            this.keyStoreAccessFactory.getKeys(this.keyStoreConfigProperties.getKeyStoreAlias()).getPrivateKey())
+        .compact();
   }
 
   private Long generateCreationDate() {

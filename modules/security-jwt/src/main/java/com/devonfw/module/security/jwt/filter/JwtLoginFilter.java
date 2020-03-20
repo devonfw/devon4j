@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.devonfw.module.security.jwt.authentication.JwtAuthenticationFactory;
 import com.devonfw.module.security.jwt.util.AccountCredentials;
 import com.devonfw.module.security.jwt.util.JwtAccessTokenConverterImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,11 +49,15 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
   @Inject
   private JwtAccessTokenConverterImpl jwtAccessTokenConverter;
 
-  public JwtLoginFilter(String url, AuthenticationManager authManager, UserDetailsService userDetailsService) {
+  private JwtAuthenticationFactory jwtAuthenticationFactory;
+
+  public JwtLoginFilter(String url, AuthenticationManager authManager, UserDetailsService userDetailsService,
+      JwtAuthenticationFactory jwtAuthenticationFactory) {
 
     super(new AntPathRequestMatcher(url));
     setAuthenticationManager(authManager);
     this.userDetailsService = userDetailsService;
+    this.jwtAuthenticationFactory = jwtAuthenticationFactory;
 
   }
 
@@ -70,6 +75,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
   protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
       Authentication auth) throws IOException, ServletException {
 
+    this.jwtAccessTokenConverter.setJwtAuthenticationFactory(this.jwtAuthenticationFactory);
     this.jwtAccessTokenConverter.addAuthentication(res, auth);
     this.jwtAccessTokenConverter.addAllowedHeader(res);
   }
