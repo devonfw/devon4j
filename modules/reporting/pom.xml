@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.devonfw.java.dev</groupId>
+		<artifactId>devon4j-modules</artifactId>
+		<version>dev-SNAPSHOT</version>
+	</parent>
+	<groupId>com.devonfw.java.modules</groupId>
+	<artifactId>devon4j-reporting</artifactId>
+	<version>${devon4j.version}</version>
+	<packaging>jar</packaging>
+	<name>${project.artifactId}</name>
+	<description>Module for reporting.</description>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.devonfw.java.modules</groupId>
+			<artifactId>devon4j-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- JASPER REPORTS LIBRARY -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.11.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>4.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.m-m-m</groupId>
+			<artifactId>mmm-util-exception</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>
