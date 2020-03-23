@@ -225,7 +225,7 @@ public class TestMessageSenderConfig {
     bean.setKafkaTemplate(testMessageKafkaTemplate());
     bean.setLoggingSupport(testMessageLoggingSupport());
     bean.setSenderProperties(testMessageSenderProperties());
-    bean.setSpanInjector(messageSpanInjector(testDiagnosticContextFacade()));
+    bean.setSpanInjector(messageSpanInjector());
     bean.setDiagnosticContextFacade(testDiagnosticContextFacade());
     bean.setTracer(this.tracer);
     return bean;
@@ -234,19 +234,16 @@ public class TestMessageSenderConfig {
   /**
    * The {@link MessageSpanInjector}
    *
-   * @param diagnosticContextFacade the {@link DiagnosticContextFacade}
    * @return MessageSpanInjector.
    */
-  protected MessageSpanInjector messageSpanInjector(DiagnosticContextFacade diagnosticContextFacade) {
+  protected MessageSpanInjector messageSpanInjector() {
 
-    MessageSpanInjector messageSpanInjector = new MessageSpanInjector();
-    messageSpanInjector.setDiagnosticContextFacade(diagnosticContextFacade);
-    return messageSpanInjector;
+    return new MessageSpanInjector();
   }
 
   /**
    * The {@link ProducerLoggingListener}
-   * 
+   *
    * @param testMessageLoggingSupport the {@link MessageLoggingSupport}
    * @return ProducerLoggingListener
    */

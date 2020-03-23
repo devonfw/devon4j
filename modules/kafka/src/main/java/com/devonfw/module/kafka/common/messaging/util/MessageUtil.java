@@ -1,6 +1,7 @@
 package com.devonfw.module.kafka.common.messaging.util;
 
 import java.nio.charset.Charset;
+import java.util.Optional;
 
 import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.header.Headers;
@@ -42,7 +43,7 @@ public class MessageUtil {
 
     Header header = headers.lastHeader(traceIdName);
 
-    return new String(header.value(), UTF_8);
+    return Optional.ofNullable(header).map(value -> new String(header.value(), UTF_8)).orElse(null);
   }
 
 }

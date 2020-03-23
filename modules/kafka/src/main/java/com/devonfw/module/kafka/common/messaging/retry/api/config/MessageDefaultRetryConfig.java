@@ -9,6 +9,7 @@ import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryOperations;
 import com.devonfw.module.kafka.common.messaging.retry.impl.DefaultBackOffPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.impl.DefaultRetryPolicy;
+import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryContext;
 import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryTemplate;
 
 /**
@@ -63,6 +64,17 @@ public class MessageDefaultRetryConfig {
   public DefaultRetryPolicy messageRetryPolicy() {
 
     return new DefaultRetryPolicy(messageDefaultRetryPolicyProperties());
+  }
+
+  /**
+   * Creates bean for the {@link MessageRetryContext}
+   *
+   * @return the {@link MessageRetryContext}
+   */
+  @Bean
+  public MessageRetryContext messageRetryContext() {
+
+    return new MessageRetryContext();
   }
 
   /**
