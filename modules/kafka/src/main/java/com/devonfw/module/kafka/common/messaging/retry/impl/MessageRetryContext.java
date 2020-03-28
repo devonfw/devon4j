@@ -5,6 +5,7 @@ import static com.devonfw.module.kafka.common.messaging.util.MessageUtil.addHead
 import java.time.Instant;
 
 import org.apache.commons.codec.Charsets;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.Headers;
 import org.springframework.util.ObjectUtils;
@@ -158,16 +159,16 @@ public class MessageRetryContext {
    * This method is used to create {@link MessageRetryContext} from its custom headers in
    * {@link ProducerRecord#headers()}.
    *
-   * @param producerRecord the {@link ProducerRecord}
+   * @param consumerRecord the {@link ConsumerRecord}
    * @return {@link MessageRetryContext}
    */
-  public static MessageRetryContext from(ProducerRecord<Object, Object> producerRecord) {
+  public static MessageRetryContext from(ConsumerRecord<Object, Object> consumerRecord) {
 
-    if (ObjectUtils.isEmpty(producerRecord)) {
-      throw new IllegalArgumentException("The producerRecord parameter cannot be null.");
+    if (ObjectUtils.isEmpty(consumerRecord)) {
+      throw new IllegalArgumentException("The ConsumerRecord parameter cannot be null.");
     }
 
-    Headers headers = producerRecord.headers();
+    Headers headers = consumerRecord.headers();
 
     String value = new String(headers.lastHeader(RETRY_UNTIL).value(), Charsets.UTF_8);
     if (StringUtils.isEmpty(value)) {

@@ -1,11 +1,11 @@
 package com.devonfw.module.kafka.common.messaging.retry.api.client;
 
-import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import com.devonfw.module.kafka.common.messaging.retry.api.MessageRetryProcessingResult;
 
 /**
- * This interface is used to process the given {@link ProducerRecord} with the retry pattern. The processor can be
+ * This interface is used to process the given {@link ConsumerRecord} with the retry pattern. The processor can be
  * implemented by {@link MessageProcessor}.
  *
  */
@@ -13,14 +13,14 @@ import com.devonfw.module.kafka.common.messaging.retry.api.MessageRetryProcessin
 public interface MessageRetryOperations {
 
   /**
-   * This method is used to process the given {@link ProducerRecord} using
-   * {@link MessageProcessor#processMessage(Object)} with retry pattern.
+   * This method is used to process the given {@link ConsumerRecord} using
+   * {@link MessageProcessor#processMessage(ConsumerRecord)} with retry pattern.
    *
-   * @param producerRecord the {@link ProducerRecord}
+   * @param consumerRecord the {@link ConsumerRecord}
    * @param processor the {@link MessageProcessor}
    * @return MessageRetryProcessingResult the {@link MessageRetryProcessingResult}
    */
-  public MessageRetryProcessingResult processMessageWithRetry(ProducerRecord<Object, Object> producerRecord,
+  public MessageRetryProcessingResult processMessageWithRetry(ConsumerRecord<Object, Object> consumerRecord,
       MessageProcessor processor);
 
 }

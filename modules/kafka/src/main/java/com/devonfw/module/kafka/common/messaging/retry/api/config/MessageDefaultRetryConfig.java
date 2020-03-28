@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryOperations;
 import com.devonfw.module.kafka.common.messaging.retry.impl.DefaultBackOffPolicy;
+import com.devonfw.module.kafka.common.messaging.retry.impl.DefaultKafkaRecordSupport;
 import com.devonfw.module.kafka.common.messaging.retry.impl.DefaultRetryPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryContext;
 import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryTemplate;
@@ -91,7 +92,19 @@ public class MessageDefaultRetryConfig {
 
     MessageRetryTemplate bean = new MessageRetryTemplate(messageDefaultRetryPolicy, messageDefaultBackOffPolicy);
     bean.setMessageSender(messageSender);
+    bean.setKafkaRecordSupport(messageKafkaRecordSupport());
     return bean;
+  }
+
+  /**
+   * Creates bean for the {@link DefaultKafkaRecordSupport}.
+   *
+   * @return the {@link DefaultKafkaRecordSupport}.
+   */
+  @Bean
+  public DefaultKafkaRecordSupport messageKafkaRecordSupport() {
+
+    return new DefaultKafkaRecordSupport();
   }
 
 }

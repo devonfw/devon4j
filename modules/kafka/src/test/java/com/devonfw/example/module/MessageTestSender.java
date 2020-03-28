@@ -94,7 +94,7 @@ public class MessageTestSender extends ComponentTest {
   public void shouldSendMessageToKafKaBroker_whenProducerRecordIsGiven() {
 
     // Act
-    this.messageSender.sendMessage(this.producerRecord, null);
+    this.messageSender.sendMessage(this.producerRecord);
 
     // Assert
     ConsumerRecords<String, String> records = KafkaTestUtils.getRecords(this.consumer);
@@ -124,7 +124,7 @@ public class MessageTestSender extends ComponentTest {
   public void shouldSendMessageToKafkaBrokerAndWaitTillTimeout_whenproducerRecordIsGiven() throws Exception {
 
     // Act
-    this.messageSender.sendMessageAndWait(this.producerRecord, null);
+    this.messageSender.sendMessageAndWait(this.producerRecord);
 
     // Assert
     ConsumerRecords<String, String> records = KafkaTestUtils.getRecords(this.consumer);
@@ -153,7 +153,7 @@ public class MessageTestSender extends ComponentTest {
   public void shouldSendMessageToKafkaBrokerAndWaitTillTimeout_whenProducerRecordAndTimoutIsGiven() throws Exception {
 
     // Act
-    this.messageSender.sendMessageAndWait(this.producerRecord, null, 30);
+    this.messageSender.sendMessageAndWait(this.producerRecord, 30);
 
     // Assert
     ConsumerRecords<String, String> records = KafkaTestUtils.getRecords(this.consumer);

@@ -1,8 +1,8 @@
 package com.devonfw.module.kafka.common.messaging.retry.impl;
 
 import java.time.Instant;
-import java.util.Optional;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +12,7 @@ import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
 import com.devonfw.module.kafka.common.messaging.logging.impl.EventKey;
 import com.devonfw.module.kafka.common.messaging.retry.api.MessageRetryProcessingResult;
 import com.devonfw.module.kafka.common.messaging.retry.api.RetryState;
+import com.devonfw.module.kafka.common.messaging.retry.api.client.KafkaRecordSupport;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageBackOffPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageProcessor;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryHandler;
@@ -34,9 +35,7 @@ public class MessageRetryTemplate implements MessageRetryOperations {
 
   private MessageRetryHandler retryHandler;
 
-  private final String RETRY_TOPIC_SUFFIX = "-retry";
-
-  private final String DEFAULT_RETRY_TOPIC = "default-message" + this.RETRY_TOPIC_SUFFIX;
+  private KafkaRecordSupport kafkaRecordSupport;
 
   /**
    * The constructor.
@@ -67,29 +66,18 @@ public class MessageRetryTemplate implements MessageRetryOperations {
   }
 
   @Override
-  public MessageRetryProcessingResult processMessageWithRetry(ProducerRecord<Object, Object> producerRecord,
+  public MessageRetryProcessingResult processMessageWithRetry(ConsumerRecord<Object, Object> consumerRecord,
       MessageProcessor processor) {
 
-    checkParameters(producerRecord, processor, this.retryPolicy, this.backOffPolicy);
+    checkParameters(consumerRecord, processor, this.retryPolicy, this.backOffPolicy);
 
-    String retryTopic = Optional.ofNullable(producerRecord.topic()).map(this::setRetryTopic)
-        .orElse(this.DEFAULT_RETRY_TOPIC);
-
-    ProducerRecord<Object, Object> updatedProducerRecord = new ProducerRecord<>(retryTopic, producerRecord.partition(),
-        producerRecord.key(), producerRecord.value(), producerRecord.headers());
-
-    return processRetry(updatedProducerRecord, processor);
+    return processRetry(consumerRecord, processor);
   }
 
-  private String setRetryTopic(String topic) {
-
-    return topic + this.RETRY_TOPIC_SUFFIX;
-  }
-
-  private <T> MessageRetryProcessingResult processRetry(ProducerRecord<Object, Object> producerRecord,
+  private <T> MessageRetryProcessingResult processRetry(ConsumerRecord<Object, Object> consumerRecord,
       MessageProcessor processor) {
 
-    MessageRetryContext retryContext = MessageRetryContext.from(producerRecord);
+    MessageRetryContext retryContext = MessageRetryContext.from(consumerRecord);
 
     if (retryContext != null) {
 
@@ -104,10 +92,10 @@ public class MessageRetryTemplate implements MessageRetryOperations {
         LOG.info(EventKey.RETRY_PERIOD_EXPIRED.getMessage(), retryContext.getRetryUntil());
 
         retryContext.setRetryState(RetryState.EXPIRED);
-        enqueueRetry(producerRecord, retryContext);
+        enqueueRetry(consumerRecord, retryContext);
 
         if (this.retryHandler != null) {
-          this.retryHandler.retryTimeout(producerRecord, retryContext);
+          this.retryHandler.retryTimeout(consumerRecord, retryContext);
         }
         return MessageRetryProcessingResult.RETRY_PERIOD_EXPIRED;
       }
@@ -119,9 +107,9 @@ public class MessageRetryTemplate implements MessageRetryOperations {
         this.backOffPolicy.sleepBeforeReEnqueue();
 
         LOG.info(EventKey.RETRY_TIME_NOT_REACHED.getMessage(), retryContext.getRetryNext(),
-            retryContext.getRetryCount() + 1, producerRecord.topic());
+            retryContext.getRetryCount() + 1, consumerRecord.topic());
 
-        enqueueRetry(producerRecord, retryContext);
+        enqueueRetry(consumerRecord, retryContext);
 
         return MessageRetryProcessingResult.RETRY_WITHOUT_PROCESSING;
       }
@@ -129,22 +117,21 @@ public class MessageRetryTemplate implements MessageRetryOperations {
     }
 
     try {
-      processor.processMessage(producerRecord);
+      processor.processMessage(consumerRecord);
 
       if (retryContext != null) {
-        LOG.info(EventKey.RETRY_SUCCESSFUL.getMessage(), retryContext.getRetryCount(), producerRecord.topic());
+        LOG.info(EventKey.RETRY_SUCCESSFUL.getMessage(), retryContext.getRetryCount(), consumerRecord.topic());
         retryContext.setRetryState(RetryState.SUCCESSFUL);
 
-        enqueueRetry(producerRecord, retryContext);
+        enqueueRetry(consumerRecord, retryContext);
       }
       return MessageRetryProcessingResult.PROCESSING_SUCCESSFUL;
     } catch (Exception e) {
-      if (this.retryPolicy.canRetry(producerRecord, retryContext, e)) {
+      if (this.retryPolicy.canRetry(consumerRecord, retryContext, e)) {
         long retryCount = (retryContext == null ? 1 : retryContext.getRetryCount() + 1);
-        LOG.info(EventKey.RETRY_INITIATED.getMessage(), retryCount, producerRecord.topic());
+        LOG.info(EventKey.RETRY_INITIATED.getMessage(), retryCount, consumerRecord.topic());
 
-        enqueueRetry(producerRecord,
-            updateRetryContextForNextRetry(producerRecord, retryContext, this.retryPolicy, this.backOffPolicy, e));
+        enqueueRetry(consumerRecord, updateRetryContextForNextRetry(consumerRecord, retryContext));
 
         return MessageRetryProcessingResult.RETRY_AFTER_PROCESSING_TRIAL;
       }
@@ -154,9 +141,9 @@ public class MessageRetryTemplate implements MessageRetryOperations {
 
         retryContext.setRetryState(RetryState.FAILED);
 
-        enqueueRetry(producerRecord, retryContext);
+        enqueueRetry(consumerRecord, retryContext);
 
-        if (this.retryHandler != null && this.retryHandler.retryFailedFinal(producerRecord, retryContext, e)) {
+        if (this.retryHandler != null && this.retryHandler.retryFailedFinal(consumerRecord, retryContext, e)) {
           return MessageRetryProcessingResult.FINAL_FAIL_HANDLER_SUCCESSFUL;
         }
       }
@@ -184,26 +171,27 @@ public class MessageRetryTemplate implements MessageRetryOperations {
     }
   }
 
-  private MessageRetryContext updateRetryContextForNextRetry(ProducerRecord<Object, Object> producerRecord,
-      MessageRetryContext retryContext, MessageRetryPolicy pRetryPolicy, MessageBackOffPolicy pBackOffPolicy,
-      Exception e) {
+  private MessageRetryContext updateRetryContextForNextRetry(ConsumerRecord<Object, Object> consumerRecord,
+      MessageRetryContext retryContext) {
 
     MessageRetryContext result = retryContext;
 
     if (ObjectUtils.isEmpty(result)) {
       result = new MessageRetryContext();
-      result.setRetryUntil(pRetryPolicy.getRetryUntilTimestamp(producerRecord, retryContext));
+      result.setRetryUntil(this.retryPolicy.getRetryUntilTimestamp(consumerRecord, retryContext));
     }
 
-    result
-        .setRetryNext(pBackOffPolicy.getNextRetryTimestamp(result.getRetryCount(), result.getRetryUntil().toString()));
+    result.setRetryNext(
+        this.backOffPolicy.getNextRetryTimestamp(result.getRetryCount(), result.getRetryUntil().toString()));
     return result;
   }
 
-  private void enqueueRetry(ProducerRecord<Object, Object> producerRecord, MessageRetryContext retryContext) {
+  private void enqueueRetry(ConsumerRecord<Object, Object> consumerRecord, MessageRetryContext retryContext) {
+
+    ProducerRecord<Object, Object> producerRecord = this.kafkaRecordSupport.createRecordForRetry(consumerRecord);
 
     retryContext.injectInto(producerRecord);
-    this.messageSender.sendMessage(producerRecord, null);
+    this.messageSender.sendMessage(producerRecord);
   }
 
   /**
@@ -238,12 +226,22 @@ public class MessageRetryTemplate implements MessageRetryOperations {
 
   /**
    * Set the {@link MessageRetryHandler}
-   * 
+   *
    * @param retryHandler MessageRetryHandler.
    */
   public void setRetryHandler(MessageRetryHandler retryHandler) {
 
     this.retryHandler = retryHandler;
+  }
+
+  /**
+   * Set the {@link KafkaRecordSupport}
+   *
+   * @param kafkaRecordSupport KafkaRecordSupport.
+   */
+  public void setKafkaRecordSupport(KafkaRecordSupport kafkaRecordSupport) {
+
+    this.kafkaRecordSupport = kafkaRecordSupport;
   }
 
 }

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.classify.BinaryExceptionClassifier;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -56,11 +56,11 @@ public class DefaultRetryPolicy implements MessageRetryPolicy {
   }
 
   @Override
-  public boolean canRetry(ProducerRecord<Object, Object> producerRecord, MessageRetryContext retryContext,
+  public boolean canRetry(ConsumerRecord<Object, Object> consumerRecord, MessageRetryContext retryContext,
       Exception ex) {
 
-    if (ObjectUtils.isEmpty(producerRecord)) {
-      throw new IllegalArgumentException("The \"producerRecord \" parameter cannot be null.");
+    if (ObjectUtils.isEmpty(consumerRecord)) {
+      throw new IllegalArgumentException("The \"consumerRecord \" parameter cannot be null.");
     }
 
     if (ObjectUtils.isEmpty(ex)) {
@@ -85,7 +85,7 @@ public class DefaultRetryPolicy implements MessageRetryPolicy {
   }
 
   @Override
-  public Instant getRetryUntilTimestamp(ProducerRecord<Object, Object> producerRecord,
+  public Instant getRetryUntilTimestamp(ConsumerRecord<Object, Object> consumerRecord,
       MessageRetryContext retryContext) {
 
     return Instant.now().plusMillis(this.retryPeriod * 1000);

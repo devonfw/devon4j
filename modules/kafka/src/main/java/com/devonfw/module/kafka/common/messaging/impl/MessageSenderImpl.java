@@ -21,7 +21,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
-import com.devonfw.module.kafka.common.messaging.api.client.converter.MessageConverter;
 import com.devonfw.module.kafka.common.messaging.api.config.MessageSenderProperties;
 import com.devonfw.module.kafka.common.messaging.logging.impl.MessageLoggingSupport;
 import com.devonfw.module.kafka.common.messaging.trace.impl.MessageSpanInjector;
@@ -119,30 +118,27 @@ public class MessageSenderImpl implements MessageSender {
   }
 
   @Override
-  public ListenableFuture<SendResult<Object, Object>> sendMessage(ProducerRecord<Object, Object> producerRecord,
-      MessageConverter messageConverter) {
+  public ListenableFuture<SendResult<Object, Object>> sendMessage(ProducerRecord<Object, Object> producerRecord) {
 
-    return createAndSendRecord(producerRecord, messageConverter);
+    return createAndSendRecord(producerRecord);
   }
 
   @Override
-  public void sendMessageAndWait(ProducerRecord<Object, Object> producerRecord, MessageConverter messageConverter,
-      int timeout) throws Exception {
+  public void sendMessageAndWait(ProducerRecord<Object, Object> producerRecord, int timeout) throws Exception {
 
-    createAndSendRecordWaited(producerRecord, messageConverter, timeout);
+    createAndSendRecordWaited(producerRecord, timeout);
   }
 
   @Override
-  public void sendMessageAndWait(ProducerRecord<Object, Object> producerRecord, MessageConverter messageConverter)
-      throws Exception {
+  public void sendMessageAndWait(ProducerRecord<Object, Object> producerRecord) throws Exception {
 
-    createAndSendRecordWaited(producerRecord, messageConverter, this.senderProperties.getDefaultSendTimeoutSeconds());
+    createAndSendRecordWaited(producerRecord, this.senderProperties.getDefaultSendTimeoutSeconds());
   }
 
   private <T> ListenableFuture<SendResult<Object, Object>> createAndSendRecord(
-      ProducerRecord<Object, Object> producerRecord, MessageConverter messageConverter) {
+      ProducerRecord<Object, Object> producerRecord) {
 
-    ProducerRecord<Object, Object> updatedRecord = validateProducerRecordAndUpdate(producerRecord, messageConverter);
+    ProducerRecord<Object, Object> updatedRecord = validateProducerRecordAndUpdate(producerRecord);
 
     try {
       return this.kafkaTemplate.send(updatedRecord);
@@ -154,32 +150,21 @@ public class MessageSenderImpl implements MessageSender {
     }
   }
 
-  private ProducerRecord<Object, Object> validateProducerRecordAndUpdate(ProducerRecord<Object, Object> producerRecord,
-      MessageConverter messageConverter) {
+  private ProducerRecord<Object, Object> validateProducerRecordAndUpdate(
+      ProducerRecord<Object, Object> producerRecord) {
 
     Optional.ofNullable(producerRecord).ifPresent(this::checkProducerRecord);
 
-    Object message = getMessage(producerRecord, messageConverter);
-
-    return updateProducerRecord(producerRecord, message);
+    return updateProducerRecord(producerRecord);
   }
 
-  private Object getMessage(ProducerRecord<Object, Object> producerRecord, MessageConverter messageConverter) {
-
-    Optional<Object> convertedMessage = Optional.ofNullable(messageConverter)
-        .map(converter -> converter.convertMessage(producerRecord.value()));
-
-    return convertedMessage.orElse(producerRecord.value());
-  }
-
-  private ProducerRecord<Object, Object> updateProducerRecord(ProducerRecord<Object, Object> producerRecord,
-      Object convertedMessage) {
+  private ProducerRecord<Object, Object> updateProducerRecord(ProducerRecord<Object, Object> producerRecord) {
 
     Headers headers = producerRecord.headers();
     updateHeadersWithTracers(producerRecord.topic(), producerRecord.key().toString(), headers);
 
     return new ProducerRecord<>(producerRecord.topic(), producerRecord.partition(), producerRecord.key(),
-        convertedMessage, headers);
+        producerRecord.value(), headers);
   }
 
   private void updateHeadersWithTracers(String topic, String key, Headers headers) {
@@ -210,12 +195,10 @@ public class MessageSenderImpl implements MessageSender {
     }
   }
 
-  private void createAndSendRecordWaited(ProducerRecord<Object, Object> producerRecord,
-      MessageConverter messageConverter, int timeout) throws Exception {
+  private void createAndSendRecordWaited(ProducerRecord<Object, Object> producerRecord, int timeout) throws Exception {
 
     try {
-      ListenableFuture<SendResult<Object, Object>> sendResultFuture = createAndSendRecord(producerRecord,
-          messageConverter);
+      ListenableFuture<SendResult<Object, Object>> sendResultFuture = createAndSendRecord(producerRecord);
 
       sendResultFuture.get(timeout, TimeUnit.SECONDS);
 
