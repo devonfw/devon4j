@@ -83,8 +83,8 @@ public class KafkaPropertyMapper {
     String keyDeserializer = Optional.ofNullable(consumerProperties.getKeyDeserializer())
         .orElse("org.apache.kafka.common.serialization.StringDeserializer");
 
-    props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, valueDeserializer);
-    props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, keyDeserializer);
+    props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, keyDeserializer);
+    props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, valueDeserializer);
 
     return props;
   }
