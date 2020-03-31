@@ -118,7 +118,7 @@
         <groupId>org.slf4j</groupId>
         <artifactId>jcl-over-slf4j</artifactId>
         <version>${slf4j.version}</version>       
-      </dependency>      
+      </dependency>       
       <!-- Servlet API -->
       <dependency>
         <groupId>javax.servlet</groupId>
