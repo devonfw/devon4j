@@ -145,6 +145,11 @@
         <artifactId>devon4j-test-jpa</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-kafka</artifactId>
+        <version>${devon4j.version}</version>
+      </dependency>
       <!-- Starters -->
       <dependency>
         <groupId>com.devonfw.java.starters</groupId>

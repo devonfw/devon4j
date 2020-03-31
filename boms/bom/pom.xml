@@ -36,6 +36,14 @@
         <scope>import</scope>
       </dependency>
       <!-- *** EXTERNAL DEPENDENCIES *** -->
+      <!--Spring cloud dependencies BOM -->
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring.cloud.dependencies.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <!-- Library with general utilities as well as I18N and exception support -->
       <dependency>
         <groupId>net.sf.m-m-m</groupId>
@@ -261,7 +269,7 @@
         <version>1.54</version>
       </dependency>
       <!-- EqualsVerifier -->
-  	  <dependency>
+      <dependency>
         <groupId>nl.jqno.equalsverifier</groupId>
         <artifactId>equalsverifier</artifactId>
         <version>3.1.9</version>
