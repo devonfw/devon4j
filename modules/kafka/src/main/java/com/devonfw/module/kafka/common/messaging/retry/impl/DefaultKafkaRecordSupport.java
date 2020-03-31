@@ -16,14 +16,6 @@ public class DefaultKafkaRecordSupport implements KafkaRecordSupport {
 
   private final String DEFAULT_RETRY_TOPIC = "default-message" + this.RETRY_TOPIC_SUFFIX;
 
-  /**
-   * The constructor.
-   */
-  public DefaultKafkaRecordSupport() {
-
-    super();
-  }
-
   @Override
   public ProducerRecord<Object, Object> createRecordForRetry(ConsumerRecord<Object, Object> record) {
 
@@ -32,7 +24,13 @@ public class DefaultKafkaRecordSupport implements KafkaRecordSupport {
     return new ProducerRecord<>(retryTopic, record.partition(), record.key(), record.value(), record.headers());
   }
 
-  private String setRetryTopic(String topic) {
+  /**
+   * This method is used to set retry topic by adding suffix '-retry' to the given topic.
+   *
+   * @param topic the topic where the suffix needs to be added.
+   * @return the retry topic.
+   */
+  protected String setRetryTopic(String topic) {
 
     return topic + this.RETRY_TOPIC_SUFFIX;
   }
