@@ -1,66 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.devonfw</groupId>
-		<artifactId>maven-parent</artifactId>
-		<version>2</version>
-	</parent>
-	<groupId>com.devonfw.java.dev</groupId>
-	<artifactId>devon4j</artifactId>
-	<version>dev-SNAPSHOT</version> <!-- This POM will never be released -->
-	<packaging>pom</packaging>
-	<name>${project.artifactId}</name>
-	<description>Java stack of devonfw.com (devon4j): develop Java apps standardized, faster and with less risk.</description>
-	<inceptionYear>2014</inceptionYear>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.devonfw</groupId>
+    <artifactId>maven-parent</artifactId>
+    <version>4</version>
+  </parent>
+  <groupId>com.devonfw.java.dev</groupId>
+  <artifactId>devon4j</artifactId>
+  <version>dev-SNAPSHOT</version> <!-- This POM will never be released -->
+  <packaging>pom</packaging>
+  <name>${project.artifactId}</name>
+  <description>Java stack of devonfw.com (devon4j): develop Java apps standardized, faster and with less risk.</description>
+  <inceptionYear>2014</inceptionYear>
 
-	<modules>
-		<module>boms</module>
-		<module>modules</module>
-		<module>starters</module>
-		<module>templates</module>
-		<module>documentation</module>
-	</modules>
+  <modules>
+    <module>boms</module>
+    <module>modules</module>
+    <module>starters</module>
+    <module>templates</module>
+    <module>documentation</module>
+  </modules>
 
-	<properties>
-		<revision>dev</revision>
-		<changelist>-SNAPSHOT</changelist>
-		<github.repository>devon4j</github.repository>
-		<github.default.branch>develop</github.default.branch>
-		<devon4j.version>${revision}${changelist}</devon4j.version>
-		<spring.boot.version>2.1.9.RELEASE</spring.boot.version>
-		<!-- Spring boot and spring cloud version has to match -->
-		<spring.cloud.dependencies.version>Greenwich.RELEASE</spring.cloud.dependencies.version>
-		<jackson.version>2.9.9.20190727</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
-		<guava.version>28.1-jre</guava.version>
-		<junit.version>5.5.2</junit.version>
-	</properties>
+  <properties>
+    <revision>dev</revision>
+    <changelist>-SNAPSHOT</changelist>
+    <github.repository>devon4j</github.repository>
+    <github.default.branch>develop</github.default.branch>
+    <devon4j.version>${revision}${changelist}</devon4j.version>
+    <spring.boot.version>2.1.9.RELEASE</spring.boot.version>
+    <!-- Spring boot and spring cloud version has to match -->
+    <spring.cloud.dependencies.version>Greenwich.RELEASE</spring.cloud.dependencies.version>
+    <jackson.version>2.9.9.20190727</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
+    <guava.version>28.1-jre</guava.version>
+    <junit.version>5.5.2</junit.version>
+  </properties>
 
-	<build>
-		<plugins>
+  <build>
+    <plugins>
 
-			<!-- avoid version in local war files, exclude development properties 
-				from WARs -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<packagingExcludes>WEB-INF/classes/config/application.properties,*.jsp</packagingExcludes>
-					<warName>${project.artifactId}</warName>
-				</configuration>
-			</plugin>
+      <!-- avoid version in local war files, exclude development properties from WARs -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <packagingExcludes>WEB-INF/classes/config/application.properties,*.jsp</packagingExcludes>
+          <warName>${project.artifactId}</warName>
+        </configuration>
+      </plugin>
 
-		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-					<version>${spring.boot.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>${spring.boot.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>
