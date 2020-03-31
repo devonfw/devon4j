@@ -118,7 +118,7 @@
         <version>${spring.cloud.dependencies.version}</version>
         <type>pom</type>
         <scope>import</scope>
-      </dependency>      
+      </dependency>
       <!-- Servlet API -->
       <dependency>
         <groupId>javax.servlet</groupId>
