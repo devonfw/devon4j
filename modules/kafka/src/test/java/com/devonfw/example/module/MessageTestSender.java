@@ -1,6 +1,6 @@
 package com.devonfw.example.module;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.Map;
 
 import org.apache.kafka.clients.consumer.Consumer;
@@ -42,7 +42,7 @@ public class MessageTestSender extends ComponentTest {
   private static final String GROUP = "test-group";
 
   @Autowired
-  private MessageSender messageSender;
+  private MessageSender<Object, Object> messageSender;
 
   /**
    * The generated topic names.
@@ -75,7 +75,7 @@ public class MessageTestSender extends ComponentTest {
         new StringDeserializer(), new StringDeserializer());
 
     this.consumer = consumerFactory.createConsumer();
-    this.consumer.subscribe(List.of(testTopicNames[0]));
+    this.consumer.subscribe(Arrays.asList(testTopicNames[0]));
   }
 
   @Override
