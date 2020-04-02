@@ -8,9 +8,12 @@ import com.devonfw.module.kafka.common.messaging.retry.api.MessageRetryProcessin
  * This interface is used to process the given {@link ConsumerRecord} with the retry pattern. The processor can be
  * implemented by {@link MessageProcessor}.
  *
+ * @param <K> the key type.
+ * @param <V> the value type.
+ *
  */
 @FunctionalInterface
-public interface MessageRetryOperations {
+public interface MessageRetryOperations<K, V> {
 
   /**
    * This method is used to process the given {@link ConsumerRecord} using
@@ -20,7 +23,7 @@ public interface MessageRetryOperations {
    * @param processor the {@link MessageProcessor}
    * @return MessageRetryProcessingResult the {@link MessageRetryProcessingResult}
    */
-  public MessageRetryProcessingResult processMessageWithRetry(ConsumerRecord<Object, Object> consumerRecord,
-      MessageProcessor processor);
+  public MessageRetryProcessingResult processMessageWithRetry(ConsumerRecord<K, V> consumerRecord,
+      MessageProcessor<K, V> processor);
 
 }

@@ -11,8 +11,10 @@ import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryTemplate
  * This interface is used in {@link MessageRetryTemplate#processMessageWithRetry(ConsumerRecord, MessageProcessor)} to
  * indicate the retry to proceed again and to get the retry until timeStamp in {@link Instant} format.
  *
+ * @param <K> the key type.
+ * @param <V> the value type.
  */
-public interface MessageRetryPolicy {
+public interface MessageRetryPolicy<K, V> {
 
   /**
    * This method is used to indicate to proceed the retry pattern again.
@@ -22,7 +24,7 @@ public interface MessageRetryPolicy {
    * @param ex the {@link Exception}
    * @return boolean.
    */
-  boolean canRetry(ConsumerRecord<Object, Object> consumerRecord, MessageRetryContext retryContext, Exception ex);
+  boolean canRetry(ConsumerRecord<K, V> consumerRecord, MessageRetryContext retryContext, Exception ex);
 
   /**
    * This method is used to return the retry until timeStamp in {@link Instant} format.
@@ -31,6 +33,6 @@ public interface MessageRetryPolicy {
    * @param retryContext
    * @return {@link Instant}
    */
-  Instant getRetryUntilTimestamp(ConsumerRecord<Object, Object> consumerRecord, MessageRetryContext retryContext);
+  Instant getRetryUntilTimestamp(ConsumerRecord<K, V> consumerRecord, MessageRetryContext retryContext);
 
 }

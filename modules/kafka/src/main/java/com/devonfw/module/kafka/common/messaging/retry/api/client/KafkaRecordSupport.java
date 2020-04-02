@@ -7,9 +7,11 @@ import org.apache.kafka.clients.producer.ProducerRecord;
  * This interface is used to convert the given {@link ConsumerRecord} to the {@link ProducerRecord} for one of the
  * process of {@link MessageRetryOperations#processMessageWithRetry(ConsumerRecord, MessageProcessor)}.
  *
+ * @param <K> the key type.
+ * @param <V> the value type.
  */
 @FunctionalInterface
-public interface KafkaRecordSupport {
+public interface KafkaRecordSupport<K, V> {
 
   /**
    * This method is used to convert the given {@link ConsumerRecord} to the {@link ProducerRecord} .
@@ -17,6 +19,6 @@ public interface KafkaRecordSupport {
    * @param record the {@link ConsumerRecord}
    * @return the {@link ProducerRecord}
    */
-  ProducerRecord<Object, Object> createRecordForRetry(ConsumerRecord<Object, Object> record);
+  ProducerRecord<K, V> createRecordForRetry(ConsumerRecord<K, V> record);
 
 }

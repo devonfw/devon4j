@@ -32,14 +32,17 @@ import brave.Tracer;
 
 /**
  * This is an implementation class for {@link MessageSender}
+ *
+ * @param <K> the key type.
+ * @param <V> the value type.
  */
-public class MessageSenderImpl implements MessageSender {
+public class MessageSenderImpl<K, V> implements MessageSender<K, V> {
 
   private static final Logger LOG = LoggerFactory.getLogger(MessageSenderImpl.class);
 
   private MessageSenderProperties senderProperties;
 
-  private KafkaTemplate<Object, Object> kafkaTemplate;
+  private KafkaTemplate<K, V> kafkaTemplate;
 
   private MessageLoggingSupport loggingSupport;
 
@@ -72,7 +75,7 @@ public class MessageSenderImpl implements MessageSender {
    *
    * @param kafkaTemplate {@link KafkaTemplate}
    */
-  public void setKafkaTemplate(KafkaTemplate<Object, Object> kafkaTemplate) {
+  public void setKafkaTemplate(KafkaTemplate<K, V> kafkaTemplate) {
 
     this.kafkaTemplate = kafkaTemplate;
   }
@@ -118,27 +121,26 @@ public class MessageSenderImpl implements MessageSender {
   }
 
   @Override
-  public ListenableFuture<SendResult<Object, Object>> sendMessage(ProducerRecord<Object, Object> producerRecord) {
+  public ListenableFuture<SendResult<K, V>> sendMessage(ProducerRecord<K, V> producerRecord) {
 
     return createAndSendRecord(producerRecord);
   }
 
   @Override
-  public void sendMessageAndWait(ProducerRecord<Object, Object> producerRecord, int timeout) throws Exception {
+  public void sendMessageAndWait(ProducerRecord<K, V> producerRecord, int timeout) throws Exception {
 
     createAndSendRecordWaited(producerRecord, timeout);
   }
 
   @Override
-  public void sendMessageAndWait(ProducerRecord<Object, Object> producerRecord) throws Exception {
+  public void sendMessageAndWait(ProducerRecord<K, V> producerRecord) throws Exception {
 
     createAndSendRecordWaited(producerRecord, this.senderProperties.getDefaultSendTimeoutSeconds());
   }
 
-  private <T> ListenableFuture<SendResult<Object, Object>> createAndSendRecord(
-      ProducerRecord<Object, Object> producerRecord) {
+  private <T> ListenableFuture<SendResult<K, V>> createAndSendRecord(ProducerRecord<K, V> producerRecord) {
 
-    ProducerRecord<Object, Object> updatedRecord = validateProducerRecordAndUpdate(producerRecord);
+    ProducerRecord<K, V> updatedRecord = validateProducerRecordAndUpdate(producerRecord);
 
     try {
       return this.kafkaTemplate.send(updatedRecord);
@@ -150,37 +152,36 @@ public class MessageSenderImpl implements MessageSender {
     }
   }
 
-  private ProducerRecord<Object, Object> validateProducerRecordAndUpdate(
-      ProducerRecord<Object, Object> producerRecord) {
+  private ProducerRecord<K, V> validateProducerRecordAndUpdate(ProducerRecord<K, V> producerRecord) {
 
     Optional.ofNullable(producerRecord).ifPresent(this::checkProducerRecord);
 
     return updateProducerRecord(producerRecord);
   }
 
-  private ProducerRecord<Object, Object> updateProducerRecord(ProducerRecord<Object, Object> producerRecord) {
+  private ProducerRecord<K, V> updateProducerRecord(ProducerRecord<K, V> producerRecord) {
 
     Headers headers = producerRecord.headers();
-    updateHeadersWithTracers(producerRecord.topic(), producerRecord.key().toString(), headers);
+    updateHeadersWithTracers(producerRecord.topic(), producerRecord.key(), headers);
 
     return new ProducerRecord<>(producerRecord.topic(), producerRecord.partition(), producerRecord.key(),
         producerRecord.value(), headers);
   }
 
-  private void updateHeadersWithTracers(String topic, String key, Headers headers) {
+  private void updateHeadersWithTracers(String topic, K key, Headers headers) {
 
     if (StringUtils.isEmpty(this.diagnosticContextFacade.getCorrelationId())) {
       this.diagnosticContextFacade.setCorrelationId(UUID.randomUUID().toString());
     }
 
     headers.add(LoggingConstants.CORRELATION_ID, this.diagnosticContextFacade.getCorrelationId().getBytes());
-    Optional.ofNullable(key).ifPresent(k -> addHeaderValue(headers, KafkaHeaders.MESSAGE_KEY, k));
+    Optional.ofNullable(key).ifPresent(k -> addHeaderValue(headers, KafkaHeaders.MESSAGE_KEY, k.toString()));
     Optional.ofNullable(topic).ifPresent(t -> addHeaderValue(headers, KafkaHeaders.TOPIC, topic));
 
     checkTracerCurrentSpanAndInjectHeaders(headers);
   }
 
-  private void checkProducerRecord(ProducerRecord<Object, Object> producerRecord) {
+  private void checkProducerRecord(ProducerRecord<K, V> producerRecord) {
 
     if (ObjectUtils.isEmpty(producerRecord)) {
       throw new IllegalArgumentException("The parameter 'producerRecord' cannot be null");
@@ -195,10 +196,10 @@ public class MessageSenderImpl implements MessageSender {
     }
   }
 
-  private void createAndSendRecordWaited(ProducerRecord<Object, Object> producerRecord, int timeout) throws Exception {
+  private void createAndSendRecordWaited(ProducerRecord<K, V> producerRecord, int timeout) throws Exception {
 
     try {
-      ListenableFuture<SendResult<Object, Object>> sendResultFuture = createAndSendRecord(producerRecord);
+      ListenableFuture<SendResult<K, V>> sendResultFuture = createAndSendRecord(producerRecord);
 
       sendResultFuture.get(timeout, TimeUnit.SECONDS);
 
