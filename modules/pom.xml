@@ -37,7 +37,6 @@
     <module>batch-tool</module>
     <module>web</module>
     <module>basic</module>
-	<module>i18n</module>
     <module>i18n</module>
     <module>kafka</module>
   </modules>
