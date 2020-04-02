@@ -1,7 +1,5 @@
 package com.devonfw.module.kafka.common.messaging.trace.impl;
 
-import java.util.Optional;
-
 import org.apache.commons.codec.Charsets;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
@@ -44,10 +42,11 @@ public final class MessageTraceSupport {
     }
 
     TraceContextOrSamplingFlags extracted = spanExtractor.extract(kafkaRecord);
-
-    Optional.ofNullable(extracted).ifPresentOrElse(
-        nonNull -> checkTraceHeadersAndSetContextAsSpanInScope(tracer, extracted),
-        () -> getCurrentSpanAndLog(kafkaRecord, tracer));
+    if (extracted != null) {
+      checkTraceHeadersAndSetContextAsSpanInScope(tracer, extracted);
+    } else {
+      getCurrentSpanAndLog(kafkaRecord, tracer);
+    }
 
   }
 
