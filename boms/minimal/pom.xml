@@ -55,6 +55,16 @@
         <artifactId>devon4j-beanmapping</artifactId>
         <version>${project.version}</version>
       </dependency>
+       <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-beanmapping-dozer</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+       <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-beanmapping-orika</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-i18n</artifactId>
@@ -139,6 +149,11 @@
         <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-test-jpa</artifactId>
         <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-kafka</artifactId>
+        <version>${devon4j.version}</version>
       </dependency>
       <!-- Starters -->
       <dependency>

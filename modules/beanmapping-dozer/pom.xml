@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.devonfw.java.dev</groupId>
+    <artifactId>devon4j-modules</artifactId>
+    <version>dev-SNAPSHOT</version>
+  </parent>
+  <groupId>com.devonfw.java.modules</groupId>
+  <artifactId>devon4j-beanmapping-dozer</artifactId>
+  <version>${devon4j.version}</version>
+  <packaging>jar</packaging>
+  <name>${project.artifactId}</name>
+  <description>Minimal shim for bean mapping to convert between compatible Java beans (e.g. JPA entity to transfer-object and vice versa).</description>
+
+  <dependencies>
+	  <dependency>
+	    <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-beanmapping</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.dozermapper</groupId>
+      <artifactId>dozer-core</artifactId>
+    </dependency>
+    <!--  Dozer requires JAX-B what is not included in JDK since version 9+ -->
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>

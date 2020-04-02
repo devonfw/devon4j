@@ -20,7 +20,6 @@ import com.devonfw.module.security.common.api.accesscontrol.AccessControlSchema;
  * This is the abstract base implementation of {@link AccessControlProvider}.<br/>
  * ATTENTION:<br/>
  * You need to call {@link #initialize(AccessControlSchema)} from the derived implementation.
- *
  */
 public abstract class AbstractAccessControlProvider implements AccessControlProvider {
 

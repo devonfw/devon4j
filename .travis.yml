@@ -14,10 +14,11 @@ env:
     - REPO_SOURCE="devon4j"
     - REPO_DEST="devon4j.wiki"
     - REPO_CONSOLIDATE="devonfw-guide"
-    - GH_REPO_SOURCE="github.com/${ORG}/${REPO_SOURCE}.git"
     - GH_REPO_DEST="github.com/${ORG}/${REPO_DEST}.git"
     - GH_REPO_CONSOLIDATE="github.com/${ORG}/${REPO_CONSOLIDATE}.git"
     - secure: kJD4+ZMSvJT8W041hR90kxkrkdk/b5A1AkG/7M1W+2OlWz/IBO+lil9yyzVG0Uy7pEa6u7RHRoApy+N2kgnqOOS7Rgc8MRObPyK9SoBXmYH9WNTQIDjYGlfsJcyaCAb1NV0SxWrCKFdEdoVmca8a+qJjhM8Dix92REB7txmvJvq3t0pHIYT3YU2W8pvn4yCORjThipdIRn7cMkr5lhpwSfUyQ/Dal+1bAIsAg3GSAt2k5PeQ/pdlmcLYfSCgdsd7+vXllLXsIP+xSY0A2Sz5QTMQyxTYS8te+o6xJQERyt4HlBiLsjDznPVIMrmiDPciteDtgwJlDzKJ7hJHQxmrIZbZNyXbKqB3rdukspK276/k3YVya6rCwQd9GAUwLMXl1/c2ebFXBvMCjaMaHgf/EVbHQCHrAwy2J/IvtRlKNT4sQfovLmi7NYtKZ0+VStxxDkth/+dSN1lXm+KVmffjinAe9pIDhVFLPFBPR21igigSM+BU2lH6x3TYEJJQNZW8WRHk7qslP6tBmW6RGx41R+05J1qsqrFR4gNfKTMQ6Rg/ooXdo3nwQRM2jrvIGgJLJ8t1CD5WpV5js9QI2yNeQzyIKpDXeaZspKMkh/EUsK/ntfpBsNLfH6+WfKJOi1d/BLro9A9XEjvfkCIS6FyagCJxnewKmei+reEknULQmdo=
+    - secure: Sog4Iy1swDx4rYGgOBPM8iDxcRbCWdqE7ngUxbxUgr5fzDki4yI2JGjecIK7BO6TFbCcWuhu3IGsvdY8k2W1DfScEo2tUlWRqPlw/nU89XEUqe8E4zghPyUhFHPAlGt4/TVnkQIxdotcSgJLrmqLQ638/KZHbXJ/HLjnoQfb0BWNWoqRIeduyqivhRJXw2Zd4HhEGaSfm6UN4FBGCmpEkRJOR8kjB4CqWx72G3VXXIjIII9i+l4032ERyJkUdFx7nyABID5/kS9VmFfChirFnzurbPHGYtYwqV4QFm5ZjNnsIh0OIO9Xt4inoIDQy/uELo4gRAJ9S+J8GkSh6UIMGLu6tuUXxxJJKDJuTz4hJ5eBQeO8GGpTkRknrdwRAr/KD0uFjdyUs8yhQ4KAtEhmXzM971zagAdFb2S8yruPOvO6dTWIIvQxvTDWhX5srDr+VZBb3DIPoXbl1oiUjMzo/V8AhK83qmfaqjFTesIEKGTRhAWHpeFEgE3rwT1e2STYNE0m+M7fjcY5/eAbuLMpOpgiBiMAhexgs67yZJanLgmuAscEnGVLgcYP8CJXLJK5sKYAV5Y4peobmnFLcvyeIQDyh+/h/ElOkiq5hmsRtWi+UO73CbTnK6ysTAibS8hGI8KlKB+LcxTOrGcxv/PqdmDGthe36PJttq0LKhWHuUY=
+    - secure: HH/mp+PT7xtiLC0JJS73BLPPEt154oeXYMP+N9SqT+q6L6warGGzejhee/yi/WNMrRqt9cFUdEEmWDuNxrakGizJ0YHc4ty430FBcYBGguemJzI/Vl31rLKFI1JnkqsiWskPilrWyClzWyUDp233FQXO0ZXPyhDGPHfSGeDgCtdFqBXz7KUSPQfHiPwRPt6TO/z7JPQe5+b0apSuNWiHjKnCelgjb7QJjC4+9dlYCBe6qJfhHptqZs4yLvSexCzWqfHumhkx1APazjLHQvojukbD01PMWGBCyTWaDrF1CJO4J36nWHnHpvAibnAqVYNHuASQY77BGT6Pt6yx8mXjTbeV/D58JPDqHnGEoZq3Sp8OVkPmwaF1CIOmkBrROk3N2JJ5SLfpOvXmBDz7bhf9WiTVUxQpQABOfIMZkJvjnPP09WXRw5/iow/VwGezkM0z8qR+93/5EooJ7JBqvecOqrxoHnkv76fV54aY0wwwK7VEw4JzldIH7gF6mAMjWA2LYUS+ceU2dG21ok/fffc8bmroLItac8WnT5lu1tU6te6tev9tI7Q6Jm3ZRc+3HFNQUKLApJMcbDc9pt04JHXn3YvENL7hBXBuGYh1ajCc9PPdm8qKf+Xuh4fpMcm/G2FlUpDCwnVOLEBk9qc1QjyIk8y2Ssry4sxBmNVe23xPqsM=
 stages:
   - name: Build
   - name: Documentation
@@ -25,12 +26,13 @@ jobs:
   include:
     - stage: Build
       script:
-        - mvn install
+        - mvn install && ([[ $TRAVIS_BRANCH != "develop" ]] || [[ $TRAVIS_PULL_REQUEST != "false" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy)
     - stage: Documentation
       if: (branch = develop) AND (type = push)
       script:
+        # Exit devon4j folder
+        - cd ..
         # Clone repositories
-        - git clone -b develop --single-branch https://${GH_REPO_SOURCE}
         - git clone https://${GH_REPO_DEST}
         - git clone https://${GH_REPO_CONSOLIDATE}
         # Update wiki repository with documentation folder contents

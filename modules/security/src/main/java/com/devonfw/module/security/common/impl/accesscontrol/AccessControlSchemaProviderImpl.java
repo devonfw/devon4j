@@ -15,7 +15,6 @@ import com.devonfw.module.security.common.base.accesscontrol.AccessControlSchema
 
 /**
  * This is the default implementation of {@link AccessControlSchemaProvider}.
- *
  */
 public class AccessControlSchemaProviderImpl implements AccessControlSchemaProvider {
 

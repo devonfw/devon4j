@@ -21,16 +21,29 @@ public UserEto mapUser(UserEntity source) {
 Therefore we are using a `BeanMapper` for this purpose that makes our lives a lot easier.
 
 == Bean-Mapper Dependency
-To get access to the `BeanMapper` we use this dependency in our POM:
+To get access to the `BeanMapper` we have to use either of below dependency in our POM:
+
+We started with dozer.sourceforge.net/[dozer] in devon4j and still support it. However, we now recommend https://orika-mapper.github.io/orika-docs/[orika] (for new projects) as it is much faster (see https://www.baeldung.com/java-performance-mapping-frameworks#2-orika[Performance of Java Mapping Frameworks]).
 
 [source,xml]
 ----
     <dependency>
       <groupId>com.devonfw.java</groupId>
-      <artifactId>devon4j-beanmapping</artifactId>
+      <artifactId>devon4j-beanmapping-orika</artifactId>
     </dependency>
 ----
-== Bean-Mapper Configuration
+
+or
+
+[source,xml]
+----
+    <dependency>
+      <groupId>com.devonfw.java</groupId>
+      <artifactId>devon4j-beanmapping-dozer</artifactId>
+    </dependency>
+----
+== Bean-Mapper Configuration using Dozer
+
 The `BeanMapper` implementation is based on an existing open-source bean mapping framework. 
 In case of Dozer the mapping is configured `src/main/resources/config/app/common/dozer-mapping.xml`.
 

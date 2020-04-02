@@ -7,6 +7,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersIncrementer;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
@@ -21,7 +22,10 @@ import org.springframework.batch.core.repository.JobRestartException;
  * the 'run.id' parameter). It is actually just a convenience functionality so that the one starting batches does not
  * have to change the parameters manually.
  *
+ * @deprecated Using springs {@link RunIdIncrementer} is sufficient for most use cases.
+ *
  */
+@Deprecated
 public class JobLauncherWithAdditionalRestartCapabilities extends SimpleJobLauncher {
 
   private JobRepository jobRepository;
@@ -39,8 +43,8 @@ public class JobLauncherWithAdditionalRestartCapabilities extends SimpleJobLaunc
         // analogous to SimpleJobRepository#createJobExecution
         JobExecution jobExecution = this.jobRepository.getLastJobExecution(job.getName(), jobParameters);
         if (jobExecution.isRunning()) {
-          throw new JobExecutionAlreadyRunningException("A job execution for this job is already running: "
-              + jobExecution.getJobInstance());
+          throw new JobExecutionAlreadyRunningException(
+              "A job execution for this job is already running: " + jobExecution.getJobInstance());
         }
         BatchStatus status = jobExecution.getStatus();
         if (status == BatchStatus.COMPLETED || status == BatchStatus.ABANDONED) {
