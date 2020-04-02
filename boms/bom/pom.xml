@@ -21,6 +21,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <cxf.version>3.2.5</cxf.version>
     <mmm.util.version>8.7.0</mmm.util.version>
+    <slf4j.version>1.7.28</slf4j.version>
     <flatten.mode>bom</flatten.mode>
   </properties>
 
@@ -35,6 +36,14 @@
         <scope>import</scope>
       </dependency>
       <!-- *** EXTERNAL DEPENDENCIES *** -->
+      <!--Spring cloud dependencies BOM -->
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring.cloud.dependencies.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <!-- Library with general utilities as well as I18N and exception support -->
       <dependency>
         <groupId>net.sf.m-m-m</groupId>
@@ -103,7 +112,12 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.7.7</version>
+        <version>${slf4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>${slf4j.version}</version>
       </dependency>
       <!-- Servlet API -->
       <dependency>
@@ -171,13 +185,13 @@
       <dependency>
         <groupId>com.github.dozermapper</groupId>
         <artifactId>dozer-core</artifactId>
-        <version>6.4.1</version>
+        <version>6.5.0</version>
       </dependency>
       <!-- Orika for bean-mapping/conversion (Alternative to Dozer) -->
       <dependency>
         <groupId>ma.glasnost.orika</groupId>
         <artifactId>orika-core</artifactId>
-        <version>1.5.2</version>
+        <version>1.5.4</version>
       </dependency>
       <!-- JSR303 API for annotation based validation -->
       <dependency>
@@ -255,7 +269,7 @@
         <version>1.54</version>
       </dependency>
       <!-- EqualsVerifier -->
-  	  <dependency>
+      <dependency>
         <groupId>nl.jqno.equalsverifier</groupId>
         <artifactId>equalsverifier</artifactId>
         <version>3.1.9</version>

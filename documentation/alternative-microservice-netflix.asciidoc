@@ -1,0 +1,690 @@
+:toc: macro
+toc::[]
+
+== Microservices based on Netflix-Tools
+
+Devonfw microservices approach is based on http://cloud.spring.io/spring-cloud-netflix/[Spring Cloud Netflix], that provides all the main components for microservices integrated within Spring Boot context.     
+
+
+In the following schema we can see an overview of the structure of components in a Devon application based on the _Spring Cloud Netflix_ solution for microservices.
+
+image::images/microservices/microservices_01.png[,width="450", link="images/microservices/microservices_01.png"]
+
+Let's explain each component
+
+==== Service Discovery - Eureka
+
+link:http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.0.M1/#service_discovery_eureka_clients[Eureka] is a server to register and locate the microservices. The main function for _Eureka_ is to register the different instances of the microservices, its location, its state and other metadata.
+
+It works in a simple way, during the start of each microservice, this communicates with the _Eureka_ server to notify its availability and to send the metadata. The microservice will continue to notify its status to the Eureka server every 30 seconds (default time on Eureka server properties). This value can be changed in the configuration of the component.
+
+If after 3 periods, Eureka does not receive notification of any of the microservices, it will be considered as unavailable and will eliminate its registration.
+
+In addition, it serves as a catalog to locate a specific microservice when routing a request to it.
+
+==== Circuit Breaker - Hystrix
+
+http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.0.M1/#circuit_breaker_hystrix_clients[Hystrix] is a library that implements the https://martinfowler.com/bliki/CircuitBreaker.html[Circuit Breaker] pattern. Its main functionality is to improve the reliability of the system, isolating the entry points of the microservices, preventing the cascading failure from the lower levels of the application all the way up to the user.
+
+In addition to that, it allows developers to provide a fallback in case of error. _Hystrix_ manages the requests to a service, and in case that the microservice doesn't response, allows to implement an alternative to the request.
+
+==== Client Side Load Balancer - Ribbon
+
+http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.0.M1/#spring-cloud-ribbon[Ribbon] is a library designed as client side load balancer. Its main feature is to integrate with _Eureka_ to discover the instances of the microservices and their metadata. In that way the _Ribbon_ is able to calculate which of the available instances of a microservice is the most appropriate for the client, when facing a request.
+
+==== REST Client - Feign
+http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.0.M1/#spring-cloud-feign[Feign] is a REST client to make calls to other microservices. The strength of Feign is that it integrates seamlessly with _Ribbon_ and _Hystrix_, and its implementation is through annotations, which greatly facilitates this task to the developer.
+
+Using annotations, Spring-cloud generates, automatically, a fully configured REST client.
+
+==== Router and Filter - Zuul
+
+link:http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.0.M1/#router_and_filter_zuul[Zuul] is the entry point of the apps based on Spring-cloud microservices. It allows dynamic routing, load balancing, monitoring and securing of requests. By default _Zuul_ uses _Ribbon_ to locate, through Eureka, the instances of the microservice that it wants to invoke and sends the requests within a _Hystrix Command_, taking advantage of its functionality.
+
+=== How to create microservices in devonfw?
+
+Follow the instructions in the link below to set up devonfw distribution
+
+<<Download and Setup,Getting started Download and Setup devonfw distribution>> 
+
+Next, install devonfw modules and dependencies
+
+==== Step 1: Open the console
+
+Open the devonfw console by executing the batch file _console.bat_ from the devonfw distribution. It is a pre-configured console which automatically uses the software and configuration provided by the devonfw distribution.
+
+==== Step 2: Change the directory
+
+Run the following command in the console to change directory to devonfw module
+
+[source,bash]
+----
+cd workspaces\examples\devonfw
+---- 
+
+==== Step 3: Install
+
+To install modules and dependencies, you need to execute the following command:
+
+[source,bash]
+----
+mvn --projects bom,modules/microservices/microservices,modules/microservices/microservice-archetype,modules/microservices/microservice-infra-archetype  --also-make install
+----
+
+[NOTE]
+In case installation fails, try running the command again as it is often due to hitch in the network.
+
+Now, you can use the Microservices archetype given below to create Microservices. 
+
+In order to generate microservices in a devonfw project we can choose between two approaches:
+
+- generate a new devon4j application and implement one by one all the needed components (based on Spring Cloud).
+
+- generate a new devon4j application through the custom microservice archetype included in the devonfw distributions.
+
+That second approach, using the devonfw microservices archetype, will generate automatically all the basic structure and components to start developing the microservices based application.
+
+=== devonfw archetypes
+
+To simplify starting with projects based on microservices, devonfw includes two archetypes to generate pre-configured projects that include all the basic components of the _Spring Cloud_ implementation.
+
+- *archetypes-microservices-infra*: generates a project with the needed infrastructure services to manage microservices. Includes the _Eureka_ service, _Zuul_ service and the authentication service.
+
+- *archetypes-microservices*: generates a simple project pre-configured to work as a microservice.
+
+=== Create New Microservices infrastructure application
+
+To generate a new microservices infrastructure application through the devonfw archetype you only need to open a devonfw console (_console.bat_ script) and follow the same steps described in <<Creating your First Application,getting started creating new devonfw devon4j application>>. But, instead of using the _standard_ archetype, we must provide the special infrastructure archetype `archetype-microservice-infra`. Remember to provide your own values for _DgroupId_, _DartifactId_, _Dversion_ and _Dpackage_ parameters, Also provide the -DarchetypeVersion with latest value:
+
+[source, bash]
+----
+mvn -DarchetypeVersion=2.4.0 -DarchetypeGroupId=com.devonfw.microservices -DarchetypeArtifactId=microservices-infra-archetype archetype:generate -DgroupId=com.capgemini -DartifactId=sampleinfra -Dversion=0.1-SNAPSHOT -Dpackage=com.capgemini.sampleinfra
+----
+
+Once the _Maven_ command has finished an application with the following modules should be created:
+
+image::images/microservices/microservices_02.png[,width="150", link="images/microservices/microservices_02.png"]
+
+==== service-eureka module
+
+This module contains the needed classes and configuration to start a _Eureka_ server. 
+
+This service runs by default on port _8761_ although ti can be changed in the `application.properties` file of the project.
+
+==== service-zuul module
+
+This module contains all the needed classes and configuration to start a _Zuul_ server, that will be in charge of the routing and filter of the requests.
+
+This service by default runs on port _8081_ but, as we already mentioned, it can be changed through the file `application.properties` of the project.
+
+==== service-auth module
+
+This module runs an authentication and authorization mock microservice that allows to generate a security token to make calls to the rest of microservices. This module is only providing a basic structure, the security measures must be implemented fitting the requirements of each project (authentication through DB, SSO, LDAP, OAuth,...)
+
+This service runs by default on port _9999_, although, as in previous services, it can be edited in the `application.properties` file.
+
+=== Create New Microservices Application 
+
+To generate a new microservice project through the devonfw archetype, as in previous archetype example, you can follow the instructions explained in <<Creating your First Application,getting started creating new devonfw devon4j application>>. But, instead of using the _standard_ archetype, we must provide the special microservices archetype `archetype-microservices`. Open a devonfw console (_console.bat_ script) and launch a _Maven_ command like the following (provide your own values for _DgroupId_, _DartifactId_, _Dversion_ and _Dpackage_ parameters, also provide the -DarchetypeVersion with latest value):
+
+[source, bash]
+----
+mvn -DarchetypeVersion=2.4.0 -DarchetypeGroupId=com.devonfw.microservices -DarchetypeArtifactId=microservices-archetype archetype:generate -DgroupId=com.capgemini -DartifactId=sampleapp1 -Dversion=0.1-SNAPSHOT -Dpackage=com.capgemini.sampleapp1
+----
+
+That command generates a simple application containing the source code for the microservice. By default, the `pom.xml` includes the `devon-microservices` module, that contains the security configuration, jwt interceptors, _Hystrix_, _Ribbon_ and _FeignClient_ configuration and some properties common to all microservices.
+
+The created microservice runs by default on port _9001_ and has the `context-path` with the same name than the project. This parameters can be changed through the 'application.properties' file of the project.
+
+=== How to use microservices in devonfw
+
+In the following sections we are going to provide some patterns to manage microservices in devonfw using the archetype, alongside the options that each of the available modules offer.
+
+==== Eureka service
+
+We are going to review the general options for the _Eureka_ service. If you are interested in getting more details you can visit the official site for http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.0.M1/#service_discovery_eureka_clients[Spring Cloud Eureka clients].
+
+To create an _Eureka_ server you only need to create a new _Spring Boot_ application and add the `@EnableEurekaServer` to the main class.
+
+[NOTE]
+====
+The provided archetype `archetype-microservices-infra` already provides that annotated class.
+====
+
+[source, java]
+----
+@Configuration
+@EnableEurekaServer
+@EnableAutoConfiguration
+@SpringBootApplication
+public class EurekaBootApp {
+
+  public static void main(String[] args) {
+
+    new SpringApplicationBuilder(EurekaBootApp.class).web(true).run(args);
+  }
+}
+----
+
+The basic properties that must be configured for _Eureka_ server are:
+
+- port: in which port the service will run. The default port is the _8761_ and you have to keep in mind that the connection to this port is specially critical as all the microservices must be able to connect to this `host:port`. Remember that _Eureka_ generates and manages the microservices catalog, so it`s crucial to allow the microservices to register in this component.
+
+- url: which _URL_ manages as area.
+
+....
+eureka.instance.hostname=localhost
+eureka.instance.port=8761
+
+server.port=${eureka.instance.port}
+
+eureka.client.serviceUrl.defaultZone=http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+....
+
+The way to connect a microservice to _Eureka_ server is really simple. You only will need to specify the `host:port` where the server is located and annotate the _Spring Boot_ class with `@EnableMicroservices` annotation.
+
+[NOTE]
+====
+Instead of using that `@EnableMicroservices` annotation, you can use the equivalent _Spring_ annotations `@EnableDiscoveryClient` or `@EnableEurekaClient`. 
+====
+
+[source,java]
+----
+@Configuration
+@EnableMicroservices
+@SpringBootApplication
+public class MicroserviceBootApp {
+  public static void main(String[] args) {
+
+    SpringApplication.run(MicroserviceBootApp.class, args);
+  }
+}
+----
+
+....
+eureka.instance.hostname=localhost
+eureka.instance.port=8761
+
+eureka.client.serviceUrl.defaultZone=http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+....
+
+With this the application will register automatically in _Eureka_ and will be validated each 30 seconds. This value can be changed editing the property `eureka.instance.leaseRenewalIntervalInSeconds` in `application.properties` file. It must be taken into account that each _Eureka_ client will maintain a cache of _Eureka_ records to avoid calling the service every time it is necessary to access another microservice. This cache is reloaded every 30 seconds, this value can also be edited through property `eureka.client.registryFetchIntervalSeconds` in `application.properties` file.
+
+==== Zuul service
+
+We are going to show an overview to the options of the _Zuul_ service, if you want to know more details about this particular service visit the official site of http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.0.M1/#router_and_filter_zuul[Spring Cloud].
+
+_Zuul_ is the component in charge for router and filtering the requests to the microservices system. It works as a gateway that, through a rule engine, redirects the requests to the suitable microservice. In addition, it can be used as a security filter as it can implement PRE-Filters and POST-Filters.
+
+To create a basic _Zuul_ server you only need to create a new Spring Boot application and add the `@EnableZuulProxy` annotation.
+
+[source,java]
+----
+@EnableAutoConfiguration
+@EnableEurekaClient
+@EnableZuulProxy
+@SpringBootApplication
+public class ZuulBootApp {
+  public static void main(String[] args) {
+
+    SpringApplication.run(ZuulBootApp.class, args);
+  }
+}
+----
+
+To allow _Zuul_ to redirect the requests we need to connect _Zuul_ with the previously created _Eureka_ service, to allow him to register and access to the catalog of microservices created by _Eureka_.
+
+Also, if we are going to use the _Zuul_ service from a web browser, we must configure the _CORS_ filter to allow connections from any source. This is really easy to implement by adding the following Java _Bean_ to our _ZuulBootApp_ class:
+
+[source,java]
+----
+@Bean
+public CorsFilter corsFilter() {
+    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    final CorsConfiguration config = new CorsConfiguration();
+    config.setAllowCredentials(true);
+    config.addAllowedOrigin("*");
+    config.addAllowedHeader("*");
+    config.addAllowedMethod("OPTIONS");
+    config.addAllowedMethod("HEAD");
+    config.addAllowedMethod("GET");
+    config.addAllowedMethod("PUT");
+    config.addAllowedMethod("POST");
+    config.addAllowedMethod("DELETE");
+    config.addAllowedMethod("PATCH");
+    source.registerCorsConfiguration("/**", config);
+    return new CorsFilter(source);
+}
+----
+
+To configure the _Zuul_ service we need to define a series of properties that we will describe below:
+
+----
+server.port=8081
+spring.application.name=zuulserver
+
+eureka.instance.hostname=localhost
+eureka.instance.port=8761
+eureka.client.serviceUrl.defaultZone=http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+
+
+microservices.context-path=/demo
+
+zuul.routes.security.path=${microservices.context-path}/services/rest/security/**
+zuul.routes.security.serviceId=AUTH
+zuul.routes.security.stripPrefix=false
+
+zuul.routes.login.path=${microservices.context-path}/services/rest/login
+zuul.routes.login.serviceId=AUTH
+zuul.routes.login.stripPrefix=false
+
+
+zuul.ignoredServices='*'
+zuul.sensitive-headers=
+
+ribbon.eureka.enabled=true
+hystrix.command.default.execution.timeout.enabled=false
+----
+
+
+- `server.port`: Is the port where the _Zuul_ service is listening.
+
+- `spring.application.name`: The name of the service the will be sent to _Eureka_.
+
+- `eureka.*`: The properties for the register of the _Eureka_ client.
+
+- `zuul.routes.XXXXX`: The configuration of a concrete route.
+
+- `zuul.routes.XXXXX.path`: The path used for a redirection.
+
+- `zuul.routes.XXXXX.serviceId`: ID of the service where the request will be redirected. It must match the property `spring.application.name` in the microservice.
+
+- `zuul.routes.XXXXX.stripPrefix`: by default set to `false`. With this property we configure if the part of the route that has matched the request must be _cutted out_. i.e., if the path is _/sample/services/rest/foomanagement/∗∗_ and the property is set to `true` it will redirect to the microservice but it will only send the path _**_, the root `/sample/services/rest/foomanagement/` will be removed.
+
+- `zuul.ignoredServices`: Configures which services without result in the routes, must be ignored.
+
+- `zuul.sensitive-headers`: Configures which headers must be ignored. This property must be set to _empty_, otherwise _Zuul_ will ignore security authorization headers and the json web token will not work.
+
+- `ribbon.eureka.enabled`: Configures if the _Ribbon_ should be used to route the requests.
+
+- `hystrix.command.default.execution.timeout.enabled`: Enables or disables the timeout parameter to consider a microservices as unavailable. By default the value for this property is 1 second. Any request that takes more than this will be consider failed. By default in the archetype this property is disabled.
+
+Having an _Eureka_ client activated, the _Zuul_ service will refresh its content every 30 seconds, so a just registered service may still have not been cached in _Zuul_. On the contrary, if a service is unavailable, 3 cycles of 30 seconds must pass before _Eureka_ sets its register as _dead_, and other 30 seconds for _Zuul_ to refresh its cache.
+
+==== Security, Authentication and authorization
+
+The most commonly used authentication in micro-service environments is authentication based on https://jwt.io/[json web tokens], since the server does not need to store any type of user information (stateless) and therefore favors the scalability of the microservices.
+
+
+[IMPORTANT]
+====
+The `service-auth` module is useful only if the authentication and authorization needs to be done by a remote service (_e.g._ to have a common auth. service to be used by several microservices).
+
+Otherwise, the autentication and authorization can happen in the main application, that will perform the authentication and will generate the JWT.
+====
+
+===== Security in the monolith application
+In this case, the main microservice or application will perform the authentication and generate the JWT, without using `service-auth`.
+
+It works as follows:
+
+- The user is authenticated in our application, either through a user / password access, or through a third provider.
+
+- This authentication request is launched against the Zuul server which will redirect it to an instance of the microservice.
+
+- The microservice will check the user, retrieve their roles and metadata and generate two tokens: one with user access information and another needed to refresh the access token. This information will be returned to the client.
+
+- The client is now able to call the microservice, adding the _authorization token_ to the header of the request.
+
+image::images/microservices/microservices_07.png[,width="450", link="images/microservices/microservices_07.png"]
+
+===== Security in external service (`service-auth`)
+
+It works as follows:
+
+- The user is authenticated in our application, either through a user / password access, or through a third provider.
+
+- This authentication request is launched against the Zuul server which will redirect it to an instance of the _Auth_ microservice.
+
+- The _Auth_ microservice will check the user, retrieve their roles and metadata and generate two tokens: one with user access information and another needed to refresh the access token. This information will be returned to the client.
+
+image::images/microservices/microservices_03.png[,width="450", link="images/microservices/microservices_03.png"]
+
+The `service-auth` service is already prepared to listen to the `/login` path and generate the two mentioned tokens. To do so we can use the `JsonWebTokenUtility` class that is implemented in devonfw
+
+[source,java]
+----
+      UserDetailsJsonWebTokenAbstract clientTo = new UserDetailsJsonWebTokenTo();
+      clientTo.setId(1L);
+      clientTo.setUsername("demo");
+      clientTo.setRoles(new ArrayList<>(Arrays.asList("DEMO")));
+      clientTo.setExpirationDate(buildExpirationDate(this.expirationTime * 60 * 1000L));
+
+      return new ResponseEntity<>(new JwtHeaderTo(this.jsonWebTokenUtility.createJsonWebTokenAccess(clientTo),
+          this.jsonWebTokenUtility.createJsonWebTokenRefresh(clientTo),
+          this.expirationTime * 60 * 1000L), HttpStatus.OK);
+----
+
+[NOTE]
+=======
+In our example you can make a POST request to:
+
+http://localhost:8081/service-auth/services/rest/login +
+{nbsp}{nbsp}{nbsp}{nbsp} HEADER{nbsp}{nbsp}{nbsp}{nbsp}  Content-Type : application/json +
+{nbsp}{nbsp}{nbsp}{nbsp} BODY {nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}   { "j_username" : "xxx", "j_password" : "xxx"}
+=======
+
+This will generate a response like the following
+
+[source,json]
+----
+{
+  "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZmlyc3ROYW1lIjoiZGVtbyIsImxhc3ROYW1lIjoiZGVtbyIsImV4cCI6MTQ4Nzg3NTAyMSwicm9sZXMiOlsiREVNTyJdfQ.aEdJWEpyvRlO8nF_rpSMSM7NXjRIyeJF425HRt8imCTsq4iGiWbmi1FFZ6pydMwKjd-Uw1-ZGf2WF58qjWc4xg",
+  "refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1vIiwiZmlyc3ROYW1lIjoiZGVtbyIsImxhc3ROYW1lIjoiZGVtbyIsImV4cCI6MTQ4Nzg3NTAyMSwicm9sZXMiOlsiUkVGUkVTSF9KV1QiXX0.YtK8Bh07O-h1GTsyTK36YHxkGniyiTlxnazZXi8tT-RtUxxW8We8cdiYJn6tw0RoFkOyr1F5EzvkGyU0HNoLyw",
+  "expirationTime": 900000,
+  "accessHeaderName": "Authorization",
+  "refreshHeaderName": "Authorization-Refresh"
+}
+----
+
+The client now should store, in the header defined in `accessHeaderName`, the token included as `accessToken`.
+
+[IMPORTANT]
+====
+When using `service-auth` (or any other external authorization service), we *must secure* not only
+the communication between the Client and Zuul, but also between Zuul and the `service-auth`. 
+
+There is very sensitive information being sent (_username_ and _password_) between the different services that
+anyone could read if the channel is not properly secured.
+====
+
+When configuring the `service-auth` module is very important to have into account the following aspects:
+
+- The _expiration date_ of the token can be configured in the properties file with the property `jwt.expirationTime` (will appear in minutes).
+
+- The key for the token generation can be configured also in the properties file using the property `jwt.encodedKey` which will have a _Base64_ encoded value.
+
+- The roles inserted in the token should be the list of the access roles of the user. Doing this we avoid that each microservice has to look for the roles that belong to a profile.
+
+- If you want to use a specific UserDetails for the project, with new fields, you must extend the behavior as explained in <<How to modify the UserDetails information,here>>.
+
+From now on, the client will be able to make calls to the microservices, sending the _access token_ in the header of the request.
+
+image::images/microservices/microservices_04.png[,width="450", link="images/microservices/microservices_04.png"]
+
+Once the request reaches the microservice, the app must validate the token and register the user in the security context. These operations will be automatic as long as the microservice has enabled the security inherited from the `JsonWebTokenSecurityConfig` class. This is done using the following code:
+
+[source,java]
+----
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig extends JsonWebTokenSecurityConfig {
+
+  @Override
+  public JsonWebTokenUtility getJsonWebTokenUtility() {
+
+    return new JsonWebTokenUtility();
+  }
+
+  @Override
+  protected void setupAuthorization(HttpSecurity http) throws Exception {
+
+    http.authorizeRequests()
+        // authenticate all other requests
+        .anyRequest().authenticated();
+  }
+
+}
+----
+
+In addition, devonfw has already implemented the needed interceptors and filters to resend the security header each time that a microservice calls other microservice of the ecosystem.
+
+When validating the token, it is also checked its expiration date, so it is highly recommended that the client refresh from time to time the token, in order to update its expiration date. This is done by launching a request to `/refresh_jwt` within the `service-auth` module and sending both the _access token_ and the _refresh token_ in the header.
+
+image::images/microservices/microservices_05.png[,width="450", link="images/microservices/microservices_05.png"]
+
+If for any reason an attempt is made to access a business operation without having a valid token, or without sufficient _role_ level permission to execute that operation, the microservice response will be *Forbidden*.
+
+image::images/microservices/microservices_06.png[,width="450", link="images/microservices/microservices_06.png"]
+
+=== How to modify the UserDetails information
+
+In order to modify the _UserDetails_ information we will need to accomplish two steps: modify the authentication service to generate the authentication token with the custom attributes embedded, and modify the pre-authentication filter of the microservices to convert the token into an _Object_ with the custom attributes available.
+
+==== Modify the authentication service to generate a new token
+
+We must modify the `service-auth` that is in charge of logging the user and generate the security token.
+
+The first thing to do is to create a _UserDetails_ class that contains the required attributes and custom attributes. In the code sample we will call this class _UserDetailsJsonWebTokenCustomTo_, and must either implement the generic _UserDetailsJsonWebTokenAbstract_ interface or extend it from the current _UserDetailsJsonWebTokenTo_ class, since the services are prepared to work with it. In the example, we will add two new attributes `firstName` and `lastName`.
+
+[source,java]
+----
+public class UserDetailsJsonWebTokenCustomTo extends UserDetailsJsonWebTokenTo {
+
+  private String firstName;
+  private String lastName;
+
+  public String getFirstName() {
+    return this.firstName;
+  }
+
+  public String getLastName() {
+    return this.lastName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+}
+----
+
+In case that the `UserDetailsJsonWebTokenAbstract` interface is implemented, in addition to the new attributes the rest of the interface must be implemented.
+
+The next step would be to override the component that performs the conversions _Token→UserDetails_ and _UserDetails→Token_. This component is the `JsonWebTokenUtility`, so you should create a new class that extends from this, in the example we will call it `JsonWebTokenUtilityCustom`. In this new class, you must overwrite the only two methods that are allowed to perform the conversions, to add _writing_ and _reading_ operations for the new custom attributes.
+
+[source,java]
+----
+public class JsonWebTokenUtilityCustom extends JsonWebTokenUtility {
+
+  @Override
+  protected UserDetailsJsonWebTokenAbstract addCustomPropertiesClaimsToUserDetails(Claims claims) {
+
+    UserDetailsJsonWebTokenCustomTo userDetails = new UserDetailsJsonWebTokenCustomTo();
+
+    userDetails.setFirstName(claims.get("firstName", String.class));
+    userDetails.setLastName(claims.get("lastName", String.class));
+
+    return userDetails;
+  }
+
+  @Override
+  protected void addCustomPropertiesUserDetailsToJwt(UserDetailsJsonWebTokenAbstract authTokenDetailsDTO, JwtBuilder jBuilder) {
+
+    UserDetailsJsonWebTokenCustomTo userDetails = (UserDetailsJsonWebTokenCustomTo) authTokenDetailsDTO;
+
+    jBuilder.claim("firtName", userDetails.getFirstName());
+    jBuilder.claim("lastName", userDetails.getLastName());
+  }
+}
+----
+
+Now you should enable that new converter to replace the default one. In the `WebSecurityConfig` class you must change the related `@Bean` to start using this new class
+
+[source,java]
+----
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+...
+
+  @Bean
+  public JsonWebTokenUtility getJsonWebTokenUtility() {
+    return new JsonWebTokenUtilityCustom();
+  }
+
+...
+
+}
+----
+
+Finally, in the login process the new attributes should be filled in when creating the user. In our example in the class `SecuritymanagementRestServiceImpl`.
+
+[source,java]
+----
+      UserDetailsJsonWebTokenCustomTo clientTo = new UserDetailsJsonWebTokenCustomTo();
+      clientTo.setId(1L);
+      clientTo.setUsername("demo");
+      clientTo.setRoles(new ArrayList<>(Arrays.asList("DEMO")));
+      clientTo.setExpirationDate(buildExpirationDate(this.expirationTime * 60 * 1000L));
+
+      clientTo.setFirstName("firstName");
+      clientTo.setLastName("lastName");
+
+
+      return new ResponseEntity<>(new JwtHeaderTo(this.jsonWebTokenUtility.createJsonWebTokenAccess(clientTo),
+          this.jsonWebTokenUtility.createJsonWebTokenRefresh(clientTo), //
+          this.expirationTime * 60 * 1000L), HttpStatus.OK);
+----
+
+==== Modify the pre-authentication filter to read the new token
+
+Once a token with custom attributes has been obtained, the steps to read it and put it in the security context are very simple. The changes shown in this point should be reproduced in those microservices where you want to use the new custom attributes. The steps to follow are those:
+
+- Create a `UserDetailsJsonWebTokenCustomTo` class that contains the new attributes, as was done in the previous section. The ideal would be to reuse the same class.
+
+- Create a `JsonWebTokenUtilityCustom` class that extends the implementation of the token generator, just as it was done in the previous section. Again, the ideal would be to reuse the same class.
+
+- Configure the creation of this new `@Bean` in the `WebSecurityConfig` class just like in the previous section.
+
+With these three steps you can use the new security object with the custom attributes. One way to use it could be as follows:
+
+[source,java]
+----
+   UserDetailsJsonWebToken principal = (UserDetailsJsonWebToken) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+   UserDetailsJsonWebTokenCustomTo userDetails = (UserDetailsJsonWebTokenCustomTo) principal.getUserDetailsJsonWebTokenAbstract();
+
+   userDetails.getFirstName();
+----
+
+=== How to start with a microservice
+
+Once the microservice has been created through its archetype, you need to have a series of points in mind to configure it correctly:
+
+- The microservice must have the `microservices` starter in its `pom.xml` configuration to be able to use the interceptors and the generic configuration.
+
+[source,xml]
+----
+<dependency>
+      <groupId>com.devonfw.starter</groupId>
+      <artifactId>devonfw-microservices-starter</artifactId>
+      <version>${devonfw.version}</version>
+</dependency>
+----
+
+- It should be annotated in its initial class with `@EnableMicroservices`, this will activate the annotations for _Eureka_ client, _CircuitBreaker_ and the client Feign. All of this is configured in the properties file.
+
+- This is a _bootified_ application so in the `pom.xml` file you will have to define which one is the boot class.
+
+- You must consider the boot configuration: _port_ and _context-path_. In development, each microservice must have a different port, to avoid colliding with other microservices, while the _context-path_ is recommended to be the same, to simplify the _Zuul_ configurations and calls between microservices.
+
+- You can use `@RolesAllowed` annotations in the services methods to secure them, as long as the Web security inherited from `JsonWebTokenSecurityConfig` has been enabled, since it is the responsible for putting the _UserDetails_ generated from the token into the security context.
+
+- All microservices must share the security key to encrypt and decrypt the token. And, specially, it should be the same as the `service-auth`, which will be responsible for generating the initial token.
+
+- In the _Zuul_ module, the routes must be well configured to be able to route certain URLs to the new created microservices. So, if we have added a _sampleapp1_ with `server.context-path=/sampleapp1` we will need to map that service in the _Zuul's_ `application.properties` file adding
+
+[source]
+----
+zuul.routes.sampleapp1.path=/sampleapp1/services/rest/**
+zuul.routes.sampleapp1.serviceId=sampleapp1
+zuul.routes.sampleapp1.stripPrefix=false
+----
+
+The rest will be treated as if it were a normal Web application, which exposes some services through a REST API.
+
+=== Calls between microservices
+
+In order to invoke a microservice manually, you would need to implement the following steps:
+
+- Obtain the instances of the microservice you want to invoke.
+
+- Choose which of all instances is the most optimal for the client.
+
+- Retrieve the security token from the source request.
+
+- Create a REST client that invokes the instance by passing the generated security token.
+
+- Intercept the response in case it causes an error, to avoid a cascade propagation.
+
+Thanks to the combination of _Feign_, _Hystrix_, _Ribbon_, _Eureka_ and _devonfw_ it is possible to make a call to another microservice in a declarative, very simple and almost automatic way.
+
+You only need to create an interface with the methods that need to be invoked. This interface must be annotated with `@FeignClient` and each of the methods created must have a path and a method in the `@RequestMapping` annotation. An example interface might be as follows:
+
+[source,java]
+----
+@FeignClient(value = "foo")
+public interface FooClient {
+
+  @RequestMapping(method = RequestMethod.GET, value = "/${server.context-path}/services/rest/foomanagement/v1/foo")
+  FooMessageTo foo();
+
+}
+----
+
+It is important to highlight the following aspects:
+
+- The `@FeignClient` annotation comes along with the name of the microservice to be invoked. The correct and optimal would be to use the name of the microservice, but it is also possible to launch the request to the _Zuul_ server. In the latter case it would be the server itself that would perform the load balancing and self-discovery of the most appropriate microservice, but have in mind that, doing this, the proxy server is also unnecessarily overloaded with unnecessary requests.
+
+- The `@RequestMapping` annotation must have the same method and path as expected on target, otherwise the request will be thrown and no response will be found.
+
+- The input and output parameters will be mapped to _json_, so they may not be exactly the same classes in both destination and source. It will depend on how you want to send and retrieve the information.
+
+Once the interface is created and annotated, in order to use the calls, it would be enough to inject the component into the object from which we want to use it and invoke any of its methods. _Spring Cloud_ will automatically generate the required bean.
+
+[source,java]
+----
+...
+
+  @Inject
+  FooClient fooClient;
+
+  public FooMessageTo ivokeFooClient() {
+    return this.fooClient.foo();
+  }
+
+...
+----
+
+With these two annotations, almost all the functionality is covered automatically: search in _Eureka_, choice of the best instance through _Ribbon_, registration of the token and creation of the REST client. Only would be necessary to control the response in case of failure. The idea is to allow, in case of failure or fall of the invoked microservice, from the origin of the invocation is executed an alternative plan. This is as simple as activating the `fallback` in the `@FeignClient` annotation and assigning a class that will be invoked in case the REST client response fails.
+
+[source,java]
+----
+@FeignClient(value = "foo", fallback = FooClientHystrixFallback.class)
+public interface FooClient {
+
+  @RequestMapping(method = RequestMethod.GET, value = "/${server.context-path}/services/rest/foomanagement/v1/foo")
+  FooMessageTo foo();
+
+}
+----
+
+Finally, you will need to create a class annotated with `@Component` that implements the interface of the _Feign_ client. Within this implementation you can add the desired functionality in case the invocation to the REST client fails.
+
+[source,java]
+----
+@Component
+public class FooClientHystrixFallback implements FooClient {
+
+  @Override
+  public FooMessageTo foo() {
+    return new FooMessageTo("Fail Message");
+  }
+
+}
+----
