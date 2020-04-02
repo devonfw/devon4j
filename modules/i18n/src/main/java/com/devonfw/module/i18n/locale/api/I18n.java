@@ -1,7 +1,7 @@
 package com.devonfw.module.i18n.locale.api;
 
 /**
- * Interface for getting JSON using locale and filter
+ * Interface for getting JSON using locale and filter.
  *
  */
 
