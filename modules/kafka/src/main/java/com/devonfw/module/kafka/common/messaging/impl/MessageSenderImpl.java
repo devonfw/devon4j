@@ -162,20 +162,20 @@ public class MessageSenderImpl<K, V> implements MessageSender<K, V> {
   private ProducerRecord<K, V> updateProducerRecord(ProducerRecord<K, V> producerRecord) {
 
     Headers headers = producerRecord.headers();
-    updateHeadersWithTracers(producerRecord.topic(), producerRecord.key().toString(), headers);
+    updateHeadersWithTracers(producerRecord.topic(), producerRecord.key(), headers);
 
     return new ProducerRecord<>(producerRecord.topic(), producerRecord.partition(), producerRecord.key(),
         producerRecord.value(), headers);
   }
 
-  private void updateHeadersWithTracers(String topic, String key, Headers headers) {
+  private void updateHeadersWithTracers(String topic, K key, Headers headers) {
 
     if (StringUtils.isEmpty(this.diagnosticContextFacade.getCorrelationId())) {
       this.diagnosticContextFacade.setCorrelationId(UUID.randomUUID().toString());
     }
 
     headers.add(LoggingConstants.CORRELATION_ID, this.diagnosticContextFacade.getCorrelationId().getBytes());
-    Optional.ofNullable(key).ifPresent(k -> addHeaderValue(headers, KafkaHeaders.MESSAGE_KEY, k));
+    Optional.ofNullable(key).ifPresent(k -> addHeaderValue(headers, KafkaHeaders.MESSAGE_KEY, k.toString()));
     Optional.ofNullable(topic).ifPresent(t -> addHeaderValue(headers, KafkaHeaders.TOPIC, topic));
 
     checkTracerCurrentSpanAndInjectHeaders(headers);
