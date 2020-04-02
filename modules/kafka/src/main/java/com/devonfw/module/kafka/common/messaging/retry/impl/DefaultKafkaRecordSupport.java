@@ -9,15 +9,18 @@ import com.devonfw.module.kafka.common.messaging.retry.api.client.KafkaRecordSup
 
 /**
  * This is an implementation class for {@link KafkaRecordSupport}. Sets retry topic for enqueue process of message.
+ *
+ * @param <K> the key type.
+ * @param <V> the value type.
  */
-public class DefaultKafkaRecordSupport implements KafkaRecordSupport {
+public class DefaultKafkaRecordSupport<K, V> implements KafkaRecordSupport<K, V> {
 
   private final String RETRY_TOPIC_SUFFIX = "-retry";
 
   private final String DEFAULT_RETRY_TOPIC = "default-message" + this.RETRY_TOPIC_SUFFIX;
 
   @Override
-  public ProducerRecord<Object, Object> createRecordForRetry(ConsumerRecord<Object, Object> record) {
+  public ProducerRecord<K, V> createRecordForRetry(ConsumerRecord<K, V> record) {
 
     String retryTopic = Optional.ofNullable(record.topic()).map(this::setRetryTopic).orElse(this.DEFAULT_RETRY_TOPIC);
 

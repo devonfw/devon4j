@@ -22,20 +22,22 @@ import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryPo
 /**
  * This is an implementation class for the {@link MessageRetryOperations}.
  *
+ * @param <K> the key type.
+ * @param <V> the value type.
  */
-public class MessageRetryTemplate implements MessageRetryOperations {
+public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> {
 
   private static final Logger LOG = LoggerFactory.getLogger(MessageRetryTemplate.class);
 
-  private MessageSender messageSender;
+  private MessageSender<K, V> messageSender;
 
   private MessageBackOffPolicy backOffPolicy;
 
-  private MessageRetryPolicy retryPolicy;
+  private MessageRetryPolicy<K, V> retryPolicy;
 
-  private MessageRetryHandler retryHandler;
+  private MessageRetryHandler<K, V> retryHandler;
 
-  private KafkaRecordSupport kafkaRecordSupport;
+  private KafkaRecordSupport<K, V> kafkaRecordSupport;
 
   /**
    * The constructor.
@@ -51,7 +53,7 @@ public class MessageRetryTemplate implements MessageRetryOperations {
    * @param retryPolicy the {@link MessageRetryPolicy}
    * @param backOffPolicy the {@link MessageBackOffPolicy}
    */
-  public MessageRetryTemplate(MessageRetryPolicy retryPolicy, MessageBackOffPolicy backOffPolicy) {
+  public MessageRetryTemplate(MessageRetryPolicy<K, V> retryPolicy, MessageBackOffPolicy backOffPolicy) {
 
     if (ObjectUtils.isEmpty(retryPolicy)) {
       throw new IllegalArgumentException("The parameter \" retryPolicy \"must be specified.");
@@ -66,16 +68,16 @@ public class MessageRetryTemplate implements MessageRetryOperations {
   }
 
   @Override
-  public MessageRetryProcessingResult processMessageWithRetry(ConsumerRecord<Object, Object> consumerRecord,
-      MessageProcessor processor) {
+  public MessageRetryProcessingResult processMessageWithRetry(ConsumerRecord<K, V> consumerRecord,
+      MessageProcessor<K, V> processor) {
 
     checkParameters(consumerRecord, processor, this.retryPolicy, this.backOffPolicy);
 
     return processRetry(consumerRecord, processor);
   }
 
-  private <T> MessageRetryProcessingResult processRetry(ConsumerRecord<Object, Object> consumerRecord,
-      MessageProcessor processor) {
+  private <T> MessageRetryProcessingResult processRetry(ConsumerRecord<K, V> consumerRecord,
+      MessageProcessor<K, V> processor) {
 
     MessageRetryContext retryContext = MessageRetryContext.from(consumerRecord);
 
@@ -151,7 +153,7 @@ public class MessageRetryTemplate implements MessageRetryOperations {
     }
   }
 
-  private <T> void checkParameters(T message, MessageProcessor processor, MessageRetryPolicy pRetryPolicy,
+  private <T> void checkParameters(T message, MessageProcessor<K, V> processor, MessageRetryPolicy<K, V> pRetryPolicy,
       MessageBackOffPolicy pBackOffPolicy) {
 
     if (ObjectUtils.isEmpty(message)) {
@@ -171,7 +173,7 @@ public class MessageRetryTemplate implements MessageRetryOperations {
     }
   }
 
-  private MessageRetryContext updateRetryContextForNextRetry(ConsumerRecord<Object, Object> consumerRecord,
+  private MessageRetryContext updateRetryContextForNextRetry(ConsumerRecord<K, V> consumerRecord,
       MessageRetryContext retryContext) {
 
     MessageRetryContext result = retryContext;
@@ -186,9 +188,9 @@ public class MessageRetryTemplate implements MessageRetryOperations {
     return result;
   }
 
-  private void enqueueRetry(ConsumerRecord<Object, Object> consumerRecord, MessageRetryContext retryContext) {
+  private void enqueueRetry(ConsumerRecord<K, V> consumerRecord, MessageRetryContext retryContext) {
 
-    ProducerRecord<Object, Object> producerRecord = this.kafkaRecordSupport.createRecordForRetry(consumerRecord);
+    ProducerRecord<K, V> producerRecord = this.kafkaRecordSupport.createRecordForRetry(consumerRecord);
 
     retryContext.injectInto(producerRecord);
     this.messageSender.sendMessage(producerRecord);
@@ -199,7 +201,7 @@ public class MessageRetryTemplate implements MessageRetryOperations {
    *
    * @param messageSender the MessageSender.
    */
-  public void setMessageSender(MessageSender messageSender) {
+  public void setMessageSender(MessageSender<K, V> messageSender) {
 
     this.messageSender = messageSender;
   }
@@ -219,7 +221,7 @@ public class MessageRetryTemplate implements MessageRetryOperations {
    *
    * @param retryPolicy MessageRetryPolicy
    */
-  public void setRetryPolicy(MessageRetryPolicy retryPolicy) {
+  public void setRetryPolicy(MessageRetryPolicy<K, V> retryPolicy) {
 
     this.retryPolicy = retryPolicy;
   }
@@ -229,7 +231,7 @@ public class MessageRetryTemplate implements MessageRetryOperations {
    *
    * @param retryHandler MessageRetryHandler.
    */
-  public void setRetryHandler(MessageRetryHandler retryHandler) {
+  public void setRetryHandler(MessageRetryHandler<K, V> retryHandler) {
 
     this.retryHandler = retryHandler;
   }
@@ -239,7 +241,7 @@ public class MessageRetryTemplate implements MessageRetryOperations {
    *
    * @param kafkaRecordSupport KafkaRecordSupport.
    */
-  public void setKafkaRecordSupport(KafkaRecordSupport kafkaRecordSupport) {
+  public void setKafkaRecordSupport(KafkaRecordSupport<K, V> kafkaRecordSupport) {
 
     this.kafkaRecordSupport = kafkaRecordSupport;
   }
