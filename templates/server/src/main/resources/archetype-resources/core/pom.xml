@@ -35,6 +35,11 @@
       <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-web</artifactId>
     </dependency>
+    
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-i18n</artifactId>
+    </dependency>
 
     <!-- Only required if you want to call external REST services within your Java application -->
     <dependency>

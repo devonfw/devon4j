@@ -34,6 +34,7 @@
     <module>batch</module>
     <module>web</module>
     <module>basic</module>
+	<module>i18n</module>
   </modules>
 
   <dependencyManagement>
