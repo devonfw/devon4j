@@ -4,7 +4,7 @@ toc::[]
 = Java Persistence API
 
 For mapping java objects to a relational database we use the http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[Java Persistence API (JPA)]. 
-As JPA implementation we recommend to use http://hibernate.org/orm/[hibernate]. For general documentation about JPA and hibernate follow the links above as we will not replicate the documentation. Here you will only find guidelines and examples how we recommend to use it properly. The following examples show how to map the data of a database to an entity. As we use JPA we abstract from link:guide-sql.asciidoc[SQL] here. However, you will still need a https://en.wikipedia.org/wiki/Data_definition_language[DDL] script for your schema and during maintenance also link:guide-database-migration.asciidoc[database migrations]. Please follow our link:guide-sql.asciidoc[SQL guide] for such artefacts.
+As JPA implementation we recommend to use http://hibernate.org/orm/[hibernate]. For general documentation about JPA and hibernate follow the links above as we will not replicate the documentation. Here you will only find guidelines and examples how we recommend to use it properly. The following examples show how to map the data of a database to an entity. As we use JPA we abstract from link:guide-sql.asciidoc[SQL] here. However, you will still need a https://en.wikipedia.org/wiki/Data_definition_language[DDL] script for your schema and during maintenance also link:guide-database-migration.asciidoc[database migrations]. Please follow our link:guide-sql.asciidoc[SQL guide] for such artifacts.
 
 == Entity
 Entities are part of the persistence layer and contain the actual data. They are POJOs (Plain Old Java Objects) on which the relational data of a database is mapped and vice versa. The mapping is configured via JPA annotations (`javax.persistence`). Usually an entity class corresponds to a table of a database and a property to a column of that table. A persistent entity instance then represents a row of the database table.
@@ -58,10 +58,10 @@ public class MoneyAttributeConverter implements AttributeConverter<Money, BigDec
 ----
 The annotation `@Converter` is detected by the JPA vendor if the annotated class is in the packages to scan. Further, `autoApply = true` implies that the converter is automatically used for all properties of the handled datatype. Therefore all entities with properties of that datatype will automatically be mapped properly (in our example `Money` is mapped as `BigDecimal`).
 
-In case you have a composite datatype that you need to map to multiple columns the JPA does not offer a real solution. As a workaround you can use a bean instead of a real datatype and declare it as xref:embeddable[`@Embeddable`]. If you are using hibernate you can implement `CompositeUserType`. Via the `@TypeDef` annotation it can be registered to hibernate. If you want to annotate the `CompositeUserType` implementation itself you also need another annoation (e.g. `MappedSuperclass` tough not technically correct) so it is found by the scan.
+In case you have a composite datatype that you need to map to multiple columns the JPA does not offer a real solution. As a workaround you can use a bean instead of a real datatype and declare it as xref:embeddable[`@Embeddable`]. If you are using hibernate you can implement `CompositeUserType`. Via the `@TypeDef` annotation it can be registered to hibernate. If you want to annotate the `CompositeUserType` implementation itself you also need another annotation (e.g. `MappedSuperclass` tough not technically correct) so it is found by the scan.
 
 ==== Enumerations
-By default JPA maps Enums via their ordinal. Therefore the database will only contain the ordinals (0, 1, 2, etc.) . So , inside the database you can not easily understand their meaning. Using `@Enumerated` with `EnumType.STRING` allows to map the enum values to their name (`Enum.name()`). Both approaches are fragile when it comes to code changes and refactorings (if you change the order of the enum values or rename them) after the application is deployed to production. If you want to avoid this and get a robust mapping you can define a dedicated string in each enum value for database representation that you keep untouched. Then you treat the enum just like any other xref:entities-and-datatypes[custom datatype].
+By default JPA maps Enums via their ordinal. Therefore the database will only contain the ordinals (0, 1, 2, etc.) . So , inside the database you can not easily understand their meaning. Using `@Enumerated` with `EnumType.STRING` allows to map the enum values to their name (`Enum.name()`). Both approaches are fragile when it comes to code changes and refactoring (if you change the order of the enum values or rename them) after the application is deployed to production. If you want to avoid this and get a robust mapping you can define a dedicated string in each enum value for database representation that you keep untouched. Then you treat the enum just like any other xref:entities-and-datatypes[custom datatype].
 
 ==== BLOB
 If binary or character large objects (BLOB/CLOB) should be used to store the value of an attribute, e.g. to store an icon, the `@Lob` annotation should be used as shown in the following listing: 
@@ -72,7 +72,7 @@ public byte[] getIcon() {
   return this.icon;
 }
 ----
-WARNING: Using a byte array will cause problems if BLOBs get large because the entire BLOB is loaded into the RAM of the server and has to be processed by the garbage collector. For larger BLOBs the type http://docs.oracle.com/javase/7/docs/api/java/sql/Blob.html[Blob] and streaming should be used.
+WARNING: Using a byte array will cause problems if BLOBs get large because the entire BLOB is loaded into the RAM of the server and has to be processed by the garbage collector. For larger BLOBs the type http://docs.oracle.com/javase/7/docs/api/java/sql/Blob.html[Blob] and link:guide-blob-support.asciidoc[streaming] should be used.
 
 [source,java]
 ----
@@ -112,6 +112,28 @@ Using the Aliases API of QueryDSL might result in an `InvalidDataAccessApiUsageE
 ----
 
 . Make sure, that all your custom types used in entities provide a non-argument constructor with at least visibility level `protected`.
+
+==== IdRef
+
+IdRef can be used to reference the other entities in TOs
+
+IdRef is just a wrapper for reference ID as Long. so instead of 
+
+[source,java]
+----
+private Long orderId;
+----
+
+you can write
+
+[source,java]
+----
+private IdRef<Order> orderId;
+----
+
+When using IdRef make sure that the Junit tests contains the following
+
+Junit test should be derived from DbTest (e.g. ComponentDbTest and SubsystemDbTest).
 
 === Primary Keys
 We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). This is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` that you can extend.
@@ -167,7 +189,7 @@ To make it a bidirectional one, the following code has to be added to `StaffMemb
 To make the relationship bidirectional, the tables in the database do not have to be changed. Instead the column that corresponds to the attribute `staffMember` in class `WorkingTime` is used, which is specified by the `mappedBy` element of the `@OneToMany` annotation. Hibernate will search for corresponding `WorkingTime` objects automatically when a `StaffMember` is loaded.
 
 The problem with bidirectional relationships is that if a `WorkingTime` object is added to the set or list `workingTimes` in `StaffMember`, this does not have any effect in the database unless
-the `staffMember` attribute of that `WorkingTime` object is set. That is why the devon4j advices not to use bidirectional relationships but to use queries instead. How to do this is shown xref:queries[here]. If a bidirectional relationship should be used nevertheless, approriate add and remove methods must be used.
+the `staffMember` attribute of that `WorkingTime` object is set. That is why the devon4j advices not to use bidirectional relationships but to use queries instead. How to do this is shown xref:queries[here]. If a bidirectional relationship should be used nevertheless, appropriate add and remove methods must be used.
 
 For 1:n and n:m relations, the devon4j demands that (unordered) Sets and no other collection types are used, as shown in the listing above. The only exception is whenever an ordering is really needed, (sorted) lists can be used. +
 For example, if `WorkingTime` objects should be sorted by their start time, this could be done like this:
@@ -264,7 +286,7 @@ public class AddressEmbeddable {
 As you can see an embeddable is similar to an entity class, but with an `@Embeddable` annotation instead of the `@Entity` annotation and without primary key or modification counter.
 An Embeddable does not exist on its own but in the context of an entity.
 As a simplification Embeddables do not require a separate interface and link:guide-transferobject.asciidoc#ETO[ETO] as the link:guide-beanmapping.asciidoc[bean-mapper] will create a copy automatically when converting the owning entity to an ETO.
-However, in this case the embeddable becoms part of your `api` module that therefore needs a dependency on the `JPA`.
+However, in this case the embeddable becomes part of your `api` module that therefore needs a dependency on the `JPA`.
 
 In addition to that the methods `equals(Object)` and `hashCode()` need to be implemented as this is required by Hibernate (it is not required for entities because they can be unambiguously identified by their primary key). For some hints on how to implement the `hashCode()` method please have a look http://stackoverflow.com/questions/113511/hash-code-implementation[here]. 
         
@@ -319,7 +341,7 @@ public class MyOtherEntity extends MyParentEntity implements MyChild {
 As a best practice we advise you to avoid entity hierarchies at all where possible and otherwise to keep the hierarchy as small as possible. In order to just ensure reuse or establish a common API you can consider a shared interface, a `@MappedSuperclass` or an `@Embeddable` instead of an entity hierarchy.
 
 == Repositories and DAOs
-For each entity a code unit is created that groups all database operations for that entity. We recommend to use link:guide-repository.asciidoc[spring-data respositories] for that as it is most efficient for developers. As an alternative there is still the classic approach using link:guide-dao.asciidoc[DAOs].
+For each entity a code unit is created that groups all database operations for that entity. We recommend to use link:guide-repository.asciidoc[spring-data repositories] for that as it is most efficient for developers. As an alternative there is still the classic approach using link:guide-dao.asciidoc[DAOs].
 
 === Concurrency Control
 The concurrency control defines the way concurrent access to the same data of a database is handled. When several users (or threads of application servers) concurrently access a database, anomalies may happen, e.g. a transaction is able to see changes from another transaction although that one did, not yet commit these changes. Most of these anomalies are automatically prevented by the database system, depending on the http://en.wikipedia.org/wiki/Isolation_(database_systems)[_isolation level_] (property `hibernate.connection.isolation` in the `jpa.xml`, see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html[here]).
@@ -333,7 +355,7 @@ The class `com.devonfw.module.jpa.persistence.api.AbstractPersistenceEntity` alr
 You only have to care about two things:
 
 * How to deal with optimistic locking in xref:relationships[relationships]? +
-Assume an entity `A` contains a collection of `B` entities. Should there be a locking conflict if one user modifies an instance of `A` while another user in parallel modifies an instance of `B` that is contained in the other instance? To address this , take a look at https://oasp.github.io/oasp4j_content/2.4.0/maven/apidocs/io/oasp/module/jpa/dataaccess/api/GenericDao.html#forceIncrementModificationCounter(E)[GenericDao.forceIncrementModificationCounter].
+Assume an entity `A` contains a collection of `B` entities. Should there be a locking conflict if one user modifies an instance of `A` while another user in parallel modifies an instance of `B` that is contained in the other instance? To address this , take a look at https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/feature/FeatureForceIncrementModificationCounter.java[FeatureForceIncrementModificationCounter].
 * What should happen in the UI if an `OptimisticLockException` occurred? +
 According to KISS our recommendation is that the user gets an error displayed that tells him to do his change again on the recent data. Try to design your system and the work processing in a way to keep such conflicts rare and you are fine.
 
@@ -352,8 +374,8 @@ As you might have noticed, the behavior of Hibernate deviates from what one woul
 == Database Auditing
 See link:guide-auditing.asciidoc[auditing guide].
 
-== Testing Entities and DAOs
-See link:guide-testing#integration-testing.asciidoc[testing guide].
+== Testing Data-Access
+For testing of Entities and Repositories or DAOs see link:guide-testing.asciidoc#level-2-component-test[testing guide].
 
 == Principles
 We strongly recommend these principles:
@@ -410,7 +432,7 @@ A common link:guide-security.asciidoc[security] threat is http://en.wikipedia.or
   String query = "Select op from OrderPosition op where op.comment = " + userInput;
   return getEntityManager().createQuery(query).getResultList();
 ----
-Via the parameteter `userInput` an attacker can inject SQL (JPQL) and execute arbitrary statements in the database causing extreme damage. In order to prevent such injections you have to strictly follow our rules for xref:queries[queries]: Use named queries for static queries and QueryDSL for dynamic queries. Please also consult the https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet[SQL Injection Prevention Cheat Sheet].
+Via the parameter `userInput` an attacker can inject SQL (JPQL) and execute arbitrary statements in the database causing extreme damage. In order to prevent such injections you have to strictly follow our rules for xref:queries[queries]: Use named queries for static queries and QueryDSL for dynamic queries. Please also consult the https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet[SQL Injection Prevention Cheat Sheet].
 
 === Limited Permissions for Application
 We suggest that you operate your application with a database user that has limited permissions so he can not modify the SQL schema (e.g. drop tables). For initializing the schema (DDL) or to do schema migrations use a separate user that is not used by the application itself.

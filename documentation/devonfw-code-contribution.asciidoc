@@ -28,7 +28,7 @@ devonfw/<repository>#<issueId>: <describe your change>
 So as an example:
 [source]
 devonfw/devon4j#1: added REST service for tablemanagement
-* If you completed your feature (bugfix, improvement, etc.) use a https://help.github.com/articles/using-pull-requests/[pull request] to give it back to the community.
+* If you completed your feature (bug-fix, improvement, etc.) use a https://help.github.com/articles/using-pull-requests/[pull request] to give it back to the community.
 * Your pull request will automatically be checked if it builds correctly (no compile or test errors), can be merged without conflicts, and https://github.com/devonfw-forge/devon-guide/wiki/cookbook-cla[CLA] has been signed. Please ensure to do the required tasks and reworks unless all checks are satisfied.
 * From here a reviewer should take over and give feedback. In the best case, your contribution gets merged and everything is completed.
 * In case you should not get feedback for weeks, do not hesitate to ask the community.

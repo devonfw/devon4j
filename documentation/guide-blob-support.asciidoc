@@ -1,105 +1,12 @@
 :toc: macro
 toc::[]
 = BLOB support
-== Introduction
-BLOB stands for **B**inary **L**arge **Ob**ject. A BLOB may be an image, an office document, ZIP archive or any other multimedia object. devon4j supports BLOB via its BinaryObject data type. The devonfw Maven archetype generates the following Java files for dealing with BLOBs:  
-|=============================================
-| `general.common.api.BinaryObject` | Interface for a BinaryObject
-| `general.dataaccess.api.BinaryObjectEntity`     | Instance of BinaryObject entity, contains the actual BLOB
-| `general.dataaccess.api.dao.BinaryObjectDao.java`    | DAO for BinaryObject entity
-| `general.dataaccess.base.dao.BinaryObjectDaoImpl`    | Implemenentation of the BinaryObjectDao
-| `general.logic.api.to.BinaryObjectEto`    | ETO for BinaryObject
-| `general.logic.base.UcManageBinaryObject`    | Use case for managing BinaryObject. This use case contains methods for finding, getting, deleting and saving a BLOB.
-| `general.logic.impl.UCManageBinaryObjectImpl`    | Implemenentation of the UcManageBinaryObject
-|=============================================
-//Blobs are no longer used in the sample application
-== Implementing BLOB support: an example
-In the sample application the business component Offermanagement uses BLOBs for product pictures.
-Feel free to use the following approach as starting point for BLOB support in your application.
-  
-=== Logic Layer
-Use the methods declared in `general.logic.base.UcManageBinaryObject` in the implementation of your business component.
-Let's take a look at an example from the sample application.
 
-The method
-[source, java]
-----
-OffermanagementImpl.updateProductPicture(Long productId, Blob blob, BinaryObjectEto binaryObjectEto)
-----
-saves a new picture for a given product.
-
-This is done by calling an appropriate method, declared in the BinaryObject use case.
-[source, java]
-----
-@Override  
-@RolesAllowed(PermissionConstants.SAVE_PRODUCT_PICTURE)  
-public void updateProductPicture(Long productId, Blob blob, BinaryObjectEto binaryObjectEto) {
-
-    ...
-      binaryObjectEto = getUcManageBinaryObject().saveBinaryObject(blob, binaryObjectEto);
-    ...
- }
-----
-
-=== Service Layer
-Following the devonfw conventions, you must implement a REST service for each business component. There you define, how BLOBs are uploaded/downloaded. According to that, the REST service for the business component Offermanagement is implemented in a class named OffermanagementRestServiceImpl.
-
-The coding examples below are taken from the afore mentioned class.
-
-The sample application uses the content-type "multipart/mixed" to transfer pictures plus additional header data.
-
-*Upload*
-
-[source, java]
-----
-@Consumes("multipart/mixed")
-@POST
-@Path("/product/{id}/picture")
-  public void updateProductPicture(@PathParam("id") long productId,
-      @Multipart(value = "binaryObjectEto", type = MediaType.APPLICATION_JSON) BinaryObjectEto binaryObjectEto,
-      @Multipart(value = "blob", type = MediaType.APPLICATION_OCTET_STREAM) InputStream picture)
-      throws SerialException, SQLException, IOException {
-
-    Blob blob = new SerialBlob(IOUtils.readBytesFromStream(picture));
-    this.offerManagement.updateProductPicture(productId, blob, binaryObjectEto);
-
-}
-----
-A new Blob object is being created by reading the data (`IOUtils.readBytesFromStream(picture)`).
-
-*Download*
-
-[source, java]
-----
-@Produces("multipart/mixed")
-@GET
-@Path("/product/{id}/picture")
-public MultipartBody getProductPicture(@PathParam("id") long productId) throws SQLException, IOException {
-
-    Blob blob = this.offerManagement.findProductPictureBlob(productId);
-    byte[] data = IOUtils.readBytesFromStream(blob.getBinaryStream());
-
-    List<Attachment> atts = new LinkedList<>();
-    atts.add(new Attachment("binaryObjectEto", MediaType.APPLICATION_JSON, this.offerManagement
-        .findProductPicture(productId)));
-    atts.add(new Attachment("blob", MediaType.APPLICATION_OCTET_STREAM, new ByteArrayInputStream(data)));
-    return new MultipartBody(atts, true);
-}
-----
-As you may have noticed, the data is loaded into the heap before it is added as an Attachement to the MultiPart body.
-
-|============================================
-|*Caution!* | Using a byte array will cause problems, when dealing with large BLOBs.
-|============================================
-
-*Why is the sample application using a byte array then?*
-
-As of now, there is no universal solid way of streaming a BLOB directly from a database to the client without reading the BLOB’s content to memory, when streaming over a RESTful service based on JDBC and JAX RS.
-Following this approach means:  whenever a file is uploaded or downloaded as BLOB it is loaded completely to memory before it is written to the database.
+BLOB stands for **B**inary **L**arge **Ob**ject. A BLOB may be an image, an office document, ZIP archive or any other multimedia object.
+Often these BLOBs are large. if this is the case you need to take care, that you do not copy all the blob data into you application heap, e.g. when providing them via a REST service.
+This could easily lead to performance problems or out of memory errors.
+As solution for that problem is "streaming" those BLOBs directly from the database to the client. To demonstrate how this can be accomblished, devonfw provides a link:https://github.com/devonfw-sample/devon4j-blob-streaming[example].
 
 == Further Reading
-- http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html[The multipart content type]
-- http://cxf.apache.org/docs/jax-rs-multiparts.html[JAX-RS : Support for Multiparts]
-- link:guide-logic-layer.asciidoc#component-implementation[Component Implementation]
 - link:guide-jpa.asciidoc#blob[BLOBs and the Data Access Layer]
 - https://www.owasp.org/index.php/Unrestricted_File_Upload[Security Vulnerability Unrestricted File Upload]

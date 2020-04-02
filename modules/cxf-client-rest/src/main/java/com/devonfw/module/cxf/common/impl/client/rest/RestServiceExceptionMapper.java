@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * An Implementation of {@link ResponseExceptionMapper} that converts a REST failure {@link Response} compliant with
- * <a href="https://github.com/devonfw-wiki/devon4j/wiki/guide-rest#error-results">devonfw REST error specification</a>
+ * <a href="https://github.com/devonfw/devon4j/blob/develop/documentation/guide-rest.asciidoc#error-results">devonfw REST error specification</a>
  * to a {@link ServiceInvocationFailedException}.
  *
  * @since 3.0.0

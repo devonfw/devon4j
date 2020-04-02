@@ -10,11 +10,7 @@
   <artifactId>${rootArtifactId}-server</artifactId>
   <packaging>war</packaging>
   <name>${project.artifactId}</name>
-  <description>Server for the ${rootArtifactId} application - a simple example using the Open Application Standard Platform for Java (devon4j).</description>
-
-  <properties>
-    <java.version>1.8</java.version>
-  </properties>
+  <description>Server for the ${rootArtifactId} application - a simple example based on devon4j.</description>
 
   <dependencies>
     <dependency>
@@ -22,13 +18,19 @@
       <artifactId>${rootArtifactId}-core</artifactId>
       <version>${project.version}</version>
     </dependency>
-    #if ($batch == 'batch')
+#if ($batch == 'batch')
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>${rootArtifactId}-batch</artifactId>
       <version>${project.version}</version>
     </dependency>
-    #end
+#end
+    <!-- Tests -->
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-test-jpa</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <profiles>

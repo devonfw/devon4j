@@ -1,7 +1,6 @@
 package ${package}.general.service.impl.rest;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -13,6 +12,9 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import com.devonfw.module.service.common.api.client.config.ServiceClientConfigBuilder;
 
 import ${package}.general.common.api.to.UserProfileTo;
@@ -22,7 +24,7 @@ import ${package}.general.service.base.test.RestServiceTest;
 /**
  * This class tests the login functionality of {@link SecurityRestServiceImpl}.
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class SecurityRestServiceImplTest extends RestServiceTest {
 
   /** Logger instance. */
@@ -34,8 +36,8 @@ public class SecurityRestServiceImplTest extends RestServiceTest {
   @Test
   public void testLogin() {
 
-    String login = "waiter";
-    String password = "waiter";
+    String login = "admin";
+    String password = "admin";
 
     ResponseEntity<String> postResponse = login(login, password);
     LOG.debug("Body: " + postResponse.getBody());
@@ -49,8 +51,8 @@ public class SecurityRestServiceImplTest extends RestServiceTest {
   @Test
   public void testGetCsrfToken() {
 
-    String login = "waiter";
-    String password = "waiter";
+    String login = "admin";
+    String password = "admin";
     SecurityRestService securityService = getServiceClientFactory().create(SecurityRestService.class,
         new ServiceClientConfigBuilder().host("localhost").authBasic().userLogin(login).userPassword(password)
             .buildMap());
@@ -66,8 +68,8 @@ public class SecurityRestServiceImplTest extends RestServiceTest {
    */
   @Test
   public void testGetCurrentUser() {
-    String login = "waiter";
-    String password = "waiter";
+    String login = "admin";
+    String password = "admin";
     SecurityRestService securityService = getServiceClientFactory().create(SecurityRestService.class,
         new ServiceClientConfigBuilder().host("localhost").authBasic().userLogin(login).userPassword(password)
             .buildMap());

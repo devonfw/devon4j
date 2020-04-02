@@ -3,7 +3,7 @@ package com.devonfw.module.jpa.dataaccess.api.data;
 import java.io.Serializable;
 import java.util.List;
 
-import com.devonfw.module.jpa.dataaccess.api.RevisionMetadata;
+import com.devonfw.module.basic.common.api.RevisionMetadata;
 
 /**
  * {@link GenericRepository} with additional support for {@link org.hibernate.envers.Audited}

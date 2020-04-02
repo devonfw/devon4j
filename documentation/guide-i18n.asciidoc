@@ -2,7 +2,7 @@
 toc::[]
 = Internationalization
 //The property file doesn't exist anymore but the example looks fine. Keep it? 
-Internationalization (I18N) is about writing code independent from locale-specific informations.
+Internationalization (I18N) is about writing code independent from locale-specific information.
 For I18N of text messages we are suggesting 
 http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/nls/api/package-summary.html#documentation[mmm native-language-support].
 
@@ -33,15 +33,12 @@ The i18n properties file must be called `ApplicationMessages_la_CO.properties` w
 ApplicationMessages_en_US.properties
 [source]
 ----
-waiter=Waiter
-chief=Chief
-cook=Cook
-barkeeper=Barkeeper
+admin=Admin
 ----
 
 You should define an ApplicationMessages_la_CO.properties file for every language that your application needs.
 
-`ApplicationLocaleResolver` bean is injected in `AbstractComponentFacade` class so you have available this bean in logic layer so you only need to put this code to get an internationalizated message:
+`ApplicationLocaleResolver` bean is injected in `AbstractComponentFacade` class so you have available this bean in logic layer so you only need to put this code to get an internationalized message:
 
 [source,java]
 ----

@@ -1,8 +1,6 @@
 :toc: macro
 toc::[]
 
-= Coding Conventions
-
 The code should follow general conventions for Java (see http://www.oracle.com/technetwork/java/namingconventions-139351.html[Oracle Naming Conventions], https://google.github.io/styleguide/javaguide.html[Google Java Style], etc.).We consider this as common sense and provide configurations for http://www.sonarqube.org/[SonarQube] and related tools such as http://checkstyle.sourceforge.net/[Checkstyle] instead of repeating this here.
 
 == Naming
@@ -10,15 +8,16 @@ Besides general Java naming conventions, we follow the additional rules listed h
 
 * Always use short but speaking names (for types, methods, fields, parameters, variables, constants, etc.).
 * For package segments and type names prefer singular forms (`CustomerEntity` instead of [line-through]`CustomersEntity`). Only use plural forms when there is no singular or it is really semantically required (e.g. for a container that contains multiple of such objects).
-* Avoid having duplicate type names. The name of a class, interface, enum or annoation should be unique within your project unless this is intentionally desired in a special and reasonable situation.
+* Avoid having duplicate type names. The name of a class, interface, enum or annotation should be unique within your project unless this is intentionally desired in a special and reasonable situation.
 * Avoid artificial naming constructs such as prefixes (`I*`) or suffixes (`*IF`) for interfaces.
-* Use CamlCase even for abbreviations (`XmlUtil` instead of [line-through]`XMLUtil`)
+* Use CamelCase even for abbreviations (`XmlUtil` instead of [line-through]`XMLUtil`)
+* Avoid property/field names where the second character is upper-case at all (e.g. 'aBc'). See https://github.com/devonfw/cobigen/issues/1095[#1095] for details.
 * Names of Generics should be easy to understand. Where suitable follow the common rule `E=Element`, `T=Type`, `K=Key`, `V=Value` but feel free to use longer names for more specific cases such as `ID`, `DTO` or `ENTITY`. The capitalized naming helps to distinguish a generic type from a regular class.
 
 == Packages
-Java Packages are the most important element to structure your code. We use a strict packaging convention to map technical layers and business components (slices) to the code (See link:architecture.asciidoc#technical-architecture[technical architecture] for further details). By using the same names in documentation and code we create a strong link that gives orientation and makes it easy to find from business requirements, specifications or story tickets into the code and back. Further we can use tools such as http://www.sonarqube.org/[SonarQube] and http://www.hello2morrow.com/products/sonargraph[SonarGraph] to verify architectural rules.
+Java Packages are the most important element to structure your code. We use a strict packaging convention to map technical layers and business components (slices) to the code (See link:architecture.asciidoc#technical-architecture[technical architecture] for further details). By using the same names in documentation and code we create a strong link that gives orientation and makes it easy to find from business requirements, specifications or story tickets into the code and back. 
 
-For an devonfw based application we use the following Java-Package schema:
+For an devon4j based application we use the following Java-Package schema:
 [source]
 «rootpackage».«application».«component».«layer».«scope»[.«detail»]*
 
@@ -40,7 +39,7 @@ Please note that for library modules where we use `com.devonfw.module` as `«bas
 == Architecture Mapping
 
 We combine the above naming and packaging conventions to map the entire architecture to the code.
-This also allows tools such as https://github.com/devonfw/tools-cobigen[CobiGen] or https://github.com/devonfw/sonar-devon-plugin/[sonar-devon-plugin] to "understand" the code.
+This also allows tools such as https://github.com/devonfw/cobigen[CobiGen] or https://github.com/devonfw/sonar-devon4j-plugin/[sonar-devon4j-plugin] to "understand" the code.
 Also this helps developers going from one devon4j project to the next to quickly understand the code-base.
 If every developer knows where to find what, the project gets more efficient.
 A long time ago maven standardized the project structure with `src/main/java`, etc. and turned chaos into structure.
@@ -57,6 +56,7 @@ With devonfw we experienced the same for the codebase (what is inside `src/main/
 |  |  |  |  └──.link:guide-datatype.asciidoc[«Datatype»]
 |  |  |  └──.link:guide-transferobject.asciidoc#bo[«BusinessObject»]
 |  |  └──.impl[.«detail»]
+|  |     ├──.link:guide-configuration-mapping.asciidoc#mapping-advanced-configuration[«Aspect»ConfigProperties]
 |  |     ├──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonSerializer]
 |  |     └──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonDeserializer]
 |  ├──.link:guide-dataaccess-layer.asciidoc[dataaccess]
@@ -199,7 +199,7 @@ try (InputStream in = new FileInputStream(file)) {
 
 
 === Lambdas and Streams
-With Java8 you have cool new feautres like lambdas and monads like (`Stream`, `CompletableFuture`, `Optional`, etc.).
+With Java8 you have cool new features like lambdas and monads like (`Stream`, `CompletableFuture`, `Optional`, etc.).
 However, these new features can also be misused or lead to code that is hard to read or debug. To avoid pain, we give you the following best practices:
 
 . Learn how to use the new features properly before using. Often developers are keen on using cool new features. When you do your first experiments in your project code you will cause deep pain and might be ashamed afterwards. Please study the features properly. Even Java8 experts still write for loops to iterate over collections, so only use these features where it really makes sense.
@@ -270,7 +270,7 @@ Bad
 static public Iterator<String> TwitterHandles(Iterator<Author> authors, string company) {
     final List result = new ArrayList<String> ();
     foreach (Author a : authors) {
-      if (a.Company.equlas(company)) {
+      if (a.Company.equals(company)) {
         String handle = a.TwitterHandle;
         if (handle != null)
           result.Add(handle);
@@ -318,4 +318,4 @@ Avoid unnecessary strong bindings:
 * Do not bind your code to implementations such as `Vector` or `ArrayList` instead of `List`
 * In APIs for input (=parameters) always consider to make little assumptions:
 ** prefer `Collection` over `List` or `Set` where the difference does not matter (e.g. only use `Set` when you require uniqueness or highly efficient `contains`)
-** consider prefering `Collection<? extends Foo>` over `Collection<Foo>` when `Foo` is an interface or super-class
+** consider preferring `Collection<? extends Foo>` over `Collection<Foo>` when `Foo` is an interface or super-class

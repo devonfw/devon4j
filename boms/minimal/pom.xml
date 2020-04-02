@@ -12,14 +12,14 @@
   <version>${devon4j.version}</version>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
-  <description>Dependencies (BOM) of the Open Application Standard Platform for Java (devon4j) without any thirdparty.</description>
+  <description>Dependencies (BOM) of devon4j without any thirdparty.</description>
   <url>https://devon4j.github.io/</url>
   <inceptionYear>2014</inceptionYear>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <devon4j.flatten.mode>bom</devon4j.flatten.mode>
+    <flatten.mode>bom</flatten.mode>
   </properties>
 
   <dependencyManagement>
@@ -28,6 +28,11 @@
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-test</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-test-jpa</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -48,6 +53,16 @@
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-beanmapping</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+       <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-beanmapping-dozer</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+       <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-beanmapping-orika</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -124,6 +139,16 @@
         <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-web</artifactId>
         <version>${project.version}</version>
+      </dependency>
+       <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-test-jpa</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-kafka</artifactId>
+        <version>${devon4j.version}</version>
       </dependency>
       <!-- Starters -->
       <dependency>

@@ -9,7 +9,7 @@ However, it is no real standard and can cause confusion. Therefore we define bes
 REST and RESTful often implies very strict and specific rules and conventions. However different people will often have different opinions of such rules. We learned that this leads to "religious discussions" (starting from `PUT` vs. `POST` and IDs in path vs. payload up to Hypermedia and https://en.wikipedia.org/wiki/HATEOAS[HATEOAS]). These "religious discussions" waste a lot of time and money without adding real value in case of common business applications (if you publish your API on the internet to billions of users this is a different story). Therefore we give best practices that lead to simple, easy and pragmatic "HTTP APIs" (to avoid the term "REST services" and end "religious discussions"). Please also note that we do not want to assault anybody nor force anyone to follow our guidelines. Please read the following best practices carefully and be aware that they might slightly differ from what your first hit on the web will say about REST (see e.g. http://restcookbook.com/[RESTful cookbook]).
 
 == URLs
-URLs are not case sensitive. Hence, we follow the best practice to use only lower-case-letters-with-hypen-to-separate-words.
+URLs are not case sensitive. Hence, we follow the best practice to use only lower-case-letters-with-hyphen-to-separate-words.
 For operations in REST we distinguish the following types of URLs:
 
 * A _collection URL_ is build from the rest service URL by appending the name of a collection. This is typically the name of an entity. Such URI identifies the entire collection of all elements of this type. Example: `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity`
@@ -83,7 +83,7 @@ devonfw has support for the following metadata in REST service invocations:
 |X-Correlation-Id|HTTP header for a _correlation ID_ that is a unique identifier to associate different requests belonging to the same session / action| link:guide-logging.asciidoc[Logging guide]
 |Validation errors |Standardized format for a service to communicate validation errors to the client| Server-side validation is documented in the link:guide-validation.asciidoc[Validation guide].
 
-The protocol to communicate these validation errors to the client is worked on at https://github.com/oasp/oasp4j/issues/218
+The protocol to communicate these validation errors is described in xref:rest-exception-handling[REST exception handling].
 |Pagination |Standardized format for a service to offer paginated access to a list of entities| Server-side support for pagination is documented in the link:guide-repository.asciidoc#pagination[Repository Guide].
 |=======
 

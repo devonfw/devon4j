@@ -24,7 +24,7 @@ public class ApplicationObjectMapperFactory extends ObjectMapperFactory {
   public ApplicationObjectMapperFactory() {
 
     super();
-    // see https://github.com/devonfw-wiki/devon4j/wiki/guide-json#json-and-inheritance
+    // see https://github.com/devonfw/devon4j/blob/develop/documentation/guide-json.asciidoc#json-and-inheritance
     SimpleModule module =  getExtensionModule();
     module.addAbstractTypeMapping(CsrfToken.class, CsrfTokenImpl.class);
   }
@@ -44,7 +44,7 @@ public class ApplicationObjectMapperFactory extends ObjectMapperFactory {
     objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     // ignore unknown properties in JSON to prevent errors
     // e.g. when the service has been updated/extended but the calling REST client is not yet updated
-    // see https://github.com/devonfw-wiki/devon4j/wiki/guide-service-layer#versioning
+    // see https://github.com/devonfw/devon4j/blob/develop/documentation/guide-service-layer.asciidoc#versioning
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     return objectMapper;
   }

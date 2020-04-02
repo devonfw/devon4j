@@ -10,7 +10,7 @@
   <artifactId>devon4j-boms</artifactId>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
-  <description>Bill of Materials (BOM) for the Open Application Standard Platform for Java (devon4j).</description>
+  <description>Bill of Materials (BOM) for the devon4j.</description>
 
   <modules> <!-- Order is important here as maven does not track BOM imports as dependencies for reactor build order -->
     <module>minimal</module>

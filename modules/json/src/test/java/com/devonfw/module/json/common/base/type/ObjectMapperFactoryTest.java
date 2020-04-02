@@ -9,8 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -36,12 +35,11 @@ public class ObjectMapperFactoryTest extends ModuleTest {
 
   private static final int PAGE_NUMBER = 42;
 
-  private static final String PAGEABLE_JSON =
-      "{\"pageNumber\":42,\"pageSize\":50,\"sort\":[{\"property\":\"ascendingProperty\",\"direction\":\"ASC\"}," //
-          + "{\"property\":\"descendingProperty\",\"direction\":\"DESC\"}]}";
+  private static final String PAGEABLE_JSON = "{\"pageNumber\":42,\"pageSize\":50,\"sort\":[{\"property\":\"ascendingProperty\",\"direction\":\"ASC\"}," //
+      + "{\"property\":\"descendingProperty\",\"direction\":\"DESC\"}]}";
 
-  private static final String PAGE_JSON =
-      "{\"content\":[\"foo\",\"bar\",\"some\"],\"pageable\":" + PAGEABLE_JSON + ",\"totalElements\":123456}";
+  private static final String PAGE_JSON = "{\"content\":[\"foo\",\"bar\",\"some\"],\"pageable\":" + PAGEABLE_JSON
+      + ",\"totalElements\":123456}";
 
   /**
    * Test serialization of {@link Pageable} with {@link PageableJsonSerializer}.
@@ -154,7 +152,6 @@ public class ObjectMapperFactoryTest extends ModuleTest {
    * @throws Exception on error
    */
   @Test
-  @Ignore("https://github.com/devonfw/devon4j/issues/116")
   public void testJavaTimeZonedDateTime() throws Exception {
 
     // given

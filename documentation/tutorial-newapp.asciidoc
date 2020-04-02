@@ -71,7 +71,7 @@ The toplevel `pom.xml` of the generated project has the following features:
 
 === Core Module
 
-Core module constains the base classes and the base configuration for the application. We are going to describe each Java file and each XML configuration file that archetype has generated.
+Core module contains the base classes and the base configuration for the application. We are going to describe each Java file and each XML configuration file that archetype has generated.
 
 ==== Java 
 
@@ -82,120 +82,63 @@ Those are the different Java files contained in each package:
 [options="header"]
 [cols="40,60"]
 |=============================================
-|*File*   |*Descripcion*
+|*File*   |*Description*
 |api.ApplicationEntity.java|Abstract interface for a MutableGenericEntity of this application.
 |api.BinaryObject.java|Interface for a BinaryObject.
 |api.NlsBundleApplicationRoot.java|NlsBundle for this application.
 |api.Usermanagement.java|Interface to get a user from its login.
 |api.UserProfile.java|Interface for the profile of a logged user.
-|api.constants.PermissionConstants.java|Constants for AccessControlPermission´s keys.
-|api.datatype.OrderBy.java|Enum for sort order.
-|api.datatype.Role.java|Enum for roles.
 |api.exception.ApplicationBusinessException.java|Abstract business main exception.
 |api.exception.ApplicationException.java|Abstract main exception.
 |api.exception.ApplicationTechnicalException.java|Abstract technical main exception.
-|api.exception.IllegalEntityStateException.java|Manage entities illegal state exceptions.
-|api.exception.IllegalPropertyChangeException.java|Manage entities illegal property changes exceptions.
 |api.exception.NoActiveUserException.java| Manage exceptions when user require to be logged in.
-|api.security.UserData.java|Container class for the profile of a user.
 |api.to.AbstractCto.java|Abstract class for Composite Transfer Object.
 |api.to.AbstractEto.java|Abstract class for Entity Transfer Object.
 |api.to.AbstractTo.java|Abstract class for a plain Transfer Object.
 |api.to.SearchCriteriaTo.java|Abstract class for a Transfer Object with the criteria for a search query.
-|api.to.UserDetailsClientTo.java|.
+|api.to.UserProfileTo.java|.
 |base.AbstractBeanMapperSupport.java|Provides access to the BeanMapper.
 |impl.security.ApplicationAuthenticationProvider.java|Responsible for the security aspects of authentication.
 |impl.security.
 PrincipalAccessControlProviderImpl.java|Implementation of PrincipalAccessControlProvider.
-
 |=============================================
 
 * general.dataaccess
 
 [options="header"]
 |=============================================
-|*File* | *Descripcion*
+|*File* | *Description*
 |api.ApplicationPersistenceEntity.java|Abstract Entity for all Entities with an id and a version field.
-|api.BinaryObjectEntity.java|BinaryObject entity.
 |api.dao.ApplicationDao.java|Interface for all DAOs of the application.
 |api.dao.ApplicationRevisionedDao.java|Interface for all revisioned DAOs of the application.
-|api.dao.BinaryObjectDao.java|DAO for BinaryObject entity.
-
-|=============================================
-
-* general.gui.api
-
-[options="header"]
-|=============================================
-| *File* | *Descripcion*
-|LoginController.java|Controller for login page.
-
 |=============================================
 
 * general.logic
 
 [options="header"]
 |=============================================
-|*File* | *Descripcion*
+|*File* | *Description*
 |api.UseCase.java|Annotation to mark all use-cases.
-|api.to.BinaryObjectEto.java|ETO for a BinaryObject.
 |base.AbstractUc.java|Abstract base class for any use case in the application.
-|base.UcManageBinaryObject.java|Use case for managing BinaryObject.
-|impl.UcManageBinaryObjectImpl.java|Implementation of the UcManageBinaryObject interface.
-|impl.UsermanagementDummyImpl.java|Implementation of Usermanagement.
-
 |=============================================
 
 * general.service.impl.rest
 
 [options="header"]
 |=============================================
-| *File* | *Descripcion*
+| *File* | *Description*
 |ApplicationAccessDeniedHandler.java|Class to manage denied access.
 |ApplicationObjectMapperFactory.java| MappingFactory class to resolve polymorphic conflicts within the application.
 |SecurityRestServiceImpl.java|Class that represents REST service for security.
-
 |=============================================
 
 ==== Resources
 
 Those are the different XML files contained in resources folder:
 
-* config
-
-[options="header"]
-|=============================================
-|*File* | *Descripcion*
-|app.common.beans-common.xml|Constains beans definition for application common beans like propertyConfigurer bean.
-|app.common.beans-dozer.xml|Beans relationated with Dozer Mappers.
-|app.common.dozer-mapping.xml|Dozer mapping configuration.
-|app.dataaccess.beans-dataaccess.xml|Parent from the other data access files.
-|app.dataaccess.beans-db-plain.xml|Data source configuration for profile `db-plain` (testing).
-|app.dataaccess.beans-db-server.xml|Data source configuration for profile distinct to `db-plain.`
-|app.dataaccess.beans-jpa.xml|Contains neccessary beans to configure JPA.
-|app.dataaccess.NamedQueries.xml|
-|app.gui.dispatcher-servlet.xml|
-|app.logic.beans-logic.xml|Component scan configuration for classes in `logic` path.
-|app.security.access-control-schema.xml|
-|app.security.beans-security-filters.xml|Security filters definition.
-|app.security.beans-security.xml|Application security configuration.
-|app.service.beans-monitoring.xml|
-|app.service.beans-service.xml|Importing configuration files, REST beans definition and configuration.
-|app.websocket.websocket-context.xml|Scan component package definition for websockects.
-|app.application.default.properties|Default application properties values.
-|app|beans-application|Root file configuration. It starts the chain and imports other configuration files.
-|env|application|Specific application properties values.
-
-|=============================================
-
 * db
 
-[options="header"]
-|=============================================
-|*File* | *Descripcion*
-|migration.V0001__Create_schema.slq|Script template to create the database schema and tables definition.
-
-|=============================================
+https://github.com/devonfw/devon4j/tree/develop/templates/server/src/main/resources/archetype-resources/core/src/main/resources/db/type[Flyway SQLs]
 
 ==== Test
 
@@ -205,18 +148,16 @@ Those are different Java files to serve as base classes in testing:
 
 [options="header"]
 |=============================================
-|*File* | *Descripcion*
+|*File* | *Description*
 |AbstractSpringIntegrationTest.java|.
-|AccessControlSchemaXmlValidationTest.java|Tests if the access-control-schema.xml is valid.
 |PermissionCheckTest.java|Test to check if all relevant methods in use case implementations have permission checks.
-
 |=============================================
 
 === Server Module
 
-This module is constains two files:
+This module is contains two files:
 
-* lockback.xml: This file is in the resources folder and it is the responsible to configure the log.
+* logback.xml: This file is in the resources folder and it is the responsible to configure the log.
 
 * pom.xml: This file has Maven configuration for packaging the application as a WAR. Also, this file has a profile to package the Javascript client ZIP file into the WAR.
 
@@ -227,18 +168,3 @@ This module only contains a pom.xml file to packaging the application as EAR fro
 == Database configuration and creation
 
 Including driver installation if oracle or other db is required.
-
-== Editing the pom.xml
-
-How to edit the pom.xml file for the project to add dependencies and modules for the application.
-
-
-== Known Issues
-
-* Could not resolve archetype com.devonfw.java.templates:devon4j-template-server:.. from any of the configured repositories.
-In Eclipse:
-Open Window > Preferences
-Open Maven > Archetypes
-Click 'Add Remote Catalog' and add the following:
-Catalog File: http://repo1.maven.org/maven2/archetype-catalog.xml
-Description: maven catalog

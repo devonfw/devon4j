@@ -10,8 +10,8 @@ For general guides on dealing or avoiding SQL, preventing SQL-injection, etc. yo
 Here we define naming conventions that you should follow whenever you write SQL files:
 
 * All SQL-Keywords in UPPER CASE
-* Table names in upper CamlCase (e.g. `RestaurantOrder`)
-* Column names in camlCase (e.g. `drinkState`)
+* Table names in upper CamelCase (e.g. `RestaurantOrder`)
+* Column names in CamelCase (e.g. `drinkState`)
 * Indentation should be 2 spaces as suggested by devonfw for every format.
 
 === DDL

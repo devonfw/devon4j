@@ -35,7 +35,7 @@ A description of how to enable BV can be found in the relevant http://docs.sprin
 ** +@NotNull+ for required arguments.
 ** Other constraints (e.g. +@Size+) for generic arguments (e.g. of type +String+ or +Integer+). However, consider to create link:guide-datatype.asciidoc[custom datatypes] and avoid adding too much validation logic (especially redundant in multiple places).
 //Replaced old example with BookingmanagementRestServiceImpl
-//io.oasp.application.mtsj.bookingmanagement.service.rest
+//com.devonfw.application.mtsj.bookingmanagement.service.rest
 .*BookingmanagementRestServiceImpl.java*
 [source,java]
 ----
@@ -47,14 +47,14 @@ public class BookingmanagementRestServiceImpl implements BookingmanagementRestSe
 ----
 
 * Finally add appropriate validation constraint annotations to the fields of the ETO class.
-//io.oasp.application.mtsj.bookingmanagement.logic.api.to
+//com.devonfw.application.mtsj.bookingmanagement.logic.api.to
 .*BookingCto.java*
 [source,java]
 ----
   @Valid
   private BookingEto booking;
 ----
-//io.oasp.application.mtsj.bookingmanagement.logic.api.to
+//com.devonfw.application.mtsj.bookingmanagement.logic.api.to
 //Added an extra example due to this one being the only one using the hibernate-validation
 .*BookingEto.java*
 [source,java]
@@ -64,7 +64,7 @@ public class BookingmanagementRestServiceImpl implements BookingmanagementRestSe
   private Timestamp bookingDate;
 ----
 
-A list with all bean validation constraint annotations available for hibernate-validator can be found http://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#table-spec-constraints[here]. In addition it is possible to configure custom constraints. Therefor it is neccessary to implement a annotation and a corresponding validator. A description can also be found in the http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/htmlsingle/#validation-beanvalidation-spring-constraints[Spring documentation] or with more details in the http://docs.jboss.org/hibernate/validator/4.3/reference/en-US/html/validator-customconstraints.html[hibernate documentation].
+A list with all bean validation constraint annotations available for hibernate-validator can be found http://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#table-spec-constraints[here]. In addition it is possible to configure custom constraints. Therefore it is necessary to implement a annotation and a corresponding validator. A description can also be found in the http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/htmlsingle/#validation-beanvalidation-spring-constraints[Spring documentation] or with more details in the http://docs.jboss.org/hibernate/validator/4.3/reference/en-US/html/validator-customconstraints.html[hibernate documentation].
 
 NOTE: **Bean Validation in Wildfly >v8:** Wildfly v8 is the first version of Wildfly implementing the JEE7 specification. It comes with bean validation based on https://samaxes.com/2014/04/jaxrs-beanvalidation-javaee7-wildfly/[hibernate-validator out of the box]. In case someone is running Spring in Wildfly for whatever reasons, the spring based annotation @Validated would duplicate bean validation at runtime and thus should be omitted.
 
@@ -101,9 +101,9 @@ public class Range<V extends Comparable<V>> {
 == Stateful Validation
 For complex and stateful business validations we do not use BV (possible with groups and context, etc.) but follow KISS and just implement this on the server in a straight forward manner.
 An example is the deletion of a table in the example application. Here the state of the table must be checked first:
-//io.oasp.application.mtsj.bookingmanagement.logic.impl
+//com.devonfw.application.mtsj.bookingmanagement.logic.impl
 //Replaced the old example with is not stateful anymore -which I think is weird- with a new one
-//Text needs adjustments aswell
+//Text needs adjustments as well
 *BookingmanagementImpl.java*
 [source,java]
 ----

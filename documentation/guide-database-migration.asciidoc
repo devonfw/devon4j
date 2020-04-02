@@ -21,8 +21,8 @@ At first, testing and production environments must be clearly and consistently d
   src/main/resources/db
   src/test/resources/db
 ----
-Although this structure introduces redundancies, the benefit overweights this disadvantage.
-An even more fine-grained production directory structure which contains one subfolder per release should be implemented: 
+Although this structure introduces redundancies, the benefit outweighs this disadvantage.
+An even more fine-grained production directory structure which contains one sub folder per release should be implemented: 
 [source, text]
 ----
   src/main/resources/db/migration/releases/X.Y/x.sql

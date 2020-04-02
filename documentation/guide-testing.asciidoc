@@ -73,7 +73,7 @@ public class WireMockOfferImport{
   ...}
 -------------------------------------------
 This creates a server on a randomly chosen free port on the running machine. You can also specify the port to be used if wanted. Other than that there are several options to further configure the server. This includes HTTPs, proxy settings, file locations, logging and extensions.
-//We could replace this with a test example from io.oasp.application.mtsj.dishmanagement.logic.impl
+//We could replace this with a test example from com.devonfw.application.mtsj.dishmanagement.logic.impl
 [source,java]
 -------------------------------------------
   @Test
@@ -226,7 +226,7 @@ This section introduces how to implement tests on the different levels with the 
 
 === Module Test
 In devon4j you can extend the abstract class https://github.com/devonfw/devon4j/blob/develop/modules/test/src/main/java/com/devonfw/module/test/common/base/ModuleTest.java[ModuleTest] to basically get access to assertions. In order to test classes embedded in dependencies  and external services one needs to provide mocks for that. As the xref:test-automation-technology-stack[technology stack] recommends we use the Mockito framework to offer this functionality. The following example shows how to implement Mockito into a JUnit test.
-//We durrently don't use Mokito in the application
+//We currently don't use Mockito in the application
 [source,java]
 -------------------------------------------
 import static org.mockito.Mockito.when;
@@ -292,47 +292,8 @@ assertThat(resultEto).isEqualTo(this.staffMemberEto);
 
 After the test method call one can verify the expected results. Mockito can check whether a mocked method call was indeed called. This can be done using Mockito `verify`. Note that it does not generate any value if you check for method calls that are needed to reach the asserted result anyway. Call verification can be useful e.g. when you want to assure that statistics are written out without actually testing them.
 
-=== TODO
 
-As an example let us go to the class https://github.com/oasp/oasp4j/blob/master/samples/core/src/main/java/io/oasp/gastronomy/restaurant/tablemanagement/logic/api/Tablemanagement.java[Tablemanagement]. When testing the method _deleteTable()_ there are several scenarios that can happen and thus should be covered by tests.
 
-First let us see the valid conditions to delete a table:
-
-* One needs permission to delete a table https://github.com/oasp/oasp4j/blob/master/samples/core/src/main/java/io/oasp/gastronomy/restaurant/general/common/api/constants/PermissionConstants.java[PermissionConstants.DELETE_TABLE]
-* The table to delete needs to exist (the table with the given id has to be in the database) and
-* The table to delete is required to be https://github.com/oasp/oasp4j/blob/master/samples/core/src/main/java/io/oasp/gastronomy/restaurant/tablemanagement/common/api/datatype/TableState.java[TableState.FREE]
-
-Invalid conditions are: No credentials, table does not exist or table is not free. 
-If you combine one invalid condition with valid conditions this yields the following test cases. Note that not working actions yield exceptions that can be expected in a test method.
-
-* The caller of the method does not have the required credentials
-//You could use the Ordermanagement as example here
-[source,java]
--------------------------------------------
-@Test(expected = AccessDeniedException.class)
-public void testDeleteTableWithoutCredentials() {...}
--------------------------------------------
-* The caller has the required credentials but the table to be deleted is occupied
-[source,java]
--------------------------------------------
-@Test(expected = IllegalEntityStateException.class)
-public void testDeleteTableWithCredentialsButNotDeletable() {...}
--------------------------------------------
-* The caller has the required credentials but the table to be deleted does not exist
-[source,java]
--------------------------------------------
-@Test(expected = ObjectNotFoundUserException.class)
-public void testDeleteTableWithCredentialsNotExisting() {...}
--------------------------------------------
-* The caller has the required credentials and the table to be deleted exists and is free
-[source,java]
--------------------------------------------
-@Test
-public void testDeleteTableWithCredentials() {...}
--------------------------------------------
-
-This type of testing is known as http://epf.eclipse.org/wikis/xp/xp/guidances/guidelines/equivalence_class_analysis_E178943D.html[equivalence class analysis]. Note that this is a general practice and can be applied to every level of tests.
-//Subsystem test is currently not used
 == Deployment Pipeline
 
 A deployment pipeline is a semi-automated process that gets software-changes from version control into production. It contains several validation steps, e.g. automated tests of all integration levels.
@@ -367,7 +328,7 @@ public class WebSecurityBeansConfig {
 -------------------------------------------
 
 `AccessControlSchemaProvider` allows to programmatically access data defined in some XML file, e.g. `access-control-schema.xml`. Now, one can imagine that it would be helpful if `AccessControlSchemaProvider` would point to some other file than the default within a test class. That file could provide content that differs from the default.
-The question is: how can I change resource path of `AccessControlSchemaProviderImpl` wihtin a test?
+The question is: how can I change resource path of `AccessControlSchemaProviderImpl` within a test?
 
 One very helpful solution is to use *static inner classes*.
 Static inner classes can contain `@Bean` -annotated methods, and by placing them in the `classes` parameter in `@SpringBootTest(classes = { /* place class here*/ })` annotation the beans returned by these methods are placed in the application context during test execution. Combining this feature with inheritance allows to override methods defined in other configuration classes as shown in the following listing where `TempWebSecurityConfig` extends `WebSecurityBeansConfig`. This relationship allows to override `public AccessControlSchemaProvider accessControlSchemaProvider()`. Here we are able to configure the instance of type `AccessControlSchemaProviderImpl` before returning it (and, of course, we could also have used a completely different implementation of the `AccessControlSchemaProvider` interface). By overriding the method the implementation of the super class is ignored, hence, only the new implementation is called at runtime. Other methods defined in `WebSecurityBeansConfig` which are not overridden by the subclass are still dispatched to `WebSecurityBeansConfig`.

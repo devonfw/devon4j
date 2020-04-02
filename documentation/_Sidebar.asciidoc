@@ -8,7 +8,7 @@
 * link:guide-batch-layer.asciidoc[Batch Layer]
 
 === Guides
-* link:guide-dependency-injection.asciidoc[Bean Dependency Injection]
+* link:guide-dependency-injection.asciidoc[Dependency Injection]
 * link:guide-configuration.asciidoc[Configuration]
 * link:guide-logging.asciidoc[Logging]
 * link:guide-exceptions.asciidoc[Exception Handling]
@@ -42,23 +42,12 @@
 * link:guide-apm.asciidoc[Application Performance Management]
 
 == Options
-* link:guide-hana.asciidoc[SAP Hana]
-* link:guide-oracle.asciidoc[Oracle]
 * link:guide-jee.asciidoc[JEE]
+* https://github.com/devonfw/devonfw-guide/blob/master/general/db/guide-database.asciidoc[Databases]
 
 === Coding 
 * link:coding-conventions.asciidoc[Coding Conventions]
 * link:coding-tools.asciidoc[Development Tools]
 
-=== devonfw Development 
-* link:devonfw-ide-setup.asciidoc[Setup devonfw IDE]
-* link:devonfw-issue-work.asciidoc[Issue creation & resolution]
-* link:devonfw-code-contribution.asciidoc[Contribution of code]
-* link:devonfw-documentation.asciidoc[Contribution to documentation]
-
-=== devonfw Tutorial
+=== Tutorials
 * link:tutorial-newapp.asciidoc[Start a new application]
-* link:tutorial-sample.asciidoc[Sample application]
-
-=== For Core-Developers
-* link:devonfw-release.asciidoc[Release Process]
