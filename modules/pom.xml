@@ -25,6 +25,7 @@
     <module>cxf-server</module>
     <module>cxf-server-rest</module>
     <module>cxf-server-ws</module>
+    <module>security-keystore</module>
     <module>security</module>
     <module>security-jwt</module>
     <module>jpa-basic</module>

@@ -9,7 +9,7 @@
 		<version>dev-SNAPSHOT</version>
 	</parent>
 	<groupId>com.devonfw.java.modules</groupId>
-	<artifactId>devon4j-security-jwt</artifactId>
+	<artifactId>devon4j-security-keystore</artifactId>
 	<version>${devon4j.version}</version>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
@@ -23,28 +23,6 @@
 		<dependency>
 			<groupId>com.devonfw.java.modules</groupId>
 			<artifactId>devon4j-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.devonfw.java.modules</groupId>
-			<artifactId>devon4j-security-keystore</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-jwt</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>io.jsonwebtoken</groupId>
-		    <artifactId>jjwt</artifactId>
-		</dependency>
-		<!-- Spring Web & Servlet necessary for Request Filters -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
