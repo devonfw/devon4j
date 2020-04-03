@@ -134,8 +134,7 @@ public class MessageReceiverConfig {
     factory
         .setConsumerFactory(MessageCommonConfig.createConsumerFactory(kafkaCommonProperties, kafkaConsumerProperties));
 
-    Optional.ofNullable(kafkaListenerContainerProperties.getConcurrency())
-        .ifPresentOrElse(concurrency -> factory.setConcurrency(concurrency), () -> factory.setConcurrency(1));
+    factory.setConcurrency(Optional.ofNullable(kafkaListenerContainerProperties.getConcurrency()).orElse(1));
 
     Optional.ofNullable(kafkaListenerContainerProperties.getAckMode())
         .ifPresent(ackMode -> setAckModeToListenerFactory(ackMode, factory));

@@ -121,9 +121,11 @@ public class KafkaHealthIndicator implements HealthIndicator {
 
     List<PartitionInfo> partitionInfos = this.metadataConsumer.partitionsFor(topic);
 
-    Optional.ofNullable(partitionInfos).ifPresentOrElse(
-        partitionInfo -> checkPartionLeaderAndSetHealthStatus(healthInfo, partitionInfos),
-        () -> setHealthStatusDownwhenPartionInfosAreEmpty(healthInfo));
+    if (partitionInfos != null) {
+      checkPartionLeaderAndSetHealthStatus(healthInfo, partitionInfos);
+    } else {
+      setHealthStatusDownwhenPartionInfosAreEmpty(healthInfo);
+    }
   }
 
   private void checkPartionLeaderAndSetHealthStatus(TopicHealthInfo healthInfo, List<PartitionInfo> partitionInfos) {

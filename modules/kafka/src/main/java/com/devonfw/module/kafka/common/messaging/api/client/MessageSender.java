@@ -12,8 +12,11 @@ import org.springframework.util.concurrent.ListenableFuture;
  * {@link #sendMessage(ProducerRecord)}} sends the message by interacting with
  * {@link KafkaTemplate#send(org.apache.kafka.clients.producer.ProducerRecord)}}.
  *
+ * @param <K> the key type.
+ * @param <V> the value type.
+ *
  */
-public interface MessageSender {
+public interface MessageSender<K, V> {
 
   /**
    * Send the provided {@link ProducerRecord}} to kafka.
@@ -21,7 +24,7 @@ public interface MessageSender {
    * @param producerRecord the {@link ProducerRecord}
    * @return the {@link ListenableFuture}.
    */
-  ListenableFuture<SendResult<Object, Object>> sendMessage(ProducerRecord<Object, Object> producerRecord);
+  ListenableFuture<SendResult<K, V>> sendMessage(ProducerRecord<K, V> producerRecord);
 
   /**
    * Send the provided {@link ProducerRecord}} to kafka and waits for the default timeout seconds by default 60.
@@ -29,7 +32,7 @@ public interface MessageSender {
    * @param producerRecord {@link ProducerRecord}}
    * @throws Exception generic exception. Throws {@link TimeoutException}} when timeout seconds exceeds.
    */
-  void sendMessageAndWait(ProducerRecord<Object, Object> producerRecord) throws Exception;
+  void sendMessageAndWait(ProducerRecord<K, V> producerRecord) throws Exception;
 
   /**
    * Send the provided {@link ProducerRecord}} to kafka and waits for the given timeout seconds.
@@ -38,6 +41,6 @@ public interface MessageSender {
    * @param timeout the seconds needs to wait for the operation to complete
    * @throws Exception generic exception. Throws {@link TimeoutException}} when timeout seconds exceeds.
    */
-  void sendMessageAndWait(ProducerRecord<Object, Object> producerRecord, int timeout) throws Exception;
+  void sendMessageAndWait(ProducerRecord<K, V> producerRecord, int timeout) throws Exception;
 
 }

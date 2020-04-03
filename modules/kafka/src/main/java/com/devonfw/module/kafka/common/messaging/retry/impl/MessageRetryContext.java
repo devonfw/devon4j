@@ -162,7 +162,7 @@ public class MessageRetryContext {
    * @param consumerRecord the {@link ConsumerRecord}
    * @return {@link MessageRetryContext}
    */
-  public static MessageRetryContext from(ConsumerRecord<Object, Object> consumerRecord) {
+  public static MessageRetryContext from(ConsumerRecord<?, ?> consumerRecord) {
 
     if (ObjectUtils.isEmpty(consumerRecord)) {
       throw new IllegalArgumentException("The ConsumerRecord parameter cannot be null.");
@@ -215,7 +215,7 @@ public class MessageRetryContext {
    *
    * @param producerRecord the {@link ProducerRecord}
    */
-  public void injectInto(ProducerRecord<Object, Object> producerRecord) {
+  public void injectInto(ProducerRecord<?, ?> producerRecord) {
 
     if (ObjectUtils.isEmpty(producerRecord)) {
       throw new IllegalArgumentException("The message parameter cannot be null.");
