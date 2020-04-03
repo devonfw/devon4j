@@ -203,9 +203,8 @@ public class TestMessageSenderConfig {
    * @return KafkaTemplate
    * @throws IOException the {@link IOException}
    */
-  protected KafkaTemplate<Object, Object> createKafkaTemplate(
-      ProducerLoggingListener<Object, Object> producerLogListener, ProducerFactory<Object, Object> producerFactory)
-      throws IOException {
+  protected KafkaTemplate<Object, Object> createKafkaTemplate(ProducerLoggingListener producerLogListener,
+      ProducerFactory<Object, Object> producerFactory) throws IOException {
 
     KafkaTemplate<Object, Object> template = new KafkaTemplate<>(createProducerFactory());
     template.setProducerListener(producerLogListener);
@@ -247,10 +246,10 @@ public class TestMessageSenderConfig {
    * @param testMessageLoggingSupport the {@link MessageLoggingSupport}
    * @return ProducerLoggingListener
    */
-  protected ProducerLoggingListener<Object, Object> testMessageProducerLoggingListener(
+  protected ProducerLoggingListener testMessageProducerLoggingListener(
       MessageLoggingSupport testMessageLoggingSupport) {
 
-    return new ProducerLoggingListener<>(testMessageLoggingSupport(), this.tracer);
+    return new ProducerLoggingListener(testMessageLoggingSupport());
   }
 
   /**

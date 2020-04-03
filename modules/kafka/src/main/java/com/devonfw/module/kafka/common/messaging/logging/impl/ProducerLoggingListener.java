@@ -5,20 +5,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.support.ProducerListener;
 
-import brave.Tracer;
-
 /**
  * This is an implementation class of {@link ProducerListener}.
  *
- * @param <K> the key type.
- * @param <V> the value type.
  *
  */
-public class ProducerLoggingListener<K, V> implements ProducerListener<K, V> {
+public class ProducerLoggingListener implements ProducerListener<Object, Object> {
 
   private static final Logger LOG = LoggerFactory.getLogger(ProducerLoggingListener.class);
-
-  private Tracer tracer;
 
   private MessageLoggingSupport loggingSupport;
 
@@ -26,16 +20,14 @@ public class ProducerLoggingListener<K, V> implements ProducerListener<K, V> {
    * The constructor.
    *
    * @param loggingSupport the {@link MessageLoggingSupport}
-   * @param tracer the {@link Tracer}
    */
-  public ProducerLoggingListener(MessageLoggingSupport loggingSupport, Tracer tracer) {
+  public ProducerLoggingListener(MessageLoggingSupport loggingSupport) {
 
     this.loggingSupport = loggingSupport;
-    this.tracer = tracer;
   }
 
   @Override
-  public void onSuccess(String topic, Integer partition, K key, V value, RecordMetadata recordMetadata) {
+  public void onSuccess(String topic, Integer partition, Object key, Object value, RecordMetadata recordMetadata) {
 
     if (recordMetadata != null) {
       this.loggingSupport.logMessageSent(LOG, value.toString(), recordMetadata.topic(), recordMetadata.partition(),
@@ -47,7 +39,7 @@ public class ProducerLoggingListener<K, V> implements ProducerListener<K, V> {
   }
 
   @Override
-  public void onError(String topic, Integer partition, K key, V value, Exception exception) {
+  public void onError(String topic, Integer partition, Object key, Object value, Exception exception) {
 
     this.loggingSupport.logMessageNotSent(LOG, topic, partition,
         (exception != null ? exception.getLocalizedMessage() : "unknown"));
