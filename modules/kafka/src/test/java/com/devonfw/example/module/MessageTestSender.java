@@ -88,9 +88,7 @@ public class MessageTestSender extends ComponentTest {
   }
 
   /**
-   * Test method to test the
-   * {@link MessageSender#sendMessage(ProducerRecord, com.devonfw.module.kafka.common.messaging.api.client.converter.MessageConverter)}
-   * from {@link MessageSender}.
+   * Test method to test the {@link MessageSender#sendMessage(ProducerRecord)} from {@link MessageSender}.
    */
   @Test
   public void shouldSendMessageToKafKaBroker_whenProducerRecordIsGiven() {
@@ -116,9 +114,7 @@ public class MessageTestSender extends ComponentTest {
   }
 
   /**
-   * Test method to test the
-   * {@link MessageSender#sendMessageAndWait(ProducerRecord, com.devonfw.module.kafka.common.messaging.api.client.converter.MessageConverter)}
-   * from {@link MessageSender}.
+   * Test method to test the {@link MessageSender#sendMessageAndWait(ProducerRecord)} from {@link MessageSender}.
    *
    * @throws Exception the {@link Exception}.
    */
@@ -145,9 +141,7 @@ public class MessageTestSender extends ComponentTest {
   }
 
   /**
-   * Test method to test the
-   * {@link MessageSender#sendMessageAndWait(ProducerRecord, com.devonfw.module.kafka.common.messaging.api.client.converter.MessageConverter,int)}
-   * from {@link MessageSender}.
+   * Test method to test the {@link MessageSender#sendMessageAndWait(ProducerRecord, int)} from {@link MessageSender}.
    *
    * @throws Exception the {@link Exception}.
    */
