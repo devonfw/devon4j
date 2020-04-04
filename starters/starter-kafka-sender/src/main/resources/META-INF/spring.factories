@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.devonfw.module.kafka.common.messaging.trace.api.config.TraceConfig,com.devonfw.module.kafka.common.messaging.api.config.MessageSenderConfig

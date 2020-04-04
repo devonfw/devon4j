@@ -186,6 +186,16 @@
         <artifactId>devon4j-starter-spring-data-jpa</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-kafka-sender</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-kafka-receiver</artifactId>
+        <version>${project.version}</version>
+      </dependency>      
     </dependencies>
   </dependencyManagement>
 
