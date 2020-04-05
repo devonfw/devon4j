@@ -1,4 +1,200 @@
 :toc: macro
 toc::[]
 
-= Batch Layer
+= Messaging Services
+
+Messaging Services provide an asynchronous communication mechanism between applications. Technically this is
+implemented using Kafka link:http://kafka.apache.org/documentation.html .
+
+devonfw uses link:https://spring.io/projects/spring-kafka [Spring-Kafka] as kafka framework.
+
+This guide explains how Spring kafka is used in devonfw applications.It focuses on aspects which are special to devonfw if you want to learn about spring-kafka you should adhere to springs references documentation.
+
+There is an example of simple kafka implementation in the link://https://github.com/devonfw-sample/devon4j-kafka-employeeapp[devon4j-kafka-employeeapp kafka module].
+
+The devon-kafka library consist of:
+
+* Monitoring support
+* Configuration support for Kafka Producers, Consumers and brave.Tracer and message retry processing including defaults.
+* Custom message processor with retry pattern.
+* Trace support.
+
+== Configuration via Spring
+
+Devon kafka messaging provides in the package '...kafka.common.messaging.api.client.config' spring based configuration and properties classes with useful defaults. In detail the following classes are provided
+
+* KafkaCommonProperties
+  Kafka properties which apply for consumers and for producers.
+  
+* KafkaConsumerProperties
+  Kafka consumer-specific properties.
+
+* KafkaProducerProperties
+  Kafka producer-specific properties.
+
+* KafkaListenerContainerProperties
+  Properties for configuring the spring message listener container.
+
+* MessageReceiverConfig
+  Spring configuration for receiving messages via listeners.
+
+* MessageSenderConfig
+  Spring configuration for sending message via the spring kafka template.
+  
+The tracer config property classes are present in the package '...kafka.common.messaging.trace.api.config'
+
+ * TraceConfig
+   Configuration for tracing via spring cloud sleuth.
+   
+The message retry process config class is present in the package '.../kafka.common.messaging.retry.api.config'
+
+* MessageDefaultRetryConfig
+  properties for configuring the retry pattern for the consumed message processing.
+
+== How to use 
+  
+To use devon-messaging-kafka you have to add required starter dependencies which is "starter-kafka-sender" and "starter-kafka-receiver" from devon4j. These 2 starters are responsible for taking care of above configurations. 
+
+To use devon-kafka message sender add the below dependency:
+
+[source,xml]
+----
+<dependency>
+  <groupId>com.devonfw.java.starters</groupId>
+  <artifactId>devon4j-starter-kafka-sender</artifactId>
+</dependency>
+----
+
+It includes the Tracer implementations from Spring cloud sleuth.
+
+To use the devon-kafka message receiver configurations , loggers and message retry processor for processing add the below dependency:
+
+[source,xml]
+----
+<dependency>
+  <groupId>com.devonfw.java.starters</groupId>
+  <artifactId>devon4j-starter-kafka-receiver</artifactId>
+</dependency>
+----
+
+==  Property Parameters
+
+As written before kafka-producer and listener-specific configuration is done via properties classes. These classes provide useful defaults, at a minimum the following parameters have to be configured:
+
+===== Properties for the configuration via Devon-Kafka-Messaging
+
+[source,properties]
+----
+messaging.kafka.common.bootstrap-servers=kafka-broker:9092
+messaging.kafka.consumer.group-id=<application name>
+messaging.kafka.listener.container.concurrency=<Number of listener threads for each listener container>
+----
+
+All the configuration class for the property classes is annotated with +@ConfigurationProperties+ with the prefix to read the property values from +application.properties+ or +application.yml+.
+
+
+Example:
+
+[source,java]
+----
+ @Bean
+  @ConfigurationProperties(prefix = "messaging.kafka.producer")
+  public KafkaProducerProperties messageKafkaProducerProperties() {
+
+    return new KafkaProducerProperties();
+  }
+----
+
+For producer and consumer the prefixes are "message.kafka.producer..." and "message.kafka.consumer..." and for retry the prefix is "message.retry..."
+
+See link://https://github.com/devonfw-sample/devon4j-kafka-employeeapp[devon4j-kafka-employeeapp kafka module] application.properties file for more examples.
+
+== Naming convention for topics.
+
+For better managing of several Kafka topics in your application portfolio we devon strongly advice to introduce a naming scheme for your topics. The schema may depend on the actual usage pattern of kafka. For context where kafka is used
+in a 1-to-1-communication-scheme (not publish/subscribe) the following schema as been proven useful in practice:
+
+[source]
+----
+<applicationname>-<servicename>-<version>-<service-operation>
+----
+
+To keep thing easy and prevent problems we suggest to use only small letters, hyphens but no other special characters.
+
+== Send Messages
+
+As mentioned above the 'starter-kafka-sender' is required to be added as dependency to use MessageSender from kafka.
+
+[source,xml]
+----
+<dependency>
+  <groupId>com.devonfw.java.starters</groupId>
+  <artifactId>devon4j-starter-kafka-sender</artifactId>
+</dependency>
+----
+
+The following example shows how to use MessageSender and its method to send message to kafka broker:
+
+Example:
+
+[source,java]
+----
+  @Inject
+  private MessageSender messageSender;
+  private ProducerRecord<K,V> producerRecord;
+  
+  public void sendMessage(){
+  producerRecord=new ProducerRecord<>("topic-name","message");
+  messageSender.sendMessage(this.producerRecord);
+  
+  //Alternative
+  messageSender.sendMessageAndWait(this.producerRecord,10);
+  }
+----
+
+There are multiple methods available from MessageSender of devon-kafka. The ProducerListener will log the message sent tot he kafka broker.
+
+== Receive Messages
+To receive messages you have to define a listener. The listener is normally part of the service layer. 
+
+Import the following 'starter-kafka-receiver' dependency to use the listener configurations and loggers from devon-kafka.
+
+[source,xml]
+----
+<dependency>
+  <groupId>com.devonfw.java.starters</groupId>
+  <artifactId>devon4j-starter-kafka-receiver</artifactId>
+</dependency>
+----
+
+The listener
+is defined by implementing and annotating a method like in the following example:
+
+[source,java]
+----
+  @KafkaListener(topics = "${messaging.kafka.health.topicsToCheck}", groupId = "${messaging.kafka.consumer.groupId}", containerFactory = "kafkaListenerContainerFactory")
+  public void consumer(ConsumerRecord<Object, Object> consumerRecord, Acknowledgment acknowledgment) {
+
+  //user operation
+  
+  //To acknowledge listener after processing
+  acknowledgement.acknowledge();
+  }
+----
+
+The topic and group id can be mentioned in application.properties as listener properties.
+
+[source,properties]
+----
+messaging.kafka.health.topicsToCheck=sample-employee-topic
+messaging.kafka.consumer.groupId=sample-group
+----
+The container factory mentioned in the +@KafkaListener+ is used in the link:https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaListenerContainerProperties.java [KafkaListenerContainerProperties.java] to create default container factory with the Acknowledgement.
+
+
+== Retry
+===== Handling retry in devo-kafka
+===== Retry configuration and naming convention of redelivery topics.
+== Tracer
+== Logging
+== Kafka Health check using Spring acutator
