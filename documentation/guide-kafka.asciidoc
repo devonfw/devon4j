@@ -51,8 +51,8 @@ The message retry process config class is present in the package '.../kafka.comm
 * MessageDefaultRetryConfig
   properties for configuring the retry pattern for the consumed message processing.
 
-== How to use 
-  
+== How to use
+
 To use devon-messaging-kafka you have to add required starter dependencies which is "starter-kafka-sender" and "starter-kafka-receiver" from devon4j. These 2 starters are responsible for taking care of above configurations. 
 
 To use devon-kafka message sender add the below dependency:
