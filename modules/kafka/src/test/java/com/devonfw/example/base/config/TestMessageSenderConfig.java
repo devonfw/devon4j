@@ -218,9 +218,9 @@ public class TestMessageSenderConfig {
    * @throws IOException the {@link IOException}.
    */
   @Bean
-  public MessageSenderImpl testMessageSender() throws IOException {
+  public MessageSender<?, ?> testMessageSender() throws IOException {
 
-    MessageSenderImpl bean = new MessageSenderImpl();
+    MessageSenderImpl<Object, Object> bean = new MessageSenderImpl<>();
     bean.setKafkaTemplate(testMessageKafkaTemplate());
     bean.setLoggingSupport(testMessageLoggingSupport());
     bean.setSenderProperties(testMessageSenderProperties());

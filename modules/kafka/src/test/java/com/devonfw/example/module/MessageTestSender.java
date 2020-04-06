@@ -20,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
-import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -38,7 +37,6 @@ import com.devonfw.module.test.common.base.ComponentTest;
 @SpringBootTest(classes = { TestApplication.class }, webEnvironment = WebEnvironment.NONE)
 @DirtiesContext
 @TestInstance(Lifecycle.PER_CLASS)
-@EmbeddedKafka
 public class MessageTestSender extends ComponentTest {
 
   private static final String GROUP = "test-group";

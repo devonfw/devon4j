@@ -116,11 +116,11 @@ public class MessageSenderConfig {
    * @return the MessageSenderImpl.
    */
   @Bean
-  public MessageSenderImpl messageSender(KafkaTemplate<Object, Object> messageKafkaTemplate,
+  public MessageSenderImpl<?, ?> messageSender(KafkaTemplate<Object, Object> messageKafkaTemplate,
       MessageLoggingSupport messageLoggingSupport, MessageSenderProperties messageSenderProperties,
       DiagnosticContextFacade diagnosticContextFacade, MessageSpanInjector messageSpanInjector) {
 
-    MessageSenderImpl bean = new MessageSenderImpl();
+    MessageSenderImpl<Object, Object> bean = new MessageSenderImpl<>();
     bean.setKafkaTemplate(messageKafkaTemplate);
     bean.setLoggingSupport(messageLoggingSupport);
     bean.setSenderProperties(messageSenderProperties);

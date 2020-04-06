@@ -87,10 +87,11 @@ public class MessageDefaultRetryConfig {
    * @return the {@link MessageRetryTemplate}
    */
   @Bean
-  public MessageRetryTemplate messageDefaultRetryTemplate(DefaultRetryPolicy messageDefaultRetryPolicy,
+  public MessageRetryTemplate<?, ?> messageDefaultRetryTemplate(DefaultRetryPolicy messageDefaultRetryPolicy,
       DefaultBackOffPolicy messageDefaultBackOffPolicy, MessageSender<Object, Object> messageSender) {
 
-    MessageRetryTemplate bean = new MessageRetryTemplate(messageDefaultRetryPolicy, messageDefaultBackOffPolicy);
+    MessageRetryTemplate<Object, Object> bean = new MessageRetryTemplate<>(messageDefaultRetryPolicy,
+        messageDefaultBackOffPolicy);
     bean.setMessageSender(messageSender);
     bean.setKafkaRecordSupport(messageKafkaRecordSupport());
     return bean;
