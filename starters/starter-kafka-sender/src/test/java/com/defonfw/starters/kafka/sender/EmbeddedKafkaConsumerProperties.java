@@ -25,6 +25,13 @@ public class EmbeddedKafkaConsumerProperties {
   @Inject
   private KafkaCommonProperties kafkaCommonProperties;
 
+  /**
+   * Creates a producer factory, which is using the {@link EmbeddedKafkaBroker}.
+   *
+   * @param commonProperties required bean
+   * @param producerProperties required bean
+   * @return Producer Factory for tests.
+   */
   @Bean
   public ProducerFactory<Object, Object> producerFactory(KafkaCommonProperties commonProperties,
       KafkaProducerProperties producerProperties) {

@@ -23,12 +23,12 @@ public class TestKafkaSenderSetup {
   @Autowired
   private MessageSender<String, String> messageSender;
 
-  @Test
   /**
    * Test sending message with MessageSender does not throw an exception
    *
-   * @throws Exception
+   * @throws Exception if an error occurs.
    */
+  @Test
   public void testUseMessageSender() throws Exception {
 
     ProducerRecord<String, String> producerRecord = new ProducerRecord<>("test-topic", "Hello World!");

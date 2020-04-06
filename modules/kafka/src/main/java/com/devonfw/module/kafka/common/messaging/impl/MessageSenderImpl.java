@@ -33,14 +33,16 @@ import brave.Tracer;
 /**
  * This is an implementation class for {@link MessageSender}
  *
+ * @param <K> the key type.
+ * @param <V> the value type.
  */
-public class MessageSenderImpl implements MessageSender<Object, Object> {
+public class MessageSenderImpl<K, V> implements MessageSender<K, V> {
 
   private static final Logger LOG = LoggerFactory.getLogger(MessageSenderImpl.class);
 
   private MessageSenderProperties senderProperties;
 
-  private KafkaTemplate<Object, Object> kafkaTemplate;
+  private KafkaTemplate<K, V> kafkaTemplate;
 
   private MessageLoggingSupport loggingSupport;
 
@@ -73,7 +75,7 @@ public class MessageSenderImpl implements MessageSender<Object, Object> {
    *
    * @param kafkaTemplate {@link KafkaTemplate}
    */
-  public void setKafkaTemplate(KafkaTemplate<Object, Object> kafkaTemplate) {
+  public void setKafkaTemplate(KafkaTemplate<K, V> kafkaTemplate) {
 
     this.kafkaTemplate = kafkaTemplate;
   }
@@ -119,27 +121,26 @@ public class MessageSenderImpl implements MessageSender<Object, Object> {
   }
 
   @Override
-  public ListenableFuture<SendResult<Object, Object>> sendMessage(ProducerRecord<Object, Object> producerRecord) {
+  public ListenableFuture<SendResult<K, V>> sendMessage(ProducerRecord<K, V> producerRecord) {
 
     return createAndSendRecord(producerRecord);
   }
 
   @Override
-  public void sendMessageAndWait(ProducerRecord<Object, Object> producerRecord, int timeout) throws Exception {
+  public void sendMessageAndWait(ProducerRecord<K, V> producerRecord, int timeout) throws Exception {
 
     createAndSendRecordWaited(producerRecord, timeout);
   }
 
   @Override
-  public void sendMessageAndWait(ProducerRecord<Object, Object> producerRecord) throws Exception {
+  public void sendMessageAndWait(ProducerRecord<K, V> producerRecord) throws Exception {
 
     createAndSendRecordWaited(producerRecord, this.senderProperties.getDefaultSendTimeoutSeconds());
   }
 
-  private <T> ListenableFuture<SendResult<Object, Object>> createAndSendRecord(
-      ProducerRecord<Object, Object> producerRecord) {
+  private <T> ListenableFuture<SendResult<K, V>> createAndSendRecord(ProducerRecord<K, V> producerRecord) {
 
-    ProducerRecord<Object, Object> updatedRecord = validateProducerRecordAndUpdate(producerRecord);
+    ProducerRecord<K, V> updatedRecord = validateProducerRecordAndUpdate(producerRecord);
 
     try {
       return this.kafkaTemplate.send(updatedRecord);
@@ -151,15 +152,14 @@ public class MessageSenderImpl implements MessageSender<Object, Object> {
     }
   }
 
-  private ProducerRecord<Object, Object> validateProducerRecordAndUpdate(
-      ProducerRecord<Object, Object> producerRecord) {
+  private ProducerRecord<K, V> validateProducerRecordAndUpdate(ProducerRecord<K, V> producerRecord) {
 
     Optional.ofNullable(producerRecord).ifPresent(this::checkProducerRecord);
 
     return updateProducerRecord(producerRecord);
   }
 
-  private ProducerRecord<Object, Object> updateProducerRecord(ProducerRecord<Object, Object> producerRecord) {
+  private ProducerRecord<K, V> updateProducerRecord(ProducerRecord<K, V> producerRecord) {
 
     Headers headers = producerRecord.headers();
     updateHeadersWithTracers(producerRecord.topic(), producerRecord.key(), headers);
@@ -181,7 +181,7 @@ public class MessageSenderImpl implements MessageSender<Object, Object> {
     checkTracerCurrentSpanAndInjectHeaders(headers);
   }
 
-  private void checkProducerRecord(ProducerRecord<Object, Object> producerRecord) {
+  private void checkProducerRecord(ProducerRecord<K, V> producerRecord) {
 
     if (ObjectUtils.isEmpty(producerRecord)) {
       throw new IllegalArgumentException("The parameter 'producerRecord' cannot be null");
@@ -196,10 +196,10 @@ public class MessageSenderImpl implements MessageSender<Object, Object> {
     }
   }
 
-  private void createAndSendRecordWaited(ProducerRecord<Object, Object> producerRecord, int timeout) throws Exception {
+  private void createAndSendRecordWaited(ProducerRecord<K, V> producerRecord, int timeout) throws Exception {
 
     try {
-      ListenableFuture<SendResult<Object, Object>> sendResultFuture = createAndSendRecord(producerRecord);
+      ListenableFuture<SendResult<K, V>> sendResultFuture = createAndSendRecord(producerRecord);
 
       sendResultFuture.get(timeout, TimeUnit.SECONDS);
 
