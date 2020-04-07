@@ -79,7 +79,7 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
   private <T> MessageRetryProcessingResult processRetry(ConsumerRecord<K, V> consumerRecord,
       MessageProcessor<K, V> processor) {
 
-    MessageRetryContext retryContext = MessageRetryContext.from(consumerRecord);
+    MessageRetryContext retryContext = createRetryContext(consumerRecord);
 
     if (retryContext != null) {
 
@@ -153,6 +153,19 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
     }
   }
 
+  private MessageRetryContext createRetryContext(ConsumerRecord<K, V> consumerRecord) {
+
+    MessageRetryContext retryContext = new MessageRetryContext();
+
+    Instant retryUntilTimeStamp = this.retryPolicy.getRetryUntilTimestamp(consumerRecord, retryContext);
+
+    retryContext.setRetryUntil(retryUntilTimeStamp);
+    retryContext.setRetryNext(this.backOffPolicy.getNextRetryTimestamp(retryUntilTimeStamp.toString()));
+    retryContext.setRetryReadCount(0);
+    retryContext.setRetryCount(this.backOffPolicy.getRetryCount());
+    return retryContext;
+  }
+
   private <T> void checkParameters(T message, MessageProcessor<K, V> processor, MessageRetryPolicy<K, V> pRetryPolicy,
       MessageBackOffPolicy pBackOffPolicy) {
 
@@ -183,8 +196,7 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
       result.setRetryUntil(this.retryPolicy.getRetryUntilTimestamp(consumerRecord, retryContext));
     }
 
-    result.setRetryNext(
-        this.backOffPolicy.getNextRetryTimestamp(result.getRetryCount(), result.getRetryUntil().toString()));
+    result.setRetryNext(this.backOffPolicy.getNextRetryTimestamp(result.getRetryUntil().toString()));
     return result;
   }
 
