@@ -79,7 +79,7 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
   private <T> MessageRetryProcessingResult processRetry(ConsumerRecord<K, V> consumerRecord,
       MessageProcessor<K, V> processor) {
 
-    MessageRetryContext retryContext = createRetryContext(consumerRecord, MessageRetryContext.from(consumerRecord));
+    MessageRetryContext retryContext = MessageRetryContext.from(consumerRecord);
 
     if (retryContext != null) {
 
@@ -153,26 +153,6 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
     }
   }
 
-  private MessageRetryContext createRetryContext(ConsumerRecord<K, V> consumerRecord,
-      MessageRetryContext retryContext) {
-
-    if (retryContext != null) {
-
-      if (retryContext.getRetryUntil() == null) {
-        Instant retryUntilTimeStamp = this.retryPolicy.getRetryUntilTimestamp(consumerRecord, retryContext);
-        retryContext.setRetryUntil(retryUntilTimeStamp);
-      }
-
-      if (retryContext.getRetryNext() == null) {
-        retryContext.setRetryNext(this.backOffPolicy.getNextRetryTimestamp(retryContext.getCurrentRetryCount(),
-            retryContext.getRetryUntil().toString()));
-      }
-
-      return retryContext;
-    }
-    return retryContext;
-  }
-
   private <T> void checkParameters(T message, MessageProcessor<K, V> processor, MessageRetryPolicy<K, V> pRetryPolicy,
       MessageBackOffPolicy pBackOffPolicy) {
 
@@ -208,11 +188,31 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
     return result;
   }
 
+  /**
+   * Re-enqueues record. The payload will be delete for final retry states, to allow deletion of the record for
+   * log-compacted topics.
+   *
+   * @param consumerRecord
+   * @param retryContext
+   */
   private void enqueueRetry(ConsumerRecord<K, V> consumerRecord, MessageRetryContext retryContext) {
 
     ProducerRecord<K, V> producerRecord = this.kafkaRecordSupport.createRecordForRetry(consumerRecord);
 
     retryContext.injectInto(producerRecord);
+    switch (retryContext.getRetryState()) {
+      case SUCCESSFUL:
+      case FAILED:
+      case EXPIRED:
+        // Create record without payload for final retry
+        producerRecord = new ProducerRecord<>(consumerRecord.topic(), consumerRecord.partition(), consumerRecord.key(),
+            null, consumerRecord.headers());
+        break;
+      default:
+        // Keep payload
+        producerRecord = this.kafkaRecordSupport.createRecordForRetry(consumerRecord);
+        break;
+    }
     this.messageSender.sendMessage(producerRecord);
   }
 

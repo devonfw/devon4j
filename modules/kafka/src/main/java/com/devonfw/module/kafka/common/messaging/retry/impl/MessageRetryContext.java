@@ -161,7 +161,7 @@ public class MessageRetryContext {
    * {@link ProducerRecord#headers()}.
    *
    * @param consumerRecord the {@link ConsumerRecord}
-   * @return {@link MessageRetryContext}
+   * @return {@link MessageRetryContext} or {@code null} if Retry-Headers aren't present
    */
   public static MessageRetryContext from(ConsumerRecord<?, ?> consumerRecord) {
 
@@ -172,6 +172,18 @@ public class MessageRetryContext {
     MessageRetryContext result = new MessageRetryContext();
 
     Headers headers = consumerRecord.headers();
+
+    Header retryStateHeader = headers.lastHeader(RETRY_STATE);
+    if (retryStateHeader != null) {
+      String value = new String(headers.lastHeader(RETRY_STATE).value(), Charsets.UTF_8);
+      try {
+        result.retryState = RetryState.valueOf(value);
+      } catch (Exception e) {
+        result.retryState = RetryState.PENDING;
+      }
+    } else {
+      return null;
+    }
 
     Header retryUntilHeader = headers.lastHeader(RETRY_UNTIL);
     if (retryUntilHeader != null) {
@@ -202,16 +214,6 @@ public class MessageRetryContext {
         result.setCurrentRetryCount(Long.parseLong(value));
       } catch (Exception e) {
         result.setRetryReadCount(0);
-      }
-    }
-
-    Header retryStateHeader = headers.lastHeader(RETRY_STATE);
-    if (retryStateHeader != null) {
-      String value = new String(headers.lastHeader(RETRY_STATE).value(), Charsets.UTF_8);
-      try {
-        result.retryState = RetryState.valueOf(value);
-      } catch (Exception e) {
-        result.retryState = RetryState.PENDING;
       }
     }
 
