@@ -79,7 +79,7 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
   private <T> MessageRetryProcessingResult processRetry(ConsumerRecord<K, V> consumerRecord,
       MessageProcessor<K, V> processor) {
 
-    MessageRetryContext retryContext = createRetryContext(consumerRecord);
+    MessageRetryContext retryContext = createRetryContext(consumerRecord, MessageRetryContext.from(consumerRecord));
 
     if (retryContext != null) {
 
@@ -109,20 +109,20 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
         this.backOffPolicy.sleepBeforeReEnqueue();
 
         LOG.info(EventKey.RETRY_TIME_NOT_REACHED.getMessage(), retryContext.getRetryNext(),
-            retryContext.getRetryCount() + 1, consumerRecord.topic());
+            retryContext.getCurrentRetryCount() + 1, consumerRecord.topic());
 
         enqueueRetry(consumerRecord, retryContext);
 
         return MessageRetryProcessingResult.RETRY_WITHOUT_PROCESSING;
       }
-      retryContext.incRetryCount();
+      retryContext.incCurrentRetryCount();
     }
 
     try {
       processor.processMessage(consumerRecord);
 
       if (retryContext != null) {
-        LOG.info(EventKey.RETRY_SUCCESSFUL.getMessage(), retryContext.getRetryCount(), consumerRecord.topic());
+        LOG.info(EventKey.RETRY_SUCCESSFUL.getMessage(), retryContext.getCurrentRetryCount(), consumerRecord.topic());
         retryContext.setRetryState(RetryState.SUCCESSFUL);
 
         enqueueRetry(consumerRecord, retryContext);
@@ -130,7 +130,7 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
       return MessageRetryProcessingResult.PROCESSING_SUCCESSFUL;
     } catch (Exception e) {
       if (this.retryPolicy.canRetry(consumerRecord, retryContext, e)) {
-        long retryCount = (retryContext == null ? 1 : retryContext.getRetryCount() + 1);
+        long retryCount = (retryContext == null ? 1 : retryContext.getCurrentRetryCount() + 1);
         LOG.info(EventKey.RETRY_INITIATED.getMessage(), retryCount, consumerRecord.topic());
 
         enqueueRetry(consumerRecord, updateRetryContextForNextRetry(consumerRecord, retryContext));
@@ -139,7 +139,7 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
       }
 
       if (retryContext != null) {
-        LOG.info(EventKey.RETRY_FINALLY_FAILED.getMessage(), retryContext.getRetryCount());
+        LOG.info(EventKey.RETRY_FINALLY_FAILED.getMessage(), retryContext.getCurrentRetryCount());
 
         retryContext.setRetryState(RetryState.FAILED);
 
@@ -153,16 +153,23 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
     }
   }
 
-  private MessageRetryContext createRetryContext(ConsumerRecord<K, V> consumerRecord) {
+  private MessageRetryContext createRetryContext(ConsumerRecord<K, V> consumerRecord,
+      MessageRetryContext retryContext) {
 
-    MessageRetryContext retryContext = new MessageRetryContext();
+    if (retryContext != null) {
 
-    Instant retryUntilTimeStamp = this.retryPolicy.getRetryUntilTimestamp(consumerRecord, retryContext);
+      if (retryContext.getRetryUntil() == null) {
+        Instant retryUntilTimeStamp = this.retryPolicy.getRetryUntilTimestamp(consumerRecord, retryContext);
+        retryContext.setRetryUntil(retryUntilTimeStamp);
+      }
 
-    retryContext.setRetryUntil(retryUntilTimeStamp);
-    retryContext.setRetryNext(this.backOffPolicy.getNextRetryTimestamp(retryUntilTimeStamp.toString()));
-    retryContext.setRetryReadCount(0);
-    retryContext.setRetryCount(this.backOffPolicy.getRetryCount());
+      if (retryContext.getRetryNext() == null) {
+        retryContext.setRetryNext(this.backOffPolicy.getNextRetryTimestamp(retryContext.getCurrentRetryCount(),
+            retryContext.getRetryUntil().toString()));
+      }
+
+      return retryContext;
+    }
     return retryContext;
   }
 
@@ -196,7 +203,8 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
       result.setRetryUntil(this.retryPolicy.getRetryUntilTimestamp(consumerRecord, retryContext));
     }
 
-    result.setRetryNext(this.backOffPolicy.getNextRetryTimestamp(result.getRetryUntil().toString()));
+    result.setRetryNext(
+        this.backOffPolicy.getNextRetryTimestamp(result.getCurrentRetryCount(), result.getRetryUntil().toString()));
     return result;
   }
 

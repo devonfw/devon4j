@@ -16,8 +16,6 @@ public class DefaultBackOffPolicyProperties {
 
   private long retryReEnqueueDelay = 1000;
 
-  private int retryCount = 0;
-
   /**
    * The retry enque delay to send again the message to kafka. By default 1000.
    *
@@ -96,26 +94,6 @@ public class DefaultBackOffPolicyProperties {
   public void setRetryMaxDelay(long retryMaxDelay) {
 
     this.retryMaxDelay = retryMaxDelay;
-  }
-
-  /**
-   * The number of times to execute retry.
-   *
-   * @return retryCount
-   */
-  public int getRetryCount() {
-
-    return this.retryCount;
-  }
-
-  /**
-   * Set the count to execute retry.
-   * 
-   * @param retryCount new value of {@link #getRetryCount}.
-   */
-  public void setRetryCount(int retryCount) {
-
-    this.retryCount = retryCount;
   }
 
 }

@@ -20,8 +20,6 @@ public class DefaultBackOffPolicy implements MessageBackOffPolicy {
 
   private long retryMaxDelay;
 
-  private int retryCount;
-
   /**
    * The constructor.
    *
@@ -35,7 +33,6 @@ public class DefaultBackOffPolicy implements MessageBackOffPolicy {
     this.retryDelay = properties.getRetryDelay();
     this.retryDelayMultiplier = properties.getRetryDelayMultiplier();
     this.retryMaxDelay = properties.getRetryMaxDelay();
-    this.retryCount = properties.getRetryCount();
   }
 
   private void checkProperties(DefaultBackOffPolicyProperties properties) {
@@ -54,9 +51,9 @@ public class DefaultBackOffPolicy implements MessageBackOffPolicy {
   }
 
   @Override
-  public Instant getNextRetryTimestamp(String retryUntilTimestamp) {
+  public Instant getNextRetryTimestamp(long currentRetryCount, String retryUntilTimestamp) {
 
-    long delayValue = (long) (this.retryDelay * Math.pow(this.retryDelayMultiplier, this.retryCount));
+    long delayValue = (long) (this.retryDelay * Math.pow(this.retryDelayMultiplier, currentRetryCount));
 
     if (delayValue > this.retryMaxDelay) {
       delayValue = this.retryMaxDelay;
@@ -81,17 +78,6 @@ public class DefaultBackOffPolicy implements MessageBackOffPolicy {
         Thread.currentThread().interrupt();
       }
     }
-  }
-
-  /**
-   * The number of times to execute the Retry.
-   *
-   * @return retryCount
-   */
-  @Override
-  public int getRetryCount() {
-
-    return this.retryCount;
   }
 
 }

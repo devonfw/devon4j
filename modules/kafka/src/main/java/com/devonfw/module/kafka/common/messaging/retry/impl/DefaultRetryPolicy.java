@@ -24,6 +24,8 @@ public class DefaultRetryPolicy implements MessageRetryPolicy<Object, Object> {
 
   private long retryPeriod;
 
+  private long retryCount;
+
   /**
    * The constructor.
    *
@@ -53,6 +55,8 @@ public class DefaultRetryPolicy implements MessageRetryPolicy<Object, Object> {
       this.retryableClassifier.setTypeMap(retryableExceptionsMap);
     }
     this.retryableClassifier.setTraverseCauses(properties.isRetryableExceptionsTraverseCauses());
+
+    this.retryCount = properties.getRetryCount();
   }
 
   @Override
@@ -64,10 +68,11 @@ public class DefaultRetryPolicy implements MessageRetryPolicy<Object, Object> {
     }
 
     if (ObjectUtils.isEmpty(ex)) {
-      throw new IllegalArgumentException("The \\\"ex \\\" parameter cannot be null.");
+      throw new IllegalArgumentException("The \"ex \" parameter cannot be null.");
     }
 
-    if (retryContext != null && retryContext.getRetryUntil() != null) {
+    if (retryContext != null && retryContext.getRetryUntil() != null
+        && retryContext.getCurrentRetryCount() < this.retryCount) {
       return canRetry(retryContext, ex);
     }
 
@@ -89,6 +94,17 @@ public class DefaultRetryPolicy implements MessageRetryPolicy<Object, Object> {
       MessageRetryContext retryContext) {
 
     return Instant.now().plusMillis(this.retryPeriod * 1000);
+  }
+
+  /**
+   * The number of times to execute the Retry.
+   *
+   * @return retryCount
+   */
+  @Override
+  public long getRetryCount() {
+
+    return this.retryCount;
   }
 
 }

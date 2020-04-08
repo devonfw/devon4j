@@ -16,6 +16,8 @@ public class DefaultRetryPolicyProperties {
 
   private boolean retryableExceptionsTraverseCauses = false;
 
+  private long retryCount = 0;
+
   /**
    * The retry period
    *
@@ -75,6 +77,26 @@ public class DefaultRetryPolicyProperties {
   public void setRetryableExceptionsTraverseCauses(boolean retryableExceptionsTraverseCauses) {
 
     this.retryableExceptionsTraverseCauses = retryableExceptionsTraverseCauses;
+  }
+
+  /**
+   * The number of times to execute retry.
+   *
+   * @return retryCount
+   */
+  public long getRetryCount() {
+
+    return this.retryCount;
+  }
+
+  /**
+   * Set the count to execute retry.
+   *
+   * @param retryCount new value of {@link #getRetryCount}.
+   */
+  public void setRetryCount(long retryCount) {
+
+    this.retryCount = retryCount;
   }
 
 }
