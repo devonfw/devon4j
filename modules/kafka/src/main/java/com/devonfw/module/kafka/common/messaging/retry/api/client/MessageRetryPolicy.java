@@ -21,10 +21,13 @@ public interface MessageRetryPolicy<K, V> {
    *
    * @param consumerRecord the {@link ConsumerRecord}
    * @param retryContext the {@link MessageRetryContext}
+   * @param retryHandler the {@link MessageRetryHandler}
+   * @param messageBackOffPolicy the {@link MessageBackOffPolicy}
    * @param ex the {@link Exception}
    * @return boolean.
    */
-  boolean canRetry(ConsumerRecord<K, V> consumerRecord, MessageRetryContext retryContext, Exception ex);
+  boolean canRetry(ConsumerRecord<K, V> consumerRecord, MessageRetryContext retryContext,
+      MessageRetryHandler<K, V> retryHandler, MessageBackOffPolicy messageBackOffPolicy, Exception ex);
 
   /**
    * This method is used to return the retry until timeStamp in {@link Instant} format.
