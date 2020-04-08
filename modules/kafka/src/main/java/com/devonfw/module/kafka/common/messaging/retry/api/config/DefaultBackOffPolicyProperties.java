@@ -88,7 +88,7 @@ public class DefaultBackOffPolicyProperties {
 
   /**
    * Set the retry max delay for {@link #getRetryMaxDelay()}. by default 60000.
-   * 
+   *
    * @param retryMaxDelay the retry max delay.
    */
   public void setRetryMaxDelay(long retryMaxDelay) {
