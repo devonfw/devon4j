@@ -155,7 +155,11 @@ Example:
 There are multiple methods available from MessageSender of devon-kafka. The ProducerListener will log the message sent tot he kafka broker.
 
 == Receive Messages
-To receive messages you have to define a listener. The listener is normally part of the service layer. 
+To receive messages you have to define a listener. The listener is normally part of the service layer.
+
+[[img-t-architecture]]
+.Architecture for Kafka services
+image::images/kafka-architecture-service.png["Architecture for Kafka services",scaledwidth="80%",align="center",link="https://devonfw.com/website/pages/docs/images/kafka-architecture-service.svg"]
 
 Import the following 'starter-kafka-receiver' dependency to use the listener configurations and loggers from devon-kafka.
 
@@ -203,3 +207,16 @@ Devon4-kafka enqueues a new message for each retry attempt. It is very important
 == Tracer
 == Logging
 == Kafka Health check using Spring acutator
+
+= Using Kafka for internal parallel processing
+Apart from the use of Kafka as "communication channel" it sometimes helpful to use Kafka internally to do parallel processing:
+
+.Architecture for internal parallel processing with Kafka
+image::images/kafka-architecture-internal.png["Architecture for internal parallel processing with Kafka",scaledwidth="80%",align="center",link="https://devonfw.com/website/pages/docs/images/kafka-architecture-internal.svg"]
+
+This examples shows a payment service which allows a to submit a list of receipt IDs for payment.
+We assume that the payment it self takes a long time and should be done asynchronously and in parallel.
+The general idea is to put a message for each receipt to pay into a topic. This is done in the use case implementation in a first step, if a rest call arrives.
+Also part of the use case is a listener which consumes the messages. For each message (e.g. payment to do) a processor is called, which actually does the payment via the use case.
+Since Kafka supports concurrency for the listeners easily the payment will also be done in parallel.
+All features of devon4j-kafka, like retry handling could also be used. 

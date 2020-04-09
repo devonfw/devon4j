@@ -1,0 +1,33 @@
+@startuml
+skinparam componentStyle uml2
+allow_mixing
+
+package "Client" #lightgreen {
+  component MyClient
+}
+
+component "Kafka Broker" #grey
+
+package "devon4j application" #lightblue {
+  package "service layer" {
+    component FooService
+    MyClient .down.> FooService :http (e.g. 100 receipts)  
+
+  }
+  package "logic layer" {
+    package "FooUseCase" {
+      class FooUseCaseImpl
+      class FooConsumer
+      class FooMessageProcessor
+      FooUseCaseImpl .right.> "Kafka Broker" : enqueue (1 message per receipt)
+      FooService -down-> FooUseCaseImpl : (100 receipts)
+      "Kafka Broker" ..> FooConsumer : dequeue (1 message per receipt)
+      FooConsumer -> FooMessageProcessor
+      FooMessageProcessor -up-> FooUseCaseImpl
+    }
+  }
+}
+
+
+
+@enduml
