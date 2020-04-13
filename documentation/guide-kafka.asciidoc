@@ -40,16 +40,12 @@ Devon kafka messaging provides in the package '...kafka.common.messaging.api.cli
 
 * MessageSenderConfig
   Spring configuration for sending message via the spring kafka template.
-  
-The tracer config property classes are present in the package '...kafka.common.messaging.trace.api.config'
 
  * TraceConfig
-   Configuration for tracing via spring cloud sleuth.
-   
-The message retry process config class is present in the package '.../kafka.common.messaging.retry.api.config'
+   Configuration for tracing via spring cloud sleuth. The tracer config property classes are present in the package '...kafka.common.messaging.trace.api.config'
 
 * MessageDefaultRetryConfig
-  properties for configuring the retry pattern for the consumed message processing.
+  properties for configuring the retry pattern for the consumed message processing. The message retry process config class is present in the package '.../kafka.common.messaging.retry.api.config'
 
 == How to use
 
@@ -186,11 +182,21 @@ The topic and group id can be mentioned in application.properties as listener pr
 
 [source,properties]
 ----
-messaging.kafka.health.topicsToCheck=sample-employee-topic
-messaging.kafka.consumer.groupId=sample-group
+messaging.kafka.health.topicsToCheck=employeeapp-employee-v1-delete,employeeapp-employee-v1-add
+messaging.kafka.consumer.groupId=default
 ----
-The container factory mentioned in the +@KafkaListener+ is used in the link:https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaListenerContainerProperties.java [KafkaListenerContainerProperties.java] to create default container factory with the Acknowledgement.
+if there are multiple topics and multiple listeners then we suggest to give topic directly on each listeners instead reading from the property file.
+The container factory mentioned in the +@KafkaListener+ is used in the https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaListenerContainerProperties.java/[KafkaListenerContainerProperties.java] to create default container factory with the Acknowledgement.
 
+The defaut ack-mode is `manual_immediate` . It can be overridden by beloew example.
+
+[source,properties]
+-----
+messaging.kafka.listener.container.ackMode=<ack-mode>
+-----
+
+The other ack-mode values can be referred from
+https://docs.spring.io/spring-kafka/api/org/springframework/kafka/listener/ContainerProperties.AckMode.html/[here].
 
 == Retry
 The retry pattern in devon4j-kafka is invoked when a particular exception(described by user in application.properties file) is thrown while processing the consumed message and it is configured in application.properties file. Let us see more about handling retry in the below topics.
