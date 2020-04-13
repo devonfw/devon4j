@@ -4,13 +4,13 @@ toc::[]
 = Messaging Services
 
 Messaging Services provide an asynchronous communication mechanism between applications. Technically this is
-implemented using Kafka link:http://kafka.apache.org/documentation.html .
+implemented using Kafka http://kafka.apache.org/documentation.html .
 
-devonfw uses link:https://spring.io/projects/spring-kafka [Spring-Kafka] as kafka framework.
+Devonfw uses link:https://spring.io/projects/spring-kafka[Spring-Kafka] as kafka framework.
 
 This guide explains how Spring kafka is used in devonfw applications.It focuses on aspects which are special to devonfw if you want to learn about spring-kafka you should adhere to springs references documentation.
 
-There is an example of simple kafka implementation in the link://https://github.com/devonfw-sample/devon4j-kafka-employeeapp[devon4j-kafka-employeeapp kafka module].
+There is an example of simple kafka implementation in the https://github.com/devonfw-sample/devon4j-kafka-employeeapp[devon4j-kafka-employeeapp kafka module].
 
 The devon-kafka library consist of:
 
@@ -90,7 +90,7 @@ messaging.kafka.consumer.group-id=<application name>
 messaging.kafka.listener.container.concurrency=<Number of listener threads for each listener container>
 ----
 
-All the configuration class for the property classes is annotated with +@ConfigurationProperties+ with the prefix to read the property values from +application.properties+ or +application.yml+.
+All the configuration class for the property classes is annotated with `@ConfigurationProperties` with the prefix to read the property values from `application.properties` or `application.yml`.
 
 
 Example:
@@ -100,14 +100,13 @@ Example:
  @Bean
   @ConfigurationProperties(prefix = "messaging.kafka.producer")
   public KafkaProducerProperties messageKafkaProducerProperties() {
-
     return new KafkaProducerProperties();
   }
 ----
 
 For producer and consumer the prefixes are "message.kafka.producer..." and "message.kafka.consumer..." and for retry the prefix is "message.retry..."
 
-See link://https://github.com/devonfw-sample/devon4j-kafka-employeeapp[devon4j-kafka-employeeapp kafka module] application.properties file for more examples.
+See https://github.com/devonfw-sample/devon4j-kafka-employeeapp[devon4j-kafka-employeeapp kafka module] application.properties file for more examples.
 
 == Naming convention for topics.
 
@@ -143,10 +142,9 @@ Example:
   private MessageSender messageSender;
   private ProducerRecord<K,V> producerRecord;
   
-  public void sendMessage(){
+  public void sendMessageToKafka(){
   producerRecord=new ProducerRecord<>("topic-name","message");
   messageSender.sendMessage(this.producerRecord);
-  
   //Alternative
   messageSender.sendMessageAndWait(this.producerRecord,10);
   }
@@ -161,7 +159,7 @@ To receive messages you have to define a listener. The listener is normally part
 .Architecture for Kafka services
 image::images/kafka-architecture-service.png["Architecture for Kafka services",scaledwidth="80%",align="center",link="https://devonfw.com/website/pages/docs/images/kafka-architecture-service.svg"]
 
-Import the following 'starter-kafka-receiver' dependency to use the listener configurations and loggers from devon-kafka.
+Import the following `starter-kafka-receiver` dependency to use the listener configurations and loggers from devon-kafka.
 
 [source,xml]
 ----
@@ -178,9 +176,7 @@ is defined by implementing and annotating a method like in the following example
 ----
   @KafkaListener(topics = "${messaging.kafka.health.topicsToCheck}", groupId = "${messaging.kafka.consumer.groupId}", containerFactory = "kafkaListenerContainerFactory")
   public void consumer(ConsumerRecord<Object, Object> consumerRecord, Acknowledgment acknowledgment) {
-
   //user operation
-  
   //To acknowledge listener after processing
   acknowledgement.acknowledge();
   }
@@ -197,18 +193,132 @@ The container factory mentioned in the +@KafkaListener+ is used in the link:http
 
 
 == Retry
-===== Handling retry in devo-kafka
+The retry pattern in devon4j-kafka is invoked when a particular exception(described by user in application.properties file) is thrown while processing the consumed message and it is configured in application.properties file. Let us see more about handling retry in the below topics.
+
+===== Handling retry in devon-kafka
+
+The retry pattern in included in the starter dependency of "starter-kafka-receiver".
+
+The retryPattern method is used by calling the method processMessageWithRetry(ConsumerRecord<K, V> consumerRecord,MessageProcessor<K, V> processor). Please find the below Example:
+
+[source, java]
+-----
+@Inject
+private MessageRetryOperations<K, V> messageRetryOperations;
+@Inject
+private DeleteEmployeeMessageProcessor<K, V> deleteEmployeeMessageProcessor;
+@KafkaListener(topics = "employeeapp-employee-v1-delete", groupId = "${messaging.kafka.consumer.groupId}",containerFactory = "kafkaListenerContainerFactory")
+public void consumer(ConsumerRecord<K, V> consumerRecord, Acknowledgment acknowledgment) {
+this.messageRetryOperations.processMessageWithRetry(consumerRecord, this.deleteEmployeeMessageProcessor);
+// Acknowledge the listener.
+acknowledgment.acknowledge();
+}
+-----
+
+The implementation for MessageProcessor from devon-Kafka is required to provide the implementation to process the ConsumedRecord from kafka broker. The implementation for MessageProcessor interface can look as below example:
+
+[source, java]
+-----
+import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageProcessor;
+@Named
+public class DeleteEmployeeMessageProcessor<K, V> implements MessageProcessor<K, V> {
+ @Override
+  public void processMessage(ConsumerRecord<K, V> message) {
+  //process message
+  }
+}
+-----
+It works as follows:
+1. The application gets a message from the topic.
+2. During processing of the message an error occurs, the message will be written to the redelivery topic.
+3. The message is acknowledged in the topic.
+4. The message will be processed from the re-delivery topic after a delay.
+5. Processing of the message fails again. It retires until the retry count gets over.
+6. When the retry fails in all the retry then the message is logged and payload in the ProducerRecord is deleted for log
+   compaction which is explained below.
+
 ===== Retry configuration and naming convention of redelivery topics.
+The following properties should be added in the `application.properties` or `application.yml` file.
+
+[source,properties]
+-----
+# Retry back off policy properties
+messaging.retry.default.back-off-policy.retryReEnqueueDelay=1000
+messaging.retry.default.back-off-policy.retryDelay=600000
+messaging.retry.default.back-off-policy.retryDelayMultiplier=1.0
+messaging.retry.default.back-off-policy.retryMaxDelay=600000
+messaging.retry.default.back-off-policy.retryCount=2
+
+# default retry policy properties
+messaging.retry.default.retry-policy.retryPeriod=1800
+messaging.retry.default.retry-policy.retryableExceptions=<Class names of exceptions for which a retry should be performed>
+messaging.retry.default.retry-policy.retryableExceptionsTraverseCauses=true
+-----
+
+All these above property values are mapped to the classes `DefaultBackOffPolicyProperties.java` and `DefaultRetryPolicyProperties.java` and configured by the class `MessageDefaultRetryConfig.java`.
+
+The MessageRetryContext in devon kafka is used to perform the retry pattern with the properties from DefaultBackOffPolicyProperties and DefaultRetryPolicyProperties. 
+
+The 2 main properties of MessageRetryContext is nextRetry and retryUntil which is a `Instant` date format and it is calculated internally using the properties given in DefaultBackOffPolicyProperties and DefaultRetryPolicyProperties.
+
+you may change the behavior of this date calculation by providing your own implementation classes for `MessageBackOffPolicy.java` and `MessageRetryPolicy.java`.
+
+The naming convention for retry topic is the same topic name which you have given to publish the message and we add suffix `-retry` to it once it is consumed and given to process with retry.
+
+if there is no topic found in the consumed record the default retry topic will be added which is `default-message-retry`.
+
 ===== Retry topics
-Devon4j-kafka uses a separate retry topic for each topic where retries occur. By default this topic is named `<topicname>-retry`. You may change this behavior by providing your own implementation for `KafkaRecordSupport`.
+Devon4j-kafka uses a separate retry topic for each topic where retries occur. By default this topic is named `<topicname>-retry`. You may change this behavior by providing your own implementation for `DefaultKafkaRecordSupport` which is an default implementation from devon-kafka for `KafkaRecordSupport`.
 
 Devon4-kafka enqueues a new message for each retry attempt. It is very important to configure your retry tropics with https://kafka.apache.org/documentation/#compaction[log compaction] enabled. More or less simplified, if log compaction is enabled Kafka keeps only one message per message key. Since each retry message has the same key, in fact only one message per retry attempt is stored. After the last retry attempt the message payload is removed from the message so, you do not keep unnecessary data in your topics.
 
-== Tracer
-== Logging
-== Kafka Health check using Spring acutator
+===== Handling retry final failed
 
-= Using Kafka for internal parallel processing
+As per the devon-kafka-retry pattern the when the retry fails with final attempt also we just log the message and delete the payload of ProducerRecord which comes to proceed the retry pattern. 
+
+You can change this behavior by providing the implementation class for the interface `MessageRetryHandler.java`
+which has two method `retryTimeout` and `retryFailedFinal`.
+
+== Tracer
+Tracer used in devon-kafka is from dependency `spring-cloud-sleuth` which provides auto configuration for Tracer..
+This is used to trace the asynchronous process of kafka producing and consuming. In an asynchronous process it is important to maintain a id which will be same for all asynchronous process.
+However, devon uses its own correlation-id(UUID) to track the process. But devon-kafka uses additional tracing protocol which is https://opentracing.io/registry/brave-tracer-java/[brave.Tracer].
+
+This is a part of both starter dependencies `starter-kafka-receiver` and `starter-kafka-sender`.
+
+There are 2 important properties which will be automatically logged which is trace-id and spain-id.
+The trace-id is same for all the asynchronous process and span-id is unique for each asynchronous process.
+
+===== How devon-kafka handles tracer ?
+
+We inject the trace-id and span-id in to the ProducerRecord headers which comes to publish into the kafka broker.
+Its injected in the headers with the key `traceId` for trace-id and `spanId` for span-id.
+Along with these, the correlation-id(UUID) is also injected in the headers of record with the key `correlationId`.
+
+So, when you consume record from kafka broker, these values can be found in the consumed record's headers with these keys.
+
+So, it is very helpful to track the asynchronous process of consuming the messages.
+
+== Logging
+Devon-kafka provides multiples support classes to log the published message and the consumed message.
+* The class `ProducerLoggingListener` which implements ProducerListener<K,V> from spring kafka uses to log the message as soon as it is published in the kafka broker.
+
+* The aspect class `MessageListenerLoggingAspect` which is annotated with @Aspect and has a method `logMessageprocessing` which is annotated with `@Around("@annotation(org.springframework.kafka.annotation.KafkaListener)&&args(kafkaRecord,..)")`
+used to listen to the classes which is annotated with @KafkaListner and logs the message as soon as it is consumed.
+
+* The class `MessageLoggingSupport` has multiple methods to log different levels of events in kakfa like messageReceived, MessageSent, MessageProcessed, MessageNotProcessed.
+
+* The class `LoggingErrorHandler` which implements `ErrorHandler` from spring-kafka which logs the message when an error occured while consuming message. You may change this behaviour by creating your own implementation class for the ErrorHandler.
+
+== Kafka Health check using Spring acutator
+The spring config class MessageCommonConfig automatically provides a spring health indicator bean for kafka if
+the property èndpoints. The health indicator will check for all topics listed in messaging.kafka.health.topics-tocheck
+if a leader is available. If this property is missing only the broker connection will be checked. The timeout for
+the check (default 60s) maybe changed via the property messaging.kafka.health.timeout .
+If an application uses multiple broker(-clusters) for each broker(-cluster) a dedicated health indicator bean has to be
+configured in the spring config.
+
+== Using Kafka for internal parallel processing
 Apart from the use of Kafka as "communication channel" it sometimes helpful to use Kafka internally to do parallel processing:
 
 .Architecture for internal parallel processing with Kafka
@@ -219,4 +329,4 @@ We assume that the payment it self takes a long time and should be done asynchro
 The general idea is to put a message for each receipt to pay into a topic. This is done in the use case implementation in a first step, if a rest call arrives.
 Also part of the use case is a listener which consumes the messages. For each message (e.g. payment to do) a processor is called, which actually does the payment via the use case.
 Since Kafka supports concurrency for the listeners easily the payment will also be done in parallel.
-All features of devon4j-kafka, like retry handling could also be used. 
+All features of devon4j-kafka, like retry handling could also be used.
