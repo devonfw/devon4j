@@ -4,51 +4,23 @@ toc::[]
 = Messaging Services
 
 Messaging Services provide an asynchronous communication mechanism between applications. Technically this is
-implemented using Kafka http://kafka.apache.org/documentation.html .
+implemented using Kafka http://kafka.apache.org/documentation.html/[Apache kafka] .
 
 Devonfw uses link:https://spring.io/projects/spring-kafka[Spring-Kafka] as kafka framework.
 
-This guide explains how Spring kafka is used in devonfw applications.It focuses on aspects which are special to devonfw if you want to learn about spring-kafka you should adhere to springs references documentation.
+This guide explains how Spring kafka is used in devonfw applications. It focuses on aspects which are special to devonfw if you want to learn about spring-kafka you should adhere to springs references documentation.
 
 There is an example of simple kafka implementation in the https://github.com/devonfw-sample/devon4j-kafka-employeeapp[devon4j-kafka-employeeapp kafka module].
 
 The devon-kafka library consist of:
 
-* Monitoring support
+* Monitoring support.
 * Configuration support for Kafka Producers, Consumers and brave.Tracer and message retry processing including defaults.
 * Custom message processor with retry pattern.
 * Trace support.
+* Logging support.
 
-
-== Configuration via Spring
-// TODO SSp: I would remove this chapter, normally users do not have to mess around with the spring configs and just import the starters (as you described in a following chapter)
-Devon kafka messaging provides in the package '...kafka.common.messaging.api.client.config' spring based configuration and properties classes with useful defaults. In detail the following classes are provided
-
-* KafkaCommonProperties
-  Kafka properties which apply for consumers and for producers.
-  
-* KafkaConsumerProperties
-  Kafka consumer-specific properties.
-
-* KafkaProducerProperties
-  Kafka producer-specific properties.
-
-* KafkaListenerContainerProperties
-  Properties for configuring the spring message listener container.
-
-* MessageReceiverConfig
-  Spring configuration for receiving messages via listeners.
-
-* MessageSenderConfig
-  Spring configuration for sending message via the spring kafka template.
-
- * TraceConfig
-   Configuration for tracing via spring cloud sleuth. The tracer config property classes are present in the package '...kafka.common.messaging.trace.api.config'
-
-* MessageDefaultRetryConfig
-  properties for configuring the retry pattern for the consumed message processing. The message retry process config class is present in the package '.../kafka.common.messaging.retry.api.config'
-
-== How to use
+== How to use?
 
 To use devon-messaging-kafka you have to add required starter dependencies which is "starter-kafka-sender" or "starter-kafka-receiver" from devon4j. These 2 starters are responsible for taking care of the required spring configuration. If you only want to produce messages "starter-kafka-sender" is enough. For consuming messages you need "starter-kafka-receiver" which also includes "starter-kafka-sender".
 
@@ -64,7 +36,7 @@ To use devon-kafka message sender add the below dependency:
 
 It includes the Tracer implementations from Spring cloud sleuth.
 
-To use the devon-kafka message receiver configurations , loggers and message retry processor for processing add the below dependency:
+To use the devon-kafka message receiver configurations , loggers and message retry processor for processing message, add the below dependency:
 
 [source,xml]
 ----
@@ -89,6 +61,7 @@ messaging.kafka.listener.container.concurrency=<Number of listener threads for e
 
 All the configuration class for the property classes is annotated with `@ConfigurationProperties` with the prefix to read the property values from `application.properties` or `application.yml`.
 
+we have list of property classes reads data from property file with some default values and it mapped to the spring kafka config as requied.
 
 Example:
 
@@ -103,9 +76,12 @@ Example:
 
 For producer and consumer the prefixes are "message.kafka.producer..." and "message.kafka.consumer..." and for retry the prefix is "message.retry..."
 
-See https://github.com/devonfw-sample/devon4j-kafka-employeeapp[devon4j-kafka-employeeapp kafka module] application.properties file for more examples.
+See https://github.com/devonfw-sample/devon4j-kafka-employeeapp/blob/master/core/src/main/resources/application.properties[devon4j-kafka-employeeapp's application.properties] file for more properties which should be used as it is and the values should be changed as per the need.
 
-// TODO SSp: How can people find out which properties are available and what do they mean?
+The `https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaProducerProperties.java/[Devon Kafka Producer properties]` are defined from `https://kafka.apache.org/documentation/#producerconfigs/[kafka prodcuer config]` and the `https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaConsumerProperties.java/[Devon Consumer properties]` are defined from `https://kafka.apache.org/documentation/#consumerconfigs/[kafka consumer config]`.
+The `https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaListenerContainerProperties.java/[Devon-Kafka-Listener container properties]` are defined from `https://docs.spring.io/spring-kafka/api/org/springframework/kafka/listener/ContainerProperties.html/[Spring kafka listener properties]`.
+
+We use the same properties defined in the Apache and spring kafka and the java docs provided in each of the devon-kafka property classes which explains their use and what value has to be passed.
 
 == Naming convention for topics.
 
@@ -114,8 +90,7 @@ in a 1-to-1-communication-scheme (not publish/subscribe) the following schema as
 
 [source]
 ----
-<application name>-<service name>-<version>-<service-
- operation>
+<application name>-<service name>-<version>-<service-operation>
 ----
 
 To keep thing easy and prevent problems we suggest to use only small letters, hyphens but no other special characters.
@@ -174,7 +149,7 @@ is defined by implementing and annotating a method like in the following example
 
 [source,java]
 ----
-  @KafkaListener(topics = "${messaging.kafka.health.topicsToCheck}", groupId = "${messaging.kafka.consumer.groupId}", containerFactory = "kafkaListenerContainerFactory")
+  @KafkaListener(topics = "${employeeapp-employee-v1-delete}", groupId = "${messaging.kafka.consumer.groupId}", containerFactory = "kafkaListenerContainerFactory")
   public void consumer(ConsumerRecord<Object, Object> consumerRecord, Acknowledgment acknowledgment) {
   //user operation
   //To acknowledge listener after processing
@@ -182,16 +157,14 @@ is defined by implementing and annotating a method like in the following example
   }
 ----
 
-// TODO SSp: please move the following paragraphs to the health check chapter.
-The topic and group id can be mentioned in application.properties as listener properties.
+The group id can be mentioned in application.properties as listener properties.
 
 [source,properties]
 ----
-messaging.kafka.health.topicsToCheck=employeeapp-employee-v1-delete,employeeapp-employee-v1-add
 messaging.kafka.consumer.groupId=default
 ----
-if there are multiple topics and multiple listeners then we suggest to give topic directly on each listeners instead reading from the property file.
-The container factory mentioned in the +@KafkaListener+ is used in the https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaListenerContainerProperties.java/[KafkaListenerContainerProperties.java] to create default container factory with the Acknowledgement.
+if there are multiple topics and multiple listeners then we suggest to specify topic directly on each listeners instead reading from the property file.
+The container factory mentioned in the `@KafkaListener` is used in the https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaListenerContainerProperties.java/[KafkaListenerContainerProperties.java] to create default container factory with the Acknowledgement.
 
 The default ack-mode is `manual_immediate` . It can be overridden by below example.
 
@@ -329,6 +302,17 @@ if a leader is available. If this property is missing only the broker connection
 the check (default 60s) maybe changed via the property messaging.kafka.health.timeout .
 If an application uses multiple broker(-clusters) for each broker(-cluster) a dedicated health indicator bean has to be
 configured in the spring config.
+
+The properties for the devon kafka health check should be given like below example:
+
+[source, properties]
+-----
+management.endpoint.health.enabled=<true or false>
+messaging.kafka.health.timeout=<the health check timeout seconds>
+messaging.kafka.health.topicsToCheck=employeeapp-employee-v1-delete,employeeapp-employee-v1-add
+-----
+
+These properties are provided with default values except the topicsToCheck and devon-kafka-healthCheck will do happen only when the property is `management.endpoint.health.enabled=true`.
 
 == Using Kafka for internal parallel processing
 Apart from the use of Kafka as "communication channel" it sometimes helpful to use Kafka internally to do parallel processing:
