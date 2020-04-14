@@ -19,8 +19,9 @@ The devon-kafka library consist of:
 * Custom message processor with retry pattern.
 * Trace support.
 
-== Configuration via Spring
 
+== Configuration via Spring
+// TODO SSp: I would remove this chapter, normally users do not have to mess around with the spring configs and just import the starters (as you described in a following chapter)
 Devon kafka messaging provides in the package '...kafka.common.messaging.api.client.config' spring based configuration and properties classes with useful defaults. In detail the following classes are provided
 
 * KafkaCommonProperties
@@ -49,7 +50,7 @@ Devon kafka messaging provides in the package '...kafka.common.messaging.api.cli
 
 == How to use
 
-To use devon-messaging-kafka you have to add required starter dependencies which is "starter-kafka-sender" and "starter-kafka-receiver" from devon4j. These 2 starters are responsible for taking care of above configurations. 
+To use devon-messaging-kafka you have to add required starter dependencies which is "starter-kafka-sender" or "starter-kafka-receiver" from devon4j. These 2 starters are responsible for taking care of the required spring configuration. If you only want to produce messages "starter-kafka-sender" is enough. For consuming messages you need "starter-kafka-receiver" which also includes "starter-kafka-sender".
 
 To use devon-kafka message sender add the below dependency:
 
@@ -104,6 +105,8 @@ For producer and consumer the prefixes are "message.kafka.producer..." and "mess
 
 See https://github.com/devonfw-sample/devon4j-kafka-employeeapp[devon4j-kafka-employeeapp kafka module] application.properties file for more examples.
 
+// TODO SSp: How can people find out which properties are available and what do they mean?
+
 == Naming convention for topics.
 
 For better managing of several Kafka topics in your application portfolio we devon strongly advice to introduce a naming scheme for your topics. The schema may depend on the actual usage pattern of kafka. For context where kafka is used
@@ -111,7 +114,8 @@ in a 1-to-1-communication-scheme (not publish/subscribe) the following schema as
 
 [source]
 ----
-<applicationname>-<servicename>-<version>-<service-operation>
+<application name>-<service name>-<version>-<service-
+ operation>
 ----
 
 To keep thing easy and prevent problems we suggest to use only small letters, hyphens but no other special characters.
@@ -178,6 +182,7 @@ is defined by implementing and annotating a method like in the following example
   }
 ----
 
+// TODO SSp: please move the following paragraphs to the health check chapter.
 The topic and group id can be mentioned in application.properties as listener properties.
 
 [source,properties]
@@ -188,7 +193,7 @@ messaging.kafka.consumer.groupId=default
 if there are multiple topics and multiple listeners then we suggest to give topic directly on each listeners instead reading from the property file.
 The container factory mentioned in the +@KafkaListener+ is used in the https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaListenerContainerProperties.java/[KafkaListenerContainerProperties.java] to create default container factory with the Acknowledgement.
 
-The defaut ack-mode is `manual_immediate` . It can be overridden by beloew example.
+The default ack-mode is `manual_immediate` . It can be overridden by below example.
 
 [source,properties]
 -----
@@ -199,11 +204,12 @@ The other ack-mode values can be referred from
 https://docs.spring.io/spring-kafka/api/org/springframework/kafka/listener/ContainerProperties.AckMode.html/[here].
 
 == Retry
-The retry pattern in devon4j-kafka is invoked when a particular exception(described by user in application.properties file) is thrown while processing the consumed message and it is configured in application.properties file. Let us see more about handling retry in the below topics.
+The retry pattern in devon4j-kafka is invoked when a particular exception(described by user in application.properties file) is thrown while processing the consumed message and it is configured in application.properties file. Then general idea is to separate messages which could not be processed into dedicated retry-topics to allow fine control on how processing of the messages is retried and to not block newly arriving messages.
+Let us see more about handling retry in the below topics.
 
 ===== Handling retry in devon-kafka
 
-The retry pattern in included in the starter dependency of "starter-kafka-receiver".
+The retry pattern is included in the starter dependency of "starter-kafka-receiver".
 
 The retryPattern method is used by calling the method processMessageWithRetry(ConsumerRecord<K, V> consumerRecord,MessageProcessor<K, V> processor). Please find the below Example:
 
@@ -271,22 +277,22 @@ you may change the behavior of this date calculation by providing your own imple
 
 The naming convention for retry topic is the same topic name which you have given to publish the message and we add suffix `-retry` to it once it is consumed and given to process with retry.
 
-if there is no topic found in the consumed record the default retry topic will be added which is `default-message-retry`.
+If there is no topic found in the consumed record the default retry topic will be added which is `default-message-retry`.
 
 ===== Retry topics
-Devon4j-kafka uses a separate retry topic for each topic where retries occur. By default this topic is named `<topicname>-retry`. You may change this behavior by providing your own implementation for `DefaultKafkaRecordSupport` which is an default implementation from devon-kafka for `KafkaRecordSupport`.
+Devon4j-kafka uses a separate retry topic for each topic where retries occur. By default this topic is named `<topic name>-retry`. You may change this behavior by providing your own implementation for `DefaultKafkaRecordSupport` which is an default implementation from devon-kafka for `KafkaRecordSupport`.
 
 Devon4-kafka enqueues a new message for each retry attempt. It is very important to configure your retry tropics with https://kafka.apache.org/documentation/#compaction[log compaction] enabled. More or less simplified, if log compaction is enabled Kafka keeps only one message per message key. Since each retry message has the same key, in fact only one message per retry attempt is stored. After the last retry attempt the message payload is removed from the message so, you do not keep unnecessary data in your topics.
 
 ===== Handling retry final failed
 
-As per the devon-kafka-retry pattern the when the retry fails with final attempt also we just log the message and delete the payload of ProducerRecord which comes to proceed the retry pattern. 
+Per default when the retry fails with final attempt  we just log the message and delete the payload of ProducerRecord which comes to proceed the retry pattern. 
 
 You can change this behavior by providing the implementation class for the interface `MessageRetryHandler.java`
 which has two method `retryTimeout` and `retryFailedFinal`.
 
 == Tracer
-Tracer used in devon-kafka is from dependency `spring-cloud-sleuth` which provides auto configuration for Tracer..
+We leverage https://spring.io/projects/spring-cloud-sleuth[Spring Cloud Sleuth] for tracing in devon4j-kafka
 This is used to trace the asynchronous process of kafka producing and consuming. In an asynchronous process it is important to maintain a id which will be same for all asynchronous process.
 However, devon uses its own correlation-id(UUID) to track the process. But devon-kafka uses additional tracing protocol which is https://opentracing.io/registry/brave-tracer-java/[brave.Tracer].
 
