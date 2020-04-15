@@ -10,7 +10,7 @@ Devonfw uses link:https://spring.io/projects/spring-kafka[Spring-Kafka] as kafka
 
 This guide explains how Spring kafka is used in devonfw applications. It focuses on aspects which are special to devonfw if you want to learn about spring-kafka you should adhere to springs references documentation.
 
-There is an example of simple kafka implementation in the https://github.com/devonfw-sample/devon4j-kafka-employeeapp[devon4j-kafka-employeeapp kafka module].
+There is an example of simple kafka implementation in the https://github.com/devonfw-sample/devon4j-kafka-employeeapp[devon4j-kafka-employeeapp].
 
 The devon4j-kafka library consist of:
 
