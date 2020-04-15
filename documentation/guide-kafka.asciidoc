@@ -172,7 +172,7 @@ messaging.kafka.listener.container.ackMode=<ack-mode>
 -----
 
 The other ack-mode values can be referred from
-https://docs.spring.io/spring-kafka/api/org/springframework/kafka/listener/ContainerProperties.AckMode.html/[here].
+https://docs.spring.io/spring-kafka/api/org/springframework/kafka/listener/ContainerProperties.AckMode.html[here].
 
 == Retry
 The retry pattern in devon4j-kafka is invoked when a particular exception(described by user in application.properties file) is thrown while processing the consumed message and it is configured in application.properties file. Then general idea is to separate messages which could not be processed into dedicated retry-topics to allow fine control on how processing of the messages is retried and to not block newly arriving messages.
