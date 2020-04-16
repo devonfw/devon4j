@@ -10,7 +10,7 @@
   <artifactId>devon4j-templates</artifactId>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
-  <description>Templates (maven archetypes) of the Open Application Standard Platform for Java (devon4j).</description>
+  <description>Templates (maven archetypes) of devon4j.</description>
 
   <modules>
     <module>server</module>

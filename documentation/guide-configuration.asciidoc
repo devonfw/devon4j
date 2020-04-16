@@ -44,6 +44,8 @@ public class SpringBootApp {
 
 In an devonfw application this main class is always located in the `<basepackage>` of the application package namespace (see link:coding-conventions.asciidoc#packages[package-conventions]). This is because a spring boot application will automatically do a classpath scan for components (spring-beans) and entities in the package where the application main class is located including all sub-packages. You can use the `@ComponentScan` and `@EntityScan` annotations to customize this behaviour.
 
+If you want to map spring configuration properties into your custom code please see link:guide-configuration-mapping.asciidoc[configuration mapping].
+
 === Standard beans configuration
 
 For basic bean configuration we rely on spring boot using mainly configuration classes and only occasionally XML configuration files. Some key principle to understand Spring Boot auto-configuration features:
@@ -55,26 +57,12 @@ Beans are configured via annotations in your java code (see link:guide-dependenc
 
 For technical configuration you will typically write additional spring config classes annotated with `@Configuration` that provide bean implementations via methods annotated with `@Bean`. See http://docs.spring.io/spring-javaconfig/docs/1.0.0.M4/reference/html/ch02s02.html[spring @Bean documentation] for further details. Like in XML you can also use `@Import` to make a `@Configuration` class include other configurations.
 
-=== XML-based beans configuration
-It is still possible and allowed to provide (bean-) configurations using XML, though not recommended. These configuration files are no more bundled via a main xml config file but loaded individually from their respective owners, e.g. for unit-tests:
-
-[source, java]
-----
-@SpringApplicationConfiguration(classes = { SpringBootApp.class }, locations = { "classpath:/config/app/batch/beans-productimport.xml" })
-public class ProductImportJobTest extends AbstractSpringBatchIntegrationTest {
-...
-----
-
-Configuration XML-files reside in an adequately named subfolder of:
+More specific configuration files (as required) reside in an adequately named subfolder of:
 
 `src/main/resources/app`
 
-=== Batch configuration
-In the directory `src/main/resources/config/app/batch` we place the configuration for the batch jobs. Each file within this directory represents one batch job. See link:guide-batch-layer.asciidoc[batch-layer] for further details.
-
 === BeanMapper Configuration
-In the directory `src/main/resources/config/app/common` we place the configuration for the bean-mapping.
-See link:guide-beanmapping#bean-mapper-configuration.asciidoc[bean-mapper configuration] for further details.
+In case you are still using dozer, you will find further details in link:guide-beanmapping.asciidoc#bean-mapper-configuration[bean-mapper configuration].
 
 === Security configuration
 The abstract base class `BaseWebSecurityConfig` should be extended to configure web application security thoroughly.
@@ -113,7 +101,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 === Database Configuration
 
-To choose database of your choice , set `spring.profiles.active=XXX` in `src/main/resources/config/application.properties`. Also, one has to set all the active spring profiles in this `application.properties` and not in any of the other `application.properies`. 
+To choose database of your choice , set `spring.profiles.active=XXX` in `src/main/resources/config/application.properties`. Also, one has to set all the active spring profiles in this `application.properties` and not in any of the other `application.properties`. 
 
 == Externalized Configuration
 
@@ -148,9 +136,9 @@ In this `application.properties` you only define the minimum properties that are
 Make sure your properties are thoroughly documented by providing a comment to each property. This inline documentation is most valuable for your operating department. 
 
 === Business Configuration
-The business configuration contains all business configuration values of the application, which can be edited by administrators through the GUI. The business configuration values are stored in the database in key/value pairs.
+Often applications do not need business configuration. In case they do it should typically be editable by administrators via the GUI. The business configuration values should therefore be stored in the database in key/value pairs.
 
-The database table `business_configuration` has the following columns:
+Therefore we suggest to create a dedicated table with (at least) the following columns:
 
 * ID
 * Property name
@@ -158,7 +146,7 @@ The database table `business_configuration` has the following columns:
 * Property value
 * Description
 
-According to the entries in this table, the administrative GUI shows a generic form to change business configuration. The hierarchy of the properties determines the place in the GUI, so the GUI bundles properties from the same hierarchy level and name. Boolean values are shown as checkboxes, integer and string values as text fields. The properties are read and saved in a typed form, an error is raised if you try to save a string in an integer property for example.
+According to the entries in this table, an administrative GUI may show a generic form to modify business configuration. Boolean values should be shown as checkboxes, integer and string values as text fields. The values should be validated according to their type so an error is raised if you try to save a string in an integer property for example.
 
 We recommend the following base layout for the hierarchical business configuration:
 
@@ -178,7 +166,7 @@ In order to support encrypted passwords in spring-boot `application.properties` 
   <version>1.17</version>
 </dependency>
 ----
-This will smoothly integrate http://jasypt.org/[jasypt] into your https://projects.spring.io/spring-boot/[spring-boot] application. Read this https://wiki.jasig.org/display/CASUM/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files[HOWTO] to learn how to encrypt and decrypt passwords using jasypt. Here is a simple example output of an enctrypted password (of course you have to use strong passwords instead of `secret` and `postgres` - this is only an example):
+This will smoothly integrate http://jasypt.org/[jasypt] into your https://projects.spring.io/spring-boot/[spring-boot] application. Read this https://wiki.jasig.org/display/CASUM/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files[HOWTO] to learn how to encrypt and decrypt passwords using jasypt. Here is a simple example output of an encrypted password (of course you have to use strong passwords instead of `secret` and `postgres` - this is only an example):
 [source, bash]
 ----
 ----ARGUMENTS-------------------

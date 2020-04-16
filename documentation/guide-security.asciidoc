@@ -33,7 +33,7 @@ We address these common threats individually in _security_ sections of our techn
 
 |https://www.owasp.org/index.php/Top_10_2013-A5-Security_Misconfiguration[A5 Security Misconfiguration]
 |Use devonfw application template and guides to avoid
-|http://repo1.maven.org/maven2/io/oasp/java/templates/[application template] and link:guide-configuration.asciidoc#security[sensitive configuration]
+|https://github.com/devonfw/devon4j/blob/develop/documentation/tutorial-newapp.asciidoc[tutorial-newapp] and link:guide-configuration.asciidoc#security[sensitive configuration]
 
 |https://www.owasp.org/index.php/Top_10_2013-A6-Sensitive_Data_Exposure[A6 Sensitive Data Exposure]
 |Use secured exception facade, design your data model accordingly
@@ -76,4 +76,4 @@ For penetration testing (testing for vulnerabilities) of your web application, w
 * https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project[ZAP] (OWASP Zed Attack Proxy Project)
 * http://sqlmap.org/[sqlmap] (or https://github.com/PaulSec/HQLmap[HQLmap])
 * https://nmap.org/[nmap]
-* See the marvellous presentation https://jaxenter.com/security-open-source-toolbox-video-151314.html[Toolbox of a security professional] from https://www.Christian-Schneider.net[Christian Schneider].
+* See the marvelous presentation https://jaxenter.com/security-open-source-toolbox-video-151314.html[Toolbox of a security professional] from https://www.Christian-Schneider.net[Christian Schneider].

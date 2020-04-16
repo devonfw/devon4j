@@ -4,18 +4,18 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.devonfw.tools</groupId>
-    <artifactId>devon-docgen</artifactId>
-    <version>3.1.0</version>
+    <artifactId>devonfw-docgen-pdf</artifactId>
+    <version>5.0.1</version>
   </parent>
   <groupId>com.devonfw.java.doc</groupId>
   <artifactId>devon4j-doc</artifactId>
   <version>${revision}${changelist}</version>
   <packaging>pom</packaging>
-  <name>The devon4j documentation that gives detailed guidance for the Java stack of devonfw.</name>
+  <name>${project.artifactId}</name>
   <description>The devon4j documentation that gives detailed guidance for the Java stack of devonfw.</description>
 
   <properties>
-    <docgen.wiki.page>devon4j-doc</docgen.wiki.page>
+    <docgen.asciidoc.page>devon4j-doc</docgen.asciidoc.page>
     <revision>dev</revision>
     <changelist>-SNAPSHOT</changelist>
   </properties>

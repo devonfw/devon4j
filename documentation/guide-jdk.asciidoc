@@ -3,7 +3,7 @@ toc::[]
 
 = Java Development Kit
 
-The https://en.wikipedia.org/wiki/Java_Development_Kit[Java Development Kit] is an implementation of the Java platform. It provides the https://en.wikipedia.org/wiki/Java_virtual_machine[Java Vitrual Machine] (JVM) and the Java Runtime Environment (JRE).
+The https://en.wikipedia.org/wiki/Java_Development_Kit[Java Development Kit] is an implementation of the Java platform. It provides the https://en.wikipedia.org/wiki/Java_virtual_machine[Java Virtual Machine] (JVM) and the Java Runtime Environment (JRE).
 
 == Editions
 
@@ -21,7 +21,7 @@ As OracleJDK changed its licensing model and can not be used for commercial usag
 You may want to use OpenJDK for development and OracleJDK only in production.
 However, e.g. OpenJDK 11 never released a version that is stable enough for reasonable development (e.g. javadoc tool is https://bugs.openjdk.java.net/browse/JDK-8212233[broken] and fixes are not available of OpenJDK 11 - fixed in 11.0.3 what is only available as OracleJDK 11 or you need to go to OpenJDK 12+, what has other bugs) so in the end there is no working release of OpenJDK 11.
 This more or less forces you to use OracleJDK what requires you to buy a subscription so you can use it for commercial development.
-However, there is https://github.com/AdoptOpenJDK[AdoptOpenJDK] that provides forked releases of OpenJDK with bugfixes what might be an option.
+However, there is https://github.com/AdoptOpenJDK[AdoptOpenJDK] that provides forked releases of OpenJDK with bug-fixes what might be an option.
 Anyhow, as you want to have your development environment close to production, the productively used JDK (most likely OracleJDK) should be preferred also for development.
 
 == Upgrading
@@ -42,7 +42,7 @@ Caused by: java.lang.ClassNotFoundException: javax.xml.bind.JAXBException
 ```
 As Java 9 introduced a module system with https://www.baeldung.com/project-jigsaw-java-modularity[Jigsaw], the JDK that has been a monolithic mess is now a well-defined set of structured modules.
 Some of the classes that used to come with the JDK moved to modules that where not available by default in Java 9 and have even been removed entirely in later versions of Java.
-Therefore you should simply treat such code just like any other 3rd pary component that you can add as a (maven) dependency.
+Therefore you should simply treat such code just like any other 3rd party component that you can add as a (maven) dependency.
 The following table gives you the required hints to make your software work even with such classes / modules removed from the JDK (please note that the specified version is just a suggestion that worked, feel free to pick a more recent or more appropriate version):
 
 .Dependencies for classes removed from Java 8 since 9+
@@ -79,6 +79,9 @@ Therefore the following table gives an overview of common 3rd party libraries th
 |`org.javassist`|`javassist`|`3.25.0-GA`|https://github.com/jboss-javassist/javassist/issues/194[194], https://github.com/jboss-javassist/javassist/issues/228[228], https://github.com/jboss-javassist/javassist/issues/246[246], https://github.com/jboss-javassist/javassist/issues/171[171]
 |=============================================
 
+==== ResourceBundles
+For internationalization (i18n) and localization (l10n) `ResourceBundle` is used for language and country specific texts and configurations as properties (e.g. `MyResourceBundle_de.properties`). With Java modules there are changes and impacts you need to know to get things working. The most important change is documented in the https://docs.oracle.com/javase/9/docs/api/java/util/ResourceBundle.html#bundleprovider[JavaDoc of ResourceBundle]. However, instead of using https://docs.oracle.com/javase/9/docs/api/java/util/spi/ResourceBundleProvider.html[ResourceBundleProvider] and refactoring your entire code causing incompatibilities, you can simply put the resource bundles in a regular JAR on the classpath rather than a named module (or into the lauching app).
+If you want to implement (new) Java modules with i18n support, you can have a look at https://github.com/m-m-m/nls#mmm-nls[mmm-nls].
 
 === Buildtime Changes
 If you also want to change your build to work with a recent JDK you also need to ensure that test frameworks and maven plugins properly support this.
@@ -120,8 +123,23 @@ For maven the new solution is https://spotbugs.github.io/spotbugs-maven-plugin/[
 |`org.jacoco`|`jacoco-maven-plugin`|`0.8.3`|https://github.com/jacoco/jacoco/issues/663[663]
 |=============================================
 
+==== Maven Usage
+
+With Java modules you can not run Javadoc standalone anymore or you will get this error when running `mvn javadoc:javadoc`:
+```
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-javadoc-plugin:3.1.1:javadoc (default-cli) on project mmm-base: An error has occurred in Javadoc report generation:
+[ERROR] Exit code: 1 - error: module not found: io.github.mmm.base
+[ERROR]
+[ERROR] Command line was: /projects/mmm/software/java/bin/javadoc @options @packages @argfile
+```
+
+As a solution or workaround you need to include the `compile` goal into your build lifecycle so the module-path is properly configured:
+```
+mvn compile javadoc:javadoc
+```
+
 == Sources and Links
-We want to give credits and say thanks to the following artircles that have been there before and helped us on our way:
+We want to give credits and say thanks to the following articles that have been there before and helped us on our way:
 
 * https://blog.codefx.org/java/java-9-migration-guide/[Java 9 Migration Guide: The Seven Most Common Challenges]
 * https://medium.com/criciumadev/its-time-migrating-to-java-11-5eb3868354f9[It’s time! Migrating to Java 11]

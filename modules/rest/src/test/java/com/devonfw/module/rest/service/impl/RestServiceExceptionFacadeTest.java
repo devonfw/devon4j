@@ -22,7 +22,7 @@ import net.sf.mmm.util.exception.api.SecurityErrorUserException;
 import net.sf.mmm.util.exception.api.TechnicalErrorUserException;
 import net.sf.mmm.util.exception.api.ValidationErrorUserException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;

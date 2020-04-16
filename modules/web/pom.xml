@@ -13,7 +13,7 @@
   <version>${devon4j.version}</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
-  <description>Module for reusable web and servlet related code of the Open Application Standard Platform for Java (devon4j).</description>
+  <description>Module for reusable web and servlet related code.</description>
 
   <dependencies>
     <dependency>

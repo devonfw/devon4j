@@ -10,7 +10,7 @@
   <artifactId>devon4j-starters</artifactId>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
-  <description>Spring-boot starters of the Open Application Standard Platform for Java (devon4j).</description>
+  <description>Spring-boot starters of devon4j.</description>
 
   <modules>
     <module>starter-cxf-client</module>
@@ -20,23 +20,25 @@
     <module>starter-cxf-server-rest</module>
     <module>starter-cxf-server-ws</module>
     <module>starter-spring-data-jpa</module>
+    <module>starter-kafka-sender</module>
+    <module>starter-kafka-receiver</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
-      <!-- BOM of spring-boot -->
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>${spring.boot.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
       <!-- BOM of devon4j -->
       <dependency>
         <groupId>com.devonfw.java.boms</groupId>
         <artifactId>devon4j-bom</artifactId>
         <version>${devon4j.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- BOM of spring-boot -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring.boot.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>

@@ -3,7 +3,7 @@ toc::[]
 
 = Data Access Object
 
-The _Data Acccess Objects_ (DAOs) are part of the persistence layer.
+The _Data Access Objects_ (DAOs) are part of the persistence layer.
 They are responsible for a specific xref:entity[entity] and should be named `«Entity»Dao` and `«Entity»DaoImpl`.
 The DAO offers the so called CRUD-functionalities (create, retrieve, update, delete) for the corresponding entity.
 Additionally a DAO may offer advanced operations such as link:guide-jpa-query.asciidoc[query] or locking methods.

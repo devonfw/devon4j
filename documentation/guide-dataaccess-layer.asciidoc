@@ -5,15 +5,8 @@ toc::[]
 
 The data-access layer is responsible for all outgoing connections to access and process data. This is mainly about accessing data from a persistent data-store but also about invoking external services.
 
-== RDBMS
-The classical approach is to use a Relational Database Management System (RDMS). In such case we strongly recommend to follow our link:guide-jpa.asciidoc[JPA Guide]. In case you are using Oracle you should also consider the link:guide-oracle.asciidoc[Oracle guide].
+== Database
 
-== NoSQL
-In case of specific demands and requirements you may want to choose for a _Not only SQL_ database (NoSQL). There are different categories of such products so you should first be aware what fits your requirements best:
+You need to make your choice for a database. Options are documented https://github.com/devonfw/devonfw-guide/blob/master/general/db/guide-database.asciidoc[here].
 
-* key/value DB
-* document DB
-* graph DB
-* wide-column DB
-
-As there are many such products and the market is evolving very fast, we do not yet give clear recommendations here. If you are doing a devon project and consider NoSQL please contact us for further details.
+The classical approach is to use a Relational Database Management System (RDMS). In such case we strongly recommend to follow our link:guide-jpa.asciidoc[JPA Guide]. Some NoSQL databases are supported by https://spring.io/projects/spring-data[spring-data] so you can consider the link:guide-repository.asciidoc[repository guide].

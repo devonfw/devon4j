@@ -123,7 +123,7 @@ Finally version `v1` of the service `S` was removed from `App3` and the new rele
 == Versioning Schema
 In general anything can be used to differentiate versions of a service. Possibilities are:
 
-* Code names (e.g. `Stawberry`, `Blueberry`, `Grapefruit`)
+* Code names (e.g. `Strawberry`, `Blueberry`, `Grapefruit`)
 * Timestamps (`YYYYMMDD-HHmmSS`)
 * Sequential version numbers (e.g. `v1`, `v2`, `v3`)
 * Composed version numbers (e.g. `1.0.48-pre-alpha-3-20171231-235959-Strawberry`)

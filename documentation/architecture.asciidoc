@@ -3,12 +3,10 @@ toc::[]
 :idprefix:
 :idseparator: -
 
-= Architecture
-
-There are many different views on what is summarized by the term _architecture_. First we introduce the xref:key-principles[key principles] and xref:architecture-principles[architecture principles] of the devonfw. Then we go into details of the the xref:application-architecture[architecture of an application].
+There are many different views on what is summarized by the term _architecture_. First we introduce the xref:key-principles[key principles] and xref:architecture-principles[architecture principles] of devonfw. Then we go into details of the the xref:application-architecture[architecture of an application].
 
 == Key Principles
-For the devonfw we follow these fundamental key principles for all decisions about architecture, design, or choosing standards, libraries, and frameworks:
+For devonfw we follow these fundamental key principles for all decisions about architecture, design, or choosing standards, libraries, and frameworks:
 
 * *KISS* +
 Keep it small and simple
@@ -34,7 +32,6 @@ We follow a strictly component oriented design to address the following sub-prin
 Solve similar problems in similar ways and establish a uniform link:coding-conventions.asciidoc[code-style].
 
 == Application Architecture
-// It is based on common and established concepts and aims at the _separation of concerns_ principle enabling good maintainability.
 
 For the architecture of an application we distinguish the following views:
 
@@ -74,7 +71,9 @@ Further, there are technical components for cross-cutting aspects grouped by the
 
 [[img-t-architecture]]
 .Technical Reference Architecture
-image::images/T-Architecture.png["Technical architecture",scaledwidth="80%",align="center"]
+image::images/T-Architecture.png["devonfw architecture blueprint",scaledwidth="80%",align="center",link="https://devonfw.com/website/pages/docs/images/T-Architecture.svg"]
+
+Please click on the architecture image to open it as SVG and click on the layers and cross-cutting topics to open the according documentation guide.
 
 We reflect this architecture in our code as described in our link:coding-conventions.asciidoc#packages[coding conventions] allowing a traceability of business components, use-cases, layers, etc. into the code and giving
 developers a sound orientation within the project.
@@ -84,9 +83,9 @@ Within a business component a component part can call the next component part on
 While this is natural and obvious it is generally forbidden to have dependencies upwards the layers
 or to skip a layer by a direct dependency on a component part two or more layers below.
 The general dependencies allowed between business components are defined by the xref:business-architecture[business architecture].
-In our reference architecture diagram we assume that the business component `X` is allowed to depend
-on component `A`. Therefore a use-case within the logic component part of `X` is allowed to call a 
-use-case from `A` via a dependency on the component API. The same applies for dialogs on the client layer.
+In our reference architecture diagram we assume that the business component `A1` is allowed to depend
+on component `A2`. Therefore a use-case within the logic component part of `A1` is allowed to call a 
+use-case from `A2` via a dependency on the component API. The same applies for dialogs on the client layer.
 This is illustrated by the horizontal connectors. Please note that link:guide-jpa.asciidoc#entity[persistence entities] are part of the API of the data-access component part so only the logic component part of the same
 business component may depend on them.
 
