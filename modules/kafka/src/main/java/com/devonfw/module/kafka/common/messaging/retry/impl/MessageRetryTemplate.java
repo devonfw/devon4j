@@ -109,20 +109,20 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
         this.backOffPolicy.sleepBeforeReEnqueue();
 
         LOG.info(EventKey.RETRY_TIME_NOT_REACHED.getMessage(), retryContext.getRetryNext(),
-            retryContext.getRetryCount() + 1, consumerRecord.topic());
+            retryContext.getCurrentRetryCount() + 1, consumerRecord.topic());
 
         enqueueRetry(consumerRecord, retryContext);
 
         return MessageRetryProcessingResult.RETRY_WITHOUT_PROCESSING;
       }
-      retryContext.incRetryCount();
+      retryContext.incCurrentRetryCount();
     }
 
     try {
       processor.processMessage(consumerRecord);
 
       if (retryContext != null) {
-        LOG.info(EventKey.RETRY_SUCCESSFUL.getMessage(), retryContext.getRetryCount(), consumerRecord.topic());
+        LOG.info(EventKey.RETRY_SUCCESSFUL.getMessage(), retryContext.getCurrentRetryCount(), consumerRecord.topic());
         retryContext.setRetryState(RetryState.SUCCESSFUL);
 
         enqueueRetry(consumerRecord, retryContext);
@@ -130,7 +130,7 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
       return MessageRetryProcessingResult.PROCESSING_SUCCESSFUL;
     } catch (Exception e) {
       if (this.retryPolicy.canRetry(consumerRecord, retryContext, e)) {
-        long retryCount = (retryContext == null ? 1 : retryContext.getRetryCount() + 1);
+        long retryCount = (retryContext == null ? 1 : retryContext.getCurrentRetryCount() + 1);
         LOG.info(EventKey.RETRY_INITIATED.getMessage(), retryCount, consumerRecord.topic());
 
         enqueueRetry(consumerRecord, updateRetryContextForNextRetry(consumerRecord, retryContext));
@@ -139,7 +139,7 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
       }
 
       if (retryContext != null) {
-        LOG.info(EventKey.RETRY_FINALLY_FAILED.getMessage(), retryContext.getRetryCount());
+        LOG.info(EventKey.RETRY_FINALLY_FAILED.getMessage(), retryContext.getCurrentRetryCount());
 
         retryContext.setRetryState(RetryState.FAILED);
 
@@ -184,15 +184,35 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
     }
 
     result.setRetryNext(
-        this.backOffPolicy.getNextRetryTimestamp(result.getRetryCount(), result.getRetryUntil().toString()));
+        this.backOffPolicy.getNextRetryTimestamp(result.getCurrentRetryCount(), result.getRetryUntil().toString()));
     return result;
   }
 
+  /**
+   * Re-enqueues record. The payload will be delete for final retry states, to allow deletion of the record for
+   * log-compacted topics.
+   *
+   * @param consumerRecord
+   * @param retryContext
+   */
   private void enqueueRetry(ConsumerRecord<K, V> consumerRecord, MessageRetryContext retryContext) {
 
     ProducerRecord<K, V> producerRecord = this.kafkaRecordSupport.createRecordForRetry(consumerRecord);
 
     retryContext.injectInto(producerRecord);
+    switch (retryContext.getRetryState()) {
+      case SUCCESSFUL:
+      case FAILED:
+      case EXPIRED:
+        // Create record without payload for final retry
+        producerRecord = new ProducerRecord<>(consumerRecord.topic(), consumerRecord.partition(), consumerRecord.key(),
+            null, consumerRecord.headers());
+        break;
+      default:
+        // Keep payload
+        producerRecord = this.kafkaRecordSupport.createRecordForRetry(consumerRecord);
+        break;
+    }
     this.messageSender.sendMessage(producerRecord);
   }
 

@@ -17,14 +17,14 @@ import com.devonfw.module.kafka.common.messaging.retry.util.MessageRetryUtils;
 /**
  * This is an implementation class for the {@link MessageRetryPolicy}
  *
- * @param <K> the key type.
- * @param <V> the value type.
  */
-public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
+public class DefaultRetryPolicy implements MessageRetryPolicy<Object, Object> {
 
   private BinaryExceptionClassifier retryableClassifier = new BinaryExceptionClassifier(false);
 
   private long retryPeriod;
+
+  private long retryCount;
 
   /**
    * The constructor.
@@ -55,20 +55,24 @@ public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
       this.retryableClassifier.setTypeMap(retryableExceptionsMap);
     }
     this.retryableClassifier.setTraverseCauses(properties.isRetryableExceptionsTraverseCauses());
+
+    this.retryCount = properties.getRetryCount();
   }
 
   @Override
-  public boolean canRetry(ConsumerRecord<K, V> consumerRecord, MessageRetryContext retryContext, Exception ex) {
+  public boolean canRetry(ConsumerRecord<Object, Object> consumerRecord, MessageRetryContext retryContext,
+      Exception ex) {
 
     if (ObjectUtils.isEmpty(consumerRecord)) {
       throw new IllegalArgumentException("The \"consumerRecord \" parameter cannot be null.");
     }
 
     if (ObjectUtils.isEmpty(ex)) {
-      throw new IllegalArgumentException("The \\\"ex \\\" parameter cannot be null.");
+      throw new IllegalArgumentException("The \"ex \" parameter cannot be null.");
     }
 
-    if (retryContext != null && retryContext.getRetryUntil() != null) {
+    if (retryContext != null && retryContext.getRetryUntil() != null
+        && retryContext.getCurrentRetryCount() < this.retryCount) {
       return canRetry(retryContext, ex);
     }
 
@@ -86,9 +90,21 @@ public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
   }
 
   @Override
-  public Instant getRetryUntilTimestamp(ConsumerRecord<K, V> consumerRecord, MessageRetryContext retryContext) {
+  public Instant getRetryUntilTimestamp(ConsumerRecord<Object, Object> consumerRecord,
+      MessageRetryContext retryContext) {
 
     return Instant.now().plusMillis(this.retryPeriod * 1000);
+  }
+
+  /**
+   * The number of times to execute the Retry.
+   *
+   * @return retryCount
+   */
+  @Override
+  public long getRetryCount() {
+
+    return this.retryCount;
   }
 
 }

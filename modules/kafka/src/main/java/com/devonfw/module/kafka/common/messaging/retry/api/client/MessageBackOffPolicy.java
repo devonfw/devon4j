@@ -13,11 +13,12 @@ public interface MessageBackOffPolicy {
   /**
    * This method is used to calculate the next retry time stamp based on given retry count and retry until time stamp.
    *
-   * @param retryCount the no of retry count
+   * @param currentRetryCount the count of attempted retry count.
+   *
    * @param retryUntilTimestamp the retry until time stamp which requires a Instant in String format.
    * @return the Instant
    */
-  Instant getNextRetryTimestamp(long retryCount, String retryUntilTimestamp);
+  Instant getNextRetryTimestamp(long currentRetryCount, String retryUntilTimestamp);
 
   /**
    * This method is used to make the thread to sleep for {@link DefaultBackOffPolicyProperties#getRetryReEnqueueDelay()}
