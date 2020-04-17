@@ -1,9 +1,9 @@
-package com.devonfw.module.security.jwt.util;
+package com.devonfw.module.security.jwt.common.api;
 
 /**
- * Simple POJO that contain only the fields to retrieve from the request
+ * Simple bean for {@link #getUsername() login} with {@link #getPassword() password}.
  *
- * @since 3.3.0
+ * @since 2020.04.001
  */
 public class AccountCredentials {
 
@@ -12,7 +12,7 @@ public class AccountCredentials {
   private String password;
 
   /**
-   * @return username
+   * @return the username to login.
    */
   public String getUsername() {
 
@@ -20,7 +20,7 @@ public class AccountCredentials {
   }
 
   /**
-   * @param username new value of {@link #getusername}.
+   * @param username new value of {@link #getUsername()}.
    */
   public void setUsername(String username) {
 
@@ -28,7 +28,7 @@ public class AccountCredentials {
   }
 
   /**
-   * @return password
+   * @return the password of the user to login.
    */
   public String getPassword() {
 
@@ -36,7 +36,7 @@ public class AccountCredentials {
   }
 
   /**
-   * @param password new value of {@link #getpassword}.
+   * @param password new value of {@link #getPassword()}.
    */
   public void setPassword(String password) {
 
