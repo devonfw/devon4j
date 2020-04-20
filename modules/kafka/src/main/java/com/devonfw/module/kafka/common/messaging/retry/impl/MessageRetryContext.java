@@ -7,6 +7,7 @@ import java.time.Instant;
 import org.apache.commons.codec.Charsets;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.header.Headers;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -51,7 +52,7 @@ public class MessageRetryContext {
 
   private Instant retryNext;
 
-  private long retryCount;
+  private long currentRetryCount;
 
   private RetryState retryState = RetryState.PENDING;
 
@@ -120,19 +121,19 @@ public class MessageRetryContext {
    *
    * @return long.
    */
-  public long getRetryCount() {
+  public long getCurrentRetryCount() {
 
-    return this.retryCount;
+    return this.currentRetryCount;
   }
 
   /**
-   * Set the retry count for {@link #getRetryCount()}
+   * Set the retry count for {@link #getCurrentRetryCount()}
    *
    * @param retryCount the retry count.
    */
-  public void setRetryCount(long retryCount) {
+  public void setCurrentRetryCount(long retryCount) {
 
-    this.retryCount = retryCount;
+    this.currentRetryCount = retryCount;
   }
 
   /**
@@ -160,7 +161,7 @@ public class MessageRetryContext {
    * {@link ProducerRecord#headers()}.
    *
    * @param consumerRecord the {@link ConsumerRecord}
-   * @return {@link MessageRetryContext}
+   * @return {@link MessageRetryContext} or {@code null} if Retry-Headers aren't present
    */
   public static MessageRetryContext from(ConsumerRecord<?, ?> consumerRecord) {
 
@@ -168,20 +169,37 @@ public class MessageRetryContext {
       throw new IllegalArgumentException("The ConsumerRecord parameter cannot be null.");
     }
 
+    MessageRetryContext result = new MessageRetryContext();
+
     Headers headers = consumerRecord.headers();
 
-    String value = new String(headers.lastHeader(RETRY_UNTIL).value(), Charsets.UTF_8);
-    if (StringUtils.isEmpty(value)) {
-      throw new IllegalArgumentException("The header 'RETRY_UNTIL' is missing in the producerRecord");
+    Header retryStateHeader = headers.lastHeader(RETRY_STATE);
+    if (retryStateHeader != null) {
+      String value = new String(headers.lastHeader(RETRY_STATE).value(), Charsets.UTF_8);
+      try {
+        result.retryState = RetryState.valueOf(value);
+      } catch (Exception e) {
+        result.retryState = RetryState.PENDING;
+      }
+    } else {
+      return null;
     }
 
-    MessageRetryContext result = new MessageRetryContext();
-    result.setRetryUntil(Instant.parse(value));
+    Header retryUntilHeader = headers.lastHeader(RETRY_UNTIL);
+    if (retryUntilHeader != null) {
+      String value = new String(retryUntilHeader.value(), Charsets.UTF_8);
+      result.setRetryUntil(Instant.parse(value));
+    }
 
-    result.setRetryNext(Instant.parse(new String(headers.lastHeader(RETRY_NEXT).value())));
+    Header retryNextHeader = headers.lastHeader(RETRY_NEXT);
+    if (retryNextHeader != null) {
+      String value = new String(retryNextHeader.value(), Charsets.UTF_8);
+      result.setRetryNext(Instant.parse(value));
+    }
 
-    value = new String(headers.lastHeader(RETRY_READ_COUNT).value(), Charsets.UTF_8);
-    if (value != null) {
+    Header retryReadCount = headers.lastHeader(RETRY_READ_COUNT);
+    if (retryReadCount != null) {
+      String value = new String(retryReadCount.value(), Charsets.UTF_8);
       try {
         result.setRetryReadCount(Long.parseLong(value));
       } catch (Exception e) {
@@ -189,21 +207,13 @@ public class MessageRetryContext {
       }
     }
 
-    value = new String(headers.lastHeader(RETRY_COUNT).value(), Charsets.UTF_8);
-    if (value != null) {
+    Header retryCount = headers.lastHeader(RETRY_COUNT);
+    if (retryCount != null) {
+      String value = new String(retryCount.value(), Charsets.UTF_8);
       try {
-        result.setRetryCount(Long.parseLong(value));
+        result.setCurrentRetryCount(Long.parseLong(value));
       } catch (Exception e) {
-        result.setRetryCount(0);
-      }
-    }
-
-    value = new String(headers.lastHeader(RETRY_STATE).value(), Charsets.UTF_8);
-    if (value != null) {
-      try {
-        result.retryState = RetryState.valueOf(value);
-      } catch (Exception e) {
-        result.retryState = RetryState.PENDING;
+        result.setRetryReadCount(0);
       }
     }
 
@@ -237,8 +247,8 @@ public class MessageRetryContext {
       addHeaderValue(headers, RETRY_READ_COUNT, Long.toString(this.retryReadCount));
     }
 
-    if (this.retryCount > 0) {
-      addHeaderValue(headers, RETRY_COUNT, Long.toString(this.retryCount));
+    if (this.currentRetryCount > 0) {
+      addHeaderValue(headers, RETRY_COUNT, Long.toString(this.currentRetryCount));
     }
 
     addHeaderValue(headers, RETRY_STATE, this.retryState.toString());
@@ -254,11 +264,11 @@ public class MessageRetryContext {
   }
 
   /**
-   * This method is used to increment the retryCount by 1.
+   * This method is used to increment the current retryCount by 1.
    */
-  public void incRetryCount() {
+  public void incCurrentRetryCount() {
 
-    this.retryCount++;
+    this.currentRetryCount++;
   }
 
 }

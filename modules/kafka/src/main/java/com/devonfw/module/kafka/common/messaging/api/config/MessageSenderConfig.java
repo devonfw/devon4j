@@ -98,8 +98,7 @@ public class MessageSenderConfig {
    * @return the KafkaTemplate
    */
   @Bean
-  public KafkaTemplate<Object, Object> messageKafkaTemplate(
-      ProducerLoggingListener<Object, Object> messageProducerLoggingListener,
+  public KafkaTemplate<Object, Object> messageKafkaTemplate(ProducerLoggingListener messageProducerLoggingListener,
       ProducerFactory<Object, Object> messageKafkaProducerFactory) {
 
     return createKafkaTemplate(messageProducerLoggingListener, messageKafkaProducerFactory);
@@ -117,11 +116,11 @@ public class MessageSenderConfig {
    * @return the MessageSenderImpl.
    */
   @Bean
-  public MessageSenderImpl messageSender(KafkaTemplate<Object, Object> messageKafkaTemplate,
+  public MessageSenderImpl<?, ?> messageSender(KafkaTemplate<Object, Object> messageKafkaTemplate,
       MessageLoggingSupport messageLoggingSupport, MessageSenderProperties messageSenderProperties,
       DiagnosticContextFacade diagnosticContextFacade, MessageSpanInjector messageSpanInjector) {
 
-    MessageSenderImpl bean = new MessageSenderImpl();
+    MessageSenderImpl<Object, Object> bean = new MessageSenderImpl<>();
     bean.setKafkaTemplate(messageKafkaTemplate);
     bean.setLoggingSupport(messageLoggingSupport);
     bean.setSenderProperties(messageSenderProperties);
@@ -138,10 +137,9 @@ public class MessageSenderConfig {
    * @return the ProducerLoggingListener
    */
   @Bean
-  public ProducerLoggingListener<Object, Object> messageProducerLoggingListener(
-      MessageLoggingSupport messageLoggingSupport) {
+  public ProducerLoggingListener messageProducerLoggingListener(MessageLoggingSupport messageLoggingSupport) {
 
-    return new ProducerLoggingListener<>(messageLoggingSupport, this.tracer);
+    return new ProducerLoggingListener(messageLoggingSupport);
   }
 
   /**
@@ -152,7 +150,7 @@ public class MessageSenderConfig {
    * @param producerFactory the {@link ProducerFactory}
    * @return KafkaTemplate
    */
-  private KafkaTemplate<Object, Object> createKafkaTemplate(ProducerLoggingListener<Object, Object> producerLogListener,
+  private KafkaTemplate<Object, Object> createKafkaTemplate(ProducerLoggingListener producerLogListener,
       ProducerFactory<Object, Object> producerFactory) {
 
     KafkaTemplate<Object, Object> template = new KafkaTemplate<>(producerFactory);

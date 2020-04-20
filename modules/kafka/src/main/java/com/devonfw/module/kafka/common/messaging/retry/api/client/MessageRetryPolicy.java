@@ -35,4 +35,11 @@ public interface MessageRetryPolicy<K, V> {
    */
   Instant getRetryUntilTimestamp(ConsumerRecord<K, V> consumerRecord, MessageRetryContext retryContext);
 
+  /**
+   * This method is used to return the number of retry count.
+   *
+   * @return the retry count as long.
+   */
+  long getRetryCount();
+
 }

@@ -47,12 +47,13 @@ public class DefaultBackOffPolicy implements MessageBackOffPolicy {
     if (properties.getRetryMaxDelay() < 0) {
       throw new IllegalArgumentException("The property \"retry-max-delay \" must be> 0.");
     }
+
   }
 
   @Override
-  public Instant getNextRetryTimestamp(long retryCount, String retryUntilTimestamp) {
+  public Instant getNextRetryTimestamp(long currentRetryCount, String retryUntilTimestamp) {
 
-    long delayValue = (long) (this.retryDelay * Math.pow(this.retryDelayMultiplier, retryCount));
+    long delayValue = (long) (this.retryDelay * Math.pow(this.retryDelayMultiplier, currentRetryCount));
 
     if (delayValue > this.retryMaxDelay) {
       delayValue = this.retryMaxDelay;

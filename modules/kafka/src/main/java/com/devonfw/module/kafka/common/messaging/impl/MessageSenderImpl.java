@@ -168,7 +168,7 @@ public class MessageSenderImpl<K, V> implements MessageSender<K, V> {
         producerRecord.value(), headers);
   }
 
-  private void updateHeadersWithTracers(String topic, K key, Headers headers) {
+  private void updateHeadersWithTracers(String topic, Object key, Headers headers) {
 
     if (StringUtils.isEmpty(this.diagnosticContextFacade.getCorrelationId())) {
       this.diagnosticContextFacade.setCorrelationId(UUID.randomUUID().toString());
