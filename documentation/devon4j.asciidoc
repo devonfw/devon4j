@@ -44,6 +44,8 @@ include::guide-client-layer.asciidoc[leveloffset=2]
 
 include::guide-service-layer.asciidoc[leveloffset=2]
 
+include::guide-service-versioning.asciidoc[leveloffset=2]
+
 <<<<
 
 include::guide-logic-layer.asciidoc[leveloffset=2]
@@ -186,6 +188,50 @@ include::guide-jdk.asciidoc[leveloffset=2]
 <<<<
 
 include::guide-microservice.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-accessibility.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-apm.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-caching.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-component.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-feature-toggle.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-accessibility.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-jee.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-kafka.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-jms.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-monitoring.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-text-search.asciidoc[leveloffset=2]
 
 == Tutorials
 
