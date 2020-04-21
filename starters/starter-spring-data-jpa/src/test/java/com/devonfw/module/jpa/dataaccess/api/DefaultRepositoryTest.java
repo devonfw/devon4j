@@ -59,7 +59,8 @@ public class DefaultRepositoryTest extends ComponentTest {
   }
 
   /**
-   * Test of {@link com.devonfw.module.jpa.dataaccess.api.data.GenericRepository#forceIncrementModificationCounter(Object)}.
+   * Test of
+   * {@link com.devonfw.module.jpa.dataaccess.api.data.GenericRepository#forceIncrementModificationCounter(Object)}.
    * Ensures that the modification counter is updated after the call of that method when the transaction is closed.
    */
   @Test
@@ -98,7 +99,8 @@ public class DefaultRepositoryTest extends ComponentTest {
   }
 
   /**
-   * Test of {@link com.devonfw.module.jpa.dataaccess.api.data.GenericRepository#forceIncrementModificationCounter(Object)}.
+   * Test of
+   * {@link com.devonfw.module.jpa.dataaccess.api.data.GenericRepository#forceIncrementModificationCounter(Object)}.
    * Ensures that the modification counter is updated after the call of that method when the transaction is closed.
    */
   @Test
@@ -117,7 +119,7 @@ public class DefaultRepositoryTest extends ComponentTest {
       newFoo(message, createName(i));
     }
     Sort sort = JpaSort.unsafe(Direction.ASC, "name");
-    Pageable pageable = new PageRequest(pageNumber, hitsPerPage, sort);
+    Pageable pageable = PageRequest.of(pageNumber, hitsPerPage, sort);
 
     // when
     Page<FooEntity> page = this.fooRepository.findByMessage(message, pageable);
@@ -142,7 +144,8 @@ public class DefaultRepositoryTest extends ComponentTest {
   }
 
   /**
-   * Test of {@link com.devonfw.module.jpa.dataaccess.api.data.GenericRepository#forceIncrementModificationCounter(Object)}.
+   * Test of
+   * {@link com.devonfw.module.jpa.dataaccess.api.data.GenericRepository#forceIncrementModificationCounter(Object)}.
    * Ensures that the modification counter is updated after the call of that method when the transaction is closed.
    */
   @Test
@@ -158,7 +161,7 @@ public class DefaultRepositoryTest extends ComponentTest {
     config.setIgnoreCase(true);
     config.setMatchSubstring(true);
     criteria.setMessageOption(config);
-    PageRequest pageable = new PageRequest(0, 100, new Sort(Direction.DESC, "message"));
+    PageRequest pageable = PageRequest.of(0, 100, Sort.by(Direction.DESC, "message"));
     criteria.setPageable(pageable);
     List<String> values = new ArrayList<>(Arrays.asList("MY_TEST", "Sometest", "Test", "Testing", "Xtest"));
     Collections.shuffle(values);
@@ -205,7 +208,7 @@ public class DefaultRepositoryTest extends ComponentTest {
     criteria.setMessage("Test");
     config.setLikeSyntax(null);
     config.setOperator(StringSearchOperator.NE);
-    pageable = new PageRequest(0, 100, new Sort(Direction.ASC, "message"));
+    pageable = PageRequest.of(0, 100, Sort.by(Direction.ASC, "message"));
     criteria.setPageable(pageable);
     hits = this.fooRepository.findByCriteria(criteria);
 
