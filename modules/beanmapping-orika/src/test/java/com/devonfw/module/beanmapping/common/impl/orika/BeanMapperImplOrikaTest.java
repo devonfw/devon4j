@@ -1,33 +1,24 @@
 package com.devonfw.module.beanmapping.common.impl.orika;
 
+import javax.inject.Inject;
+
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.devonfw.module.basic.common.api.entity.GenericEntity;
 import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
 import com.devonfw.module.basic.common.api.to.AbstractEto;
 import com.devonfw.module.beanmapping.common.api.BeanMapper;
-import com.devonfw.module.test.common.base.ModuleTest;
-
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
+import com.devonfw.module.test.common.base.ComponentTest;
 
 /**
- * Test of {@link BeanMapperImplOrika} .
+ * Test of {@link BeanMapperImplOrika}.
  */
-public class BeanMapperImplOrikaTest extends ModuleTest {
+@SpringBootTest(classes = OrikaConfig.class)
+public class BeanMapperImplOrikaTest extends ComponentTest {
 
-  private BeanMapper getBeanMapper() {
-
-    BeanMapperImplOrika mapper = new BeanMapperImplOrika();
-    MapperFactory factory = new DefaultMapperFactory.Builder().build();
-    CustomMapperEto customMapper = new CustomMapperEto();
-    factory.classMap(GenericEntity.class, AbstractEto.class).customize(customMapper).byDefault().favorExtension(true)
-        .register();
-    MapperFacade orika = factory.getMapperFacade();
-    mapper.setOrika(orika);
-    return mapper;
-  }
+  @Inject
+  private BeanMapper mapper;
 
   /**
    * Tests {@link BeanMapper#mapTypesafe(Class, Object, Class)} for a persistence entity to an {@link AbstractEto ETO}
@@ -38,7 +29,6 @@ public class BeanMapperImplOrikaTest extends ModuleTest {
   public void testMapEntity2Eto() {
 
     // given
-    BeanMapper mapper = getBeanMapper();
     MyBeanEntity entity = new MyBeanEntity();
     Long id = 1L;
     entity.setId(id);
@@ -48,7 +38,7 @@ public class BeanMapperImplOrikaTest extends ModuleTest {
     entity.setProperty(property);
 
     // when
-    MyBeanEto eto = mapper.mapTypesafe(MyBean.class, entity, MyBeanEto.class);
+    MyBeanEto eto = this.mapper.mapTypesafe(MyBean.class, entity, MyBeanEto.class);
 
     // then
     assertThat(eto).isNotNull();
