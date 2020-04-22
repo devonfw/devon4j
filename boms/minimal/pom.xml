@@ -55,12 +55,12 @@
         <artifactId>devon4j-beanmapping</artifactId>
         <version>${project.version}</version>
       </dependency>
-       <dependency>
+      <dependency>
         <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-beanmapping-dozer</artifactId>
         <version>${project.version}</version>
       </dependency>
-       <dependency>
+      <dependency>
         <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-beanmapping-orika</artifactId>
         <version>${project.version}</version>
@@ -68,6 +68,16 @@
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-security</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-security-jwt</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-security-keystore</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -140,7 +150,7 @@
         <artifactId>devon4j-web</artifactId>
         <version>${project.version}</version>
       </dependency>
-       <dependency>
+      <dependency>
         <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-test-jpa</artifactId>
         <version>${project.version}</version>
@@ -195,7 +205,7 @@
         <groupId>com.devonfw.java.starters</groupId>
         <artifactId>devon4j-starter-kafka-receiver</artifactId>
         <version>${project.version}</version>
-      </dependency>      
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
