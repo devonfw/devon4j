@@ -161,6 +161,7 @@ As a general goal the code should be easy to read and understand. Besides clear 
 * We make use of `{@link}` tags in JavaDoc to make it more expressive.
 * JavaDoc of APIs describes how to use the type or method and not how the implementation internally works.
 * To document implementation details, we use code comments (e.g. `// we have to flush explicitly to ensure version is up-to-date`). This is only needed for complex logic.
+* Avoid the pointless `{@inheritDoc}` as since Java 1.5 there is the `@Override` annotation for overridden methods and your JavaDoc is inherited automatically even without any JavaDoc comment at all.
 
 == Code-Style
 This section gives you best practices to write better code and avoid pitfalls and mistakes.
