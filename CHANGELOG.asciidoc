@@ -2,6 +2,62 @@
 
 This file documents all notable changes to https://https://github.com/devonfw/devon4j[devon4j].
 
+== 2020.04.001
+
+The following changes have been incorporated in devon4j::
+
+* https://github.com/devonfw/devon4j/pull/240[#240]: Add unreferenced guides
+* https://github.com/devonfw/devon4j/pull/233[#233]: Various Version Upgrade
+* https://github.com/devonfw/devon4j/pull/227[#227]: Added change log
+* https://github.com/devonfw/devon4j/pull/157[#157]: Added Jwt Module
+* https://github.com/devonfw/devon4j/issues/202[#202]: Architecture documentation needs update for components
+* https://github.com/devonfw/devon4j/issues/145[#145]: Add a microservices article in the documentation
+* https://github.com/devonfw/devon4j/pull/225[#225]: Microservices Documentation
+* https://github.com/devonfw/devon4j/pull/222[#222]: Upgrade architecture documentation.
+* https://github.com/devonfw/devon4j/issues/198[#198]: Deploy SNAPSHOTs to OSSRH in travis CI
+* https://github.com/devonfw/devon4j/pull/226[#226]: Deploy SNAPSHOTs to OSSRH
+* https://github.com/devonfw/devon4j/issues/90[#90]: Authorization of batches 
+* https://github.com/devonfw/devon4j/pull/215[#215]: Documentation for authentication of batches
+* https://github.com/devonfw/devon4j/pull/219[#219]: Devonfw/docgen#18: reworked structure of devon4j doc to fix links
+* https://github.com/devonfw/devon4j/pull/221[#221]: Wrote monitoring guide
+* https://github.com/devonfw/devon4j/pull/213[#213]: Document logging of custom field in json
+* https://github.com/devonfw/devon4j/issues/138[#138]: Remove deprecated RevisionMetadata[Type]
+* https://github.com/devonfw/devon4j/pull/214[#214]: Feature/147 cleanup
+* https://github.com/devonfw/devon4j/pull/203[#203]: Switched to orika
+* https://github.com/devonfw/devon4j/pull/212[#212]: Fixed spring config for access-control
+* https://github.com/devonfw/devon4j/issues/211[#211]: Archetype: security config broken
+* https://github.com/devonfw/devon4j/issues/109[#109]: LoginController not following devon4j to use JAX-RS but uses spring-webmvc instead
+* https://github.com/devonfw/devon4j/issues/52[#52]: Improve configuration
+* https://github.com/devonfw/devon4j/issues/39[#39]: Ability to log custom fields via SLF4J
+* https://github.com/devonfw/devon4j/issues/204[#204]: Slf4j version
+* https://github.com/devonfw/devon4j/issues/190[#190]: Rework of spring-batch integration
+* https://github.com/devonfw/devon4j/pull/210[#210]: Rework documentation for blob support
+* https://github.com/devonfw/devon4j/pull/191[#191]: Rework of devon4j-batch module
+* https://github.com/devonfw/devon4j/pull/209[#209]: Include performance info in separate fields
+* https://github.com/devonfw/devon4j/pull/207[#207]: Use more specific exception for not found entity
+* https://github.com/devonfw/devon4j/pull/208[208]: Remove unnecesary clone
+* https://github.com/devonfw/devon4j/pull/196[196]: Feature/160 doc rework
+* https://github.com/devonfw/devon4j/pull/195[195]: Feature/160 doc rework
+* https://github.com/devonfw/devon4j/pull/193[193]: Feature/160 final fix
+* https://github.com/devonfw/devon4j/pull/192[192]: Feature/docgen update
+* https://github.com/devonfw/devon4j/issues/182[182]: Cleanup docu (eliminate oasp)
+* https://github.com/devonfw/devon4j/pull/187[187]: Replaced oasp
+* https://github.com/devonfw/devon4j/issues/116[116]: Bug in JSON Mapping for ZonedDateTime
+* https://github.com/devonfw/devon4j/pull/185[185]: Fixed issue #116
+* https://github.com/devonfw/devon4j/pull/184[184]: Fixed BOMs so devon4j and archetype can be used again 
+* https://github.com/devonfw/devon4j/issues/183[183]:Error in executing the project created with devon4j 
+* https://github.com/devonfw/devon4j/issues/177[177]: Switch to new maven-parent
+* https://github.com/devonfw/devon4j/pull/180[180]: Cleanup archtype
+* https://github.com/devonfw/devon4j/pull/179[179]: Updated parent #118: avoid redundancies
+* https://github.com/devonfw/devon4j/pull/169[169]: Provide a reason, why unchecked exceptions are used in Devon4j
+* https://github.com/devonfw/devon4j/pull/176[176]: Removed deprecated RevisionMetaData
+
+
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2020.04.001/devon4j-doc-2020.04.001.pdf[devon4j guide 2020.04.001].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/8?closed=1[milestone devon4j 2020.04.001].
+
+
 == 3.2.1
 
 Bugfix release:
@@ -84,6 +140,7 @@ The following changes have been incorporated in devon4j:
 * https://github.com/oasp/oasp4j/issues/648[648]: Removed depreciated restaurant sample.[oasp4j]
 * https://github.com/oasp/oasp4j/issues/669[#669]: Updated Pagination support for Spring Data[oasp4j]
 * https://github.com/oasp/oasp4j/pull/671[#671]: Add support for hana as dbType.
+* https://github.com/devonfw/devon4j/pull/136[#136]: Create a migration guide from oasp4j 3.0.0 to devon4j 3.1.0
 
 Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.0.0/devon4j-doc-3.0.0.pdf[devon4j guide 3.0.0].
 The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/1?closed=1[milestone devon4j 3.0.0].
