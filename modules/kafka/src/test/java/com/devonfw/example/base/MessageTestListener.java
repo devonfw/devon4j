@@ -35,8 +35,6 @@ public class MessageTestListener {
   public void consumer(ConsumerRecord<String, String> consumerRecord, Acknowledgment acknowledgment) throws Exception {
 
     processMessageAndAcknowledgeListener(consumerRecord, acknowledgment);
-    // throws exception to test the retry.
-    throw new Exception();
   }
 
   private void processMessageAndAcknowledgeListener(ConsumerRecord<String, String> consumerRecord,

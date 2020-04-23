@@ -174,7 +174,7 @@ public class MessageRetryContext {
     Headers headers = consumerRecord.headers();
 
     Header retryStateHeader = headers.lastHeader(RETRY_STATE);
-    if (retryStateHeader != null) {
+    if (retryStateHeader != null && retryStateHeader.value() != null) {
       String value = new String(headers.lastHeader(RETRY_STATE).value(), Charsets.UTF_8);
       try {
         result.retryState = RetryState.valueOf(value);
