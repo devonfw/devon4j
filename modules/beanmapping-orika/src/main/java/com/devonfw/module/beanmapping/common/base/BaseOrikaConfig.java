@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.devonfw.module.basic.common.api.entity.GenericEntity;
 import com.devonfw.module.basic.common.api.to.AbstractEto;
+import com.devonfw.module.basic.common.api.to.AbstractGenericEto;
 import com.devonfw.module.beanmapping.common.api.BeanMapper;
 import com.devonfw.module.beanmapping.common.impl.orika.BeanMapperImplOrika;
 import com.devonfw.module.beanmapping.common.impl.orika.CustomMapperEto;
@@ -17,6 +18,7 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
  *
  * @see #getOrika()
  * @see #configureCustomMapping(MapperFactory)
+ * @since 2020.04.001
  */
 public class BaseOrikaConfig {
 
@@ -51,8 +53,8 @@ public class BaseOrikaConfig {
   protected MapperFactory configureCustomMapping(MapperFactory factory) {
 
     CustomMapperEto customMapper = new CustomMapperEto();
-    factory.classMap(GenericEntity.class, AbstractEto.class).customize(customMapper).byDefault().favorExtension(true)
-        .register();
+    factory.classMap(GenericEntity.class, AbstractGenericEto.class).customize(customMapper).byDefault()
+        .favorExtension(true).register();
     return factory;
   }
 
