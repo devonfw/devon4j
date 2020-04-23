@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.springframework.security.core.Authentication;
 
@@ -20,6 +21,7 @@ import io.jsonwebtoken.impl.DefaultClaims;
  *
  * @since 2020.04.001
  */
+@Named
 public class JwtCreatorImpl implements JwtCreator {
 
   @Inject
