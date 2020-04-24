@@ -8,9 +8,12 @@ import org.springframework.kafka.support.ProducerListener;
 /**
  * This is an implementation class of {@link ProducerListener}.
  *
+ * @param <K> The key type
+ * @param <V> The value type
+ *
  *
  */
-public class ProducerLoggingListener implements ProducerListener<Object, Object> {
+public class ProducerLoggingListener<K, V> implements ProducerListener<K, V> {
 
   private static final Logger LOG = LoggerFactory.getLogger(ProducerLoggingListener.class);
 

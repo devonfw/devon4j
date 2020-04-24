@@ -1,5 +1,8 @@
 package com.devonfw.module.basic.common.api.to;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.devonfw.module.basic.common.api.entity.GenericEntity;
 
 /**
@@ -16,15 +19,13 @@ import com.devonfw.module.basic.common.api.entity.GenericEntity;
  *
  * @since 3.0.0
  */
-public abstract class AbstractEto extends AbstractTo implements GenericEntity<Long> {
+public abstract class AbstractEto extends AbstractGenericEto<Long> {
 
   private static final long serialVersionUID = 1L;
 
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractEto.class);
+
   private Long id;
-
-  private int modificationCounter;
-
-  private transient GenericEntity<Long> persistentEntity;
 
   /**
    * The constructor.
@@ -44,25 +45,6 @@ public abstract class AbstractEto extends AbstractTo implements GenericEntity<Lo
   public void setId(Long id) {
 
     this.id = id;
-  }
-
-  @Override
-  public int getModificationCounter() {
-
-    if (this.persistentEntity != null) {
-      // JPA implementations will update modification counter only after the transaction has been committed.
-      // Conversion will typically happen before and would result in the wrong (old) modification counter.
-      // Therefore we update the modification counter here (that has to be called before serialization takes
-      // place).
-      this.modificationCounter = this.persistentEntity.getModificationCounter();
-    }
-    return this.modificationCounter;
-  }
-
-  @Override
-  public void setModificationCounter(int version) {
-
-    this.modificationCounter = version;
   }
 
   /**
@@ -85,8 +67,13 @@ public abstract class AbstractEto extends AbstractTo implements GenericEntity<Lo
   /**
    * Inner class to grant access to internal persistent {@link GenericEntity entity} reference of an
    * {@link AbstractEto}. Shall only be used internally and never be external users.
+   *
+   * @deprecated Use {@link AbstractGenericEto.PersistentEntityAccess} instead.
    */
+  @Deprecated
   public static class PersistentEntityAccess {
+
+    private AbstractGenericEto.PersistentEntityAccess delegate = new AbstractGenericEto.PersistentEntityAccess();
 
     /**
      * Sets the internal persistent {@link GenericEntity entity} reference of the given {@link AbstractEto}.
@@ -97,8 +84,9 @@ public abstract class AbstractEto extends AbstractTo implements GenericEntity<Lo
      */
     protected <ID> void setPersistentEntity(AbstractEto eto, GenericEntity<Long> persistentEntity) {
 
-      assert ((eto.persistentEntity == null) || (persistentEntity == null));
-      eto.persistentEntity = persistentEntity;
+      LOG.debug(
+          "Please migrate from AbstractEto.PersistentEntityAccess to AbstractGenericEto.PersistentEntityAccess (check your dozer config).");
+      this.delegate.setPersistentEntity(eto, persistentEntity);
     }
   }
 }

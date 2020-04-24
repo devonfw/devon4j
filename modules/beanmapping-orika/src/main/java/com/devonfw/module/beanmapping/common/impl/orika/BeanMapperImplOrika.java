@@ -10,7 +10,6 @@ import ma.glasnost.orika.MapperFacade;
 /**
  * This is the implementation of {@link com.devonfw.module.beanmapping.common.api.BeanMapper} using orika
  * {@link MapperFacade}.
- *
  */
 @Named
 public class BeanMapperImplOrika extends AbstractBeanMapper {
@@ -26,7 +25,7 @@ public class BeanMapperImplOrika extends AbstractBeanMapper {
   }
 
   /**
-   * @param orika the orika to set
+   * @param orika the orika {@link MapperFacade} to set
    */
   @Inject
   public void setOrika(MapperFacade orika) {

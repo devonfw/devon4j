@@ -59,12 +59,15 @@ public class MessageDefaultRetryConfig {
   /**
    * Creates bean for the {@link DefaultRetryPolicy}
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @return the {@link DefaultRetryPolicy}
    */
   @Bean
-  public DefaultRetryPolicy messageRetryPolicy() {
+  public <K, V> DefaultRetryPolicy<K, V> messageRetryPolicy() {
 
-    return new DefaultRetryPolicy(messageDefaultRetryPolicyProperties());
+    return new DefaultRetryPolicy<>(messageDefaultRetryPolicyProperties());
   }
 
   /**
@@ -80,6 +83,9 @@ public class MessageDefaultRetryConfig {
 
   /**
    * Creates bean for the {@link MessageRetryTemplate}
+   * 
+   * @param <K> the key type
+   * @param <V> the value type
    *
    * @param messageDefaultRetryPolicy the {@link DefaultRetryPolicy}
    * @param messageDefaultBackOffPolicy the {@link DefaultBackOffPolicy}
@@ -87,10 +93,11 @@ public class MessageDefaultRetryConfig {
    * @return the {@link MessageRetryTemplate}
    */
   @Bean
-  public MessageRetryTemplate<?, ?> messageDefaultRetryTemplate(DefaultRetryPolicy messageDefaultRetryPolicy,
-      DefaultBackOffPolicy messageDefaultBackOffPolicy, MessageSender<Object, Object> messageSender) {
+  public <K, V> MessageRetryTemplate<K, V> messageDefaultRetryTemplate(
+      DefaultRetryPolicy<K, V> messageDefaultRetryPolicy, DefaultBackOffPolicy messageDefaultBackOffPolicy,
+      MessageSender<K, V> messageSender) {
 
-    MessageRetryTemplate<Object, Object> bean = new MessageRetryTemplate<>(messageDefaultRetryPolicy,
+    MessageRetryTemplate<K, V> bean = new MessageRetryTemplate<>(messageDefaultRetryPolicy,
         messageDefaultBackOffPolicy);
     bean.setMessageSender(messageSender);
     bean.setKafkaRecordSupport(messageKafkaRecordSupport());
@@ -100,10 +107,13 @@ public class MessageDefaultRetryConfig {
   /**
    * Creates bean for the {@link DefaultKafkaRecordSupport}.
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @return the {@link DefaultKafkaRecordSupport}.
    */
   @Bean
-  public DefaultKafkaRecordSupport<Object, Object> messageKafkaRecordSupport() {
+  public <K, V> DefaultKafkaRecordSupport<K, V> messageKafkaRecordSupport() {
 
     return new DefaultKafkaRecordSupport<>();
   }

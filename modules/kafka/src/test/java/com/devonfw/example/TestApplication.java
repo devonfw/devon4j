@@ -4,13 +4,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-import com.devonfw.example.base.config.TestMessageSenderConfig;
+import com.devonfw.example.base.config.TestMessageKafkaConfig;
 
 /**
  * A spring boot application class used for test purpose.
  */
 @SpringBootApplication
-@Import({ TestMessageSenderConfig.class })
+@Import({ TestMessageKafkaConfig.class })
 public class TestApplication {
 
   /**

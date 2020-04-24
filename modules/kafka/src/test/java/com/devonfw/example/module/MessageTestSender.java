@@ -42,7 +42,7 @@ public class MessageTestSender extends ComponentTest {
   private static final String GROUP = "test-group";
 
   @Autowired
-  private MessageSender<Object, Object> messageSender;
+  private MessageSender<String, String> messageSender;
 
   /**
    * The generated topic names.
@@ -54,7 +54,7 @@ public class MessageTestSender extends ComponentTest {
 
   private Consumer<String, String> consumer;
 
-  private ProducerRecord<Object, Object> producerRecord;
+  private ProducerRecord<String, String> producerRecord;
 
   @Override
   @BeforeAll
