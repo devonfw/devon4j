@@ -32,7 +32,7 @@ public class JwtConfigPropertiesTest extends ComponentTest {
     assertThat(config.getValidation().isNotBeforeRequired()).isFalse();
     assertThat(config.getCreation().isAddIssuedAt()).isTrue();
     assertThat(config.getCreation().getValidity()).isEqualTo(Duration.ofHours(4));
-    assertThat(config.getCreation().getNotBeforeDeplay()).isEqualTo(Duration.ofMinutes(1));
+    assertThat(config.getCreation().getNotBeforeDelay()).isEqualTo(Duration.ofMinutes(1));
   }
 
   /** Test of {@link JwtConfigProperties} defaults. */

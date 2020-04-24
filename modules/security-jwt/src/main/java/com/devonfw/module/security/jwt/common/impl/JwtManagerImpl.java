@@ -118,7 +118,7 @@ public class JwtManagerImpl implements JwtManager {
     if (creationConfig.isAddIssuedAt()) {
       claims.setIssuedAt(Date.from(now));
     }
-    Instant notBefore = now.minus(creationConfig.getNotBeforeDeplay());
+    Instant notBefore = now.minus(creationConfig.getNotBeforeDelay());
     claims.setNotBefore(Date.from(notBefore));
     Instant expiration = now.plus(creationConfig.getValidity());
     claims.setExpiration(Date.from(expiration));
