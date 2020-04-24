@@ -311,6 +311,14 @@
         <artifactId>jjwt</artifactId>
         <version>0.9.1</version>
       </dependency>
+
+      <!-- Awaitility -->
+      <dependency>
+        <groupId>org.awaitility</groupId>
+        <artifactId>awaitility</artifactId>
+        <version>4.0.2</version>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
