@@ -7,7 +7,7 @@ JWT is an open standard (https://tools.ietf.org/html/rfc7519[RFC 7519]) for crea
 
 image::images/jwt_flow.png[,width="450", link="images/jwt_flow.png"]
 
-For more information about JWT https://jwt.io/[here]
+For more information about JWT https://jwt.io/[click here]
 
 == Keystore
 
