@@ -49,7 +49,7 @@ security.authentication.jwt.validation.not-before-required=false
 # the following properties are only used if you are issuing JWTs (e.g. via JwtLoginFilter)
 security.authentication.jwt.creation.add-issued-at=true
 security.authentication.jwt.creation.validity=4h
-security.authentication.jwt.creation.not-before-deplay=1m
+security.authentication.jwt.creation.not-before-delay=1m
 ----
 
 == Authentication with JWT via OAuth
