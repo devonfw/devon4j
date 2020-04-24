@@ -119,6 +119,10 @@ include::guide-data-permission.asciidoc[leveloffset=3]
 
 <<<<
 
+include::guide-jwt.asciidoc[leveloffset=2]
+
+<<<<
+
 include::guide-validation.asciidoc[leveloffset=2]
 
 <<<<
