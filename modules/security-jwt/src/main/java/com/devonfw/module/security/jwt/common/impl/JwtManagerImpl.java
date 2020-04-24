@@ -52,7 +52,7 @@ public class JwtManagerImpl implements JwtManager {
   public Jws<Claims> decode(String jwt) {
 
     PublicKey key = this.keyStoreAccess.getPublicKey(this.jwtConfig.getAlias());
-    Jws<Claims> token = Jwts.parser().setSigningKey(key).parseClaimsJws(jwt.replace(JwtConstants.TOKEN_PREFIX, ""));
+    Jws<Claims> token = Jwts.parser().setSigningKey(key).parseClaimsJws(jwt);
     return token;
   }
 
