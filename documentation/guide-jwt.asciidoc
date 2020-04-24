@@ -8,7 +8,7 @@ JWT is an open standard (https://tools.ietf.org/html/rfc7519[RFC 7519]) for crea
 Basic flow for JWT
 [[img-t-architecture]]
 .Basic Flow for JWT
-image::images/jwt_flow.png["Basic flow for JWT",scaledwidth="60%",align="center",link="https://devonfw.com/website/pages/docs/images/jwt_flow.png"]
+image::images/jwt_flow.png["Basic flow for JWT",scaledwidth="40%",align="center",link="https://devonfw.com/website/pages/docs/images/jwt_flow.png"]
 
 
 
