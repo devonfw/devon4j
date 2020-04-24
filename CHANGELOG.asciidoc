@@ -140,7 +140,8 @@ The following changes have been incorporated in devon4j:
 * https://github.com/oasp/oasp4j/issues/648[648]: Removed depreciated restaurant sample.[oasp4j]
 * https://github.com/oasp/oasp4j/issues/669[#669]: Updated Pagination support for Spring Data[oasp4j]
 * https://github.com/oasp/oasp4j/pull/671[#671]: Add support for hana as dbType.
-* https://github.com/devonfw/devon4j/pull/136[#136]: Create a migration guide from oasp4j 3.0.0 to devon4j 3.1.0
+
+If you want to upgrade from oasp4j to devon4j, please consider the https://github.com/devonfw/devon4j/blob/develop/documentation/guide-migration-oasp3-to-devon3.1.asciidoc[migration guide].
 
 Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.0.0/devon4j-doc-3.0.0.pdf[devon4j guide 3.0.0].
 The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/1?closed=1[milestone devon4j 3.0.0].
