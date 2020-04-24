@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.devonfw.module.security.jwt.common.api.JwtAuthenticator;
 import com.devonfw.module.security.jwt.common.api.JwtCreator;
 import com.devonfw.module.security.jwt.common.api.JwtManager;
+import com.devonfw.module.security.jwt.common.base.JwtAuthenticationFilter;
 
 /**
  * {@link Configuration} for JSON Web Token (JWT) support.
@@ -40,6 +41,15 @@ public class JwtAutoConfiguration {
   public JwtAuthenticator jwtAuthenticator() {
 
     return new JwtAuthenticatorImpl();
+  }
+
+  /**
+   * @return the {@link JwtAuthenticationFilter}.
+   */
+  @Bean
+  public JwtAuthenticationFilter jwtAuthenticationFilter() {
+
+    return new JwtAuthenticationFilter();
   }
 
   /**
