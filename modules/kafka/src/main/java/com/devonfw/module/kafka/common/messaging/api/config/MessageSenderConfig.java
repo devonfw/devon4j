@@ -74,6 +74,9 @@ public class MessageSenderConfig {
   /**
    * Creates bean for {@link ProducerFactory}.
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    *
    * @param messageKafkaCommonProperties the {@link MessageCommonConfig#messageKafkaCommonProperties()}
    * @param messageKafkaProducerProperties the {@link #messageKafkaProducerProperties()}
@@ -81,7 +84,7 @@ public class MessageSenderConfig {
    * @return the ProducerFactory
    */
   @Bean
-  public ProducerFactory<Object, Object> messageKafkaProducerFactory(KafkaCommonProperties messageKafkaCommonProperties,
+  public <K, V> ProducerFactory<K, V> messageKafkaProducerFactory(KafkaCommonProperties messageKafkaCommonProperties,
       KafkaProducerProperties messageKafkaProducerProperties) {
 
     return createProducerFactory(messageKafkaCommonProperties, messageKafkaProducerProperties);
@@ -89,6 +92,9 @@ public class MessageSenderConfig {
 
   /**
    * Creates bean for {@link KafkaTemplate}.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
    *
    *
    * @param messageProducerLoggingListener the {@link #messageProducerLoggingListener(MessageLoggingSupport)}
@@ -98,14 +104,17 @@ public class MessageSenderConfig {
    * @return the KafkaTemplate
    */
   @Bean
-  public KafkaTemplate<Object, Object> messageKafkaTemplate(ProducerLoggingListener messageProducerLoggingListener,
-      ProducerFactory<Object, Object> messageKafkaProducerFactory) {
+  public <K, V> KafkaTemplate<K, V> messageKafkaTemplate(ProducerLoggingListener<K, V> messageProducerLoggingListener,
+      ProducerFactory<K, V> messageKafkaProducerFactory) {
 
     return createKafkaTemplate(messageProducerLoggingListener, messageKafkaProducerFactory);
   }
 
   /**
    * Creates bean for {@link MessageSenderImpl}.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
    *
    *
    * @param messageKafkaTemplate the {@link #messageKafkaTemplate(ProducerLoggingListener, ProducerFactory)}
@@ -116,11 +125,11 @@ public class MessageSenderConfig {
    * @return the MessageSenderImpl.
    */
   @Bean
-  public MessageSenderImpl<?, ?> messageSender(KafkaTemplate<Object, Object> messageKafkaTemplate,
+  public <K, V> MessageSenderImpl<?, ?> messageSender(KafkaTemplate<K, V> messageKafkaTemplate,
       MessageLoggingSupport messageLoggingSupport, MessageSenderProperties messageSenderProperties,
       DiagnosticContextFacade diagnosticContextFacade, MessageSpanInjector messageSpanInjector) {
 
-    MessageSenderImpl<Object, Object> bean = new MessageSenderImpl<>();
+    MessageSenderImpl<K, V> bean = new MessageSenderImpl<>();
     bean.setKafkaTemplate(messageKafkaTemplate);
     bean.setLoggingSupport(messageLoggingSupport);
     bean.setSenderProperties(messageSenderProperties);
@@ -137,23 +146,26 @@ public class MessageSenderConfig {
    * @return the ProducerLoggingListener
    */
   @Bean
-  public ProducerLoggingListener messageProducerLoggingListener(MessageLoggingSupport messageLoggingSupport) {
+  public ProducerLoggingListener<?, ?> messageProducerLoggingListener(MessageLoggingSupport messageLoggingSupport) {
 
-    return new ProducerLoggingListener(messageLoggingSupport);
+    return new ProducerLoggingListener<>(messageLoggingSupport);
   }
 
   /**
    * This method is used to create {@link KafkaTemplate}.
+   *
+   * @param <K>
+   * @param <V>
    *
    *
    * @param producerLogListener the {@link ProducerLoggingListener}
    * @param producerFactory the {@link ProducerFactory}
    * @return KafkaTemplate
    */
-  private KafkaTemplate<Object, Object> createKafkaTemplate(ProducerLoggingListener producerLogListener,
-      ProducerFactory<Object, Object> producerFactory) {
+  private <K, V> KafkaTemplate<K, V> createKafkaTemplate(ProducerLoggingListener<K, V> producerLogListener,
+      ProducerFactory<K, V> producerFactory) {
 
-    KafkaTemplate<Object, Object> template = new KafkaTemplate<>(producerFactory);
+    KafkaTemplate<K, V> template = new KafkaTemplate<>(producerFactory);
     template.setProducerListener(producerLogListener);
     return template;
   }
@@ -166,7 +178,7 @@ public class MessageSenderConfig {
    * @param kafkaProducerProperties the {@link KafkaProducerProperties}
    * @return ProducerFactory
    */
-  private ProducerFactory<Object, Object> createProducerFactory(KafkaCommonProperties kafkaCommonProperties,
+  private <K, V> ProducerFactory<K, V> createProducerFactory(KafkaCommonProperties kafkaCommonProperties,
       KafkaProducerProperties kafkaProducerProperties) {
 
     KafkaPropertyMapper mapper = new KafkaPropertyMapper();

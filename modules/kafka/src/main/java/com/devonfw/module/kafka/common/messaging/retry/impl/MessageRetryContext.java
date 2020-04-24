@@ -174,7 +174,7 @@ public class MessageRetryContext {
     Headers headers = consumerRecord.headers();
 
     Header retryStateHeader = headers.lastHeader(RETRY_STATE);
-    if (retryStateHeader != null) {
+    if (retryStateHeader != null && retryStateHeader.value() != null) {
       String value = new String(headers.lastHeader(RETRY_STATE).value(), Charsets.UTF_8);
       try {
         result.retryState = RetryState.valueOf(value);
@@ -186,19 +186,19 @@ public class MessageRetryContext {
     }
 
     Header retryUntilHeader = headers.lastHeader(RETRY_UNTIL);
-    if (retryUntilHeader != null) {
+    if (retryUntilHeader != null && retryUntilHeader.value() != null) {
       String value = new String(retryUntilHeader.value(), Charsets.UTF_8);
       result.setRetryUntil(Instant.parse(value));
     }
 
     Header retryNextHeader = headers.lastHeader(RETRY_NEXT);
-    if (retryNextHeader != null) {
+    if (retryNextHeader != null && retryNextHeader.value() != null) {
       String value = new String(retryNextHeader.value(), Charsets.UTF_8);
       result.setRetryNext(Instant.parse(value));
     }
 
     Header retryReadCount = headers.lastHeader(RETRY_READ_COUNT);
-    if (retryReadCount != null) {
+    if (retryReadCount != null && retryReadCount.value() != null) {
       String value = new String(retryReadCount.value(), Charsets.UTF_8);
       try {
         result.setRetryReadCount(Long.parseLong(value));
@@ -208,7 +208,7 @@ public class MessageRetryContext {
     }
 
     Header retryCount = headers.lastHeader(RETRY_COUNT);
-    if (retryCount != null) {
+    if (retryCount != null && retryCount.value() != null) {
       String value = new String(retryCount.value(), Charsets.UTF_8);
       try {
         result.setCurrentRetryCount(Long.parseLong(value));

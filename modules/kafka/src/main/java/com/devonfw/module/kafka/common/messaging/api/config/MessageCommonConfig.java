@@ -78,11 +78,14 @@ public class MessageCommonConfig {
   /**
    * This method is used to create {@link ConsumerFactory}
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @param kafkaCommonProperties the {@link KafkaCommonProperties}
    * @param kafkaConsumerProperties the {@link KafkaConsumerProperties}
    * @return the {@link ConsumerFactory}
    */
-  public static ConsumerFactory<Object, Object> createConsumerFactory(KafkaCommonProperties kafkaCommonProperties,
+  public static <K, V> ConsumerFactory<K, V> createConsumerFactory(KafkaCommonProperties kafkaCommonProperties,
       KafkaConsumerProperties kafkaConsumerProperties) {
 
     KafkaPropertyMapper mapper = new KafkaPropertyMapper();

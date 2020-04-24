@@ -212,12 +212,12 @@ public class DeleteEmployeeMessageProcessor<K, V> implements MessageProcessor<K,
 }
 -----
 It works as follows:
-1. The application gets a message from the topic.
-2. During processing of the message an error occurs, the message will be written to the redelivery topic.
-3. The message is acknowledged in the topic.
-4. The message will be processed from the re-delivery topic after a delay.
-5. Processing of the message fails again. It retires until the retry count gets over.
-6. When the retry fails in all the retry then the message is logged and payload in the ProducerRecord is deleted for log
+* The application gets a message from the topic.
+* During processing of the message an error occurs, the message will be written to the redelivery topic.
+* The message is acknowledged in the topic.
+* The message will be processed from the re-delivery topic after a delay.
+* Processing of the message fails again. It retires until the retry count gets over.
+* When the retry fails in all the retry then the message is logged and payload in the ProducerRecord is deleted for log
    compaction which is explained below.
 
 ===== Retry configuration and naming convention of redelivery topics.

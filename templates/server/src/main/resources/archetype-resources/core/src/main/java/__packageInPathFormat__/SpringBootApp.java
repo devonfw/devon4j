@@ -13,7 +13,6 @@ import com.devonfw.module.jpa.dataaccess.impl.data.GenericRepositoryFactoryBean;
  * Main entry point of this {@link SpringBootApplication}. Simply run this class to start this app.
  */
 @SpringBootApplication
-@EntityScan(basePackages = { "${package}" }, basePackageClasses = { AdvancedRevisionEntity.class })
 @EnableJpaRepositories(repositoryFactoryBeanClass = GenericRepositoryFactoryBean.class)
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
 public class SpringBootApp {
