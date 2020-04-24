@@ -1,0 +1,99 @@
+:toc: macro
+toc::[]
+
+= JSON Web Token(JWT)
+
+JWT is an open standard (<a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>) for creating Json based access token that assert some number of claims.
+
+Basic flow for JWT
+[[img-t-architecture]]
+.Basic Flow for JWT
+image::images/jwt_flow.png["Basic flow for JWT",scaledwidth="80%",align="center",link="https://devonfw.com/website/pages/docs/images/jwt_flow.png"]
+
+find more information about JWT here <a href="https://jwt.io/">
+
+== Keystore
+
+A KeyStore is a repository of certificates (public key) and corresponding private keys. They can be used for SSL transportation
+
+
+This guide explains how Jwt module can be used in devonfw applications.
+
+== How to use?
+
+To use devon4j-security-jwt you have to add following required dependencies.
+
+[source,xml]
+----
+	<dependency>
+       <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-security-jwt</artifactId>
+    </dependency> 
+     <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-security-keystore</artifactId>
+    </dependency>
+----
+
+Following properties needs to be configured in application.properties file:
+
+[source,properties]
+----
+#location of the keystore file
+security.keystore.location=classpath:config/keystore.pkcs
+#type of keystore (e.g. "PKCS12", "JKS", or "JCEKS")
+security.keystore.type=PKCS12
+security.keystore.password=password
+#HMAC/RSA/ECDSA etc
+security.authentication.jwt.algorithm=RS256
+#alias used while creating keystore
+security.authentication.jwt.alias=devonfw
+security.authentication.jwt.validation.expiration-required=false
+security.authentication.jwt.validation.max-validity=42h
+security.authentication.jwt.validation.not-before-required=false
+security.authentication.jwt.creation.add-issued-at=true
+security.authentication.jwt.creation.validity=4h
+security.authentication.jwt.creation.not-before-deplay=1m
+----
+
+Make sure that the application scans the package from devon4j-security-jwt and devon4j-security-keystore module in order to work properly.
+
+[source,java]
+----
+ @ComponentScan(basePackages = { "com.devonfw.module.security" })
+----
+
+Following changes need to be done in BaseWebSecurityConfig.java
+
+
+[source,java]
+----
+  @Bean
+  public JwtLoginFilter getJwtLoginFilter() throws RuntimeException {
+
+    JwtLoginFilter jwtLoginFilter = new JwtLoginFilter("/login");
+    jwtLoginFilter.setAuthenticationManager(authenticationManager());
+    jwtLoginFilter.setUserDetailsService(this.userDetailsService); //
+    jwtLoginFilter.setJwtCreator(new JwtCreatorImpl());
+    return jwtLoginFilter;
+  }
+  
+  @Bean
+  public JwtAuthenticationFilter getJwtAuthenticationFilter() throws Exception {
+
+    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter();
+    return jwtAuthenticationFilter;
+  }
+----
+
+Add following filter in configure method of BaseWebSecurityConfig.java
+
+[source,java]
+----
+.addFilterBefore(getJwtLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+.addFilterBefore(getJwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+----
