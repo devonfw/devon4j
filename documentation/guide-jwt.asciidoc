@@ -22,7 +22,7 @@ To use JWT support from devon4j you have to add following required dependency.
 ----
 <dependency>
 	<groupId>com.devonfw.java.starters</groupId>
-    <artifactId>devon4j-starter-security-jwt</artifactId>
+	<artifactId>devon4j-starter-security-jwt</artifactId>
 </dependency> 
 ----
 
