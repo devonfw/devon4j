@@ -74,6 +74,9 @@ If we are talking about authentication we have to distinguish two forms of princ
 
 While e.g. a Kerberos/SPNEGO Single-Sign-On makes sense for human users it is pointless for authenticating autonomous systems. So always keep this in mind when you design your authentication mechanisms and separate access for human users from access for systems.
 
+=== Using JWT
+For authentication via JSON Web Token (JWT) see link:guide-jwt.asciidoc[JWT guide].
+
 === Mixed Authentication
 
 In rare cases you might need to mix multiple authentication mechanisms (form based, basic-auth, SAMLv2, OAuth, etc.) within the same app (for different URLs). For KISS this should be avoided where possible. However, when needed, you can find a solution  
