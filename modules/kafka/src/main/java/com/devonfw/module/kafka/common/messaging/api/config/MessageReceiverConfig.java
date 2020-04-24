@@ -61,6 +61,9 @@ public class MessageReceiverConfig {
   /**
    * Creates the bean of {@link KafkaListenerContainerFactory}
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @param messageKafkaCommonProperties the {@link MessageCommonConfig#messageKafkaCommonProperties()}
    * @param messageKafkaConsumerProperties the {@link #messageKafkaConsumerProperties()}
    * @param messageKafkaListenerContainerProperties the {@link #messageKafkaListenerContainerProperties()}
@@ -68,7 +71,7 @@ public class MessageReceiverConfig {
    * @return the bean of {@link KafkaListenerContainerFactory}
    */
   @Bean
-  public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> kafkaListenerContainerFactory(
+  public <K, V> KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<K, V>> kafkaListenerContainerFactory(
       KafkaCommonProperties messageKafkaCommonProperties, KafkaConsumerProperties messageKafkaConsumerProperties,
       KafkaListenerContainerProperties messageKafkaListenerContainerProperties,
       LoggingErrorHandler messageLoggingErrorHandler) {
@@ -118,18 +121,21 @@ public class MessageReceiverConfig {
   /**
    * This method is used to create {@link KafkaListenerContainerFactory}.
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @param kafkaCommonProperties the {@link KafkaCommonProperties}
    * @param kafkaConsumerProperties the {@link KafkaConsumerProperties}
    * @param kafkaListenerContainerProperties the {@link KafkaListenerContainerProperties}
    * @param messageLoggingErrorHandler the {@link LoggingErrorHandler}
    * @return the KafkaListenerContainerFactory.
    */
-  public static KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> createKafkaListenerContainerFactory(
+  public static <K, V> KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<K, V>> createKafkaListenerContainerFactory(
       KafkaCommonProperties kafkaCommonProperties, KafkaConsumerProperties kafkaConsumerProperties,
       KafkaListenerContainerProperties kafkaListenerContainerProperties,
       LoggingErrorHandler messageLoggingErrorHandler) {
 
-    ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    ConcurrentKafkaListenerContainerFactory<K, V> factory = new ConcurrentKafkaListenerContainerFactory<>();
 
     factory
         .setConsumerFactory(MessageCommonConfig.createConsumerFactory(kafkaCommonProperties, kafkaConsumerProperties));
@@ -162,8 +168,8 @@ public class MessageReceiverConfig {
     return factory;
   }
 
-  private static void setAckModeToListenerFactory(String ackModeProperty,
-      ConcurrentKafkaListenerContainerFactory<Object, Object> factory) {
+  private static <K, V> void setAckModeToListenerFactory(String ackModeProperty,
+      ConcurrentKafkaListenerContainerFactory<K, V> factory) {
 
     AckMode ackMode = null;
     try {
