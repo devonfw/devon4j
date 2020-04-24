@@ -3,21 +3,21 @@ toc::[]
 
 = JSON Web Token(JWT)
 
-JWT is an open standard (<a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>) for creating Json based access token that assert some number of claims.
+JWT is an open standard (https://tools.ietf.org/html/rfc7519[RFC 7519]) for creating Json based access token that assert some number of claims.
 
 Basic flow for JWT
 [[img-t-architecture]]
 .Basic Flow for JWT
-image::images/jwt_flow.png["Basic flow for JWT",scaledwidth="80%",align="center",link="https://devonfw.com/website/pages/docs/images/jwt_flow.png"]
+image::images/jwt_flow.png["Basic flow for JWT",scaledwidth="60%",align="center",link="https://devonfw.com/website/pages/docs/images/jwt_flow.png"]
 
-find more information about JWT here <a href="https://jwt.io/">
+
+
+For more information about JWT https://jwt.io/[here]
 
 == Keystore
 
 A KeyStore is a repository of certificates (public key) and corresponding private keys. They can be used for SSL transportation
 
-
-This guide explains how Jwt module can be used in devonfw applications.
 
 == How to use?
 
@@ -25,18 +25,18 @@ To use devon4j-security-jwt you have to add following required dependencies.
 
 [source,xml]
 ----
-	<dependency>
-       <groupId>com.devonfw.java.modules</groupId>
-        <artifactId>devon4j-security-jwt</artifactId>
-    </dependency> 
-     <dependency>
-      <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-security</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-security-keystore</artifactId>
-    </dependency>
+<dependency>
+	<groupId>com.devonfw.java.modules</groupId>
+	<artifactId>devon4j-security-jwt</artifactId>
+</dependency> 
+<dependency>
+	<groupId>com.devonfw.java.modules</groupId>
+	<artifactId>devon4j-security</artifactId>
+</dependency>
+<dependency>
+	<groupId>com.devonfw.java.modules</groupId>
+	<artifactId>devon4j-security-keystore</artifactId>
+</dependency>
 ----
 
 Following properties needs to be configured in application.properties file:
