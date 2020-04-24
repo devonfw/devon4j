@@ -1,6 +1,7 @@
 package com.devonfw.module.security.jwt.common.impl;
 
 import java.security.PublicKey;
+import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
@@ -33,12 +34,15 @@ public class JwtManagerImpl implements JwtManager {
   @Inject
   private JwtConfigProperties jwtConfig;
 
+  private Clock clock;
+
   /**
    * The constructor.
    */
   public JwtManagerImpl() {
 
     super();
+    this.clock = Clock.systemUTC();
   }
 
   @Override
@@ -59,11 +63,11 @@ public class JwtManagerImpl implements JwtManager {
     }
     ValidationConfigProperties validationConfig = this.jwtConfig.getValidation();
     Claims claims = jwt.getBody();
-    Date now = new Date();
+    Instant now = this.clock.instant();
     // verify notBefore
-    Date notBefore = claims.getNotBefore();
+    Instant notBefore = getInstant(claims.getNotBefore());
     if (notBefore != null) {
-      if (now.before(notBefore)) {
+      if (now.isBefore(notBefore)) {
         throw new BadCredentialsException("Invalid JWT with notBefore (" + notBefore
             + ") in the future (check if your clock is in sync and ntpd is running)!");
       }
@@ -71,19 +75,19 @@ public class JwtManagerImpl implements JwtManager {
       throw new BadCredentialsException("Invalid JWT without notBefore (nbf) claim!");
     }
     // verify expiration
-    Date expiration = claims.getExpiration();
+    Instant expiration = getInstant(claims.getExpiration());
     if (expiration != null) {
-      if (now.after(expiration)) {
+      if (now.isAfter(expiration)) {
         throw new BadCredentialsException("Invalid JWT with expiration (" + expiration
             + ") in the past (check if your clock is in sync and ntpd is running)!");
       }
       // verify max validity
-      Date start = claims.getIssuedAt();
+      Instant start = getInstant(claims.getIssuedAt());
       if (start == null) {
         start = notBefore;
       }
       if (start != null) {
-        Duration validity = Duration.between(start.toInstant(), expiration.toInstant());
+        Duration validity = Duration.between(start, expiration);
         Duration maxValidity = validationConfig.getMaxValidity();
         Duration validityDelta = maxValidity.minus(validity);
         if (validityDelta.isNegative()) {
@@ -95,7 +99,14 @@ public class JwtManagerImpl implements JwtManager {
     } else if (validationConfig.isNotBeforeRequired()) {
       throw new BadCredentialsException("Invalid JWT without expiration (exp) claim!");
     }
+  }
 
+  private Instant getInstant(Date date) {
+
+    if (date == null) {
+      return null;
+    }
+    return date.toInstant();
   }
 
   @Override
@@ -103,17 +114,32 @@ public class JwtManagerImpl implements JwtManager {
 
     CreationConfigProperties creationConfig = this.jwtConfig.getCreation();
     claims.setIssuer(creationConfig.getIssuer());
-    Date now = new Date();
+    Instant now = this.clock.instant();
     if (creationConfig.isAddIssuedAt()) {
-      claims.setIssuedAt(now);
+      claims.setIssuedAt(Date.from(now));
     }
-    Instant nowInstant = now.toInstant();
-    Instant notBefore = nowInstant.minus(creationConfig.getNotBeforeDeplay());
+    Instant notBefore = now.minus(creationConfig.getNotBeforeDeplay());
     claims.setNotBefore(Date.from(notBefore));
-    Instant expiration = nowInstant.plus(creationConfig.getValidity());
+    Instant expiration = now.plus(creationConfig.getValidity());
     claims.setExpiration(Date.from(expiration));
     return Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.forName(this.jwtConfig.getAlgorithm()),
         this.keyStoreAccess.getPrivateKey(this.jwtConfig.getAlias())).compact();
+  }
+
+  /**
+   * @return the {@link Clock} to use.
+   */
+  public Clock getClock() {
+
+    return this.clock;
+  }
+
+  /**
+   * @param clock the {@link Clock} to use. Allows to override for testing.
+   */
+  public void setClock(Clock clock) {
+
+    this.clock = clock;
   }
 
 }

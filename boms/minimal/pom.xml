@@ -206,6 +206,16 @@
         <artifactId>devon4j-starter-kafka-receiver</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-security-keystore</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-security-jwt</artifactId>
+        <version>${project.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
