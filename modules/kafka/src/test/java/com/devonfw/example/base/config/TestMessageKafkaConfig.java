@@ -153,23 +153,26 @@ public class TestMessageKafkaConfig {
   /**
    * Creates the bean of {@link KafkaListenerContainerFactory}
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @return the bean of {@link KafkaListenerContainerFactory}
    * @throws IOException IOEXception
    */
   @Bean
-  public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> kafkaListenerContainerFactory()
+  public <K, V> KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<K, V>> kafkaListenerContainerFactory()
       throws IOException {
 
     return createKafkaListenerContainerFactory(testMessageKafkaCommonProperties(), testKafkaConsumerProperty(),
         testkafkaListenerContainerProperties(), testMessageLoggingErrorHandler());
   }
 
-  private static KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> createKafkaListenerContainerFactory(
+  private static <K, V> KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<K, V>> createKafkaListenerContainerFactory(
       KafkaCommonProperties kafkaCommonProperties, KafkaConsumerProperties kafkaConsumerProperties,
       KafkaListenerContainerProperties kafkaListenerContainerProperties,
       LoggingErrorHandler messageLoggingErrorHandler) {
 
-    ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    ConcurrentKafkaListenerContainerFactory<K, V> factory = new ConcurrentKafkaListenerContainerFactory<>();
 
     factory
         .setConsumerFactory(MessageCommonConfig.createConsumerFactory(kafkaCommonProperties, kafkaConsumerProperties));
@@ -202,8 +205,8 @@ public class TestMessageKafkaConfig {
     return factory;
   }
 
-  private static void setAckModeToListenerFactory(String ackModeProperty,
-      ConcurrentKafkaListenerContainerFactory<Object, Object> factory) {
+  private static <K, V> void setAckModeToListenerFactory(String ackModeProperty,
+      ConcurrentKafkaListenerContainerFactory<K, V> factory) {
 
     AckMode ackMode = null;
     try {
@@ -280,10 +283,13 @@ public class TestMessageKafkaConfig {
   /**
    * The {@link ConsumerFactory}
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @return ConsumerFactory
    * @throws IOException the {@link IOException}
    */
-  protected ConsumerFactory<Object, Object> createConsumerFactory() throws IOException {
+  protected <K, V> ConsumerFactory<K, V> createConsumerFactory() throws IOException {
 
     KafkaPropertyMapper mapper = new KafkaPropertyMapper();
     return new DefaultKafkaConsumerFactory<>(
@@ -317,11 +323,14 @@ public class TestMessageKafkaConfig {
   /**
    * Creates Bean for the {@link ProducerFactory}.
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @return ProducerFactory
    * @throws IOException the {@link IOException}.
    */
   @Bean
-  public ProducerFactory<String, String> testMessageKafkaProducerFactory() throws IOException {
+  public <K, V> ProducerFactory<K, V> testMessageKafkaProducerFactory() throws IOException {
 
     return createProducerFactory();
   }
@@ -329,10 +338,13 @@ public class TestMessageKafkaConfig {
   /**
    * The {@link ProducerFactory}
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @return ProducerFactory.
    * @throws IOException the {@link IOException}.
    */
-  protected ProducerFactory<String, String> createProducerFactory() throws IOException {
+  protected <K, V> ProducerFactory<K, V> createProducerFactory() throws IOException {
 
     KafkaPropertyMapper mapper = new KafkaPropertyMapper();
     return new DefaultKafkaProducerFactory<>(
@@ -342,11 +354,14 @@ public class TestMessageKafkaConfig {
   /**
    * Creates Bean for {@link KafkaTemplate}.
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @return KafkaTemplate.
    * @throws IOException the {@link IOException}.
    */
   @Bean
-  public KafkaTemplate<String, String> testMessageKafkaTemplate() throws IOException {
+  public <K, V> KafkaTemplate<K, V> testMessageKafkaTemplate() throws IOException {
 
     return createKafkaTemplate(testMessageProducerLoggingListener(testMessageLoggingSupport()),
         testMessageKafkaProducerFactory());
@@ -355,16 +370,18 @@ public class TestMessageKafkaConfig {
   /**
    * The {@link KafkaTemplate}
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @param producerLogListener the {@link ProducerFencedException}
    * @param producerFactory the {@link ProducerFactory}
    * @return KafkaTemplate
    * @throws IOException the {@link IOException}
    */
-  protected KafkaTemplate<String, String> createKafkaTemplate(
-      ProducerLoggingListener<String, String> producerLogListener, ProducerFactory<String, String> producerFactory)
-      throws IOException {
+  protected <K, V> KafkaTemplate<K, V> createKafkaTemplate(ProducerLoggingListener<K, V> producerLogListener,
+      ProducerFactory<K, V> producerFactory) throws IOException {
 
-    KafkaTemplate<String, String> template = new KafkaTemplate<>(createProducerFactory());
+    KafkaTemplate<K, V> template = new KafkaTemplate<>(createProducerFactory());
     template.setProducerListener(producerLogListener);
     return template;
   }
@@ -372,13 +389,16 @@ public class TestMessageKafkaConfig {
   /**
    * creates bean for the {@link MessageSenderImpl}
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @return MessageSenderImpl
    * @throws IOException the {@link IOException}.
    */
   @Bean
-  public MessageSender<String, String> testMessageSender() throws IOException {
+  public <K, V> MessageSender<K, V> testMessageSender() throws IOException {
 
-    MessageSenderImpl<String, String> bean = new MessageSenderImpl<>();
+    MessageSenderImpl<K, V> bean = new MessageSenderImpl<>();
     bean.setKafkaTemplate(testMessageKafkaTemplate());
     bean.setLoggingSupport(testMessageLoggingSupport());
     bean.setSenderProperties(testMessageSenderProperties());
@@ -401,10 +421,13 @@ public class TestMessageKafkaConfig {
   /**
    * The {@link ProducerLoggingListener}
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @param testMessageLoggingSupport the {@link MessageLoggingSupport}
    * @return ProducerLoggingListener
    */
-  protected ProducerLoggingListener<String, String> testMessageProducerLoggingListener(
+  protected <K, V> ProducerLoggingListener<K, V> testMessageProducerLoggingListener(
       MessageLoggingSupport testMessageLoggingSupport) {
 
     return new ProducerLoggingListener<>(testMessageLoggingSupport());
@@ -421,7 +444,7 @@ public class TestMessageKafkaConfig {
     return new DiagnosticContextFacadeImpl();
   }
 
-  private DefaultKafkaRecordSupport<String, String> testMessageKafkaRecordSupport() {
+  private <K, V> DefaultKafkaRecordSupport<K, V> testMessageKafkaRecordSupport() {
 
     return new DefaultKafkaRecordSupport<>();
   }
@@ -437,7 +460,7 @@ public class TestMessageKafkaConfig {
     return new MessageRetryContext();
   }
 
-  private DefaultRetryPolicy<String, String> testMessageRetryPolicy() {
+  private <K, V> DefaultRetryPolicy<K, V> testMessageRetryPolicy() {
 
     return new DefaultRetryPolicy<>(testMessageDefaultRetryPolicyProperties());
   }
@@ -467,14 +490,16 @@ public class TestMessageKafkaConfig {
   /**
    * Creates bean for the {@link MessageRetryTemplate}
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @return the {@link MessageRetryTemplate}
    * @throws IOException IOE
    */
   @Bean
-  public MessageRetryTemplate<String, String> messageDefaultRetryTemplate() throws IOException {
+  public <K, V> MessageRetryTemplate<K, V> messageDefaultRetryTemplate() throws IOException {
 
-    MessageRetryTemplate<String, String> bean = new MessageRetryTemplate<>(testMessageRetryPolicy(),
-        testMessageBackOffPolicy());
+    MessageRetryTemplate<K, V> bean = new MessageRetryTemplate<>(testMessageRetryPolicy(), testMessageBackOffPolicy());
     bean.setMessageSender(testMessageSender());
     bean.setKafkaRecordSupport(testMessageKafkaRecordSupport());
     return bean;
@@ -490,4 +515,5 @@ public class TestMessageKafkaConfig {
 
     return new MessageProcessorImpl();
   }
+
 }
