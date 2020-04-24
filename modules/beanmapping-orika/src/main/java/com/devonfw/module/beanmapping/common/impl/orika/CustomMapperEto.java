@@ -2,7 +2,8 @@ package com.devonfw.module.beanmapping.common.impl.orika;
 
 import com.devonfw.module.basic.common.api.entity.GenericEntity;
 import com.devonfw.module.basic.common.api.to.AbstractEto;
-import com.devonfw.module.basic.common.api.to.AbstractEto.PersistentEntityAccess;
+import com.devonfw.module.basic.common.api.to.AbstractGenericEto;
+import com.devonfw.module.basic.common.api.to.AbstractGenericEto.PersistentEntityAccess;
 
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MappingContext;
@@ -12,9 +13,8 @@ import ma.glasnost.orika.MappingContext;
  * to its corresponding {@link AbstractEto ETO} to solve {@link GenericEntity#getModificationCounter() modification
  * counter issue}.
  */
-// @Named
 @SuppressWarnings("rawtypes")
-public class CustomMapperEto extends CustomMapper<GenericEntity, AbstractEto> {
+public class CustomMapperEto extends CustomMapper<GenericEntity, AbstractGenericEto> {
 
   private static final EntityAccess ENTITY_ACCESS = new EntityAccess();
 
@@ -29,7 +29,7 @@ public class CustomMapperEto extends CustomMapper<GenericEntity, AbstractEto> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public void mapAtoB(GenericEntity source, AbstractEto target, MappingContext context) {
+  public void mapAtoB(GenericEntity source, AbstractGenericEto target, MappingContext context) {
 
     ENTITY_ACCESS.setPersistentEntity(target, source);
   }
@@ -37,7 +37,7 @@ public class CustomMapperEto extends CustomMapper<GenericEntity, AbstractEto> {
   private static class EntityAccess extends PersistentEntityAccess {
 
     @Override
-    protected <ID> void setPersistentEntity(AbstractEto eto, GenericEntity<Long> persistentEntity) {
+    protected <ID> void setPersistentEntity(AbstractGenericEto<ID> eto, GenericEntity<ID> persistentEntity) {
 
       super.setPersistentEntity(eto, persistentEntity);
     }

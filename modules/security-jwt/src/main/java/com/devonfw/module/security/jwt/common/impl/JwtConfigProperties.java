@@ -146,14 +146,14 @@ public class JwtConfigProperties {
 
     private Duration validity = Duration.ofHours(8);
 
-    private Duration notBeforeDeplay = Duration.ofMinutes(5);
+    private Duration notBeforeDelay = Duration.ofMinutes(5);
 
     private String issuer = "devonfw";
 
     private boolean addIssuedAt;
 
     /**
-     * @return the {@link Duration} how long an issued JWT should be valid from now (plus {@link #getNotBeforeDeplay()
+     * @return the {@link Duration} how long an issued JWT should be valid from now (plus {@link #getNotBeforeDelay()
      *         not before delay}). Used to create {@link io.jsonwebtoken.Claims#getExpiration() expiration}.
      */
     public Duration getValidity() {
@@ -174,17 +174,17 @@ public class JwtConfigProperties {
      *         {@link io.jsonwebtoken.Claims#getNotBefore() not before} of JWT (to prevent errors in case clocks of
      *         issuing server and validating server are slightly out of sync).
      */
-    public Duration getNotBeforeDeplay() {
+    public Duration getNotBeforeDelay() {
 
-      return this.notBeforeDeplay;
+      return this.notBeforeDelay;
     }
 
     /**
-     * @param notBeforeDeplay new value of {@link #getNotBeforeDeplay()}.
+     * @param notBeforeDelay new value of {@link #getNotBeforeDelay()}.
      */
-    public void setNotBeforeDeplay(Duration notBeforeDeplay) {
+    public void setNotBeforeDelay(Duration notBeforeDelay) {
 
-      this.notBeforeDeplay = notBeforeDeplay;
+      this.notBeforeDelay = notBeforeDelay;
     }
 
     /**

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import com.devonfw.module.basic.common.api.entity.GenericEntity;
 import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
 import com.devonfw.module.basic.common.api.to.AbstractEto;
+import com.devonfw.module.basic.common.api.to.AbstractGenericEto;
 import com.devonfw.module.beanmapping.common.api.BeanMapper;
 import com.devonfw.module.test.common.base.ModuleTest;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
@@ -30,8 +31,8 @@ public class BeanMapperImplDozerTest extends ModuleTest {
       @Override
       protected void configure() {
 
-        mapping(PersistenceEntity.class, AbstractEto.class).fields(this_(), field("persistentEntity").accessible(),
-            FieldsMappingOptions.customConverter(IdentityConverter.class));
+        mapping(PersistenceEntity.class, AbstractGenericEto.class).fields(this_(),
+            field("persistentEntity").accessible(), FieldsMappingOptions.customConverter(IdentityConverter.class));
       }
     };
     Mapper dozer = DozerBeanMapperBuilder.create().withMappingBuilder(builder).withMappingFiles(mappingFiles).build();
