@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.springframework.security.core.Authentication;
 
@@ -19,6 +20,7 @@ import io.jsonwebtoken.Claims;
  *
  * @since 2020.04.001
  */
+@Named
 public class JwtAuthenticatorImpl implements JwtAuthenticator {
 
   @Inject

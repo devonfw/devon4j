@@ -8,10 +8,12 @@ import java.util.Date;
 import java.util.Objects;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.springframework.security.authentication.BadCredentialsException;
 
 import com.devonfw.module.security.jwt.common.api.JwtManager;
+import com.devonfw.module.security.jwt.common.base.JwtConstants;
 import com.devonfw.module.security.jwt.common.impl.JwtConfigProperties.CreationConfigProperties;
 import com.devonfw.module.security.jwt.common.impl.JwtConfigProperties.ValidationConfigProperties;
 import com.devonfw.module.security.keystore.common.api.KeyStoreAccess;
@@ -26,6 +28,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  *
  * @since 2020.04.001
  */
+@Named
 public class JwtManagerImpl implements JwtManager {
 
   @Inject
