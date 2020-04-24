@@ -23,6 +23,11 @@
       <groupId>com.devonfw.java.starters</groupId>
       <artifactId>devon4j-starter-security-keystore</artifactId>
     </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
 </project>

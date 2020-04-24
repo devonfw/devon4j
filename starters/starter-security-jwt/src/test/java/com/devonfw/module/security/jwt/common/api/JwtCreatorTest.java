@@ -1,12 +1,15 @@
 package com.devonfw.module.security.jwt.common.api;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.devonfw.module.security.common.api.authentication.DefaultAuthentication;
 
@@ -27,8 +30,10 @@ public class JwtCreatorTest extends JwtComponentTest {
   public void testDo() {
 
     // given
-    Authentication authentication = new DefaultAuthentication(TEST_LOGIN, "******",
-        Set.of(TEST_ROLE_READ_MASTER_DATA, TEST_ROLE_SAVE_USER));
+    List<GrantedAuthority> authorities = new ArrayList<>();
+    authorities.add(new SimpleGrantedAuthority(TEST_ROLE_READ_MASTER_DATA));
+    authorities.add(new SimpleGrantedAuthority(TEST_ROLE_SAVE_USER));
+    Authentication authentication = new DefaultAuthentication(TEST_LOGIN, "******", authorities);
     Date now = new Date();
 
     // when
