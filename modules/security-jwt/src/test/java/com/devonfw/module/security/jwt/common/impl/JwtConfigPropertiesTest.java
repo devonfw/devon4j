@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-import com.devonfw.module.security.TestApplication;
 import com.devonfw.module.test.common.base.ComponentTest;
+import com.devonfw.test.app.TestApplication;
 
 /**
  * {@link ComponentTest} for {@link JwtConfigProperties}.
