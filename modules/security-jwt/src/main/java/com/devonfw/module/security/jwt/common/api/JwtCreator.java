@@ -5,7 +5,7 @@ import org.springframework.security.core.Authentication;
 import io.jsonwebtoken.Claims;
 
 /**
- *
+ * Interface to {@link #create(Authentication) create JWT} from an existing {@link Authentication}.
  *
  * @since 2020.04.001
  */

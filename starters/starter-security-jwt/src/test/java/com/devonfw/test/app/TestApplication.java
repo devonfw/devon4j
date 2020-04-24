@@ -1,4 +1,4 @@
-package com.devonfw.module.security;
+package com.devonfw.test.app;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
