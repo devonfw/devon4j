@@ -21,8 +21,8 @@ To use JWT support from devon4j you have to add following required dependency.
 [source,xml]
 ----
 <dependency>
-	<groupId>com.devonfw.java.modules</groupId>
-	<artifactId>devon4j-starter-security-jwt</artifactId>
+  <groupId>com.devonfw.java.starters</groupId>
+  <artifactId>devon4j-starter-security-jwt</artifactId>
 </dependency> 
 ----
 
@@ -77,6 +77,6 @@ To allow a client to login with username and password to get a JWT for sub-seque
   public void configure(HttpSecurity http) throws Exception {
     // ...
     // add this line to the end of this existing method
-    http.addFilterBefore(getJwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(getJwtLoginFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 ----
