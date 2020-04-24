@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.Year;
@@ -15,8 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
@@ -25,6 +25,7 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.util.ReflectionUtils;
 
+import com.devonfw.module.basic.common.api.reference.IdRef;
 import com.devonfw.module.basic.common.api.reflect.Devon4jPackage;
 import com.devonfw.module.basic.common.api.to.AbstractTo;
 import com.devonfw.module.test.common.base.ModuleTest;
@@ -170,35 +171,51 @@ public class ToTest extends ModuleTest {
 
   private Object createTestObject(Field field) throws InstantiationException, IllegalAccessException {
 
+    Class<?> type = field.getType();
+    return createInstance(type);
+  }
+
+  private Object createInstance(Class<?> type) throws InstantiationException, IllegalAccessException {
+
     Object o = null;
-    if (field.getType().isEnum()) {
-      o = field.getType().getEnumConstants()[0];
-    } else if (List.class.isAssignableFrom(field.getType())) {
+    if (type.isEnum()) {
+      o = type.getEnumConstants()[0];
+    } else if (List.class.isAssignableFrom(type)) {
       o = new ArrayList<>();
-    } else if (Set.class.isAssignableFrom(field.getType())) {
+    } else if (Set.class.isAssignableFrom(type)) {
       o = new HashSet<>();
-    } else if (Map.class.isAssignableFrom(field.getType())) {
+    } else if (Map.class.isAssignableFrom(type)) {
       o = new HashMap<>();
-    } else if (Integer.class.isAssignableFrom(field.getType()) || int.class.isAssignableFrom(field.getType())) {
+    } else if (Integer.class.isAssignableFrom(type) || int.class.isAssignableFrom(type)) {
       o = Integer.valueOf(1);
-    } else if (Long.class.isAssignableFrom(field.getType()) || long.class.isAssignableFrom(field.getType())) {
+    } else if (Long.class.isAssignableFrom(type) || long.class.isAssignableFrom(type)) {
       o = Long.valueOf(2);
-    } else if (Boolean.class.isAssignableFrom(field.getType()) || boolean.class.isAssignableFrom(field.getType())) {
+    } else if (Boolean.class.isAssignableFrom(type) || boolean.class.isAssignableFrom(type)) {
       o = Boolean.TRUE;
-    } else if (String.class.isAssignableFrom(field.getType())) {
+    } else if (String.class.isAssignableFrom(type)) {
       o = "hello world";
-    } else if (Year.class.isAssignableFrom(field.getType())) {
+    } else if (Year.class.isAssignableFrom(type)) {
       o = Year.of(1999);
-    } else if (Instant.class.isAssignableFrom(field.getType())) {
+    } else if (Instant.class.isAssignableFrom(type)) {
       o = Instant.now();
-    } else if (Timestamp.class.isAssignableFrom(field.getType())) {
+    } else if (Timestamp.class.isAssignableFrom(type)) {
       o = Timestamp.from(Instant.now());
-    } else if (field.getType() == byte[].class) {
+    } else if (type == byte[].class) {
       o = "test".getBytes();
-    } else if (Serializable.class.equals(field.getType())) {
+    } else if (Serializable.class.equals(type)) {
       o = Integer.valueOf(1);
-    } else {
-      o = field.getType().newInstance();
+    } else if (type == BigDecimal.class) {
+      o = BigDecimal.ZERO;
+    } else if (type == BigInteger.class) {
+      o = BigInteger.ZERO;
+    } else if (type == Integer.class) {
+      o = Integer.valueOf(0);
+    } else if ((type == Long.class) || (type == Number.class)) {
+      o = Long.valueOf(0);
+    } else if (type == Double.class) {
+      o = Double.valueOf(0);
+    } else if (type == IdRef.class) {
+      o = IdRef.of(0);
     }
     return o;
   }
