@@ -64,6 +64,10 @@ To allow a client to login with username and password to get a JWT for sub-seque
 
 [source,java]
 ----
+  @Inject
+  private JwtAuthenticationFilter jwtAuthenticationFilter;
+  
+  
   @Bean
   public JwtLoginFilter getJwtLoginFilter() throws RuntimeException {
 
@@ -77,6 +81,7 @@ To allow a client to login with username and password to get a JWT for sub-seque
   public void configure(HttpSecurity http) throws Exception {
     // ...
     // add this line to the end of this existing method
-    http.addFilterBefore(getJwtLoginFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(getJwtLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+	.addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
   }
 ----
