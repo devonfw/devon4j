@@ -21,8 +21,8 @@ To use JWT support from devon4j you have to add following required dependency.
 [source,xml]
 ----
 <dependency>
-	<groupId>com.devonfw.java.starters</groupId>
-	<artifactId>devon4j-starter-security-jwt</artifactId>
+  <groupId>com.devonfw.java.starters</groupId>
+  <artifactId>devon4j-starter-security-jwt</artifactId>
 </dependency> 
 ----
 
@@ -62,12 +62,9 @@ To do this, you need to add the following changes in your `BaseWebSecurityConfig
 
 [source,java]
 ----
-
   @Bean
-  public JwtAuthenticationFilter getJwtAuthenticationFilter() throws Exception {
-
-    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter();
-    return jwtAuthenticationFilter;
+  public JwtAuthenticationFilter getJwtAuthenticationFilter() {
+    return new JwtAuthenticationFilter();
   }
   
   @Override
