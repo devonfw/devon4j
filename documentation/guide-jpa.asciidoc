@@ -140,6 +140,82 @@ We only use simple Long values as primary keys (IDs). By default it is auto gene
 In case you have business oriented keys (often as `String`), you can define an additional property for it and declare it as unique (`@Column(unique=true)`).
 Be sure to include "AUTO_INCREMENT" in your sql table field ID to be able to persist data (or similar for other databases).
 
+=== Composite Primary Keys
+We support Composite primary keys while still supporting the default devonfw values with Long id.
+
+Below example shows how composite primary keys can be enabled.
+
+[source, java]
+----
+@Entity
+@Table(name = "employee")
+public class EmployeeEntity {
+	private CompositeEmployeeKey id;
+	
+	private String name;
+	
+	private String lastName;
+	
+	@Override
+	@EmbeddedId
+	public CompositeEmployeeKey getId() {
+		return id;
+	}
+	
+	@Override
+	public void setId(CompositeEmployeeKey id) {
+		this.id = id;
+	}
+	.
+	.
+	.
+----	
+
+[source, java]
+----
+public class CompositeEmployeeKey implements Serializable {
+
+  private String companyId;
+  
+  private String employeeId;
+----
+Implement PersistenceEntity<ID>.java in the EmployeeEntity and pass the composite primary key object which is CompositeEmployeeKey in this case as the parameter ID. 
+
+[source, java]
+----
+import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
+
+@Entity
+@Table(name = "employee")
+public class EmployeeEntity implements Employee, PersistenceEntity<CompositeEmployeeKey> {
+
+	private CompositeEmployeeKey id;
+	private String name;
+	private String lastName;
+----
+Also, the modificationCounter methods needs to be implemented from the PersistenceEntity<ID>. The sample implementation of the modification counter can be referred below.
+
+[source, java]
+----
+@Override
+  public int getModificationCounter() {
+    if (this.persistentEntity != null) {
+      // JPA implementations will update modification counter only after the transaction has been committed.
+      // Conversion will typically happen before and would result in the wrong (old) modification counter.
+      // Therefore we update the modification counter here (that has to be called before serialization takes
+      // place).
+      this.modificationCounter = this.persistentEntity.getModificationCounter();
+    }
+    return this.modificationCounter;
+  }
+  
+  @Override
+  public void setModificationCounter(int version) {
+    this.modificationCounter = version;
+  }
+----
+
+
 == Relationships
 === n:1 and 1:1 Relationships
 Entities often do not exist independently but are in some relation to each other. For example, for every period of time one of the StaffMember's of the restaurant example has worked, which is represented by the class `WorkingTime`, there is a relationship to this StaffMember. 
