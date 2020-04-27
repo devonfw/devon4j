@@ -13,7 +13,6 @@ import javax.inject.Named;
 import org.springframework.security.authentication.BadCredentialsException;
 
 import com.devonfw.module.security.jwt.common.api.JwtManager;
-import com.devonfw.module.security.jwt.common.base.JwtConstants;
 import com.devonfw.module.security.jwt.common.impl.JwtConfigProperties.CreationConfigProperties;
 import com.devonfw.module.security.jwt.common.impl.JwtConfigProperties.ValidationConfigProperties;
 import com.devonfw.module.security.keystore.common.api.KeyStoreAccess;
@@ -29,7 +28,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  * @since 2020.04.001
  */
 @Named
-public class JwtManagerImpl implements JwtManager {
+public class JwtManagerImpl implements JwtManager, io.jsonwebtoken.Clock {
 
   @Inject
   private KeyStoreAccess keyStoreAccess;
@@ -52,7 +51,7 @@ public class JwtManagerImpl implements JwtManager {
   public Jws<Claims> decode(String jwt) {
 
     PublicKey key = this.keyStoreAccess.getPublicKey(this.jwtConfig.getAlias());
-    Jws<Claims> token = Jwts.parser().setSigningKey(key).parseClaimsJws(jwt);
+    Jws<Claims> token = Jwts.parser().setClock(this).setSigningKey(key).parseClaimsJws(jwt);
     return token;
   }
 
@@ -143,6 +142,12 @@ public class JwtManagerImpl implements JwtManager {
   public void setClock(Clock clock) {
 
     this.clock = clock;
+  }
+
+  @Override
+  public Date now() {
+
+    return Date.from(this.clock.instant());
   }
 
 }
