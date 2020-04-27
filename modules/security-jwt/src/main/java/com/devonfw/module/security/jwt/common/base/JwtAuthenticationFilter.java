@@ -9,12 +9,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.devonfw.module.security.jwt.common.api.JwtAuthenticator;
@@ -24,8 +21,6 @@ import com.devonfw.module.security.jwt.common.api.JwtAuthenticator;
  *
  * @since 2020.04.001
  */
-@Component
-@Order(SecurityProperties.BASIC_AUTH_ORDER - 1)
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
   @Inject

@@ -58,14 +58,35 @@ The authentication with JWT via OAuth (HTTP header), will happen via `JwtAuthent
 With the starter and auto-configuration we want to make it as easy as possible for you 
 In case you would like to build a server app that e.g. wants to issue JWTs but does not allow authentication via JWT itself, you can use `devon4j-security-jwt` instead of the starter and do the spring config yourself (pick and choose from `JwtAutoConfiguration`).
 
+To do this, you need to add the following changes in your `BaseWebSecurityConfig`:
+
+[source,java]
+----
+
+  @Bean
+  public JwtAuthenticationFilter getJwtAuthenticationFilter() throws Exception {
+
+    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter();
+    return jwtAuthenticationFilter;
+  }
+  
+  @Override
+  public void configure(HttpSecurity http) throws Exception {
+    // ...
+    // add this line to the end of this existing method
+    http.addFilterBefore(getJwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+  }
+----
+
 == Login with Username and Password to get JWT
 
 To allow a client to login with username and password to get a JWT for sub-sequent requests, you need to do the following changes in your `BaseWebSecurityConfig`:
 
 [source,java]
 ----
+  
   @Bean
-  public JwtLoginFilter getJwtLoginFilter() throws RuntimeException {
+  public JwtLoginFilter getJwtLoginFilter() throws Exception {
 
     JwtLoginFilter jwtLoginFilter = new JwtLoginFilter("/login");
     jwtLoginFilter.setAuthenticationManager(authenticationManager());
