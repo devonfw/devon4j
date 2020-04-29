@@ -81,7 +81,7 @@ We use the same properties defined by Apache Kafka or Spring Kafka. They are sim
 * The `https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaListenerContainerProperties.java/[Devon4j-Kafka-Listener container properties]` are defined from `https://docs.spring.io/spring-kafka/api/org/springframework/kafka/listener/ContainerProperties.html/[Spring kafka listener properties]`.
 
 
-== Naming convention for topics.
+== Naming convention for topics
 
 For better managing of several Kafka topics in your application portfolio we devon strongly advice to introduce a naming scheme for your topics. The schema may depend on the actual usage pattern of kafka. For context where kafka is used
 in a 1-to-1-communication-scheme (not publish/subscribe) the following schema as been proven useful in practice:
@@ -178,7 +178,7 @@ https://docs.spring.io/spring-kafka/api/org/springframework/kafka/listener/Conta
 The retry pattern in devon4j-kafka is invoked when a particular exception(described by user in application.properties file) is thrown while processing the consumed message and it is configured in application.properties file. Then general idea is to separate messages which could not be processed into dedicated retry-topics to allow fine control on how processing of the messages is retried and to not block newly arriving messages.
 Let us see more about handling retry in the below topics.
 
-===== Handling retry in devon4j-kafka
+=== Handling retry in devon4j-kafka
 
 The retry pattern is included in the starter dependency of "starter-kafka-receiver".
 
@@ -220,7 +220,7 @@ It works as follows:
 * When the retry fails in all the retry then the message is logged and payload in the ProducerRecord is deleted for log
    compaction which is explained below.
 
-===== Retry configuration and naming convention of redelivery topics.
+=== Retry configuration and naming convention of redelivery topics.
 The following properties should be added in the `application.properties` or `application.yml` file.
 
 [source,properties]
@@ -250,12 +250,12 @@ The naming convention for retry topic is the same topic name which you have give
 
 If there is no topic found in the consumed record the default retry topic will be added which is `default-message-retry`.
 
-===== Retry topics
+=== Retry topics
 Devon4j-kafka uses a separate retry topic for each topic where retries occur. By default this topic is named `<topic name>-retry`. You may change this behavior by providing your own implementation for `DefaultKafkaRecordSupport` which is an default implementation from devon4j-kafka for `KafkaRecordSupport`.
 
 Devon4-kafka enqueues a new message for each retry attempt. It is very important to configure your retry tropics with https://kafka.apache.org/documentation/#compaction[log compaction] enabled. More or less simplified, if log compaction is enabled Kafka keeps only one message per message key. Since each retry message has the same key, in fact only one message per retry attempt is stored. After the last retry attempt the message payload is removed from the message so, you do not keep unnecessary data in your topics.
 
-===== Handling retry finally failed
+=== Handling retry finally failed
 
 Per default when the retry fails with final attempt  we just log the message and delete the payload of ProducerRecord which comes to proceed the retry pattern. 
 
@@ -272,7 +272,7 @@ This is a part of both starter dependencies `starter-kafka-receiver` and `starte
 There are 2 important properties which will be automatically logged which is trace-id and spain-id.
 The trace-id is same for all the asynchronous process and span-id is unique for each asynchronous process.
 
-===== How devon4j-kafka handles tracer ?
+=== How devon4j-kafka handles tracer ?
 
 We inject the trace-id and span-id in to the ProducerRecord headers which comes to publish into the kafka broker.
 Its injected in the headers with the key `traceId` for trace-id and `spanId` for span-id.
