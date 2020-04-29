@@ -175,10 +175,6 @@ include::guide-datatype.asciidoc[leveloffset=2]
 
 <<<<
 
-include::guide-accessibility.asciidoc[leveloffset=2]
-
-<<<<
-
 include::guide-cors-support.asciidoc[leveloffset=2]
 
 <<<<
@@ -195,19 +191,11 @@ include::guide-microservice.asciidoc[leveloffset=2]
 
 <<<<
 
-include::guide-accessibility.asciidoc[leveloffset=2]
-
-<<<<
-
 include::guide-apm.asciidoc[leveloffset=2]
 
 <<<<
 
 include::guide-caching.asciidoc[leveloffset=2]
-
-<<<<
-
-include::guide-component.asciidoc[leveloffset=2]
 
 <<<<
 
