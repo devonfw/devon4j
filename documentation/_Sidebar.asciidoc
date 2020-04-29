@@ -20,6 +20,7 @@
 * link:guide-json.asciidoc[JSON]
 * link:guide-rest.asciidoc[REST]
 * link:guide-soap.asciidoc[SOAP]
+* link:guide-kafka.asciidoc[Kafka]
 * link:guide-service-client.asciidoc[Service Client]
 * link:guide-validation.asciidoc[Validation]
 * link:guide-security.asciidoc[Security]
