@@ -178,6 +178,8 @@ https://docs.spring.io/spring-kafka/api/org/springframework/kafka/listener/Conta
 The retry pattern in devon4j-kafka is invoked when a particular exception(described by user in application.properties file) is thrown while processing the consumed message and it is configured in application.properties file. Then general idea is to separate messages which could not be processed into dedicated retry-topics to allow fine control on how processing of the messages is retried and to not block newly arriving messages.
 Let us see more about handling retry in the below topics.
 
+image::images/kafka-retry.png["Retry pattern in devon4j-kafka",scaledwidth="80%",align="center",link="https://devonfw.com/website/pages/docs/images/kafka-retry.svg"]
+
 === Handling retry in devon4j-kafka
 
 The retry pattern is included in the starter dependency of "starter-kafka-receiver".
