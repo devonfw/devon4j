@@ -48,7 +48,7 @@ public class AccessControlSchemaTest extends ModuleTest {
   public AccessControlSchemaTest() {
 
     super();
-    // Assure error message, we are testing for are in English.
+    // Assure error messages, we are testing for are in English.
     Locale.setDefault(Locale.ENGLISH);
   }
 
