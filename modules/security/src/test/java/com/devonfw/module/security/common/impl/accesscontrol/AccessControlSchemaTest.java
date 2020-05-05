@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,8 @@ public class AccessControlSchemaTest extends ModuleTest {
   public AccessControlSchemaTest() {
 
     super();
+    // Assure error message, we are testing for are in English.
+    Locale.setDefault(Locale.ENGLISH);
   }
 
   /**
