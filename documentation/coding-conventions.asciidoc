@@ -243,10 +243,10 @@ set.stream().peek(...).collect(Collectors.toList()) // fine
 [source,java]
 ----
 (a,b,c)  -> a.toString() + Float.toString(b) + Arrays.toString(c)  // fine
-(String a, Float b, Byte[] c) -> a.toString() + Float.toString(b) + Arrays.toString(c)  //bad
+(String a, Float b, Byte[] c) -> a.toString() + Float.toString(b) + Arrays.toString(c)  // bad
 
-Collections.sort(personList, (p1, p2) -> p1.getSurName().compareTo(p2.getSurName()));  //fine
-Collections.sort(personList, (Person p1, Person p2) -> p1.getSurName().compareTo(p2.getSurName()));  //bad
+Collections.sort(personList, (p1, p2) -> p1.getSurName().compareTo(p2.getSurName()));  // fine
+Collections.sort(personList, (Person p1, Person p2) -> p1.getSurName().compareTo(p2.getSurName()));  // bad
 
 ----
 . Avoid Return Braces and Statement
@@ -254,14 +254,14 @@ Collections.sort(personList, (Person p1, Person p2) -> p1.getSurName().compareTo
 [source,java]
 ----
  a ->  a.toString();   // fine
- a ->  { return a.toString(); } //bad
+ a ->  { return a.toString(); } // bad
 ----
 . Avoid Parentheses with Single Parameter
 +
 [source,java]
 ----
  a -> a.toString();  // fine
-(a) -> a.toString(); //bad
+(a) -> a.toString(); // bad
 ----
 . Avoid if/else inside foreach method. Use Filter method & comprehension
 +
