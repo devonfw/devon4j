@@ -253,8 +253,8 @@ Collections.sort(personList, (Person p1, Person p2) -> p1.getSurName().compareTo
 +
 [source,java]
 ----
- (a) ->  a.toString();   // fine
- (a) ->  { return a.toString(); } //bad
+ a ->  a.toString();   // fine
+ a ->  { return a.toString(); } //bad
 ----
 . Avoid Parentheses with Single Parameter
 +
