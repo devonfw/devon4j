@@ -30,10 +30,13 @@ import brave.Tracer;
 /**
  * This aspect class is used to listen the {@link KafkaListener} and to log the {@link ConsumerRecord} received.
  *
+ * @param <K> the key type
+ * @param <V> the value type
+ *
  */
 @Aspect
-@Order(0)
-public class MessageListenerLoggingAspect {
+@Order(1)
+public class MessageListenerLoggingAspect<K, V> {
 
   private static final Logger LOG = LoggerFactory.getLogger(MessageListenerLoggingAspect.class);
 
@@ -51,7 +54,7 @@ public class MessageListenerLoggingAspect {
   /**
    * The {@link MessageSpanExtractor}.
    */
-  protected MessageSpanExtractor spanExtractor;
+  protected MessageSpanExtractor<K, V> spanExtractor;
 
   /**
    * Set the {@link Tracer}.
@@ -68,7 +71,7 @@ public class MessageListenerLoggingAspect {
    *
    * @param spanExtractor .
    */
-  public void setSpanExtractor(MessageSpanExtractor spanExtractor) {
+  public void setSpanExtractor(MessageSpanExtractor<K, V> spanExtractor) {
 
     this.spanExtractor = spanExtractor;
   }
@@ -83,8 +86,7 @@ public class MessageListenerLoggingAspect {
    * @throws Throwable the {@link Throwable}
    */
   @Around("@annotation(org.springframework.kafka.annotation.KafkaListener) && args(kafkaRecord,..)")
-  public Object logMessageProcessing(ProceedingJoinPoint call, ConsumerRecord<Object, Object> kafkaRecord)
-      throws Throwable {
+  public Object logMessageProcessing(ProceedingJoinPoint call, ConsumerRecord<K, V> kafkaRecord) throws Throwable {
 
     openSpan(kafkaRecord);
 
@@ -116,7 +118,7 @@ public class MessageListenerLoggingAspect {
     }
   }
 
-  private void openSpan(ConsumerRecord<Object, Object> kafkaRecord) {
+  private void openSpan(ConsumerRecord<K, V> kafkaRecord) {
 
     if (ObjectUtils.isEmpty(this.tracer)) {
       return;
@@ -131,7 +133,7 @@ public class MessageListenerLoggingAspect {
         (span.context().parentId() != null ? toLowerHex(span.context().parentId()) : "null"));
   }
 
-  private long determineLengthOfStayInTopic(ConsumerRecord<Object, Object> kafkaRecord) {
+  private long determineLengthOfStayInTopic(ConsumerRecord<K, V> kafkaRecord) {
 
     if (kafkaRecord.timestampType() != TimestampType.NO_TIMESTAMP_TYPE) {
       return Instant.now().toEpochMilli() - kafkaRecord.timestamp();

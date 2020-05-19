@@ -16,11 +16,14 @@ import brave.propagation.TraceContextOrSamplingFlags;
  * This is an implementation class for the {@link Extractor} used to extract the {@link MessageTraceHeaders} from
  * {@link ConsumerRecord}.
  *
+ * @param <K> the key type
+ * @param <V> the value type
+ *
  */
-public class MessageSpanExtractor implements Extractor<ConsumerRecord<Object, Object>> {
+public class MessageSpanExtractor<K, V> implements Extractor<ConsumerRecord<K, V>> {
 
   @Override
-  public TraceContextOrSamplingFlags extract(ConsumerRecord<Object, Object> consumerRecord) {
+  public TraceContextOrSamplingFlags extract(ConsumerRecord<K, V> consumerRecord) {
 
     Builder tcBuilder = TraceContext.newBuilder();
     boolean traceIdExists = false;
