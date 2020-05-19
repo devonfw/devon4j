@@ -27,13 +27,16 @@ public class TraceConfig {
 
   /**
    * Creates bean for the {@link MessageSpanExtractor}
+   * 
+   * @param <K> the key type
+   * @param <V> the value type
    *
    * @return the {@link MessageSpanExtractor}
    */
   @Bean
-  public MessageSpanExtractor messageSpanExtractor() {
+  public <K, V> MessageSpanExtractor<K, V> messageSpanExtractor() {
 
-    return new MessageSpanExtractor();
+    return new MessageSpanExtractor<>();
   }
 
 }

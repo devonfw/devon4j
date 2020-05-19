@@ -63,15 +63,19 @@ public class MessageReceiverConfig {
 
   /**
    * Creates the bean for {@link MessageListenerLoggingAspect}.
+   * 
+   * @param <K> the key type
+   * @param <V> the value type
    *
    * @param messageSpanExtractor the {@link MessageSpanExtractor}
    *
    * @return the {@link MessageListenerLoggingAspect}.
    */
   @Bean
-  public MessageListenerLoggingAspect messageListenerLoggingAspect(MessageSpanExtractor messageSpanExtractor) {
+  public <K, V> MessageListenerLoggingAspect<K, V> messageListenerLoggingAspect(
+      MessageSpanExtractor<K, V> messageSpanExtractor) {
 
-    MessageListenerLoggingAspect messageListenerLoggingAspect = new MessageListenerLoggingAspect();
+    MessageListenerLoggingAspect<K, V> messageListenerLoggingAspect = new MessageListenerLoggingAspect<>();
     messageListenerLoggingAspect.setTracer(this.tracer);
     messageListenerLoggingAspect.setSpanExtractor(messageSpanExtractor);
     return messageListenerLoggingAspect;
