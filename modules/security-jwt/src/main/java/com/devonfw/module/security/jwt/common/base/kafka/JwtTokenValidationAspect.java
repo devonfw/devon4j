@@ -23,7 +23,7 @@ import com.devonfw.module.security.jwt.common.base.JwtConstants;
  *
  */
 @Aspect
-@Order(0)
+@Order(100)
 public class JwtTokenValidationAspect {
 
   @Inject
