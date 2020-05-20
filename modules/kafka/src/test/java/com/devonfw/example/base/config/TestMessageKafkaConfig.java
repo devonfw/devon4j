@@ -58,465 +58,465 @@ import com.devonfw.module.logging.common.impl.DiagnosticContextFacadeImpl;
 import brave.Tracer;
 import kafka.server.KafkaConfig;
 
-/***A test configuration class for the{@link MessageSender}
+/***
+ * A test configuration class for the{@link MessageSender}
  *
  */
- @Configuration
- @EnableKafka
- public class TestMessageKafkaConfig {
-
- @Inject
- private Tracer tracer;
-
- /**
- * Creates bean for the {@link EmbeddedKafkaBroker}
- *
- * @return the {@link EmbeddedKafkaBroker}
- * @throws IOException the {@link IOException}
- */
- @Bean
- public EmbeddedKafkaBroker broker() throws IOException {
-
- return new EmbeddedKafkaBroker(1, false, 2).brokerProperties(
- Collections.singletonMap(KafkaConfig.LogDirProp(), Files.createTempDirectory("kafka-test").toString()));
- }
-
- /**
- * The {@link KafkaCommonProperties}
- *
- * @return the kafkaCommonProperties
- * @throws IOException the {@link IOException}.
- */
- protected KafkaCommonProperties testMessageKafkaCommonProperties() throws IOException {
-
- KafkaCommonProperties kafkaCommonProperties = new KafkaCommonProperties();
- kafkaCommonProperties.setBootstrapServers(broker().getBrokersAsString());
- kafkaCommonProperties.setClientId("test-clientId");
- return kafkaCommonProperties;
- }
-
- /**
- * The {@link MessageLoggingSupport}
- *
- * @return MessageLoggingSupport.
- */
- @Bean
- public MessageLoggingSupport testMessageLoggingSupport() {
-
- return new MessageLoggingSupport();
- }
-
- /**
- * The {@link KafkaHealthIndicatorProperties}
- *
- * @return KafkaHealthIndicatorProperties.
- */
- protected KafkaHealthIndicatorProperties testMessageKafkaHealthIndicatorProperties() {
-
- return new KafkaHealthIndicatorProperties();
- }
-
- /**
- * Creates bean for {@link KafkaHealthIndicator}.
- *
- * @return KafkaHealthIndicator.
- * @throws IOException the {@link IOException}.
- */
- @Bean
- public KafkaHealthIndicator kafkaHealthIndicator() throws IOException {
-
- return new KafkaHealthIndicator(createConsumerFactory(), testMessageKafkaHealthIndicatorProperties());
- }
-
- /**
- * The {@link KafkaConsumerProperties}.
- *
- * @return KafkaConsumerProperties.
- */
- protected KafkaConsumerProperties testKafkaConsumerProperty() {
-
- KafkaConsumerProperties kafkaConsumerProperties = new KafkaConsumerProperties();
- kafkaConsumerProperties.setGroupId("test-group");
- kafkaConsumerProperties.setKeyDeserializer("org.apache.kafka.common.serialization.StringDeserializer");
- kafkaConsumerProperties.setValueDeserializer("org.apache.kafka.common.serialization.StringDeserializer");
- kafkaConsumerProperties.setMaxPollIntervalMs(Integer.MAX_VALUE);
- return kafkaConsumerProperties;
+@Configuration
+@EnableKafka
+public class TestMessageKafkaConfig {
+
+  @Inject
+  private Tracer tracer;
+
+  /**
+   * Creates bean for the {@link EmbeddedKafkaBroker}
+   *
+   * @return the {@link EmbeddedKafkaBroker}
+   * @throws IOException the {@link IOException}
+   */
+  @Bean
+  public EmbeddedKafkaBroker broker() throws IOException {
+
+    return new EmbeddedKafkaBroker(1, false, 2).brokerProperties(
+        Collections.singletonMap(KafkaConfig.LogDirProp(), Files.createTempDirectory("kafka-test").toString()));
+  }
+
+  /**
+   * The {@link KafkaCommonProperties}
+   *
+   * @return the kafkaCommonProperties
+   * @throws IOException the {@link IOException}.
+   */
+  protected KafkaCommonProperties testMessageKafkaCommonProperties() throws IOException {
+
+    KafkaCommonProperties kafkaCommonProperties = new KafkaCommonProperties();
+    kafkaCommonProperties.setBootstrapServers(broker().getBrokersAsString());
+    kafkaCommonProperties.setClientId("test-clientId");
+    return kafkaCommonProperties;
+  }
+
+  /**
+   * The {@link MessageLoggingSupport}
+   *
+   * @return MessageLoggingSupport.
+   */
+  @Bean
+  public MessageLoggingSupport testMessageLoggingSupport() {
+
+    return new MessageLoggingSupport();
+  }
+
+  /**
+   * The {@link KafkaHealthIndicatorProperties}
+   *
+   * @return KafkaHealthIndicatorProperties.
+   */
+  protected KafkaHealthIndicatorProperties testMessageKafkaHealthIndicatorProperties() {
+
+    return new KafkaHealthIndicatorProperties();
+  }
+
+  /**
+   * Creates bean for {@link KafkaHealthIndicator}.
+   *
+   * @return KafkaHealthIndicator.
+   * @throws IOException the {@link IOException}.
+   */
+  @Bean
+  public KafkaHealthIndicator kafkaHealthIndicator() throws IOException {
+
+    return new KafkaHealthIndicator(createConsumerFactory(), testMessageKafkaHealthIndicatorProperties());
+  }
+
+  /**
+   * The {@link KafkaConsumerProperties}.
+   *
+   * @return KafkaConsumerProperties.
+   */
+  protected KafkaConsumerProperties testKafkaConsumerProperty() {
 
- }
-
- private KafkaListenerContainerProperties testkafkaListenerContainerProperties() {
-
- return new KafkaListenerContainerProperties();
- }
-
- /**
- * Creates the bean of {@link KafkaListenerContainerFactory}
- *
- * @param <K> the key type
- * @param <V> the value type
- *
- * @return the bean of {@link KafkaListenerContainerFactory}
- * @throws IOException IOEXception
- */
- @Bean
- public <K, V> KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<K, V>> kafkaListenerContainerFactory()
- throws IOException {
-
- return createKafkaListenerContainerFactory(testMessageKafkaCommonProperties(), testKafkaConsumerProperty(),
- testkafkaListenerContainerProperties(), testMessageLoggingErrorHandler());
- }
+    KafkaConsumerProperties kafkaConsumerProperties = new KafkaConsumerProperties();
+    kafkaConsumerProperties.setGroupId("test-group");
+    kafkaConsumerProperties.setKeyDeserializer("org.apache.kafka.common.serialization.StringDeserializer");
+    kafkaConsumerProperties.setValueDeserializer("org.apache.kafka.common.serialization.StringDeserializer");
+    kafkaConsumerProperties.setMaxPollIntervalMs(Integer.MAX_VALUE);
+    return kafkaConsumerProperties;
 
- private static <K, V> KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<K, V>>
- createKafkaListenerContainerFactory(
- KafkaCommonProperties kafkaCommonProperties, KafkaConsumerProperties kafkaConsumerProperties,
- KafkaListenerContainerProperties kafkaListenerContainerProperties,
- LoggingErrorHandler messageLoggingErrorHandler) {
+  }
+
+  private KafkaListenerContainerProperties testkafkaListenerContainerProperties() {
 
- ConcurrentKafkaListenerContainerFactory<K, V> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    return new KafkaListenerContainerProperties();
+  }
 
- factory
- .setConsumerFactory(MessageCommonConfig.createConsumerFactory(kafkaCommonProperties, kafkaConsumerProperties));
+  /**
+   * Creates the bean of {@link KafkaListenerContainerFactory}
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
+   * @return the bean of {@link KafkaListenerContainerFactory}
+   * @throws IOException IOEXception
+   */
+  @Bean
+  public <K, V> KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<K, V>> kafkaListenerContainerFactory()
+      throws IOException {
+
+    return createKafkaListenerContainerFactory(testMessageKafkaCommonProperties(), testKafkaConsumerProperty(),
+        testkafkaListenerContainerProperties(), testMessageLoggingErrorHandler());
+  }
 
- factory.setConcurrency(Optional.ofNullable(kafkaListenerContainerProperties.getConcurrency()).orElse(1));
+  private static <K, V> KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<K, V>> createKafkaListenerContainerFactory(
+      KafkaCommonProperties kafkaCommonProperties, KafkaConsumerProperties kafkaConsumerProperties,
+      KafkaListenerContainerProperties kafkaListenerContainerProperties,
+      LoggingErrorHandler messageLoggingErrorHandler) {
 
- Optional.ofNullable(kafkaListenerContainerProperties.getAckMode())
- .ifPresent(ackMode -> setAckModeToListenerFactory(ackMode, factory));
+    ConcurrentKafkaListenerContainerFactory<K, V> factory = new ConcurrentKafkaListenerContainerFactory<>();
 
- Optional.ofNullable(kafkaListenerContainerProperties.getAckCount())
- .ifPresent(ackCount -> factory.getContainerProperties().setAckCount(ackCount));
+    factory
+        .setConsumerFactory(MessageCommonConfig.createConsumerFactory(kafkaCommonProperties, kafkaConsumerProperties));
 
- Optional.ofNullable(kafkaListenerContainerProperties.getAckTime())
- .ifPresent(ackTime -> factory.getContainerProperties().setAckTime(ackTime));
+    factory.setConcurrency(Optional.ofNullable(kafkaListenerContainerProperties.getConcurrency()).orElse(1));
 
- Optional.ofNullable(kafkaListenerContainerProperties.getPollTimeout())
- .ifPresent(pollTimeout -> factory.getContainerProperties().setPollTimeout(pollTimeout));
+    Optional.ofNullable(kafkaListenerContainerProperties.getAckMode())
+        .ifPresent(ackMode -> setAckModeToListenerFactory(ackMode, factory));
 
- Optional.ofNullable(kafkaListenerContainerProperties.getShutdownTimeout())
- .ifPresent(shutdownTimeout -> factory.getContainerProperties().setShutdownTimeout(shutdownTimeout));
+    Optional.ofNullable(kafkaListenerContainerProperties.getAckCount())
+        .ifPresent(ackCount -> factory.getContainerProperties().setAckCount(ackCount));
 
- Optional.ofNullable(kafkaListenerContainerProperties.getSyncCommits())
- .ifPresent(syncCommits -> factory.getContainerProperties().setSyncCommits(syncCommits));
+    Optional.ofNullable(kafkaListenerContainerProperties.getAckTime())
+        .ifPresent(ackTime -> factory.getContainerProperties().setAckTime(ackTime));
 
- Optional.ofNullable(kafkaListenerContainerProperties.getIdleEventInterval())
- .ifPresent(idleEventInterval -> factory.getContainerProperties().setIdleEventInterval(idleEventInterval));
+    Optional.ofNullable(kafkaListenerContainerProperties.getPollTimeout())
+        .ifPresent(pollTimeout -> factory.getContainerProperties().setPollTimeout(pollTimeout));
 
- factory.setErrorHandler(messageLoggingErrorHandler);
+    Optional.ofNullable(kafkaListenerContainerProperties.getShutdownTimeout())
+        .ifPresent(shutdownTimeout -> factory.getContainerProperties().setShutdownTimeout(shutdownTimeout));
 
- return factory;
- }
+    Optional.ofNullable(kafkaListenerContainerProperties.getSyncCommits())
+        .ifPresent(syncCommits -> factory.getContainerProperties().setSyncCommits(syncCommits));
 
- private static <K, V> void setAckModeToListenerFactory(String ackModeProperty,
- ConcurrentKafkaListenerContainerFactory<K, V> factory) {
+    Optional.ofNullable(kafkaListenerContainerProperties.getIdleEventInterval())
+        .ifPresent(idleEventInterval -> factory.getContainerProperties().setIdleEventInterval(idleEventInterval));
 
- AckMode ackMode = null;
- try {
+    factory.setErrorHandler(messageLoggingErrorHandler);
 
- ackMode = AckMode.valueOf(ackModeProperty);
+    return factory;
+  }
 
- } catch (IllegalArgumentException e) {
+  private static <K, V> void setAckModeToListenerFactory(String ackModeProperty,
+      ConcurrentKafkaListenerContainerFactory<K, V> factory) {
 
- StringBuilder builder = new StringBuilder();
+    AckMode ackMode = null;
+    try {
 
- boolean isFirst = true;
+      ackMode = AckMode.valueOf(ackModeProperty);
 
- for (AckMode mode : AckMode.values()) {
+    } catch (IllegalArgumentException e) {
 
- if (isFirst) {
+      StringBuilder builder = new StringBuilder();
 
- isFirst = false;
- } else {
+      boolean isFirst = true;
 
- builder.append(", ");
- }
+      for (AckMode mode : AckMode.values()) {
 
- builder.append(mode.name());
- }
-
- throw new IllegalArgumentException("Invalid ack-mode " + builder.toString(), e);
- }
-
- factory.getContainerProperties().setAckMode(ackMode);
- }
-
- /**
- * Creates bean for {@link LoggingErrorHandler}
- *
- * @return LoggingErrorHandler.
- */
- @Bean
- public LoggingErrorHandler testMessageLoggingErrorHandler() {
-
- return new LoggingErrorHandler();
- }
-
- /**
- * Creates the bean for {@link MessageListenerLoggingAspect}.
- *
- * @param <K> the key type
- * @param <V> the value type
- *
- *
- * @return the {@link MessageListenerLoggingAspect}.
- */
- @Bean
- public <K, V> MessageListenerLoggingAspect<K, V> testMessageListenerLoggingAspect() {
-
- MessageListenerLoggingAspect<K, V> messageListenerLoggingAspect = new MessageListenerLoggingAspect<>();
- messageListenerLoggingAspect.setTracer(this.tracer);
- messageListenerLoggingAspect.setSpanExtractor(testessageSpanExtractor());
- return messageListenerLoggingAspect;
- }
-
- private <K, V> MessageSpanExtractor<K, V> testessageSpanExtractor() {
-
- return new MessageSpanExtractor<>();
- }
-
- /**
- * Creates the bean for {@link ConsumerGroupResolver}.
- *
- * @return the ConsumerGroupResolver
- */
- @Bean
- public ConsumerGroupResolver testConsumerGroupResolver() {
-
- return new ConsumerGroupResolver();
- }
-
- /**
- * The {@link ConsumerFactory}
- *
- * @param <K> the key type
- * @param <V> the value type
- *
- * @return ConsumerFactory
- * @throws IOException the {@link IOException}
- */
- protected <K, V> ConsumerFactory<K, V> createConsumerFactory() throws IOException {
-
- KafkaPropertyMapper mapper = new KafkaPropertyMapper();
- return new DefaultKafkaConsumerFactory<>(
- mapper.consumerProperties(testMessageKafkaCommonProperties(), testKafkaConsumerProperty()));
- }
-
- /**
- * The {@link KafkaProducerProperties}
- *
- * @return KafkaProducerProperties.
- */
- protected KafkaProducerProperties testMessageKafkaProducerProperties() {
-
- KafkaProducerProperties kafkaProducerproperties = new KafkaProducerProperties();
- kafkaProducerproperties.setKeySerializer("org.apache.kafka.common.serialization.StringSerializer");
- kafkaProducerproperties.setValueSerializer("org.apache.kafka.common.serialization.StringSerializer");
- kafkaProducerproperties.setRetries(10);
- return kafkaProducerproperties;
- }
-
- /**
- * The {@link MessageSenderProperties}
- *
- * @return MessageSenderProperties.
- */
- protected MessageSenderProperties testMessageSenderProperties() {
-
- return new MessageSenderProperties();
- }
-
- /**
- * Creates Bean for the {@link ProducerFactory}.
- *
- * @param <K> the key type
- * @param <V> the value type
- *
- * @return ProducerFactory
- * @throws IOException the {@link IOException}.
- */
- @Bean
- public <K, V> ProducerFactory<K, V> testMessageKafkaProducerFactory() throws IOException {
-
- return createProducerFactory();
- }
-
- /**
- * The {@link ProducerFactory}
- *
- * @param <K> the key type
- * @param <V> the value type
- *
- * @return ProducerFactory.
- * @throws IOException the {@link IOException}.
- */
- protected <K, V> ProducerFactory<K, V> createProducerFactory() throws IOException {
-
- KafkaPropertyMapper mapper = new KafkaPropertyMapper();
- return new DefaultKafkaProducerFactory<>(
- mapper.producerProperties(testMessageKafkaCommonProperties(), testMessageKafkaProducerProperties()));
- }
-
- /**
- * Creates Bean for {@link KafkaTemplate}.
- *
- * @param <K> the key type
- * @param <V> the value type
- *
- * @return KafkaTemplate.
- * @throws IOException the {@link IOException}.
- */
- @Bean
- public <K, V> KafkaTemplate<K, V> testMessageKafkaTemplate() throws IOException {
-
- return createKafkaTemplate(testMessageProducerLoggingListener(testMessageLoggingSupport()),
- testMessageKafkaProducerFactory());
- }
-
- /**
- * The {@link KafkaTemplate}
- *
- * @param <K> the key type
- * @param <V> the value type
- *
- * @param producerLogListener the {@link ProducerFencedException}
- * @param producerFactory the {@link ProducerFactory}
- * @return KafkaTemplate
- * @throws IOException the {@link IOException}
- */
- protected <K, V> KafkaTemplate<K, V> createKafkaTemplate(ProducerLoggingListener<K, V> producerLogListener,
- ProducerFactory<K, V> producerFactory) throws IOException {
-
- KafkaTemplate<K, V> template = new KafkaTemplate<>(createProducerFactory());
- template.setProducerListener(producerLogListener);
- return template;
- }
-
- /**
- * creates bean for the {@link MessageSenderImpl}
- *
- * @param <K> the key type
- * @param <V> the value type
- *
- * @return MessageSenderImpl
- * @throws IOException the {@link IOException}.
- */
- @Bean
- public <K, V> MessageSender<K, V> testMessageSender() throws IOException {
-
- MessageSenderImpl<K, V> bean = new MessageSenderImpl<>();
- bean.setKafkaTemplate(testMessageKafkaTemplate());
- bean.setLoggingSupport(testMessageLoggingSupport());
- bean.setSenderProperties(testMessageSenderProperties());
- bean.setSpanInjector(messageSpanInjector());
- bean.setDiagnosticContextFacade(testDiagnosticContextFacade());
- bean.setTracer(this.tracer);
- return bean;
- }
-
- /**
- * The {@link MessageSpanInjector}
- *
- * @return MessageSpanInjector.
- */
- protected MessageSpanInjector messageSpanInjector() {
-
- return new MessageSpanInjector();
- }
-
- /**
- * The {@link ProducerLoggingListener}
- *
- * @param <K> the key type
- * @param <V> the value type
- *
- * @param testMessageLoggingSupport the {@link MessageLoggingSupport}
- * @return ProducerLoggingListener
- */
- protected <K, V> ProducerLoggingListener<K, V> testMessageProducerLoggingListener(
- MessageLoggingSupport testMessageLoggingSupport) {
-
- return new ProducerLoggingListener<>(testMessageLoggingSupport());
- }
-
- /**
- * Creates instantiation for {@link DiagnosticContextFacadeImpl} and used for setting and retrieving correlation-id
- * from {@link LoggingConstants}.
- *
- * @return DiagnosticContextFacadeImpl.
- */
- public DiagnosticContextFacade testDiagnosticContextFacade() {
-
- return new DiagnosticContextFacadeImpl();
- }
-
- private <K, V> DefaultKafkaRecordSupport<K, V> testMessageKafkaRecordSupport() {
-
- return new DefaultKafkaRecordSupport<>();
- }
-
- /**
- * Creates bean for the {@link MessageRetryContext}
- *
- * @return the {@link MessageRetryContext}
- */
- @Bean
- public MessageRetryContext testMessageRetryContext() {
-
- return new MessageRetryContext();
- }
-
- private <K, V> DefaultRetryPolicy<K, V> testMessageRetryPolicy() {
-
- return new DefaultRetryPolicy<>(testMessageDefaultRetryPolicyProperties());
- }
-
- private DefaultBackOffPolicy testMessageBackOffPolicy() {
-
- return new DefaultBackOffPolicy(testMessageDefaultBackOffPolicyProperties());
- }
-
- private DefaultBackOffPolicyProperties testMessageDefaultBackOffPolicyProperties() {
-
- return new DefaultBackOffPolicyProperties();
- }
-
- private DefaultRetryPolicyProperties testMessageDefaultRetryPolicyProperties() {
-
- Set<String> exceptionClasses = new TreeSet<>();
- exceptionClasses.add("java.lang.Exception");
-
- DefaultRetryPolicyProperties defaultRetryPolicyProperties = new DefaultRetryPolicyProperties();
- defaultRetryPolicyProperties.setRetryableExceptions(exceptionClasses);
- defaultRetryPolicyProperties.setRetryCount(2);
-
- return defaultRetryPolicyProperties;
- }
-
- /**
- * Creates bean for the {@link MessageRetryTemplate}
- *
- * @param <K> the key type
- * @param <V> the value type
- *
- * @return the {@link MessageRetryTemplate}
- * @throws IOException IOE
- */
- @Bean
- public <K, V> MessageRetryTemplate<K, V> messageDefaultRetryTemplate() throws IOException {
-
- MessageRetryTemplate<K, V> bean = new MessageRetryTemplate<>(testMessageRetryPolicy(), testMessageBackOffPolicy());
- bean.setMessageSender(testMessageSender());
- bean.setKafkaRecordSupport(testMessageKafkaRecordSupport());
- return bean;
- }
-
- /**
- * Creates Bean
- *
- * @return MessageProcessor
- */
- @Bean
- public MessageProcessor<String, String> testMessageProcessor() {
-
- return new MessageProcessorImpl();
- }
-
- }
+        if (isFirst) {
+
+          isFirst = false;
+        } else {
+
+          builder.append(", ");
+        }
+
+        builder.append(mode.name());
+      }
+
+      throw new IllegalArgumentException("Invalid ack-mode " + builder.toString(), e);
+    }
+
+    factory.getContainerProperties().setAckMode(ackMode);
+  }
+
+  /**
+   * Creates bean for {@link LoggingErrorHandler}
+   *
+   * @return LoggingErrorHandler.
+   */
+  @Bean
+  public LoggingErrorHandler testMessageLoggingErrorHandler() {
+
+    return new LoggingErrorHandler();
+  }
+
+  /**
+   * Creates the bean for {@link MessageListenerLoggingAspect}.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
+   *
+   * @return the {@link MessageListenerLoggingAspect}.
+   */
+  @Bean
+  public <K, V> MessageListenerLoggingAspect<K, V> testMessageListenerLoggingAspect() {
+
+    MessageListenerLoggingAspect<K, V> messageListenerLoggingAspect = new MessageListenerLoggingAspect<>();
+    messageListenerLoggingAspect.setTracer(this.tracer);
+    messageListenerLoggingAspect.setSpanExtractor(testessageSpanExtractor());
+    return messageListenerLoggingAspect;
+  }
+
+  private <K, V> MessageSpanExtractor<K, V> testessageSpanExtractor() {
+
+    return new MessageSpanExtractor<>();
+  }
+
+  /**
+   * Creates the bean for {@link ConsumerGroupResolver}.
+   *
+   * @return the ConsumerGroupResolver
+   */
+  @Bean
+  public ConsumerGroupResolver testConsumerGroupResolver() {
+
+    return new ConsumerGroupResolver();
+  }
+
+  /**
+   * The {@link ConsumerFactory}
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
+   * @return ConsumerFactory
+   * @throws IOException the {@link IOException}
+   */
+  protected <K, V> ConsumerFactory<K, V> createConsumerFactory() throws IOException {
+
+    KafkaPropertyMapper mapper = new KafkaPropertyMapper();
+    return new DefaultKafkaConsumerFactory<>(
+        mapper.consumerProperties(testMessageKafkaCommonProperties(), testKafkaConsumerProperty()));
+  }
+
+  /**
+   * The {@link KafkaProducerProperties}
+   *
+   * @return KafkaProducerProperties.
+   */
+  protected KafkaProducerProperties testMessageKafkaProducerProperties() {
+
+    KafkaProducerProperties kafkaProducerproperties = new KafkaProducerProperties();
+    kafkaProducerproperties.setKeySerializer("org.apache.kafka.common.serialization.StringSerializer");
+    kafkaProducerproperties.setValueSerializer("org.apache.kafka.common.serialization.StringSerializer");
+    kafkaProducerproperties.setRetries(10);
+    return kafkaProducerproperties;
+  }
+
+  /**
+   * The {@link MessageSenderProperties}
+   *
+   * @return MessageSenderProperties.
+   */
+  protected MessageSenderProperties testMessageSenderProperties() {
+
+    return new MessageSenderProperties();
+  }
+
+  /**
+   * Creates Bean for the {@link ProducerFactory}.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
+   * @return ProducerFactory
+   * @throws IOException the {@link IOException}.
+   */
+  @Bean
+  public <K, V> ProducerFactory<K, V> testMessageKafkaProducerFactory() throws IOException {
+
+    return createProducerFactory();
+  }
+
+  /**
+   * The {@link ProducerFactory}
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
+   * @return ProducerFactory.
+   * @throws IOException the {@link IOException}.
+   */
+  protected <K, V> ProducerFactory<K, V> createProducerFactory() throws IOException {
+
+    KafkaPropertyMapper mapper = new KafkaPropertyMapper();
+    return new DefaultKafkaProducerFactory<>(
+        mapper.producerProperties(testMessageKafkaCommonProperties(), testMessageKafkaProducerProperties()));
+  }
+
+  /**
+   * Creates Bean for {@link KafkaTemplate}.
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
+   * @return KafkaTemplate.
+   * @throws IOException the {@link IOException}.
+   */
+  @Bean
+  public <K, V> KafkaTemplate<K, V> testMessageKafkaTemplate() throws IOException {
+
+    return createKafkaTemplate(testMessageProducerLoggingListener(testMessageLoggingSupport()),
+        testMessageKafkaProducerFactory());
+  }
+
+  /**
+   * The {@link KafkaTemplate}
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
+   * @param producerLogListener the {@link ProducerFencedException}
+   * @param producerFactory the {@link ProducerFactory}
+   * @return KafkaTemplate
+   * @throws IOException the {@link IOException}
+   */
+  protected <K, V> KafkaTemplate<K, V> createKafkaTemplate(ProducerLoggingListener<K, V> producerLogListener,
+      ProducerFactory<K, V> producerFactory) throws IOException {
+
+    KafkaTemplate<K, V> template = new KafkaTemplate<>(createProducerFactory());
+    template.setProducerListener(producerLogListener);
+    return template;
+  }
+
+  /**
+   * creates bean for the {@link MessageSenderImpl}
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
+   * @return MessageSenderImpl
+   * @throws IOException the {@link IOException}.
+   */
+  @Bean
+  public <K, V> MessageSender<K, V> testMessageSender() throws IOException {
+
+    MessageSenderImpl<K, V> bean = new MessageSenderImpl<>();
+    bean.setKafkaTemplate(testMessageKafkaTemplate());
+    bean.setLoggingSupport(testMessageLoggingSupport());
+    bean.setSenderProperties(testMessageSenderProperties());
+    bean.setSpanInjector(messageSpanInjector());
+    bean.setDiagnosticContextFacade(testDiagnosticContextFacade());
+    bean.setTracer(this.tracer);
+    return bean;
+  }
+
+  /**
+   * The {@link MessageSpanInjector}
+   *
+   * @return MessageSpanInjector.
+   */
+  protected MessageSpanInjector messageSpanInjector() {
+
+    return new MessageSpanInjector();
+  }
+
+  /**
+   * The {@link ProducerLoggingListener}
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
+   * @param testMessageLoggingSupport the {@link MessageLoggingSupport}
+   * @return ProducerLoggingListener
+   */
+  protected <K, V> ProducerLoggingListener<K, V> testMessageProducerLoggingListener(
+      MessageLoggingSupport testMessageLoggingSupport) {
+
+    return new ProducerLoggingListener<>(testMessageLoggingSupport());
+  }
+
+  /**
+   * Creates instantiation for {@link DiagnosticContextFacadeImpl} and used for setting and retrieving correlation-id
+   * from {@link LoggingConstants}.
+   *
+   * @return DiagnosticContextFacadeImpl.
+   */
+  public DiagnosticContextFacade testDiagnosticContextFacade() {
+
+    return new DiagnosticContextFacadeImpl();
+  }
+
+  private <K, V> DefaultKafkaRecordSupport<K, V> testMessageKafkaRecordSupport() {
+
+    return new DefaultKafkaRecordSupport<>();
+  }
+
+  /**
+   * Creates bean for the {@link MessageRetryContext}
+   *
+   * @return the {@link MessageRetryContext}
+   */
+  @Bean
+  public MessageRetryContext testMessageRetryContext() {
+
+    return new MessageRetryContext();
+  }
+
+  private <K, V> DefaultRetryPolicy<K, V> testMessageRetryPolicy() {
+
+    return new DefaultRetryPolicy<>(testMessageDefaultRetryPolicyProperties());
+  }
+
+  private DefaultBackOffPolicy testMessageBackOffPolicy() {
+
+    return new DefaultBackOffPolicy(testMessageDefaultBackOffPolicyProperties());
+  }
+
+  private DefaultBackOffPolicyProperties testMessageDefaultBackOffPolicyProperties() {
+
+    return new DefaultBackOffPolicyProperties();
+  }
+
+  private DefaultRetryPolicyProperties testMessageDefaultRetryPolicyProperties() {
+
+    Set<String> exceptionClasses = new TreeSet<>();
+    exceptionClasses.add("java.lang.Exception");
+
+    DefaultRetryPolicyProperties defaultRetryPolicyProperties = new DefaultRetryPolicyProperties();
+    defaultRetryPolicyProperties.setRetryableExceptions(exceptionClasses);
+    defaultRetryPolicyProperties.setRetryCount(2);
+
+    return defaultRetryPolicyProperties;
+  }
+
+  /**
+   * Creates bean for the {@link MessageRetryTemplate}
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
+   * @return the {@link MessageRetryTemplate}
+   * @throws IOException IOE
+   */
+  @Bean
+  public <K, V> MessageRetryTemplate<K, V> messageDefaultRetryTemplate() throws IOException {
+
+    MessageRetryTemplate<K, V> bean = new MessageRetryTemplate<>(testMessageRetryPolicy(), testMessageBackOffPolicy());
+    bean.setMessageSender(testMessageSender());
+    bean.setKafkaRecordSupport(testMessageKafkaRecordSupport());
+    return bean;
+  }
+
+  /**
+   * Creates Bean
+   *
+   * @return MessageProcessor
+   */
+  @Bean
+  public MessageProcessor<String, String> testMessageProcessor() {
+
+    return new MessageProcessorImpl();
+  }
+
+}
