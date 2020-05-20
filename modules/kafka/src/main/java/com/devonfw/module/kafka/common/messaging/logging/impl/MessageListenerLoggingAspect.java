@@ -35,7 +35,7 @@ import brave.Tracer;
  *
  */
 @Aspect
-@Order(1)
+@Order(0)
 public class MessageListenerLoggingAspect<K, V> {
 
   private static final Logger LOG = LoggerFactory.getLogger(MessageListenerLoggingAspect.class);
