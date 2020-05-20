@@ -1,4 +1,4 @@
-package com.devonfw.module.security.jwt.common.base;
+package com.devonfw.module.security.jwt.common.base.web;
 
 import java.io.IOException;
 
@@ -18,6 +18,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.devonfw.module.security.jwt.common.api.AccountCredentials;
 import com.devonfw.module.security.jwt.common.api.JwtCreator;
+import com.devonfw.module.security.jwt.common.base.JwtConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**

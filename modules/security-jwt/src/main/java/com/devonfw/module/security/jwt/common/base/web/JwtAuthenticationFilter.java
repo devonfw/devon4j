@@ -1,4 +1,4 @@
-package com.devonfw.module.security.jwt.common.base;
+package com.devonfw.module.security.jwt.common.base.web;
 
 import java.io.IOException;
 
@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.devonfw.module.security.jwt.common.api.JwtAuthenticator;
+import com.devonfw.module.security.jwt.common.base.JwtConstants;
 
 /**
  * Filter that validates the token and sets {@link Authentication} object in {@link SecurityContext}

@@ -1,24 +1,21 @@
-package com.devonfw.module.kafka.common.messaging.auth;
+package com.devonfw.module.security.jwt.common.base.kafka;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 import javax.inject.Inject;
 
-import org.apache.commons.codec.Charsets;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.header.Headers;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.devonfw.module.kafka.common.messaging.logging.impl.MessageLoggingSupport;
 import com.devonfw.module.security.jwt.common.api.JwtAuthenticator;
 import com.devonfw.module.security.jwt.common.base.JwtConstants;
 
@@ -28,11 +25,6 @@ import com.devonfw.module.security.jwt.common.base.JwtConstants;
 @Aspect
 @Order(0)
 public class JwtTokenValidationAspect {
-
-  private static final Logger LOG = LoggerFactory.getLogger(JwtTokenValidationAspect.class);
-
-  @Inject
-  private MessageLoggingSupport loggingSupport;
 
   @Inject
   private JwtAuthenticator jwtAuthenticator;
@@ -66,7 +58,7 @@ public class JwtTokenValidationAspect {
     String unModifiedToken = null;
 
     if (authorizationHeader != null && authorizationHeader.value() != null) {
-      unModifiedToken = new String(authorizationHeader.value(), Charsets.UTF_8);
+      unModifiedToken = new String(authorizationHeader.value(), StandardCharsets.UTF_8);
     }
 
     Optional.ofNullable(unModifiedToken).ifPresent(value -> validateTokenAndSetSecurityContext(value));
@@ -81,7 +73,6 @@ public class JwtTokenValidationAspect {
       Authentication authentication = this.jwtAuthenticator.authenticate(token);
       SecurityContextHolder.getContext().setAuthentication(authentication);
 
-      this.loggingSupport.logTokenIsValidated(LOG);
     }
   }
 

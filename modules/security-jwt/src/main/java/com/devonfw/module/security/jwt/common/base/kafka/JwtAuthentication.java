@@ -1,4 +1,4 @@
-package com.devonfw.module.kafka.common.messaging.auth;
+package com.devonfw.module.security.jwt.common.base.kafka;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
