@@ -81,14 +81,4 @@ public class MessageLoggingSupport {
     logger.error(EventKey.MESSAGE_NOT_PROCESSED.getMessage(), group, topic, partition, offset);
   }
 
-  /**
-   * This method is used to log that the given token is authenticated.
-   *
-   * @param logger the {@link Logger}
-   */
-  public void logTokenIsValidated(Logger logger) {
-
-    logger.info("The token is authenticated");
-  }
-
 }

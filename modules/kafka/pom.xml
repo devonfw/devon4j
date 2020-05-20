@@ -34,11 +34,6 @@
     </dependency>
 
     <dependency>
-      <groupId>com.devonfw.java.starters</groupId>
-      <artifactId>devon4j-starter-security-jwt</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>org.springframework.kafka</groupId>
       <artifactId>spring-kafka-test</artifactId>
       <scope>test</scope>
