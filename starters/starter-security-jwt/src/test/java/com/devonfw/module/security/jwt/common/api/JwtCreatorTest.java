@@ -33,7 +33,7 @@ public class JwtCreatorTest extends JwtComponentTest {
     List<GrantedAuthority> authorities = new ArrayList<>();
     authorities.add(new SimpleGrantedAuthority(TEST_ROLE_READ_MASTER_DATA));
     authorities.add(new SimpleGrantedAuthority(TEST_ROLE_SAVE_USER));
-    Authentication authentication = new DefaultAuthentication(TEST_LOGIN, "******", authorities);
+    Authentication authentication = new DefaultAuthentication(TEST_LOGIN, "🐘🐘🐘🐘🐘🐘", authorities);
     Date now = new Date();
 
     // when
