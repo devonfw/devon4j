@@ -41,7 +41,7 @@ public class JwtTokenValidationAspect {
    * @return Object
    * @throws Throwable the {@link Throwable}
    */
-  @Around("@annotation(com.devonfw.module.kafka.common.messaging.auth.JwtAuthentication) && args(kafkaRecord,..)")
+  @Around("@annotation(com.devonfw.module.security.jwt.common.base.kafka.JwtAuthentication) && args(kafkaRecord,..)")
   public <K, V> Object authenticateToken(ProceedingJoinPoint call, ConsumerRecord<K, V> kafkaRecord) throws Throwable {
 
     authenticateToken(kafkaRecord);
