@@ -77,7 +77,7 @@ public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
       throw new IllegalArgumentException("The \"ex \" parameter cannot be null.");
     }
 
-    LOG.debug("proceeding with retry for the message {} and due to {}", consumerRecord.value().toString(),
+    LOG.info("proceeding with retry for the message {} and due to {}", consumerRecord.value().toString(),
         ex.getMessage());
 
     if (retryContext != null && retryContext.getRetryUntil() != null
