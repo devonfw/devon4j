@@ -32,12 +32,16 @@ public class ProducerLoggingListener<K, V> implements ProducerListener<K, V> {
   @Override
   public void onSuccess(String topic, Integer partition, Object key, Object value, RecordMetadata recordMetadata) {
 
+    String messageKey = "<no message key>";
+    if (key != null) {
+      key = key.toString();
+    }
     if (recordMetadata != null) {
-      this.loggingSupport.logMessageSent(LOG, value.toString(), recordMetadata.topic(), recordMetadata.partition(),
+      this.loggingSupport.logMessageSent(LOG, messageKey, recordMetadata.topic(), recordMetadata.partition(),
           recordMetadata.offset());
 
     } else {
-      this.loggingSupport.logMessageSent(LOG, value.toString(), topic, partition, null);
+      this.loggingSupport.logMessageSent(LOG, messageKey, topic, partition, null);
     }
   }
 
