@@ -53,6 +53,13 @@ public interface AccessControlProvider {
    */
   boolean collectAccessControls(String id, Set<AccessControl> permissions);
 
+  /**
+   * This is a convenvience method to expand the permissions for all given roleIds. So for each provided roleId the
+   * corresponding {@link AccessControl} are collected via {@link #collectAccessControls(String, Set)}.
+   * 
+   * @param roleIds The IDs of the roles.
+   * @return A collection of {@link AccessControl} belonging to the given roleIds.
+   */
   default Set<AccessControl> expandPermissions(Collection<String> roleIds) {
 
     Set<AccessControl> accessControlSet = new HashSet<>();

@@ -77,14 +77,17 @@ public class DefaultAuthentication extends UsernamePasswordAuthenticationToken i
    * @param principal the {@link #getPrincipal() principal}.
    * @param credentials the optional {@link #getCredentials() credentials}.
    * @param accessControls the {@link #getPermissions() permissions}.
+   * @param attributes the {@link Map} of {@link #getAttribute(String) attributes}. Use
+   *        {@link java.util.Collections#unmodifiableMap(Map)} to prevent {@link #setAttribute(String, Object)
+   *        mutation}.
    *
    * @return New {@link DefaultAuthentication}.
    */
-  public static DefaultAuthentication ofAccessControl(Object principal, Object credentials,
-      Collection<? extends AccessControl> accessControls) {
+  public static DefaultAuthentication ofAccessControls(Object principal, Object credentials,
+      Collection<? extends AccessControl> accessControls, Map<String, Object> attributes) {
 
     return new DefaultAuthentication(principal, credentials,
-        accessControls.stream().map(AccessControlGrantedAuthority::new).collect(Collectors.toList()));
+        accessControls.stream().map(AccessControlGrantedAuthority::new).collect(Collectors.toList()), attributes);
   }
 
   /**

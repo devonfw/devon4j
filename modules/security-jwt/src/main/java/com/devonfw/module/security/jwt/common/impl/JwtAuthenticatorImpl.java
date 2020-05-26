@@ -37,7 +37,7 @@ public class JwtAuthenticatorImpl implements JwtAuthenticator {
     String principal = claims.getSubject();
     String[] roleIds = claims.get(JwtManager.CLAIM_ROLES, String.class).split(",");
     Set<AccessControl> permissions = this.accessControlProvider.expandPermissions(Arrays.asList(roleIds));
-    return DefaultAuthentication.ofAccessControl(principal, jwt, permissions);
+    return DefaultAuthentication.ofAccessControls(principal, jwt, permissions, claims);
   }
 
 }
