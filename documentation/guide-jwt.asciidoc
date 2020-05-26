@@ -12,7 +12,12 @@ For more information about JWT https://jwt.io/[click here]
 == Keystore
 
 A KeyStore is a repository of certificates and keys (public key, private key, or secret key). They can be used for TSL transportation, for encryption and decryption as well as for signing.
+For demonstration you might create a keystore with openssl, with the following commands:
 
+----
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+openssl pkcs12 -export -in cert.pem -inkey key.pem -out example.p12 
+----
 
 == Dependency
 
