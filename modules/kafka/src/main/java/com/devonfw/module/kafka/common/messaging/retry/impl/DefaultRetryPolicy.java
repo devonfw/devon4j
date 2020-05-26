@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.classify.BinaryExceptionClassifier;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -22,6 +24,8 @@ import com.devonfw.module.kafka.common.messaging.retry.util.MessageRetryUtils;
  *
  */
 public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(DefaultRetryPolicy.class);
 
   private BinaryExceptionClassifier retryableClassifier = new BinaryExceptionClassifier(false);
 
@@ -72,6 +76,9 @@ public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
     if (ObjectUtils.isEmpty(ex)) {
       throw new IllegalArgumentException("The \"ex \" parameter cannot be null.");
     }
+
+    LOG.debug("proceeding with retry for the message {} and due to {}", consumerRecord.value().toString(),
+        ex.getMessage());
 
     if (retryContext != null && retryContext.getRetryUntil() != null
         && retryContext.getCurrentRetryCount() < this.retryCount) {
