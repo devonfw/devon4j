@@ -8,7 +8,7 @@ public enum EventKey {
   /**
    * MESSAGE_SENT_SUCCESSFULLY
    */
-  MESSAGE_SENT_SUCCESSFULLY("The message {} ​​was placed in the topic {}, partition {}, offset {}."),
+  MESSAGE_SENT_SUCCESSFULLY("The message with ID {} ​​was placed in the topic {}, partition {}, offset {}."),
 
   /**
    * MESSAGE_NOT_SENT
