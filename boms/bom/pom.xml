@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -72,7 +73,8 @@
         <artifactId>javax.inject</artifactId>
         <version>1</version>
       </dependency>
-      <!-- JSR 250 for common annotations (component-bean lifecycle, security, etc.) -->
+      <!-- JSR 250 for common annotations (component-bean lifecycle, security, 
+        etc.) -->
       <dependency>
         <groupId>javax.annotation</groupId>
         <artifactId>javax.annotation-api</artifactId>
@@ -318,6 +320,16 @@
         <artifactId>awaitility</artifactId>
         <version>4.0.2</version>
         <scope>test</scope>
+      </dependency>
+
+      <!-- Overwrite Spring Cloud Sleuth Brave version do avoid unimplemented 
+        close(Duration) method -->
+      <dependency>
+        <groupId>io.zipkin.brave</groupId>
+        <artifactId>brave-bom</artifactId>
+        <version>5.6.4</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
