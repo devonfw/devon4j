@@ -1,4 +1,4 @@
-package com.devonfw.module.kafka.common.messaging.api.config;
+package com.devonfw.module.kafka.common.messaging.health.api.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.kafka.core.ConsumerFactory;
 
-import com.devonfw.module.kafka.common.messaging.health.api.config.KafkaHealthIndicatorProperties;
+import com.devonfw.module.kafka.common.messaging.api.config.MessageReceiverConfig;
 import com.devonfw.module.kafka.common.messaging.health.impl.KafkaHealthIndicator;
 
 /**
