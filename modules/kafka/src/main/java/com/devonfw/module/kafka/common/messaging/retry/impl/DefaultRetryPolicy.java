@@ -45,7 +45,7 @@ public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
     }
 
     if (CollectionUtils.isEmpty(properties.getRetryableExceptions())) {
-      throw new IllegalArgumentException("The property \\\"retryable-exceptions\\\" must not be null.");
+      LOG.info("The property \\\\\\\"retryable-exceptions\\\\\\\" is empty. No retries will be performed.");
     }
 
     this.retryPeriod = properties.getRetryPeriod();

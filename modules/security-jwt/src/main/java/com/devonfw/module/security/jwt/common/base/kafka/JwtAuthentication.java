@@ -18,4 +18,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 @Target(METHOD)
 public @interface JwtAuthentication {
 
+  /**
+   * This attribute is used to denote to fail the pre-auth when the token is missing.
+   */
+  public boolean failOnMissingToken() default true;
 }

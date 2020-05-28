@@ -1,5 +1,6 @@
 package com.devonfw.module.kafka.common.messaging.retry.api.config;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import com.devonfw.module.kafka.common.messaging.retry.impl.DefaultRetryPolicy;
@@ -12,7 +13,7 @@ public class DefaultRetryPolicyProperties {
 
   private long retryPeriod = 1800;
 
-  private Set<String> retryableExceptions;
+  private Set<String> retryableExceptions = new HashSet<>();
 
   private boolean retryableExceptionsTraverseCauses = false;
 

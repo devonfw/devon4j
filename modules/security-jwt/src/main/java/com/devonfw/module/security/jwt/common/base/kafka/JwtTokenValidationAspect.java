@@ -42,16 +42,21 @@ public class JwtTokenValidationAspect {
    * @param <V> the value type
    * @param call the {@link ProceedingJoinPoint}
    * @param kafkaRecord the {@link ConsumerRecord}
-   * @param acknowledgment the {@link Acknowledgment}
+   * @param jwtAuthentication the {@link JwtAuthentication}
    * @return Object
    * @throws Throwable the {@link Throwable}
    */
-  @Around("@annotation(com.devonfw.module.security.jwt.common.base.kafka.JwtAuthentication) && args(kafkaRecord,..)")
-  public <K, V> Object authenticateToken(ProceedingJoinPoint call, ConsumerRecord<K, V> kafkaRecord) throws Throwable {
+  @Around(value = "@annotation(jwtAuthentication) && args(kafkaRecord,..)")
+  public <K, V> Object authenticateToken(ProceedingJoinPoint call, JwtAuthentication jwtAuthentication,
+      ConsumerRecord<K, V> kafkaRecord) throws Throwable {
 
     try {
-      authenticateToken(kafkaRecord);
+      authenticateToken(kafkaRecord, jwtAuthentication);
       return call.proceed();
+    } catch (MissingTokenException e) {
+      LOG.warn("Message with null token received (Topic: {}, Partition: {}, Offset: {}).", e, kafkaRecord.topic(),
+          kafkaRecord.partition(), kafkaRecord.offset());
+      throw e;
     } catch (AuthenticationException ex) {
       LOG.warn("Message with invalid token received (Topic: {}, Partition: {}, Offset: {}).", ex, kafkaRecord.topic(),
           kafkaRecord.partition(), kafkaRecord.offset());
@@ -66,11 +71,15 @@ public class JwtTokenValidationAspect {
 
   }
 
-  private <K, V> void authenticateToken(ConsumerRecord<K, V> kafkaRecord) {
+  private <K, V> void authenticateToken(ConsumerRecord<K, V> kafkaRecord, JwtAuthentication jwtAuthentication) {
 
     Headers headers = kafkaRecord.headers();
 
     Header authorizationHeader = headers.lastHeader(JwtConstants.HEADER_AUTHORIZATION);
+
+    if (jwtAuthentication.failOnMissingToken() && authorizationHeader == null || authorizationHeader.value() == null) {
+      throw new MissingTokenException("Token cannot be null");
+    }
 
     if (authorizationHeader != null && authorizationHeader.value() != null) {
       Authentication authentication = this.jwtAuthenticator
