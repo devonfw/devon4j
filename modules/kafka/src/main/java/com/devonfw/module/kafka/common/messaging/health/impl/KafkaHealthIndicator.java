@@ -49,8 +49,6 @@ public class KafkaHealthIndicator<K, V> implements HealthIndicator {
   @Override
   public Health health() {
 
-    if (true)
-      return Health.up().build();
     ExecutorService executor = Executors.newSingleThreadExecutor();
     Future<Health> future = executor.submit(this::doCheckKafkaHealth);
 
