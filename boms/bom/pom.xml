@@ -323,7 +323,7 @@
       </dependency>
 
       <!-- Overwrite Spring Cloud Sleuth Brave version do avoid unimplemented 
-        close(Duration) method -->
+        close(Duration) method in brave.kafka.clients.TracingProducer<K, V> -->
       <dependency>
         <groupId>io.zipkin.brave</groupId>
         <artifactId>brave-bom</artifactId>
