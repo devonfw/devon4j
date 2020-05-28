@@ -20,10 +20,13 @@ import com.devonfw.module.test.common.base.ModuleTest;
 @DirtiesContext
 public abstract class AbstractKafkaBaseTest extends ModuleTest {
 
+  /** Test Topic */
   public static final String TEST_TOPIC_1 = "test-topic-1";
 
+  /** Test Topic */
   public static final String RETRY_TEST_TOPIC = "retry-test";
 
+  /** Name of consumer group for testing */
   public static final String TEST_GROUP = "test-group";
 
 }
