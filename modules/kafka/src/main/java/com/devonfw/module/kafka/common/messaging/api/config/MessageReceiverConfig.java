@@ -105,12 +105,12 @@ public class MessageReceiverConfig {
    * @param <K> the key type
    * @param <V> the value type
    *
-   * @param kafkaCommonProperties the {@link KafkaCommonProperties}
-   * @param kafkaConsumerProperties the {@link KafkaConsumerProperties}
+   * @param consumerFactory the {@link ConsumerFactory}
    * @param kafkaListenerContainerProperties the {@link KafkaListenerContainerProperties}
    * @param messageLoggingErrorHandler the {@link LoggingErrorHandler}
    * @return the KafkaListenerContainerFactory.
    */
+  @Bean
   public <K, V> KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<K, V>> kafkaListenerContainerFactory(
       ConsumerFactory<K, V> consumerFactory, KafkaListenerContainerProperties kafkaListenerContainerProperties,
       LoggingErrorHandler messageLoggingErrorHandler) {
