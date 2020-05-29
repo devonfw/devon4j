@@ -1,4 +1,4 @@
-package com.devonfw.example.base;
+package com.defonfw.starters.kafka.receiver.app;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -7,7 +7,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 
-import com.devonfw.example.module.AbstractKafkaBaseTest;
+import com.defonfw.starters.kafka.receiver.TestKafkaReceiverSetup;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageProcessor;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryOperations;
 
@@ -32,7 +32,7 @@ public class MessageTestListener {
    * @param acknowledgment the {@link Acknowledgment} to acknowledge the listener that message has been processed.
    * @throws Exception exception
    */
-  @KafkaListener(topics = AbstractKafkaBaseTest.RETRY_TEST_TOPIC, groupId = AbstractKafkaBaseTest.TEST_GROUP)
+  @KafkaListener(topics = TestKafkaReceiverSetup.TEST_TOPIC, groupId = "test-group")
   public void consumer(ConsumerRecord<String, String> consumerRecord, Acknowledgment acknowledgment) throws Exception {
 
     processMessageAndAcknowledgeListener(consumerRecord, acknowledgment);

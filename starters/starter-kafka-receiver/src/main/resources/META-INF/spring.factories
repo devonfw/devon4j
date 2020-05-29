@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.devonfw.module.kafka.common.messaging.api.config.MessageReceiverConfig,com.devonfw.module.kafka.common.messaging.retry.api.config.MessageDefaultRetryConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.devonfw.module.kafka.common.messaging.health.api.config.MessageHealthIndicatorConfig,com.devonfw.module.kafka.common.messaging.api.config.MessageReceiverConfig,com.devonfw.module.kafka.common.messaging.retry.api.config.MessageDefaultRetryConfig

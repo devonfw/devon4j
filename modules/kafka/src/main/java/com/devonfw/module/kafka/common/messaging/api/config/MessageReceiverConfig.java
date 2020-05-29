@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties.AckMode;
 import org.springframework.kafka.listener.LoggingErrorHandler;
@@ -19,6 +21,7 @@ import org.springframework.kafka.listener.LoggingErrorHandler;
 import com.devonfw.module.kafka.common.messaging.logging.impl.ConsumerGroupResolver;
 import com.devonfw.module.kafka.common.messaging.logging.impl.MessageListenerLoggingAspect;
 import com.devonfw.module.kafka.common.messaging.trace.impl.MessageSpanExtractor;
+import com.devonfw.module.kafka.common.messaging.util.KafkaPropertyMapper;
 
 import brave.Tracer;
 
@@ -56,28 +59,6 @@ public class MessageReceiverConfig {
   public KafkaListenerContainerProperties messageKafkaListenerContainerProperties() {
 
     return new KafkaListenerContainerProperties();
-  }
-
-  /**
-   * Creates the bean of {@link KafkaListenerContainerFactory}
-   *
-   * @param <K> the key type
-   * @param <V> the value type
-   *
-   * @param messageKafkaCommonProperties the {@link MessageCommonConfig#messageKafkaCommonProperties()}
-   * @param messageKafkaConsumerProperties the {@link #messageKafkaConsumerProperties()}
-   * @param messageKafkaListenerContainerProperties the {@link #messageKafkaListenerContainerProperties()}
-   * @param messageLoggingErrorHandler the {@link #messageLoggingErrorHandler()}
-   * @return the bean of {@link KafkaListenerContainerFactory}
-   */
-  @Bean
-  public <K, V> KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<K, V>> kafkaListenerContainerFactory(
-      KafkaCommonProperties messageKafkaCommonProperties, KafkaConsumerProperties messageKafkaConsumerProperties,
-      KafkaListenerContainerProperties messageKafkaListenerContainerProperties,
-      LoggingErrorHandler messageLoggingErrorHandler) {
-
-    return createKafkaListenerContainerFactory(messageKafkaCommonProperties, messageKafkaConsumerProperties,
-        messageKafkaListenerContainerProperties, messageLoggingErrorHandler);
   }
 
   /**
@@ -124,21 +105,19 @@ public class MessageReceiverConfig {
    * @param <K> the key type
    * @param <V> the value type
    *
-   * @param kafkaCommonProperties the {@link KafkaCommonProperties}
-   * @param kafkaConsumerProperties the {@link KafkaConsumerProperties}
+   * @param consumerFactory the {@link ConsumerFactory}
    * @param kafkaListenerContainerProperties the {@link KafkaListenerContainerProperties}
    * @param messageLoggingErrorHandler the {@link LoggingErrorHandler}
    * @return the KafkaListenerContainerFactory.
    */
-  public static <K, V> KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<K, V>> createKafkaListenerContainerFactory(
-      KafkaCommonProperties kafkaCommonProperties, KafkaConsumerProperties kafkaConsumerProperties,
-      KafkaListenerContainerProperties kafkaListenerContainerProperties,
+  @Bean
+  public <K, V> KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<K, V>> kafkaListenerContainerFactory(
+      ConsumerFactory<K, V> consumerFactory, KafkaListenerContainerProperties kafkaListenerContainerProperties,
       LoggingErrorHandler messageLoggingErrorHandler) {
 
     ConcurrentKafkaListenerContainerFactory<K, V> factory = new ConcurrentKafkaListenerContainerFactory<>();
 
-    factory
-        .setConsumerFactory(MessageCommonConfig.createConsumerFactory(kafkaCommonProperties, kafkaConsumerProperties));
+    factory.setConsumerFactory(consumerFactory);
 
     factory.setConcurrency(Optional.ofNullable(kafkaListenerContainerProperties.getConcurrency()).orElse(1));
 
@@ -199,6 +178,24 @@ public class MessageReceiverConfig {
     }
 
     factory.getContainerProperties().setAckMode(ackMode);
+  }
+
+  /**
+   * This method is used to create {@link ConsumerFactory}
+   *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
+   * @param kafkaCommonProperties the {@link KafkaCommonProperties}
+   * @param kafkaConsumerProperties the {@link KafkaConsumerProperties}
+   * @return the {@link ConsumerFactory}
+   */
+  @Bean
+  public <K, V> ConsumerFactory<K, V> consumerFactory(KafkaCommonProperties kafkaCommonProperties,
+      KafkaConsumerProperties kafkaConsumerProperties) {
+
+    KafkaPropertyMapper mapper = new KafkaPropertyMapper();
+    return new DefaultKafkaConsumerFactory<>(mapper.consumerProperties(kafkaCommonProperties, kafkaConsumerProperties));
   }
 
 }
