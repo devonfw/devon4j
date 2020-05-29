@@ -1,37 +1,32 @@
 package com.devonfw.module.security.jwt.common.base.kafka;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
+import static org.hamcrest.Matchers.equalTo;
 
 import javax.inject.Inject;
 
 import org.apache.commons.codec.Charsets;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.Headers;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.junit.jupiter.api.BeforeEach;
+import org.awaitility.Awaitility;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
 import com.devonfw.module.security.jwt.common.api.JwtComponentTest;
 import com.devonfw.module.security.jwt.common.base.JwtConstants;
 
 /**
  *
  */
-@ExtendWith({ MockitoExtension.class, SpringExtension.class })
+@ExtendWith(value = { MockitoExtension.class, SpringExtension.class })
 @EmbeddedKafka(topics = JwtTokenValidationAspectTest.TEST_TOPIC)
 public class JwtTokenValidationAspectTest extends JwtComponentTest {
 
@@ -40,87 +35,92 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
    */
   public static final String TEST_TOPIC = "jwt-test";
 
-  @Mock
-  private ProceedingJoinPoint proceedingJoinPoint;
+  @Inject
+  private MessageSender<String, String> messageSender;
 
-  @Mock
-  private JwtAuthentication jwtAuthentication;
+  @Inject
+  private MessageTestProcessor messageProcessor;
 
   @Inject
   private JwtTokenValidationAspect jwtTokenValidationAspect;
 
-  private ConsumerRecord<String, String> consumerRecord;
+  @Mock
+  private ProceedingJoinPoint call;
+
+  @Mock
+  private JwtAuthentication jwtAuthentication;
+
+  private ConsumerRecord<String, String> kafkaRecord;
 
   /**
+   * Test receiving message with starter setup works
    *
-   */
-  @BeforeEach
-  public void doSetup() {
-
-  }
-
-  /**
-   * @throws Throwable
+   * @throws Exception if an error occurs.
    */
   @Test
-  public void shouldValidate_whenValidTokenAndRolesPassedAsHeaders() throws Throwable {
+  public void shouldValidate_whenInValidateTokenIsPassed() throws Exception {
 
     // Arrange
-    this.consumerRecord = new ConsumerRecord<>(TEST_TOPIC, 0, 0, "jwt-test", "message");
-    Headers headers = this.consumerRecord.headers();
+    ProducerRecord<String, String> producerRecord = new ProducerRecord<>(TEST_TOPIC, "Hello World!");
+    Headers headers = producerRecord.headers();
     headers.add(JwtConstants.HEADER_AUTHORIZATION, TEST_JWT.getBytes(Charsets.UTF_8));
 
-    List<GrantedAuthority> authorities = new ArrayList<>();
-    authorities.add(new SimpleGrantedAuthority(TEST_ROLE_READ_MASTER_DATA));
-    authorities.add(new SimpleGrantedAuthority(TEST_ROLE_SAVE_USER));
-
-    when(this.jwtAuthentication.failOnMissingToken()).thenReturn(true);
+    adjustClock();
 
     // Act
-    this.jwtTokenValidationAspect.authenticateToken(this.proceedingJoinPoint, this.jwtAuthentication,
-        this.consumerRecord);
+    this.messageSender.sendMessageAndWait(producerRecord);
 
     // Assert
-    verify(this.proceedingJoinPoint, times(1)).proceed();
+    Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(1));
+
+    resetClock();
   }
 
   /**
-   * @throws Throwable
+   * @throws Exception
    *
    */
   @Test
-  public void shouldValidate_whenInValidateTokenIsPassed() throws Throwable {
+  public void shouldValidate_whenInvalidTokenIsPassed() throws Exception {
 
     // Arrange
-    this.consumerRecord = new ConsumerRecord<>(TEST_TOPIC, 0, 0, "jwt-test", "message");
-    Headers headers = this.consumerRecord.headers();
+    ProducerRecord<String, String> producerRecord = new ProducerRecord<>(TEST_TOPIC, "Hello World!");
+    Headers headers = producerRecord.headers();
     headers.add(JwtConstants.HEADER_AUTHORIZATION, INVALID_TEST_JWT.getBytes(Charsets.UTF_8));
 
-    when(this.jwtAuthentication.failOnMissingToken()).thenReturn(true);
+    adjustClock();
 
     // Act
-    this.jwtTokenValidationAspect.authenticateToken(this.proceedingJoinPoint, this.jwtAuthentication,
-        this.consumerRecord);
+    this.messageSender.sendMessageAndWait(producerRecord);
 
     // Assert
-    verify(this.proceedingJoinPoint, never()).proceed();
+    Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(0));
+
+    resetClock();
   }
 
   /**
-   * @throws Throwable
-   *
+   * @throws Exception
    */
   @Test
-  public void shouldValidate_whenTokenIsNotGiven() throws Throwable {
+  public void shouldValidateAndThrowMissingTokenException_whenTokenIsNotPassed() throws Exception {
 
     // Arrange
-    this.consumerRecord = new ConsumerRecord<>(TEST_TOPIC, 0, 0, "jwt-test", "message");
-    when(this.jwtAuthentication.failOnMissingToken()).thenReturn(true);
+    ProducerRecord<String, String> producerRecord = new ProducerRecord<>(TEST_TOPIC, "Hello World!");
+
+    Mockito.when(this.jwtAuthentication.failOnMissingToken()).thenReturn(true);
+
+    adjustClock();
 
     // Act
+    this.messageSender.sendMessageAndWait(producerRecord);
+
     // Assert
-    assertThrows(MissingTokenException.class, () -> this.jwtTokenValidationAspect
-        .authenticateToken(this.proceedingJoinPoint, this.jwtAuthentication, this.consumerRecord));
-    verify(this.proceedingJoinPoint, never()).proceed();
+    // Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(0));
+    Awaitility.await().untilAsserted(() -> Assertions.assertThrows(MissingTokenException.class,
+        () -> this.jwtTokenValidationAspect.authenticateToken(this.call, this.jwtAuthentication, this.kafkaRecord)));
+
+    resetClock();
+
   }
 }
