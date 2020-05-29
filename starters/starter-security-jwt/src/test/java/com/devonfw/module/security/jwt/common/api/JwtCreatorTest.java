@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.devonfw.module.security.common.api.authentication.DefaultAuthentication;
+import com.devonfw.test.app.TestJwtAccessControlConfig;
 
 import io.jsonwebtoken.Claims;
 
@@ -31,8 +32,8 @@ public class JwtCreatorTest extends JwtComponentTest {
 
     // given
     List<GrantedAuthority> authorities = new ArrayList<>();
-    authorities.add(new SimpleGrantedAuthority(TEST_ROLE_READ_MASTER_DATA));
-    authorities.add(new SimpleGrantedAuthority(TEST_ROLE_SAVE_USER));
+    authorities.add(new SimpleGrantedAuthority(TestJwtAccessControlConfig.GROUP_READ_MASTER_DATA));
+    authorities.add(new SimpleGrantedAuthority(TestJwtAccessControlConfig.GROUP_SAVE_USER));
     Authentication authentication = new DefaultAuthentication(TEST_LOGIN, "******", authorities);
     Date now = new Date();
 
