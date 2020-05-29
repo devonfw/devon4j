@@ -63,7 +63,7 @@ public class MessageReceiverConfig {
 
   /**
    * Creates the bean for {@link MessageListenerLoggingAspect}.
-   * 
+   *
    * @param <K> the key type
    * @param <V> the value type
    *
