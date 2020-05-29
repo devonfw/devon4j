@@ -14,7 +14,7 @@ import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageProcess
  * a runtime exception.
  */
 @Named
-public class MessageTestProcessor implements MessageProcessor<String, String> {
+public class MessageTestProcessorImpl implements MessageProcessor<String, String> {
 
   List<ConsumerRecord<String, String>> receivedMessages = new ArrayList<>();
 

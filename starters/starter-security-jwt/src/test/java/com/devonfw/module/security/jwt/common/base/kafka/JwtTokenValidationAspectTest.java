@@ -2,8 +2,6 @@ package com.devonfw.module.security.jwt.common.base.kafka;
 
 import static org.hamcrest.Matchers.equalTo;
 
-import javax.inject.Inject;
-
 import org.apache.commons.codec.Charsets;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -16,32 +14,40 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.kafka.test.context.EmbeddedKafka;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
 import com.devonfw.module.security.jwt.common.api.JwtComponentTest;
 import com.devonfw.module.security.jwt.common.base.JwtConstants;
+import com.devonfw.module.test.common.base.ModuleTest;
+import com.devonfw.test.app.TestApplication;
 
 /**
  *
  */
 @ExtendWith(value = { MockitoExtension.class, SpringExtension.class })
 @EmbeddedKafka(topics = JwtTokenValidationAspectTest.TEST_TOPIC)
-public class JwtTokenValidationAspectTest extends JwtComponentTest {
+@SpringBootTest(classes = TestApplication.class, webEnvironment = WebEnvironment.NONE)
+@DirtiesContext
+public class JwtTokenValidationAspectTest extends ModuleTest {
 
   /**
    *
    */
   public static final String TEST_TOPIC = "jwt-test";
 
-  @Inject
+  @Autowired
   private MessageSender<String, String> messageSender;
 
-  @Inject
-  private MessageTestProcessor messageProcessor;
+  @Autowired
+  private MessageTestProcessorImpl messageProcessor;
 
-  @Inject
+  @Autowired
   private JwtTokenValidationAspect jwtTokenValidationAspect;
 
   @Mock
@@ -49,8 +55,6 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
 
   @Mock
   private JwtAuthentication jwtAuthentication;
-
-  private ConsumerRecord<String, String> kafkaRecord;
 
   /**
    * Test receiving message with starter setup works
@@ -63,9 +67,9 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
     // Arrange
     ProducerRecord<String, String> producerRecord = new ProducerRecord<>(TEST_TOPIC, "Hello World!");
     Headers headers = producerRecord.headers();
-    headers.add(JwtConstants.HEADER_AUTHORIZATION, TEST_JWT.getBytes(Charsets.UTF_8));
+    headers.add(JwtConstants.HEADER_AUTHORIZATION, JwtComponentTest.TEST_JWT.getBytes(Charsets.UTF_8));
 
-    adjustClock();
+    // adjustClock();
 
     // Act
     this.messageSender.sendMessageAndWait(producerRecord);
@@ -73,7 +77,7 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
     // Assert
     Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(1));
 
-    resetClock();
+    // resetClock();
   }
 
   /**
@@ -86,9 +90,9 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
     // Arrange
     ProducerRecord<String, String> producerRecord = new ProducerRecord<>(TEST_TOPIC, "Hello World!");
     Headers headers = producerRecord.headers();
-    headers.add(JwtConstants.HEADER_AUTHORIZATION, INVALID_TEST_JWT.getBytes(Charsets.UTF_8));
+    headers.add(JwtConstants.HEADER_AUTHORIZATION, JwtComponentTest.INVALID_TEST_JWT.getBytes(Charsets.UTF_8));
 
-    adjustClock();
+    // adjustClock();
 
     // Act
     this.messageSender.sendMessageAndWait(producerRecord);
@@ -96,7 +100,7 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
     // Assert
     Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(0));
 
-    resetClock();
+    // resetClock();
   }
 
   /**
@@ -108,9 +112,11 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
     // Arrange
     ProducerRecord<String, String> producerRecord = new ProducerRecord<>(TEST_TOPIC, "Hello World!");
 
+    ConsumerRecord<String, String> kafkaRecord = new ConsumerRecord<>(TEST_TOPIC, 0, 0, null, "Hello World!");
+
     Mockito.when(this.jwtAuthentication.failOnMissingToken()).thenReturn(true);
 
-    adjustClock();
+    // adjustClock();
 
     // Act
     this.messageSender.sendMessageAndWait(producerRecord);
@@ -118,9 +124,9 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
     // Assert
     // Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(0));
     Awaitility.await().untilAsserted(() -> Assertions.assertThrows(MissingTokenException.class,
-        () -> this.jwtTokenValidationAspect.authenticateToken(this.call, this.jwtAuthentication, this.kafkaRecord)));
+        () -> this.jwtTokenValidationAspect.authenticateToken(this.call, this.jwtAuthentication, kafkaRecord)));
 
-    resetClock();
+    // resetClock();
 
   }
 }
