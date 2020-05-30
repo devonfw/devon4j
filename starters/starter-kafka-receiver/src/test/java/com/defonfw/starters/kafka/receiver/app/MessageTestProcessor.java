@@ -26,7 +26,7 @@ public class MessageTestProcessor implements MessageProcessor<String, String> {
   }
 
   /**
-   * @param receivedMessages new value of {@link #getreceivedMessages}.
+   * @param receivedMessages new value of {@link #getReceivedMessages}.
    */
   public void setReceivedMessages(List<ConsumerRecord<String, String>> receivedMessages) {
 

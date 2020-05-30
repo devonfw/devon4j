@@ -2,12 +2,15 @@ package com.devonfw.module.security.jwt.common.base.kafka;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import java.nio.charset.Charset;
+
 import org.apache.commons.codec.Charsets;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.Headers;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.awaitility.Awaitility;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,20 +27,18 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
 import com.devonfw.module.security.jwt.common.api.JwtComponentTest;
 import com.devonfw.module.security.jwt.common.base.JwtConstants;
-import com.devonfw.module.test.common.base.ModuleTest;
-import com.devonfw.test.app.TestApplication;
 
 /**
- *
+ * This class is to test the functionality of {@link JwtTokenValidationAspect} as an integrated test.
  */
 @ExtendWith(value = { MockitoExtension.class, SpringExtension.class })
 @EmbeddedKafka(topics = JwtTokenValidationAspectTest.TEST_TOPIC)
 @SpringBootTest(classes = TestApplication.class, webEnvironment = WebEnvironment.NONE)
 @DirtiesContext
-public class JwtTokenValidationAspectTest extends ModuleTest {
+public class JwtTokenValidationAspectTest extends JwtComponentTest {
 
   /**
-   *
+   * The test topic name.
    */
   public static final String TEST_TOPIC = "jwt-test";
 
@@ -57,7 +58,18 @@ public class JwtTokenValidationAspectTest extends ModuleTest {
   private JwtAuthentication jwtAuthentication;
 
   /**
-   * Test receiving message with starter setup works
+   * This method is used to clear the messages in the list.
+   */
+  @AfterEach
+  public void removeMessages() {
+
+    this.messageProcessor.getReceivedMessages().clear();
+  }
+
+  /**
+   * This method is used to test
+   * {@link JwtTokenValidationAspect#authenticateToken(ProceedingJoinPoint, JwtAuthentication, ConsumerRecord)} when the
+   * valid token is passed and {@link JwtAuthentication#failOnMissingToken()} is true.
    *
    * @throws Exception if an error occurs.
    */
@@ -67,9 +79,9 @@ public class JwtTokenValidationAspectTest extends ModuleTest {
     // Arrange
     ProducerRecord<String, String> producerRecord = new ProducerRecord<>(TEST_TOPIC, "Hello World!");
     Headers headers = producerRecord.headers();
-    headers.add(JwtConstants.HEADER_AUTHORIZATION, JwtComponentTest.TEST_JWT.getBytes(Charsets.UTF_8));
+    headers.add(JwtConstants.HEADER_AUTHORIZATION, TEST_JWT.getBytes(Charset.forName("UTF-8")));
 
-    // adjustClock();
+    adjustClock();
 
     // Act
     this.messageSender.sendMessageAndWait(producerRecord);
@@ -77,12 +89,15 @@ public class JwtTokenValidationAspectTest extends ModuleTest {
     // Assert
     Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(1));
 
-    // resetClock();
+    resetClock();
   }
 
   /**
-   * @throws Exception
+   * This method is used to test
+   * {@link JwtTokenValidationAspect#authenticateToken(ProceedingJoinPoint, JwtAuthentication, ConsumerRecord)} when the
+   * inValid token is passed and {@link JwtAuthentication#failOnMissingToken()} is true.
    *
+   * @throws Exception if an error occurs.
    */
   @Test
   public void shouldValidate_whenInvalidTokenIsPassed() throws Exception {
@@ -90,21 +105,26 @@ public class JwtTokenValidationAspectTest extends ModuleTest {
     // Arrange
     ProducerRecord<String, String> producerRecord = new ProducerRecord<>(TEST_TOPIC, "Hello World!");
     Headers headers = producerRecord.headers();
-    headers.add(JwtConstants.HEADER_AUTHORIZATION, JwtComponentTest.INVALID_TEST_JWT.getBytes(Charsets.UTF_8));
 
-    // adjustClock();
+    // a inValid token but got expired.
+    headers.add(JwtConstants.HEADER_AUTHORIZATION, INVALID_TEST_JWT.getBytes(Charsets.UTF_8));
+
+    adjustClock();
 
     // Act
     this.messageSender.sendMessageAndWait(producerRecord);
 
     // Assert
     Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(0));
-
-    // resetClock();
+    resetClock();
   }
 
   /**
-   * @throws Exception
+   * This method is used to test
+   * {@link JwtTokenValidationAspect#authenticateToken(ProceedingJoinPoint, JwtAuthentication, ConsumerRecord)} when the
+   * token is null or empty and {@link JwtAuthentication#failOnMissingToken()} is true.
+   *
+   * @throws Exception if an error occurs.
    */
   @Test
   public void shouldValidateAndThrowMissingTokenException_whenTokenIsNotPassed() throws Exception {
@@ -114,19 +134,15 @@ public class JwtTokenValidationAspectTest extends ModuleTest {
 
     ConsumerRecord<String, String> kafkaRecord = new ConsumerRecord<>(TEST_TOPIC, 0, 0, null, "Hello World!");
 
+    // mock
     Mockito.when(this.jwtAuthentication.failOnMissingToken()).thenReturn(true);
-
-    // adjustClock();
 
     // Act
     this.messageSender.sendMessageAndWait(producerRecord);
 
     // Assert
-    // Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(0));
     Awaitility.await().untilAsserted(() -> Assertions.assertThrows(MissingTokenException.class,
         () -> this.jwtTokenValidationAspect.authenticateToken(this.call, this.jwtAuthentication, kafkaRecord)));
-
-    // resetClock();
 
   }
 }

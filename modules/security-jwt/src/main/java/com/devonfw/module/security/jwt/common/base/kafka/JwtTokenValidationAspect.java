@@ -1,6 +1,6 @@
 package com.devonfw.module.security.jwt.common.base.kafka;
 
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 
 import javax.inject.Inject;
 
@@ -83,8 +83,10 @@ public class JwtTokenValidationAspect {
 
     if (authorizationHeader != null && authorizationHeader.value() != null) {
       Authentication authentication = this.jwtAuthenticator
-          .authenticate(new String(authorizationHeader.value(), StandardCharsets.UTF_8));
+          .authenticate(new String(authorizationHeader.value(), Charset.forName("UTF-8")));
       SecurityContextHolder.getContext().setAuthentication(authentication);
+
+      LOG.info("token validated");
     }
 
   }
