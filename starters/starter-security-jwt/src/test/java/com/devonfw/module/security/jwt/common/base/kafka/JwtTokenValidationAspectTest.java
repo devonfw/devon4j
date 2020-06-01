@@ -32,7 +32,7 @@ import com.devonfw.module.security.jwt.common.base.JwtConstants;
  * This class is to test the functionality of {@link JwtTokenValidationAspect} as an integrated test.
  */
 @ExtendWith(value = { MockitoExtension.class, SpringExtension.class })
-@EmbeddedKafka(topics = JwtTokenValidationAspectTest.TEST_TOPIC)
+@EmbeddedKafka(topics = { JwtTokenValidationAspectTest.TEST_TOPIC, JwtTokenValidationAspectTest.TEST_TOPIC_2 })
 @SpringBootTest(classes = TestApplication.class, webEnvironment = WebEnvironment.NONE)
 @DirtiesContext
 public class JwtTokenValidationAspectTest extends JwtComponentTest {
@@ -41,6 +41,11 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
    * The test topic name.
    */
   public static final String TEST_TOPIC = "jwt-test";
+
+  /**
+   * The test topic name.
+   */
+  public static final String TEST_TOPIC_2 = "jwt-test-2";
 
   @Autowired
   private MessageSender<String, String> messageSender;
@@ -144,5 +149,29 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
     Awaitility.await().untilAsserted(() -> Assertions.assertThrows(MissingTokenException.class,
         () -> this.jwtTokenValidationAspect.authenticateToken(this.call, this.jwtAuthentication, kafkaRecord)));
 
+  }
+
+  /**
+   * This method is used to test
+   * {@link JwtTokenValidationAspect#authenticateToken(ProceedingJoinPoint, JwtAuthentication, ConsumerRecord)} when the
+   * token is null or empty and {@link JwtAuthentication#failOnMissingToken()} is false.
+   *
+   * @throws Exception if an error occurs.
+   */
+  @Test
+  public void shouldNotValidate_whenTheFailOnMissingTokenIsFalse() throws Exception {
+
+    // Arrange
+    ProducerRecord<String, String> producerRecord = new ProducerRecord<>(TEST_TOPIC_2, "Hello World!");
+
+    adjustClock();
+
+    // Act
+    this.messageSender.sendMessageAndWait(producerRecord);
+
+    // Assert
+    Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(1));
+
+    resetClock();
   }
 }

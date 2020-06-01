@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import javax.inject.Inject;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.header.Headers;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -23,7 +24,8 @@ import com.devonfw.module.security.jwt.common.api.JwtAuthenticator;
 import com.devonfw.module.security.jwt.common.base.JwtConstants;
 
 /**
- *
+ * This aspect class is used to validate the jwt passed in the headers of {@link ProducerRecord} and it is invoked when
+ * {@link JwtAuthentication} annotation is added in the listener.
  */
 @Aspect
 @Order(100)
@@ -77,7 +79,7 @@ public class JwtTokenValidationAspect {
 
     Header authorizationHeader = headers.lastHeader(JwtConstants.HEADER_AUTHORIZATION);
 
-    if (jwtAuthentication.failOnMissingToken() && authorizationHeader == null || authorizationHeader.value() == null) {
+    if (jwtAuthentication.failOnMissingToken() && authorizationHeader == null) {
       throw new MissingTokenException("Token cannot be null");
     }
 
@@ -85,8 +87,6 @@ public class JwtTokenValidationAspect {
       Authentication authentication = this.jwtAuthenticator
           .authenticate(new String(authorizationHeader.value(), Charset.forName("UTF-8")));
       SecurityContextHolder.getContext().setAuthentication(authentication);
-
-      LOG.info("token validated");
     }
 
   }

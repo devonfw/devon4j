@@ -46,4 +46,20 @@ public class KafkaMessageListener {
     // Acknowledge the listener.
     acknowledgment.acknowledge();
   }
+
+  /**
+   * This method is used to listen the message in kafka broker for the given topic and group name in
+   * {@link KafkaListener} and also to process the consumed message.
+   *
+   * @param consumerRecord the consumed {@link ConsumerRecord}
+   * @param acknowledgment the {@link Acknowledgment} to acknowledge the listener that message has been processed.
+   * @throws Exception exception
+   */
+  @JwtAuthentication(failOnMissingToken = false)
+  @KafkaListener(topics = JwtTokenValidationAspectTest.TEST_TOPIC_2, groupId = "test-group-2")
+  public void consumer2(ConsumerRecord<String, String> consumerRecord, Acknowledgment acknowledgment) throws Exception {
+
+    processMessageAndAcknowledgeListener(consumerRecord, acknowledgment);
+  }
+
 }
