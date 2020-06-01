@@ -9,6 +9,7 @@ import org.springframework.kafka.support.Acknowledgment;
 
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageProcessor;
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageRetryOperations;
+import com.devonfw.module.security.jwt.common.base.kafka.JwtAuthentication;
 
 /**
  * A Listener class with {@link KafkaListener} listens the message for the given topic and group name.
