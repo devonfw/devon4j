@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.core.Authentication;
 
 import com.devonfw.module.security.common.api.authentication.AdvancedAuthentication;
+import com.devonfw.test.app.TestJwtAccessControlConfig;
 
 import io.jsonwebtoken.Claims;
 
@@ -34,8 +35,9 @@ public class JwtAuthenticatorTest extends JwtComponentTest {
 
     // then
     assertThat(authentication.getName()).isEqualTo(TEST_LOGIN);
-    assertThat(AdvancedAuthentication.getPermissions(authentication))
-        .containsExactlyInAnyOrder(TEST_ROLE_READ_MASTER_DATA, TEST_ROLE_SAVE_USER);
+    assertThat(AdvancedAuthentication.getPermissions(authentication)).containsExactlyInAnyOrder(
+        TestJwtAccessControlConfig.PERMISSION_READ_CATEGORY, TestJwtAccessControlConfig.PERMISSION_READ_DISH,
+        TestJwtAccessControlConfig.GROUP_SAVE_USER, TestJwtAccessControlConfig.GROUP_READ_MASTER_DATA);
     assertThat(authentication).isInstanceOf(AdvancedAuthentication.class);
     assertThat(authentication.getCredentials()).isEqualTo(token);
     AdvancedAuthentication advancedAuthentication = (AdvancedAuthentication) authentication;

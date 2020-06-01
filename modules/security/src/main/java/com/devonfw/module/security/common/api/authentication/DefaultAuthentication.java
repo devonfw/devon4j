@@ -12,6 +12,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.devonfw.module.security.common.api.accesscontrol.AccessControl;
+import com.devonfw.module.security.common.base.accesscontrol.AccessControlGrantedAuthority;
+
 /**
  * Implementation of {@link AdvancedAuthentication} to be used by default in devon4j apps after successful
  * authentication.
@@ -66,6 +69,25 @@ public class DefaultAuthentication extends UsernamePasswordAuthenticationToken i
 
     this(principal, credentials, permissions.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()),
         permissions, null);
+  }
+
+  /**
+   * Creates a new {@link DefaultAuthentication} instance for the provided values.
+   *
+   * @param principal the {@link #getPrincipal() principal}.
+   * @param credentials the optional {@link #getCredentials() credentials}.
+   * @param accessControls the {@link #getPermissions() permissions}.
+   * @param attributes the {@link Map} of {@link #getAttribute(String) attributes}. Use
+   *        {@link java.util.Collections#unmodifiableMap(Map)} to prevent {@link #setAttribute(String, Object)
+   *        mutation}.
+   *
+   * @return New {@link DefaultAuthentication}.
+   */
+  public static DefaultAuthentication ofAccessControls(Object principal, Object credentials,
+      Collection<? extends AccessControl> accessControls, Map<String, Object> attributes) {
+
+    return new DefaultAuthentication(principal, credentials,
+        accessControls.stream().map(AccessControlGrantedAuthority::new).collect(Collectors.toList()), attributes);
   }
 
   /**
