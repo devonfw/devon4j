@@ -1,6 +1,7 @@
 package com.devonfw.module.security.jwt.common.base.kafka;
 
 import java.nio.charset.Charset;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -84,11 +85,25 @@ public class JwtTokenValidationAspect {
     }
 
     if (authorizationHeader != null && authorizationHeader.value() != null) {
-      Authentication authentication = this.jwtAuthenticator
-          .authenticate(new String(authorizationHeader.value(), Charset.forName("UTF-8")));
+
+      String token = extractToken(authorizationHeader);
+
+      Authentication authentication = this.jwtAuthenticator.authenticate(token);
       SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
+  }
+
+  private String extractToken(Header authorizationHeader) {
+
+    String unModifiedToken = new String(authorizationHeader.value(), Charset.forName("UTF-8"));
+    String modifiedToken = null;
+
+    if (unModifiedToken.startsWith(JwtConstants.TOKEN_PREFIX)) {
+      modifiedToken = unModifiedToken.substring(JwtConstants.TOKEN_PREFIX.length()).trim();
+    }
+
+    return Optional.ofNullable(modifiedToken).orElse(unModifiedToken);
   }
 
 }
