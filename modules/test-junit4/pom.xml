@@ -10,7 +10,7 @@
   <artifactId>devon4j-test-junit4</artifactId>
   <version>${devon4j.version}</version>
   <name>${project.artifactId}</name>
-  <description>Module with code and configuration for tests.</description>
+  <description>This module is for Junit backward compatibility</description>
 
   <dependencies>
     <dependency>
