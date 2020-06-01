@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 import com.devonfw.module.security.jwt.common.impl.JwtManagerImpl;
 import com.devonfw.module.test.common.base.ComponentTest;
+import com.devonfw.test.app.TestJwtAccessControlConfig;
 import com.devonfw.test.app.TestApplication;
 
 /**
@@ -26,14 +27,9 @@ public abstract class JwtComponentTest extends ComponentTest {
   /** Test issuer of JWT. */
   protected static final String TEST_ISSUER = "devon4j";
 
-  /** A role for testing. */
-  protected static final String TEST_ROLE_READ_MASTER_DATA = "test.ReadMasterData";
-
-  /** A role for testing. */
-  protected static final String TEST_ROLE_SAVE_USER = "test.SaveUser";
-
   /** Roles for testing. */
-  protected static final String TEST_ROLES = TEST_ROLE_READ_MASTER_DATA + "," + TEST_ROLE_SAVE_USER;
+  protected static final String TEST_ROLES = TestJwtAccessControlConfig.GROUP_READ_MASTER_DATA + ","
+      + TestJwtAccessControlConfig.GROUP_SAVE_USER;
 
   /** Expiration in millis as configured in application.properties */
   protected long EXPIRATION_MS = 4 * 60 * 60 * 1000;

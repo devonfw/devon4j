@@ -22,14 +22,17 @@ import com.devonfw.module.kafka.common.messaging.health.api.config.KafkaHealthIn
 /**
  * This is an implementation for {@link HealthIndicator}.
  *
+ * @param <K> the key type
+ * @param <V> the value type
+ *
  */
-public class KafkaHealthIndicator implements HealthIndicator {
+public class KafkaHealthIndicator<K, V> implements HealthIndicator {
 
-  private final ConsumerFactory<Object, Object> consumerFactory;
+  private final ConsumerFactory<K, V> consumerFactory;
 
   private KafkaHealthIndicatorProperties properties;
 
-  private Consumer<Object, Object> metadataConsumer;
+  private Consumer<K, V> metadataConsumer;
 
   /**
    * The constructor.
@@ -37,8 +40,7 @@ public class KafkaHealthIndicator implements HealthIndicator {
    * @param consumerFactory the {@link ConsumerFactory}
    * @param properties the {@link KafkaHealthIndicatorProperties}
    */
-  public KafkaHealthIndicator(ConsumerFactory<Object, Object> consumerFactory,
-      KafkaHealthIndicatorProperties properties) {
+  public KafkaHealthIndicator(ConsumerFactory<K, V> consumerFactory, KafkaHealthIndicatorProperties properties) {
 
     this.consumerFactory = consumerFactory;
     this.properties = properties;
