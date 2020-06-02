@@ -343,7 +343,7 @@ To secure a message listener with jwt add the `@JwtAuthentication`:
   }
 -----
 
-With this annotation in-place each message will be checked for a valid JWT. If a valid annotation is found the spring security context will be initialized with the user roles and "normal" authorization e.g. with `@RolesAllowed` may be used. This is also demonstrated in the kafka sample application.
+With this annotation in-place each message will be checked for a valid JWT in a message header with the name `Authorization`. If a valid annotation is found the spring security context will be initialized with the user roles and "normal" authorization e.g. with `@RolesAllowed` may be used. This is also demonstrated in the kafka sample application.
 
 == Using Kafka for internal parallel processing
 Apart from the use of Kafka as "communication channel" it sometimes helpful to use Kafka internally to do parallel processing:
