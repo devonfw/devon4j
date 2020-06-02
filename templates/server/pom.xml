@@ -37,6 +37,8 @@
           <delimiters>
             <delimiter>$[*]</delimiter>
           </delimiters>
+          <!--Requires below statement, please see https://issues.apache.org/jira/browse/MRESOURCES-190 -->
+          <addDefaultExcludes>false</addDefaultExcludes>
           <useDefaultDelimiters>false</useDefaultDelimiters>
         </configuration>
       </plugin>
