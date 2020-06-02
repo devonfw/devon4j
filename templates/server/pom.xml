@@ -15,6 +15,12 @@
   <description>Application template for a server app based on devon4j.</description>
 
   <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources/</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
     <outputDirectory>target/archetype</outputDirectory>
     <extensions>
       <extension>
