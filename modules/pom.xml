@@ -15,6 +15,7 @@
   <modules>
     <module>logging</module>
     <module>test</module>
+    <module>test-junit4</module>
     <module>beanmapping</module>
     <module>beanmapping-orika</module>
     <module>beanmapping-dozer</module>

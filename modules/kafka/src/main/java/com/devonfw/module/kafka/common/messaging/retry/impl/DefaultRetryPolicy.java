@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.classify.BinaryExceptionClassifier;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -22,6 +24,8 @@ import com.devonfw.module.kafka.common.messaging.retry.util.MessageRetryUtils;
  *
  */
 public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(DefaultRetryPolicy.class);
 
   private BinaryExceptionClassifier retryableClassifier = new BinaryExceptionClassifier(false);
 
@@ -41,7 +45,7 @@ public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
     }
 
     if (CollectionUtils.isEmpty(properties.getRetryableExceptions())) {
-      throw new IllegalArgumentException("The property \\\"retryable-exceptions\\\" must not be null.");
+      LOG.info("The property \\\\\\\"retryable-exceptions\\\\\\\" is empty. No retries will be performed.");
     }
 
     this.retryPeriod = properties.getRetryPeriod();
