@@ -45,9 +45,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    <groupId>com.devonfw.java.starters</groupId>
-    <artifactId>devon4j-starter-kafka-sender</artifactId>
-    <scope>test</scope>
+      <groupId>com.devonfw.java.starters</groupId>
+      <artifactId>devon4j-starter-kafka-sender</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
