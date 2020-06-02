@@ -103,3 +103,7 @@ To allow a client to login with username and password to get a JWT for sub-seque
     http.addFilterBefore(getJwtLoginFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 ----
+
+== Authentication with Kafka
+
+Authentication with JWT and Kafka is explained in the link:guide-kafka.asciidoc[Kafka guide].

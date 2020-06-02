@@ -314,6 +314,37 @@ messaging.kafka.health.topicsToCheck=employeeapp-employee-v1-delete,employeeapp-
 
 These properties are provided with default values except the topicsToCheck and health check will do happen only when the property is `management.endpoint.health.enabled=true`.
 
+== Authentication
+
+=== JSON Web Token (JWT)
+
+devon4j-kafka supports authentication via JSON Web Tokens (JWT) out-of-the-box.
+To use it add a dependency to the devon4j-starter-security-jwt:
+
+[source,xml]
+-----
+<dependency>
+  <groupId>com.devonfw.java.starters</groupId>
+  <artifactId>devon4j-starter-security-jwt</artifactId>
+</dependency>
+-----
+
+The authentication via JWT needs some configuration, e.g. a keystore to verify the token signature. This is explained in the link:guide-jwt.asciidoc[JWT  documentation]. 
+
+To secure a message listener with jwt add the `@JwtAuthentication`:
+
+[source,java]
+-----
+  @JwtAuthentication
+  @KafkaListener(topics = "employeeapp-employee-v1-delete", groupId = "${messaging.kafka.consumer.groupId}")
+  public void consumer(ConsumerRecord<K, V> consumerRecord, Acknowledgment acknowledgment) {
+...
+    }
+  }
+-----
+
+With this annotation in-place each message will be checked for a valid JWT. If a valid annotation is found the spring security context will be initialized with the user roles and "normal" authorization e.g. with `@RolesAllowed` may be used. This is also demonstrated in the kafka sample application.
+
 == Using Kafka for internal parallel processing
 Apart from the use of Kafka as "communication channel" it sometimes helpful to use Kafka internally to do parallel processing:
 
