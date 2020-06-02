@@ -22,7 +22,7 @@
   <!-- Minimize infrastructure debug logs -->
   <logger name="com.netflix" level="INFO"/>
   <logger name="org.apache" level="INFO"/>
-  <logger name="org.dozer" level="INFO"/>
+  <logger name="com.github.dozermapper" level="INFO"/>
   <logger name="org.flywaydb" level="INFO"/>
   <logger name="org.hibernate" level="INFO"/>
   <logger name="org.springframework" level="INFO"/>
