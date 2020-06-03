@@ -1,5 +1,8 @@
 package com.devonfw.module.kafka.common.messaging.retry.api.config;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageBackOffPolicy;
 
 /**
@@ -8,92 +11,164 @@ import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageBackOff
  */
 public class DefaultBackOffPolicyProperties {
 
-  private long retryDelay = 60000;
+  private Map<String, Long> retryDelay = new HashMap<>();
 
-  private double retryDelayMultiplier = 1.0;
+  private Map<String, Double> retryDelayMultiplier = new HashMap<>();
 
-  private long retryMaxDelay = 60000;
+  private Map<String, Long> retryMaxDelay = new HashMap<>();
 
-  private long retryReEnqueueDelay = 1000;
+  private Map<String, Long> retryReEnqueueDelay = new HashMap<>();
+
+  private long retryDelayDefault = 60000;
+
+  private double retryDelayMultiplierDefault = 1.0;
+
+  private long retryMaxDelayDefault = 60000;
+
+  private long retryReEnqueueDelayDefault = 1000;
 
   /**
    * The retry enque delay to send again the message to kafka. By default 1000.
    *
    * @return long
    */
-  public long getRetryReEnqueueDelay() {
+  public long getRetryReEnqueueDelayDefault() {
 
-    return this.retryReEnqueueDelay;
+    return this.retryReEnqueueDelayDefault;
   }
 
-  /**
-   * Set the retry enque delay for {@link #getRetryReEnqueueDelay()}
-   *
-   * @param retryReEnqueueDelay the enque delay.
-   */
-  public void setRetryReEnqueueDelay(long retryReEnqueueDelay) {
-
-    this.retryReEnqueueDelay = retryReEnqueueDelay;
-  }
+  // /**
+  // * Set the retry enque delay for {@link #getRetryReEnqueueDelayDefault()}
+  // *
+  // * @param retryReEnqueueDelayDefault the enque delay.
+  // */
+  // public void setRetryReEnqueueDelayDefault(long retryReEnqueueDelayDefault) {
+  //
+  // this.retryReEnqueueDelayDefault = retryReEnqueueDelayDefault;
+  // }
 
   /**
    * The retry delay.
    *
    * @return long.
    */
-  public long getRetryDelay() {
+  public long getRetryDelayDefault() {
 
-    return this.retryDelay;
+    return this.retryDelayDefault;
   }
 
-  /**
-   * Set the retry delay for {@link #getRetryDelay()}. By default 1000
-   *
-   * @param retryDelay the retry delay.
-   */
-  public void setRetryDelay(long retryDelay) {
-
-    this.retryDelay = retryDelay;
-  }
+  // /**
+  // * Set the retry delay for {@link #getRetryDelayDefault()}. By default 1000
+  // *
+  // * @param retryDelayDefault the retry delay.
+  // */
+  // public void setRetryDelayDefault(long retryDelayDefault) {
+  //
+  // this.retryDelayDefault = retryDelayDefault;
+  // }
 
   /**
    * The retry delay multiplier
    *
    * @return double.
    */
-  public double getRetryDelayMultiplier() {
+  public double getRetryDelayMultiplierDefault() {
 
-    return this.retryDelayMultiplier;
+    return this.retryDelayMultiplierDefault;
   }
 
-  /**
-   * Set the retry delay multiplier for {@link #getRetryDelayMultiplier()}. By default 1.0
-   *
-   * @param retryDelayMultiplier the retry delay multiplier.
-   */
-  public void setRetryDelayMultiplier(double retryDelayMultiplier) {
-
-    this.retryDelayMultiplier = retryDelayMultiplier;
-  }
+  // /**
+  // * Set the retry delay multiplier for {@link #getRetryDelayMultiplierDefault()}. By default 1.0
+  // *
+  // * @param retryDelayMultiplierDefault the retry delay multiplier.
+  // */
+  // public void setRetryDelayMultiplierDefault(double retryDelayMultiplierDefault) {
+  //
+  // this.retryDelayMultiplierDefault = retryDelayMultiplierDefault;
+  // }
 
   /**
    * The retry max delay.
    *
    * @return the long.
    */
-  public long getRetryMaxDelay() {
+  public long getRetryMaxDelayDefault() {
+
+    return this.retryMaxDelayDefault;
+  }
+
+  // /**
+  // * Set the retry max delay for {@link #getRetryMaxDelayDefault()}. by default 60000.
+  // *
+  // * @param retryMaxDelayDefault the retry max delay.
+  // */
+  // public void setRetryMaxDelayDefault(long retryMaxDelayDefault) {
+  //
+  // this.retryMaxDelayDefault = retryMaxDelayDefault;
+  // }
+
+  /**
+   * @return retryDelay
+   */
+  public Map<String, Long> getRetryDelay() {
+
+    return this.retryDelay;
+  }
+
+  /**
+   * @param retryDelay new value of {@link #getRetryDelay}.
+   */
+  public void setRetryDelay(Map<String, Long> retryDelay) {
+
+    this.retryDelay = retryDelay;
+  }
+
+  /**
+   * @return retryDelayMultiplier
+   */
+  public Map<String, Double> getRetryDelayMultiplier() {
+
+    return this.retryDelayMultiplier;
+  }
+
+  /**
+   * @param retryDelayMultiplier new value of {@link #getRetryDelayMultiplier}.
+   */
+  public void setRetryDelayMultiplier(Map<String, Double> retryDelayMultiplier) {
+
+    this.retryDelayMultiplier = retryDelayMultiplier;
+  }
+
+  /**
+   * @return retryMaxDelay
+   */
+  public Map<String, Long> getRetryMaxDelay() {
 
     return this.retryMaxDelay;
   }
 
   /**
-   * Set the retry max delay for {@link #getRetryMaxDelay()}. by default 60000.
-   *
-   * @param retryMaxDelay the retry max delay.
+   * @param retryMaxDelay new value of {@link #getRetryMaxDelay}.
    */
-  public void setRetryMaxDelay(long retryMaxDelay) {
+  public void setRetryMaxDelay(Map<String, Long> retryMaxDelay) {
 
     this.retryMaxDelay = retryMaxDelay;
+  }
+
+  /**
+   * @return retryReEnqueueDelay
+   */
+  public Map<String, Long> getRetryReEnqueueDelay() {
+
+    return this.retryReEnqueueDelay;
+  }
+
+  /**
+   * @param retryReEnqueueDelay new value of {@link #getRetryReEnqueueDelay}.
+   */
+  public void setRetryReEnqueueDelay(Map<String, Long> retryReEnqueueDelay) {
+
+    this.retryReEnqueueDelay = retryReEnqueueDelay;
   }
 
 }

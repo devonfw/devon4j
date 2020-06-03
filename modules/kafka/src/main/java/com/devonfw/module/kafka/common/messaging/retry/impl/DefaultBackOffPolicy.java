@@ -3,6 +3,8 @@ package com.devonfw.module.kafka.common.messaging.retry.impl;
 import java.time.Instant;
 import java.util.Optional;
 
+import org.springframework.util.CollectionUtils;
+
 import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageBackOffPolicy;
 import com.devonfw.module.kafka.common.messaging.retry.api.config.DefaultBackOffPolicyProperties;
 
@@ -12,13 +14,7 @@ import com.devonfw.module.kafka.common.messaging.retry.api.config.DefaultBackOff
  */
 public class DefaultBackOffPolicy implements MessageBackOffPolicy {
 
-  private long retryReEnqueueDelay;
-
-  private long retryDelay;
-
-  private double retryDelayMultiplier;
-
-  private long retryMaxDelay;
+  private DefaultBackOffPolicyProperties properties;
 
   /**
    * The constructor.
@@ -29,34 +25,49 @@ public class DefaultBackOffPolicy implements MessageBackOffPolicy {
 
     Optional.ofNullable(properties).ifPresent(this::checkProperties);
 
-    this.retryReEnqueueDelay = properties.getRetryReEnqueueDelay();
-    this.retryDelay = properties.getRetryDelay();
-    this.retryDelayMultiplier = properties.getRetryDelayMultiplier();
-    this.retryMaxDelay = properties.getRetryMaxDelay();
+    this.properties = properties;
   }
 
-  private void checkProperties(DefaultBackOffPolicyProperties properties) {
+  private void checkProperties(DefaultBackOffPolicyProperties backOffPolicyProperties) {
 
-    if (properties.getRetryDelay() < 0) {
-      throw new IllegalArgumentException("The property  \"retry-delay \" must be> 0.");
+    if (!CollectionUtils.isEmpty(backOffPolicyProperties.getRetryDelay())) {
+      backOffPolicyProperties.getRetryDelay().forEach((key, value) -> {
+        if (value < 0) {
+          throw new IllegalArgumentException("The property  \"retry-delay \" must be> 0.");
+        }
+      });
     }
 
-    if (properties.getRetryDelayMultiplier() < 0.0) {
-      throw new IllegalArgumentException("The property \"retry-delay-multiplier\" must be> 0.");
-    }
-    if (properties.getRetryMaxDelay() < 0) {
-      throw new IllegalArgumentException("The property \"retry-max-delay \" must be> 0.");
+    if (!CollectionUtils.isEmpty(backOffPolicyProperties.getRetryDelayMultiplier())) {
+      backOffPolicyProperties.getRetryDelayMultiplier().forEach((key, value) -> {
+        if (value < 0.0) {
+          throw new IllegalArgumentException("The property \"retry-delay-multiplier\" must be> 0.");
+        }
+      });
     }
 
+    if (!CollectionUtils.isEmpty(backOffPolicyProperties.getRetryMaxDelay())) {
+      backOffPolicyProperties.getRetryDelay().forEach((key, value) -> {
+        if (value < 0) {
+          throw new IllegalArgumentException("The property \"retry-max-delay \" must be> 0.");
+        }
+      });
+    }
   }
 
   @Override
-  public Instant getNextRetryTimestamp(long currentRetryCount, String retryUntilTimestamp) {
+  public Instant getNextRetryTimestamp(long currentRetryCount, String retryUntilTimestamp, String topic) {
 
-    long delayValue = (long) (this.retryDelay * Math.pow(this.retryDelayMultiplier, currentRetryCount));
+    long retryDelay = getRetryDelayForTopic(topic, this.properties);
 
-    if (delayValue > this.retryMaxDelay) {
-      delayValue = this.retryMaxDelay;
+    double retryDelayMultiplier = getRetryDelayMultiplierForTopic(topic, this.properties);
+
+    long retryMaxDelay = getRetryMaxDelayForTopic(topic, this.properties);
+
+    long delayValue = (long) (retryDelay * Math.pow(retryDelayMultiplier, currentRetryCount));
+
+    if (delayValue > retryMaxDelay) {
+      delayValue = retryMaxDelay;
     }
 
     Instant result = Instant.now().plusMillis(delayValue);
@@ -69,15 +80,41 @@ public class DefaultBackOffPolicy implements MessageBackOffPolicy {
   }
 
   @Override
-  public void sleepBeforeReEnqueue() {
+  public void sleepBeforeReEnqueue(String topic) {
 
-    if (this.retryReEnqueueDelay > 0) {
+    long retryReEnqueueDelay = getRetryReEnqueueDelayForTopic(topic, this.properties);
+
+    if (retryReEnqueueDelay > 0) {
       try {
-        Thread.sleep(this.retryReEnqueueDelay);
+        Thread.sleep(retryReEnqueueDelay);
       } catch (InterruptedException e) {
         Thread.currentThread().interrupt();
       }
     }
+  }
+
+  private long getRetryDelayForTopic(String topic, DefaultBackOffPolicyProperties backOffProperties) {
+
+    return Optional.ofNullable(backOffProperties.getRetryDelay().get(topic))
+        .orElse(backOffProperties.getRetryDelayDefault());
+  }
+
+  private double getRetryDelayMultiplierForTopic(String topic, DefaultBackOffPolicyProperties backOffProperties) {
+
+    return Optional.ofNullable(backOffProperties.getRetryDelayMultiplier().get(topic))
+        .orElse(backOffProperties.getRetryDelayMultiplierDefault());
+  }
+
+  private long getRetryMaxDelayForTopic(String topic, DefaultBackOffPolicyProperties backOffProperties) {
+
+    return Optional.ofNullable(backOffProperties.getRetryMaxDelay().get(topic))
+        .orElse(backOffProperties.getRetryMaxDelayDefault());
+  }
+
+  private long getRetryReEnqueueDelayForTopic(String topic, DefaultBackOffPolicyProperties backOffProperties) {
+
+    return Optional.ofNullable(backOffProperties.getRetryReEnqueueDelay().get(topic))
+        .orElse(backOffProperties.getRetryReEnqueueDelayDefault());
   }
 
 }
