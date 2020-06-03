@@ -1,4 +1,4 @@
-package com.devonfw.test.app;
+package com.devonfw.module.security.jwt.common.base.kafka;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

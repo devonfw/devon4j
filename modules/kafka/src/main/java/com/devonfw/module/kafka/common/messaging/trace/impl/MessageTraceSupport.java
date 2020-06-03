@@ -30,10 +30,13 @@ public final class MessageTraceSupport {
   /**
    * This method is used to start the span of {@link Tracer}.
    *
+   * @param <K> the key type
+   * @param <V> the value type
+   *
    * @param kafkaRecord the {@link ConsumerRecord}
    * @param spanExtractor {@link MessageSpanExtractor}
    */
-  public static void startSpan(ConsumerRecord<Object, Object> kafkaRecord, MessageSpanExtractor spanExtractor) {
+  public static <K, V> void startSpan(ConsumerRecord<K, V> kafkaRecord, MessageSpanExtractor<K, V> spanExtractor) {
 
     Tracer tracer = Tracing.currentTracer();
 
@@ -50,7 +53,7 @@ public final class MessageTraceSupport {
 
   }
 
-  private static void getCurrentSpanAndLog(ConsumerRecord<Object, Object> kafkaRecord, Tracer tracer) {
+  private static <K, V> void getCurrentSpanAndLog(ConsumerRecord<K, V> kafkaRecord, Tracer tracer) {
 
     Span span = tracer.currentSpan();
 
@@ -87,4 +90,5 @@ public final class MessageTraceSupport {
 
     currentSpan.finish();
   }
+
 }

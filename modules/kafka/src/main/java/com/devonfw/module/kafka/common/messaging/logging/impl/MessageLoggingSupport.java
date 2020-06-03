@@ -11,15 +11,15 @@ public class MessageLoggingSupport {
    * This method is used to log event when message is sent successfully.
    *
    * @param logger the {@link Logger}
-   * @param value the message value.
+   * @param key the message key.
    * @param topic the topic of the message.
    * @param partition the partition
    * @param offset the offset
    *
    */
-  public void logMessageSent(Logger logger, String value, String topic, Integer partition, Long offset) {
+  public void logMessageSent(Logger logger, String key, String topic, Integer partition, Long offset) {
 
-    logger.info(EventKey.MESSAGE_SENT_SUCCESSFULLY.getMessage(), value, topic, partition, offset);
+    logger.info(EventKey.MESSAGE_SENT_SUCCESSFULLY.getMessage(), key, topic, partition, offset);
   }
 
   /**
