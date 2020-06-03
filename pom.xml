@@ -29,9 +29,9 @@
     <github.repository>devon4j</github.repository>
     <github.default.branch>develop</github.default.branch>
     <devon4j.version>${revision}${changelist}</devon4j.version>
-    <spring.boot.version>2.2.6.RELEASE</spring.boot.version>
+    <spring.boot.version>2.2.7.RELEASE</spring.boot.version>
     <!-- Spring boot and spring cloud version has to match -->
-    <spring.cloud.dependencies.version>Greenwich.RELEASE</spring.cloud.dependencies.version>
+    <spring.cloud.dependencies.version>Greenwich.SR6</spring.cloud.dependencies.version>
     <jackson.version>2.10.3</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
     <guava.version>28.1-jre</guava.version>
     <junit.version>5.6.1</junit.version>
