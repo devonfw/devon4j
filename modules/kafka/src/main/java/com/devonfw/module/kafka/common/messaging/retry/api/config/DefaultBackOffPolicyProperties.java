@@ -37,16 +37,6 @@ public class DefaultBackOffPolicyProperties {
     return this.retryReEnqueueDelayDefault;
   }
 
-  // /**
-  // * Set the retry enque delay for {@link #getRetryReEnqueueDelayDefault()}
-  // *
-  // * @param retryReEnqueueDelayDefault the enque delay.
-  // */
-  // public void setRetryReEnqueueDelayDefault(long retryReEnqueueDelayDefault) {
-  //
-  // this.retryReEnqueueDelayDefault = retryReEnqueueDelayDefault;
-  // }
-
   /**
    * The retry delay.
    *
@@ -56,16 +46,6 @@ public class DefaultBackOffPolicyProperties {
 
     return this.retryDelayDefault;
   }
-
-  // /**
-  // * Set the retry delay for {@link #getRetryDelayDefault()}. By default 1000
-  // *
-  // * @param retryDelayDefault the retry delay.
-  // */
-  // public void setRetryDelayDefault(long retryDelayDefault) {
-  //
-  // this.retryDelayDefault = retryDelayDefault;
-  // }
 
   /**
    * The retry delay multiplier
@@ -77,16 +57,6 @@ public class DefaultBackOffPolicyProperties {
     return this.retryDelayMultiplierDefault;
   }
 
-  // /**
-  // * Set the retry delay multiplier for {@link #getRetryDelayMultiplierDefault()}. By default 1.0
-  // *
-  // * @param retryDelayMultiplierDefault the retry delay multiplier.
-  // */
-  // public void setRetryDelayMultiplierDefault(double retryDelayMultiplierDefault) {
-  //
-  // this.retryDelayMultiplierDefault = retryDelayMultiplierDefault;
-  // }
-
   /**
    * The retry max delay.
    *
@@ -96,16 +66,6 @@ public class DefaultBackOffPolicyProperties {
 
     return this.retryMaxDelayDefault;
   }
-
-  // /**
-  // * Set the retry max delay for {@link #getRetryMaxDelayDefault()}. by default 60000.
-  // *
-  // * @param retryMaxDelayDefault the retry max delay.
-  // */
-  // public void setRetryMaxDelayDefault(long retryMaxDelayDefault) {
-  //
-  // this.retryMaxDelayDefault = retryMaxDelayDefault;
-  // }
 
   /**
    * @return retryDelay
