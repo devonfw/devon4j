@@ -36,16 +36,6 @@ public class DefaultRetryPolicyProperties {
     return this.retryPeriodDefault;
   }
 
-  // /**
-  // * Set the retry period for {@link #getRetryPeriodDefault()}. By default 1000.
-  // *
-  // * @param retryPeriodDefault the retry period.
-  // */
-  // public void setRetryPeriodDefault(long retryPeriodDefault) {
-  //
-  // this.retryPeriodDefault = retryPeriodDefault;
-  // }
-
   /**
    * Returns a boolean value to traverse the retry exceptions.
    *
@@ -56,17 +46,6 @@ public class DefaultRetryPolicyProperties {
     return this.retryableExceptionsTraverseCausesDefault;
   }
 
-  // /**
-  // *
-  // * Set the boolean value for {@link #isRetryableExceptionsTraverseCausesDefault()}
-  // *
-  // * @param retryableExceptionsTraverseCausesDefault boolean value.
-  // */
-  // public void setRetryableExceptionsTraverseCausesDefault(boolean retryableExceptionsTraverseCausesDefault) {
-  //
-  // this.retryableExceptionsTraverseCausesDefault = retryableExceptionsTraverseCausesDefault;
-  // }
-
   /**
    * The number of times to execute retry.
    *
@@ -76,16 +55,6 @@ public class DefaultRetryPolicyProperties {
 
     return this.retryCountDefault;
   }
-
-  // /**
-  // * Set the count to execute retry.
-  // *
-  // * @param retryCountDefault new value of {@link #getRetryCountDefault}.
-  // */
-  // public void setRetryCountDefault(long retryCountDefault) {
-  //
-  // this.retryCountDefault = retryCountDefault;
-  // }
 
   /**
    * @return retryPeriod
