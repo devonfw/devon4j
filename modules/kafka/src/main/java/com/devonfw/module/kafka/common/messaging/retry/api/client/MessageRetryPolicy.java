@@ -38,8 +38,10 @@ public interface MessageRetryPolicy<K, V> {
   /**
    * This method is used to return the number of retry count.
    *
+   * @param topic the topic
+   *
    * @return the retry count as long.
    */
-  long getRetryCount();
+  long getRetryCount(String topic);
 
 }

@@ -27,7 +27,7 @@ public class MessageDefaultRetryConfig {
    * @return the {@link DefaultBackOffPolicyProperties}
    */
   @Bean
-  @ConfigurationProperties(prefix = "messaging.retry.default.back-off-policy")
+  @ConfigurationProperties(prefix = "messaging.retry.back-off-policy")
   public DefaultBackOffPolicyProperties messageDefaultBackOffPolicyProperties() {
 
     return new DefaultBackOffPolicyProperties();
@@ -39,7 +39,7 @@ public class MessageDefaultRetryConfig {
    * @return the {@link DefaultRetryPolicy}
    */
   @Bean
-  @ConfigurationProperties(prefix = "messaging.retry.default.retry-policy")
+  @ConfigurationProperties(prefix = "messaging.retry.retry-policy")
   public DefaultRetryPolicyProperties messageDefaultRetryPolicyProperties() {
 
     return new DefaultRetryPolicyProperties();
@@ -83,7 +83,7 @@ public class MessageDefaultRetryConfig {
 
   /**
    * Creates bean for the {@link MessageRetryTemplate}
-   * 
+   *
    * @param <K> the key type
    * @param <V> the value type
    *
