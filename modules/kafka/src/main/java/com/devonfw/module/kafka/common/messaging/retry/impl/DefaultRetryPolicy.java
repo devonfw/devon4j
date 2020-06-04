@@ -2,6 +2,7 @@ package com.devonfw.module.kafka.common.messaging.retry.impl;
 
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -27,6 +28,8 @@ import com.devonfw.module.kafka.common.messaging.retry.util.MessageRetryUtils;
 public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
 
   private static final Logger LOG = LoggerFactory.getLogger(DefaultRetryPolicy.class);
+
+  private static final String DEFAULT_KEY = "default";
 
   private BinaryExceptionClassifier retryableClassifier = new BinaryExceptionClassifier(false);
 
@@ -74,9 +77,9 @@ public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
 
     String topic = consumerRecord.topic();
 
-    setTypeMapAndTraverseCauseForBinaryExceptionClassifier(topic, this.properties);
+    setTypeMapAndTraverseCauseForBinaryExceptionClassifier(topic);
 
-    long retryCount = getRetryCountForTopic(topic, this.properties);
+    long retryCount = getRetryCountForTopic(topic);
 
     if (retryContext != null && retryContext.getRetryUntil() != null
         && retryContext.getCurrentRetryCount() < retryCount) {
@@ -99,7 +102,7 @@ public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
   @Override
   public Instant getRetryUntilTimestamp(ConsumerRecord<K, V> consumerRecord, MessageRetryContext retryContext) {
 
-    long retryPeriod = getretryPeriodForTopic(consumerRecord.topic(), this.properties);
+    long retryPeriod = getretryPeriodForTopic(consumerRecord.topic());
 
     return Instant.now().plusMillis(retryPeriod * 1000);
   }
@@ -112,34 +115,55 @@ public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
   @Override
   public long getRetryCount(String topic) {
 
-    return getRetryCountForTopic(topic, this.properties);
+    return getRetryCountForTopic(topic);
   }
 
-  private long getretryPeriodForTopic(String topic, DefaultRetryPolicyProperties retryProperties) {
+  private long getretryPeriodForTopic(String topic) {
 
-    return Optional.ofNullable(retryProperties.getRetryPeriod().get(topic))
-        .orElse(retryProperties.getRetryPeriodDefault());
+    Map<String, Long> retryPeriodMap = this.properties.getRetryPeriod();
+
+    if (retryPeriodMap.containsKey(DEFAULT_KEY)) {
+      return Optional.ofNullable(retryPeriodMap.get(DEFAULT_KEY)).orElse(this.properties.getRetryPeriodDefault());
+    }
+
+    return Optional.ofNullable(retryPeriodMap.get(topic)).orElse(this.properties.getRetryPeriodDefault());
   }
 
-  private boolean getRetryableTraverseCausesForTopic(String topic, DefaultRetryPolicyProperties retryProperties) {
+  private boolean getRetryableTraverseCausesForTopic(String topic) {
 
-    return Optional.ofNullable(retryProperties.getRetryableExceptionsTraverseCauses().get(topic))
-        .orElse(retryProperties.isRetryableExceptionsTraverseCausesDefault());
+    Map<String, Boolean> retryTraverseCauseMap = this.properties.getRetryableExceptionsTraverseCauses();
+
+    if (retryTraverseCauseMap.containsKey(DEFAULT_KEY)) {
+      return Optional.ofNullable(retryTraverseCauseMap.get(DEFAULT_KEY))
+          .orElse(this.properties.isRetryableExceptionsTraverseCausesDefault());
+    }
+
+    return Optional.ofNullable(retryTraverseCauseMap.get(topic))
+        .orElse(this.properties.isRetryableExceptionsTraverseCausesDefault());
   }
 
-  private long getRetryCountForTopic(String topic, DefaultRetryPolicyProperties retryProperties) {
+  private long getRetryCountForTopic(String topic) {
 
-    return Optional.ofNullable(retryProperties.getRetryCount().get(topic))
-        .orElse(retryProperties.getRetryCountDefault());
+    Map<String, Long> retryCountMap = this.properties.getRetryCount();
+
+    if (retryCountMap.containsKey(DEFAULT_KEY)) {
+      return Optional.ofNullable(retryCountMap.get(DEFAULT_KEY)).orElse(this.properties.getRetryCountDefault());
+    }
+
+    return Optional.ofNullable(this.properties.getRetryCount().get(topic))
+        .orElse(this.properties.getRetryCountDefault());
   }
 
-  private void setTypeMapAndTraverseCauseForBinaryExceptionClassifier(String topic,
-      DefaultRetryPolicyProperties retryProperties) {
+  private void setTypeMapAndTraverseCauseForBinaryExceptionClassifier(String topic) {
 
-    if (!CollectionUtils.isEmpty(this.properties.getRetryableExceptions())) {
+    Map<String, Set<String>> retryableExceptionMap = this.properties.getRetryableExceptions();
 
-      Set<Class<? extends Throwable>> retryableExceptions = MessageRetryUtils
-          .getRetryableExceptions(this.properties.getRetryableExceptions().get(topic), "retryable-exceptions");
+    if (!CollectionUtils.isEmpty(retryableExceptionMap)) {
+
+      Set<String> retryExceptionsNames = getRetryExceptionNamesFromProperties(topic, retryableExceptionMap);
+
+      Set<Class<? extends Throwable>> retryableExceptions = MessageRetryUtils.getRetryableExceptions(retryExceptionsNames,
+          "retryable-exceptions");
 
       Map<Class<? extends Throwable>, Boolean> retryableExceptionsMap = new HashMap<>();
 
@@ -148,9 +172,20 @@ public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
       this.retryableClassifier.setTypeMap(retryableExceptionsMap);
     }
 
-    boolean traverseCause = getRetryableTraverseCausesForTopic(topic, retryProperties);
+    boolean traverseCause = getRetryableTraverseCausesForTopic(topic);
 
     this.retryableClassifier.setTraverseCauses(traverseCause);
+  }
+
+  private Set<String> getRetryExceptionNamesFromProperties(String topic, Map<String, Set<String>> retryableExceptionMap) {
+
+    Set<String> retryExceptionsNames = new HashSet<>();
+
+    if (retryableExceptionMap.containsKey(DEFAULT_KEY)) {
+      return retryExceptionsNames = Optional.ofNullable(retryableExceptionMap.get(DEFAULT_KEY)).orElse(retryExceptionsNames);
+    } else {
+      return retryExceptionsNames = retryableExceptionMap.get(topic);
+    }
   }
 
 }
