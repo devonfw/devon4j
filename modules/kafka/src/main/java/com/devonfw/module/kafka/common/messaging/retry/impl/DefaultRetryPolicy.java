@@ -159,8 +159,8 @@ public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
 
       Set<String> retryExceptionsNames = getRetryExceptionNamesFromProperties(topic, retryableExceptionMap);
 
-      Set<Class<? extends Throwable>> retryableExceptions = MessageRetryUtils.getRetryableExceptions(retryExceptionsNames,
-          "retryable-exceptions");
+      Set<Class<? extends Throwable>> retryableExceptions = MessageRetryUtils
+          .getRetryableExceptions(retryExceptionsNames, "retryable-exceptions");
 
       Map<Class<? extends Throwable>, Boolean> retryableExceptionsMap = new HashMap<>();
 
@@ -174,15 +174,14 @@ public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
     this.retryableClassifier.setTraverseCauses(traverseCause);
   }
 
-  private Set<String> getRetryExceptionNamesFromProperties(String topic, Map<String, Set<String>> retryableExceptionMap) {
-
-    Set<String> retryExceptionsNames = new HashSet<>();
+  private Set<String> getRetryExceptionNamesFromProperties(String topic,
+      Map<String, Set<String>> retryableExceptionMap) {
 
     if (retryableExceptionMap.containsKey(DEFAULT_KEY)) {
-      return retryExceptionsNames = Optional.ofNullable(retryableExceptionMap.get(DEFAULT_KEY)).orElse(retryExceptionsNames);
-    } else {
-      return retryExceptionsNames = retryableExceptionMap.get(topic);
+      return Optional.ofNullable(retryableExceptionMap.get(DEFAULT_KEY)).orElse(new HashSet<String>());
     }
+
+    return retryableExceptionMap.get(topic);
   }
 
 }
