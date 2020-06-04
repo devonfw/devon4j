@@ -33,7 +33,7 @@ Even if you hit an indicator for incompatible changes you can still think about 
 == Procedure
 The procedure when rolling out incompatible changes is illustrated by the following example:
 
-[ditaa]
+[source]
 ----
 +------+  +------+
 | App1 |  | App2 |
@@ -52,7 +52,7 @@ So here we see a simple example where `App3` provides a Service `S` in Version `
 
 Now for some reason the service `S` has to be changed in an incompatible way to make it proof for future demands. However, upgrading all 3 applications at the same time is not possible here for whatever reason. Therefore service versioning is applied for the changes of `S`.
 
-[ditaa]
+[source]
 ----
 +------+  +------+
 | App1 |  | App2 |
@@ -69,7 +69,7 @@ Now for some reason the service `S` has to be changed in an incompatible way to 
 
 Now, `App3` has been upgraded and the new release was deployed. A new version `v2` of `S` has been added while still `v1` is kept for compatibility reasons and that version is still used by `App1` and `App2`.
 
-[ditaa]
+[source]
 ----
 +------+  +------+
 | App1 |  | App2*|
@@ -86,7 +86,7 @@ Now, `App3` has been upgraded and the new release was deployed. A new version `v
 
 Now, `App2` has been updated and deployed that is using the new version `v2` of `S`.
 
-[ditaa]
+[source]
 ----
 +------+  +------+
 | App1*|  | App2 |
@@ -103,7 +103,7 @@ Now, `App2` has been updated and deployed that is using the new version `v2` of 
 
 Now, also `App1` has been updated and deployed that is using the new version `v2` of `S`. The version `v1` of `S` is not used anymore. This can be verified via logging and monitoring.
 
-[ditaa]
+[source]
 ----
 +------+  +------+
 | App1 |  | App2 |
