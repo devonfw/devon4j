@@ -16,14 +16,17 @@ public interface MessageBackOffPolicy {
    * @param currentRetryCount the count of attempted retry count.
    *
    * @param retryUntilTimestamp the retry until time stamp which requires a Instant in String format.
+   * @param topic the topic
    * @return the Instant
    */
-  Instant getNextRetryTimestamp(long currentRetryCount, String retryUntilTimestamp);
+  Instant getNextRetryTimestamp(long currentRetryCount, String retryUntilTimestamp, String topic);
 
   /**
    * This method is used to make the thread to sleep for {@link DefaultBackOffPolicyProperties#getRetryReEnqueueDelay()}
    * seconds.
+   * 
+   * @param topic the topic
    */
-  void sleepBeforeReEnqueue();
+  void sleepBeforeReEnqueue(String topic);
 
 }

@@ -114,7 +114,7 @@ Example:
   @Inject
   private MessageSender messageSender;
   private ProducerRecord<K,V> producerRecord;
-  
+
   public void sendMessageToKafka(){
   producerRecord=new ProducerRecord<>("topic-name","message");
   messageSender.sendMessage(this.producerRecord);
@@ -225,24 +225,63 @@ It works as follows:
 === Retry configuration and naming convention of redelivery topics.
 The following properties should be added in the `application.properties` or `application.yml` file.
 
+The retry pattern in devon4j-kafka will perform for specific topic of a message. So its mandatory to specify the properties for each topic. Below properties are example,
+
 [source,properties]
 -----
-# Retry back off policy properties
-messaging.retry.default.back-off-policy.retryReEnqueueDelay=1000
-messaging.retry.default.back-off-policy.retryDelay=600000
-messaging.retry.default.back-off-policy.retryDelayMultiplier=1.0
-messaging.retry.default.back-off-policy.retryMaxDelay=600000
-messaging.retry.default.back-off-policy.retryCount=2
+# Back off policy properties for employeeapp-employee-v1-delete
+messaging.retry.back-off-policy.retryReEnqueueDelay.employeeapp-employee-v1-delete=1000
+messaging.retry.back-off-policy.retryDelay.employeeapp-employee-v1-delete=600000
+messaging.retry.back-off-policy.retryDelayMultiplier.employeeapp-employee-v1-delete=1.0
+messaging.retry.back-off-policy.retryMaxDelay.employeeapp-employee-v1-delete=600000
+messaging.retry.back-off-policy.retryCount.employeeapp-employee-v1-delete=2
 
-# default retry policy properties
-messaging.retry.default.retry-policy.retryPeriod=1800
-messaging.retry.default.retry-policy.retryableExceptions=<Class names of exceptions for which a retry should be performed>
-messaging.retry.default.retry-policy.retryableExceptionsTraverseCauses=true
+# Retry policy properties for employeeapp-employee-v1-delete
+messaging.retry.retry-policy.retryPeriod.employeeapp-employee-v1-delete=1800
+messaging.retry.retry-policy.retryableExceptions.employeeapp-employee-v1-delete=<Class names of exceptions for which a retry should be performed>
+messaging.retry.retry-policy.retryableExceptionsTraverseCauses.employeeapp-employee-v1-delete=true
+
+# Back off policy properties for employeeapp-employee-v1-add
+messaging.retry.back-off-policy.retryReEnqueueDelay.employeeapp-employee-v1-add=1000
+messaging.retry.back-off-policy.retryDelay.employeeapp-employee-v1-add=600000
+messaging.retry.back-off-policy.retryDelayMultiplier.employeeapp-employee-v1-add=2.0
+messaging.retry.back-off-policy.retryMaxDelay.employeeapp-employee-v1-add=600000
+messaging.retry.back-off-policy.retryCount.employeeapp-employee-v1-add=4
+
+# Retry policy properties for employeeapp-employee-v1-add
+messaging.retry.retry-policy.retryPeriod.employeeapp-employee-v1-add=3000
+messaging.retry.retry-policy.retryableExceptions.employeeapp-employee-v1-add=<Class names of exceptions for which a retry should be performed>
+messaging.retry.retry-policy.retryableExceptionsTraverseCauses.employeeapp-employee-v1-add=true
 -----
+
+If you notice the above properties, the `retry-policy` and `back-off policy` properties are repeated twice as i have 2 topics for the retry to be performed with different level of values. The topic name should be added at the last of attribute.
+
+So, the retry will be performed for each topic according to their configuration values.
+
+If you want to provide same/default values for all the topics, then its required to add `default` in the place of topic on the above properties example.
+
+For example,
+
+[source,properties]
+-----
+# Default back off policy properties
+messaging.retry.back-off-policy.retryReEnqueueDelay.default=1000
+messaging.retry.back-off-policy.retryDelay.default=600000
+messaging.retry.back-off-policy.retryDelayMultiplier.default=1.0
+messaging.retry.back-off-policy.retryMaxDelay.default=600000
+messaging.retry.back-off-policy.retryCount.default=2
+
+# Default retry policy properties
+messaging.retry.retry-policy.retryPeriod.default=1800
+messaging.retry.retry-policy.retryableExceptions.default=<Class names of exceptions for which a retry should be performed>
+messaging.retry.retry-policy.retryableExceptionsTraverseCauses.default=true
+-----
+
+By giving properties like above , the same values will be passed for all the topics and the way of processing retry for all the topics are same.
 
 All these above property values are mapped to the classes `DefaultBackOffPolicyProperties.java` and `DefaultRetryPolicyProperties.java` and configured by the class `MessageDefaultRetryConfig.java`.
 
-The MessageRetryContext in devon kafka is used to perform the retry pattern with the properties from DefaultBackOffPolicyProperties and DefaultRetryPolicyProperties. 
+The MessageRetryContext in devon kafka is used to perform the retry pattern with the properties from DefaultBackOffPolicyProperties and DefaultRetryPolicyProperties.
 
 The 2 main properties of MessageRetryContext is nextRetry and retryUntil which is a `Instant` date format and it is calculated internally using the properties given in DefaultBackOffPolicyProperties and DefaultRetryPolicyProperties.
 
@@ -259,7 +298,7 @@ Devon4-kafka enqueues a new message for each retry attempt. It is very important
 
 === Handling retry finally failed
 
-Per default when the retry fails with final attempt  we just log the message and delete the payload of ProducerRecord which comes to proceed the retry pattern. 
+Per default when the retry fails with final attempt  we just log the message and delete the payload of ProducerRecord which comes to proceed the retry pattern.
 
 You can change this behavior by providing the implementation class for the interface `MessageRetryHandler.java`
 which has two method `retryTimeout` and `retryFailedFinal`.

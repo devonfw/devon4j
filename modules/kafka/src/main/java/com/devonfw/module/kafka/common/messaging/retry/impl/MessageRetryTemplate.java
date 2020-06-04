@@ -106,7 +106,7 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
 
       if (retryContext.getRetryNext() != null && now.compareTo(retryContext.getRetryNext()) < 0) {
 
-        this.backOffPolicy.sleepBeforeReEnqueue();
+        this.backOffPolicy.sleepBeforeReEnqueue(consumerRecord.topic());
 
         LOG.info(EventKey.RETRY_TIME_NOT_REACHED.getMessage(), retryContext.getRetryNext(),
             retryContext.getCurrentRetryCount() + 1, consumerRecord.topic());
@@ -183,8 +183,8 @@ public class MessageRetryTemplate<K, V> implements MessageRetryOperations<K, V> 
       result.setRetryUntil(this.retryPolicy.getRetryUntilTimestamp(consumerRecord, retryContext));
     }
 
-    result.setRetryNext(
-        this.backOffPolicy.getNextRetryTimestamp(result.getCurrentRetryCount(), result.getRetryUntil().toString()));
+    result.setRetryNext(this.backOffPolicy.getNextRetryTimestamp(result.getCurrentRetryCount(),
+        result.getRetryUntil().toString(), consumerRecord.topic()));
     return result;
   }
 

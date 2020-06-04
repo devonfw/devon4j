@@ -1,5 +1,7 @@
 package com.devonfw.module.kafka.common.messaging.logging.impl;
 
+import java.util.Optional;
+
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +34,8 @@ public class ProducerLoggingListener<K, V> implements ProducerListener<K, V> {
   @Override
   public void onSuccess(String topic, Integer partition, Object key, Object value, RecordMetadata recordMetadata) {
 
-    String messageKey = "<no message key>";
-    if (key != null) {
-      key = key.toString();
-    }
+    String messageKey = (String) Optional.ofNullable(key).orElse("<no message key>");
+
     if (recordMetadata != null) {
       this.loggingSupport.logMessageSent(LOG, messageKey, recordMetadata.topic(), recordMetadata.partition(),
           recordMetadata.offset());
