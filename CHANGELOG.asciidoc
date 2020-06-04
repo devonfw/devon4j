@@ -2,6 +2,21 @@
 
 This file documents all notable changes to https://https://github.com/devonfw/devon4j[devon4j].
 
+== 2020.04.002
+
+Minor update of `devon4j` with the following bugfixes and small improvements:
+
+* https://github.com/devonfw/devon4j/issues/261[#261]: JUnit4 backward compatibility
+* https://github.com/devonfw/devon4j/pull/267[#267]: Fix JWT permission expansion
+* https://github.com/devonfw/devon4j/issues/254[#254]: JWT Authentication support for devon4j-kafka
+* https://github.com/devonfw/devon4j/issues/258[#258]: archetype is still lacking a .gitignore
+* https://github.com/devonfw/devon4j/pull/273[#273]: Update libs
+* https://github.com/devonfw/devon4j/pull/271[#271]: Do not enable resource filtering by default
+* https://github.com/devonfw/devon4j/issues/255[#255]: Kafka: Support different retry configuration for different topics
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2020.04.002/devon4j-doc-2020.04.002.pdf[devon4j guide 2020.04.002].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/11?closed=1[milestone devon4j 2020.04.002].
+
 == 2020.04.001
 
 Starting with this release we have changed the versioning schema in `devonfw` to `yyyy.mm.NNN` where `yyyy.mm` is the date of the planned milestone release and `NNN` is a running number increased with every bug- or security-fix update.
@@ -39,7 +54,6 @@ The following changes have been incorporated in devon4j:
 
 Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2020.04.001/devon4j-doc-2020.04.001.pdf[devon4j guide 2020.04.001].
 The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/8?closed=1[milestone devon4j 2020.04.001].
-
 
 == 3.2.1
 
