@@ -229,26 +229,26 @@ The retry pattern in devon4j-kafka will perform for specific topic of a message.
 
 [source,properties]
 -----
-# Retry back off policy properties
+# Back off policy properties for employeeapp-employee-v1-delete
 messaging.retry.back-off-policy.retryReEnqueueDelay.employeeapp-employee-v1-delete=1000
 messaging.retry.back-off-policy.retryDelay.employeeapp-employee-v1-delete=600000
 messaging.retry.back-off-policy.retryDelayMultiplier.employeeapp-employee-v1-delete=1.0
 messaging.retry.back-off-policy.retryMaxDelay.employeeapp-employee-v1-delete=600000
 messaging.retry.back-off-policy.retryCount.employeeapp-employee-v1-delete=2
 
-# default retry policy properties
+# Retry policy properties for employeeapp-employee-v1-delete
 messaging.retry.retry-policy.retryPeriod.employeeapp-employee-v1-delete=1800
 messaging.retry.retry-policy.retryableExceptions.employeeapp-employee-v1-delete=<Class names of exceptions for which a retry should be performed>
 messaging.retry.retry-policy.retryableExceptionsTraverseCauses.employeeapp-employee-v1-delete=true
 
-# Retry back off policy properties
+# Back off policy properties for employeeapp-employee-v1-add
 messaging.retry.back-off-policy.retryReEnqueueDelay.employeeapp-employee-v1-add=1000
 messaging.retry.back-off-policy.retryDelay.employeeapp-employee-v1-add=600000
 messaging.retry.back-off-policy.retryDelayMultiplier.employeeapp-employee-v1-add=2.0
 messaging.retry.back-off-policy.retryMaxDelay.employeeapp-employee-v1-add=600000
 messaging.retry.back-off-policy.retryCount.employeeapp-employee-v1-add=4
 
-# default retry policy properties
+# Retry policy properties for employeeapp-employee-v1-add
 messaging.retry.retry-policy.retryPeriod.employeeapp-employee-v1-add=3000
 messaging.retry.retry-policy.retryableExceptions.employeeapp-employee-v1-add=<Class names of exceptions for which a retry should be performed>
 messaging.retry.retry-policy.retryableExceptionsTraverseCauses.employeeapp-employee-v1-add=true
@@ -264,14 +264,14 @@ For example,
 
 [source,properties]
 -----
-# Retry back off policy properties
+# Default back off policy properties
 messaging.retry.back-off-policy.retryReEnqueueDelay.default=1000
 messaging.retry.back-off-policy.retryDelay.default=600000
 messaging.retry.back-off-policy.retryDelayMultiplier.default=1.0
 messaging.retry.back-off-policy.retryMaxDelay.default=600000
 messaging.retry.back-off-policy.retryCount.default=2
 
-# default retry policy properties
+# Default retry policy properties
 messaging.retry.retry-policy.retryPeriod.default=1800
 messaging.retry.retry-policy.retryableExceptions.default=<Class names of exceptions for which a retry should be performed>
 messaging.retry.retry-policy.retryableExceptionsTraverseCauses.default=true
