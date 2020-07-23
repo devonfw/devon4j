@@ -37,4 +37,43 @@ public class DiagnosticContextFacadeImpl implements DiagnosticContextFacade {
     MDC.remove(LoggingConstants.CORRELATION_ID);
   }
 
+  @Override
+  public void setTraceId(String traceId) {
+
+    MDC.put(LoggingConstants.TRACE_ID, traceId);
+
+  }
+
+  @Override
+  public void setSpanId(String spanId) {
+
+    MDC.put(LoggingConstants.SPAN_ID, spanId);
+  }
+
+  @Override
+  public void removeTraceId() {
+
+    MDC.remove(LoggingConstants.TRACE_ID);
+
+  }
+
+  @Override
+  public void removeSpanId() {
+
+    MDC.remove(LoggingConstants.SPAN_ID);
+
+  }
+
+  @Override
+  public String getTraceId() {
+
+    return MDC.get(LoggingConstants.TRACE_ID);
+  }
+
+  @Override
+  public String getSpanId() {
+
+    return MDC.get(LoggingConstants.SPAN_ID);
+  }
+
 }
