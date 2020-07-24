@@ -195,8 +195,6 @@ public class TraceContextFilter implements Filter {
         LOG.debug("TraceId ID was already set to {} before TraceContextFilter has been invoked.", traceId);
       } else {
         // no traceId ID present, inject from trace context
-        // traceId = UUID.randomUUID().toString();
-        // this.diagnosticContextFacade.setTraceId(traceId);
         TraceContext context = getActiveTraceContext();
         this.traceHeadersInjector.inject(context, this.diagnosticContextFacade);
         LOG.debug("Injected trace ID {} and span ID {} .", context.traceIdString(), context.spanIdString());
