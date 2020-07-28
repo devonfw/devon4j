@@ -199,7 +199,7 @@ public class TraceContextFilter implements Filter {
 
     }
 
-    if (traceId == null) {
+    if (traceId == null && spanId == null) {
       // potential fallback if initialized before this filter...
       traceId = normalizeValue(this.diagnosticContextFacade.getTraceId());
       spanId = normalizeValue(this.diagnosticContextFacade.getSpanId());
