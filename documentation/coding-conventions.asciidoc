@@ -184,7 +184,7 @@ try {
   readData(in);
   in.close();
 } catch (IOException e) {
-  throw new RuntimeIoException(e, IoMode.READ);
+  throw new IllegalStateException("Failed to read data.", e);
 }
 ----
 
@@ -194,10 +194,18 @@ The code above is wrong as in case of an `IOException` the `InputStream` is not 
 try (InputStream in = new FileInputStream(file)) { 
   readData(in);
 } catch (IOException e) {
-  throw new RuntimeIoException(e, IoMode.READ);
+  throw new IllegalStateException("Failed to read data.", e);
 }
 ----
 
+=== Catching and handling Exceptions
+When catching exceptions always ensure the following:
+
+* Never call `printStackTrace()` method on an exception
+* Either log or wrap and re-throw the entire catched exception. Be aware that the cause(s) of an exception is very valuable information. If you loose such information by improper exception-handling you may be unable to properly analyse production problems what can cause severe issues.
+** If you wrap and re-throw an exception ensure that the catched exception is passed as cause to the newly created and thrown exception.
+** If you log an exception ensure that the entire exception is passed as argument to the logger (and not only the result of `getMessage()` or `toString()` on the exception).
+* See link:guide-exceptions.asciidoc#handling-exceptions[exception handling]
 
 === Lambdas and Streams
 With Java8 you have cool new features like lambdas and monads like (`Stream`, `CompletableFuture`, `Optional`, etc.).
