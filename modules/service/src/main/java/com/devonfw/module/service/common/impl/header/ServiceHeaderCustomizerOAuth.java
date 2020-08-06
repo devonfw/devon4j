@@ -6,14 +6,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.devonfw.module.logging.common.api.LoggingConstants;
 import com.devonfw.module.service.common.api.config.ServiceConfig;
 import com.devonfw.module.service.common.api.header.ServiceHeaderContext;
 import com.devonfw.module.service.common.api.header.ServiceHeaderCustomizer;
 
 /**
- * Implementation of {@link ServiceHeaderCustomizer} that passes the {@link LoggingConstants#CORRELATION_ID} to a
- * subsequent {@link com.devonfw.module.service.common.api.Service} invocation.
+ * Implementation of {@link ServiceHeaderCustomizer} that passes a potential {@code oauth.token} property from the
+ * current {@link Authentication} to subsequent {@link com.devonfw.module.service.common.api.Service} invocations.
  *
  * @since 3.0.0
  */

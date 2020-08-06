@@ -8,8 +8,10 @@ import com.devonfw.module.service.common.api.header.ServiceHeaderContext;
 import com.devonfw.module.service.common.api.header.ServiceHeaderCustomizer;
 
 /**
- * @author ssarmoka
+ * Implementation of {@link ServiceHeaderCustomizer} that forwards the {@code Authorization} HTTP header from the
+ * current request as header to to subsequent {@link com.devonfw.module.service.common.api.Service} invocations.
  *
+ * @since 3.0.0
  */
 public class ServiceHeaderCustomizerAuthForward implements ServiceHeaderCustomizer {
 
@@ -20,6 +22,7 @@ public class ServiceHeaderCustomizerAuthForward implements ServiceHeaderCustomiz
    * The constructor.
    */
   public ServiceHeaderCustomizerAuthForward() {
+
     super();
   }
 
@@ -36,7 +39,6 @@ public class ServiceHeaderCustomizerAuthForward implements ServiceHeaderCustomiz
     }
     String authorizationHeader = context.getConfig().getChildValue(AUTHORIZATION);
     context.setHeader(AUTHORIZATION, authorizationHeader);
-
   }
 
 }

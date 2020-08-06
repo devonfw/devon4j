@@ -5,7 +5,8 @@ import java.util.Collection;
 import com.devonfw.module.basic.common.api.config.ConfigProperties;
 
 /**
- * This interface gives read access to contextual information of a {@link com.devonfw.module.service.common.api.Service}.
+ * This interface gives read access to contextual information of a
+ * {@link com.devonfw.module.service.common.api.Service}.
  *
  * @param <S> the generic type of the {@link #getApi() service API}.
  *
@@ -14,7 +15,10 @@ import com.devonfw.module.basic.common.api.config.ConfigProperties;
 public interface ServiceContext<S> {
 
   /**
-   * @return the {@link Class} reflecting the API of the {@link com.devonfw.module.service.common.api.Service}.
+   * @return the {@link Class} reflecting the API of the externally provided
+   *         {@link com.devonfw.module.service.common.api.Service}. E.g. a JAR-RS annotated interface. For flexibility
+   *         and being not invasive the generic type is not bound to
+   *         {@link com.devonfw.module.service.common.api.Service} ({@code S extends Service}).
    */
   Class<S> getApi();
 
