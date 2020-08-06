@@ -1,11 +1,12 @@
-package com.devonfw.module.service.common.api.sync;
+package com.devonfw.module.service.common.api.client.sync;
 
 import com.devonfw.module.service.common.api.Service;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
 
 /**
- * The interface for a partial implementation of {@link com.devonfw.module.service.common.api.client.ServiceClientFactory} used to
- * {@link #create(ServiceContext) create} client stubs for a {@link Service}.
+ * The interface for a partial implementation of
+ * {@link com.devonfw.module.service.common.api.client.ServiceClientFactory} used to {@link #create(ServiceContext)
+ * create} synchronous client stubs for a {@link Service}.
  *
  * @see com.devonfw.module.service.common.api.client.ServiceClientFactory
  *

@@ -28,6 +28,8 @@
     <module>cxf-server</module>
     <module>cxf-server-rest</module>
     <module>cxf-server-ws</module>
+    <module>http-client</module>
+    <module>http-client-rest</module>
     <module>security-keystore</module>
     <module>security</module>
     <module>security-jwt</module>

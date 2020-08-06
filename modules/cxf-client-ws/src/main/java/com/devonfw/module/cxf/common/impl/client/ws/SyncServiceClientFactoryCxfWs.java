@@ -21,9 +21,9 @@ import org.apache.cxf.transport.http.HTTPConduit;
 
 import com.devonfw.module.cxf.common.impl.client.SyncServiceClientFactoryCxf;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
+import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
 import com.devonfw.module.service.common.api.config.ServiceConfig;
 import com.devonfw.module.service.common.api.constants.ServiceConstants;
-import com.devonfw.module.service.common.api.sync.SyncServiceClientFactory;
 
 /**
  * Implementation of {@link SyncServiceClientFactory} for JAX-WS SOAP service clients using Apache CXF.

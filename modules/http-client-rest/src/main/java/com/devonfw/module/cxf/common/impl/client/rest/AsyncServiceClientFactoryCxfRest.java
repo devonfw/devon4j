@@ -12,10 +12,11 @@ import org.apache.cxf.jaxrs.client.ClientConfiguration;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.WebClient;
 
-import com.devonfw.module.cxf.common.impl.client.SyncServiceClientFactoryCxf;
+import com.devonfw.module.cxf.common.impl.client.AsyncServiceClientFactoryCxf;
+import com.devonfw.module.service.common.api.client.AsyncServiceClient;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
-import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
 import com.devonfw.module.service.common.api.constants.ServiceConstants;
+import com.devonfw.module.service.common.api.sync.SyncServiceClientFactory;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 /**
@@ -23,14 +24,15 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
  *
  * @since 3.0.0
  */
-public class SyncServiceClientFactoryCxfRest extends SyncServiceClientFactoryCxf {
+public class AsyncServiceClientFactoryCxfRest extends AsyncServiceClientFactoryCxf {
 
   private JacksonJsonProvider jsonProvider;
 
   /**
    * The constructor.
    */
-  public SyncServiceClientFactoryCxfRest() {
+  public AsyncServiceClientFactoryCxfRest() {
+
     super();
   }
 
@@ -53,7 +55,7 @@ public class SyncServiceClientFactoryCxfRest extends SyncServiceClientFactoryCxf
   }
 
   @Override
-  protected <S> S createService(ServiceContext<S> context, String url, String serviceName) {
+  protected <S> AsyncServiceClient<S> createService(ServiceContext<S> context, String url, String serviceName) {
 
     List<Object> providers = createProviderList(context, serviceName);
     return JAXRSClientFactory.create(url, context.getApi(), providers);

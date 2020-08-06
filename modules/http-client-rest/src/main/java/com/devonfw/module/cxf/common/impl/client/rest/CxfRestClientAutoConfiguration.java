@@ -3,7 +3,7 @@ package com.devonfw.module.cxf.common.impl.client.rest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
+import com.devonfw.module.service.common.api.sync.SyncServiceClientFactory;
 
 /**
  * {@link Configuration} for REST (JAX-RS) clients using Apache CXF.

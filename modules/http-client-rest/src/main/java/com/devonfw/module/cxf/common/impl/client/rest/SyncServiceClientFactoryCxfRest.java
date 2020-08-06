@@ -14,8 +14,8 @@ import org.apache.cxf.jaxrs.client.WebClient;
 
 import com.devonfw.module.cxf.common.impl.client.SyncServiceClientFactoryCxf;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
-import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
 import com.devonfw.module.service.common.api.constants.ServiceConstants;
+import com.devonfw.module.service.common.api.sync.SyncServiceClientFactory;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 /**
