@@ -9,7 +9,7 @@ import com.devonfw.module.rest.common.api.RestService;
 /**
  * Simple {@link RestService} as example for testing.
  */
-@Path("/imagemanagement/v1")
+@Path("/my-example/v1")
 public interface MyExampleRestService extends RestService {
 
   /**
