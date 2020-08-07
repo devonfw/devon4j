@@ -229,19 +229,20 @@ Information about the relation is stored in a table called `BILL_ORDER` that has
      
 For 1:n relationships this solution has the disadvantage that more joins (in the database system) are needed to get a Bill with all the Orders it refers to. This might have a negative impact on performance so that the solution to store a reference to the Bill row/entity in the Order's table is probably the better solution in most cases.
      
-Note that bidirectional n:m relationships are not allowed for applications based on the devon4j. Instead a third entity has to be introduced, which "represents" the relationship (it has two n:1 relationships).
+Note that bidirectional n:m relationships are not allowed for applications based on devon4j. Instead a third entity has to be introduced, which "represents" the relationship (it has two n:1 relationships).
 
 === Eager vs. Lazy Loading
 Using JPA it is possible to use either lazy or eager loading. Eager loading means that for entities retrieved from the database, other entities that are referenced by these entities are also retrieved, whereas lazy loading means that this is only done when they are actually needed, i.e. when the corresponding getter method is invoked.
         
-Application based on the devon are strongly advised to always use lazy loading. The JPA defaults are:
+Application based on devon4j are strongly advised to *always use lazy loading*. The JPA defaults are:
 
 * `@OneToMany`: LAZY
 * `@ManyToMany`: LAZY
 * `@ManyToOne`: EAGER
 * `@OneToOne`: EAGER
 
-So at least for `@ManyToOne` and `@OneToOne` you always need to override the default by providing `fetch = FetchType.LAZY`. 
+So at least for `@ManyToOne` and `@OneToOne` you always need to override the default by providing `fetch = FetchType.LAZY`.
+
 IMPORTANT: Please read the link:guide-jpa-performance.asciidoc[performance guide].
 
 === Cascading Relationships
