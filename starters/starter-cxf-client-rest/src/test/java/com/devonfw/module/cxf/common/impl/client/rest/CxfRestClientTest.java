@@ -57,8 +57,8 @@ public class CxfRestClientTest extends ComponentTest {
       service.businessError();
       failBecauseExceptionWasNotThrown(ServiceInvocationFailedException.class);
     } catch (ServiceInvocationFailedException e) {
-      assertThat(e.getNlsMessage().getMessage()).isEqualTo(
-          "While invoking the service com.devonfw.test.app.myexample.service.api.rest.MyExampleRestService the following error occurred: Test of business error. Probably the service is temporary unavailable. Please try again later. If the problem persists contact your system administrator.");
+      assertThat(e.getNlsMessage().getMessage()).matches(
+          "While invoking the service com\\.devonfw\\.test\\.app\\.myexample\\.service\\.api\\.rest\\.MyExampleRestService\\(http://localhost:[0-9]+/app/services/rest/imagemanagement/v1/technical-error\\) the following error occurred: Test of business error.* Probably the service is temporary unavailable\\. Please try again later\\. If the problem persists contact your system administrator\\.");
       assertThat(e.getCode()).isEqualTo(MyBusinessException.CODE);
       assertThat(e.isForUser()).isTrue();
       assertThat(e.isTechnical()).isTrue();
@@ -81,8 +81,8 @@ public class CxfRestClientTest extends ComponentTest {
       service.technicalError();
       failBecauseExceptionWasNotThrown(ServiceInvocationFailedException.class);
     } catch (ServiceInvocationFailedException e) {
-      assertThat(e.getNlsMessage().getMessage()).isEqualTo(
-          "While invoking the service com.devonfw.test.app.myexample.service.api.rest.MyExampleRestService the following error occurred: An unexpected error has occurred! We apologize any inconvenience. Please try again later.. Probably the service is temporary unavailable. Please try again later. If the problem persists contact your system administrator.");
+      assertThat(e.getNlsMessage().getMessage()).matches(
+          "While invoking the service com\\.devonfw\\.test\\.app\\.myexample\\.service\\.api\\.rest\\.MyExampleRestService\\(http://localhost:[0-9]+/app/services/rest/imagemanagement/v1/technical-error\\) the following error occurred: An unexpected error has occurred! We apologize any inconvenience\\. Please try again later\\..* Probably the service is temporary unavailable\\. Please try again later\\. If the problem persists contact your system administrator\\.");
       assertThat(e.getCode()).isEqualTo(TechnicalErrorUserException.CODE);
       assertThat(e.isForUser()).isTrue();
       assertThat(e.isTechnical()).isTrue();

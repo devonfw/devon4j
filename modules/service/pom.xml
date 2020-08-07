@@ -33,6 +33,11 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <groupId>net.sf.m-m-m</groupId>
+      <artifactId>mmm-util-exception</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-core</artifactId>
       <optional>true</optional>

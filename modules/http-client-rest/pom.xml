@@ -13,11 +13,18 @@
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
   <description>Support for consuming REST services as client based on Java HTTP Client.</description>
+  <properties>
+    <java.version>11</java.version>
+  </properties>
 
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>devon4j-http-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>

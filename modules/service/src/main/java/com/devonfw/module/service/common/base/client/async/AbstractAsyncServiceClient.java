@@ -4,6 +4,9 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.devonfw.module.service.common.api.client.AsyncServiceClient;
 import com.devonfw.module.service.common.api.client.async.ServiceClientInvocation;
 import com.devonfw.module.service.common.api.client.async.ServiceClientStub;
@@ -16,6 +19,8 @@ import com.devonfw.module.service.common.api.client.context.ServiceContext;
  * @since 2020.08.001
  */
 public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClient<S> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractAsyncServiceClient.class);
 
   private final S proxy;
 
@@ -35,6 +40,7 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
     super();
     this.proxy = proxy;
     this.stub = stub;
+    this.errorHandler = this::logError;
   }
 
   @Override
@@ -52,6 +58,7 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
   @Override
   public void setErrorHandler(Consumer<Throwable> errorHandler) {
 
+    Objects.requireNonNull(errorHandler);
     this.errorHandler = errorHandler;
   }
 
@@ -66,7 +73,18 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
     Objects.requireNonNull(method, "method");
     Object[] parameters = invocation.getParameters();
     assert (method.getParameterCount() == getLength(parameters));
-    doCall(invocation, resultHandler);
+    try {
+      doCall(invocation, resultHandler);
+    } catch (Throwable t) {
+      this.errorHandler.accept(t);
+    }
+  }
+
+  private void logError(Throwable error) {
+
+    ServiceContext<S> context = this.stub.getContext();
+    LOG.error("Failed to invoke service {}#{} at {}", context.getApi().getName(),
+        this.stub.getInvocation().getMethod().getName(), context.getUrl(), error);
   }
 
   /**

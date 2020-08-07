@@ -1,6 +1,5 @@
 package com.devonfw.module.httpclient.common.impl;
 
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
@@ -14,26 +13,34 @@ import com.devonfw.module.service.common.base.client.ServiceClientPerformanceLog
 import com.devonfw.module.service.common.base.client.async.AbstractAsyncServiceClient;
 
 /**
- * Implementation of {@link AsyncServiceClient} using Java HTTP client.
+ * Abstract base implementation of {@link AsyncServiceClient} using Java HTTP client.
  *
  * @param <S> type of the {@link #get() service client}.
+ * @param <F> type of the owning {@link AsyncServiceClientFactoryHttp factory}.
  * @since 2020.08.001
  */
-public abstract class AbstractAsyncServiceHttpClient<S> extends AbstractAsyncServiceClient<S> {
+public abstract class AbstractAsyncServiceHttpClient<S, F extends AsyncServiceClientFactoryHttp>
+    extends AbstractAsyncServiceClient<S> {
 
-  private final HttpClient httpClient;
+  /** {@link ServiceHttpClient} to use. */
+  protected final ServiceHttpClient client;
+
+  /** The owning {@link AsyncServiceClientFactoryHttp factory} which created this client. */
+  protected final F factory;
 
   /**
    * The constructor.
    *
    * @param proxy the {@link #get() service client}.
    * @param stub the {@link ServiceClientStub}.
-   * @param httpClient the {@link HttpClient} to use.
+   * @param httpClient the {@link ServiceHttpClient} to use.
+   * @param factory the owning {@link AsyncServiceClientFactoryHttp factory}.
    */
-  public AbstractAsyncServiceHttpClient(S proxy, ServiceClientStub<S> stub, HttpClient httpClient) {
+  public AbstractAsyncServiceHttpClient(S proxy, ServiceClientStub<S> stub, ServiceHttpClient httpClient, F factory) {
 
     super(proxy, stub);
-    this.httpClient = httpClient;
+    this.client = httpClient;
+    this.factory = factory;
   }
 
   @Override
@@ -41,8 +48,8 @@ public abstract class AbstractAsyncServiceHttpClient<S> extends AbstractAsyncSer
 
     long startTime = System.nanoTime();
     HttpRequest request = createRequest(invocation);
-    // TODO Auto-generated method stub
-    CompletableFuture<HttpResponse<String>> future = this.httpClient.sendAsync(request, BodyHandlers.ofString());
+    CompletableFuture<HttpResponse<String>> future = this.client.getHttpClient().sendAsync(request,
+        BodyHandlers.ofString());
     future.thenAccept(response -> handleResponse(response, startTime, invocation, resultHandler));
   }
 
@@ -52,23 +59,45 @@ public abstract class AbstractAsyncServiceHttpClient<S> extends AbstractAsyncSer
 
     Throwable error = null;
     try {
-      Object result = createResult(response);
-      resultHandler.accept(result);
+      int statusCode = response.statusCode();
+      if (statusCode >= 400) {
+        error = createError(response, invocation);
+        this.errorHandler.accept(error);
+      } else {
+        Object result = createResult(response, invocation);
+        resultHandler.accept(result);
+      }
     } catch (Throwable t) {
       this.errorHandler.accept(t);
       error = t;
     } finally {
-      Object service = invocation.getContext().getApi().getName();
+      Object service = invocation.getServiceDescription();
       String target = invocation.getContext().getUrl();
       ServiceClientPerformanceLogger.log(startTime, service, target, response.statusCode(), error);
     }
   }
 
+  private Throwable createError(HttpResponse<?> response, ServiceClientInvocation<S> invocation) {
+
+    int statusCode = response.statusCode();
+    String contentType = response.headers().firstValue("Content-Type").orElse("application/json");
+    String service = invocation.getServiceDescriptionWithUrl();
+    String data = "";
+    Object body = response.body();
+    if (body instanceof String) {
+      data = (String) body;
+    } else {
+      // TODO
+    }
+    return this.factory.getErrorUnmarshaller().unmarshall(data, contentType, statusCode, service);
+  }
+
   /**
    * @param response the received {@link HttpResponse}.
+   * @param invocation the {@link ServiceClientInvocation}.
    * @return the unmarshalled result object.
    */
-  protected abstract Object createResult(HttpResponse<?> response);
+  protected abstract Object createResult(HttpResponse<?> response, ServiceClientInvocation<S> invocation);
 
   /**
    * @param invocation the {@link ServiceClientInvocation}.

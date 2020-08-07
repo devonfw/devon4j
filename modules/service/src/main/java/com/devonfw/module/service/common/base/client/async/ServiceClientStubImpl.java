@@ -101,6 +101,12 @@ public class ServiceClientStubImpl<S> implements ServiceClientStub<S>, Invocatio
     return null;
   }
 
+  @Override
+  public ServiceContext<S> getContext() {
+
+    return this.context;
+  }
+
   /**
    * @param <S> type of the {@link ServiceContext#getApi() service API}.
    * @param context the {@link ServiceContext}.

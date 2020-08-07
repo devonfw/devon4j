@@ -1,4 +1,4 @@
-package com.devonfw.module.service.common.impl;
+package com.devonfw.module.service.common.impl.client;
 
 import java.util.Collection;
 import java.util.Map;

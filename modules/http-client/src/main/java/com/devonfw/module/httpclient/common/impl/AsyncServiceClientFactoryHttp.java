@@ -1,6 +1,11 @@
 package com.devonfw.module.httpclient.common.impl;
 
+import java.net.http.HttpClient;
+
+import javax.inject.Inject;
+
 import com.devonfw.module.service.common.api.client.AsyncServiceClient;
+import com.devonfw.module.service.common.api.client.ServiceClientErrorUnmarshaller;
 import com.devonfw.module.service.common.api.client.async.AsyncServiceClientFactory;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
 import com.devonfw.module.service.common.base.client.PartialServiceClientFactory;
@@ -13,6 +18,10 @@ import com.devonfw.module.service.common.base.client.PartialServiceClientFactory
 public abstract class AsyncServiceClientFactoryHttp extends PartialServiceClientFactory
     implements AsyncServiceClientFactory {
 
+  private ServiceClientErrorUnmarshaller errorUnmarshaller;
+
+  private HttpClient httpClient;
+
   @Override
   public <S> AsyncServiceClient<S> create(ServiceContext<S> context) {
 
@@ -21,7 +30,6 @@ public abstract class AsyncServiceClientFactoryHttp extends PartialServiceClient
       return null;
     }
     String serviceName = createServiceName(context);
-
     String url = getUrl(context);
     AsyncServiceClient<S> serviceClient = createService(context, url, serviceName);
     return serviceClient;
@@ -37,11 +45,39 @@ public abstract class AsyncServiceClientFactoryHttp extends PartialServiceClient
   protected abstract <S> AsyncServiceClient<S> createService(ServiceContext<S> context, String url, String serviceName);
 
   /**
-   * Applies headers to the given {@code serviceClient}.
-   *
-   * @param context the {@link ServiceContext}.
-   * @param serviceClient the service client instance.
+   * @return the {@link HttpClient} to use. Will be created lazily.
    */
-  protected abstract void applyHeaders(ServiceContext<?> context, Object serviceClient);
+  public HttpClient getHttpClient() {
+
+    if (this.httpClient == null) {
+      this.httpClient = HttpClient.newHttpClient();
+    }
+    return this.httpClient;
+  }
+
+  /**
+   * @param httpClient the {@link HttpClient} to use.
+   */
+  public void setHttpClient(HttpClient httpClient) {
+
+    this.httpClient = httpClient;
+  }
+
+  /**
+   * @return the {@link ServiceClientErrorUnmarshaller}.
+   */
+  public ServiceClientErrorUnmarshaller getErrorUnmarshaller() {
+
+    return this.errorUnmarshaller;
+  }
+
+  /**
+   * @param errorUnmarshaller the {@link ServiceClientErrorUnmarshaller} to {@link Inject}.
+   */
+  @Inject
+  public void setErrorUnmarshaller(ServiceClientErrorUnmarshaller errorUnmarshaller) {
+
+    this.errorUnmarshaller = errorUnmarshaller;
+  }
 
 }

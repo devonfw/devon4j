@@ -13,6 +13,7 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.WebClient;
 
 import com.devonfw.module.cxf.common.impl.client.SyncServiceClientFactoryCxf;
+import com.devonfw.module.service.common.api.client.ServiceClientErrorUnmarshaller;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
 import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
 import com.devonfw.module.service.common.api.constants.ServiceConstants;
@@ -27,10 +28,13 @@ public class SyncServiceClientFactoryCxfRest extends SyncServiceClientFactoryCxf
 
   private JacksonJsonProvider jsonProvider;
 
+  private ServiceClientErrorUnmarshaller errorUnmarshaller;
+
   /**
    * The constructor.
    */
   public SyncServiceClientFactoryCxfRest() {
+
     super();
   }
 
@@ -41,6 +45,15 @@ public class SyncServiceClientFactoryCxfRest extends SyncServiceClientFactoryCxf
   public void setJsonProvider(JacksonJsonProvider jsonProvider) {
 
     this.jsonProvider = jsonProvider;
+  }
+
+  /**
+   * @param exceptionUnmarshaller new value of {@link ServiceClientErrorUnmarshaller} to {@link Inject}.
+   */
+  @Inject
+  public void setErrorUnmarshaller(ServiceClientErrorUnmarshaller exceptionUnmarshaller) {
+
+    this.errorUnmarshaller = exceptionUnmarshaller;
   }
 
   @Override
@@ -94,7 +107,7 @@ public class SyncServiceClientFactoryCxfRest extends SyncServiceClientFactoryCxf
     if (this.jsonProvider != null) {
       providers.add(this.jsonProvider);
     }
-    providers.add(new RestServiceExceptionMapper(serviceName));
+    providers.add(new RestServiceExceptionMapper(this.errorUnmarshaller, serviceName));
     return providers;
   }
 

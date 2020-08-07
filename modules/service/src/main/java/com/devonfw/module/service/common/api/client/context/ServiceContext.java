@@ -8,7 +8,7 @@ import com.devonfw.module.basic.common.api.config.ConfigProperties;
  * This interface gives read access to contextual information of a
  * {@link com.devonfw.module.service.common.api.Service}.
  *
- * @param <S> the generic type of the {@link #getApi() service API}.
+ * @param <S> type of the {@link #getApi() service API}.
  *
  * @since 3.0.0
  */

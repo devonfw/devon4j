@@ -14,7 +14,7 @@ import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactor
 public class CxfRestClientAutoConfiguration {
 
   /**
-   * @return an implemenation of {@link SyncServiceClientFactory} based on CXF for REST (JAX-RS).
+   * @return an implementation of {@link SyncServiceClientFactory} based on CXF for REST (JAX-RS).
    */
   @Bean
   public SyncServiceClientFactory syncServiceClientFactoryCxfRest() {

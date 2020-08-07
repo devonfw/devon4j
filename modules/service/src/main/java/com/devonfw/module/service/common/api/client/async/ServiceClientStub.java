@@ -23,4 +23,9 @@ public interface ServiceClientStub<S> {
    */
   ServiceClientInvocation<S> getInvocation();
 
+  /**
+   * @return the {@link ServiceContext}.
+   */
+  ServiceContext<S> getContext();
+
 }

@@ -1,8 +1,9 @@
-package com.devonfw.module.service.common.impl;
+package com.devonfw.module.service.common.impl.client;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.devonfw.module.service.common.api.client.ServiceClientErrorUnmarshaller;
 import com.devonfw.module.service.common.api.client.ServiceClientFactory;
 import com.devonfw.module.service.common.api.client.discovery.ServiceDiscoverer;
 import com.devonfw.module.service.common.api.config.ServiceConfig;
@@ -83,5 +84,14 @@ public class ServiceClientAutoConfiguration {
   public ServiceHeaderCustomizer serviceHeaderCustomizerAuthForward() {
 
     return new ServiceHeaderCustomizerAuthForward();
+  }
+
+  /**
+   * @return implementation of {@link ServiceClientErrorUnmarshaller}.
+   */
+  @Bean
+  public ServiceClientErrorUnmarshaller serviceClientErrorUnmarshaller() {
+
+    return new ServiceClientErrorUnmarshallerImpl();
   }
 }
