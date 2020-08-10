@@ -1,5 +1,8 @@
 package com.devonfw.module.service.common.base.client;
 
+import javax.inject.Inject;
+
+import com.devonfw.module.service.common.api.client.ServiceClientErrorFactory;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
 import com.devonfw.module.service.common.api.constants.ServiceConstants;
 
@@ -11,6 +14,25 @@ import com.devonfw.module.service.common.api.constants.ServiceConstants;
  * @since 2020.08.001
  */
 public abstract class PartialServiceClientFactory {
+
+  private ServiceClientErrorFactory errorFactory;
+
+  /**
+   * @return the {@link ServiceClientErrorFactory}.
+   */
+  public ServiceClientErrorFactory getErrorFactory() {
+
+    return this.errorFactory;
+  }
+
+  /**
+   * @param errorFactory new value of {@link #getErrorFactory() errorFactory} to {@link Inject}.
+   */
+  @Inject
+  public void setErrorFactory(ServiceClientErrorFactory errorFactory) {
+
+    this.errorFactory = errorFactory;
+  }
 
   /**
    * @param context the {@link ServiceContext}.
@@ -28,15 +50,6 @@ public abstract class PartialServiceClientFactory {
    *         {@link ServiceConstants#URL_FOLDER_REST}.
    */
   protected abstract String getServiceTypeFolderName();
-
-  /**
-   * @param context the {@link ServiceContext}.
-   * @return the display name of the service for exception or log messages.
-   */
-  protected String createServiceName(ServiceContext<?> context) {
-
-    return context.getApi().getName();
-  }
 
   /**
    * @param context the {@link ServiceContext}.

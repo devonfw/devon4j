@@ -52,6 +52,7 @@ public class ServiceClientFactoryImpl implements ServiceClientFactory {
    * @param asyncServiceClientFactories the {@link Collection} of {@link AsyncServiceClientFactory factories} to
    *        {@link Inject}.
    */
+  @Inject
   public void setAsyncServiceClientFactories(Collection<AsyncServiceClientFactory> asyncServiceClientFactories) {
 
     this.asyncServiceClientFactories = asyncServiceClientFactories;

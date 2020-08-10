@@ -44,4 +44,35 @@ public interface ServiceContext<S> {
    */
   ConfigProperties getConfig();
 
+  /**
+   * @param operation the invoked service operation (Java method called on API or URL path detail called via REST).
+   * @return a {@link String} describing the invoked {@link com.devonfw.module.service.common.api.Service} with
+   *         available details as provided.
+   */
+  default String getServiceDescription(String operation) {
+
+    return getServiceDescription(null, getUrl());
+  }
+
+  /**
+   * @param operation the invoked service operation (Java method called on API or URL path detail called via REST).
+   * @param url the URL of the invoked service.
+   * @return a {@link String} describing the invoked {@link com.devonfw.module.service.common.api.Service} with
+   *         available details as provided.
+   */
+  default String getServiceDescription(String operation, String url) {
+
+    StringBuilder sb = new StringBuilder(getApi().getName());
+    if (operation != null) {
+      sb.append('#');
+      sb.append(operation);
+    }
+    if (url != null) {
+      sb.append('[');
+      sb.append(url);
+      sb.append(']');
+    }
+    return sb.toString();
+  }
+
 }

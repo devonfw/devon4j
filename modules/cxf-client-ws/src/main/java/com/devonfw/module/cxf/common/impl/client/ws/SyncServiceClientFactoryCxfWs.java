@@ -35,7 +35,7 @@ public class SyncServiceClientFactoryCxfWs extends SyncServiceClientFactoryCxf {
   private static final String WSDL_SUFFIX = "?wsdl";
 
   @Override
-  protected <S> S createService(ServiceContext<S> context, String url, String serviceName) {
+  protected <S> S createService(ServiceContext<S> context, String url) {
 
     Class<S> api = context.getApi();
     WebService webService = api.getAnnotation(WebService.class);
@@ -59,10 +59,10 @@ public class SyncServiceClientFactoryCxfWs extends SyncServiceClientFactoryCxf {
   }
 
   @Override
-  protected <S> void applyAspects(ServiceContext<S> context, S serviceClient, String serviceName) {
+  protected <S> void applyAspects(ServiceContext<S> context, S serviceClient) {
 
     Client cxfClient = ClientProxy.getClient(serviceClient);
-    applyInterceptors(context, cxfClient, serviceName);
+    applyInterceptors(context, cxfClient);
     Conduit conduit = cxfClient.getConduit();
     if (conduit instanceof HTTPConduit) {
       HTTPConduit httpConduit = (HTTPConduit) conduit;

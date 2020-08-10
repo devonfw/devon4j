@@ -1,11 +1,12 @@
 package com.devonfw.module.cxf.common.impl.client.interceptor;
 
-import net.sf.mmm.util.exception.api.ServiceInvocationFailedException;
-
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
-import org.apache.cxf.phase.Phase;;
+import org.apache.cxf.phase.Phase;
+
+import com.devonfw.module.service.common.api.client.ServiceClientErrorFactory;
+import com.devonfw.module.service.common.api.client.context.ServiceContext;;
 
 /**
  * Implementation of {@link AbstractPhaseInterceptor} to handle technical errors like {@link java.net.ConnectException}
@@ -15,18 +16,21 @@ import org.apache.cxf.phase.Phase;;
  */
 public class TechnicalExceptionInterceptor extends AbstractPhaseInterceptor<Message> {
 
-  private final String service;
+  private final ServiceClientErrorFactory errorFactory;
+
+  private final ServiceContext<?> context;
 
   /**
    * The constructor.
    *
-   * @param service the name (e.g. {@link Class#getName() qualified name}) of the
-   *        {@link com.devonfw.module.service.common.api.Service} that failed.
+   * @param errorFactory the {@link ServiceClientErrorFactory}.
+   * @param context the {@link ServiceContext}.
    */
-  public TechnicalExceptionInterceptor(String service) {
+  public TechnicalExceptionInterceptor(ServiceClientErrorFactory errorFactory, ServiceContext<?> context) {
 
     super(Phase.PRE_PROTOCOL);
-    this.service = service;
+    this.errorFactory = errorFactory;
+    this.context = context;
   }
 
   @Override
@@ -35,7 +39,9 @@ public class TechnicalExceptionInterceptor extends AbstractPhaseInterceptor<Mess
     Throwable exception = message.getContent(Exception.class);
     if (exception != null) {
       message.getExchange().put("wrap.in.processing.exception", Boolean.FALSE);
-      throw new ServiceInvocationFailedException(exception, exception.toString(), "ServiceInvoke", null, this.service);
+      String url = message.getExchange().getEndpoint().getEndpointInfo().getAddress();
+      throw this.errorFactory.create(exception, exception.toString(), null, null,
+          this.context.getServiceDescription(null, url));
     }
   }
 

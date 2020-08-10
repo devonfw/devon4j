@@ -56,4 +56,12 @@ public interface AsyncServiceClient<S> {
    */
   <R> void call(R result, Consumer<R> resultHandler);
 
+  /**
+   * @param serviceInvoker the lambda function calling a void operation on the actual {@link #get() service client} -
+   *        e.g. {@code () -> client.get().myVoidFunction()}.
+   * @param resultHandler the {@link Consumer} callback {@link Consumer#accept(Object) accepting} the actual result
+   *        asynchronously when available. May be {@code null} for fire and forget.
+   */
+  void callVoid(Runnable serviceInvoker, Consumer<Void> resultHandler);
+
 }

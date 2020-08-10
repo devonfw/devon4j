@@ -113,7 +113,7 @@ public class AsyncServiceClientFactoryHttpRest extends AsyncServiceClientFactory
   }
 
   @Override
-  protected <S> AsyncServiceClient<S> createService(ServiceContext<S> context, String url, String serviceName) {
+  protected <S> AsyncServiceClient<S> createService(ServiceContext<S> context, String url) {
 
     ServiceHttpClient client = new ServiceHttpClient(getHttpClient(), url);
     return AsyncServiceHttpClientRest.of(context, client, this);

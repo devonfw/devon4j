@@ -48,17 +48,17 @@ public interface ServiceClientInvocation<S> {
    */
   default String getServiceDescription() {
 
-    return getContext().getApi().getName() + "#" + getMethod().getName();
+    return getServiceDescription(getContext().getUrl());
   }
 
   /**
+   * @param url the URL of the invoked service.
    * @return a {@link String} describing the invoked {@link com.devonfw.module.service.common.api.Service} and
-   *         {@link #getMethod() method/operation} including the base URL.
+   *         {@link #getMethod() method/operation}.
    */
-  default String getServiceDescriptionWithUrl() {
+  default String getServiceDescription(String url) {
 
-    ServiceContext<S> context = getContext();
-    return context.getApi().getName() + "#" + getMethod().getName() + "[" + context.getUrl() + "]";
+    return getContext().getServiceDescription(getMethod().getName(), url);
   }
 
 }

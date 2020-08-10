@@ -8,33 +8,33 @@ import javax.ws.rs.ext.Provider;
 
 import org.apache.cxf.jaxrs.client.ResponseExceptionMapper;
 
-import com.devonfw.module.service.common.api.client.ServiceClientErrorUnmarshaller;
+import com.devonfw.module.service.common.api.client.ServiceClientErrorFactory;
+import com.devonfw.module.service.common.api.client.context.ServiceContext;
 
 /**
  * An Implementation of {@link ResponseExceptionMapper} that converts a failure response back to a {@link Throwable}
- * using {@link ServiceClientErrorUnmarshaller}.
+ * using {@link ServiceClientErrorFactory}.
  *
  * @since 3.0.0
  */
 @Provider
 public class RestServiceExceptionMapper implements ResponseExceptionMapper<Throwable> {
 
-  private final ServiceClientErrorUnmarshaller errorUnmarshaller;
+  private final ServiceClientErrorFactory errorUnmarshaller;
 
-  private final String service;
+  private final ServiceContext<?> context;
 
   /**
    * The constructor.
    *
-   * @param errorUnmarshaller the {@link ServiceClientErrorUnmarshaller}.
-   * @param service the name (e.g. {@link Class#getName() qualified name}) of the
-   *        {@link com.devonfw.module.service.common.api.Service} that failed.
+   * @param errorUnmarshaller the {@link ServiceClientErrorFactory}.
+   * @param context the {@link ServiceContext}.
    */
-  public RestServiceExceptionMapper(ServiceClientErrorUnmarshaller errorUnmarshaller, String service) {
+  public RestServiceExceptionMapper(ServiceClientErrorFactory errorUnmarshaller, ServiceContext<?> context) {
 
     super();
     this.errorUnmarshaller = errorUnmarshaller;
-    this.service = service;
+    this.context = context;
   }
 
   @Override
@@ -45,11 +45,9 @@ public class RestServiceExceptionMapper implements ResponseExceptionMapper<Throw
       String data = response.readEntity(String.class);
       if ((data != null) && !data.isEmpty()) {
         MediaType mediaType = response.getMediaType();
-        String serviceDetails = this.service;
         URI url = response.getLocation();
-        if (url != null) {
-          serviceDetails = serviceDetails + "(" + url + ")";
-        }
+        String operation = null;
+        String serviceDetails = this.context.getServiceDescription(operation, url.toString());
         return this.errorUnmarshaller.unmarshall(data, mediaType.toString(), response.getStatus(), serviceDetails);
       }
     }

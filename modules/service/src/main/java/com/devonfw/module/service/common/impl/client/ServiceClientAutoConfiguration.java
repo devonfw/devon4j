@@ -3,9 +3,11 @@ package com.devonfw.module.service.common.impl.client;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.devonfw.module.service.common.api.client.ServiceClientErrorUnmarshaller;
+import com.devonfw.module.service.common.api.client.ServiceClientErrorFactory;
 import com.devonfw.module.service.common.api.client.ServiceClientFactory;
+import com.devonfw.module.service.common.api.client.async.AsyncServiceClientFactory;
 import com.devonfw.module.service.common.api.client.discovery.ServiceDiscoverer;
+import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
 import com.devonfw.module.service.common.api.config.ServiceConfig;
 import com.devonfw.module.service.common.api.header.ServiceHeaderCustomizer;
 import com.devonfw.module.service.common.base.config.ServiceConfigProperties;
@@ -87,11 +89,29 @@ public class ServiceClientAutoConfiguration {
   }
 
   /**
-   * @return implementation of {@link ServiceClientErrorUnmarshaller}.
+   * @return implementation of {@link ServiceClientErrorFactory}.
    */
   @Bean
-  public ServiceClientErrorUnmarshaller serviceClientErrorUnmarshaller() {
+  public ServiceClientErrorFactory serviceClientErrorUnmarshaller() {
 
-    return new ServiceClientErrorUnmarshallerImpl();
+    return new ServiceClientErrorFactoryImpl();
+  }
+
+  /**
+   * @return an instance of {@link EmptySyncServiceClientFactory}.
+   */
+  @Bean
+  public SyncServiceClientFactory emptySyncServiceClientFactory() {
+
+    return new EmptySyncServiceClientFactory();
+  }
+
+  /**
+   * @return an instance of {@link EmptyAsyncServiceClientFactory}.
+   */
+  @Bean
+  public AsyncServiceClientFactory emptyAsyncServiceClientFactory() {
+
+    return new EmptyAsyncServiceClientFactory();
   }
 }

@@ -6,9 +6,12 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublisher;
 import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpRequest.Builder;
 import java.net.http.HttpResponse;
 import java.nio.file.Path;
 import java.time.temporal.Temporal;
+
+import javax.ws.rs.core.MediaType;
 
 import com.devonfw.module.httpclient.common.impl.AbstractAsyncServiceHttpClient;
 import com.devonfw.module.httpclient.common.impl.ServiceHttpClient;
@@ -78,37 +81,46 @@ public class AsyncServiceHttpClientRest<S>
 
     RestMethodMetadata method = this.serviceMetadata.getMethod(invocation.getMethod());
     String url = method.getPath().resolve(this.client.getBaseUrl(), invocation);
+    String contentType = null;
     BodyPublisher body = null;
     RestParameter bodyParameter = method.getParameters().getBodyParameter();
     if (bodyParameter != null) {
-      Object bodyValue = invocation.getParameter(bodyParameter.index);
-      if (bodyValue != null) {
-        body = createBody(bodyValue);
+      Object value = invocation.getParameter(bodyParameter.index);
+      if (value != null) {
+        if ((value instanceof CharSequence) || (value instanceof Number) || (value instanceof Temporal)) {
+          body = BodyPublishers.ofString(value.toString());
+          // contentType = MediaType.TEXT_PLAIN;
+        } else if (value instanceof File) {
+          body = createBody(((File) value).toPath());
+          contentType = MediaType.APPLICATION_OCTET_STREAM;
+        } else if (value instanceof Path) {
+          body = createBody((Path) value);
+          contentType = MediaType.APPLICATION_OCTET_STREAM;
+        } else {
+          ObjectMapper objectMapper = this.factory.getObjectMapper();
+          try {
+            String json = objectMapper.writeValueAsString(value);
+            body = BodyPublishers.ofString(json);
+            contentType = MediaType.APPLICATION_JSON;
+          } catch (JsonProcessingException e) {
+            throw new IllegalStateException(e);
+          }
+        }
       }
     }
-    return this.client.requestBuilder(url, invocation, method.getHttpMethod(), body).build();
+    Builder requestBuilder = this.client.requestBuilder(url, invocation, method.getHttpMethod(), body);
+    if (contentType != null) {
+      requestBuilder.header("Content-Type", contentType);
+    }
+    return requestBuilder.build();
   }
 
-  private BodyPublisher createBody(Object value) {
+  private BodyPublisher createBody(Path path) {
 
-    if ((value instanceof CharSequence) || (value instanceof Number) || (value instanceof Temporal)) {
-      return BodyPublishers.ofString(value.toString());
-    } else if (value instanceof File) {
-      return createBody(((File) value).toPath());
-    } else if (value instanceof Path) {
-      try {
-        return BodyPublishers.ofFile((Path) value);
-      } catch (FileNotFoundException e) {
-        throw new IllegalArgumentException(e);
-      }
-    } else {
-      ObjectMapper objectMapper = this.factory.getObjectMapper();
-      try {
-        String json = objectMapper.writeValueAsString(value);
-        return BodyPublishers.ofString(json);
-      } catch (JsonProcessingException e) {
-        throw new IllegalStateException(e);
-      }
+    try {
+      return BodyPublishers.ofFile(path);
+    } catch (FileNotFoundException e) {
+      throw new IllegalArgumentException(e);
     }
   }
 

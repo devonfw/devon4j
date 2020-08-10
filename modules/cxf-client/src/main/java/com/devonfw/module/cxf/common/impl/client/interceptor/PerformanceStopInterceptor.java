@@ -56,8 +56,9 @@ public class PerformanceStopInterceptor extends AbstractPhaseInterceptor<Message
     } else {
       service = endpointInfo.getName().toString();
     }
+    service = service + "[" + url + "]";
     Integer statusCode = (Integer) exchange.get(Message.RESPONSE_CODE);
-    ServiceClientPerformanceLogger.log(start.getNanoTime(), service, url, statusCode.intValue(), exception);
+    ServiceClientPerformanceLogger.log(start.getNanoTime(), service, statusCode.intValue(), exception);
   }
 
 }

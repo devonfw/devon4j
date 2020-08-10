@@ -1,4 +1,4 @@
-package com.devonfw.module.service.common.impl.client;
+package com.devonfw.module.service.common.base.client;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -8,30 +8,29 @@ import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import net.sf.mmm.util.exception.api.ServiceInvocationFailedException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.devonfw.module.service.common.api.client.ServiceClientErrorUnmarshaller;
+import com.devonfw.module.service.common.api.client.ServiceClientErrorFactory;
 import com.devonfw.module.service.common.api.constants.ServiceConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * An Implementation of {@link ServiceClientErrorUnmarshaller} that converts a REST failure response compliant with
+ * Abstract base implementation of {@link ServiceClientErrorFactory} that converts a REST failure response compliant
+ * with
  * <a href="https://github.com/devonfw/devon4j/blob/develop/documentation/guide-rest.asciidoc#error-results">devonfw
- * REST error specification</a> to a {@link ServiceInvocationFailedException}.
+ * REST error specification</a>.
  *
  * @since 2020.08.001
  */
-public class ServiceClientErrorUnmarshallerImpl implements ServiceClientErrorUnmarshaller {
+public abstract class AbstractServiceClientErrorFactory implements ServiceClientErrorFactory {
 
   /**
    * The constructor.
    */
-  public ServiceClientErrorUnmarshallerImpl() {
+  public AbstractServiceClientErrorFactory() {
 
     super();
   }
@@ -65,8 +64,7 @@ public class ServiceClientErrorUnmarshallerImpl implements ServiceClientErrorUnm
       }
       return createException(map, service);
     } catch (Exception e) {
-      return new ServiceInvocationFailedTechnicalException(e, e.getMessage(), e.getClass().getSimpleName(), null,
-          service);
+      return create(e, e.getMessage(), e.getClass().getSimpleName(), null, service);
     }
   }
 
@@ -76,41 +74,7 @@ public class ServiceClientErrorUnmarshallerImpl implements ServiceClientErrorUnm
     String message = (String) map.get(ServiceConstants.KEY_MESSAGE);
     String uuidStr = (String) map.get(ServiceConstants.KEY_UUID);
     UUID uuid = uuidStr != null ? UUID.fromString(uuidStr) : null;
-    return createException(code, message, uuid, service);
-  }
-
-  private RuntimeException createException(String code, String message, UUID uuid, String service) {
-
-    return new ServiceInvocationFailedException(message, code, uuid, service);
-  }
-
-  /**
-   * Extends {@link ServiceInvocationFailedException} as {@link #isTechnical() technical} exception.
-   */
-  private static final class ServiceInvocationFailedTechnicalException extends ServiceInvocationFailedException {
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * The constructor.
-     *
-     * @param cause the {@link #getCause() cause} of this exception.
-     * @param message the {@link #getMessage() message}.
-     * @param code the {@link #getCode() code}.
-     * @param uuid {@link UUID} the {@link #getUuid() UUID}.
-     * @param service the name (e.g. {@link Class#getName() qualified name}) of the service that failed.
-     */
-    private ServiceInvocationFailedTechnicalException(Throwable cause, String message, String code, UUID uuid,
-        String service) {
-
-      super(cause, message, code, uuid, service);
-    }
-
-    @Override
-    public boolean isForUser() {
-
-      return false;
-    }
+    return create(null, message, code, uuid, service);
   }
 
 }

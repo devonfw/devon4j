@@ -5,7 +5,7 @@ import java.net.http.HttpClient;
 import javax.inject.Inject;
 
 import com.devonfw.module.service.common.api.client.AsyncServiceClient;
-import com.devonfw.module.service.common.api.client.ServiceClientErrorUnmarshaller;
+import com.devonfw.module.service.common.api.client.ServiceClientErrorFactory;
 import com.devonfw.module.service.common.api.client.async.AsyncServiceClientFactory;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
 import com.devonfw.module.service.common.base.client.PartialServiceClientFactory;
@@ -18,7 +18,7 @@ import com.devonfw.module.service.common.base.client.PartialServiceClientFactory
 public abstract class AsyncServiceClientFactoryHttp extends PartialServiceClientFactory
     implements AsyncServiceClientFactory {
 
-  private ServiceClientErrorUnmarshaller errorUnmarshaller;
+  private ServiceClientErrorFactory errorUnmarshaller;
 
   private HttpClient httpClient;
 
@@ -29,9 +29,8 @@ public abstract class AsyncServiceClientFactoryHttp extends PartialServiceClient
     if (!responsible) {
       return null;
     }
-    String serviceName = createServiceName(context);
     String url = getUrl(context);
-    AsyncServiceClient<S> serviceClient = createService(context, url, serviceName);
+    AsyncServiceClient<S> serviceClient = createService(context, url);
     return serviceClient;
   }
 
@@ -39,10 +38,9 @@ public abstract class AsyncServiceClientFactoryHttp extends PartialServiceClient
    * @param <S> the generic type of the {@link ServiceContext#getApi() service API}.
    * @param context the {@link ServiceContext}.
    * @param url the resolved end-point URL of the service to invoke.
-   * @param serviceName the {@link #createServiceName(ServiceContext) service name}.
    * @return a new client stub for the service. See {@link #create(ServiceContext)} for further details.
    */
-  protected abstract <S> AsyncServiceClient<S> createService(ServiceContext<S> context, String url, String serviceName);
+  protected abstract <S> AsyncServiceClient<S> createService(ServiceContext<S> context, String url);
 
   /**
    * @return the {@link HttpClient} to use. Will be created lazily.
@@ -64,18 +62,18 @@ public abstract class AsyncServiceClientFactoryHttp extends PartialServiceClient
   }
 
   /**
-   * @return the {@link ServiceClientErrorUnmarshaller}.
+   * @return the {@link ServiceClientErrorFactory}.
    */
-  public ServiceClientErrorUnmarshaller getErrorUnmarshaller() {
+  public ServiceClientErrorFactory getErrorUnmarshaller() {
 
     return this.errorUnmarshaller;
   }
 
   /**
-   * @param errorUnmarshaller the {@link ServiceClientErrorUnmarshaller} to {@link Inject}.
+   * @param errorUnmarshaller the {@link ServiceClientErrorFactory} to {@link Inject}.
    */
   @Inject
-  public void setErrorUnmarshaller(ServiceClientErrorUnmarshaller errorUnmarshaller) {
+  public void setErrorUnmarshaller(ServiceClientErrorFactory errorUnmarshaller) {
 
     this.errorUnmarshaller = errorUnmarshaller;
   }

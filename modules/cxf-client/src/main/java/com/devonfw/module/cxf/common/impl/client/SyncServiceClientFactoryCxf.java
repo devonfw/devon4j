@@ -11,7 +11,8 @@ import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactor
  *
  * @since 3.0.0
  */
-public abstract class SyncServiceClientFactoryCxf extends PartialServiceClientFactoryCxf implements SyncServiceClientFactory {
+public abstract class SyncServiceClientFactoryCxf extends PartialServiceClientFactoryCxf
+    implements SyncServiceClientFactory {
 
   @Override
   public <S> S create(ServiceContext<S> context) {
@@ -20,12 +21,10 @@ public abstract class SyncServiceClientFactoryCxf extends PartialServiceClientFa
     if (!responsible) {
       return null;
     }
-    String serviceName = createServiceName(context);
-
     String url = getUrl(context);
-    S serviceClient = createService(context, url, serviceName);
+    S serviceClient = createService(context, url);
 
-    applyAspects(context, serviceClient, serviceName);
+    applyAspects(context, serviceClient);
     return serviceClient;
   }
 
@@ -33,15 +32,14 @@ public abstract class SyncServiceClientFactoryCxf extends PartialServiceClientFa
    * @param <S> the generic type of the {@link ServiceContext#getApi() service API}.
    * @param context the {@link ServiceContext}.
    * @param url the resolved end-point URL of the service to invoke.
-   * @param serviceName the {@link #createServiceName(ServiceContext) service name}.
    * @return a new client stub for the service. See {@link #create(ServiceContext)} for further details.
    */
-  protected abstract <S> S createService(ServiceContext<S> context, String url, String serviceName);
+  protected abstract <S> S createService(ServiceContext<S> context, String url);
 
   /**
    * Implementations should call the following methods:
    * <ul>
-   * <li>{@link #applyInterceptors(ServiceContext, InterceptorProvider, String)}</li>
+   * <li>{@link #applyInterceptors(ServiceContext, InterceptorProvider)}</li>
    * <li>{@link #applyClientPolicy(ServiceContext, HTTPConduit)}</li>
    * <li>{@link #applyHeaders(ServiceContext, Object)}</li>
    * </ul>
@@ -49,9 +47,8 @@ public abstract class SyncServiceClientFactoryCxf extends PartialServiceClientFa
    * @param <S> the generic type of the {@link ServiceContext#getApi() service API}.
    * @param context the {@link ServiceContext}.
    * @param serviceClient the {@link #create(ServiceContext) created service client stub}.
-   * @param serviceName the {@link #createServiceName(ServiceContext) service name}.
    */
-  protected abstract <S> void applyAspects(ServiceContext<S> context, S serviceClient, String serviceName);
+  protected abstract <S> void applyAspects(ServiceContext<S> context, S serviceClient);
 
   /**
    * Applies headers to the given {@code serviceClient}.

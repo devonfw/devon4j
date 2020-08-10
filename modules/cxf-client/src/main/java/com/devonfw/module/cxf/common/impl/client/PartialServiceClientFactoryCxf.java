@@ -48,13 +48,12 @@ public abstract class PartialServiceClientFactoryCxf extends PartialServiceClien
    *
    * @param context the {@link ServiceContext}.
    * @param client the {@link InterceptorProvider}.
-   * @param serviceName the {@link #createServiceName(ServiceContext) service name}.
    */
-  protected void applyInterceptors(ServiceContext<?> context, InterceptorProvider client, String serviceName) {
+  protected void applyInterceptors(ServiceContext<?> context, InterceptorProvider client) {
 
     client.getOutInterceptors().add(new PerformanceStartInterceptor());
     client.getInInterceptors().add(new PerformanceStopInterceptor());
-    client.getInFaultInterceptors().add(new TechnicalExceptionInterceptor(serviceName));
+    client.getInFaultInterceptors().add(new TechnicalExceptionInterceptor(getErrorFactory(), context));
   }
 
   /**

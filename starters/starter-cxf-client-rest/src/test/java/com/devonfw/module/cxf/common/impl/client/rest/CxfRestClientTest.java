@@ -30,7 +30,7 @@ public class CxfRestClientTest extends ComponentTest {
    * on random port via CXF client.
    */
   @Test
-  public void testServiceClient() {
+  public void testGetWithUrlParam() {
 
     // given
     MyExampleRestService service = this.serviceClientFactory.create(MyExampleRestService.class,
@@ -47,7 +47,7 @@ public class CxfRestClientTest extends ComponentTest {
    * HTTP on random port via CXF client to check exception mapping.
    */
   @Test
-  public void testServiceClientBusinessError() {
+  public void testBusinessError() {
 
     // given
     MyExampleRestService service = this.serviceClientFactory.create(MyExampleRestService.class,
@@ -58,7 +58,7 @@ public class CxfRestClientTest extends ComponentTest {
       failBecauseExceptionWasNotThrown(ServiceInvocationFailedException.class);
     } catch (ServiceInvocationFailedException e) {
       assertThat(e.getNlsMessage().getMessage()).matches(
-          "While invoking the service com\\.devonfw\\.test\\.app\\.myexample\\.service\\.api\\.rest\\.MyExampleRestService\\(http://localhost:[0-9]+/app/services/rest/my-example/v1/business-error\\) the following error occurred: Test of business error.* Probably the service is temporary unavailable\\. Please try again later\\. If the problem persists contact your system administrator\\.");
+          "While invoking the service com\\.devonfw\\.test\\.app\\.myexample\\.service\\.api\\.rest\\.MyExampleRestService\\[http://localhost:[0-9]+/app/services/rest/my-example/v1/business-error\\] the following error occurred: Test of business error.* Probably the service is temporary unavailable\\. Please try again later\\. If the problem persists contact your system administrator\\.");
       assertThat(e.getCode()).isEqualTo(MyBusinessException.CODE);
       assertThat(e.isForUser()).isTrue();
       assertThat(e.isTechnical()).isTrue();
@@ -71,7 +71,7 @@ public class CxfRestClientTest extends ComponentTest {
    * HTTP on random port via CXF client to check exception mapping.
    */
   @Test
-  public void testServiceClientTechnicalError() {
+  public void testTechnicalError() {
 
     // given
     MyExampleRestService service = this.serviceClientFactory.create(MyExampleRestService.class,
@@ -82,7 +82,7 @@ public class CxfRestClientTest extends ComponentTest {
       failBecauseExceptionWasNotThrown(ServiceInvocationFailedException.class);
     } catch (ServiceInvocationFailedException e) {
       assertThat(e.getNlsMessage().getMessage()).matches(
-          "While invoking the service com\\.devonfw\\.test\\.app\\.myexample\\.service\\.api\\.rest\\.MyExampleRestService\\(http://localhost:[0-9]+/app/services/rest/my-example/v1/technical-error\\) the following error occurred: An unexpected error has occurred! We apologize any inconvenience\\. Please try again later\\..* Probably the service is temporary unavailable\\. Please try again later\\. If the problem persists contact your system administrator\\.");
+          "While invoking the service com\\.devonfw\\.test\\.app\\.myexample\\.service\\.api\\.rest\\.MyExampleRestService\\[http://localhost:[0-9]+/app/services/rest/my-example/v1/technical-error\\] the following error occurred: An unexpected error has occurred! We apologize any inconvenience\\. Please try again later\\..* Probably the service is temporary unavailable\\. Please try again later\\. If the problem persists contact your system administrator\\.");
       assertThat(e.getCode()).isEqualTo(TechnicalErrorUserException.CODE);
       assertThat(e.isForUser()).isTrue();
       assertThat(e.isTechnical()).isTrue();

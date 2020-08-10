@@ -65,6 +65,28 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
   @Override
   public <R> void call(R result, Consumer<R> resultHandler) {
 
+    ServiceClientInvocation<S> invocation = getInvocation();
+    try {
+      doCall(invocation, resultHandler);
+    } catch (Throwable t) {
+      this.errorHandler.accept(t);
+    }
+  }
+
+  @Override
+  public void callVoid(Runnable serviceInvoker, Consumer<Void> resultHandler) {
+
+    serviceInvoker.run();
+    ServiceClientInvocation<S> invocation = getInvocation();
+    try {
+      doCall(invocation, resultHandler);
+    } catch (Throwable t) {
+      this.errorHandler.accept(t);
+    }
+  }
+
+  private ServiceClientInvocation<S> getInvocation() {
+
     ServiceClientInvocation<S> invocation = this.stub.getInvocation();
     Objects.requireNonNull(invocation, "invocation");
     ServiceContext<S> context = invocation.getContext();
@@ -73,11 +95,7 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
     Objects.requireNonNull(method, "method");
     Object[] parameters = invocation.getParameters();
     assert (method.getParameterCount() == getLength(parameters));
-    try {
-      doCall(invocation, resultHandler);
-    } catch (Throwable t) {
-      this.errorHandler.accept(t);
-    }
+    return invocation;
   }
 
   private void logError(Throwable error) {

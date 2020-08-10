@@ -12,7 +12,7 @@
   <version>${devon4j.version}</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
-  <description>Support for service clients based on Apache CXF.</description>
+  <description>Support for REST service clients based on Apache CXF.</description>
 
   <dependencies>
     <dependency>

@@ -58,10 +58,11 @@ public abstract class AbstractAsyncServiceHttpClient<S, F extends AsyncServiceCl
       Consumer resultHandler) {
 
     Throwable error = null;
+    String service = invocation.getServiceDescription(response.uri().toString());
     try {
       int statusCode = response.statusCode();
       if (statusCode >= 400) {
-        error = createError(response, invocation);
+        error = createError(response, invocation, service);
         this.errorHandler.accept(error);
       } else {
         Object result = createResult(response, invocation);
@@ -71,17 +72,14 @@ public abstract class AbstractAsyncServiceHttpClient<S, F extends AsyncServiceCl
       this.errorHandler.accept(t);
       error = t;
     } finally {
-      Object service = invocation.getServiceDescription();
-      String target = invocation.getContext().getUrl();
-      ServiceClientPerformanceLogger.log(startTime, service, target, response.statusCode(), error);
+      ServiceClientPerformanceLogger.log(startTime, service, response.statusCode(), error);
     }
   }
 
-  private Throwable createError(HttpResponse<?> response, ServiceClientInvocation<S> invocation) {
+  private Throwable createError(HttpResponse<?> response, ServiceClientInvocation<S> invocation, String service) {
 
     int statusCode = response.statusCode();
     String contentType = response.headers().firstValue("Content-Type").orElse("application/json");
-    String service = invocation.getServiceDescriptionWithUrl();
     String data = "";
     Object body = response.body();
     if (body instanceof String) {
