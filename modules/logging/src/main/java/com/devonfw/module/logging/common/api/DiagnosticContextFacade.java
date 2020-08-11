@@ -30,36 +30,36 @@ public interface DiagnosticContextFacade {
    */
   void removeCorrelationId();
 
-  /**
-   *
-   */
-  void removeTraceId();
-
-  /**
-   *
-   */
-  void removeSpanId();
-
-  /**
-   *
-   * @return
-   */
-  String getTraceId();
-
-  /**
-   *
-   * @return
-   */
-  String getSpanId();
-
-  /**
-   * @param spanId
-   */
-  void setSpanId(String spanId);
-
-  /**
-   * @param traceId
-   */
-  void setTraceId(String traceId);
+  // /**
+  // *
+  // */
+  // void removeTraceId();
+  //
+  // /**
+  // *
+  // */
+  // void removeSpanId();
+  //
+  // /**
+  // *
+  // * @return
+  // */
+  // String getTraceId();
+  //
+  // /**
+  // *
+  // * @return
+  // */
+  // String getSpanId();
+  //
+  // /**
+  // * @param spanId
+  // */
+  // void setSpanId(String spanId);
+  //
+  // /**
+  // * @param traceId
+  // */
+  // void setTraceId(String traceId);
 
 }
