@@ -47,6 +47,10 @@ public interface MyService extends RestService {
   @POST
   @Path("/getresult")
   MyResult getResult(MyArgs myArgs);
+
+  @DELETE
+  @Path("/entity/{id}")
+  void deleteEntity(@PathParam("id") long id);
 }
 --------
 
@@ -81,6 +85,23 @@ public class UcMyUseCaseImpl extends MyUseCaseBase implements UcMyUseCase {
 --------
 
 As you can see both synchronous and asynchronous invocation of a service is very simple and type-safe. Still it is very flexible and powerful (see following features). The actual call of `myMethod` will technically call the remote service over the wire (e.g. via HTTP) including marshaling the arguments (e.g. converting `myArgs` to JSON) and unmarshalling the result (e.g. converting the received JSON to `myResult`).
+
+==== Asynchronous Invocation of void Methods
+
+If you want to call a service method with `void` as return type, the type-safe `call` method can not be used as `void` methods do not return a result. Therefore you can use the `callVoid` method as following:
+
+[source,java]
+--------
+  private void callAsynchronousVoid(long id) {
+    AsyncServiceClient<MyService> client = this.serviceClientFactory.createAsync(MyService.class);
+    // call of service over the wire, will return when request is send and invoke resultHandler asynchronously
+    Consumer<Void> resultHandler = r -> { System.out.println("Response received")};
+    client.callVoid(() -> { client.get().deleteEntity(id);}, resultHandler);
+  }
+
+--------
+
+You may also provide `null` as `resultHandler` for "fire and forget". However, this will lead to the result being ignored so even in case of an error you will not be notified.
 
 === Configuration
 This solution allows a very flexible configuration on the following levels:
@@ -182,6 +203,52 @@ While invoking the service com.devonfw.test.app.myexample.service.api.rest.MyExa
 ```
 
 You may even provide your own implementation of `ServiceClientErrorFactory` instead to provide an own exception class for this purpose.
+
+==== Handling Erros
+
+In case of a synchronous service invocation an error will be immediately thrown so you can sourround the call with a regular try-catch block:
+
+[source,java]
+--------
+  private void callSynchronous(MyArgs myArgs) {
+    MyService myService = this.serviceClientFactory.create(MyService.class);
+    // call of service over the wire, synchronously blocking until result is received or error occurred
+    try {
+      MyResult myResult = myService.myMethod(myArgs);
+      handleResult(myResult);
+    } catch (ServiceInvocationFailedException e) {
+      if (e.isTechnical()) {
+        handleTechnicalError(e);
+      } else {
+        // error code you defined in the exception on the server side of the service
+        String errorCode = e.getCode();
+        handleBusinessError(e, errorCode;
+      }
+    } catch (Throwable e) { // you may not handle this explicitly here...
+      handleTechnicalError(e);
+    }
+  }
+--------
+
+If you are using asynchronous service invocation an error can occurr in a separate thread. Therefore you may and should define a custom error handler:
+
+[source,java]
+--------
+  private void callAsynchronous(MyArgs myArgs) {
+    AsyncServiceClient<MyService> client = this.serviceClientFactory.createAsync(MyService.class);
+    Consumer<Throwalbe> errorHandler = this::handleError;
+    client.setErrorHandler(errorHandler);
+    // call of service over the wire, will return when request is send and invoke handleResult asynchronously
+    client.call(client.get().myMethod(myArgs), this::handleResult);
+  }
+
+  private void handleError(Throwalbe error) {
+    ...
+  }
+}
+--------
+
+The error handler consumes `Throwable` and not only `RuntimeException` so you can get notified even in case of an unexpected `OutOfMemoryError`, `NoClassDefFoundError`, or other technical problems. Please note that the error handler may also be called from the thread calling the service (e.g. if already creating the request fails). The default error handler used if no custom handler is set will only log the error and do nothing else.
 
 === Logging
 By default this solution will log all invocations including the URL of the invoked service, success or error status flag and the duration in seconds (with decimal nano precision as available). Therefore you can easily monitor the status and performance of the service invocations. Here is an example from our tests:
