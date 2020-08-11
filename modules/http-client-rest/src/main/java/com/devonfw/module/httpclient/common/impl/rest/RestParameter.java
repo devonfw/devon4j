@@ -49,7 +49,11 @@ public class RestParameter {
 
   private String escape(String string) {
 
-    return URLEncoder.encode(string, StandardCharsets.UTF_8);
+    String encoded = URLEncoder.encode(string, StandardCharsets.UTF_8);
+    if (!this.query) {
+      encoded = encoded.replaceAll("\\+", "%20");
+    }
+    return encoded;
   }
 
   @Override

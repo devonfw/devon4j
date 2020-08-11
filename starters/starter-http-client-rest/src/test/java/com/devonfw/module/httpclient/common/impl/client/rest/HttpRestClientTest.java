@@ -40,13 +40,13 @@ public class HttpRestClientTest extends ComponentTest {
     AsyncServiceClient<MyExampleRestService> serviceClient = this.serviceClientFactory.createAsync(
         MyExampleRestService.class,
         new ServiceClientConfigBuilder().authBasic().userLogin("admin").userPassword("admin").buildMap());
-    String name = "JohnDoe";
+    String name = "John Doe & ?#";
     // when
     TestResultHandler<String> resultHandler = new TestResultHandler<>();
     serviceClient.setErrorHandler(resultHandler.getErrorHandler());
     serviceClient.call(serviceClient.get().greet(name), resultHandler);
     // then
-    assertThat(resultHandler.getResponseOrWait()).isEqualTo("Hi JohnDoe!");
+    assertThat(resultHandler.getResponseOrWait()).isEqualTo("Hi John Doe & ?#!");
   }
 
   /**
