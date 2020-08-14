@@ -11,10 +11,13 @@ In Java there are many different APIs and frameworks for accessing, producing an
 We use http://en.wikipedia.org/wiki/Java_Architecture_for_XML_Binding[JAXB] to serialize Java objects to XML or vice-versa.
 
 === JAXB and Inheritance
-TODO +@XmlSeeAlso+
-http://stackoverflow.com/questions/7499735/jaxb-how-to-create-xml-from-polymorphic-classes
+Use `@XmlSeeAlso` annotation to provide sub-classes.
+See section "Collective Polymorphism" described https://dzone.com/articles/java-and-xml-part-3-jaxb[here].
 
 === JAXB Custom Mapping
-In order to map custom link:guide-datatype.asciidoc[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create dedicated objects dedicated for the XML mapping you can easily avoid such situations. When this is not suitable follow these instructions to define the mapping: TODO
+In order to map custom link:guide-datatype.asciidoc[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create dedicated objects for the XML mapping you can easily avoid such situations. When this is not suitable use `@XmlJavaTypeAdapter` and provide an `XmlAdapter` implementation that handles the mapping.
+For details see https://www.eclipse.org/eclipselink/documentation/2.6/moxy/advanced_concepts006.htm[here].
 
-https://weblogs.java.net/blog/kohsuke/archive/2005/09/using_jaxb_20s.html
+== Security
+
+To prevent XML External Entity attacks, follow https://docs.oracle.com/en/java/javase/11/security/java-api-xml-processing-jaxp-security-guide.html[JAXP Security Guide] and enable https://docs.oracle.com/en/java/javase/11/security/java-api-xml-processing-jaxp-security-guide.html#GUID-88B04BE2-35EF-4F61-B4FA-57A0E9102342[FSP].
