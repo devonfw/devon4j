@@ -49,6 +49,7 @@
 === Coding 
 * link:coding-conventions.asciidoc[Coding Conventions]
 * link:coding-tools.asciidoc[Development Tools]
+* https://github.com/devonfw/.github/blob/master/CONTRIBUTING.asciidoc#contributing[Contributing to devonfw]
 
 === Tutorials
 * link:tutorial-newapp.asciidoc[Start a new application]
