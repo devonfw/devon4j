@@ -51,6 +51,8 @@ public class RestParameter {
 
     String encoded = URLEncoder.encode(string, StandardCharsets.UTF_8);
     if (!this.query) {
+      // Workaround as URLEncoder always encodes specific characters as specified for query parameters.
+      // However, for path parameters a whitespace MUST NOT be encoded as "+" but remain " " or become "%20"
       encoded = encoded.replaceAll("\\+", "%20");
     }
     return encoded;
