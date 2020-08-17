@@ -72,7 +72,7 @@ public class AsyncServiceHttpClientRest<S>
         throw new IllegalStateException(e);
       }
     } else {
-      throw new UnsupportedOperationException("TODO");
+      return handleUnsupportedBody(body);
     }
   }
 

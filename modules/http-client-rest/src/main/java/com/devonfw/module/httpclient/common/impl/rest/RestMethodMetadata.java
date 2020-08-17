@@ -5,30 +5,18 @@ import java.lang.reflect.Method;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HEAD;
+import javax.ws.rs.HttpMethod;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 
 /**
+ * {@link RestMetadata} for an invoked {@link Method}.
  *
  * @since 2020.08.001
  */
 public class RestMethodMetadata extends RestMetadata {
-
-  private static final String METHOD_GET = "GET";
-
-  private static final String METHOD_POST = "POST";
-
-  private static final String METHOD_PUT = "PUT";
-
-  private static final String METHOD_DELETE = "DELETE";
-
-  private static final String METHOD_HEAD = "HEAD";
-
-  private static final String METHOD_PATCH = "PATCH";
-
-  private static final String METHOD_OPTIONS = "OPTIONS";
 
   private final RestServiceMetadata<?> serviceMetadata;
 
@@ -61,19 +49,24 @@ public class RestMethodMetadata extends RestMetadata {
     // we do not validate JAR-RS but take the first hit assuming that service API is validated on server-side
     // so in case multiple HTTP methods are annotated currently the first hit will be matched...
     if (method.isAnnotationPresent(GET.class)) {
-      return METHOD_GET;
+      return HttpMethod.GET;
     } else if (method.isAnnotationPresent(POST.class)) {
-      return METHOD_POST;
+      return HttpMethod.POST;
     } else if (method.isAnnotationPresent(DELETE.class)) {
-      return METHOD_DELETE;
+      return HttpMethod.DELETE;
     } else if (method.isAnnotationPresent(PUT.class)) {
-      return METHOD_PUT;
+      return HttpMethod.PUT;
     } else if (method.isAnnotationPresent(HEAD.class)) {
-      return METHOD_HEAD;
+      return HttpMethod.HEAD;
     } else if (method.isAnnotationPresent(PATCH.class)) {
-      return METHOD_PATCH;
+      return HttpMethod.PATCH;
     } else if (method.isAnnotationPresent(OPTIONS.class)) {
-      return METHOD_OPTIONS;
+      return HttpMethod.OPTIONS;
+    } else {
+      HttpMethod methodAnnotation = method.getAnnotation(HttpMethod.class);
+      if (methodAnnotation != null) {
+        return methodAnnotation.value();
+      }
     }
     throw new IllegalStateException("Unknown or missing HTTP method for " + method);
   }

@@ -85,9 +85,23 @@ public abstract class AbstractAsyncServiceHttpClient<S, F extends AsyncServiceCl
     if (body instanceof String) {
       data = (String) body;
     } else {
-      // TODO
+      handleUnsupportedBody(body);
     }
     return this.factory.getErrorUnmarshaller().unmarshall(data, contentType, statusCode, service);
+  }
+
+  /**
+   * @param body the body of the HTTP request/response.
+   * @return nothing. Will already throw an exception.
+   */
+  protected Object handleUnsupportedBody(Object body) {
+
+    String bodyType = "null";
+    if (body != null) {
+      body.getClass().getName(); // avoid OWASP sensitive data exposure and only reveal classname in message
+    }
+    throw new UnsupportedOperationException(
+        "HTTP request/response body of type " + bodyType + " is currently not supported!");
   }
 
   /**
