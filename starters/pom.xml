@@ -24,6 +24,7 @@
     <module>starter-spring-data-jpa</module>
     <module>starter-kafka-sender</module>
     <module>starter-kafka-receiver</module>
+    <module>starter-http-client-rest-async</module>
   </modules>
 
   <dependencyManagement>

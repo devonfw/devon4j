@@ -132,6 +132,16 @@
       </dependency>
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-http-client</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-http-client-rest</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-jpa-basic</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -219,6 +229,11 @@
       <dependency>
         <groupId>com.devonfw.java.starters</groupId>
         <artifactId>devon4j-starter-security-jwt</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-http-client-rest-async</artifactId>
         <version>${project.version}</version>
       </dependency>
     </dependencies>

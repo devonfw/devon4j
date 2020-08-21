@@ -1,4 +1,4 @@
-package com.devonfw.module.service.common.impl;
+package com.devonfw.module.service.common.impl.client;
 
 import java.util.Collection;
 import java.util.Map;
@@ -7,10 +7,12 @@ import javax.inject.Inject;
 
 import com.devonfw.module.basic.common.api.config.ConfigProperties;
 import com.devonfw.module.basic.common.api.config.SimpleConfigProperties;
+import com.devonfw.module.service.common.api.client.AsyncServiceClient;
 import com.devonfw.module.service.common.api.client.ServiceClientFactory;
+import com.devonfw.module.service.common.api.client.async.AsyncServiceClientFactory;
 import com.devonfw.module.service.common.api.client.discovery.ServiceDiscoverer;
+import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
 import com.devonfw.module.service.common.api.header.ServiceHeaderCustomizer;
-import com.devonfw.module.service.common.api.sync.SyncServiceClientFactory;
 import com.devonfw.module.service.common.base.context.ServiceContextImpl;
 
 /**
@@ -22,6 +24,8 @@ public class ServiceClientFactoryImpl implements ServiceClientFactory {
 
   private Collection<SyncServiceClientFactory> syncServiceClientFactories;
 
+  private Collection<AsyncServiceClientFactory> asyncServiceClientFactories;
+
   private Collection<ServiceDiscoverer> serviceDiscoverers;
 
   private Collection<ServiceHeaderCustomizer> serviceHeaderCustomizers;
@@ -30,6 +34,7 @@ public class ServiceClientFactoryImpl implements ServiceClientFactory {
    * The constructor.
    */
   public ServiceClientFactoryImpl() {
+
     super();
   }
 
@@ -41,6 +46,16 @@ public class ServiceClientFactoryImpl implements ServiceClientFactory {
   public void setSyncServiceClientFactories(Collection<SyncServiceClientFactory> syncServiceClientFactories) {
 
     this.syncServiceClientFactories = syncServiceClientFactories;
+  }
+
+  /**
+   * @param asyncServiceClientFactories the {@link Collection} of {@link AsyncServiceClientFactory factories} to
+   *        {@link Inject}.
+   */
+  @Inject
+  public void setAsyncServiceClientFactories(Collection<AsyncServiceClientFactory> asyncServiceClientFactories) {
+
+    this.asyncServiceClientFactories = asyncServiceClientFactories;
   }
 
   /**
@@ -68,17 +83,23 @@ public class ServiceClientFactoryImpl implements ServiceClientFactory {
   }
 
   @Override
-  public <S> S create(Class<S> serviceInterface, Map<String, String> properties) {
+  public <S> S create(Class<S> serviceInterface, Map<String, String> config) {
+
+    ServiceContextImpl<S> context = createContext(serviceInterface, config);
+    S serviceClient = createClient(serviceInterface, context);
+    return serviceClient;
+  }
+
+  private <S> ServiceContextImpl<S> createContext(Class<S> serviceInterface, Map<String, String> config) {
 
     ConfigProperties configPropreties = ConfigProperties.EMPTY;
-    if ((properties != null) && !properties.isEmpty()) {
-      configPropreties = SimpleConfigProperties.ofFlatMap(properties);
+    if ((config != null) && !config.isEmpty()) {
+      configPropreties = SimpleConfigProperties.ofFlatMap(config);
     }
     ServiceContextImpl<S> context = new ServiceContextImpl<>(serviceInterface, configPropreties);
     discovery(context);
     customizeHeaders(context);
-    S serviceClient = createClient(serviceInterface, context);
-    return serviceClient;
+    return context;
   }
 
   private <S> S createClient(Class<S> serviceInterface, ServiceContextImpl<S> context) {
@@ -120,6 +141,36 @@ public class ServiceClientFactoryImpl implements ServiceClientFactory {
     if (context.getUrl() == null) {
       throw new IllegalStateException("Service discovery failed for " + context.getApi());
     }
+  }
+
+  @Override
+  public <S> AsyncServiceClient<S> createAsync(Class<S> serviceInterface) {
+
+    return createAsync(serviceInterface, null);
+  }
+
+  @Override
+  public <S> AsyncServiceClient<S> createAsync(Class<S> serviceInterface, Map<String, String> config) {
+
+    ServiceContextImpl<S> context = createContext(serviceInterface, config);
+    AsyncServiceClient<S> serviceClient = createClientAsync(serviceInterface, context);
+    return serviceClient;
+  }
+
+  private <S> AsyncServiceClient<S> createClientAsync(Class<S> serviceInterface, ServiceContextImpl<S> context) {
+
+    AsyncServiceClient<S> serviceClient = null;
+    for (AsyncServiceClientFactory factory : this.asyncServiceClientFactories) {
+      serviceClient = factory.create(context);
+      if (serviceClient != null) {
+        break;
+      }
+    }
+    if (serviceClient == null) {
+      throw new IllegalStateException(
+          "Unsuppoerted service type - client could not be created by any factory for " + serviceInterface);
+    }
+    return serviceClient;
   }
 
 }

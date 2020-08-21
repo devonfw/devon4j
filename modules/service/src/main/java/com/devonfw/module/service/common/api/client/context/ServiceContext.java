@@ -5,16 +5,20 @@ import java.util.Collection;
 import com.devonfw.module.basic.common.api.config.ConfigProperties;
 
 /**
- * This interface gives read access to contextual information of a {@link com.devonfw.module.service.common.api.Service}.
+ * This interface gives read access to contextual information of a
+ * {@link com.devonfw.module.service.common.api.Service}.
  *
- * @param <S> the generic type of the {@link #getApi() service API}.
+ * @param <S> type of the {@link #getApi() service API}.
  *
  * @since 3.0.0
  */
 public interface ServiceContext<S> {
 
   /**
-   * @return the {@link Class} reflecting the API of the {@link com.devonfw.module.service.common.api.Service}.
+   * @return the {@link Class} reflecting the API of the externally provided
+   *         {@link com.devonfw.module.service.common.api.Service}. E.g. a JAR-RS annotated interface. For flexibility
+   *         and being not invasive the generic type is not bound to
+   *         {@link com.devonfw.module.service.common.api.Service} ({@code S extends Service}).
    */
   Class<S> getApi();
 
@@ -39,5 +43,36 @@ public interface ServiceContext<S> {
    * @see com.devonfw.module.service.common.api.client.ServiceClientFactory#create(Class, java.util.Map)
    */
   ConfigProperties getConfig();
+
+  /**
+   * @param operation the invoked service operation (Java method called on API or URL path detail called via REST).
+   * @return a {@link String} describing the invoked {@link com.devonfw.module.service.common.api.Service} with
+   *         available details as provided.
+   */
+  default String getServiceDescription(String operation) {
+
+    return getServiceDescription(null, getUrl());
+  }
+
+  /**
+   * @param operation the invoked service operation (Java method called on API or URL path detail called via REST).
+   * @param url the URL of the invoked service.
+   * @return a {@link String} describing the invoked {@link com.devonfw.module.service.common.api.Service} with
+   *         available details as provided.
+   */
+  default String getServiceDescription(String operation, String url) {
+
+    StringBuilder sb = new StringBuilder(getApi().getName());
+    if (operation != null) {
+      sb.append('#');
+      sb.append(operation);
+    }
+    if (url != null) {
+      sb.append('[');
+      sb.append(url);
+      sb.append(']');
+    }
+    return sb.toString();
+  }
 
 }

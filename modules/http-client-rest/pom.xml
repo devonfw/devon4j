@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.devonfw.java.dev</groupId>
+    <artifactId>devon4j-modules</artifactId>
+    <version>dev-SNAPSHOT</version>
+  </parent>
+  <groupId>com.devonfw.java.modules</groupId>
+  <artifactId>devon4j-http-client-rest</artifactId>
+  <version>${devon4j.version}</version>
+  <packaging>jar</packaging>
+  <name>${project.artifactId}</name>
+  <description>Support for consuming REST services as client based on Java HTTP Client.</description>
+  <properties>
+    <java.version>11</java.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>devon4j-http-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>devon4j-json</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>
