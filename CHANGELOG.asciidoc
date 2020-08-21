@@ -2,6 +2,17 @@
 
 This file documents all notable changes to https://https://github.com/devonfw/devon4j[devon4j].
 
+== 2020.08.001
+
+New release of `devon4j` with async REST service client support and other improvements:
+
+* https://github.com/devonfw/devon4j/issues/279[#279]: support for async service clients
+* https://github.com/devonfw/devon4j/issues/277[#277]: Update Security-Guide to recent OWASP Top (2017)
+* https://github.com/devonfw/devon4j/pull/281[#281]: cleanup documentation
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2020.08.001/devon4j-doc-2020.08.001.pdf[devon4j guide 2020.08.001].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/12?closed=1[milestone devon4j 2020.08.001].
+
 == 2020.04.002
 
 Minor update of `devon4j` with the following bugfixes and small improvements:
