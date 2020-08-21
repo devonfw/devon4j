@@ -132,6 +132,22 @@ public class HttpRestClientTest extends ComponentTest {
     assertThat(e.isForUser()).isTrue();
     assertThat(e.isTechnical()).isTrue();
     assertThat(e.getUuid()).isNotNull();
+  }
+
+  @Test
+  public void testPrimitiveResult() {
+
+    // given
+    AsyncServiceClient<MyExampleRestService> serviceClient = this.serviceClientFactory.createAsync(
+        MyExampleRestService.class,
+        new ServiceClientConfigBuilder().authBasic().userLogin("admin").userPassword("admin").buildMap());
+    String name = "John Doe & ?#";
+    // when
+    TestResultHandler<Boolean> resultHandler = new TestResultHandler<>();
+    serviceClient.setErrorHandler(resultHandler.getErrorHandler());
+    serviceClient.call(serviceClient.get().primitiveResult(), resultHandler);
+    // then
+    assertThat(resultHandler.getResponseOrWait()).isTrue();
 
   }
 

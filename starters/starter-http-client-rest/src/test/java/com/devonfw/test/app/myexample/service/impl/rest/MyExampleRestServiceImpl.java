@@ -38,4 +38,10 @@ public class MyExampleRestServiceImpl implements MyExampleRestService {
     throw new IllegalStateException("Secret information");
   }
 
+  @Override
+  public boolean primitiveResult() {
+
+    return true;
+  }
+
 }

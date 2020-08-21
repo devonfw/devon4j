@@ -43,4 +43,11 @@ public interface MyExampleRestService extends RestService {
   @Path("/technical-error")
   void technicalError();
 
+  /**
+   * @return a primitive boolean value to test API and generic bindings.
+   */
+  @GET
+  @Path("/boolean")
+  boolean primitiveResult();
+
 }
