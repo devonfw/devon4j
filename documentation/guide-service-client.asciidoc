@@ -16,7 +16,7 @@ You need to add (at least one of) these dependencies to your application:
 <!-- Starter for asynchronous consuming REST services via Jaca HTTP Client (Java11+) -->
 <dependency>
   <groupId>com.devonfw.java.starters</groupId>
-  <artifactId>devon4j-starter-http-client-rest</artifactId>
+  <artifactId>devon4j-starter-http-client-rest-async</artifactId>
 </dependency>
 <!-- Starter for synchronous consuming REST services via Apache CXF (Java8+) -->
 <dependency>

@@ -233,7 +233,7 @@
       </dependency>
       <dependency>
         <groupId>com.devonfw.java.starters</groupId>
-        <artifactId>devon4j-starter-http-client-rest</artifactId>
+        <artifactId>devon4j-starter-http-client-rest-async</artifactId>
         <version>${project.version}</version>
       </dependency>
     </dependencies>

@@ -15,7 +15,7 @@ import com.devonfw.module.service.common.impl.client.ServiceClientAutoConfigurat
  */
 @Configuration
 @Import(ServiceClientAutoConfiguration.class)
-public class HttpRestClientAutoConfiguration {
+public class HttpRestClientAsyncAutoConfiguration {
 
   /**
    * @return an implementation of {@link SyncServiceClientFactory} based on Java HTTP client for REST (JAX-RS).

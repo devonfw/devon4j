@@ -8,11 +8,11 @@
     <version>dev-SNAPSHOT</version>
   </parent>
   <groupId>com.devonfw.java.starters</groupId>
-  <artifactId>devon4j-starter-http-client-rest</artifactId>
+  <artifactId>devon4j-starter-http-client-rest-async</artifactId>
   <version>${devon4j.version}</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
-  <description>Support for REST service clients based on Java HTTP client.</description>
+  <description>Support for asynchronous REST service clients based on Java HTTP client.</description>
 
   <dependencies>
     <dependency>
