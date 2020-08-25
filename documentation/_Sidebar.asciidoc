@@ -44,7 +44,7 @@
 
 == Options
 * link:guide-jee.asciidoc[JEE]
-* https://github.com/devonfw/devonfw-guide/blob/master/general/db/guide-database.asciidoc[Databases]
+* link:guide-database.asciidoc[Databases] 
 
 === Coding 
 * link:coding-conventions.asciidoc[Coding Conventions]
