@@ -1,0 +1,18 @@
+:toc: macro
+toc::[]
+
+= Cassandra
+
+This section is the place to share experience for those who use https://cassandra.apache.org/[Cassandra] as link:guide-database.asciidoc#nosql[NoSQL database].
+
+== Attention
+NOTE: In devonfw we do not properly support this. You are free to use this database but do not expect advanced integration, CobiGen templates, etc.
+
+== Driver
+Please be aware that there is not a regular JDBC driver in case you are using Java (devon4j).
+For driver options see https://cassandra.apache.org/doc/latest/getting_started/drivers.html[here].
+
+== Spring-Data
+There is spring-data support available for cassandra via https://spring.io/projects/spring-data-cassandra[spring-data-cassandra].
+
+NOTE: Please note that some time ago we had feedback from projects that had issues with spring-data-cassandra and switched back to using the driver natively. We assume the issues are meanwhile resolved. TODO: collect more feedback and update this guide.

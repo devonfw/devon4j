@@ -1,0 +1,43 @@
+:toc: macro
+toc::[]
+
+= SAP HANA
+
+This section contains hints for those who use https://www.sap.com/products/hana.html[SAP HANA], a very powerful and fast RDBMS. Besides general hints about the driver there are tips for more tight integration with other SAP features or products.
+
+== Driver
+SAP Hana is a commercial and professional product.
+However, the hana JDBC driver is available in Maven Central what makes it easy to integrate.
+All you need is the following maven dependency:
+
+```
+<dependency>
+  <groupId>com.sap.cloud.db.jdbc</groupId>
+  <artifactId>ngdbc</artifactId>
+  <version>${hana.driver.version}</version>
+</dependency>
+```
+Of course the version (`${hana.driver.version}`) needs to be adopted to your needs (Hana installtion in production, e.g. `2.4.64`).
+For an overview of available driver versions see https://mvnrepository.com/artifact/com.sap.cloud.db.jdbc/ngdbc/[here].
+
+== Developer Usage
+For your local development environment you will love the free https://developers.sap.com/topics/sap-hana-express.html[SAP HANA, Express Edition].
+
+You can run HANA in several ways:
+
+* On-premise
+** Via a https://developers.sap.com/germany/tutorials/hxe-ua-install-using-docker.html[Docker image] (Linux only)
+** Via a pre-configured https://developers.sap.com/group.hxe-install-vm.html[virtual machine] (Windows, Linux, OS X)
+** Installed natively on your https://developers.sap.com/group.hxe-install-binary.html[local machine] (Linux only)
+* In the cloud
+** Via a pre-configured machine on the https://developers.sap.com/tutorials/hxe-gcp-getting-started-launcher.html[Google Cloud Platform]
+** Via a pre-configured machine in the https://developers.sap.com/tutorials/hxe-ms-azure-marketplace-getting-started.html[Microsoft Azure Cloud]
+** Via a pre-configured machine on https://developers.sap.com/tutorials/hxe-aws-setup.html[Amazon Web Services]
+
+To get started with SAP HANA, Express Edition you can check out the https://developers.sap.com/topics/sap-hana-express.html#tutorials[tutorials] at the https://developers.sap.com/[SAP Developer Center].
+
+== Pooling
+See https://help.sap.com/viewer/2a4cd05443e84e59bdde9170fa693ddb/1.0.00.0/en-US/0fdda954c7004ad1b889b7785bf82b2e.html[Overriding the JDBC Connection Pool Settings].
+
+== Fuzzy Search
+See https://blogs.sap.com/2015/08/28/dynamism-of-fuzzy-search-in-sap-hana/ or the https://help.sap.com/viewer/691cb949c1034198800afde3e5be6570/latest/en-US/cc602780bb5710148aa2bf6cab3c015b.html[SAP HANA Search Developer Guide]

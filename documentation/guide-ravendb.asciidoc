@@ -1,0 +1,13 @@
+:toc: macro
+toc::[]
+
+= RavenDB
+
+This section is the place to share experience for those who use https://ravendb.net/[RavenDB] as link:guide-database.asciidoc#nosql[NoSQL database].
+
+== Attention
+NOTE: In devonfw we do not properly support this. You are free to use this database but do not expect advanced integration, CobiGen templates, etc.
+
+== Driver
+Please be aware that there is not a regular JDBC driver in case you are using Java (devon4j).
+For driver options see https://github.com/ravendb/ravendb-jvm-client[ravendb-jvm-client] and https://ravendb.net/features/clients/java[Java Client Features].

@@ -1,0 +1,14 @@
+:toc: macro
+toc::[]
+
+= HBase
+
+This section is the place to share experience for those who use https://hbase.apache.org/[HBase] as link:guide-database.asciidoc#nosql[NoSQL database].
+
+== Attention
+NOTE: In devonfw we do not properly support this. You are free to use this database but do not expect advanced integration, CobiGen templates, etc.
+
+== Driver
+Please be aware that there is not a regular JDBC driver in case you are using Java (devon4j).
+For driver options see https://hbase.apache.org/book.html#client_dependencies[here] and
+http://www.corejavaguru.com/bigdata/hbase-tutorial/hbase-java-api-class[hbase-java-api tutorial].

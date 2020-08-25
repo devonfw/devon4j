@@ -1,0 +1,23 @@
+:toc: macro
+toc::[]
+
+= PostgreSQL
+
+This section gives guidance and hints for those who use https://www.postgresql.org/[PostgreSQL] as link:guide-database.asciidoc#rdbms[RDBMS].
+
+== Driver
+PostgreSQL is fully open-source. The driver is therefore available in maven central.
+Your dependency for the driver should look as following:
+
+```
+<dependency>
+    <groupId>postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>${postgresql.driver.version}</version>
+</dependency>
+```
+Of course the version (`${postgresql.driver.version}`) needs to be adopted to your needs (PostgreSQL installtion in production and JDBC level suitable for your JDK, e.g. `9.1-901-1.jdbc4`).
+For an overview of available driver versions see https://mvnrepository.com/artifact/postgresql/postgresql[here].
+
+
+

@@ -1,0 +1,21 @@
+:toc: macro
+toc::[]
+
+= MS-SQL-Server
+
+This section gives guidance and hints for those who use https://www.microsoft.com/en-us/sql-server/[Microsoft SQL Server] as link:guide-database.asciidoc#rdbms[RDBMS].
+
+== Driver
+Microsoft SQL Server is a commercial and professional product.
+However, the JDBC driver is MIT licensed and available in Maven Central what makes it easy to integrate.
+Your dependency for the driver should look as following:
+
+```
+<dependency>
+    <groupId>com.microsoft.sqlserver</groupId>
+    <artifactId>mssql-jdbc</artifactId>
+    <version>${mssqlserver.driver.version}</version>
+</dependency>
+```
+Of course the version (`${mssqlserver.driver.version}`) needs to be adopted to your needs (SQL Server installtion in production and JDK version, e.g. `7.4.1.jre8`).
+For an overview of available driver versions see https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc[here].

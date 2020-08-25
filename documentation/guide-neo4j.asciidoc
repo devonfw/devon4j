@@ -1,0 +1,16 @@
+:toc: macro
+toc::[]
+
+= neo4j
+
+This section is the place to share experience for those who use https://neo4j.com/[neo4j] as link:guide-database.asciidoc#nosql[NoSQL database].
+
+== Attention
+NOTE: In devonfw we do not properly support this. You are free to use this database but do not expect advanced integration, CobiGen templates, etc.
+
+== Driver
+Please be aware that there is not a regular JDBC driver in case you are using Java (devon4j).
+For driver options see https://neo4j.com/developer/java/[here].
+
+== Spring-Data
+There is spring-data integration available via https://neo4j.com/developer/spring-data-neo4j/[spring-data-neo4j].
