@@ -1,0 +1,87 @@
+:toc: macro
+toc::[]
+
+= Database
+
+For your business application with devonfw you need to choose the right database.
+In devonfw we are not biased for a particular product so you have the freedom of choice.
+
+== RDBMS
+
+The classical and well-established form of a database is a relational database management system (RDBMS).
+In devonfw we recommend to use an RDBMS unless you have specific need.
+However, in case you have the need for big data, graph-data, BLOB focus, or schema-less dynamic data you can have a look at xref:nosql[NoSQL] options but be aware that these may be experimental and are not fully supported by devonfw.
+
+=== Options
+In devonfw we are not biased for a particular RDBMS so you have the freedom of choice.
+Here are the most common options:
+
+* link:guide-hana.asciidoc[SAP Hana] (high performance in-memory, many advanced features)
+* link:guide-oracle.asciidoc[Oracle] (most established, well featured for enterprise)
+* link:guide-postgresql.asciidoc[PostgreSQL] (great open-source RDBMS)
+* link:guide-mariadb.asciidoc[MariaDB] (true OSS successor of MySQL)
+* link:guide-mysqlserver.asciidoc[MS SQL Server] (best choice for Microsoft and Windows dominated IT landscapes)
+
+Please click on any of the above choices and go to the according guide to find specific detials such as client/driver.
+
+== NoSQL
+While not (yet) officially supported and recommendet there are also interesting NoSQL (Not Only SQL) databases that could be an interesting alternative. Please be aware that you will typically not be able to use link:guide-jpa.asciidoc[JPA] (and hibernate). Further before choosing a NoSQL database you should check the following aspects:
+
+* Is the database of choice reliable and mature enough for your project?
+* Can the operators of your product support the database of choice properly (provisioning, administration, backup, scaling & clustering, monitoring, etc.)?
+* Does the database of choice meet the requirements of your project (ACID vs. eventual consistencey, CAP theorem)?
+
+There are good reasons to choose a particular NoSQL database in specific cases (e.g. extreme demand for big-data, throughput or scaling).
+But as indicated by the questions above you need to be fully aware of what you are doing.
+NoSQL databases can be _schemaless_ (untyped, dynamic & flexible) and/or _schemaful_ (typed, structured & strict).
+Furhter, there are different types of NoSQL databases that are discussed in the following sub-sections:
+
+=== Column DB
+Column NoSQL databases are more related to a regular xref:rdbms[RDBMS] with their tables and columns.
+However, they typically do not offer relational support with joins to the same level as you expect from an RDBMS.
+Therefore, you have to carefully design your data-model upfront with the all the knowledge how you later want to query your data.
+
+The most prominent options are:
+
+* link:guide-cassandra.asciidoc[Cassandra] (high-performance, schema-based DB)
+* link:guide-hbase.asciidoc[HBase] (distributed, big-data Hadoop database)
+
+=== Key-Value DB
+As indicated by the name, a key-value database stores objects as key/value pairs similar to `Properties` or `Map` in Java.
+
+The most prominent options are:
+
+* link:guide-redis.asciidoc[Redis] (in-memory key/value store, especially used as cache or message broker)
+* link:guide-aerospike.asciidoc[aerospike]
+
+=== Document DB
+A document database is similar to a key-value database, but it stores objects in standard structured formats such as XML, JSON, or BSON.
+Therefore not only flat key/value pairs but even trees of hierarchical data can be stored, retrieved and queried.
+
+The most prominent options are:
+
+* link:guide-mongodb.asciidoc[MongoDB]
+* link:guide-couchdb.asciidoc[CouchDB]
+* link:guide-ravendb.asciidoc[RavenDB]
+
+=== Graph DB
+If the connections (links/relations) between your data is key and an xref:rdbms[RDBMS] is just not flexible or fast enough for your plans, then a graph database can help you.
+They are very strong on storing and querying complex connections between entities.
+For queries there are even specific standards and languages like https://tinkerpop.apache.org/gremlin.html[Gremlin].
+
+The most prominent options are:
+
+* link:guide-neo4j.asciidoc[neo4j]
+* link:guide-blazegraph.asciidoc[blazegraph]
+
+=== Hybrid DB
+In addition to the above types there are some NoSQL databases that are hybrid and combine the features and aspects of these types.
+While as an architect and developer you might love the idea to get all in one, you have to be careful with your choice.
+If you do not exactly know your problem, you are not ready to make the right choice for your database.
+Further, you might still be best-off with an good old xref:rdbms[RDBMS] if you need to address multiple aspects together.
+Anyhow, for experiments, PoCs, or small microservices with little risk it might be a great idea to choose a hybrid NoSQL database.
+If you have collected very positive, profound and productive experience with such product you can grow on it.
+
+The most prominent options are:
+
+* link:guide-orientdb.asciidoc[OrientDB] (object-oriented, hyper-flexible, column- and graph-based)
