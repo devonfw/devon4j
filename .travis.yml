@@ -26,7 +26,7 @@ jobs:
   include:
     - stage: Build
       script:
-        - mvn install && ([[ $TRAVIS_BRANCH != "develop" ]] || [[ $TRAVIS_PULL_REQUEST != "false" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy)
+        - mvn install && ([[ $TRAVIS_BRANCH != "develop" ]] || [[ $TRAVIS_PULL_REQUEST != "false" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy) -q
     - stage: Documentation
       if: (branch = develop) AND (type = push)
       script:
