@@ -317,7 +317,7 @@ For testing REST services in general consult the link:guide-testing.asciidoc[tes
 
 For manual testing REST services there are browser plugins:
 
-* Firefox: https://addons.mozilla.org/en-US/firefox/addon/httprequester/[httprequester] (or https://addons.mozilla.org/en-US/firefox/addon/poster/[poster])
+* Firefox: https://addons.mozilla.org/de/firefox/addon/rested/[rested] (or https://addons.mozilla.org/en-US/firefox/addon/poster/[poster])
 * Chrome: http://www.getpostman.com/[postman] (https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo[advanced-rest-client])
 
 == Security
