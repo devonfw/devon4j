@@ -25,7 +25,7 @@ For Java tooling you may also try the following instead:
 keytool -genkeypair -alias devonfw -keypass "password" -storetype PKCS12 -keyalg RSA -keysize 4096 -storepass "password" -keystore keystore.pkcs
 ----
 
-NOTE: Please use reasonable passwords instead of `password` what should be obvious.
+NOTE: Please use reasonable passwords instead of `password` what should be obvious. Also for the alias the value `devonfw` is just an example.
 
 == Dependency
 
