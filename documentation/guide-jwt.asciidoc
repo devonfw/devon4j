@@ -19,6 +19,14 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
 openssl pkcs12 -export -in cert.pem -inkey key.pem -out example.p12 
 ----
 
+For Java tooling you may also try the following instead:
+
+----
+keytool -genkeypair -alias devonfw -keypass "password" -storetype PKCS12 -keyalg RSA -keysize 4096 -storepass "password" -keystore keystore.pkcs
+----
+
+NOTE: Please use reasonable passwords instead of `password` what should be obvious.
+
 == Dependency
 
 To use JWT support from devon4j you have to add following required dependency.
