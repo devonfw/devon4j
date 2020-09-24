@@ -22,11 +22,19 @@ install: skip
 stages:
   - name: Build
   - name: Documentation
+addons:
+  sonarcloud:
+    organization: "comdevonfw"
+    token:
+      secure: "Zx+BUVS23awOkLTNLgtM79wzVpMi6wgmZlUKHBNfZOA0I7tVHRHGpEl+4Lrt9hZZgmEOq2sIt+QdllySqOZypPitkwn6Bzh5HCZtJQizV+qAT0xXc9oJaJo8hpf8VGuVM4diYroRhlicG93RhGMI9M6deV74WKzk7+S3dEvBB1jcOvA5aZCPhE1eCg8tehczm0OfQ01FlrjemXk9APXaJvlINz2IAJIf6YZULAsXUXwv5Gk33UjILbyL+4cYyn5vPARg1sQDXRXarVejSAqQnOEBNQzDK8L81ouyJCfCYC3Xqa0KecDJ6tJxng6CEskaRuc4G1zQ26XhY/yVEz5ovC/cjTjbpf6E5cdoFMzsbwPK32XkcaTTBSOcyE1NtJSh4lms2pN2hY8h/9GoPuo5uy+IQ/IPf1WRWldFSQ3eZAKQG5qGpIvLNmiFuUeruhsmi2vRkqe7QKwKhkGfq3MdcqtMLIqkUtWCr/PDaYNGlU1DWvDmsJXptl71T6JhHOXfTfRztCB7ubReul3eP8pMCy/oeEAg56ghqSWZ+SVM/2C7vWfLVdraRI6tWfv9kVhK5pBsWo/HMuu6nvN1vLKUPKsj50VxZCt32aUFO7FskR4YZVa67pLUUQhVa7ptdY59XDBCiNbAGVD5D+WMYa4kjE9RoQF2V48u6xBEk+Z7I68="
+
 jobs:
   include:
     - stage: Build
       script:
-        - mvn install && ([[ $TRAVIS_BRANCH != "develop" ]] || [[ $TRAVIS_PULL_REQUEST != "false" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy)
+        - if [ $TRAVIS_BRANCH == "develop"] && [ $TRAVIS_PULL_REQUEST == "false" ]; 
+    then mvn clean -Pjacoco-report install sonar:sonar -Dsonar.projectKey=devonfw_devon4j -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=comdevonfw;
+    else mvn install && ([[ $TRAVIS_BRANCH != "develop" ]] || [[ $TRAVIS_PULL_REQUEST != "false" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy);
     - stage: Documentation
       if: (branch = develop) AND (type = push)
       script:
