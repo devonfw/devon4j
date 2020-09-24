@@ -276,7 +276,7 @@ public class PropertyMapperJasypt {
 ----
 Using the above service class and setting the secret key which we used for encryption, we can easily retrieve the encrypted.property.
 
-== How to use custom Jasypt Encryptor
+==== How to use custom Jasypt Encryptor
 
 The encryptors mentioned above has their own configuration. We can also define our own Jasypt encryptor and use it on our application.
 
