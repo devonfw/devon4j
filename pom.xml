@@ -35,7 +35,7 @@
     <jackson.version>2.11.2</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
     <guava.version>28.1-jre</guava.version>
     <junit.version>5.6.1</junit.version>
-    
+
   </properties>
 
   <build>
@@ -62,4 +62,32 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <profiles>
+    <profile>
+      <id>jacoco-report</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>report</id>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
