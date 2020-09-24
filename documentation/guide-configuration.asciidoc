@@ -160,7 +160,7 @@ Let us have a look how to encrypt password using `jasypt-springboot-starter` and
 
 You can also have a look at their page link:http://www.jasypt.org/index.html[Jasypt].
 
-== How to Use Jasypt-SpringBoot-Starter
+==== How to Use Jasypt-SpringBoot-Starter
 The first step would be to add the starter dependency to our `pom.xml` file.
 
 [source,xml]
@@ -227,7 +227,7 @@ public class PropertyMapperJasyptStarter {
 
 Using the above service class and setting the secret key which we used for encryption, we can easily retrieve the decrypted password and use in our application.
 
-== How to use Jasypt-SpringBoot
+==== How to use Jasypt-SpringBoot
 For projects not using `@SpringBootApplication` or `@EnableAutoConfiguration`, we can use the jasypt-spring-boot dependency directly
 
 [source,xml]
@@ -338,7 +338,7 @@ To prevent jasypt to throw an exception in dev or test scenarios simply put this
 jasypt.encryptor.password=none
 ```
 
-Is this Security by Obscurity?
+==== Is this Security by Obscurity?
 
 * Yes, from the point of view to protect the passwords on the target environment this is nothing but security by obscurity. If an attacker somehow got full access to the machine this will only cause him to spend some more time.
 * No, if someone only gets the configuration file. So all your developers might have access to the version-control where the config is stored. Others might have access to the software releases that include this configs. But without the master-password that should only be known to specific operators none else can decrypt the password (except with brute-force what will take a very long time, see jasypt for details).
