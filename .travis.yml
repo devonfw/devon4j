@@ -31,11 +31,11 @@ addons:
 jobs:
   include:
     - stage: Build
-      script:
+     script:
         - if [ $TRAVIS_BRANCH == "develop"] && [ $TRAVIS_PULL_REQUEST == "false" ]; 
-    then mvn clean -Pjacoco-report install sonar:sonar -Dsonar.projectKey=devonfw_devon4j -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=comdevonfw;
-    else mvn install && ([[ $TRAVIS_BRANCH != "develop" ]] || [[ $TRAVIS_PULL_REQUEST != "false" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy);
-
+    then mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy && mvn clean -Pjacoco-report install sonar:sonar -Dsonar.projectKey=devonfw_devon4j -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=comdevonfw;
+    else mvn install;
+	fi
     - stage: Documentation
       if: (branch = develop) AND (type = push)
       script:
