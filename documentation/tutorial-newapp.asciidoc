@@ -68,3 +68,22 @@ The toplevel `pom.xml` of the generated project has the following features:
 * Dependency management: define versions for dependencies of the technology stack that are recommended and work together in a compatible way.
 * Maven plugins with desired versions and configuration
 * Profiles for link:guide-testing.asciidoc[test stages]
+
+== Make jar not war
+
+By default server module will bundle entire app as WAR file. To create bootified jar instead of war user needs to make below changes in server/pom.xml`
+
+* In server/pom.xml update <packaging>war</packaging> to <packaging>jar</packaging> .
+* once pom.xml is updated execute maven build command such as mvn clean install.
+* Check server/target folder user should see ${projectname}-server-bootified.jar file created.
+
+== How to run project 
+
+=== Run Project from IDE :
+
+To run project from ide user needs to launch SpringBootApp.java as java class.
+
+=== Run Project using bootified jar/war:
+
+* To run project using bootified jar/war , navigate to server module target folder. In target folder user will get ${projectname}-server-bootified.war or ${projectname}-bootified.jar file. 
+* Launch this bootified jar/war with command java -jar ${projectname}-server-bootified.war 
