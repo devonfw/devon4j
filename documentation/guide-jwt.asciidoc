@@ -19,6 +19,14 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
 openssl pkcs12 -export -in cert.pem -inkey key.pem -out example.p12 
 ----
 
+For Java tooling you may also try the following instead:
+
+----
+keytool -genkeypair -alias devonfw -keypass "password" -storetype PKCS12 -keyalg RSA -keysize 4096 -storepass "password" -keystore keystore.pkcs
+----
+
+NOTE: Please use reasonable passwords instead of `password` what should be obvious. Also for the alias the value `devonfw` is just an example.
+
 == Dependency
 
 To use JWT support from devon4j you have to add following required dependency.
@@ -60,8 +68,8 @@ security.authentication.jwt.creation.not-before-delay=1m
 == Authentication with JWT via OAuth
 
 The authentication with JWT via OAuth (HTTP header), will happen via `JwtAuthenticationFilter` that is automatically added by `devon4j-starter-security-jwt` via `JwtAutoConfiguration`.
-With the starter and auto-configuration we want to make it as easy as possible for you 
-In case you would like to build a server app that e.g. wants to issue JWTs but does not allow authentication via JWT itself, you can use `devon4j-security-jwt` instead of the starter and do the spring config yourself (pick and choose from `JwtAutoConfiguration`).
+With the starter and auto-configuration we want to make it as easy as possible for you.
+In case you would like to build a server app that e.g. wants to issue JWTs but does not allow authentication via JWT itself, you can use `devon4j-security-jwt` as dependency instead of the starter and do the spring config yourself (pick and choose from `JwtAutoConfiguration`).
 
 To do this, you need to add the following changes in your `BaseWebSecurityConfig`:
 

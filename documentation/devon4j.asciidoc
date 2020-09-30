@@ -1,6 +1,4 @@
 = devonfw for Java (devon4j)
-The devonfw community
-${project.version}, ${buildtime}
 :description: comprehensive documentation for the Java stack of devonfw.
 :doctype: book
 :toc:
@@ -14,6 +12,9 @@ ${project.version}, ${buildtime}
 :chapter-label:
 :partnums:
 :imagesdir: ./
+The devonfw community
+${project.version}, ${buildtime}
+
 
 http://www.devonfw.com/[_devonfw_] provides a solution to building applications which combine best-in-class frameworks and libraries as well as industry proven practices and code conventions.
 It massively speeds up development, reduces risks and helps you to deliver better results.

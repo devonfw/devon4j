@@ -49,4 +49,3 @@ We can potentially create separate _service transfer objects_ (STO) (if possible
 However, we usually do not need this and want to keep our architecture simple.
 Only create STOs if you need link:guide-service-layer.asciidoc#versioning[service versioning] and support previous APIs or to provide legacy service technologies that require their own isolated data-model.
 In such case you also need link:guide-beanmapping.asciidoc[beanmapping] between STOs and ETOs what means extra effort and complexity that should be avoided.
-In such case you also need link:guide-beanmapping.asciidoc[beanmapping] between STOs and ETOs what means extra effort and complexity that should be avoided.
