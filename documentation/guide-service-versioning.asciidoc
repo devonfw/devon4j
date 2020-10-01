@@ -158,7 +158,7 @@ The following example gives an idea of the structure:
 
 [source]
 ----
-/server
+/«my-app»
 ├──/api
 |  └──/src/main/java/
 |     └──/«rootpackage»/«application»/«component»
