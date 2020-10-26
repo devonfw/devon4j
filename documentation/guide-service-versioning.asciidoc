@@ -150,7 +150,7 @@ The approach is as following for your devon4j project in case of code-first:
 
 === Modularization
 For modularization we also follow the KISS principle (see link:architecture.asciidoc#key-principles[key principles]):
-We suggest to have one API module per application (`server/api`) that will contain the most recent version of your service and gets released with every release-version of the application. The compatibility code with the versioned packages will be added to the core module (`server/core`) and is therefore not exposed via the API module (because it has already been exposed in the previous release of the app). This way you can always for sure determine which version of a service is used by another application just by its maven dependencies.
+We suggest to have one `api` module per application that will contain the most recent version of your service and gets released with every release-version of the application. The compatibility code with the versioned packages will be added to the `core` module and is therefore not exposed via the `api` module (because it has already been exposed in the previous release of the app). This way you can always for sure determine which version of a service is used by another application just by its maven dependencies.
 
 The KISS approach with only a single module that may contain multiple services (e.g. one for each business component) will cause problems when you want to have mixed usages of service versions: You can not use an old version of one service and a new version of another service from the same APP as then you would need to have its API module twice as dependency with different versions what is not possible. However, to avoid complicated overhead for exotic problems we still suggest to follow this easy approach. Only if you come to the point that you really need this complexity you can still solve it (even afterwards by publishing another maven artefact). As we are all on our way to build more but smaller applications (SOA, microservices, etc.) we should always start simple and only add complexity when really needed.
 
@@ -158,7 +158,7 @@ The following example gives an idea of the structure:
 
 [source]
 ----
-/server
+/«my-app»
 ├──/api
 |  └──/src/main/java/
 |     └──/«rootpackage»/«application»/«component»
