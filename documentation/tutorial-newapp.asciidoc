@@ -81,9 +81,8 @@ By default server module will bundle entire app as WAR file. To create bootified
 
 === Run Project from IDE :
 
-To run project from ide user needs to launch SpringBootApp.java as java class.
+To run project from ide user needs to launch `SpringBootApp` as java application.
 
 === Run Project using bootified jar/war:
 
-* To run project using bootified jar/war , navigate to server module target folder. In target folder user will get ${projectname}-server-bootified.war or ${projectname}-bootified.jar file. 
-* Launch this bootified jar/war with command java -jar ${projectname}-server-bootified.war 
+More details are available link:guide-structure.asciidoc#make-jar-not-war[here]
