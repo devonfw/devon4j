@@ -35,6 +35,8 @@ include::guide-component.asciidoc[leveloffset=2]
 
 include::coding-conventions.asciidoc[leveloffset=1]
 
+include::guide-structure.asciidoc[leveloffset=1]
+
 <<<<
 
 == Layers

@@ -48,6 +48,7 @@
 
 === Coding 
 * link:coding-conventions.asciidoc[Coding Conventions]
+* link:guide-structure.asciidoc[Project Structure]
 * link:coding-tools.asciidoc[Development Tools]
 * https://github.com/devonfw/.github/blob/master/CONTRIBUTING.asciidoc#contributing[Contributing to devonfw]
 
