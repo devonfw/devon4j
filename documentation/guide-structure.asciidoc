@@ -17,4 +17,4 @@ On the other hand to build and deploy your application you want a final artifact
 
 == Package Structure
 
-The package structure of your code inside `src/main/java` (and `src/test/java`) of your modules is described in our coding conventions in the sections coding-conventions.asciidoc#packages[packages] and link:coding-conventions.asciidoc#architecture-mapping[architecture-mapping].
+The package structure of your code inside `src/main/java` (and `src/test/java`) of your modules is described in our coding conventions in the sections link:coding-conventions.asciidoc#packages[packages] and link:coding-conventions.asciidoc#architecture-mapping[architecture-mapping].
