@@ -31,6 +31,8 @@ We follow a strictly component oriented design to address the following sub-prin
 * *Homogeneity* +
 Solve similar problems in similar ways and establish a uniform link:coding-conventions.asciidoc[code-style].
 
+As an architect you should be prepared for the future by reading the https://www.capgemini.com/resources/future-thinking-report/[TechnoVision].
+
 == Application Architecture
 
 For the architecture of an application we distinguish the following views:
