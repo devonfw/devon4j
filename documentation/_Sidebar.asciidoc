@@ -51,5 +51,5 @@
 * link:coding-tools.asciidoc[Development Tools]
 * https://github.com/devonfw/.github/blob/master/CONTRIBUTING.asciidoc#contributing[Contributing to devonfw]
 
-=== Tutorials
+=== Tutorials(THIS IS A COMMENT TO TEST BUILD)
 * link:tutorial-newapp.asciidoc[Start a new application]
