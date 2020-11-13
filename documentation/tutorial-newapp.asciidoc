@@ -7,7 +7,8 @@ toc::[]
 
 In order to create a new application you must use the archetype provided by devon4j which uses the maven archetype functionality.
 
-To create a new application, you should have installed devonfw IDE.
+To create a new application, you should have installed devonfw IDE. Follow the devon ide documentation to install
+the same.
 You can choose between 2 alternatives, create it from command line or, in more visual manner, within eclipse.
 
 === From command Line
