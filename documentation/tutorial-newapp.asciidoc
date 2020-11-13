@@ -69,20 +69,12 @@ The toplevel `pom.xml` of the generated project has the following features:
 * Maven plugins with desired versions and configuration
 * Profiles for link:guide-testing.asciidoc[test stages]
 
-== Make jar not war
+== How to run your app
 
-By default server module will bundle entire app as WAR file. To create bootified jar instead of war user needs to make below changes in server/pom.xml`
+=== Run app from IDE
 
-* In server/pom.xml update <packaging>war</packaging> to <packaging>jar</packaging> .
-* once pom.xml is updated execute maven build command such as mvn clean install.
-* Check server/target folder user should see ${projectname}-server-bootified.jar file created.
+To run your application from your favourite IDE, simply launch `SpringBootApp` as java application.
 
-== How to run project 
+=== Run app as bootified jar or war
 
-=== Run Project from IDE :
-
-To run project from ide user needs to launch `SpringBootApp` as java application.
-
-=== Run Project using bootified jar/war:
-
-More details are available link:guide-structure.asciidoc#make-jar-not-war[here]
+More details are available link:guide-structure.asciidoc#make-jar-not-war[here].
