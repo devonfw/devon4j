@@ -1,0 +1,43 @@
+:toc: macro
+toc::[]
+
+= Cross-site request forgery (CSRF)
+
+CSRF is a type of malicious exploit of a website where unauthorized commands are submitted from a user that the web application trusts.
+
+More details about csrf
+
+[source,URL]
+https://owasp.org/www-community/attacks/csrf
+
+
+=== Dependency
+
+To use CSRF support from devon4j you have to add following required dependency.
+
+
+[source,xml]
+----
+  <dependency>
+      <groupId>com.devonfw.java.starters</groupId>
+      <artifactId>devon4j-starter-security-csrf</artifactId>
+</dependency>
+----
+
+=== Configure CSRF
+
+To enable CSRF protection, make following changes in your BaseWebSecurityConfig:
+
+[source,java]
+----
+ public void configure(HttpSecurity http) throws Exception {
+ 
+ .....
+ http
+ .....
+ 
+	.csrf().requireCsrfProtectionMatcher(new CsrfRequestMatcher())
+ 
+ ....
+ }
+----
