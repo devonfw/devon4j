@@ -117,4 +117,15 @@ public abstract class AbstractAsyncServiceHttpClient<S, F extends AsyncServiceCl
    */
   protected abstract HttpRequest createRequest(ServiceClientInvocation<S> invocation);
 
+  // START
+  @Override
+  protected <R> CompletableFuture<R> getCompletableFuture(ServiceClientInvocation<S> invocation) {
+
+    long startTime = System.nanoTime();
+    HttpRequest request = createRequest(invocation);
+    return (CompletableFuture<R>) this.client.getHttpClient().sendAsync(request, BodyHandlers.ofString())
+        .thenApply(HttpResponse::body);
+
+  }
+
 }

@@ -2,6 +2,7 @@ package com.devonfw.module.service.common.base.client.async;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import org.slf4j.Logger;
@@ -119,5 +120,27 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
     }
     return parameters.length;
   }
+
+  // START
+  @Override
+  public <R> CompletableFuture<R> call(R result) {
+
+    CompletableFuture<R> future = null;
+    ServiceClientInvocation<S> invocation = getInvocation();
+    try {
+      future = (CompletableFuture<R>) getCompletableFuture(invocation);
+    } catch (Throwable t) {
+      this.errorHandler.accept(t);
+    }
+    return future;
+
+  }
+
+  /**
+   * @param <R>
+   * @param invocation
+   * @return
+   */
+  protected abstract <R> CompletableFuture<R> getCompletableFuture(ServiceClientInvocation<S> invocation);
 
 }
