@@ -27,6 +27,7 @@ To use CSRF support from devon4j you have to add following required dependency.
 === Configure CSRF
 
 To enable CSRF protection, make following changes in your BaseWebSecurityConfig:
+Also remove .csrf().disable() if it is existing in the configure method.
 
 [source,java]
 ----
@@ -35,7 +36,6 @@ To enable CSRF protection, make following changes in your BaseWebSecurityConfig:
  .....
  http
  .....
- 
 	.csrf().requireCsrfProtectionMatcher(new CsrfRequestMatcher())
  
  ....
