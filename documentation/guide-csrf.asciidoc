@@ -3,22 +3,25 @@ toc::[]
 
 = Cross-site request forgery (CSRF)
 
-CSRF is a type of malicious exploit of a website where unauthorized commands are submitted from a user that the web application trusts.
+CSRF is a type of malicious exploit of a web application that allows an attacker to induce users to perform actions that they do not intend to perform.
+
+image::images/csrf.png[,width="450", link="images/jwt_flow.png"]
 
 More details about csrf
-
 [source,URL]
 https://owasp.org/www-community/attacks/csrf
 
+Since devon uses 'form based authentication', CSRF or JWT  should be enabled.
+How to enable JWT is explained in JWT guide.
 
 === Dependency
 
-To use CSRF support from devon4j you have to add following required dependency.
+To use CSRF support from devon4j, add following required dependency.
 
 
 [source,xml]
 ----
-  <dependency>
+<dependency>
       <groupId>com.devonfw.java.starters</groupId>
       <artifactId>devon4j-starter-security-csrf</artifactId>
 </dependency>
@@ -26,26 +29,27 @@ To use CSRF support from devon4j you have to add following required dependency.
 
 === Configure CSRF
 
-To enable CSRF protection, make following changes in your BaseWebSecurityConfig:
+To enable CSRF protection, make following changes in the BaseWebSecurityConfig:
 
 [source,java]
 ----
  public void configure(HttpSecurity http) throws Exception {
- 
  .....
  http
  .....
 	.csrf().requireCsrfProtectionMatcher(new CsrfRequestMatcher())
- 
  ....
+ if (this.corsEnabled) {
+    http.addFilterBefore(getCorsFilter(), CsrfFilter.class);
+  }
  }
 ----
-Also remove .csrf().disable() if it is existing in the above method.
 
-Add the below lines to the constructor of the class ApplicationObjectMapperFactory.
-[source,java]
+Also remove  .csrf.disable()  if exists.
+
+Configure environment.ts file to use the CSRF in the front end.
+
+[source]
 ----
-
-    SimpleModule module =  getExtensionModule();
-    module.addAbstractTypeMapping(CsrfToken.class, CsrfTokenImpl.class);
+security: 'csrf'
 ----
