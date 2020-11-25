@@ -16,7 +16,10 @@
   <description>Spring-boot starter for CSRF support.</description>
 
   <dependencies>
-
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-security-csrf</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>javax.servlet</groupId>
