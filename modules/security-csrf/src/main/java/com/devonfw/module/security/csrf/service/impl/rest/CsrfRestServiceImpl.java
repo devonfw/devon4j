@@ -7,15 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 
-import com.devonfw.module.security.csrf.common.api.exception.NoActiveUserException;
-import com.devonfw.module.security.csrf.common.api.to.UserProfileTo;
 import com.devonfw.module.security.csrf.service.api.rest.CsrfRestService;
 
 /**
@@ -44,24 +38,6 @@ public class CsrfRestServiceImpl implements CsrfRestService {
     return token;
   }
 
-  @Override
-  @PermitAll
-  public UserProfileTo getCurrentUser() {
-
-    SecurityContext context = SecurityContextHolder.getContext();
-    Authentication authentication = null;
-    if (context != null) {
-      authentication = context.getAuthentication();
-    }
-    if (authentication == null) {
-      throw new NoActiveUserException();
-    }
-    UserDetails user = (UserDetails) authentication.getPrincipal();
-    UserProfileTo profile = new UserProfileTo();
-    profile.setLogin(user.getUsername());
-    return profile;
-  }
-
   /**
    * @param csrfTokenRepository the csrfTokenRepository to set
    */
@@ -70,4 +46,5 @@ public class CsrfRestServiceImpl implements CsrfRestService {
 
     this.csrfTokenRepository = csrfTokenRepository;
   }
+
 }

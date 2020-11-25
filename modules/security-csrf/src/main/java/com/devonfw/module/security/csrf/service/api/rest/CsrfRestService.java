@@ -9,7 +9,6 @@ import javax.ws.rs.core.Context;
 import org.springframework.security.web.csrf.CsrfToken;
 
 import com.devonfw.module.rest.common.api.RestService;
-import com.devonfw.module.security.csrf.common.api.to.UserProfileTo;
 
 /**
  * The CSRF security REST service provides access to the csrf token, the authenticated user's meta-data. Furthermore, it
@@ -26,12 +25,5 @@ public interface CsrfRestService extends RestService {
   @GET
   @Path("/csrftoken/")
   CsrfToken getCsrfToken(@Context HttpServletRequest request, @Context HttpServletResponse response);
-
-  /**
-   * @return the {@link UserProfileTo} of the currently logged-in user.
-   */
-  @GET
-  @Path("/currentuser/")
-  UserProfileTo getCurrentUser();
 
 }
