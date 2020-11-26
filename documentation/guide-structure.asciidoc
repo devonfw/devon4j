@@ -3,9 +3,9 @@ toc::[]
 
 = Project structure
 
-The structure of a `devon4j` application is devided into the following modules:
+The structure of a `devon4j` application is divided into the following modules:
 
-* `api`: module with the API of your application. The API contains the required artifacts to interact with your application via remote services. This can be link:guide-rest.asciidoc#jax-rs[REST service interfaces], link:guide-transferobject.asciidoc[transfer-objects] with their interfaces and link:guide-datatype.asciidoc[datatypes] but also https://www.openapis.org/[OpenAPI] or https://grpc.io/[gRPC] contracts.
+* `api`: module containing the API of your application. The API contains the required artifacts to interact with your application via remote services. This can be link:guide-rest.asciidoc#jax-rs[REST service interfaces], link:guide-transferobject.asciidoc[transfer-objects] with their interfaces and link:guide-datatype.asciidoc[datatypes] but also https://www.openapis.org/[OpenAPI] or https://grpc.io/[gRPC] contracts.
 * `core`: maven module containing the core of the application with service implementation, as well as entire link:guide-logic-layer.asciidoc[logic layer] and link:guide-dataaccess-layer.asciidoc[dataaccess layer].
 * `batch`: optional module for link:guide-batch-layer.asciidoc[batch layer]
 * `server`: module that bundles the entire app (`core` with optional `batch`) typically as a bootified WAR file.
