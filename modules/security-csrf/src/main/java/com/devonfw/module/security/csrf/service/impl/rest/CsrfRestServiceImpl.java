@@ -2,8 +2,10 @@ package com.devonfw.module.security.csrf.service.impl.rest;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,8 @@ import com.devonfw.module.security.csrf.service.api.rest.CsrfRestService;
  * CsrfRestServiceImpl
  *
  */
+@Named
+@Transactional
 public class CsrfRestServiceImpl implements CsrfRestService {
   /** Logger instance. */
   private static final Logger LOG = LoggerFactory.getLogger(CsrfRestServiceImpl.class);
