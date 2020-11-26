@@ -11,7 +11,7 @@ More details about csrf
 [source,URL]
 https://owasp.org/www-community/attacks/csrf
 
-Since devon uses 'form based authentication', CSRF or JWT  should be enabled.
+Since devon4j uses 'form based authentication', CSRF or JWT  should be enabled.
 How to enable JWT is explained in JWT guide.
 
 === Dependency
