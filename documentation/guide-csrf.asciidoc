@@ -39,9 +39,6 @@ To enable CSRF protection, make following changes in the BaseWebSecurityConfig:
  .....
 	.csrf().requireCsrfProtectionMatcher(new CsrfRequestMatcher())
  ....
- if (this.corsEnabled) {
-    http.addFilterBefore(getCorsFilter(), CsrfFilter.class);
-  }
  }
 ----
 
