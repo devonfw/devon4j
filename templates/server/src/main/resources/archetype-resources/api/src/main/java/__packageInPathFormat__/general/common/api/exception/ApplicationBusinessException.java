@@ -1,4 +1,4 @@
-package com.devonfw.module.security.csrf.common.api.exception;
+package ${package}.general.common.api.exception;
 
 import net.sf.mmm.util.nls.api.NlsMessage;
 

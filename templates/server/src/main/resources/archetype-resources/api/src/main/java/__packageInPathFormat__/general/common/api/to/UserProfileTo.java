@@ -1,7 +1,8 @@
-package com.devonfw.module.security.csrf.common.api.to;
+package ${package}.general.common.api.to;
+
+import ${package}.general.common.api.UserProfile;
 
 import com.devonfw.module.basic.common.api.to.AbstractTo;
-import com.devonfw.module.security.csrf.common.api.UserProfile;
 
 /**
  * Implementation of {@link UserProfile} as {AbstractTo TO}.
@@ -37,6 +38,7 @@ public class UserProfileTo extends AbstractTo implements UserProfile {
   @Override
   protected void toString(StringBuilder buffer) {
 
-    buffer.append(getClass().getSimpleName() + ": " + "login = " + this.login + ";");
+  buffer.append(getClass().getSimpleName() + ": " + "login = " + login + ";");
   }
+
 }

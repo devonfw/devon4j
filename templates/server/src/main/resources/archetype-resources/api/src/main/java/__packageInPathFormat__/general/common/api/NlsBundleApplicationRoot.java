@@ -1,4 +1,4 @@
-package com.devonfw.module.security.csrf.common.api;
+package ${package}.general.common.api;
 
 import net.sf.mmm.util.nls.api.NlsBundle;
 import net.sf.mmm.util.nls.api.NlsBundleMessage;

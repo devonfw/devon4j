@@ -1,6 +1,6 @@
-package com.devonfw.module.security.csrf.common.api.exception;
+package ${package}.general.common.api.exception;
 
-import com.devonfw.module.security.csrf.common.api.NlsBundleApplicationRoot;
+import ${package}.general.common.api.NlsBundleApplicationRoot;
 
 /**
  * Thrown when an operation is requested that requires a user to be logged in, but no such user exists.
@@ -27,4 +27,5 @@ public class NoActiveUserException extends ApplicationBusinessException {
 
     super(cause, createBundle(NlsBundleApplicationRoot.class).errorNoActiveUser());
   }
+
 }
