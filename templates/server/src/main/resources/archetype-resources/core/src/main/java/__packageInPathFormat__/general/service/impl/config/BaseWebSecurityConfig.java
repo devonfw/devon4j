@@ -24,6 +24,7 @@ import ${package}.general.common.impl.security.CsrfRequestMatcher;
 import com.devonfw.module.security.common.impl.rest.AuthenticationSuccessHandlerSendingOkHttpStatusCode;
 import com.devonfw.module.security.common.impl.rest.JsonUsernamePasswordAuthenticationFilter;
 import com.devonfw.module.security.common.impl.rest.LogoutSuccessHandlerReturningOkHttpStatusCode;
+import com.example.domain.myapp.general.common.impl.security.CsrfRequestMatcher;
 
 /**
  * This type serves as a base class for extensions of the {@code WebSecurityConfigurerAdapter} and provides a default
@@ -35,6 +36,9 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
 
   @Value("${security.cors.enabled}")
   boolean corsEnabled = false;
+
+  @Value("${security.csrf.enabled}")
+  boolean csrfEnabled = false;
 
   @Inject
   private UserDetailsService userDetailsService;
@@ -74,10 +78,6 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
         .userDetailsService(this.userDetailsService)
         // define all urls that are not to be secured
         .authorizeRequests().antMatchers(unsecuredResources).permitAll().anyRequest().authenticated().and()
-
-        // activate crsf check for a selection of urls (but not for login & logout)
-        .csrf().requireCsrfProtectionMatcher(new CsrfRequestMatcher()).and()
-
         // configure parameters for simple form login (and logout)
         .formLogin().successHandler(new SimpleUrlAuthenticationSuccessHandler()).defaultSuccessUrl("/")
         .failureUrl("/login.html?error").loginProcessingUrl("/j_spring_security_login").usernameParameter("username")
@@ -89,8 +89,15 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
         .addFilterAfter(getSimpleRestAuthenticationFilter(), BasicAuthenticationFilter.class)
         .addFilterAfter(getSimpleRestLogoutFilter(), LogoutFilter.class);
 
+    if (this.csrfEnabled) {
+      // activate crsf check for a selection of urls (but not for login & logout)
+      http.csrf().requireCsrfProtectionMatcher(new CsrfRequestMatcher());
+    } else {
+      http.csrf().disable();
+    }
+
     if (this.corsEnabled) {
-      http.addFilterBefore(getCorsFilter(), CsrfFilter.class);
+      http.addFilter(getCorsFilter());
     }
   }
 
