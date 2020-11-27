@@ -1,0 +1,37 @@
+:toc: macro
+toc::[]
+
+= Cross-site request forgery (CSRF)
+
+CSRF is a type of malicious exploit of a web application that allows an attacker to induce users to perform actions that they do not intend to perform.
+
+image::images/csrf.png[,width="450", link="images/jwt_flow.png"]
+
+More details about csrf
+[source,URL]
+https://owasp.org/www-community/attacks/csrf
+
+Since devon4j uses 'form based authentication', CSRF or JWT  should be enabled.
+How to enable JWT is explained in JWT guide.
+
+=== Dependency
+
+To use CSRF support from devon4j, add following required dependency.
+
+
+[source,xml]
+----
+<dependency>
+      <groupId>com.devonfw.java.starters</groupId>
+      <artifactId>devon4j-starter-security-csrf</artifactId>
+</dependency>
+----
+
+=== Configure CSRF
+
+Set the below variable in application.properties
+
+security.csrf.enabled = true
+
+When CSRF protection is enabled in the server, the client has to retrieve the CSRF token from the CSRF REST Service and send it with every HTTP request except for GET requests. This is already solved in devon4ng and can be configured 
+https://github.com/devonfw/devon4ng/blob/develop/documentation/guide-consuming-rest-services.asciidoc#token-management[here]
