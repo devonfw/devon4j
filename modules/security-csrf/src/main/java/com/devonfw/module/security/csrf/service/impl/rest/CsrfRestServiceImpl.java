@@ -16,7 +16,7 @@ import com.devonfw.module.security.csrf.service.api.rest.CsrfRestService;
 
 /**
  * CsrfRestServiceImpl
- *
+ * Implementation of {@link CsrfRestService}.
  */
 @Named
 @Transactional

@@ -11,8 +11,7 @@ import org.springframework.security.web.csrf.CsrfToken;
 import com.devonfw.module.rest.common.api.RestService;
 
 /**
- * The CSRF security REST service provides access to the csrf token, the authenticated user's meta-data. Furthermore, it
- * provides functionality to check permissions and roles of the authenticated user.
+ * The CSRF REST service provides access to get the CSRF token used to protect against <a href="https://owasp.org/www-community/attacks/csrf">CSRF attacks</a>
  */
 @Path("/security/v1")
 public interface CsrfRestService extends RestService {
