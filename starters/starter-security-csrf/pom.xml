@@ -8,11 +8,11 @@
     <version>dev-SNAPSHOT</version>
   </parent>
   <groupId>com.devonfw.java.starters</groupId>
-  <artifactId>devon4j-starter-security-keystore</artifactId>
+  <artifactId>devon4j-starter-security-csrf</artifactId>
   <version>${devon4j.version}</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
-  <description>Spring-boot starter for standardized KeyStore support.</description>
+  <description>Spring-boot starter for CSRF protection support.</description>
 
   <dependencies>
     <dependency>
@@ -21,7 +21,7 @@
     </dependency>
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-security-keystore</artifactId>
+      <artifactId>devon4j-security-csrf</artifactId>
     </dependency>
   </dependencies>
 
