@@ -4,6 +4,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import com.devonfw.module.service.common.api.client.AsyncServiceClient;
@@ -105,6 +106,8 @@ public abstract class AbstractAsyncServiceHttpClient<S, F extends AsyncServiceCl
   }
 
   /**
+   * Return result only if result type matches with expected result type else it will return null.
+   *
    * @param response the received {@link HttpResponse}.
    * @param invocation the {@link ServiceClientInvocation}.
    * @return the unmarshalled result object.
@@ -117,15 +120,49 @@ public abstract class AbstractAsyncServiceHttpClient<S, F extends AsyncServiceCl
    */
   protected abstract HttpRequest createRequest(ServiceClientInvocation<S> invocation);
 
-  // START
   @Override
-  protected <R> CompletableFuture<R> getCompletableFuture(ServiceClientInvocation<S> invocation) {
+  protected CompletableFuture<Object> doCall(ServiceClientInvocation<S> invocation) {
 
     long startTime = System.nanoTime();
     HttpRequest request = createRequest(invocation);
-    return (CompletableFuture<R>) this.client.getHttpClient().sendAsync(request, BodyHandlers.ofString())
-        .thenApply(HttpResponse::body);
+    CompletableFuture<HttpResponse<String>> future = this.client.getHttpClient().sendAsync(request,
+        BodyHandlers.ofString());
 
+    try {
+      return handleResponse(future.get(), startTime, invocation);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (ExecutionException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return null;
+
+  }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  private CompletableFuture<Object> handleResponse(HttpResponse<?> response, long startTime,
+      ServiceClientInvocation<S> invocation) {
+
+    Throwable error = null;
+    String service = invocation.getServiceDescription(response.uri().toString());
+    try {
+      int statusCode = response.statusCode();
+      if (statusCode >= 400) {
+        error = createError(response, invocation, service);
+        this.errorHandler.accept(error);
+      } else {
+        Object result = createResult(response, invocation);
+        return CompletableFuture.completedFuture(result);
+      }
+    } catch (Throwable t) {
+      this.errorHandler.accept(t);
+      error = t;
+    } finally {
+      ServiceClientPerformanceLogger.log(startTime, service, response.statusCode(), error);
+    }
+    return null;
   }
 
 }

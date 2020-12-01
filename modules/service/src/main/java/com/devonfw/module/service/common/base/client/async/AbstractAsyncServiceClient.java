@@ -121,26 +121,22 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
     return parameters.length;
   }
 
-  // START
+  @SuppressWarnings("unchecked")
   @Override
   public <R> CompletableFuture<R> call(R result) {
 
-    CompletableFuture<R> future = null;
     ServiceClientInvocation<S> invocation = getInvocation();
     try {
-      future = (CompletableFuture<R>) getCompletableFuture(invocation);
-    } catch (Throwable t) {
-      this.errorHandler.accept(t);
+      return (CompletableFuture<R>) doCall(invocation);
+    } catch (Exception e) {
+      // TODO: handle exception
     }
-    return future;
-
+    return null;
   }
 
   /**
-   * @param <R>
    * @param invocation
-   * @return
+   * @return CompletableFuture of type Object.
    */
-  protected abstract <R> CompletableFuture<R> getCompletableFuture(ServiceClientInvocation<S> invocation);
-
+  protected abstract CompletableFuture<Object> doCall(ServiceClientInvocation<S> invocation);
 }

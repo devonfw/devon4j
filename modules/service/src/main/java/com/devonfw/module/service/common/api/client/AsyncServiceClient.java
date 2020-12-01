@@ -65,11 +65,10 @@ public interface AsyncServiceClient<S> {
    */
   void callVoid(Runnable serviceInvoker, Consumer<Void> resultHandler);
 
-  // START
   /**
    * @param <R> type of the result of the service operation to call.
    * @param result
-   * @return
+   * @return CompletableFuture of type R.
    */
   <R> CompletableFuture<R> call(R result);
 
