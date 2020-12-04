@@ -3,7 +3,7 @@ toc::[]
 :idprefix:
 :idseparator: -
 
-There are many different views on what is summarized by the term _architecture_. First we introduce the xref:key-principles[key principles] and xref:architecture-principles[architecture principles] of devonfw. Then we go into details of the the xref:application-architecture[architecture of an application].
+There are many different views that are summarized by the term _architecture_. First, we will introduce the xref:key-principles[key principles] and xref:architecture-principles[architecture principles] of devonfw. Then, we will go into details of the the xref:application-architecture[architecture of an application].
 
 == Key Principles
 For devonfw we follow these fundamental key principles for all decisions about architecture, design, or choosing standards, libraries, and frameworks:
@@ -25,9 +25,9 @@ We follow a strictly component oriented design to address the following sub-prin
 ** http://en.wikipedia.org/wiki/Separation_of_concerns[Separation of Concerns]
 ** http://en.wikipedia.org/wiki/Reusability[Reusability] and avoiding http://en.wikipedia.org/wiki/Redundant_code[redundant code]
 ** http://en.wikipedia.org/wiki/Information_hiding[Information Hiding] via component API and its exchangeable implementation treated as secret.
-** _Design by Contract_ for self-contained, descriptive, and stable component APIs. 
+** _Design by Contract_ for self-contained, descriptive, and stable component APIs.
 ** xref:technical-architecture[Layering] as well as separation of business logic from technical code for better maintenance.
-** _Data Sovereignty_ (and _high cohesion with low coupling_) says that a component is responsible for its data and changes to this data shall only happen via the component. Otherwise maintenance problems will arise to ensure that data remains consistent. Therefore interfaces of a component that may be used by other components are designed _call-by-value_ and not _call-by-reference_.
+** _Data Sovereignty_ (and _high cohesion with low coupling_) says that a component is responsible for its data and changes to this data shall only happen via the component. Otherwise, maintenance problems will arise to ensure that data remains consistent. Therefore, interfaces of a component that may be used by other components are designed _call-by-value_ and not _call-by-reference_.
 * *Homogeneity* +
 Solve similar problems in similar ways and establish a uniform link:coding-conventions.asciidoc[code-style].
 
@@ -42,24 +42,24 @@ For the architecture of an application we distinguish the following views:
 * The Infrastructure Architecture describes an application from the operational infrastructure perspective. It defines the nodes used to run the application including clustering, load-balancing and networking. This view is not explored further in this guide.
 
 === Business Architecture
-The _business architecture_ divides the application into _business components_. A business component has a well-defined responsibility that it encapsulates. All aspects related to that responsibility have to be implemented within that business component. Further the business architecture defines the dependencies between the business components. These dependencies need to be free of cycles. A business component exports his functionality via well-defined interfaces as a self-contained API. A business component may use another business component via its API and compliant with the dependencies defined by the business architecture.
+The _business architecture_ divides the application into _business components_. A business component has a well-defined responsibility that it encapsulates. All aspects related to that responsibility have to be implemented within that business component. Further, the business architecture defines the dependencies between the business components. These dependencies need to be free of cycles. A business component exports its functionality via well-defined interfaces as a self-contained API. A business component may use another business component via its API and compliant with the dependencies defined by the business architecture.
 
 As the business domain and logic of an application can be totally different, the devonfw can not define a standardized business architecture. Depending on the business domain it has to be defined from scratch or from a domain reference architecture template. For very small systems it may be suitable to define just a single business component containing all the code.
 
 === Technical Architecture
-The _technical architecture_ divides the application into technical _layers_ based on the http://en.wikipedia.org/wiki/Multilayered_architecture[multilayered architecture]. A layer is a unit of code with the same category such as service or presentation logic. A layer is therefore often supported by a technical framework. Each business component can therefore be split into _component parts_ for each layer. However, a business component may not have component parts for every layer (e.g. only a presentation part that utilized logic from other components). 
+The _technical architecture_ divides the application into technical _layers_ based on the http://en.wikipedia.org/wiki/Multilayered_architecture[multilayered architecture]. A layer is a unit of code with the same category such as a service or presentation logic. So, a layer is often supported by a technical framework. Each business component can therefore be split into _component parts_ for each layer. However, a business component may not have component parts for every layer (e.g. only a presentation part that utilized logic from other components).
 
 An overview of the technical reference architecture of the devonfw is given by xref:img-t-architecture[figure "Technical Reference Architecture"].
 It defines the following layers visualized as horizontal boxes:
 
 * link:guide-client-layer.asciidoc[client layer] for the front-end (GUI).
-* link:guide-service-layer.asciidoc[service layer] for the services used to expose functionality of the 
+* link:guide-service-layer.asciidoc[service layer] for the services used to expose functionality of the
 back-end to the client or other consumers.
 * link:guide-batch-layer.asciidoc[batch layer] for exposing functionality in batch-processes (e.g. mass imports).
 * link:guide-logic-layer.asciidoc[logic layer] for the business logic.
 * link:guide-dataaccess-layer.asciidoc[data-access layer] for the data access (esp. persistence).
 
-Also you can see the (business) components as vertical boxes (e.g. _A_ and _X_) and how they are composed out of component parts each one assigned to one of the technical layers.
+Also, you can see the (business) components as vertical boxes (e.g. _A_ and _X_) and how they are composed out of component parts each one assigned to one of the technical layers.
 
 Further, there are technical components for cross-cutting aspects grouped by the gray box on the left. Here is a complete list:
 
@@ -82,11 +82,11 @@ developers a sound orientation within the project.
 
 Further, the architecture diagram shows the allowed dependencies illustrated by the dark green connectors.
 Within a business component a component part can call the next component part on the layer directly below via a dependency on its API (vertical connectors).
-While this is natural and obvious it is generally forbidden to have dependencies upwards the layers
+While this is natural and obvious, it is generally forbidden to have dependencies upwards the layers
 or to skip a layer by a direct dependency on a component part two or more layers below.
 The general dependencies allowed between business components are defined by the xref:business-architecture[business architecture].
 In our reference architecture diagram we assume that the business component `A1` is allowed to depend
-on component `A2`. Therefore a use-case within the logic component part of `A1` is allowed to call a 
+on component `A2`. Therefore, a use-case within the logic component part of `A1` is allowed to call a
 use-case from `A2` via a dependency on the component API. The same applies for dialogs on the client layer.
 This is illustrated by the horizontal connectors. Please note that link:guide-jpa.asciidoc#entity[persistence entities] are part of the API of the data-access component part so only the logic component part of the same
 business component may depend on them.
@@ -96,7 +96,7 @@ The technical architecture has to address non-functional requirements:
 * *scalability* +
 is established by keeping state in the client and making the server state-less (except for login session). Via load-balancers new server nodes can be added to improve performance (horizontal scaling).
 * *availability* and *reliability* +
-are addressed by clustering with redundant nodes avoiding any single-point-of failure. If one node fails the system is still available. Further the software has to be robust so there are no dead-locks or other bad effects that can make the system unavailable or not reliable.
+are addressed by clustering with redundant nodes avoiding any single-point-of failure. If one node fails the system is still available. Further, the software has to be robust so there are no dead-locks or other bad effects that can make the system unavailable or not reliable.
 * *security* +
 is archived in the devonfw by the right templates and best-practices that avoid vulnerabilities. See link:guide-security.asciidoc[security guidelines] for further details.
 * *performance* +

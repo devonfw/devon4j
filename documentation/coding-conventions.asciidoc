@@ -15,7 +15,7 @@ Besides general Java naming conventions, we follow the additional rules listed h
 * Names of Generics should be easy to understand. Where suitable follow the common rule `E=Element`, `T=Type`, `K=Key`, `V=Value` but feel free to use longer names for more specific cases such as `ID`, `DTO` or `ENTITY`. The capitalized naming helps to distinguish a generic type from a regular class.
 
 == Packages
-Java Packages are the most important element to structure your code. We use a strict packaging convention to map technical layers and business components (slices) to the code (See link:architecture.asciidoc#technical-architecture[technical architecture] for further details). By using the same names in documentation and code we create a strong link that gives orientation and makes it easy to find from business requirements, specifications or story tickets into the code and back. 
+Java Packages are the most important element to structure your code. We use a strict packaging convention to map technical layers and business components (slices) to the code (See link:architecture.asciidoc#technical-architecture[technical architecture] for further details). By using the same names in documentation and code we create a strong link that gives orientation and makes it easy to find from business requirements, specifications or story tickets into the code and back.
 
 For an devon4j based application we use the following Java-Package schema:
 [source]
@@ -40,7 +40,7 @@ Please note that for library modules where we use `com.devonfw.module` as `«bas
 
 We combine the above naming and packaging conventions to map the entire architecture to the code.
 This also allows tools such as https://github.com/devonfw/cobigen[CobiGen] or https://github.com/devonfw/sonar-devon4j-plugin/[sonar-devon4j-plugin] to "understand" the code.
-Also this helps developers going from one devon4j project to the next to quickly understand the code-base.
+Also this helps developers going from one devon4j project to the next one to quickly understand the code-base.
 If every developer knows where to find what, the project gets more efficient.
 A long time ago maven standardized the project structure with `src/main/java`, etc. and turned chaos into structure.
 With devonfw we experienced the same for the codebase (what is inside `src/main/java`).
@@ -131,7 +131,7 @@ With devonfw we experienced the same for the codebase (what is inside `src/main/
 ----
 
 == Code Tasks
-Code spots that need some rework can be marked with the following tasks tags. These are already properly pre-configured in your development environment for auto completion and to view tasks you are responsible for. It is important to keep the number of code tasks low. Therefore every member of the team should be responsible for the overall code quality. So if you change a piece of code and hit a code task that you can resolve in a reliable way do this as part of your change and remove the according tag.
+Code spots that need some rework can be marked with the following tasks tags. These are already properly pre-configured in your development environment for auto completion and to view tasks you are responsible for. It is important to keep the number of code tasks low. Therefore, every member of the team should be responsible for the overall code quality. So if you change a piece of code and hit a code task that you can resolve in a reliable way, please do this as part of your change and remove the according tag.
 
 === TODO
 Used to mark a piece of code that is not yet complete (typically because it can not be completed due to a dependency on something that is not ready).
@@ -154,7 +154,7 @@ A FIXME tag is added by the author of the code or someone who found a bug he can
 A REVIEW tag is added by a reviewer during a code review. Here the original author of the code is responsible to resolve the REVIEW tag and the reviewer is assigning this task to him. This is important for feedback and learning and has to be aligned with a review "process" where people talk to each other and get into discussion. In smaller or local teams a peer-review is preferable but this does not scale for large or even distributed teams.
 
 == Code-Documentation
-As a general goal the code should be easy to read and understand. Besides clear naming the documentation is important. We follow these rules:
+As a general goal, the code should be easy to read and understand. Besides, clear naming the documentation is important. We follow these rules:
 
 * APIs (especially component interfaces) are properly documented with JavaDoc.
 * JavaDoc shall provide actual value - we do not write JavaDoc to satisfy tools such as checkstyle but to express information not already available in the signature.
@@ -167,10 +167,10 @@ As a general goal the code should be easy to read and understand. Besides clear 
 This section gives you best practices to write better code and avoid pitfalls and mistakes.
 
 === BLOBs
-Avoid using `byte[]` for BLOBs as this will load them entirely into your memory. This will cause performance issues or out of memory errors. Instead use streams when dealing with BLOBs. For further details see link:guide-blob-support.asciidoc[BLOB support].
+Avoid using `byte[]` for BLOBs as this will load them entirely into your memory. This will cause performance issues or out of memory errors. Instead, use streams when dealing with BLOBs. For further details see link:guide-blob-support.asciidoc[BLOB support].
 
 === Closing Resources
-Resources such as streams (`InputStream`, `OutputStream`, `Reader`, `Writer`) or transactions need to be handled properly. Therefore it is important to follow these rules:
+Resources such as streams (`InputStream`, `OutputStream`, `Reader`, `Writer`) or transactions need to be handled properly. Therefore, it is important to follow these rules:
 
 * Each resource has to be closed properly, otherwise you will get out of file handles, TX sessions, memory leaks or the like
 * Where possible avoid to deal with such resources manually. That is why we are recommending `@Transactional` for transactions in devonfw (see link:guide-transactions.asciidoc[Transaction Handling]).
@@ -191,7 +191,7 @@ try {
 The code above is wrong as in case of an `IOException` the `InputStream` is not properly closed. In a server application such mistakes can cause severe errors that typically will only occur in production. As such resources implement the `AutoCloseable` interface you can use the `try-with-resource` syntax to write correct code. The following code shows a correct version of the example:
 [source,java]
 ----
-try (InputStream in = new FileInputStream(file)) { 
+try (InputStream in = new FileInputStream(file)) {
   readData(in);
 } catch (IOException e) {
   throw new IllegalStateException("Failed to read data.", e);
@@ -209,10 +209,10 @@ When catching exceptions always ensure the following:
 
 === Lambdas and Streams
 With Java8 you have cool new features like lambdas and monads like (`Stream`, `CompletableFuture`, `Optional`, etc.).
-However, these new features can also be misused or lead to code that is hard to read or debug. To avoid pain, we give you the following best practices:
+However, these new features can also be misused or led to code that is hard to read or debug. To avoid pain, we give you the following best practices:
 
-. Learn how to use the new features properly before using. Often developers are keen on using cool new features. When you do your first experiments in your project code you will cause deep pain and might be ashamed afterwards. Please study the features properly. Even Java8 experts still write for loops to iterate over collections, so only use these features where it really makes sense.
-. Streams shall only be used in fluent API calls as a Stream can not be forked or reused. 
+. Learn how to use the new features properly before using. Developers are often keen on using cool new features. When you do your first experiments in your project code you will cause deep pain and might be ashamed afterwards. Please study the features properly. Even Java8 experts still write for loops to iterate over collections, so only use these features where it really makes sense.
+. Streams shall only be used in fluent API calls as a Stream can not be forked or reused.
 . Each stream has to have exactly one terminal operation.
 . Do not write multiple statements into lambda code:
 +
@@ -225,7 +225,7 @@ return foo;
 }).collect(Collectors.toList());
 ----
 +
-This style makes the code hard to read and debug. Never do that! Instead extract the lambda body to a private method with a meaningful name:
+This style makes the code hard to read and debug. Never do that! Instead, extract the lambda body to a private method with a meaningful name:
 +
 [source,java]
 ----
@@ -246,7 +246,7 @@ set.stream().flatMap(x -> x.getChildren().stream()).filter(this::isSpecial).coll
 set.stream().collect(Collectors.toList()).forEach(...) // bad
 set.stream().peek(...).collect(Collectors.toList()) // fine
 ----
-. Lambda parameters with Types inference 
+. Lambda parameters with Types inference
 +
 [source,java]
 ----
@@ -314,12 +314,12 @@ id = Optional.ofNullable(fooCto).map(FooCto::getBar).map(BarCto::getBar).map(Bar
 === Encoding
 Encoding (esp. Unicode with combining characters and surrogates) is a complex topic. Please study this topic if you have to deal with encodings and processing of special characters. For the basics follow these recommendations:
 
-* When you have explicitly decide for an encoding always prefer Unicode (UTF-8 or better). This especially impacts your databases and has to be defined upfront as it typically can not be changed (easily) afterwards.
+* When you have explicitly decided for an encoding always prefer Unicode (UTF-8 or better). This especially impacts your databases and has to be defined upfront as it typically can not be changed (easily) afterwards.
 * Do not cast from `byte` to `char` (Unicode characters can be composed of multiple bytes, such cast may only work for ASCII characters)
-* Never convert the case of a String using the default locale (esp. when writing generic code like in devonfw). E.g. if you do `"HI".toLowerCase()` and your system locale is Turkish, then the output will be "hı" instead of "hi" what can lead to wrong assumptions and serious problems. If you want to do a "universal" case conversion always use explicitly an according western locale (e.g. `toLowerCase(Locale.US)`). Consider using a library (https://github.com/m-m-m/util/blob/master/core/src/main/java/net/sf/mmm/util/lang/api/BasicHelper.java) or create your own little static utility for that in your project.
+* Never convert the case of a String using the default locale (esp. when writing generic code like in devonfw). E.g. if you do `"HI".toLowerCase()` and your system locale is Turkish, then the output will be "hı" instead of "hi", which can lead to wrong assumptions and serious problems. If you want to do a "universal" case conversion always use explicitly an according western locale (e.g. `toLowerCase(Locale.US)`). Consider using a library (https://github.com/m-m-m/util/blob/master/core/src/main/java/net/sf/mmm/util/lang/api/BasicHelper.java) or create your own little static utility for that in your project.
 * Write your code independent from the default encoding (system property `file.encoding`) - this will most likely differ in JUnit from production environment
 ** Always provide an encoding when you create a `String` from `byte[]`: `new String(bytes, encoding)`
-** Always provide an encoding when you create a `Reader` or `Writer` : `new InputStreamReader(inStream, encoding)` 
+** Always provide an encoding when you create a `Reader` or `Writer` : `new InputStreamReader(inStream, encoding)`
 
 === Prefer general API
 Avoid unnecessary strong bindings:
