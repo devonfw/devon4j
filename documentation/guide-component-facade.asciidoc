@@ -3,7 +3,7 @@ toc::[]
 
 = Component Facade
 
-For each component of the application the link:guide-logic-layer.asciidoc[logic layer] defines a component facade.
+For each component of the application, the link:guide-logic-layer.asciidoc[logic layer] defines a component facade.
 This is an interface defining all business operations of the component.
 It carries the name of the component (`«Component»`) and has an implementation named `«Component»Impl` (see xref:implementation[implementation]).
 
@@ -22,7 +22,7 @@ public interface Bookingmanagement {
   BookingCto findBookingCto(Long id);
 
   Page<BookingEto> findBookingEtos(BookingSearchCriteriaTo criteria);
-  
+
   void approveBooking(BookingEto booking);
 
 }
@@ -31,7 +31,7 @@ public interface Bookingmanagement {
 == Implementation
 The implementation of an interface from the link:guide-logic-layer.asciidoc[logic layer] (a component facade or a link:guide-usecase.asciidoc[use-case]) carries the name of that interface with the suffix `Impl` and is annotated with `@Named`.
 An implementation typically needs access to the persistent data.
-This is done by link:guide-dependency-injection.asciidoc[injecting] the corresponding link:guide-repository.asciidoc[repository] (or link:guide-dao.asciidoc[DAO]). 
+This is done by link:guide-dependency-injection.asciidoc[injecting] the corresponding link:guide-repository.asciidoc[repository] (or link:guide-dao.asciidoc[DAO]).
 According to link:architecture.asciidoc#architecture-principles[data-sovereignty], only repositories of the same business component may be accessed directly.
 For accessing data from other components the implementation has to use the corresponding API of the logic layer (the component facade). Further, it shall not expose persistent entities from the link:guide-dataaccess-layer.asciidoc[dataaccess layer] and has to map them to link:guide-transferobject.asciidoc[transfer objects] using the link:guide-beanmapping.asciidoc[bean-mapper].
 
