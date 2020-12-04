@@ -74,20 +74,21 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
         .userDetailsService(this.userDetailsService)
         // define all urls that are not to be secured
         .authorizeRequests().antMatchers(unsecuredResources).permitAll().anyRequest().authenticated().and()
-
-        //disabling CSRF
-        .csrf().disable()
-
         // configure parameters for simple form login (and logout)
         .formLogin().successHandler(new SimpleUrlAuthenticationSuccessHandler()).defaultSuccessUrl("/")
         .failureUrl("/login.html?error").loginProcessingUrl("/j_spring_security_login").usernameParameter("username")
         .passwordParameter("password").and()
         // logout via POST is possible
         .logout().logoutSuccessUrl("/login.html").and()
-
         // register login and logout filter that handles rest logins
         .addFilterAfter(getSimpleRestAuthenticationFilter(), BasicAuthenticationFilter.class)
         .addFilterAfter(getSimpleRestLogoutFilter(), LogoutFilter.class);
+	
+	//disable CSRF protection by default, use csrf starter to override.
+	http = http.csrf().disable();
+	//load starters as pluggins.
+    http = this.webSecurityConfigurer.configure(http);
+	
     if (this.corsEnabled) {
       http.addFilter(getCorsFilter());
     }

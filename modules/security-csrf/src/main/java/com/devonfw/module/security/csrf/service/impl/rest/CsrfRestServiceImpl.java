@@ -5,7 +5,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,18 +14,15 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
 import com.devonfw.module.security.csrf.service.api.rest.CsrfRestService;
 
 /**
- * CsrfRestServiceImpl
  * Implementation of {@link CsrfRestService}.
+ *
+ * @since 2020.12.001
  */
 @Named
-@Transactional
 public class CsrfRestServiceImpl implements CsrfRestService {
-  /** Logger instance. */
+
   private static final Logger LOG = LoggerFactory.getLogger(CsrfRestServiceImpl.class);
 
-  /**
-   * Use {@link CsrfTokenRepository} for CSRF protection.
-   */
   private CsrfTokenRepository csrfTokenRepository;
 
   @Override
@@ -43,7 +39,7 @@ public class CsrfRestServiceImpl implements CsrfRestService {
   }
 
   /**
-   * @param csrfTokenRepository the csrfTokenRepository to set
+   * @param csrfTokenRepository the {@link CsrfTokenRepository} to {@link Inject}.
    */
   @Inject
   public void setCsrfTokenRepository(CsrfTokenRepository csrfTokenRepository) {
