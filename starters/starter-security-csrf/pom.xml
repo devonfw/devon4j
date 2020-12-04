@@ -23,7 +23,6 @@
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-security-csrf</artifactId>
-
     </dependency>
   </dependencies>
 

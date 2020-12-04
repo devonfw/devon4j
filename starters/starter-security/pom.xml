@@ -19,7 +19,6 @@
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-security</artifactId>
-	   <version>2020.08.002-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
