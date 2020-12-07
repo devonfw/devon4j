@@ -31,8 +31,6 @@ public class WebSecurityConfigurerTest {
   @Mock
   WebSecurityConfigurerAspect aspect;
 
-  private Collection<WebSecurityConfigurerAspect> aspects;
-
   @BeforeEach
   public void init() {
 
