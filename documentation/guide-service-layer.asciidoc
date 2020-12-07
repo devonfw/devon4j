@@ -13,7 +13,7 @@ are used for communication between different companies, vendors, or partners.
 * *Internal Services* +
 are used for communication between different applications in the same application landscape of the same vendor.
 ** *Back-end Services* +
-are internal services between Java back-end components typically with different release and deployment cycles (if not Java consider this as external service).
+are internal services between Java back-end components typically with different release and deployment cycles (if not Java consider this as an external service).
 ** *JS-Client Services* +
 are internal services provided by the Java back-end for JavaScript clients (GUI).
 ** *Java-Client Services* +
@@ -52,15 +52,15 @@ E.g. creation of the same master-data entity has no effect (no error)
 * *loosely coupled* +
 Service consumers have minimum knowledge and dependencies on the service provider.
 * *normalized* +
-complete, no redundancy, minimal
+Complete, no redundancy, minimal
 * *coarse-grained* +
 Service provides rather large operations (save entire entity or set of entities rather than individual attributes)
 * *atomic* +
 Process individual entities (for processing large sets of data, use a link:guide-batch-layer.asciidoc[batch] instead of a service)
 * *simplicity* +
-avoid polymorphism, RPC methods with unique name per signature and no overloading, avoid attachments (consider separate download service), etc.
+Avoid polymorphism, RPC methods with unique name per signature and no overloading, avoid attachments (consider separate download service), etc.
 
 == Security
-Your services are the major entry point to your application. Hence security considerations are important here.
+Your services are the major entry point to your application. Hence, security considerations are important here.
 
 See link:guide-rest.asciidoc#security[REST Security].
