@@ -105,11 +105,11 @@ public abstract class AbstractAsyncServiceHttpClient<S, F extends AsyncServiceCl
   }
 
   /**
-   * Return result only if result type matches with expected result type else it will return null.
-   *
    * @param response the received {@link HttpResponse}.
    * @param invocation the {@link ServiceClientInvocation}.
-   * @return the unmarshalled result object.
+   * @return the unmarshalled result object from the response body or {@code null} if no body was found or return type is {@code void}.
+   * @throws IllegalStateException if the unmarshalling of the result failed.
+   * @throws UnsupportedOperationException if the body type is not supported.
    */
   protected abstract Object createResult(HttpResponse<?> response, ServiceClientInvocation<S> invocation);
 
