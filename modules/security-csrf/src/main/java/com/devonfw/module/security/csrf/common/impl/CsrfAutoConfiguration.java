@@ -3,7 +3,7 @@ package com.devonfw.module.security.csrf.common.impl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.devonfw.module.security.common.api.config.WebSecurityConfigAspect;
+import com.devonfw.module.security.common.api.config.WebSecurityConfigurerAspect;
 import com.devonfw.module.security.csrf.service.api.rest.CsrfRestService;
 import com.devonfw.module.security.csrf.service.impl.rest.CsrfRestServiceImpl;
 
@@ -16,12 +16,12 @@ import com.devonfw.module.security.csrf.service.impl.rest.CsrfRestServiceImpl;
 public class CsrfAutoConfiguration {
 
   /**
-   * @return the {@link WebSecurityConfigAspect} to enable CSRF.
+   * @return the {@link WebSecurityConfigurerAspect} to enable CSRF.
    */
   @Bean
-  public WebSecurityConfigAspect csrfConfigAspect() {
+  public WebSecurityConfigurerAspect csrfConfigAspect() {
 
-    return new WebSecurityConfigAspectCsrf();
+    return new WebSecurityConfigurerAspectCsrf();
   }
 
   /**
