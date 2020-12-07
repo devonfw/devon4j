@@ -67,19 +67,14 @@ public class AsyncServiceHttpClientRest<S>
       }
       try {
         Object result = objectMapper.readValue((String) body, returnType);
-        // Checking actual returntype and expected returntype
-        if (getReturnTypeOfResult(result.getClass().getCanonicalName())
-            .equalsIgnoreCase(getReturnTypeOfResult(returnType.getCanonicalName()))) {
-          return result;
-        }
-
+        return result;
       } catch (Exception e) {
         throw new IllegalStateException(e);
       }
     } else {
       return handleUnsupportedBody(body);
     }
-    return null;
+
   }
 
   @Override
@@ -142,15 +137,6 @@ public class AsyncServiceHttpClientRest<S>
 
     ServiceClientStub<S> stub = ServiceClientStubImpl.of(context, factory.getClassLoader());
     return new AsyncServiceHttpClientRest<>(stub.getProxy(), stub, client, factory);
-  }
-
-  private String getReturnTypeOfResult(String className) {
-
-    if (className.contains("."))
-      return className.substring(className.lastIndexOf(".") + 1);
-
-    return className;
-
   }
 
 }

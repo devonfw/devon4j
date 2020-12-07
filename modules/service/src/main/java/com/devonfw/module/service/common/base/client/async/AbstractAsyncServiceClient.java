@@ -126,17 +126,14 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
   public <R> CompletableFuture<R> call(R result) {
 
     ServiceClientInvocation<S> invocation = getInvocation();
-    try {
-      return (CompletableFuture<R>) doCall(invocation);
-    } catch (Exception e) {
-      // TODO: handle exception
-    }
-    return null;
+    return doCall(invocation);
   }
 
   /**
+   * @param <R>
    * @param invocation
+   * @param supplier
    * @return CompletableFuture of type Object.
    */
-  protected abstract CompletableFuture<Object> doCall(ServiceClientInvocation<S> invocation);
+  protected abstract <R> CompletableFuture<R> doCall(ServiceClientInvocation<S> invocation);
 }

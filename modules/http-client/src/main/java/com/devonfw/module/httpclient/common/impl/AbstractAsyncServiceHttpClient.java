@@ -4,7 +4,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import com.devonfw.module.service.common.api.client.AsyncServiceClient;
@@ -121,29 +120,18 @@ public abstract class AbstractAsyncServiceHttpClient<S, F extends AsyncServiceCl
   protected abstract HttpRequest createRequest(ServiceClientInvocation<S> invocation);
 
   @Override
-  protected CompletableFuture<Object> doCall(ServiceClientInvocation<S> invocation) {
+  protected <R> CompletableFuture<R> doCall(ServiceClientInvocation<S> invocation) {
 
     long startTime = System.nanoTime();
     HttpRequest request = createRequest(invocation);
     CompletableFuture<HttpResponse<String>> future = this.client.getHttpClient().sendAsync(request,
         BodyHandlers.ofString());
-
-    try {
-      return handleResponse(future.get(), startTime, invocation);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (ExecutionException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    return null;
+    return future.thenApplyAsync(response -> handleResponse(response, startTime, invocation));
 
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  private CompletableFuture<Object> handleResponse(HttpResponse<?> response, long startTime,
-      ServiceClientInvocation<S> invocation) {
+  private <R> R handleResponse(HttpResponse<?> response, long startTime, ServiceClientInvocation<S> invocation) {
 
     Throwable error = null;
     String service = invocation.getServiceDescription(response.uri().toString());
@@ -153,8 +141,9 @@ public abstract class AbstractAsyncServiceHttpClient<S, F extends AsyncServiceCl
         error = createError(response, invocation, service);
         this.errorHandler.accept(error);
       } else {
+
         Object result = createResult(response, invocation);
-        return CompletableFuture.completedFuture(result);
+        return (R) result;
       }
     } catch (Throwable t) {
       this.errorHandler.accept(t);
