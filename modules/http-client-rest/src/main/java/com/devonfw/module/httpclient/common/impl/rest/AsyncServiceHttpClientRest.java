@@ -74,7 +74,6 @@ public class AsyncServiceHttpClientRest<S>
     } else {
       return handleUnsupportedBody(body);
     }
-
   }
 
   @Override
