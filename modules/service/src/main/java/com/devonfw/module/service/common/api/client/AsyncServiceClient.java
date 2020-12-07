@@ -67,9 +67,8 @@ public interface AsyncServiceClient<S> {
 
   /**
    * @param <R> type of the result of the service operation to call.
-   * @param result
-   * @param supplier
-   * @return CompletableFuture of type R.
+   * @param result the dummy result returned by the operation invoked on the actual {@link #get() service client}.
+   * @return a {@link CompletableFuture} to receive the result asynchronously.
    */
   <R> CompletableFuture<R> call(R result);
 
