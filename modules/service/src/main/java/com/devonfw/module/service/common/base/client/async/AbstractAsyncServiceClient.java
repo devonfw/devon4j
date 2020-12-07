@@ -130,10 +130,10 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
   }
 
   /**
-   * @param <R>
-   * @param invocation
-   * @param supplier
-   * @return CompletableFuture of type Object.
+   * @param <R> type of the return/result type.
+   * @param invocation the {@link ServiceClientInvocation}.
+   * @return a {@link CompletableFuture} to receive the result asynchronously.
+   * @see #call(Object)
    */
   protected abstract <R> CompletableFuture<R> doCall(ServiceClientInvocation<S> invocation);
 }
