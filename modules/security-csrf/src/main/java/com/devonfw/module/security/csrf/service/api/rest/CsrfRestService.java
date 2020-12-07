@@ -4,9 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 
 import org.springframework.security.web.csrf.CsrfToken;
 
@@ -18,8 +16,7 @@ import com.devonfw.module.rest.common.api.RestService;
  *
  * @since 2020.12.001
  */
-@Path("/security/v1")
-@Produces(MediaType.APPLICATION_JSON)
+@Path("/csrf/v1")
 public interface CsrfRestService extends RestService {
 
   /**
@@ -27,9 +24,8 @@ public interface CsrfRestService extends RestService {
    * @param response {@link HttpServletResponse} to send additional information.
    * @return the Spring Security {@link CsrfToken} from the server session.
    */
-
   @GET
-  @Path("/csrftoken/")
+  @Path("/token/")
   CsrfToken getCsrfToken(@Context HttpServletRequest request, @Context HttpServletResponse response);
 
 }

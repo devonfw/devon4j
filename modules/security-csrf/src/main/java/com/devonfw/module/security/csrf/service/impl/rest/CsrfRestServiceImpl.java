@@ -2,7 +2,6 @@ package com.devonfw.module.security.csrf.service.impl.rest;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,7 +17,6 @@ import com.devonfw.module.security.csrf.service.api.rest.CsrfRestService;
  *
  * @since 2020.12.001
  */
-@Named
 public class CsrfRestServiceImpl implements CsrfRestService {
 
   private static final Logger LOG = LoggerFactory.getLogger(CsrfRestServiceImpl.class);

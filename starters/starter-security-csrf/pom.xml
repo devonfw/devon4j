@@ -18,7 +18,6 @@
     <dependency>
       <groupId>com.devonfw.java.starters</groupId>
       <artifactId>devon4j-starter-security</artifactId>
-
     </dependency>
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>

@@ -3,10 +3,10 @@ package com.devonfw.module.security.common.impl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.devonfw.module.security.common.api.config.WebSecurityConfigurer;
-import com.devonfw.module.security.common.api.config.WebSecurityConfigurerAspect;
-import com.devonfw.module.security.common.impl.config.WebSecurityConfigurerAspectDefault;
-import com.devonfw.module.security.common.impl.config.WebSecurityConfigurerImpl;
+import com.devonfw.module.security.common.api.config.WebSecurityConfig;
+import com.devonfw.module.security.common.api.config.WebSecurityConfigAspect;
+import com.devonfw.module.security.common.impl.config.WebSecurityConfigAspectDefault;
+import com.devonfw.module.security.common.impl.config.WebSecurityConfigImpl;
 
 /**
  * {@link Configuration} for modular security based on spring-security.
@@ -16,21 +16,21 @@ import com.devonfw.module.security.common.impl.config.WebSecurityConfigurerImpl;
 public class SecurityAutoConfiguration {
 
   /**
-   * @return the {@link WebSecurityConfigurer} that encapsulates all {@link WebSecurityConfigurerAspectDefault aspects}.
+   * @return the {@link WebSecurityConfig} that encapsulates all {@link WebSecurityConfigAspectDefault aspects}.
    */
   @Bean
-  public WebSecurityConfigurer getWebSecurityConfigurer() {
+  public WebSecurityConfig getWebSecurityConfig() {
 
-    return new WebSecurityConfigurerImpl();
+    return new WebSecurityConfigImpl();
   }
 
   /**
-   * @return the default {@link WebSecurityConfigurerAspect}.
+   * @return the default {@link WebSecurityConfigAspect}.
    */
   @Bean
-  public WebSecurityConfigurerAspectDefault getWebSecurityConfigurerAspectDefault() {
+  public WebSecurityConfigAspectDefault getWebSecurityConfigAspectDefault() {
 
-    return new WebSecurityConfigurerAspectDefault();
+    return new WebSecurityConfigAspectDefault();
   }
 
 }
