@@ -59,12 +59,11 @@ public class HttpRestClientTest extends ComponentTest {
         MyExampleRestService.class,
         new ServiceClientConfigBuilder().authBasic().userLogin("admin").userPassword("admin").buildMap());
     String name = "John Doe & ?#";
+    
     // when
-
     CompletableFuture<String> output = serviceClient.call(serviceClient.get().greet(name));
     // then
     assertThat(output.get()).isEqualTo("Hi John Doe & ?#!");
-
   }
 
   /**
@@ -113,7 +112,6 @@ public class HttpRestClientTest extends ComponentTest {
     response = output.get();
     assertThat(response.getName()).isEqualTo("John Doe-saved");
     assertThat(response.getBirthday()).isEqualTo(LocalDate.of(2000, 1, 1));
-
   }
 
   /**
@@ -182,14 +180,12 @@ public class HttpRestClientTest extends ComponentTest {
     AsyncServiceClient<MyExampleRestService> serviceClient = this.serviceClientFactory.createAsync(
         MyExampleRestService.class,
         new ServiceClientConfigBuilder().authBasic().userLogin("admin").userPassword("admin").buildMap());
-    // String name = "John Doe & ?#";
     // when
     TestResultHandler<Boolean> resultHandler = new TestResultHandler<>();
     serviceClient.setErrorHandler(resultHandler.getErrorHandler());
     serviceClient.call(serviceClient.get().primitiveResult(), resultHandler);
     // then
     assertThat(resultHandler.getResponseOrWait()).isTrue();
-
   }
 
   @Test
