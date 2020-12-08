@@ -72,6 +72,11 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
     String[] unsecuredResources = new String[] { "/login", "/security/**", "/services/rest/login",
     "/services/rest/logout" };
 
+    // disable CSRF protection by default, use csrf starter to override.
+    http = http.csrf().disable();
+    // load starters as pluggins.
+    http = this.webSecurityConfigurer.configure(http);
+
     http
         //
         .userDetailsService(this.userDetailsService)
@@ -86,11 +91,6 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
         // register login and logout filter that handles rest logins
         .addFilterAfter(getSimpleRestAuthenticationFilter(), BasicAuthenticationFilter.class)
         .addFilterAfter(getSimpleRestLogoutFilter(), LogoutFilter.class);
-
-	//disable CSRF protection by default, use csrf starter to override.
-	http = http.csrf().disable();
-	//load starters as pluggins.
-    http = this.webSecurityConfigurer.configure(http);
 
     if (this.corsEnabled) {
       http.addFilter(getCorsFilter());
@@ -140,8 +140,7 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
   @Inject
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-    auth.inMemoryAuthentication().withUser("admin")
-    .password(this.passwordEncoder.encode("admin")).roles("Admin");
+    auth.inMemoryAuthentication().withUser("admin").password(this.passwordEncoder.encode("admin")).roles("Admin");
   }
 
 }
