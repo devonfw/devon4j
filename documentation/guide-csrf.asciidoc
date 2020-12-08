@@ -65,6 +65,36 @@ public class CsrfRequestMatcher implements RequestMatcher {
 
 Please note that the exact name (`@Named("CsrfRequestMatcher")`) is required here to ensure your custom implementation will be injected properly.
 
+=== CsrfRestService
+
+With the `devon4j-starter-security-csrf` the `CsrfRestService` gets integrated into your app.
+It provides an operation to get the CSRF token via an HTTP `GET` request.
+The URL path to retrieve this CSRF token is `services/rest/csrf/v1/token`.
+As a result you will get a JSON like the following:
+
+[source,javascript]
+----
+{
+  "token":"3a8a5f66-c9eb-4494-81e1-7cc58bc3a519",
+  "parameterName":"_csrf",
+  "headerName":"X-CSRF-TOKEN"
+}
+----
+
+The `token` value is a strong random value that will differ for each user session.
+It has to be send with subsequent HTTP requests (when method is other than `GET`) in the provided header name (`X-CSRF-TOKEN`).
+
+=== How it works
+
+Putting it all together, a browser client should call the `CsrfRestService` after successfull login to receive the current CSRF token.
+With every subsequent HTTP request (other than `GET`) the client has to send this token in the according HTTP header.
+Otherwise the server will reject the request to prevent CSRF attacks.
+Therefore, an attacker might make your browser perform HTTP requests towards your devon4j application backend via `<image>` elements, `<iframes>`, etc. 
+Your browser will then still include your session coockie if you are already logged in (e.g. from another tab). 
+However, in case he wants to trigger `DELETE` or `POST` requests trying your browser to make changes in the application (delete or update data, etc.) this will fail without CSRF token.
+The attacker may make your browser retrieve the CSRF token but he will not be able to retrieve the result and put it into the header of other requests due to the same-origin-policy.
+This way your application will be secured against CSRF attacks.
+
 == Configure devon4ng client for CSRF
 
 TODO: Link to devon4ng guide CSRF section.
