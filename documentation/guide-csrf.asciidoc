@@ -82,7 +82,7 @@ As a result you will get a JSON like the following:
 ----
 
 The `token` value is a strong random value that will differ for each user session.
-It has to be send with subsequent HTTP requests (when method is other than `GET`) in the provided header name (`X-CSRF-TOKEN`).
+It has to be send with subsequent HTTP requests (when method is other than `GET`) in the specified header (`X-CSRF-TOKEN`).
 
 === How it works
 
