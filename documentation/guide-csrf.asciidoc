@@ -7,46 +7,64 @@ CSRF is a type of malicious exploit of a web application that allows an attacker
 
 image::images/csrf.png[,width="450", link="images/jwt_flow.png"]
 
-More details about csrf
-[source,URL]
-https://owasp.org/www-community/attacks/csrf
+More details about csrf can be found at https://owasp.org/www-community/attacks/csrf.
 
-Since devon4j uses 'form based authentication', CSRF or JWT  should be enabled.
-How to enable JWT is explained in JWT guide.
+== Secure devon4j server against CSRF
+
+In case your devon4j server application is not accessed by browsers or the web-client is using link:guide-jwt.asciidoc[JWT based authentication], you are already safe according to CSRF.
+However, if your application is accessed from a browser and you are using _form based authentication_ (with session coockie) or _basic authentication_, you need to enable CSRF protection.
+This guide will tell you how to do this.
 
 === Dependency
 
-To use CSRF support from devon4j, add following required dependency.
-
+To secure your devon4j application against CSRF attacks, you only need to add the following dependency:
 
 [source,xml]
 ----
 <dependency>
-      <groupId>com.devonfw.java.starters</groupId>
-      <artifactId>devon4j-starter-security-csrf</artifactId>
+  <groupId>com.devonfw.java.starters</groupId>
+  <artifactId>devon4j-starter-security-csrf</artifactId>
 </dependency>
 ----
 
-=== Configure CSRF
+Starting with devon4j version `2020.12.001` application template, this is all you need to do.
+However, if you have started from an older version or you want to understand more, please read on.
 
-To enable CSRF protection, make following changes in the BaseWebSecurityConfig:
+=== Pluggable web-security
+
+To enable pluggable security via devon4j security starters you need to apply `WebSecurityConfigurer` to your `BaseWebSecurityConfig` (your class extending spring-boot's `WebSecurityConfigurerAdapter`) as following:
 
 [source,java]
 ----
- public void configure(HttpSecurity http) throws Exception {
- .....
- http
- .....
-	.csrf().requireCsrfProtectionMatcher(new CsrfRequestMatcher())
- ....
- }
+  @Inject
+  private WebSecurityConfigurer webSecurityConfigurer;
+
+  public void configure(HttpSecurity http) throws Exception {
+    // disable CSRF protection by default, use csrf starter to override.
+	  http = http.csrf().disable();
+	  // apply pluggable web-security from devon4j security starters
+    http = this.webSecurityConfigurer.configure(http);
+    .....
+  }
 ----
 
-Also remove  .csrf.disable()  if exists.
+=== Custom CsrfRequestMatcher
 
-Configure environment.ts file to use the CSRF in the front end.
+If you want to customize which HTTP requests will require a CSRF token, you can implement your own `CsrfRequestMatcher` and provide it to the devon4j CSRF protection via qualified injection as following:
 
-[source]
+[source,java]
 ----
-security: 'csrf'
+@Named("CsrfRequestMatcher")
+public class CsrfRequestMatcher implements RequestMatcher {
+  @Override
+  public boolean matches(HttpServletRequest request) {
+    .....
+  }  
+}
 ----
+
+Please note that the exact name (`@Named("CsrfRequestMatcher")`) is required here to ensure your custom implementation will be injected properly.
+
+== Configure devon4ng client for CSRF
+
+TODO: Link to devon4ng guide CSRF section.
