@@ -20,8 +20,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import $
-
 import com.devonfw.module.security.common.api.config.WebSecurityConfigurer;
 import com.devonfw.module.security.common.impl.rest.AuthenticationSuccessHandlerSendingOkHttpStatusCode;
 import com.devonfw.module.security.common.impl.rest.JsonUsernamePasswordAuthenticationFilter;
