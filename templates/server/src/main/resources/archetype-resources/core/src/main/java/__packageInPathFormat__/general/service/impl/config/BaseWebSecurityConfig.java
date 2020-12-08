@@ -20,7 +20,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import ${package}.general.common.impl.security.CsrfRequestMatcher;
+import $
+
+import com.devonfw.module.security.common.api.config.WebSecurityConfigurer;
 import com.devonfw.module.security.common.impl.rest.AuthenticationSuccessHandlerSendingOkHttpStatusCode;
 import com.devonfw.module.security.common.impl.rest.JsonUsernamePasswordAuthenticationFilter;
 import com.devonfw.module.security.common.impl.rest.LogoutSuccessHandlerReturningOkHttpStatusCode;
@@ -41,6 +43,9 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
 
   @Inject
   private PasswordEncoder passwordEncoder;
+
+  @Inject
+  private WebSecurityConfigurer webSecurityConfigurer;
 
   private CorsFilter getCorsFilter() {
 
@@ -83,12 +88,12 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
         // register login and logout filter that handles rest logins
         .addFilterAfter(getSimpleRestAuthenticationFilter(), BasicAuthenticationFilter.class)
         .addFilterAfter(getSimpleRestLogoutFilter(), LogoutFilter.class);
-	
+
 	//disable CSRF protection by default, use csrf starter to override.
 	http = http.csrf().disable();
 	//load starters as pluggins.
     http = this.webSecurityConfigurer.configure(http);
-	
+
     if (this.corsEnabled) {
       http.addFilter(getCorsFilter());
     }
