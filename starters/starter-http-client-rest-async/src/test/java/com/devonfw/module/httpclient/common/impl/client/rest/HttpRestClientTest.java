@@ -1,6 +1,8 @@
 package com.devonfw.module.httpclient.common.impl.client.rest;
 
 import java.time.LocalDate;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
@@ -49,6 +51,21 @@ public class HttpRestClientTest extends ComponentTest {
     assertThat(resultHandler.getResponseOrWait()).isEqualTo("Hi John Doe & ?#!");
   }
 
+  @Test
+  public void testGetWithUrlParamForCompletableFuture() throws InterruptedException, ExecutionException {
+
+    // given
+    AsyncServiceClient<MyExampleRestService> serviceClient = this.serviceClientFactory.createAsync(
+        MyExampleRestService.class,
+        new ServiceClientConfigBuilder().authBasic().userLogin("admin").userPassword("admin").buildMap());
+    String name = "John Doe & ?#";
+    
+    // when
+    CompletableFuture<String> output = serviceClient.call(serviceClient.get().greet(name));
+    // then
+    assertThat(output.get()).isEqualTo("Hi John Doe & ?#!");
+  }
+
   /**
    * Test of REST service client invoking
    * {@link MyExampleRestService#saveExample(com.devonfw.test.app.myexample.service.api.rest.MyExampleTo)} on the
@@ -71,6 +88,28 @@ public class HttpRestClientTest extends ComponentTest {
     serviceClient.call(serviceClient.get().saveExample(data), resultHandler);
     // then
     MyExampleTo response = resultHandler.getResponseOrWait();
+    assertThat(response.getName()).isEqualTo("John Doe-saved");
+    assertThat(response.getBirthday()).isEqualTo(LocalDate.of(2000, 1, 1));
+  }
+
+  @Test
+  public void testPostWithToForCompletableFuture() throws InterruptedException, ExecutionException {
+
+    // given
+    AsyncServiceClient<MyExampleRestService> serviceClient = this.serviceClientFactory.createAsync(
+        MyExampleRestService.class,
+        new ServiceClientConfigBuilder().authBasic().userLogin("admin").userPassword("admin").buildMap());
+    MyExampleTo data = new MyExampleTo();
+    data.setName("John Doe");
+    data.setBirthday(LocalDate.of(1999, 12, 31));
+
+    // when
+    TestResultHandler<MyExampleTo> resultHandler = new TestResultHandler<>();
+    serviceClient.setErrorHandler(resultHandler.getErrorHandler());
+    CompletableFuture<MyExampleTo> output = serviceClient.call(serviceClient.get().saveExample(data));
+    // then
+    MyExampleTo response;
+    response = output.get();
     assertThat(response.getName()).isEqualTo("John Doe-saved");
     assertThat(response.getBirthday()).isEqualTo(LocalDate.of(2000, 1, 1));
   }
@@ -141,14 +180,27 @@ public class HttpRestClientTest extends ComponentTest {
     AsyncServiceClient<MyExampleRestService> serviceClient = this.serviceClientFactory.createAsync(
         MyExampleRestService.class,
         new ServiceClientConfigBuilder().authBasic().userLogin("admin").userPassword("admin").buildMap());
-    String name = "John Doe & ?#";
     // when
     TestResultHandler<Boolean> resultHandler = new TestResultHandler<>();
     serviceClient.setErrorHandler(resultHandler.getErrorHandler());
     serviceClient.call(serviceClient.get().primitiveResult(), resultHandler);
     // then
     assertThat(resultHandler.getResponseOrWait()).isTrue();
-
   }
 
+  @Test
+  public void testPrimitiveResultForCompletableFuture() throws InterruptedException, ExecutionException {
+
+    // given
+    AsyncServiceClient<MyExampleRestService> serviceClient = this.serviceClientFactory.createAsync(
+        MyExampleRestService.class,
+        new ServiceClientConfigBuilder().authBasic().userLogin("admin").userPassword("admin").buildMap());
+    String name = "John Doe & ?#";
+    // when
+    TestResultHandler<Boolean> resultHandler = new TestResultHandler<>();
+    serviceClient.setErrorHandler(resultHandler.getErrorHandler());
+    CompletableFuture<Boolean> output = serviceClient.call(serviceClient.get().primitiveResult());
+    // then
+    assertThat(output.get()).isTrue();
+  }
 }

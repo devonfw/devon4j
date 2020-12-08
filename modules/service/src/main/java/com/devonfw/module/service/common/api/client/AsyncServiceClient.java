@@ -1,5 +1,6 @@
 package com.devonfw.module.service.common.api.client;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 /**
@@ -63,5 +64,12 @@ public interface AsyncServiceClient<S> {
    *        asynchronously when available. May be {@code null} for fire and forget.
    */
   void callVoid(Runnable serviceInvoker, Consumer<Void> resultHandler);
+
+  /**
+   * @param <R> type of the result of the service operation to call.
+   * @param result the dummy result returned by the operation invoked on the actual {@link #get() service client}.
+   * @return a {@link CompletableFuture} to receive the result asynchronously.
+   */
+  <R> CompletableFuture<R> call(R result);
 
 }

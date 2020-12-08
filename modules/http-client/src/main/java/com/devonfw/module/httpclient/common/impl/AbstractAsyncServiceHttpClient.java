@@ -107,7 +107,9 @@ public abstract class AbstractAsyncServiceHttpClient<S, F extends AsyncServiceCl
   /**
    * @param response the received {@link HttpResponse}.
    * @param invocation the {@link ServiceClientInvocation}.
-   * @return the unmarshalled result object.
+   * @return the unmarshalled result object from the response body or {@code null} if no body was found or return type is {@code void}.
+   * @throws IllegalStateException if the unmarshalling of the result failed.
+   * @throws UnsupportedOperationException if the body type is not supported.
    */
   protected abstract Object createResult(HttpResponse<?> response, ServiceClientInvocation<S> invocation);
 
@@ -116,5 +118,40 @@ public abstract class AbstractAsyncServiceHttpClient<S, F extends AsyncServiceCl
    * @return the according {@link HttpResponse} to send.
    */
   protected abstract HttpRequest createRequest(ServiceClientInvocation<S> invocation);
+
+  @Override
+  protected <R> CompletableFuture<R> doCall(ServiceClientInvocation<S> invocation) {
+
+    long startTime = System.nanoTime();
+    HttpRequest request = createRequest(invocation);
+    CompletableFuture<HttpResponse<String>> future = this.client.getHttpClient().sendAsync(request,
+        BodyHandlers.ofString());
+    return future.thenApplyAsync(response -> handleResponse(response, startTime, invocation));
+
+  }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  private <R> R handleResponse(HttpResponse<?> response, long startTime, ServiceClientInvocation<S> invocation) {
+
+    Throwable error = null;
+    String service = invocation.getServiceDescription(response.uri().toString());
+    try {
+      int statusCode = response.statusCode();
+      if (statusCode >= 400) {
+        error = createError(response, invocation, service);
+        this.errorHandler.accept(error);
+      } else {
+
+        Object result = createResult(response, invocation);
+        return (R) result;
+      }
+    } catch (Throwable t) {
+      this.errorHandler.accept(t);
+      error = t;
+    } finally {
+      ServiceClientPerformanceLogger.log(startTime, service, response.statusCode(), error);
+    }
+    return null;
+  }
 
 }
