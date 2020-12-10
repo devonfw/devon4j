@@ -35,7 +35,6 @@
     <jackson.version>2.11.2</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
     <guava.version>28.1-jre</guava.version>
     <junit.version>5.6.1</junit.version>
-
   </properties>
 
   <build>
@@ -62,5 +61,4 @@
       </plugins>
     </pluginManagement>
   </build>
-
 </project>
