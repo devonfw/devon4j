@@ -31,7 +31,7 @@ addons:
 jobs:
   include:
     - stage: Build
-     script:
+    script:
         - mvn install sonar:sonar -Dsonar.projectKey=devonfw_devon4j -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=comdevonfw && ([[ $TRAVIS_BRANCH != "develop" ]] || [[ $TRAVIS_PULL_REQUEST != "false" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy)
     - stage: Documentation
       if: (branch = develop) AND (type = push)
