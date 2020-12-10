@@ -3,30 +3,30 @@ toc::[]
 
 = Batch Layer
 
-We understand batch processing as bulk-oriented, non-interactive, typically long running execution of tasks. For simplicity we use the term batch or batch job for such tasks in the following documentation. 
+We understand batch processing as a bulk-oriented, non-interactive, typically long running execution of tasks. For simplicity, we use the term "batch" or "batch job" for such tasks in the following documentation.
 
-devonfw uses link:http://projects.spring.io/spring-batch/[Spring Batch] as batch framework. 
+devonfw uses link:http://projects.spring.io/spring-batch/[Spring Batch] as a batch framework.
 
-This guide explains how Spring Batch is used in devonfw applications. It focuses on aspects which are special to devonfw if you want to learn about spring-batch you should adhere to springs references documentation.
+This guide explains how Spring Batch is used in devonfw applications. It focuses on aspects which are special to devonfw. If you want to learn about spring-batch you should adhere to springs references documentation.
 
-There is an example of simple batch implementation in the https://github.com/devonfw/my-thai-star/tree/develop/java/mtsj/batch[my-thai-star batch module]. 
+There is an example of a simple batch implementation in the https://github.com/devonfw/my-thai-star/tree/develop/java/mtsj/batch[my-thai-star batch module].
 
 
-In this chapter we will describe the overall architecture (especially concerning layering) and how to administer batches. 
+In this chapter, we will describe the overall architecture (especially concerning layering) and how to administer batches.
 
 == Layering
 
-Batches are implemented in the batch layer. The batch layer is responsible for batch processes, whereas the business logic is implemented in the logic layer. Compared to the link:guide-service-layer.asciidoc[service layer] you may understand the batch layer just as a different way of accessing the business logic.
-From a component point of view each batch is implemented as a subcomponent in the corresponding business component.
+Batches are implemented in the batch layer. The batch layer is responsible for batch processes, whereas the business logic is implemented in the logic layer. Compared to the link:guide-service-layer.asciidoc[service layer], you may understand the batch layer just as a different way of accessing the business logic.
+From a component point of view, each batch is implemented as a subcomponent in the corresponding business component.
 The business component is defined by the link:architecture.asciidoc[business architecture].
 
 Let's make an example for that. The sample application implements a batch for exporting ingredients. This ingredientExportJob belongs to the dishmanagement business component.
 So the ingredientExportJob is implemented in the following package:
-//Example doesn't exist anymore and I didn't find any other used batches. 
+//Example doesn't exist anymore and I didn't find any other used batches.
 [source]
 <basepackage>.dishmanagement.batch.impl.*
 
-Batches should invoke use cases in the logic layer for doing their work. 
+Batches should invoke use cases in the logic layer for doing their work.
 Only "batch specific" technical aspects should be implemented in the batch layer.
 
 ==========================
@@ -37,16 +37,16 @@ The batch calls the use case "create product" in the logic layer for actually cr
 
 
 ===  Directly accessing data access layer
-In practice it is not always appropriate to create use cases for every bit of work a batch should do. Instead, the data access layer can be used directly.
+In practice, it is not always appropriate to create use cases for every bit of work a batch should do. Instead, the data access layer can be used directly.
 An example for that is a typical batch for data retention which deletes out-of-time data.
-Often deleting out-dated data is done by invoking a single SQL statement. It is appropriate to implement that SQL in a link:guide-repository.asciidoc[Repository] or link:guide-dao.asciidoc[DAO] method and call this method directly from the batch.
-But be careful that this pattern is a simplification which could lead to business logic cluttered in different layers which reduces maintainability of your application.
-It is a typical design decision you have to take when designing your specific batches.
+Often deleting, out-dated data is done by invoking a single SQL statement. It is appropriate to implement that SQL in a link:guide-repository.asciidoc[Repository] or link:guide-dao.asciidoc[DAO] method and call this method directly from the batch.
+But be careful: this pattern is a simplification which could lead to business logic cluttered in different layers, which reduces the maintainability of your application.
+It is a typical design decision you have to make when designing your specific batches.
 
 == Project structure and packaging
 
-Batches will be implemented in a separate Maven module to keep the application core free of batch dependencies. The batch module includes a dependency to the application core-module to allow reuse of the use cases, DAOs etc.
-Additionally the batch module has dependencies to the required spring batch jars:
+Batches will be implemented in a separate Maven module to keep the application core free of batch dependencies. The batch module includes a dependency on the application core-module to allow the reuse of the use cases, DAOs etc.
+Additionally the batch module has dependencies on the required spring batch jars:
 
 [source,xml]
 ----
@@ -96,7 +96,7 @@ To allow an easy xref:start-batch[start of the batches] from the command line it
         <configuration>
           <mainClass>com.devonfw.application.mtsj.SpringBootApp</mainClass>
           <classifier>bootified</classifier>
-        </configuration>        
+        </configuration>
         <executions>
           <execution>
             <goals>
@@ -126,7 +126,7 @@ java -jar <app>-batch-<version>-bootified.jar --spring.main.web-application-type
 [%header]
 |===
 |Parameter |Explanation
-|`--spring.main.web-application-type=none`| This disables the web app (e.g. Tomcat) 
+|`--spring.main.web-application-type=none`| This disables the web app (e.g. Tomcat)
 |`--spring.batch.job.names=<myJob>`| This specifies the name of the job to run. If you leave this out ALL jobs will be executed. Which probably does not make to much sense.
 |`<params>`| (Optional) additional parameters which are passed to your job
 |===
@@ -145,7 +145,7 @@ In real world scheduling of batches is not as simple as it first might look like
 For devonfw we propose the batches themselves should not mess around with details of scheduling.
 Likewise your application should not do so. This complexity should be externalized to a dedicated batch administration service or scheduler.
 This service could be a complex product or a simple tool like cron. We propose link:http://rundeck.org[Rundeck] as an open source job scheduler.
- 
+
 This gives full control to operations to choose the solution which fits best into existing administration procedures.
 
 == Handling restarts
@@ -241,7 +241,7 @@ public class SimpleAuthenticationTasklet implements Tasklet {
 }
 ----
 
-The username and password have to be supplied via two cli parameters `-username` and `-password`. This implementation creates an "authenticated" `Authentication` and sets in the Spring Security context. This is just for demonstration normally you should not provide passwords via command line. The actual authentication will be done automatically via Spring Security as in your "normal" application. 
+The username and password have to be supplied via two cli parameters `-username` and `-password`. This implementation creates an "authenticated" `Authentication` and sets in the Spring Security context. This is just for demonstration normally you should not provide passwords via command line. The actual authentication will be done automatically via Spring Security as in your "normal" application.
 If you have a more complex authentication mechanism in your application e.g. via OpenID connect just call this in the tasklet. Naturally you may read authentication parameters (e.g. secrets) from the command line or more securely from a configuration file.
 
 In your Job Configuration set this tasklet as the first step:

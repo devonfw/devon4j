@@ -19,6 +19,8 @@
     <module>starter-cxf-server</module>
     <module>starter-cxf-server-rest</module>
     <module>starter-cxf-server-ws</module>
+    <module>starter-security</module>
+    <module>starter-security-csrf</module>
     <module>starter-security-keystore</module>
     <module>starter-security-jwt</module>
     <module>starter-spring-data-jpa</module>

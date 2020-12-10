@@ -69,3 +69,13 @@ The toplevel `pom.xml` of the generated project has the following features:
 * Dependency management: define versions for dependencies of the technology stack that are recommended and work together in a compatible way.
 * Maven plugins with desired versions and configuration
 * Profiles for link:guide-testing.asciidoc[test stages]
+
+== How to run your app
+
+=== Run app from IDE
+
+To run your application from your favourite IDE, simply launch `SpringBootApp` as java application.
+
+=== Run app as bootified jar or war
+
+More details are available link:guide-structure.asciidoc#make-jar-not-war[here].

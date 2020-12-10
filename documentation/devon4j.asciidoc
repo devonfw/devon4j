@@ -126,6 +126,10 @@ include::guide-jwt.asciidoc[leveloffset=2]
 
 <<<<
 
+include::guide-csrf.asciidoc[leveloffset=2]
+
+<<<<
+
 include::guide-validation.asciidoc[leveloffset=2]
 
 <<<<

@@ -20,13 +20,13 @@ Cross-cutting aspects belong to the implicit component `general`. It contains te
 == Business Component
 The link:architecture.asciidoc#business-architecture[business-architecture] defines the business components with their allowed dependencies. A small application (microservice) may just have one component and no dependencies making it simple while the same architecture can scale up to large and complex applications (from bigger microservice up to modulith).
 Tailoring an business domain into applications and applications into components is a tricky task that needs the skills of an experienced architect.
-Also the tailoring should follow the business and not split by technical reasons or only by size.
+Also, the tailoring should follow the business and not split by technical reasons or only by size.
 Size is only an indicator but not a driver of tailoring.
-Whatever hypes like microservices are telling you, never get mislead in this regard:
+Whatever hypes like microservices are telling you, never get misled in this regard:
 If your system grows and reaches `MAX+1` lines of code, it is not the right motivation to split it into two microservices of `~MAX/2` lines of code - such approaches will waste huge amounts of money and lead to chaos.
 
 == App Component
-Only in case you need cross-cutting code that aggregates other component you may introduce the component `app`.
+Only in case you need cross-cutting code that aggregates another component you may introduce the component `app`.
 It is allowed to depend on all other components but no other component may depend on it.
 With the modularity and flexibility of spring you typically do not need this.
 However, when you need to have a class that registers all services or component-facades using direct code dependencies, you can introduce this component.
@@ -36,4 +36,4 @@ The following class diagram illustrates an example of the business component `St
 
 image::images/guide-logic-layer.png["logic layer component pattern",scaledwidth="80%",align="center"]
 
-Here you can see the structure and flow from the link:guide-service-layer.asciidoc[service-layer] (REST service call) via the link:guide-logic-layer.asciidoc[logic-layer] to the link:guide-dataaccess-layer.asciidoc[dataaccess-layer] (and back).
+In this scheme, you can see the structure and flow from the link:guide-service-layer.asciidoc[service-layer] (REST service call) via the link:guide-logic-layer.asciidoc[logic-layer] to the link:guide-dataaccess-layer.asciidoc[dataaccess-layer] (and back).

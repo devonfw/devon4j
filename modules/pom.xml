@@ -30,8 +30,9 @@
     <module>cxf-server-ws</module>
     <module>http-client</module>
     <module>http-client-rest</module>
-    <module>security-keystore</module>
     <module>security</module>
+    <module>security-csrf</module>
+    <module>security-keystore</module>
     <module>security-jwt</module>
     <module>jpa-basic</module>
     <module>jpa-dao</module>

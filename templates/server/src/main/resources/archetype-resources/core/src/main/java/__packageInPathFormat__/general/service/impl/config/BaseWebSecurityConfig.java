@@ -20,7 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import ${package}.general.common.impl.security.CsrfRequestMatcher;
+import com.devonfw.module.security.common.api.config.WebSecurityConfigurer;
 import com.devonfw.module.security.common.impl.rest.AuthenticationSuccessHandlerSendingOkHttpStatusCode;
 import com.devonfw.module.security.common.impl.rest.JsonUsernamePasswordAuthenticationFilter;
 import com.devonfw.module.security.common.impl.rest.LogoutSuccessHandlerReturningOkHttpStatusCode;
@@ -41,6 +41,9 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
 
   @Inject
   private PasswordEncoder passwordEncoder;
+
+  @Inject
+  private WebSecurityConfigurer webSecurityConfigurer;
 
   private CorsFilter getCorsFilter() {
 
@@ -69,28 +72,28 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
     String[] unsecuredResources = new String[] { "/login", "/security/**", "/services/rest/login",
     "/services/rest/logout" };
 
+    // disable CSRF protection by default, use csrf starter to override.
+    http = http.csrf().disable();
+    // load starters as pluggins.
+    http = this.webSecurityConfigurer.configure(http);
+
     http
         //
         .userDetailsService(this.userDetailsService)
         // define all urls that are not to be secured
         .authorizeRequests().antMatchers(unsecuredResources).permitAll().anyRequest().authenticated().and()
-
-        // activate crsf check for a selection of urls (but not for login & logout)
-        .csrf().requireCsrfProtectionMatcher(new CsrfRequestMatcher()).and()
-
         // configure parameters for simple form login (and logout)
         .formLogin().successHandler(new SimpleUrlAuthenticationSuccessHandler()).defaultSuccessUrl("/")
         .failureUrl("/login.html?error").loginProcessingUrl("/j_spring_security_login").usernameParameter("username")
         .passwordParameter("password").and()
         // logout via POST is possible
         .logout().logoutSuccessUrl("/login.html").and()
-
         // register login and logout filter that handles rest logins
         .addFilterAfter(getSimpleRestAuthenticationFilter(), BasicAuthenticationFilter.class)
         .addFilterAfter(getSimpleRestLogoutFilter(), LogoutFilter.class);
 
     if (this.corsEnabled) {
-      http.addFilterBefore(getCorsFilter(), CsrfFilter.class);
+      http.addFilter(getCorsFilter());
     }
   }
 
@@ -137,8 +140,7 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
   @Inject
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-    auth.inMemoryAuthentication().withUser("admin")
-    .password(this.passwordEncoder.encode("admin")).roles("Admin");
+    auth.inMemoryAuthentication().withUser("admin").password(this.passwordEncoder.encode("admin")).roles("Admin");
   }
 
 }
