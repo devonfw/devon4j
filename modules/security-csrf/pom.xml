@@ -8,11 +8,11 @@
     <version>dev-SNAPSHOT</version>
   </parent>
   <groupId>com.devonfw.java.modules</groupId>
-  <artifactId>devon4j-security-keystore</artifactId>
+  <artifactId>devon4j-security-csrf</artifactId>
   <version>${devon4j.version}</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
-  <description>Security Module of the Open Application Standard Platform for Java (devon4j) specifically for jwt.</description>
+  <description>Security Module of the Open Application Standard Platform for Java (devon4j) specifically for CSRF protection.</description>
 
   <dependencies>
     <dependency>
@@ -22,6 +22,15 @@
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-rest</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
