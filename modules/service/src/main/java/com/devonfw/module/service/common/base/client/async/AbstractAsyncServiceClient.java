@@ -30,6 +30,9 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
   /** The {@link #setErrorHandler(Consumer)} */
   protected Consumer<Throwable> errorHandler;
 
+  /** The most recent invocation. */
+  private ServiceClientInvocation<S> invocation;
+
   /**
    * The constructor.
    *
@@ -66,9 +69,8 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
   @Override
   public <R> void call(R result, Consumer<R> resultHandler) {
 
-    ServiceClientInvocation<S> invocation = getInvocation();
     try {
-      doCall(invocation, resultHandler);
+      doCall(getInvocation(), resultHandler);
     } catch (Throwable t) {
       this.errorHandler.accept(t);
     }
@@ -78,9 +80,8 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
   public void callVoid(Runnable serviceInvoker, Consumer<Void> resultHandler) {
 
     serviceInvoker.run();
-    ServiceClientInvocation<S> invocation = getInvocation();
     try {
-      doCall(invocation, resultHandler);
+      doCall(getInvocation(), resultHandler);
     } catch (Throwable t) {
       this.errorHandler.accept(t);
     }
@@ -88,30 +89,33 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
 
   private ServiceClientInvocation<S> getInvocation() {
 
-    ServiceClientInvocation<S> invocation = this.stub.getInvocation();
-    Objects.requireNonNull(invocation, "invocation");
-    ServiceContext<S> context = invocation.getContext();
+    this.invocation = this.stub.getInvocation();
+    Objects.requireNonNull(this.invocation, "invocation");
+    ServiceContext<S> context = this.invocation.getContext();
     Objects.requireNonNull(context, "context");
-    Method method = invocation.getMethod();
+    Method method = this.invocation.getMethod();
     Objects.requireNonNull(method, "method");
-    Object[] parameters = invocation.getParameters();
+    Object[] parameters = this.invocation.getParameters();
     assert (method.getParameterCount() == getLength(parameters));
-    return invocation;
+    return this.invocation;
   }
 
   private void logError(Throwable error) {
 
     ServiceContext<S> context = this.stub.getContext();
-    LOG.error("Failed to invoke service {}#{} at {}", context.getApi().getName(),
-        this.stub.getInvocation().getMethod().getName(), context.getUrl(), error);
+    String methodName = "undefined";
+    if (this.invocation != null) {
+      methodName = this.invocation.getMethod().getName();
+    }
+    LOG.error("Failed to invoke service {}#{} at {}", context.getApi().getName(), methodName, context.getUrl(), error);
   }
 
   /**
    * @param <R> type of the return/result type.
-   * @param invocation the {@link ServiceClientInvocation}.
+   * @param serviceInvocation the {@link ServiceClientInvocation}.
    * @param resultHandler - see {@link #call(Object, Consumer)}.
    */
-  protected abstract <R> void doCall(ServiceClientInvocation<S> invocation, Consumer<R> resultHandler);
+  protected abstract <R> void doCall(ServiceClientInvocation<S> serviceInvocation, Consumer<R> resultHandler);
 
   private static int getLength(Object[] parameters) {
 
