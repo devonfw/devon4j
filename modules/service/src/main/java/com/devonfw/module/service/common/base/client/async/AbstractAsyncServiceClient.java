@@ -28,7 +28,7 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
   private final ServiceClientStub<S> stub;
 
   /** The {@link #setErrorHandler(Consumer)} */
-  protected Consumer<Throwable> errorHandler;
+  private Consumer<Throwable> errorHandler;
 
   /** The most recent invocation. */
   private ServiceClientInvocation<S> invocation;
@@ -87,6 +87,13 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
     }
   }
 
+  @Override
+  public CompletableFuture<Void> callVoid(Runnable serviceInvoker) {
+
+    serviceInvoker.run();
+    return call(null);
+  }
+
   private ServiceClientInvocation<S> getInvocation() {
 
     this.invocation = this.stub.getInvocation();
@@ -125,19 +132,17 @@ public abstract class AbstractAsyncServiceClient<S> implements AsyncServiceClien
     return parameters.length;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public <R> CompletableFuture<R> call(R result) {
 
-    ServiceClientInvocation<S> invocation = getInvocation();
-    return doCall(invocation);
+    return doCall(getInvocation());
   }
 
   /**
    * @param <R> type of the return/result type.
-   * @param invocation the {@link ServiceClientInvocation}.
+   * @param serviceInvocation the {@link ServiceClientInvocation}.
    * @return a {@link CompletableFuture} to receive the result asynchronously.
    * @see #call(Object)
    */
-  protected abstract <R> CompletableFuture<R> doCall(ServiceClientInvocation<S> invocation);
+  protected abstract <R> CompletableFuture<R> doCall(ServiceClientInvocation<S> serviceInvocation);
 }

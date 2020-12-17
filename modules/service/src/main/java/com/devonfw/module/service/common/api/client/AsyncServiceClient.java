@@ -72,4 +72,12 @@ public interface AsyncServiceClient<S> {
    */
   <R> CompletableFuture<R> call(R result);
 
+  /**
+   * @param serviceInvoker the lambda function calling a void operation on the actual {@link #get() service client} -
+   *        e.g. {@code () -> client.get().myVoidFunction()}.
+   * @return a {@link CompletableFuture} to receive the result asynchronously.
+   * @see #callVoid(Runnable, Consumer)
+   */
+  CompletableFuture<Void> callVoid(Runnable serviceInvoker);
+
 }
