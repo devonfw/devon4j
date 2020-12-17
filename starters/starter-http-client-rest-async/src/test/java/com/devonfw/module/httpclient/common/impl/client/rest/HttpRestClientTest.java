@@ -43,7 +43,7 @@ public class HttpRestClientTest extends ComponentTest {
         new ServiceClientConfigBuilder().authBasic().userLogin("admin").userPassword("admin").buildMap());
     String name = "John Doe & ?#";
     // when
-    TestResultHandler<String> resultHandler = new TestResultHandler<>();
+    TestResultHandler<String> resultHandler = new TestResultHandler<>(serviceClient);
     serviceClient.setErrorHandler(resultHandler.getErrorHandler());
     serviceClient.call(serviceClient.get().greet(name), resultHandler);
     // then
@@ -66,9 +66,9 @@ public class HttpRestClientTest extends ComponentTest {
     String name = "John Doe & ?#";
 
     // when
-    CompletableFuture<String> output = serviceClient.call(serviceClient.get().greet(name));
+    CompletableFuture<String> future = serviceClient.call(serviceClient.get().greet(name));
     // then
-    assertThat(output.get()).isEqualTo("Hi John Doe & ?#!");
+    assertThat(future.get()).isEqualTo("Hi John Doe & ?#!");
   }
 
   /**
@@ -88,7 +88,7 @@ public class HttpRestClientTest extends ComponentTest {
     data.setBirthday(LocalDate.of(1999, 12, 31));
 
     // when
-    TestResultHandler<MyExampleTo> resultHandler = new TestResultHandler<>();
+    TestResultHandler<MyExampleTo> resultHandler = new TestResultHandler<>(serviceClient);
     serviceClient.setErrorHandler(resultHandler.getErrorHandler());
     serviceClient.call(serviceClient.get().saveExample(data), resultHandler);
     // then
@@ -115,12 +115,10 @@ public class HttpRestClientTest extends ComponentTest {
     data.setBirthday(LocalDate.of(1999, 12, 31));
 
     // when
-    TestResultHandler<MyExampleTo> resultHandler = new TestResultHandler<>();
-    serviceClient.setErrorHandler(resultHandler.getErrorHandler());
-    CompletableFuture<MyExampleTo> output = serviceClient.call(serviceClient.get().saveExample(data));
+    CompletableFuture<MyExampleTo> future = serviceClient.call(serviceClient.get().saveExample(data));
     // then
     MyExampleTo response;
-    response = output.get();
+    response = future.get();
     assertThat(response.getName()).isEqualTo("John Doe-saved");
     assertThat(response.getBirthday()).isEqualTo(LocalDate.of(2000, 1, 1));
   }
@@ -137,7 +135,7 @@ public class HttpRestClientTest extends ComponentTest {
         MyExampleRestService.class,
         new ServiceClientConfigBuilder().authBasic().userLogin("admin").userPassword("admin").buildMap());
     // when
-    TestResultHandler<Void> resultHandler = new TestResultHandler<>();
+    TestResultHandler<Void> resultHandler = new TestResultHandler<>(serviceClient);
     serviceClient.setErrorHandler(resultHandler.getErrorHandler());
     serviceClient.callVoid(() -> {
       serviceClient.get().businessError();
@@ -166,7 +164,7 @@ public class HttpRestClientTest extends ComponentTest {
         MyExampleRestService.class,
         new ServiceClientConfigBuilder().authBasic().userLogin("admin").userPassword("admin").buildMap());
     // when
-    TestResultHandler<Void> resultHandler = new TestResultHandler<>();
+    TestResultHandler<Void> resultHandler = new TestResultHandler<>(serviceClient);
     serviceClient.setErrorHandler(resultHandler.getErrorHandler());
     serviceClient.callVoid(() -> {
       serviceClient.get().technicalError();
@@ -260,7 +258,7 @@ public class HttpRestClientTest extends ComponentTest {
         MyExampleRestService.class,
         new ServiceClientConfigBuilder().authBasic().userLogin("admin").userPassword("admin").buildMap());
     // when
-    TestResultHandler<Boolean> resultHandler = new TestResultHandler<>();
+    TestResultHandler<Boolean> resultHandler = new TestResultHandler<>(serviceClient);
     serviceClient.setErrorHandler(resultHandler.getErrorHandler());
     serviceClient.call(serviceClient.get().primitiveResult(), resultHandler);
     // then
@@ -281,10 +279,8 @@ public class HttpRestClientTest extends ComponentTest {
         MyExampleRestService.class,
         new ServiceClientConfigBuilder().authBasic().userLogin("admin").userPassword("admin").buildMap());
     // when
-    TestResultHandler<Boolean> resultHandler = new TestResultHandler<>();
-    serviceClient.setErrorHandler(resultHandler.getErrorHandler());
-    CompletableFuture<Boolean> output = serviceClient.call(serviceClient.get().primitiveResult());
+    CompletableFuture<Boolean> future = serviceClient.call(serviceClient.get().primitiveResult());
     // then
-    assertThat(output.get()).isTrue();
+    assertThat(future.get()).isTrue();
   }
 }
