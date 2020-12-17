@@ -34,6 +34,9 @@ import com.devonfw.module.service.common.api.Service;
  * </ul>
  * All these aspects can be configured via spring and customized with own implementations.
  *
+ * <b>ATTENTION:</b> This {@link ServiceClientFactory} is thread-safe. However, the client objects returned by it are
+ * not thread-safe and shall not be reused or shared between threads.
+ *
  * @since 3.0.0
  */
 public interface ServiceClientFactory {
