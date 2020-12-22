@@ -12,7 +12,7 @@ import com.devonfw.module.security.common.api.config.WebSecurityConfigurerAspect
  *
  * @since 2020.12.001
  */
-public class WebSecurityConfigurerAspectCsrf implements WebSecurityConfigurerAspect {
+public class WebSecurityConfigurerAspectCors implements WebSecurityConfigurerAspect {
 
   private CorsFilter getCorsFilter() {
 

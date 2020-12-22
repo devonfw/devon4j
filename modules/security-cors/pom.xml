@@ -12,7 +12,7 @@
   <version>${devon4j.version}</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
-  <description>Security Module of the Open Application Standard Platform for Java (devon4j) specifically for CSRF protection.</description>
+  <description>Security Module of the Open Application Standard Platform for Java (devon4j) specifically for Cors protection.</description>
 
   <dependencies>
     <dependency>

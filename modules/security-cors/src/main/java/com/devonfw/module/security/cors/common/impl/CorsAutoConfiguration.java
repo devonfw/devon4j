@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.devonfw.module.security.common.api.config.WebSecurityConfigurerAspect;
 
 /**
- * {@link Configuration} to enable CSRF protection.
+ * {@link Configuration} to enable Cors protection.
  *
  * @since 2020.12.001
  */
@@ -14,12 +14,12 @@ import com.devonfw.module.security.common.api.config.WebSecurityConfigurerAspect
 public class CorsAutoConfiguration {
 
   /**
-   * @return the {@link WebSecurityConfigurerAspect} to enable CSRF.
+   * @return the {@link WebSecurityConfigurerAspect} to enable Cors.
    */
   @Bean
-  public WebSecurityConfigurerAspect csrfConfigAspect() {
+  public WebSecurityConfigurerAspect corsConfigAspect() {
 
-    return new WebSecurityConfigurerAspectCsrf();
+    return new WebSecurityConfigurerAspectCors();
   }
 
 }
