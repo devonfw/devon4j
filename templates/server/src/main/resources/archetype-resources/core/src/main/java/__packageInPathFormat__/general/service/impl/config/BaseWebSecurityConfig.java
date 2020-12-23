@@ -17,8 +17,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import com.devonfw.module.security.common.api.config.WebSecurityConfigurer;
 import com.devonfw.module.security.common.impl.rest.AuthenticationSuccessHandlerSendingOkHttpStatusCode;
@@ -33,9 +31,6 @@ import com.devonfw.module.security.common.impl.rest.LogoutSuccessHandlerReturnin
  */
 public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Value("${security.cors.enabled}")
-  boolean corsEnabled = false;
-
   @Inject
   private UserDetailsService userDetailsService;
 
@@ -45,23 +40,7 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
   @Inject
   private WebSecurityConfigurer webSecurityConfigurer;
 
-  private CorsFilter getCorsFilter() {
 
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    CorsConfiguration config = new CorsConfiguration();
-    config.setAllowCredentials(true);
-    config.addAllowedOrigin("*");
-    config.addAllowedHeader("*");
-    config.addAllowedMethod("OPTIONS");
-    config.addAllowedMethod("HEAD");
-    config.addAllowedMethod("GET");
-    config.addAllowedMethod("PUT");
-    config.addAllowedMethod("POST");
-    config.addAllowedMethod("DELETE");
-    config.addAllowedMethod("PATCH");
-    source.registerCorsConfiguration("/**", config);
-    return new CorsFilter(source);
-  }
 
   /**
    * Configure spring security to enable a simple webform-login + a simple rest login.
@@ -91,10 +70,6 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
         // register login and logout filter that handles rest logins
         .addFilterAfter(getSimpleRestAuthenticationFilter(), BasicAuthenticationFilter.class)
         .addFilterAfter(getSimpleRestLogoutFilter(), LogoutFilter.class);
-
-    if (this.corsEnabled) {
-      http.addFilter(getCorsFilter());
-    }
   }
 
   /**
