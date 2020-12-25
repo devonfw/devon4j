@@ -118,6 +118,10 @@ include::guide-access-control.asciidoc[leveloffset=2]
 
 <<<<
 
+include::guide-access-control-schema.asciidoc[leveloffset=2]
+
+<<<<
+
 include::guide-data-permission.asciidoc[leveloffset=3]
 
 <<<<
