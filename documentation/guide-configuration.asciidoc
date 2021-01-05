@@ -170,12 +170,12 @@ This will smoothly integrate http://jasypt.org/[jasypt] into your https://projec
 
 [source, bash]
 ----
-ARGUMENTS
+----- ARGUMENTS ```
 
 input: postgres
 password: secret
 
-OUTPUT
+----- OUTPUT ```
 
 jd5ZREpBqxuN9ok0IhnXabgw7V3EoG2p
 ----
