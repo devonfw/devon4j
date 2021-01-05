@@ -50,9 +50,9 @@ If you want to map spring configuration properties into your custom code please 
 
 For basic bean configuration we rely on spring boot using mainly configuration classes and only occasionally XML configuration files. Some key principle to understand Spring Boot auto-configuration features:
 
-* Spring Boot auto-configuration attempts to automatically configure your Spring application based on the jar dependencies and annotated components found in your source code. 
+* Spring Boot auto-configuration attempts to automatically configure your Spring application based on the jar dependencies and annotated components found in your source code.
 * Auto-configuration is non-invasive, at any point you can start to define your own configuration to replace specific parts of the auto-configuration by redefining your identically named bean (see also `exclude` attribute of `@SpringBootApplication` in example code above).
- 
+
 Beans are configured via annotations in your java code (see link:guide-dependency-injection.asciidoc[dependency-injection]).
 
 For technical configuration you will typically write additional spring config classes annotated with `@Configuration` that provide bean implementations via methods annotated with `@Bean`. See http://docs.spring.io/spring-javaconfig/docs/1.0.0.M4/reference/html/ch02s02.html[spring @Bean documentation] for further details. Like in XML you can also use `@Import` to make a `@Configuration` class include other configurations.
@@ -101,7 +101,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 === Database Configuration
 
-To choose database of your choice , set `spring.profiles.active=XXX` in `src/main/resources/config/application.properties`. Also, one has to set all the active spring profiles in this `application.properties` and not in any of the other `application.properties`. 
+To choose database of your choice , set `spring.profiles.active=XXX` in `src/main/resources/config/application.properties`. Also, one has to set all the active spring profiles in this `application.properties` and not in any of the other `application.properties`.
 
 == Externalized Configuration
 
@@ -109,7 +109,7 @@ Externalized configuration is a configuration that is provided separately to a d
 
 === Environment Configuration
 
-The environment configuration contains configuration parameters (typically port numbers, host names, passwords, logins, timeouts, certificates, etc.) specific for the different environments. These are under the control of the operators responsible for the application. 
+The environment configuration contains configuration parameters (typically port numbers, host names, passwords, logins, timeouts, certificates, etc.) specific for the different environments. These are under the control of the operators responsible for the application.
 
 The environment configuration is maintained in `application.properties` files, defining various properties (see https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[common application properties] for a list of properties defined by the spring framework).
 These properties are explained in the corresponding configuration sections of the guides for each topic:
@@ -133,7 +133,7 @@ For other environments where the software gets deployed such as `test`, `accepta
 
 In this `application.properties` you only define the minimum properties that are environment specific and inherit everything else from the bundled `src/main/resources/application.properties`. In any case, make very sure that the classloader will find the file.
 
-Make sure your properties are thoroughly documented by providing a comment to each property. This inline documentation is most valuable for your operating department. 
+Make sure your properties are thoroughly documented by providing a comment to each property. This inline documentation is most valuable for your operating department.
 
 === Business Configuration
 Often applications do not need business configuration. In case they do it should typically be editable by administrators via the GUI. The business configuration values should therefore be stored in the database in key/value pairs.
@@ -157,7 +157,7 @@ Often you need to have passwords (for databases, third-party services, etc.) as 
 
 === Password Encryption
 A simple but reasonable approach is to configure the passwords encrypted with a master-password. The master-password should be a strong secret that is specific for each environment. It must never be committed to version-control.
-In order to support encrypted passwords in spring-boot `application.properties` all you need to do is to add https://github.com/ulisesbocchio/jasypt-spring-boot#jasypt-spring-boot[jasypt-spring-boot] as dependency in your `pom.xml`(please check for recent version):
+In order to support encrypted passwords in spring-boot `application.properties` all you need to do is to add https://github.com/ulisesbocchio/jasypt-spring-boot#jasypt-spring-boot[jasypt-spring-boot] as dependency in your `pom.xml`(please check for recent version link:https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter[here]):
 [source, xml]
 ----
 <dependency>
@@ -167,14 +167,15 @@ In order to support encrypted passwords in spring-boot `application.properties` 
 </dependency>
 ----
 This will smoothly integrate http://jasypt.org/[jasypt] into your https://projects.spring.io/spring-boot/[spring-boot] application. Read this https://apereo.atlassian.net/wiki/spaces/CASUM/pages/103261428/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files[HOWTO] to learn how to encrypt and decrypt passwords using jasypt. Here is a simple example output of an encrypted password (of course you have to use strong passwords instead of `secret` and `postgres` - this is only an example):
+
 [source, bash]
 ----
-----ARGUMENTS-------------------
+ARGUMENTS
 
 input: postgres
 password: secret
 
-----OUTPUT----------------------
+OUTPUT
 
 jd5ZREpBqxuN9ok0IhnXabgw7V3EoG2p
 ----
@@ -186,7 +187,7 @@ jasypt:
         password: secret
 ```
 (of course you will replace `secret` with a strong password). In case you happen to have multiple apps on the same machine, you can symlink the `application.yml` from a central place.
-Now you are able to put encrypted passwords into your `application.properties` 
+Now you are able to put encrypted passwords into your `application.properties`
 ```
 spring.datasource.password=ENC(jd5ZREpBqxuN9ok0IhnXabgw7V3EoG2p)
 ```
@@ -196,7 +197,22 @@ To prevent jasypt to throw an exception in dev or test scenarios simply put this
 jasypt.encryptor.password=none
 ```
 
-Is this Security by Obscurity?
+==== Configure Algorithm
+Algorithm can be configured for stronger encryption. Jasypt uses PBEWITHHMACSHA512ANDAES_256 as the Default encryption algorithm.
+Algorithm can be configured through System, properties file, command line argumments, environment variable etc.
+
+[source, java]
+----
+StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+String privateData = "secret-password-to-encrypt";
+encryptor.setPassword("master-password");
+encryptor.setAlgorithm("PBEWithMD5AndTripleDES");
+String encryptedText = encryptor.encrypt(privateData);
+----
+
+Other configurable properties can be found https://github.com/ulisesbocchio/jasypt-spring-boot#password-based-encryption-configuration[here]
+
+==== Is this Security by Obscurity?
 
 * Yes, from the point of view to protect the passwords on the target environment this is nothing but security by obscurity. If an attacker somehow got full access to the machine this will only cause him to spend some more time.
 * No, if someone only gets the configuration file. So all your developers might have access to the version-control where the config is stored. Others might have access to the software releases that include this configs. But without the master-password that should only be known to specific operators none else can decrypt the password (except with brute-force what will take a very long time, see jasypt for details).
