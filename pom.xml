@@ -27,7 +27,6 @@
     <revision>dev</revision>
     <changelist>-SNAPSHOT</changelist>
     <github.repository>devon4j</github.repository>
-    <github.default.branch>master</github.default.branch>
     <devon4j.version>${revision}${changelist}</devon4j.version>
     <spring.boot.version>2.3.3.RELEASE</spring.boot.version>
     <!-- Spring boot and spring cloud version has to match -->
