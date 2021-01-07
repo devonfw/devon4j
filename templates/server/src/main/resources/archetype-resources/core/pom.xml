@@ -27,8 +27,8 @@
 
     <!-- Security for authorization integration with spring-security -->
     <dependency>
-      <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-security</artifactId>
+      <groupId>com.devonfw.java.starters</groupId>
+      <artifactId>devon4j-starter-security</artifactId>
     </dependency>
 
     <dependency>
