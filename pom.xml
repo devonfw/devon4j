@@ -30,7 +30,7 @@
     <devon4j.version>${revision}${changelist}</devon4j.version>
     <spring.boot.version>2.4.0</spring.boot.version>
     <!-- Spring boot and spring cloud version has to match -->
-    <spring.cloud.dependencies.version>Hoxton.SR9</spring.cloud.dependencies.version>
+    <spring.cloud.dependencies.version>2020.0.0</spring.cloud.dependencies.version>
     <jackson.version>2.11.2</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
     <guava.version>30.0-jre</guava.version>
     <junit.version>5.7.0</junit.version>
