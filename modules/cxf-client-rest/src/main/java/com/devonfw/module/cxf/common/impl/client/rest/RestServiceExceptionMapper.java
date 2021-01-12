@@ -78,7 +78,7 @@ public class RestServiceExceptionMapper implements ResponseExceptionMapper<Throw
         }
       }
     }
-    return null;
+    return "";
   }
 
   @SuppressWarnings("rawtypes")
@@ -129,7 +129,7 @@ public class RestServiceExceptionMapper implements ResponseExceptionMapper<Throw
         }
       }
     }
-    return "url-not-available-in-cxf-response";
+    return "";
   }
 
 }
