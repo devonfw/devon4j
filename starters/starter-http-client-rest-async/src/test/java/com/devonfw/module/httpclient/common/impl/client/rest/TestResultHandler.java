@@ -2,6 +2,8 @@ package com.devonfw.module.httpclient.common.impl.client.rest;
 
 import java.util.function.Consumer;
 
+import com.devonfw.module.service.common.api.client.AsyncServiceClient;
+
 /**
  * Simple container for {@link #getResponse() response} and {@link #getError() error} of an asynchronous REST client
  * response for testing.
@@ -16,11 +18,23 @@ public class TestResultHandler<T> implements Consumer<T> {
 
   /**
    * The constructor.
+   *
+   * @param serviceClient the {@link AsyncServiceClient}.
    */
-  public TestResultHandler() {
+  public TestResultHandler(AsyncServiceClient<?> serviceClient) {
+
+    this(serviceClient.getErrorHandler());
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param defaultErrorHandler the default error handler to extend.
+   */
+  public TestResultHandler(Consumer<Throwable> defaultErrorHandler) {
 
     super();
-    this.errorHandler = new ErrorHandler();
+    this.errorHandler = new ErrorHandler(defaultErrorHandler);
   }
 
   @Override
@@ -98,7 +112,20 @@ public class TestResultHandler<T> implements Consumer<T> {
 
   private static class ErrorHandler implements Consumer<Throwable> {
 
+    private final Consumer<Throwable> defaultErrorHandler;
+
     private Throwable error;
+
+    /**
+     * The constructor.
+     *
+     * @param defaultErrorHandler the default error handler to extend.
+     */
+    public ErrorHandler(Consumer<Throwable> defaultErrorHandler) {
+
+      super();
+      this.defaultErrorHandler = defaultErrorHandler;
+    }
 
     @Override
     public void accept(Throwable t) {
@@ -107,6 +134,9 @@ public class TestResultHandler<T> implements Consumer<T> {
         throw new IllegalStateException("Response already received!");
       }
       assert (t != null);
+      if (this.defaultErrorHandler != null) {
+        this.defaultErrorHandler.accept(t);
+      }
       this.error = t;
 
     }

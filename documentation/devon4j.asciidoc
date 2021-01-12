@@ -118,11 +118,19 @@ include::guide-access-control.asciidoc[leveloffset=2]
 
 <<<<
 
+include::guide-access-control-schema.asciidoc[leveloffset=2]
+
+<<<<
+
 include::guide-data-permission.asciidoc[leveloffset=3]
 
 <<<<
 
 include::guide-jwt.asciidoc[leveloffset=2]
+
+<<<<
+
+include::guide-csrf.asciidoc[leveloffset=2]
 
 <<<<
 
