@@ -22,4 +22,13 @@ public class CorsAutoConfiguration {
     return new WebSecurityConfigurerAspectCors();
   }
 
+  /**
+   * @return
+   */
+  @Bean
+  public CorsConfigProperties corsConfigProperties() {
+
+    return new CorsConfigProperties();
+  }
+
 }

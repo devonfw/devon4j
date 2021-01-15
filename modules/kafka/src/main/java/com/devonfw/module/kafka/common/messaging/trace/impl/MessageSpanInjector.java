@@ -1,6 +1,6 @@
 package com.devonfw.module.kafka.common.messaging.trace.impl;
 
-import static brave.internal.HexCodec.toLowerHex;
+import static brave.internal.codec.HexCodec.toLowerHex;
 import static com.devonfw.module.kafka.common.messaging.util.MessageUtil.addHeaderValue;
 
 import java.util.Optional;
