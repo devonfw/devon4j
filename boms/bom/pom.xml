@@ -18,11 +18,6 @@
   <inceptionYear>2014</inceptionYear>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <cxf.version>3.3.6</cxf.version>
-    <mmm.util.version>8.7.0</mmm.util.version>
-    <slf4j.version>1.7.28</slf4j.version>
     <flatten.mode>bom</flatten.mode>
   </properties>
 
@@ -73,7 +68,7 @@
         <artifactId>javax.inject</artifactId>
         <version>1</version>
       </dependency>
-      <!-- JSR 250 for common annotations (component-bean lifecycle, security, 
+      <!-- JSR 250 for common annotations (component-bean lifecycle, security,
         etc.) -->
       <dependency>
         <groupId>javax.annotation</groupId>
