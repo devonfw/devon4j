@@ -3,6 +3,13 @@ toc::[]
 
 = Java Development Kit
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 The https://en.wikipedia.org/wiki/Java_Development_Kit[Java Development Kit] is an implementation of the Java platform. It provides the https://en.wikipedia.org/wiki/Java_virtual_machine[Java Virtual Machine] (JVM) and the Java Runtime Environment (JRE).
 
 == Editions

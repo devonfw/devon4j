@@ -3,6 +3,13 @@ toc::[]
 
 = Configuration
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 An application needs to be configurable in order to allow internal setup (like CDI) but also to allow externalized configuration of a deployed package (e.g. integration into runtime environment). Using http://projects.spring.io/spring-boot/[Spring Boot] (must read: http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#using-boot[Spring Boot reference]) we rely on a comprehensive configuration approach following a "convention over configuration" pattern. This guide adds on to this by detailed instructions and best-practices how to deal with configurations.
 
 In general we distinguish the following kinds of configuration that are explained in the following sections:

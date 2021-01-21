@@ -3,6 +3,21 @@ toc::[]
 
 = Caching
 //Maybe finish the guide?
+
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 Caching is a technical approach to improve performance. While it may appear easy on the first sight it is an advanced topic. In general, try to use caching only when required for performance reasons. If you come to the point that you need caching first think about:
 
 * What to cache? + 

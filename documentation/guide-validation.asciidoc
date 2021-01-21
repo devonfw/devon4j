@@ -3,6 +3,13 @@ toc::[]
 
 = Validation
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 Validation is about checking syntax and semantics of input data. Invalid data is rejected by the application.
 Therefore validation is required in multiple places of an application. E.g. the link:guide-client-layer.asciidoc[GUI] will do validation for usability reasons to assist the user, early feedback and to prevent unnecessary server requests.
 On the server-side validation has to be done for consistency and link:guide-security.asciidoc[security].

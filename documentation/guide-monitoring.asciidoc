@@ -3,6 +3,13 @@ toc::[]
 
 = Monitoring
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 Monitoring is a very comprehensive topic. For `devon4j` we focus on selected core topics which are most important when developing production-ready applications.
 On a high level view we strongly suggest to separate the application to be monitored from the `monitoring system` itself.
 The monitoring system covers aspects like

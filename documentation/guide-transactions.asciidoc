@@ -2,6 +2,14 @@
 toc::[]
 
 = Transaction Handling
+
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 Transactions are technically processed by the link:guide-dataaccess-layer.asciidoc[data access layer]. However, the transaction control has to be performed in upper layers. To avoid dependencies on persistence layer and technical code in upper layers, we use link:guide-aop.asciidoc[AOP] to add transaction control via annotations as aspect.
 
 We recommend using the `@Transactional` annotation (the JEE standard `javax.transaction.Transactional` rather than `org.springframework.transaction.annotation.Transactional`). We use this annotation in the link:guide-logic-layer.asciidoc[logic layer] to annotate business methods that participate in transactions (what typically applies to most up to all business components):

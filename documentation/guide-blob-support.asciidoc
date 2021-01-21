@@ -2,6 +2,13 @@
 toc::[]
 = BLOB support
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 BLOB stands for **B**inary **L**arge **Ob**ject. A BLOB may be an image, an office document, ZIP archive or any other multimedia object.
 Often these BLOBs are large. if this is the case you need to take care, that you do not copy all the blob data into you application heap, e.g. when providing them via a REST service.
 This could easily lead to performance problems or out of memory errors.

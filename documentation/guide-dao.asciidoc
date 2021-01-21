@@ -3,6 +3,13 @@ toc::[]
 
 = Data Access Object
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 The _Data Access Objects_ (DAOs) are part of the persistence layer.
 They are responsible for a specific xref:entity[entity] and should be named `«Entity»Dao` and `«Entity»DaoImpl`.
 The DAO offers the so called CRUD-functionalities (create, retrieve, update, delete) for the corresponding entity.

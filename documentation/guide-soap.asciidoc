@@ -2,6 +2,14 @@
 toc::[]
 
 = SOAP
+
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 https://en.wikipedia.org/wiki/SOAP[SOAP] is a common protocol for link:guide-service-layer.asciidoc[services] that is rather complex and heavy. It allows to build inter-operable and well specified services (see WSDL). SOAP is transport neutral what is not only an advantage. We strongly recommend to use HTTPS transport and ignore additional complex standards like WS-Security and use established HTTP-Standards such as RFC2617 (and RFC5280).
 //There is no SOAP example in our application -maybe keep this as a general example?-
 

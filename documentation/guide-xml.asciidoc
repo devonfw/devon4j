@@ -3,6 +3,13 @@ toc::[]
 
 = XML
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 http://en.wikipedia.org/wiki/XML[XML] (Extensible Markup Language) is a W3C standard format for structured information. It has a large eco-system of additional standards and tools.
 
 In Java there are many different APIs and frameworks for accessing, producing and processing XML. For the devonfw we recommend to use xref:jaxb[JAXB] for mapping Java objects to XML and vice-versa. Further there is the popular http://docs.oracle.com/javase/7/docs/api/org/w3c/dom/package-summary.html[DOM API] for reading and writing smaller XML documents directly. When processing large XML documents http://en.wikipedia.org/wiki/StAX[StAX] is the right choice.

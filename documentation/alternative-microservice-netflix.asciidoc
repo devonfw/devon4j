@@ -1,6 +1,13 @@
 :toc: macro
 toc::[]
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 == Microservices based on Netflix-Tools
 
 Devonfw microservices approach is based on http://cloud.spring.io/spring-cloud-netflix/[Spring Cloud Netflix], that provides all the main components for microservices integrated within Spring Boot context.     

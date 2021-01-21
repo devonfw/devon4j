@@ -3,6 +3,13 @@ toc::[]
 
 = Component Facade
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 For each component of the application, the link:guide-logic-layer.asciidoc[logic layer] defines a component facade.
 This is an interface defining all business operations of the component.
 It carries the name of the component (`«Component»`) and has an implementation named `«Component»Impl` (see xref:implementation[implementation]).

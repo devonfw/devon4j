@@ -3,6 +3,13 @@ toc::[]
 //The guide itself is fine only the diagram is outdated -needs existing classes-
 = Transfer-Objects
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 The technical data model is defined in form of link:guide-jpa.asciidoc#entity[persistent entities].
 However, passing persistent entities via _call-by-reference_ across the entire application will soon cause problems:
 

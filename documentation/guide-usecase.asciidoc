@@ -2,6 +2,14 @@
 toc::[]
 
 = UseCase
+
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 A use-case is a small unit of the link:guide-logic-layer.asciidoc[logic layer] responsible for an operation on a particular link:guide-jpa.asciidoc#entity[entity] (business object).
 It is defined by an interface (API) with its according implementation.
 Following our link:coding-conventions.asciidoc#architecture-mapping[architecture-mapping], use-cases are named `Uc«Operation»«BusinessObject»[Impl]`. The prefix `Uc` stands for use-case and allows to easily find and identify them in your IDE. The `«Operation»` stands for a verb that is operated on the entity identified by `«BusinessObject»`.

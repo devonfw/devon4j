@@ -2,6 +2,14 @@
 toc::[]
 
 = Access-Control
+
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 Access-Control is a central and important aspect of link:guide-security.asciidoc[Security]. It consists of two major aspects:
 
 * xref:Authentication[] (Who tries to access?)

@@ -3,6 +3,13 @@ toc::[]
 
 = JSON Web Token(JWT)
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 https://jwt.io/[JWT] is an open standard (https://tools.ietf.org/html/rfc7519[RFC 7519]) for creating Json based access token that assert some number of claims.
 
 image::images/jwt_flow.png[,width="450", link="images/jwt_flow.png"]

@@ -1,6 +1,13 @@
 :toc:
 toc::[]
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 = Decision Sheet for Choosing a Service Framework
 
 We need to choose which framework(s) we are using to build services. For the devonfw we focus on a standard API if available. However, we also want to recommend an implementation to use. While projects would still be able to choose whatever they want, we want to suggest the best, most robust and established solution. This way projects do not have to worry about the decision and can rely on a production ready framework without getting into trouble. Also besides the standard the configuration of the implementation framework differs and we want to give instructions how to do this in the documentation and by our sample application. This is why in the end the implementation also matters. If a project has a customer demand to use something else then the project has to take care of this. We will always suggest and "support" ONE solution.

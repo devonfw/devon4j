@@ -1,5 +1,12 @@
 = devon4j
 
+ATTENTION: You are on the `develop` branch. 
+This has been renamed to `master`. 
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 Devon4j is the Java stack of http://devonfw.com[devonfw]. It allows you to build business applications (backends) using Java technology in a highly efficient and standardized way based on established best-practices. To build web-clients as frontend for a devon4j backend we recommend https://github.com/devonfw/devon4ng[devon4ng].
 
 image:https://img.shields.io/github/license/devonfw/devon4j.svg?label=License["Apache License, Version 2.0",link=https://github.com/devonfw/devon4j/blob/develop/LICENSE.txt]

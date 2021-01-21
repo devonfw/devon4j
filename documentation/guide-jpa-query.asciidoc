@@ -2,6 +2,14 @@
 toc::[]
 
 = Queries
+
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 The http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[Java Persistence API (JPA)] defines its own query language, the https://docs.oracle.com/html/E13946_01/ejb3_langref.html[_java persistence query language_ (JPQL)] (see also https://docs.oracle.com/javaee/7/tutorial/persistence-querylanguage.htm[JPQL tutorial]), which is similar to SQL but operates on entities and their attributes instead of tables and columns.
 
 The simplest CRUD-Queries (e.g. find an entity by its ID) are already build in the devonfw CRUD functionality (via link:guide-repository.asciidoc[Repository] or link:guide-dao.asciidoc[DAO]). For other cases you need to write your own query. We distinguish between _static_ and _dynamic_ queries. xref:static-queries[Static queries] have a fixed JPQL query string that may only use parameters to customize the query at runtime. Instead, xref:dynamic-queries[dynamic queries] can change their clauses (`WHERE`, `ORDER BY`, `JOIN`, etc.) at runtime depending on the given search criteria.

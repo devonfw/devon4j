@@ -3,6 +3,13 @@ toc::[]
 
 = Service-Versioning
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 This guide describes the aspect and details about versioning of link:guide-service-layer.asciidoc[services]
 
 == Motivation

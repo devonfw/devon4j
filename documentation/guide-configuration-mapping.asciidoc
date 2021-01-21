@@ -3,6 +3,13 @@ toc::[]
 
 = Mapping configuration to your code
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 If you are using `spring-boot` as suggested by `devon4j` your application can be configured by `application.properties` file as described in link:guide-configuration.asciidoc[configuration].
 To get a single configuration option into your code for flexibility, you can use
 

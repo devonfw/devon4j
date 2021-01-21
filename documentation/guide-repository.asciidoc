@@ -2,6 +2,14 @@
 toc::[]
 
 = Spring-Data
+
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 If you are using the Spring Framework and have no restrictions regarding that, we recommend to use https://projects.spring.io/spring-data-jpa/[spring-data-jpa] via http://repo1.maven.org/maven2/com/devonfw/java/starters/devon4j-starter-spring-data-jpa/[devon4j-starter-spring-data-jpa] that brings advanced integration (esp. for QueryDSL).
 
 == Motivation

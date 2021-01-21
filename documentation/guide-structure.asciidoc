@@ -3,6 +3,13 @@ toc::[]
 
 = Project structure
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 The structure of a `devon4j` application is divided into the following modules:
 
 * `api`: module containing the API of your application. The API contains the required artifacts to interact with your application via remote services. This can be link:guide-rest.asciidoc#jax-rs[REST service interfaces], link:guide-transferobject.asciidoc[transfer-objects] with their interfaces and link:guide-datatype.asciidoc[datatypes] but also https://www.openapis.org/[OpenAPI] or https://grpc.io/[gRPC] contracts.

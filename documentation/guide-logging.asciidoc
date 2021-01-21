@@ -3,6 +3,13 @@ toc::[]
 
 = Logging
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 We use http://www.slf4j.org/[SLF4J] as API for logging. The recommended implementation is http://logback.qos.ch/[Logback] for which we provide additional value such as configuration templates and an appender that prevents log-forging and reformatting of stack-traces for operational optimizations.
 
 == Usage

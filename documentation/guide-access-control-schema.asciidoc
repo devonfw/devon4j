@@ -3,6 +3,13 @@ toc::[]
 
 = Access Control Schema
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 With release `3.0.0` the `access-control-schema.xml` has been deprecated. You may still use it and find the documentation in this section. However, for new devonfw applications always start with the new approach described in link:guide-access-control#access-control-config.asciidoc[access control config].
 
 == Legacy Access Control Schema Documentation

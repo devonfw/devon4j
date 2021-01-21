@@ -3,6 +3,13 @@ toc::[]
 
 = JSON
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 http://en.wikipedia.org/wiki/JSON[JSON] (JavaScript Object Notation) is a popular format to represent and exchange data especially for modern web-clients. For mapping Java objects to JSON and vice-versa there is no official standard API. We use the established and powerful open-source solution http://wiki.fasterxml.com/JacksonHome[Jackson].
 Due to problems with the wiki of fasterxml you should try this alternative link: https://github.com/FasterXML/jackson#jackson-project-home-github[Jackson/AltLink].
 

@@ -3,6 +3,13 @@ toc::[]
 
 = Components
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 Following link:architecture.asciidoc#architecture-principles[separation-of-concerns] we divide an application into components using our link:coding-conventions.asciidoc#packages[package-conventions] and link:coding-conventions.asciidoc#architecture-mapping[architecture-mapping].
 As described by the link:architecture.asciidoc[architecture] each component is divided into these layers:
 

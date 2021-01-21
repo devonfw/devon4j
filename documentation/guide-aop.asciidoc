@@ -3,6 +3,13 @@ toc::[]
 
 = Aspect Oriented Programming (AOP)
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 http://en.wikipedia.org/wiki/Aspect-oriented_programming[AOP] is a powerful feature for cross-cutting concerns. However, if used extensive and for the wrong things an application can get unmaintainable. Therefore we give you the best practices where and how to use AOP properly.
 
 == AOP Key Principles

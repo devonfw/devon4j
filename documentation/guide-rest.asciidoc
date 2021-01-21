@@ -2,6 +2,14 @@
 toc::[]
 
 = REST
+
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 REST (https://en.wikipedia.org/wiki/Representational_state_transfer[REpresentational State Transfer]) is an inter-operable protocol for link:guide-service-layer.asciidoc[services] that is more lightweight than link:guide-soap.asciidoc[SOAP].
 However, it is no real standard and can cause confusion. Therefore we define best practices here to guide you.
 //Fixed Typo

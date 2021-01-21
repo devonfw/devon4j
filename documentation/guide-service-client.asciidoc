@@ -4,6 +4,13 @@ toc::[]
 
 = Service Client
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 This guide is about consuming (calling) services from other applications (micro-services). For providing services see the link:guide-service-layer.asciidoc[Service-Layer Guide]. Services can be consumed in the link:guide-client-layer.asciidoc[client] or the server. As the client is typically not written in Java you should consult the according guide for your client technology. In case you want to call a service within your Java code this guide is the right place to get help.
 
 == Motivation

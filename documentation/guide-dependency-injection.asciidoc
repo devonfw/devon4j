@@ -2,6 +2,14 @@
 toc::[]
 
 = Dependency Injection
+
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 Dependency injection is one of the most important design patterns and is a key principle to a modular and component based architecture. The Java Standard for dependency injection is http://docs.oracle.com/javaee/6/api/javax/inject/package-summary.html[javax.inject (JSR330)] that we use in combination with http://docs.oracle.com/javaee/5/api/javax/annotation/package-summary.html[JSR250]. 
 
 There are many frameworks which support this standard including all recent Java EE application servers. We recommend to use http://spring.io/[Spring] (also known as springframework) that we use in our example application. However, the modules we provide typically just rely on JSR330 and can be used with any compliant container.

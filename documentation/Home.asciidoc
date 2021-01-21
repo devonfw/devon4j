@@ -1,5 +1,12 @@
 = devonfw for Java (devon4j)
 
+ATTENTION: You are on the `develop` branch.
+This has been renamed to `master`.
+The `develop` branch will not be maintained anymore.
+It is only left here to avoid broken links to existing content.
+Please update links to point to the `master` branch.
+For details look at issue https://github.com/devonfw/devon4j/issues/320[#320].
+
 Welcome to the Java edition of devonfw. devon4j is documented by a platform guide (see the side-bar of this wiki) to be used in your projects.
 
 You will find the latest stable versions of documents generated from this wiki here:
