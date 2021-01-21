@@ -7,8 +7,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * CorsConfigProperties to keep the CORS cofigurations.
+ * {@link ConfigurationProperties} to configure Cross-Origin Resource Sharing (CORS).
  *
+ * @since 2020.12.002
  */
 @Configuration
 @ConfigurationProperties(prefix = "security.cors")
