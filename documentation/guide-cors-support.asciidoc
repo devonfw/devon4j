@@ -36,7 +36,7 @@ Add the below properties in your application.properties file.
 [source]
 ----
 #CORS support
-security.cors.allowcredentials=true
+security.cors.allowCredentials=true
 security.cors.allowedOrigins=*
 security.cors.allowedHeaders=*
 security.cors.allowedMethods=OPTIONS,HEAD,GET,PUT,POST,DELETE,PATCH
@@ -53,16 +53,16 @@ security.cors.allowedMethods=OPTIONS,HEAD,GET,PUT,POST,DELETE,PATCH
 |Access-Control-Allow-Credentials
 
 |allowedOrigins
-|List of all allowed origins.
+|Allow list of all allowed origins.
    (* - all orgins are allowed)
 |Access-Control-Allow-Origin
 
 |allowedMethods
-|List of HTTP request methods.
+|Allow list of HTTP request methods. Methods are OPTIONS, HEAD, GET, PUT, POST, DELETE, PATCH
 |-
 
 |allowedHeaders
-|List of headers that can be used during the request.
+|Allow list of headers that can be used during the request.
   (* - all headers requested by the client are allowed)
 |Access-Control-Allow-Headers
 

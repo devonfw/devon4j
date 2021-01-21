@@ -1,12 +1,10 @@
 package com.devonfw.module.security.cors.common.impl;
 
-import static java.util.Arrays.asList;
-
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.StringUtils;
 
 /**
  * CorsConfigProperties to keep the CORS cofigurations.
@@ -16,18 +14,22 @@ import org.springframework.util.StringUtils;
 @ConfigurationProperties(prefix = "security.cors")
 public class CorsConfigProperties {
 
-  private static final String DELIMITER = "\\,";
-
   private boolean allowCredentials;
 
-  private String allowedOrigins;
+  @Value("#{'${security.cors.allowedOrigins}'.split(',')}")
+  private List<String> allowedOrigins;
 
-  private String allowedHeaders;
+  @Value("#{'${security.cors.allowedHeaders}'.split(',')}")
+  private List<String> allowedHeaders;
 
-  private String allowedMethods;
+  @Value("#{'${security.cors.allowedMethods}'.split(',')}")
+  private List<String> allowedMethods;
 
   /**
+   * Decides the browser should include any cookies associated with the request.
+   *
    * @return allowCredentials
+   * @see org.springframework.web.cors.CorsConfiguration#isAllowCredentials()
    */
   public boolean isAllowCredentials() {
 
@@ -35,7 +37,10 @@ public class CorsConfigProperties {
   }
 
   /**
+   * Decides the browser should include any cookies associated with the request.
+   *
    * @param allowCredentials new value of {@link #getallowCredentials}.
+   * @see org.springframework.web.cors.CorsConfiguration#setAllowCredentials()
    */
   public void setAllowCredentials(boolean allowCredentials) {
 
@@ -43,59 +48,63 @@ public class CorsConfigProperties {
   }
 
   /**
+   * Get list of all allowed origins.
+   *
    * @return allowedOrigins
+   * @see org.springframework.web.cors.CorsConfiguration#getAllowedOrigins()
    */
   public List<String> getAllowedOrigins() {
 
-    if (StringUtils.hasText(this.allowedOrigins)) {
-      return asList(this.allowedOrigins.split(DELIMITER));
-    }
-    return null;
+    return this.allowedOrigins;
   }
 
   /**
+   * Set list of all allowed origins.
+   *
    * @param allowedOrigins new value of {@link #getallowedOrigins}.
+   * @see org.springframework.web.cors.CorsConfiguration#setAllowedOrigins()
    */
-  public void setAllowedOrigins(String allowedOrigins) {
+  public void setAllowedOrigins(List<String> allowedOrigins) {
 
     this.allowedOrigins = allowedOrigins;
   }
 
   /**
+   * Get list of headers that can be used during the request.
+   *
    * @return allowedHeaders
    */
   public List<String> getAllowedHeaders() {
 
-    if (StringUtils.hasText(this.allowedHeaders)) {
-      return asList(this.allowedHeaders.split(DELIMITER));
-    }
-    return null;
-
+    return this.allowedHeaders;
   }
 
   /**
+   * Set list of headers that can be used during the request.
+   *
    * @param allowedHeaders new value of {@link #getallowedHeaders}.
    */
-  public void setAllowedHeaders(String allowedHeaders) {
+  public void setAllowedHeaders(List<String> allowedHeaders) {
 
     this.allowedHeaders = allowedHeaders;
   }
 
   /**
+   * Gets list of HTTP request methods.
+   *
    * @return allowedMethods
    */
   public List<String> getAllowedMethods() {
 
-    if (StringUtils.hasText(this.allowedMethods)) {
-      return asList(this.allowedMethods.split(DELIMITER));
-    }
-    return null;
+    return this.allowedMethods;
   }
 
   /**
+   * Set list of HTTP request methods.
+   *
    * @param allowedMethods new value of {@link #getallowedMethods}.
    */
-  public void setAllowedMethods(String allowedMethods) {
+  public void setAllowedMethods(List<String> allowedMethods) {
 
     this.allowedMethods = allowedMethods;
   }

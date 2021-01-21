@@ -18,12 +18,10 @@
     <dependency>
       <groupId>com.devonfw.java.starters</groupId>
       <artifactId>devon4j-starter-security</artifactId>
-       <version>2020.12.001-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-security-cors</artifactId>
-       <version>2020.12.002-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

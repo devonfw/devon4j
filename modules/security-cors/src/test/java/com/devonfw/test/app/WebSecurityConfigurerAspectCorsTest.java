@@ -29,11 +29,8 @@ public class WebSecurityConfigurerAspectCorsTest {
   public void init() {
 
     this.webSecurityConfigurerAspectCors = new WebSecurityConfigurerAspectCors();
-
     CorsConfigProperties corsConfigProperties = new CorsConfigProperties();
-
     this.webSecurityConfigurerAspectCors.setCorsConfigProperties(corsConfigProperties);
-
   }
 
   /**
@@ -47,10 +44,8 @@ public class WebSecurityConfigurerAspectCorsTest {
     // Arrange
     HttpSecurity expectedHttp = new HttpSecurity(mock(ObjectPostProcessor.class),
         mock(AuthenticationManagerBuilder.class), new HashMap<>());
-
     // Act
     HttpSecurity resultHttp = this.webSecurityConfigurerAspectCors.configure(expectedHttp);
-
     // Assert
     assertThat(resultHttp).isEqualTo(expectedHttp);
   }
