@@ -31,7 +31,7 @@ public class WebSecurityConfigurerAspectCors implements WebSecurityConfigurerAsp
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     CorsConfiguration config = new CorsConfiguration();
-    config.setAllowCredentials(this.corsConfigProperties.isAllowCredentials());
+    config.setAllowCredentials(this.corsConfigProperties.getAllowCredentials());
     config.setAllowedOrigins(this.corsConfigProperties.getAllowedOrigins());
     config.setAllowedHeaders(this.corsConfigProperties.getAllowedHeaders());
     config.setAllowedMethods(this.corsConfigProperties.getAllowedMethods());
