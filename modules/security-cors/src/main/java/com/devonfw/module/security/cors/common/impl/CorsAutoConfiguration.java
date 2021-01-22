@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.devonfw.module.security.common.api.config.WebSecurityConfigurerAspect;
 
 /**
- * {@link Configuration} to enable Cors protection.
+ * Auto-{@link Configuration} for spring to enable CORS protection.
  *
  * @since 2020.12.001
  */
@@ -14,7 +14,7 @@ import com.devonfw.module.security.common.api.config.WebSecurityConfigurerAspect
 public class CorsAutoConfiguration {
 
   /**
-   * @return the {@link WebSecurityConfigurerAspect} to enable Cors.
+   * @return the {@link WebSecurityConfigurerAspect} to enable CORS.
    */
   @Bean
   public WebSecurityConfigurerAspect corsConfigAspect() {
@@ -23,7 +23,7 @@ public class CorsAutoConfiguration {
   }
 
   /**
-   * @return
+   * @return the {@link CorsConfigProperties} to configure CORS.
    */
   @Bean
   public CorsConfigProperties corsConfigProperties() {
