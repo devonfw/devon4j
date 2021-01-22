@@ -29,7 +29,7 @@ public class WebSecurityConfigurerAspectCors implements WebSecurityConfigurerAsp
   private CorsFilter getCorsFilter() {
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", this.corsConfigProperties);
+    source.registerCorsConfiguration(this.corsConfigProperties.getPathPattern(), this.corsConfigProperties.getSpring());
     return new CorsFilter(source);
   }
 
