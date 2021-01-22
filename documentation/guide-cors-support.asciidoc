@@ -36,10 +36,11 @@ Add the below properties in your application.properties file.
 [source]
 ----
 #CORS support
-security.cors.allowCredentials=true
-security.cors.allowedOrigins=*
-security.cors.allowedHeaders=*
-security.cors.allowedMethods=OPTIONS,HEAD,GET,PUT,POST,DELETE,PATCH
+security.cors.spring.allowCredentials=true
+security.cors.spring.allowedOrigins=*
+security.cors.spring.allowedHeaders=*
+security.cors.spring.allowedMethods=OPTIONS,HEAD,GET,PUT,POST,DELETE,PATCH
+security.cors.pathPattern=/**
 ----
 
 
@@ -63,6 +64,9 @@ security.cors.allowedMethods=OPTIONS,HEAD,GET,PUT,POST,DELETE,PATCH
 |List of allowed headers that can be used during the request (use `*` to allow all headers requested by the client)
 |Access-Control-Allow-Headers
 
+|pathPattern
+|Ant-style pattern for the URL paths where to apply CORS. Use "/**" to match all URL paths.
+|
 |===
 
 More information about the CORS headers can be found https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers#cors[here]
