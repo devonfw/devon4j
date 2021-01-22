@@ -8,7 +8,7 @@ import com.devonfw.module.security.common.api.config.WebSecurityConfigurerAspect
 /**
  * Auto-{@link Configuration} for spring to enable CORS protection.
  *
- * @since 2020.12.001
+ * @since 2020.12.002
  */
 @Configuration
 public class CorsAutoConfiguration {
