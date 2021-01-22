@@ -3,7 +3,6 @@ package com.devonfw.module.security.cors.common.impl;
 import javax.inject.Inject;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
@@ -12,7 +11,7 @@ import com.devonfw.module.security.common.api.config.WebSecurityConfigurerAspect
 /**
  * Implementation of {@link WebSecurityConfigurerAspect} for CORS protection.
  *
- * @since 2020.12.001
+ * @since 2020.12.002
  */
 public class WebSecurityConfigurerAspectCors implements WebSecurityConfigurerAspect {
 
@@ -30,12 +29,7 @@ public class WebSecurityConfigurerAspectCors implements WebSecurityConfigurerAsp
   private CorsFilter getCorsFilter() {
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    CorsConfiguration config = new CorsConfiguration();
-    config.setAllowCredentials(this.corsConfigProperties.getAllowCredentials());
-    config.setAllowedOrigins(this.corsConfigProperties.getAllowedOrigins());
-    config.setAllowedHeaders(this.corsConfigProperties.getAllowedHeaders());
-    config.setAllowedMethods(this.corsConfigProperties.getAllowedMethods());
-    source.registerCorsConfiguration("/**", config);
+    source.registerCorsConfiguration("/**", this.corsConfigProperties);
     return new CorsFilter(source);
   }
 
