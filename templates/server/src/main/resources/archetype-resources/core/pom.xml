@@ -236,6 +236,8 @@
         <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-tomcat</artifactId>
+          <!-- workaround as of https://github.com/mojohaus/flatten-maven-plugin/issues/70 -->
+					<version>${spring.boot.version}</version>
         </dependency>
       </dependencies>
     </profile>
