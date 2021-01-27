@@ -77,6 +77,11 @@
       </dependency>
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-security-csrf</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-security-jwt</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -219,6 +224,16 @@
       <dependency>
         <groupId>com.devonfw.java.starters</groupId>
         <artifactId>devon4j-starter-kafka-receiver</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-security</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-security-csrf</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

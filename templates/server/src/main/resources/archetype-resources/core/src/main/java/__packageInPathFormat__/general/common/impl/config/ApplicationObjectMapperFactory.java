@@ -22,11 +22,7 @@ public class ApplicationObjectMapperFactory extends ObjectMapperFactory {
    * The constructor.
    */
   public ApplicationObjectMapperFactory() {
-
     super();
-    // see https://github.com/devonfw/devon4j/blob/develop/documentation/guide-json.asciidoc#json-and-inheritance
-    SimpleModule module =  getExtensionModule();
-    module.addAbstractTypeMapping(CsrfToken.class, CsrfTokenImpl.class);
   }
 
   /**

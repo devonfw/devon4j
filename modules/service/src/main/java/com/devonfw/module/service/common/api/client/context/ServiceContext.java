@@ -63,11 +63,11 @@ public interface ServiceContext<S> {
   default String getServiceDescription(String operation, String url) {
 
     StringBuilder sb = new StringBuilder(getApi().getName());
-    if (operation != null) {
+    if ((operation != null) && !operation.isEmpty()) {
       sb.append('#');
       sb.append(operation);
     }
-    if (url != null) {
+    if ((url != null) && !url.isEmpty()) {
       sb.append('[');
       sb.append(url);
       sb.append(']');

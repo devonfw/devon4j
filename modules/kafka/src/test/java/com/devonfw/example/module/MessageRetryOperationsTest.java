@@ -1,9 +1,9 @@
 package com.devonfw.example.module;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-import org.apache.commons.codec.Charsets;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.Headers;
@@ -40,10 +40,11 @@ public class MessageRetryOperationsTest extends AbstractKafkaBaseTest {
   @Override
   protected void doSetUp() {
 
-    this.consumerRecord = new ConsumerRecord<>(AbstractKafkaBaseTest.RETRY_TEST_TOPIC, 0, 0, AbstractKafkaBaseTest.RETRY_TEST_TOPIC, "message");
+    this.consumerRecord = new ConsumerRecord<>(AbstractKafkaBaseTest.RETRY_TEST_TOPIC, 0, 0,
+        AbstractKafkaBaseTest.RETRY_TEST_TOPIC, "message");
     Headers headers = this.consumerRecord.headers();
-    headers.add(MessageRetryContext.RETRY_COUNT, "0".getBytes(Charsets.UTF_8));
-    headers.add(MessageRetryContext.RETRY_STATE, "Pending".getBytes(Charsets.UTF_8));
+    headers.add(MessageRetryContext.RETRY_COUNT, "0".getBytes(StandardCharsets.UTF_8));
+    headers.add(MessageRetryContext.RETRY_STATE, "Pending".getBytes(StandardCharsets.UTF_8));
     headers.add(MessageRetryContext.RETRY_NEXT, Instant.now().plus(1, ChronoUnit.MINUTES).toString().getBytes());
     headers.add(MessageRetryContext.RETRY_UNTIL, Instant.now().toString().getBytes());
 
