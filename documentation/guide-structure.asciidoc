@@ -17,6 +17,8 @@ The structure of a `devon4j` application is divided into the following modules:
 * `batch`: optional module for link:guide-batch-layer.asciidoc[batch layer]
 * `server`: module that bundles the entire app (`core` with optional `batch`) typically as a bootified WAR file.
 
+Developers that are new to `devon4j` often ask which type should go into `api` and which into `core`. Therefore, you can have a look at our https://github.com/devonfw/devon4j/blob/develop/documentation/coding-conventions.asciidoc#architecture-mapping[architecture-mapping] and you will find the module (`api` or `core`) in the brackets for each type.
+
 == Make jar not war
 
 First of all it is important to understand that the above defined structure aims to make modules like `api`, `core`, and `batch` reusable maven artifacts, that can be used as a regular maven dependency.
