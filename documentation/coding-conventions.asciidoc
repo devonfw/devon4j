@@ -60,81 +60,81 @@ With devonfw we experienced the same for the codebase (what is inside `src/main/
 |  ├──.common
 |  |  ├──.api[.«detail»]
 |  |  |  ├──.link:guide-datatype.asciidoc[datatype]
-|  |  |  |  └──.link:guide-datatype.asciidoc[«Datatype»]
-|  |  |  └──.link:guide-transferobject.asciidoc#bo[«BusinessObject»]
+|  |  |  |  └──.link:guide-datatype.asciidoc[«Datatype»] (api)
+|  |  |  └──.link:guide-transferobject.asciidoc#bo[«BusinessObject»] (api)
 |  |  └──.impl[.«detail»]
-|  |     ├──.link:guide-configuration-mapping.asciidoc#mapping-advanced-configuration[«Aspect»ConfigProperties]
-|  |     ├──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonSerializer]
-|  |     └──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonDeserializer]
+|  |     ├──.link:guide-configuration-mapping.asciidoc#mapping-advanced-configuration[«Aspect»ConfigProperties] (core)
+|  |     ├──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonSerializer] (core)
+|  |     └──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonDeserializer] (core)
 |  ├──.link:guide-dataaccess-layer.asciidoc[dataaccess]
 |  |  ├──.api[.«detail»]
 |  |  |  ├──.link:guide-repository.asciidoc[repo]
-|  |  |  |  └──.link:guide-repository.asciidoc#repository[«BusinessObject»Repository]
-|  |  |  ├──.link:guide-dao.asciidoc[dao] (alternative to repo)
-|  |  |  |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»Dao] (alternative to Repository)
-|  |  |  └──.link:guide-jpa.asciidoc#entity[«BusinessObject»Entity]
+|  |  |  |  └──.link:guide-repository.asciidoc#repository[«BusinessObject»Repository] (core)
+|  |  |  ├──.link:guide-dao.asciidoc[dao] (core) [alternative to repo]
+|  |  |  |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»Dao] (core) [alternative to Repository]
+|  |  |  └──.link:guide-jpa.asciidoc#entity[«BusinessObject»Entity] (core)
 |  |  └──.impl[.«detail»]
-|  |     ├──.link:guide-dao.asciidoc[dao] (alternative to repo)
-|  |     |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»DaoImpl] (alternative to Repository)
-|  |     └──.link:guide-jpa.asciidoc#entities-and-datatypes[«Datatype»AttributeConverter]
+|  |     ├──.link:guide-dao.asciidoc[dao] (core) [alternative to repo]
+|  |     |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»DaoImpl] (core) [alternative to Repository]
+|  |     └──.link:guide-jpa.asciidoc#entities-and-datatypes[«Datatype»AttributeConverter] (core)
 |  ├──.link:guide-logic-layer.asciidoc[logic]
 |  |  ├──.api
 |  |  |  ├──.[«detail».]link:guide-transferobject.asciidoc[to]
-|  |  |  |   ├──.link:guide-transferobject.asciidoc#to[«MyCustom»«To]
-|  |  |  |   ├──.link:guide-jpa.asciidoc#embeddable[«DataStructure»Embeddable]
-|  |  |  |   ├──.link:guide-transferobject.asciidoc#eto[«BusinessObject»Eto]
-|  |  |  |   └──.link:guide-transferobject.asciidoc#cto[«BusinessObject»«Subset»Cto]
+|  |  |  |   ├──.link:guide-transferobject.asciidoc#to[«MyCustom»«To] (api)
+|  |  |  |   ├──.link:guide-jpa.asciidoc#embeddable[«DataStructure»Embeddable] (api)
+|  |  |  |   ├──.link:guide-transferobject.asciidoc#eto[«BusinessObject»Eto] (api)
+|  |  |  |   └──.link:guide-transferobject.asciidoc#cto[«BusinessObject»«Subset»Cto] (api)
 |  |  |  ├──.[«detail».]link:guide-usecase.asciidoc[usecase]
-|  |  |  |   ├──.link:guide-usecase.asciidoc#find[UcFind«BusinessObject»]
-|  |  |  |   ├──.link:guide-usecase.asciidoc#manage[UcManage«BusinessObject»]
-|  |  |  |   └──.link:guide-usecase.asciidoc#custom[Uc«Operation»«BusinessObject»]
-|  |  |  └──.link:guide-logic-layer.asciidoc#component[«Component»]
+|  |  |  |   ├──.link:guide-usecase.asciidoc#find[UcFind«BusinessObject»] (core)
+|  |  |  |   ├──.link:guide-usecase.asciidoc#manage[UcManage«BusinessObject»] (core)
+|  |  |  |   └──.link:guide-usecase.asciidoc#custom[Uc«Operation»«BusinessObject»] (core)
+|  |  |  └──.link:guide-logic-layer.asciidoc#component[«Component»] (core)
 |  |  ├──.base
 |  |  |  └──.[«detail».]link:guide-usecase.asciidoc[usecase]
-|  |  |     └──.link:guide-usecase.asciidoc[Abstract«BusinessObject»Uc]
+|  |  |     └──.link:guide-usecase.asciidoc[Abstract«BusinessObject»Uc] (core)
 |  |  └──.impl
 |  |     ├──.[«detail».]link:guide-usecase.asciidoc[usecase]
-|  |     |   ├──.link:guide-usecase.asciidoc#find[UcFind«BusinessObject»Impl]
-|  |     |   ├──.link:guide-usecase.asciidoc#manage[UcManage«BusinessObject»Impl]
-|  |     |   └──.link:guide-usecase.asciidoc#custom[Uc«Operation»«BusinessObject»Impl]
-|  |     └──.link:guide-logic-layer.asciidoc#component[«Component»Impl]
+|  |     |   ├──.link:guide-usecase.asciidoc#find[UcFind«BusinessObject»Impl] (core)
+|  |     |   ├──.link:guide-usecase.asciidoc#manage[UcManage«BusinessObject»Impl] (core)
+|  |     |   └──.link:guide-usecase.asciidoc#custom[Uc«Operation»«BusinessObject»Impl] (core)
+|  |     └──.link:guide-logic-layer.asciidoc#component[«Component»Impl] (core)
 |  └──.link:guide-service-layer.asciidoc[service]
 |     ├──.api[.«detail»]
 |     |  ├──.link:guide-rest.asciidoc[rest]
-|     |  |  └──.link:guide-rest.asciidoc#rest-service-api[«Component»RestService]
+|     |  |  └──.link:guide-rest.asciidoc#rest-service-api[«Component»RestService] (api)
 |     |  └──.link:guide-soap.asciidoc[ws]
-|     |     └──.link:guide-soap.asciidoc#web-service-api[«Component»WebService]
+|     |     └──.link:guide-soap.asciidoc#web-service-api[«Component»WebService] (api)
 |     └──.impl[.«detail»]
 |        ├──.link:guide-jms.asciidoc[jms]
-|        |  └──.link:guide-jms.asciidoc#jms-listener[«BusinessObject»JmsListener]
+|        |  └──.link:guide-jms.asciidoc#jms-listener[«BusinessObject»JmsListener] (core)
 |        ├──.link:guide-rest.asciidoc[rest]
-|        |  └──.link:guide-rest.asciidoc#rest-service-implementation[«Component»RestServiceImpl]
+|        |  └──.link:guide-rest.asciidoc#rest-service-implementation[«Component»RestServiceImpl] (core)
 |        └──.link:guide-soap.asciidoc[ws]
-|           └──.link:guide-soap.asciidoc#web-service-implementation[«Component»WebServiceImpl]
+|           └──.link:guide-soap.asciidoc#web-service-implementation[«Component»WebServiceImpl] (core)
 ├──.link:guide-component.asciidoc#general-component[general]
 │  ├──.common
 │  |  ├──.api
 |  |  |  ├──.to
-|  |  |  |  ├──.AbstractSearchCriteriaTo
+|  |  |  |  ├──.AbstractSearchCriteriaTo (api)
 |  |  |  └──.ApplicationEntity
 │  |  ├──.base
-|  |  |  └──.AbstractBeanMapperSupport
+|  |  |  └──.AbstractBeanMapperSupport (core)
 │  |  └──.impl
 │  |     ├──.config
-│  |     |  └──.ApplicationObjectMapperFactory
+│  |     |  └──.ApplicationObjectMapperFactory (core)
 │  |     └──.security
-│  |        └──.ApplicationWebSecurityConfig
+│  |        └──.ApplicationWebSecurityConfig (core)
 │  ├──.dataaccess
 │  |  └──.api
-|  |     └──.ApplicationPersistenceEntity
+|  |     └──.ApplicationPersistenceEntity (core)
 │  ├──.logic
 │  |  └──.base
-|  |     ├──.AbstractComponentFacade
-|  |     ├──.AbstractLogic
-|  |     └──.AbstractUc
+|  |     ├──.AbstractComponentFacade (core)
+|  |     ├──.AbstractLogic (core)
+|  |     └──.AbstractUc (core)
 |  └──.service
 |     └──...
-└──.SpringBootApp
+└──.SpringBootApp (core)
 ----
 
 == Code Tasks
