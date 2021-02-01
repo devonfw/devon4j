@@ -90,7 +90,6 @@ The protocol to communicate these validation errors is described in xref:rest-ex
 == JAX-RS
 For implementing REST services we use the https://jax-rs-spec.java.net/[JAX-RS] standard. As an implementation we recommend http://cxf.apache.org/[CXF]. For link:guide-json.asciidoc[JSON] bindings we use http://wiki.fasterxml.com/JacksonHome[Jackson] while link:guide-xml.asciidoc[XML] binding works out-of-the-box with http://www.oracle.com/technetwork/articles/javase/index-140168.html[JAXB].
 To implement a service you write an interface with JAX-RS annotations for the API and a regular implementation class annotated with `@Named` to make it a spring-bean. Here is a simple example:
-com.devonfw.application.mtsj.dishmanagement.service.impl.rest
 [source,java]
 --------
 @Path("/imagemanagement/v1")
@@ -236,7 +235,6 @@ The response contains the requested page of the collection in JSON format, using
 
 
 Compare the code needed on server side to accept this request:
-com.devonfw.application.mtsj.dishmanagement.service.api.rest
 [source,java]
 ----
 @Path("/category/search")
