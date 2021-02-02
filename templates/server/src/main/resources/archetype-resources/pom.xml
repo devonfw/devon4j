@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>${artifactId}</artifactId>
   <groupId>${groupId}</groupId>
-  <version>${version}</version>
+  <version>${app.version}</version>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
   <description>Application based on the devon4j.</description>
@@ -19,6 +19,7 @@
     <jackson.version>$[jackson.version]</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
     <guava.version>$[guava.version]</guava.version>
     <devonfw.test.excluded.groups>system</devonfw.test.excluded.groups>
+	 <app.version>${revision}${changelist}</app.version>
   </properties>
 
   <modules>
