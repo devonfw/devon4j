@@ -10,8 +10,8 @@ import com.devonfw.module.test.common.base.ModuleTest;
  * This test verifies that the entire code of SpringBootApp.
  *
  */
-@SpringBootTest(classes = SpringBootApp.class, webEnvironment = WebEnvironment.MOCK)
-public class ApplicationTests extends ModuleTest {
+@SpringBootTest(classes = {SpringBootApp.class}, webEnvironment = WebEnvironment.MOCK)
+public class SpringBootAppTest extends ModuleTest {
   @Test
   public void contextLoads() {
 
