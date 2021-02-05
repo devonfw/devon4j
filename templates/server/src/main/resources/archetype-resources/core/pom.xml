@@ -166,11 +166,10 @@
       <scope>test</scope>
     </dependency>
 #end
-
-    <!-- Flyway for DB Schema version management and migration -->
-    <dependency>
-      <groupId>org.flywaydb</groupId>
-      <artifactId>flyway-core</artifactId>
+    <!-- Liquibase for DB Schema version management and migration  -->
+     <dependency>
+      <groupId>org.liquibase</groupId>
+      <artifactId>liquibase-core</artifactId>
     </dependency>
 
     <!-- CXF for REST and Webservices -->
@@ -252,7 +251,14 @@
           </excludes>
         </configuration>
       </plugin>
+      <plugin>
+      <groupId>org.liquibase</groupId>
+      <artifactId>liquibase-maven-plugin</artifactId>
+      <configuration>
+      <propertyFile>src/main/resources/config/application.properties</propertyFile>
+      <propertyFileWillOverride>true</propertyFileWillOverride>
+      </configuration>
+      </plugin>
     </plugins>
   </build>
-
 </project>
