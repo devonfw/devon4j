@@ -38,7 +38,7 @@ jobs:
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
-          path: ${{HOME}}/.m2/repository
+          path: $HOME/.m2/repository
 
       - name: Build
         run: |
