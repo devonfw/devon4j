@@ -29,9 +29,6 @@ jobs:
     steps:
       # Checks-out your repository 
       - uses: actions/checkout@v2
-        with: 
-          path: ~/.m2/repository
-          jdk:  openjdk11
 
       - name: Build
         run: |
