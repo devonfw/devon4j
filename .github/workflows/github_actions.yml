@@ -35,7 +35,7 @@ jobs:
 
       - name: Build
         run: |
-          cd ..
+          ls
           mvn install && ([[ $TRAVIS_BRANCH != "develop" ]] || [[ $TRAVIS_PULL_REQUEST != "false" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy)
 
       - name: Documentation
