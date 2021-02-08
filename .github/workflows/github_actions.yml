@@ -2,7 +2,7 @@
 
 name: github actions for devon4j
 env:
-  ORG: "devonfw"
+  ORG: devonfw
   REPO_SOURCE: "devon4j"
   REPO_DEST: "devon4j.wiki"
   REPO_CONSOLIDATE: "devonfw-guide"
