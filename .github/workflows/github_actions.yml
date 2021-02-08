@@ -37,4 +37,4 @@ jobs:
       - name: Documentation
         run: |
           cd ..
-          git clone https://${{ GH_REPO_DEST }}
+          echo ${{ ORG }}
