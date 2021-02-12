@@ -1,0 +1,52 @@
+:toc:
+toc::[]
+
+= JIB
+jib is a tool from Google to create Docker images in simple and faster way. No dockerfile or no docker compose file is required. Using Jib, image can be created and uploaded to the registery even without Docker daemon.
+
+The JIB maven plugin configured to build the image using mvn command.
+
+== Build and run the image locally
+The Docker daemon should be available locally. 
+
+To build the docker image.
+[source]
+----
+mvn compile jib:dockerBuild
+
+docker images
+
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+myapp-server/java   0.0.1-SNAPSHOT      c521c9800c48        51 years ago        206MB
+myapp-api/java      0.0.1-SNAPSHOT      7004670aa31e        51 years ago        161MB
+myapp-core/java     0.0.1-SNAPSHOT      82d949c3daa3        51 years ago        205MB
+----
+
+To run the image.
+
+[source]
+----
+docker run --publish 8081:8081 <image>
+----
+
+== Upload the image to the registery
+
+There is no docker daemon installed for this.
+
+[source]
+----
+mvn compile jib:build   
+-Djib.to.image=<registery>/<username>/<application>:<tag> 
+-Djib.to.auth.username=<username>    
+-Djib.to.auth.password=<password>
+
+
+Eg:
+mvn compile jib:build   
+-Djib.to.image=docker.io/devonfw/myapp-core:0.0.1-SNAPSHOT
+-Djib.to.auth.username=devonfw    
+-Djib.to.auth.password=password
+
+----
+
+
