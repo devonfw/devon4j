@@ -13,9 +13,13 @@
       <defaultValue>h2</defaultValue>
       <!-- <validationRegex>h2|postgresql|mysql|mariadb|oracle|hana|db2</validationRegex> -->
     </requiredProperty>
+     <requiredProperty key="dbMigration">
+      <defaultValue>flyway</defaultValue>
+      <!-- <validationRegex>flyway|liquibase</validationRegex> -->
+    </requiredProperty>
     <requiredProperty key="batch">
       <defaultValue>.</defaultValue>
-      <validationRegex>batch|[.]</validationRegex>
+     <validationRegex>batch|[.]</validationRegex>
     </requiredProperty>
   </requiredProperties>
 

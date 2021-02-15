@@ -166,12 +166,20 @@
       <scope>test</scope>
     </dependency>
 #end
-    <!-- Liquibase for DB Schema version management and migration  -->
-     <dependency>
-      <groupId>org.liquibase</groupId>
-      <artifactId>liquibase-core</artifactId>
-    </dependency>
 
+ <!-- DB Schema version management and migration  -->
+
+#if ($dbMigration == 'flyway')
+      <dependency> 
+       <groupId>org.flywaydb</groupId>
+       <artifactId>flyway-core</artifactId>
+      </dependency>
+#else
+      <dependency>
+       <groupId>org.liquibase</groupId>
+       <artifactId>liquibase-core</artifactId>
+       </dependency>
+#end
     <!-- CXF for REST and Webservices -->
     <dependency>
       <groupId>org.apache.cxf</groupId>
