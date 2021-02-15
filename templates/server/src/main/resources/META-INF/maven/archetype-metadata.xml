@@ -65,7 +65,13 @@
         <include>.gitignore</include>
       </includes>
     </fileSet>
-  </fileSets> 
+    <fileSet packaged="false" filtered="true" encoding="UTF-8">
+      <directory>.mvn</directory>
+      <includes>
+        <include>**/*.*</include>
+      </includes>
+    </fileSet>
+  </fileSets>
   <modules>
     <module id="server" dir="server" name="server">
       <fileSets>
