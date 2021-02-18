@@ -25,13 +25,17 @@ Caused by: javax.ws.rs.NotFoundException: HTTP 404 Not Found
 
 This is an error you get when using `devon4j` with CXF:
 ```
-net.sf.mmm.util.exception.api.ServiceInvocationFailedException: ServiceInvoke: While invoking the service com.devonfw.test.app.myexample.service.api.rest.MyExampleRestService#greet[http://localhost:56742/app/services-404/rest/my-example/v1/greet/John%20Doe] the following error occurred: 404 Not Found. Probably the service is temporary unavailable. Please try again later. If the problem persists contact your system administrator.
-83a2a893-1149-480f-b35f-4ed8f53f4898
+net.sf.mmm.util.exception.api.ServiceInvocationFailedException: 404: While invoking the service com.devonfw.test.app.myexample.service.api.rest.MyExampleRestService#greet[http://localhost:49468/app/services-404/rest/my-example/v1/greet/John%20Doe] the following error occurred: Not Found. Probably the service is temporary unavailable. Please try again later. If the problem persists contact your system administrator.
+4fb68fd0-a962-46ab-8655-99cb9e43c9ca
 	at com.devonfw.module.service.common.impl.client.ServiceClientErrorFactoryImpl.create(ServiceClientErrorFactoryImpl.java:30)
-	at com.devonfw.module.service.common.base.client.AbstractServiceClientErrorFactory.createException(AbstractServiceClientErrorFactory.java:77)
+	at com.devonfw.module.service.common.base.client.AbstractServiceClientErrorFactory.createException(AbstractServiceClientErrorFactory.java:83)
 	at com.devonfw.module.service.common.base.client.AbstractServiceClientErrorFactory.unmarshall(AbstractServiceClientErrorFactory.java:65)
 	at com.devonfw.module.cxf.common.impl.client.rest.RestServiceExceptionMapper.fromResponse(RestServiceExceptionMapper.java:59)
 	at org.apache.cxf.jaxrs.client.ClientProxyImpl.checkResponse(ClientProxyImpl.java:422)
+```
+On success you will instead get such log message:
+```
+Invoking service com.devonfw.test.app.myexample.service.api.rest.MyExampleRestService#greet[http://localhost:50504/app/services/rest] took PT0.220281558S (220281558ns) and succeded with status 200.
 ```
 
 == WebServices
