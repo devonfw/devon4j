@@ -6,9 +6,9 @@ env:
   REPO_SOURCE: "devon4j"
   REPO_DEST: "devon4j.wiki"
   REPO_CONSOLIDATE: "devonfw-guide"
-  GH_REPO_SOURCE: "github.com/${ORG}/${REPO_SOURCE}.git"
-  GH_REPO_DEST:  "github.com/${ORG}/${REPO_DEST}.git"
-  GH_REPO_CONSOLIDATE: "github.com/${ORG}/${REPO_CONSOLIDATE}.git" 
+  GH_REPO_SOURCE: "github.com/${{ env.ORG }}/${{ env.REPO_SOURCE }}.git"
+  GH_REPO_DEST:  "github.com/${{ env.ORG }}/${{ env.REPO_DEST }}.git"
+  GH_REPO_CONSOLIDATE: "github.com/${{ env.ORG }}/${{ env.REPO_CONSOLIDATE }}.git" 
 
 # Controls when the action will run. 
 on:
@@ -37,42 +37,42 @@ jobs:
             
       - name: Build
         run: |
-         echo "ORG=$(echo '${{ github.repository }}' | awk -F '/' '{print $1}')" >> $GITHUB_ENV
-                echo "REPO_SOURCE=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
-                echo "REPO_DEST=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}').wiki" >> $GITHUB_ENV
           mvn install && ([[ $TRAVIS_BRANCH != "develop" ]] || [[ $TRAVIS_PULL_REQUEST != "false" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy)
           
       - name: Documentation
         run: |
-          cd ..
-          git clone https://${GH_REPO_DEST}
-          git clone https://${GH_REPO_CONSOLIDATE}
-          yes | cp -rf ${REPO_SOURCE}/documentation/* ${REPO_DEST}/
-          cd ${REPO_DEST}
-          grep -lr "link:[a-zA-Z0-9_.-]*.asciidoc.*" .| xargs -r sed -i "s/.asciidoc//g"
-          |
-          if git diff-index --quiet HEAD && [ ! -n "$(git status -s)" ]; then 
-            set +e 
-            pkill -9 -P $$ &> /dev/null || true 
-            exit 0
-          else 
-            git config user.email ${EMAIL}
-            git config user.name ${USER}
-            git status
-            git add .
-            git commit -m "${REPO_SOURCE} documentation | Travis CI build number $TRAVIS_BUILD_NUMBER"
-            git remote add origin-wiki "https://${USER}:${GITHUB_TOKEN}@${GH_REPO_DEST}"
-            git push origin-wiki master
-            cd ../${REPO_CONSOLIDATE}
-            if [ ! -d ${REPO_DEST} ]; then git submodule add https://${GH_REPO_DEST}; fi;
-            git submodule init
-            git submodule update --recursive --remote
-            cd ${REPO_DEST}
-            git checkout master
-            git pull
+          if ${{github.repository == 'devonfw/devon4j'}} then
             cd ..
-            git add .
-            git commit -m "${REPO_SOURCE} documentation | Travis CI build number $TRAVIS_BUILD_NUMBER"
-            git remote add origin-wiki "https://${USER}:${GITHUB_TOKEN}@${GH_REPO_CONSOLIDATE}"
-            git push origin-wiki master
+            git clone https://${GH_REPO_DEST}
+            git clone https://${GH_REPO_CONSOLIDATE}
+            yes | cp -rf ${REPO_SOURCE}/documentation/* ${REPO_DEST}/
+            cd ${REPO_DEST}
+            grep -lr "link:[a-zA-Z0-9_.-]*.asciidoc.*" .| xargs -r sed -i "s/.asciidoc//g"
+            |
+            if git diff-index --quiet HEAD && [ ! -n "$(git status -s)" ]; then 
+              set +e 
+              pkill -9 -P $$ &> /dev/null || true 
+              exit 0
+            else 
+              git config user.email ${EMAIL}
+              git config user.name ${USER}
+              git status
+              git add .
+              git commit -m "${REPO_SOURCE} documentation | Travis CI build number $TRAVIS_BUILD_NUMBER"
+              git remote add origin-wiki "https://${USER}:${GITHUB_TOKEN}@${GH_REPO_DEST}"
+              git push origin-wiki master
+              cd ../${REPO_CONSOLIDATE}
+              if [ ! -d ${REPO_DEST} ]; then git submodule add https://${GH_REPO_DEST}; fi;
+              git submodule init
+              git submodule update --recursive --remote
+              cd ${REPO_DEST}
+              git checkout master
+              git pull
+              cd ..
+              git add .
+              git commit -m "${REPO_SOURCE} documentation | Travis CI build number $TRAVIS_BUILD_NUMBER"
+              git remote add origin-wiki "https://${USER}:${GITHUB_TOKEN}@${GH_REPO_CONSOLIDATE}"
+              git push origin-wiki master
+            fi
           fi
+        
