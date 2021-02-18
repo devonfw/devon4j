@@ -9,6 +9,9 @@ env:
   GH_REPO_SOURCE: "github.com/${ORG}/${REPO_SOURCE}.git"
   GH_REPO_DEST:  "github.com/${ORG}/${REPO_DEST}.git"
   GH_REPO_CONSOLIDATE: "github.com/${ORG}/${REPO_CONSOLIDATE}.git" 
+  BUILD_USER: ${{ secrets.BUILD_USER }}
+  BUILD_USER_PASSWD: ${{ secrets.BUILD_USER_PASSWD }}
+  BUILD_USER_EMAIL:  ${{ secrets.BUILD_USER_EMAIL }}
 
 # Controls when the action will run. 
 on:
@@ -40,40 +43,56 @@ jobs:
           echo ORG =  ${ORG}
           echo REPO_DEST= ${REPO_DEST}
           mvn install && ([[ $TRAVIS_BRANCH != "develop" ]] || [[ $TRAVIS_PULL_REQUEST != "false" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy)
-          
-      - name: Documentation
+         
+  update-wiki:
         if: ${{github.repository == 'devonfw/devon4j'}}
-        run: |
-            cd ..
-            git clone https://${GH_REPO_DEST}
-            git clone https://${GH_REPO_CONSOLIDATE}
-            yes | cp -rf ${REPO_SOURCE}/documentation/* ${REPO_DEST}/
-            cd ${REPO_DEST}
-            grep -lr "link:[a-zA-Z0-9_.-]*.asciidoc.*" .| xargs -r sed -i "s/.asciidoc//g"
-            |
-            if git diff-index --quiet HEAD && [ ! -n "$(git status -s)" ]; then 
-              set +e 
-              pkill -9 -P $$ &> /dev/null || true 
-              exit 0
-            else 
-              git config user.email ${EMAIL}
-              git config user.name ${USER}
-              git status
-              git add .
-              git commit -m "${REPO_SOURCE} documentation | Travis CI build number $TRAVIS_BUILD_NUMBER"
-              git remote add origin-wiki "https://${USER}:${GITHUB_TOKEN}@${GH_REPO_DEST}"
-              git push origin-wiki master
-              cd ../${REPO_CONSOLIDATE}
-              if [ ! -d ${REPO_DEST} ]; then git submodule add https://${GH_REPO_DEST}; fi;
-              git submodule init
-              git submodule update --recursive --remote
-              cd ${REPO_DEST}
-              git checkout master
-              git pull
-              cd ..
-              git add .
-              git commit -m "${REPO_SOURCE} documentation | Travis CI build number $TRAVIS_BUILD_NUMBER"
-              git remote add origin-wiki "https://${USER}:${GITHUB_TOKEN}@${GH_REPO_CONSOLIDATE}"
-              git push origin-wiki master
-            fi
-        
+        runs-on: ubuntu-latest
+        steps:
+          - name: Documentation
+            run: |
+             git clone https://github.com/${ORG}/${REPO_SOURCE}.git ${REPO_SOURCE}
+             git clone https://github.com/${ORG}/${REPO_DEST}.git ${REPO_DEST}
+             git clone https://github.com/${ORG}/${REPO_CONSOLIDATE}.git ${REPO_CONSOLIDATE}
+          - name: Copy docs and consolidate links
+            run: |
+                cp -rf ${REPO_SOURCE}/documentation/* ${REPO_DEST}/
+                cd ${REPO_DEST}
+                grep -lr "link:[a-zA-Z0-9_.-]*.asciidoc.*" .| xargs -r sed -i "s/.asciidoc//g"
+                echo ">"
+                git diff-index --quiet HEAD & git status -s
+                echo "<"
+                git status
+                echo ">"
+                git diff-index --quiet HEAD & git status -s
+                echo "<"
+                echo "TO_BE_CANCELLED=$(if [[ $(git diff-index --quiet HEAD & git status -s) ]]; then echo "false"; else echo "true"; fi)" >> $GITHUB_ENV
+                echo "$TO_BE_CANCELLED"
+          - name: setup git user
+            if: ${{ env.TO_BE_CANCELLED == 'false' }}
+            run: |
+                git config --global user.email ${BUILD_USER_EMAIL}
+                git config --global user.name ${BUILD_USER}
+          - name: Sync Wiki
+            if: ${{ env.TO_BE_CANCELLED == 'false' }}
+            run: |
+                cd ${REPO_DEST}
+                git status
+                git add .
+                git commit -m "${REPO_SOURCE} documentation | GitHub Actions $GITHUB_WORKFLOW $GITHUB_RUN_NUMBER"
+                git remote add origin-wiki "https://${BUILD_USER}:${BUILD_USER_PASSWD}@github.com/${ORG}/${REPO_DEST}.git"
+                git push origin-wiki master
+          - name: Sync devonfw guide
+            if: ${{ env.TO_BE_CANCELLED == 'false' }}
+            run: |
+                cd ${REPO_CONSOLIDATE}
+                if [ ! -d ${REPO_DEST} ]; then git submodule add https://github.com/${ORG}/${REPO_DEST}.git; fi;
+                git submodule init
+                git submodule update --recursive --remote
+                cd ${REPO_DEST}
+                git checkout master
+                git pull
+                cd ..
+                git add .
+                git commit -m "${REPO_SOURCE} documentation | GitHub Actions $GITHUB_WORKFLOW $GITHUB_RUN_NUMBER"
+                git remote add origin-wiki "https://${BUILD_USER}:${BUILD_USER_PASSWD}@github.com/${ORG}/${REPO_CONSOLIDATE}.git"
+                git push origin-wiki master
