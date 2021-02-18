@@ -6,9 +6,9 @@ env:
   REPO_SOURCE: "devon4j"
   REPO_DEST: "devon4j.wiki"
   REPO_CONSOLIDATE: "devonfw-guide"
-  GH_REPO_SOURCE: "github.com/${{ env.ORG }}/${{ env.REPO_SOURCE }}.git"
-  GH_REPO_DEST:  "github.com/${{ env.ORG }}/${{ env.REPO_DEST }}.git"
-  GH_REPO_CONSOLIDATE: "github.com/${{ env.ORG }}/${{ env.REPO_CONSOLIDATE }}.git" 
+  GH_REPO_SOURCE: "github.com/${{ ORG }}/${{ REPO_SOURCE }}.git"
+  GH_REPO_DEST:  "github.com/${{ ORG }}/${{ REPO_DEST }}.git"
+  GH_REPO_CONSOLIDATE: "github.com/${{ ORG }}/${{ REPO_CONSOLIDATE }}.git" 
 
 # Controls when the action will run. 
 on:
