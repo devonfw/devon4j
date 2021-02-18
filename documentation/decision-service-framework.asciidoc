@@ -12,6 +12,28 @@ For Apache CXF the spring container was first choice but container abstraction h
 
 Therefore we decided for Apache CXF here.
 
+Update: We still get questions like "Why don't you use `resteasy` or `dropwizard`?"
+
+To give a plain answer here you can see the stacktrace of a productive system using `resteasy` and failing to invoke a service:
+```
+Caused by: javax.ws.rs.NotFoundException: HTTP 404 Not Found
+	at org.jboss.resteasy.client.jaxrs.internal.ClientInvocation.handleErrorStatus(ClientInvocation.java:200)
+	at org.jboss.resteasy.client.jaxrs.internal.ClientInvocation.extractResult(ClientInvocation.java:171)
+	at org.jboss.resteasy.client.jaxrs.internal.ClientInvocation.invoke(ClientInvocation.java:480)
+	at org.jboss.resteasy.client.jaxrs.internal.ClientInvocationBuilder.get(ClientInvocationBuilder.java:169)
+```
+
+This is an error you get when using `devon4j` with CXF:
+```
+net.sf.mmm.util.exception.api.ServiceInvocationFailedException: ServiceInvoke: While invoking the service com.devonfw.test.app.myexample.service.api.rest.MyExampleRestService#greet[http://localhost:56742/app/services-404/rest/my-example/v1/greet/John%20Doe] the following error occurred: 404 Not Found. Probably the service is temporary unavailable. Please try again later. If the problem persists contact your system administrator.
+83a2a893-1149-480f-b35f-4ed8f53f4898
+	at com.devonfw.module.service.common.impl.client.ServiceClientErrorFactoryImpl.create(ServiceClientErrorFactoryImpl.java:30)
+	at com.devonfw.module.service.common.base.client.AbstractServiceClientErrorFactory.createException(AbstractServiceClientErrorFactory.java:77)
+	at com.devonfw.module.service.common.base.client.AbstractServiceClientErrorFactory.unmarshall(AbstractServiceClientErrorFactory.java:65)
+	at com.devonfw.module.cxf.common.impl.client.rest.RestServiceExceptionMapper.fromResponse(RestServiceExceptionMapper.java:59)
+	at org.apache.cxf.jaxrs.client.ClientProxyImpl.checkResponse(ClientProxyImpl.java:422)
+```
+
 == WebServices
 For WebServices we rely on the JAX-WS standard. On our short list we have https://metro.java.net[Metro2] and http://cxf.apache.org[Apache CXF]. Here a collection of facts and considerations:
 
