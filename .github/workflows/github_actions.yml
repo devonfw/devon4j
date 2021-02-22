@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: github actions for devon4j
+name: github actions for devon4j wiki
 env:
   ORG: "devonfw"
   REPO_SOURCE: "devon4j"
@@ -23,27 +23,6 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "include"
-  include:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-18.04
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository 
-      - uses: actions/checkout@v2
-      
-      - name: Set up JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-            
-      - name: Build
-        run: |
-          echo ORG =  ${ORG}
-          echo REPO_DEST= ${REPO_DEST}
-          mvn install && ([[ github.event.pull_request != "false" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy)
-         
   update-wiki:
         if: ${{github.repository == 'devonfw/devon4j'}}
         runs-on: ubuntu-latest
