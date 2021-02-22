@@ -12,6 +12,32 @@ For Apache CXF the spring container was first choice but container abstraction h
 
 Therefore we decided for Apache CXF here.
 
+Update: We still get questions like "Why don't you use `resteasy` or `dropwizard`?"
+
+To give a plain answer here you can see the stacktrace of a productive system using `resteasy` and failing to invoke a service:
+```
+Caused by: javax.ws.rs.NotFoundException: HTTP 404 Not Found
+	at org.jboss.resteasy.client.jaxrs.internal.ClientInvocation.handleErrorStatus(ClientInvocation.java:200)
+	at org.jboss.resteasy.client.jaxrs.internal.ClientInvocation.extractResult(ClientInvocation.java:171)
+	at org.jboss.resteasy.client.jaxrs.internal.ClientInvocation.invoke(ClientInvocation.java:480)
+	at org.jboss.resteasy.client.jaxrs.internal.ClientInvocationBuilder.get(ClientInvocationBuilder.java:169)
+```
+
+This is an error you get when using `devon4j` with CXF:
+```
+net.sf.mmm.util.exception.api.ServiceInvocationFailedException: 404: While invoking the service com.devonfw.test.app.myexample.service.api.rest.MyExampleRestService#greet[http://localhost:49468/app/services-404/rest/my-example/v1/greet/John%20Doe] the following error occurred: Not Found. Probably the service is temporary unavailable. Please try again later. If the problem persists contact your system administrator.
+4fb68fd0-a962-46ab-8655-99cb9e43c9ca
+	at com.devonfw.module.service.common.impl.client.ServiceClientErrorFactoryImpl.create(ServiceClientErrorFactoryImpl.java:30)
+	at com.devonfw.module.service.common.base.client.AbstractServiceClientErrorFactory.createException(AbstractServiceClientErrorFactory.java:83)
+	at com.devonfw.module.service.common.base.client.AbstractServiceClientErrorFactory.unmarshall(AbstractServiceClientErrorFactory.java:65)
+	at com.devonfw.module.cxf.common.impl.client.rest.RestServiceExceptionMapper.fromResponse(RestServiceExceptionMapper.java:59)
+	at org.apache.cxf.jaxrs.client.ClientProxyImpl.checkResponse(ClientProxyImpl.java:422)
+```
+On success you will instead get such log message:
+```
+Invoking service com.devonfw.test.app.myexample.service.api.rest.MyExampleRestService#greet[http://localhost:50504/app/services/rest] took PT0.220281558S (220281558ns) and succeded with status 200.
+```
+
 == WebServices
 For WebServices we rely on the JAX-WS standard. On our short list we have https://metro.java.net[Metro2] and http://cxf.apache.org[Apache CXF]. Here a collection of facts and considerations:
 
