@@ -2,6 +2,34 @@
 
 This file documents all notable changes to https://https://github.com/devonfw/devon4j[devon4j].
 
+== 2020.12.002
+
+New release of `devon4j` with various updates and new CORS starter:
+
+* https://github.com/devonfw/devon4j/issues/311[#311]: update spring-boot to 2.4.0, spring-cloud to 2020.0.0, cxf to 3.4.1, etc.
+* https://github.com/devonfw/devon4j/issues/329[#329]: Create spring-boot starter for CORS 
+* https://github.com/devonfw/devon4j/issues/320[#320]: switch default branch from develop to master
+* https://github.com/devonfw/devon4j/issues/318[#318]: broken link for access-control-schema
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2020.12.002/devon4j-doc-2020.12.002.pdf[devon4j guide 2020.12.002].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/13?closed=1[milestone devon4j 2020.12.002].
+
+== 2020.12.001
+
+New release of `devon4j` with pluggable web security (CSRF starter) and `CompletableFuture` support for async REST service client as well as other improvements:
+
+* https://github.com/devonfw/devon4j/issues/283[#283]: Support for CompletableFuture in async service client
+* https://github.com/devonfw/devon4j/issues/307[#307]: Fix CSRF protection support
+* https://github.com/devonfw/devon4j/issues/287[#287]: spring-boot update to 2.3.3
+* https://github.com/devonfw/devon4j/issues/288[#288]: Update jackson to 2.11.2
+* https://github.com/devonfw/devon4j/issues/293[#293]: Update owasp-dependency-check plugin version to 5.3.2
+* https://github.com/devonfw/devon4j/pull/302[#302]: added guide for project/app structure
+* https://github.com/devonfw/devon4j/pull/315[#315]: devon4j documentation correction
+* https://github.com/devonfw/devon4j/pull/306[#306]: improve documentation to launch app
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2020.12.001/devon4j-doc-2020.12.001.pdf[devon4j guide 2020.12.001].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/14?closed=1[milestone devon4j 2020.12.001].
+
 == 2020.08.001
 
 New release of `devon4j` with async REST service client support and other improvements:

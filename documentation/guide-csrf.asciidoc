@@ -1,0 +1,100 @@
+:toc: macro
+toc::[]
+
+= Cross-site request forgery (CSRF)
+
+CSRF is a type of malicious exploit of a web application that allows an attacker to induce users to perform actions that they do not intend to perform.
+
+image::images/csrf.png[,width="450", link="images/jwt_flow.png"]
+
+More details about csrf can be found at https://owasp.org/www-community/attacks/csrf.
+
+== Secure devon4j server against CSRF
+
+In case your devon4j server application is not accessed by browsers or the web-client is using link:guide-jwt.asciidoc[JWT based authentication], you are already safe according to CSRF.
+However, if your application is accessed from a browser and you are using _form based authentication_ (with session coockie) or _basic authentication_, you need to enable CSRF protection.
+This guide will tell you how to do this.
+
+=== Dependency
+
+To secure your devon4j application against CSRF attacks, you only need to add the following dependency:
+
+[source,xml]
+----
+<dependency>
+  <groupId>com.devonfw.java.starters</groupId>
+  <artifactId>devon4j-starter-security-csrf</artifactId>
+</dependency>
+----
+
+Starting with devon4j version `2020.12.001` application template, this is all you need to do.
+However, if you have started from an older version or you want to understand more, please read on.
+
+=== Pluggable web-security
+
+To enable pluggable security via devon4j security starters you need to apply `WebSecurityConfigurer` to your `BaseWebSecurityConfig` (your class extending spring-boot's `WebSecurityConfigurerAdapter`) as following:
+
+[source,java]
+----
+  @Inject
+  private WebSecurityConfigurer webSecurityConfigurer;
+
+  public void configure(HttpSecurity http) throws Exception {
+    // disable CSRF protection by default, use csrf starter to override.
+	  http = http.csrf().disable();
+	  // apply pluggable web-security from devon4j security starters
+    http = this.webSecurityConfigurer.configure(http);
+    .....
+  }
+----
+
+=== Custom CsrfRequestMatcher
+
+If you want to customize which HTTP requests will require a CSRF token, you can implement your own `CsrfRequestMatcher` and provide it to the devon4j CSRF protection via qualified injection as following:
+
+[source,java]
+----
+@Named("CsrfRequestMatcher")
+public class CsrfRequestMatcher implements RequestMatcher {
+  @Override
+  public boolean matches(HttpServletRequest request) {
+    .....
+  }  
+}
+----
+
+Please note that the exact name (`@Named("CsrfRequestMatcher")`) is required here to ensure your custom implementation will be injected properly.
+
+=== CsrfRestService
+
+With the `devon4j-starter-security-csrf` the `CsrfRestService` gets integrated into your app.
+It provides an operation to get the CSRF token via an HTTP `GET` request.
+The URL path to retrieve this CSRF token is `services/rest/csrf/v1/token`.
+As a result you will get a JSON like the following:
+
+[source,javascript]
+----
+{
+  "token":"3a8a5f66-c9eb-4494-81e1-7cc58bc3a519",
+  "parameterName":"_csrf",
+  "headerName":"X-CSRF-TOKEN"
+}
+----
+
+The `token` value is a strong random value that will differ for each user session.
+It has to be send with subsequent HTTP requests (when method is other than `GET`) in the specified header (`X-CSRF-TOKEN`).
+
+=== How it works
+
+Putting it all together, a browser client should call the `CsrfRestService` after successfull login to receive the current CSRF token.
+With every subsequent HTTP request (other than `GET`) the client has to send this token in the according HTTP header.
+Otherwise the server will reject the request to prevent CSRF attacks.
+Therefore, an attacker might make your browser perform HTTP requests towards your devon4j application backend via `<image>` elements, `<iframes>`, etc. 
+Your browser will then still include your session coockie if you are already logged in (e.g. from another tab). 
+However, in case he wants to trigger `DELETE` or `POST` requests trying your browser to make changes in the application (delete or update data, etc.) this will fail without CSRF token.
+The attacker may make your browser retrieve the CSRF token but he will not be able to retrieve the result and put it into the header of other requests due to the same-origin-policy.
+This way your application will be secured against CSRF attacks.
+
+== Configure devon4ng client for CSRF
+
+Devon4ng client configuration for CSRF is described https://github.com/devonfw/devon4ng/blob/develop/documentation/guide-consuming-rest-services.asciidoc[here]

@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.devonfw</groupId>
     <artifactId>maven-parent</artifactId>
-    <version>5</version>
+    <version>6</version>
   </parent>
   <groupId>com.devonfw.java.dev</groupId>
   <artifactId>devon4j</artifactId>
@@ -27,15 +27,16 @@
     <revision>dev</revision>
     <changelist>-SNAPSHOT</changelist>
     <github.repository>devon4j</github.repository>
-    <github.default.branch>develop</github.default.branch>
     <devon4j.version>${revision}${changelist}</devon4j.version>
-    <spring.boot.version>2.3.3.RELEASE</spring.boot.version>
+    <spring.boot.version>2.4.0</spring.boot.version>
     <!-- Spring boot and spring cloud version has to match -->
-    <spring.cloud.dependencies.version>Greenwich.SR6</spring.cloud.dependencies.version>
+    <spring.cloud.dependencies.version>2020.0.0</spring.cloud.dependencies.version>
     <jackson.version>2.11.2</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
-    <guava.version>28.1-jre</guava.version>
-    <junit.version>5.6.1</junit.version>
-    
+    <guava.version>30.0-jre</guava.version>
+    <junit.version>5.7.0</junit.version>
+    <cxf.version>3.4.1</cxf.version>
+    <mmm.util.version>8.7.0</mmm.util.version>
+    <slf4j.version>1.7.30</slf4j.version>
   </properties>
 
   <build>
