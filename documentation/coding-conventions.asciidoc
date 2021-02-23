@@ -335,3 +335,22 @@ Avoid unnecessary strong bindings:
 * In APIs for input (=parameters) always consider to make little assumptions:
 ** prefer `Collection` over `List` or `Set` where the difference does not matter (e.g. only use `Set` when you require uniqueness or highly efficient `contains`)
 ** consider preferring `Collection<? extends Foo>` over `Collection<Foo>` when `Foo` is an interface or super-class
+
+=== Prefer primitive boolean
+Unless in rare cases where you need to allow a flag being `null` avoid using the object type `Boolean`.
+[source,java]
+----
+Bad
+public Boolean isEmpty {
+  return size() == 0;
+}
+----
+Instead always use the primitive `boolean` type:
+[source,java]
+----
+Fine
+public boolean isEmpty {
+  return size() == 0;
+}
+----
+The only known excuse is for flags in link:guide-jpa.asciidoc#embeddable[embeddable types] due to limitations of hibernate.
