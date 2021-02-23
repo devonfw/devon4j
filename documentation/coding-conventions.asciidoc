@@ -282,7 +282,7 @@ Collections.sort(personList, (Person p1, Person p2) -> p1.getSurName().compareTo
 +
 [source,java]
 ----
-Bad
+// Bad
 static public Iterator<String> TwitterHandles(Iterator<Author> authors, string company) {
     final List result = new ArrayList<String> ();
     foreach (Author a : authors) {
@@ -298,7 +298,7 @@ static public Iterator<String> TwitterHandles(Iterator<Author> authors, string c
 +
 [source,java]
 ----
-Fine
+// Fine
 public List<String> twitterHandles(List<Author> authors, String company) {
     return authors.stream()
             .filter(a -> null != a && a.getCompany().equals(company))
@@ -340,7 +340,7 @@ Avoid unnecessary strong bindings:
 Unless in rare cases where you need to allow a flag being `null` avoid using the object type `Boolean`.
 [source,java]
 ----
-Bad
+// Bad
 public Boolean isEmpty {
   return size() == 0;
 }
@@ -348,7 +348,7 @@ public Boolean isEmpty {
 Instead always use the primitive `boolean` type:
 [source,java]
 ----
-Fine
+// Fine
 public boolean isEmpty {
   return size() == 0;
 }
