@@ -72,11 +72,17 @@ public abstract class AbstractServiceClientErrorFactory implements ServiceClient
 
     String code = (String) map.get(ServiceConstants.KEY_CODE);
     if (isEmpty(code)) {
-      code = map.get(ServiceConstants.KEY_STATUS).toString();
+      Object status = map.get(ServiceConstants.KEY_STATUS);
+      if (status != null) {
+        code = status.toString();
+      }
     }
     String message = (String) map.get(ServiceConstants.KEY_MESSAGE);
     if (isEmpty(message)) {
-      message = (String) map.get(ServiceConstants.KEY_ERROR);
+      Object error = map.get(ServiceConstants.KEY_ERROR);
+      if (error != null) {
+        message = error.toString();
+      }
     }
     String uuidStr = (String) map.get(ServiceConstants.KEY_UUID);
     UUID uuid = uuidStr != null ? UUID.fromString(uuidStr) : null;
