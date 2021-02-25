@@ -16,6 +16,12 @@ public class ServiceConstants {
   /** Key for error code. */
   public static final String KEY_CODE = "code";
 
+  /** Key for HTTP status code. */
+  public static final String KEY_STATUS = "status";
+
+  /** Key for HTTP error. */
+  public static final String KEY_ERROR = "error";
+
   /** Key for (validation) error details. */
   public static final String KEY_ERRORS = "errors";
 
