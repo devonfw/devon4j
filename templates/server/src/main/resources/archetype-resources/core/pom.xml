@@ -123,50 +123,50 @@
 
     <!-- Database -->
     <dependency>
-      #if ($dbType == 'h2')
+#if ($dbType == 'h2')
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      #elseif ($dbType == 'hsqldb')
+#elseif ($dbType == 'hsqldb')
       <groupId>org.hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
       <version>2.4.0</version>
-      #elseif ($dbType == 'postgresql')
+#elseif ($dbType == 'postgresql')
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <!--<version>9.4.1211.jre7</version> -->
-      #elseif ($dbType == 'mysql')
+#elseif($dbType == 'mysql')
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>8.0.8-dmr</version>
-      #elseif ($dbType == 'mariadb')
+#elseif($dbType == 'mariadb')
       <groupId>org.mariadb.jdbc</groupId>
       <artifactId>mariadb-java-client</artifactId>
       <version>1.5.4</version>
-      #elseif ($dbType == 'hana')
+#elseif($dbType == 'hana')
       <groupId>com.sap.cloud.db.jdbc</groupId>
       <artifactId>ngdbc</artifactId>
       <version>2.3.48</version>
-      #elseif ($dbType == 'oracle')
+#elseif($dbType == 'oracle')
       <groupId>com.oracle.jdbc</groupId>
       <artifactId>ojdbc8</artifactId>
       <version>12.2.0.1</version>
-      #elseif ($dbType == 'mssql')
+#elseif($dbType == 'mssql')
       <groupId>com.microsoft.sqlserver</groupId>
       <artifactId>mssql-jdbc</artifactId>
       <version>6.4.0.jre8</version>
-      #else
+#else
       <groupId>$dbType</groupId>
       <artifactId>$dbType</artifactId>
       <version>TODO</version>
-      #end
+#end
     </dependency>
-    #if ($dbType != 'h2')
+#if ($dbType != 'h2')
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <scope>test</scope>
     </dependency>
-    #end
+#end
 
     <!-- Flyway for DB Schema version management and migration -->
     <dependency>
