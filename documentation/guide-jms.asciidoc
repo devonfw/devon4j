@@ -50,4 +50,4 @@ public class BookingJmsListener /* implements MessageListener */ {
 ----
 
 == Sender
-A sender of messages is communicating with other services and hence is located in the link:guide-logic-layer.asciidoc[logic-layer].
+A sender of messages is communicating with other remote services and hence is located in the link:guide-logic-layer.asciidoc[logic-layer].
