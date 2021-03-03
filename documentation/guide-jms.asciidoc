@@ -50,4 +50,4 @@ public class BookingJmsListener /* implements MessageListener */ {
 ----
 
 == Sender
-A sender of messages is writing to a data storage and hence is located in the link:guide-dataaccess-layer.asciidoc[dataaccess-layer].
+A sender of messages is communicating with other services and hence is located in the link:guide-logic-layer.asciidoc[logic-layer].
