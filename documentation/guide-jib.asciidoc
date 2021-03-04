@@ -31,9 +31,9 @@ docker run --publish 8081:8081 <image>
 
 == Upload the image to the registery
 
-There is no docker daemon installed for this.
+No docker daemon required to be installed on your machine for this.
 
-The registery details has to be configured in .m2/settings.xml.
+The first step is to configure the registery details in .m2/settings.xml.
 
 [source]
 ----
