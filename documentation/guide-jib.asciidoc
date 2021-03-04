@@ -12,7 +12,7 @@ The Docker daemon should be available locally.
 To build the docker image.
 [source]
 ----
-mvn compile jib:dockerBuild
+mvn compile -Pcontainer
 
 docker images
 
@@ -33,19 +33,35 @@ docker run --publish 8081:8081 <image>
 
 There is no docker daemon installed for this.
 
+The registery details has to be configured in .m2/settings.xml.
+
 [source]
 ----
-mvn compile jib:build   
--Djib.to.image=<registery>/<username>/<application>:<tag> 
--Djib.to.auth.username=<username>    
--Djib.to.auth.password=<password>
 
+<servers>
+    <server>
+        <id><registery>/<username>/<application>:<tag></id>
+        <username><username></username>
+        <password><password></password>
+    </server>
+</servers>
 
-Eg:
-mvn compile jib:build   
--Djib.to.image=docker.io/devonfw/myapp-core:0.0.1-SNAPSHOT
--Djib.to.auth.username=devonfw    
--Djib.to.auth.password=password
+eg:-
+
+<servers>
+    <server>
+        <id>docker.io/devonfw/myapp-core:0.0.1-SNAPSHOT</id>
+        <username>devonfw</username>
+        <password>password</password>
+    </server>
+</servers>
+
+----
+
+Run the below command to create and push the image to the image repository.
+[source]
+----
+mvn compile -P release
 
 ----
 
