@@ -20,23 +20,21 @@
     <guava.version>$[guava.version]</guava.version>
     <devonfw.test.excluded.groups>system</devonfw.test.excluded.groups>
     <app.version>${revision}${changelist}</app.version>
-
     <jib.version>$[jib.version]</jib.version>
     <jib.container.image>$[jib.container.image]</jib.container.image>
     <jib.app.port>8081</jib.app.port>
     <jib.goal>dockerBuild</jib.goal>
-
   </properties>
 
   <modules>
     <module>api</module>
     <module>core</module>
-    #if ($earProjectName != '.')
+#if ($earProjectName != '.')
     <module>${earProjectName}</module>
-    #end
-    #if ($batch == 'batch')
+#end
+#if ($batch == 'batch')
     <module>batch</module>
-    #end
+#end
     <module>server</module>
   </modules>
 
