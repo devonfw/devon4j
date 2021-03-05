@@ -1,4 +1,4 @@
-name: github actions for devon4j wiki
+name: Sync Docs
 env:
   ORG: "devonfw"
   REPO_SOURCE: "devon4j"
