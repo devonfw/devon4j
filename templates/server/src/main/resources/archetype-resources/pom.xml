@@ -20,12 +20,12 @@
     <guava.version>$[guava.version]</guava.version>
     <devonfw.test.excluded.groups>system</devonfw.test.excluded.groups>
     <app.version>${revision}${changelist}</app.version>
-    
+
     <jib.version>$[jib.version]</jib.version>
     <jib.container.image>$[jib.container.image]</jib.container.image>
     <jib.app.port>8081</jib.app.port>
     <jib.goal>dockerBuild</jib.goal>
-    
+
   </properties>
 
   <modules>
@@ -329,7 +329,7 @@
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${spring.boot.version}</version>
         </plugin>
-         <plugin>
+        <plugin>
           <groupId>com.google.cloud.tools</groupId>
           <artifactId>jib-maven-plugin</artifactId>
           <version>${jib.version}</version>
@@ -354,7 +354,7 @@
   </build>
 
   <profiles>
-   <profile>
+    <profile>
       <id>release</id>
       <properties>
         <jib.goal>build</jib.goal>
