@@ -40,13 +40,13 @@ The first step is to configure the registery details in .m2/settings.xml.
 
 <servers>
     <server>
-        <id><registery></id>
-        <username><username></username>
-        <password><password></password>
+        <id>«registery»</id>
+        <username>«username»</username>
+        <password>«password»</password>
     </server>
 </servers>
 ----
-Keep the password encrypted. Refer the documentation for the password encryption
+Keep the password encrypted (`mvn -ep`). Refer the documentation for the password encryption
  https://maven.apache.org/guides/mini/guide-encryption.html
 
 Run the below command to create and push the image to the image repository.
