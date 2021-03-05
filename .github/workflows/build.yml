@@ -1,4 +1,4 @@
-name: CI build for devon4j
+name: CI build
 on: [push, pull_request]
 jobs:
   build:
