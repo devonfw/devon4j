@@ -37,13 +37,12 @@ The first step is to configure the registery details in .m2/settings.xml.
 
 [source]
 ----
-
 <servers>
-    <server>
-        <id>«registery»</id>
-        <username>«username»</username>
-        <password>«password»</password>
-    </server>
+  <server>
+    <id>«registery»</id>
+    <username>«username»</username>
+    <password>«password»</password>
+  </server>
 </servers>
 ----
 Keep the password encrypted (`mvn -ep`). Refer the documentation for the password encryption
