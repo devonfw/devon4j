@@ -40,7 +40,7 @@ The first step is to configure the registery details in .m2/settings.xml.
 
 <servers>
     <server>
-        <id><registery>/<username>/<application>:<tag></id>
+        <id><registery></id>
         <username><username></username>
         <password><password></password>
     </server>
@@ -50,7 +50,7 @@ eg:-
 
 <servers>
     <server>
-        <id>docker.io/devonfw/myapp-core:0.0.1-SNAPSHOT</id>
+        <id>registry.hub.docker.com</id>
         <username>devonfw</username>
         <password>password</password>
     </server>
@@ -61,7 +61,7 @@ eg:-
 Run the below command to create and push the image to the image repository.
 [source]
 ----
-mvn compile -P release
+mvn compile -P release,container
 
 ----
 
