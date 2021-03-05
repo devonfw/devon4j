@@ -16,8 +16,6 @@ on:
   # Triggers the workflow on push or pull request events but only for the develop branch
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
