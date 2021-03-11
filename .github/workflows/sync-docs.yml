@@ -15,9 +15,9 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   update-wiki:
-     if: ${{github.repository == 'devonfw/devon4j'}}
-     runs-on: ubuntu-latest
-     steps:
+    if: ${{github.repository == 'devonfw/devon4j'}}
+    runs-on: ubuntu-latest
+    steps:
       - name: setup variables
         run: |
           echo "ORG=$(echo '${{ github.repository }}' | awk -F '/' '{print $1}')" >> $GITHUB_ENV
