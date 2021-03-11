@@ -1,4 +1,5 @@
-name: github actions for devon4j wiki
+name: Sync Docs
+
 env:
   ORG: "devonfw"
   REPO_SOURCE: "devon4j"
@@ -15,8 +16,6 @@ env:
 on:
   # Triggers the workflow on push or pull request events but only for the develop branch
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
