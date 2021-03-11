@@ -11,7 +11,7 @@ It is very important that you follow the links to understand the concept of comp
 
 == Responsibility
 The logic layer is responsible to implement the business logic according to the specified functional demands and requirements.
-Therefore, it creates the actual value of the application.
+Therefore, it creates the actual value of the application. The logic layer is responsible for invoking business logic in external systems.
 The following additional aspects are also included in its responsibility:
 
 * link:guide-validation.asciidoc[validation]
