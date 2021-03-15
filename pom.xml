@@ -32,6 +32,11 @@
     <!-- Spring boot and spring cloud version has to match -->
     <spring.cloud.dependencies.version>2020.0.0</spring.cloud.dependencies.version>
     <jackson.version>2.11.2</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
+<<<<<<< HEAD
+=======
+    <jib.version>2.8.0</jib.version>
+    <jib.container.image>adoptopenjdk/openjdk11:jre-11.0.4_11-alpine</jib.container.image>
+>>>>>>> b4460f3 (mvn profile added for jib)
     <guava.version>30.0-jre</guava.version>
     <junit.version>5.7.0</junit.version>
     <cxf.version>3.4.1</cxf.version>

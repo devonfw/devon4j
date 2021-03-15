@@ -239,6 +239,27 @@
         </dependency>
       </dependencies>
     </profile>
+    
+    <profile>
+      <id>container</id>
+      <build>
+        <plugins>
+          <plugin>
+              <groupId>com.google.cloud.tools</groupId>
+              <artifactId>jib-maven-plugin</artifactId>
+              <version>${jib.version}</version>
+              <executions>
+               <execution>
+               <phase>compile</phase>
+               <goals>
+               <goal>${jib.goal}</goal>
+               </goals>
+               </execution>
+               </executions>
+          </plugin>
+         </plugins>
+      </build>
+     </profile>
   </profiles>
 
   <build>
