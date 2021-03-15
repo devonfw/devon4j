@@ -37,6 +37,8 @@
     <cxf.version>3.4.1</cxf.version>
     <mmm.util.version>8.7.0</mmm.util.version>
     <slf4j.version>1.7.30</slf4j.version>
+    <jib.version>2.8.0</jib.version>
+	<jib.docker.baseImage>adoptopenjdk/openjdk11:jre-11.0.4_11-alpine</jib.docker.baseImage>
   </properties>
 
   <build>
