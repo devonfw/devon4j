@@ -1,7 +1,6 @@
 package com.devonfw.module.kafka.common.messaging.logging.impl;
 
-import java.util.Optional;
-
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +11,6 @@ import org.springframework.kafka.support.ProducerListener;
  *
  * @param <K> The key type
  * @param <V> The value type
- *
- *
  */
 public class ProducerLoggingListener<K, V> implements ProducerListener<K, V> {
 
@@ -32,23 +29,27 @@ public class ProducerLoggingListener<K, V> implements ProducerListener<K, V> {
   }
 
   @Override
-  public void onSuccess(String topic, Integer partition, Object key, Object value, RecordMetadata recordMetadata) {
+  public void onSuccess(ProducerRecord<K, V> record, RecordMetadata recordMetadata) {
 
-    String messageKey = (String) Optional.ofNullable(key).orElse("<no message key>");
+    String messageKey = "<no message key>";
+    K key = record.key();
+    if (key != null) {
+      messageKey = key.toString();
+    }
 
     if (recordMetadata != null) {
       this.loggingSupport.logMessageSent(LOG, messageKey, recordMetadata.topic(), recordMetadata.partition(),
           recordMetadata.offset());
 
     } else {
-      this.loggingSupport.logMessageSent(LOG, messageKey, topic, partition, null);
+      this.loggingSupport.logMessageSent(LOG, messageKey, record.topic(), record.partition(), null);
     }
   }
 
   @Override
-  public void onError(String topic, Integer partition, Object key, Object value, Exception exception) {
+  public void onError(ProducerRecord<K, V> record, RecordMetadata recordMetadata, Exception exception) {
 
-    this.loggingSupport.logMessageNotSent(LOG, topic, partition,
+    this.loggingSupport.logMessageNotSent(LOG, record.topic(), record.partition(),
         (exception != null ? exception.getLocalizedMessage() : "unknown"));
   }
 }
