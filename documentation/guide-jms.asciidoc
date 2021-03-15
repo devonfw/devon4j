@@ -43,4 +43,8 @@ public class BookingJmsListener /* implements MessageListener */ {
 ----
 
 == Sender
-A sender of messages is writing to a data storage and hence is located in the link:guide-dataaccess-layer.asciidoc[dataaccess-layer].
+
+The sending of JMS messages is considered as any other sending of data like link:guide-kafka.asciidoc[kafka] messages or RPC calls via link:guide-rest.asciidoc[REST] using link:guide-service-client.asciidoc[service-client], gRPC, etc.
+This will typically happen directly from a link:guide-usecase.asciidoc[use-case] in the link:guide-logic-layer.asciidoc[logic-layer].
+However, the technical complexity of the communication and protocols itself shall be hidden from the use-case and not be part of the logic layer.
+With spring we can simply use https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jms/core/JmsTemplate.html[JmsTemplate] to do that.
