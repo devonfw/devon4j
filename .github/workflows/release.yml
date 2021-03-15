@@ -1,0 +1,43 @@
+name: github actions for devon4j
+
+env:
+  ORG: "devonfw"
+  REPO_SOURCE: "devon4j"
+  REPO_DEST: "devon4j.wiki"
+  REPO_CONSOLIDATE: "devonfw-guide"
+  GH_REPO_SOURCE: "github.com/${ORG}/${REPO_SOURCE}.git"
+  GH_REPO_DEST:  "github.com/${ORG}/${REPO_DEST}.git"
+  GH_REPO_CONSOLIDATE: "github.com/${ORG}/${REPO_CONSOLIDATE}.git" 
+  BUILD_USER: ${{ secrets.BUILD_USER }}
+  BUILD_USER_PASSWD: ${{ secrets.BUILD_USER_PASSWD }}
+  BUILD_USER_EMAIL:  ${{ secrets.BUILD_USER_EMAIL }}
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the develop branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "include"
+  include:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-18.04
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository 
+      - uses: actions/checkout@v2
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+            
+      - name: Build
+        run: |
+          echo ORG =  ${ORG}
+          echo REPO_DEST= ${REPO_DEST}
+          mvn install && ([[ github.event.pull_request != "false" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy)
