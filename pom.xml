@@ -37,6 +37,9 @@
     <cxf.version>3.4.1</cxf.version>
     <mmm.util.version>8.7.0</mmm.util.version>
     <slf4j.version>1.7.30</slf4j.version>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.organization>devonfw</sonar.organization>
+    <sonar.projectKey>devonfw_devon4j</sonar.projectKey>
   </properties>
 
   <build>
@@ -63,32 +66,4 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <profiles>
-    <profile>
-      <id>ci</id>
-      <properties>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.organization>devonfw</sonar.organization>
-        <sonar.projectKey>devonfw_devon4j</sonar.projectKey>
-      </properties>
-      <build>
-        <plugins>
-          <!-- Sonarcloud analysis should run during CI -->
-          <plugin>
-            <groupId>org.sonarsource.scanner.maven</groupId>
-            <artifactId>sonar-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>sonarcloud</id>
-                <goals>
-                  <goal>sonar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>
