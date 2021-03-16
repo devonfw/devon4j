@@ -18,7 +18,7 @@ jobs:
       - name: Build project with Maven
         run: mvn install
       - name: Sonarcloud analysis
-        run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+        run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=devonfw_devon4j
       - name: Deploy if not a PR
         if: github.ref == 'refs/heads/master'
         run: mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true -Dmaven.install.skip=true deploy
