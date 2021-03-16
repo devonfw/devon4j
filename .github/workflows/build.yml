@@ -2,7 +2,7 @@ name: CI build
 on:
   - push:
   - pull_request_target:
-    types: [opened, synchronize, reopened]
+      types: [opened, synchronize, reopened]
 jobs:
   build:
     runs-on: ubuntu-latest
