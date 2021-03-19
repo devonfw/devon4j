@@ -43,7 +43,7 @@ public abstract class BaseTest extends Assertions {
    * Indicates if the test class is to be set up for the first time. {@code true} indicates that the class has already
    * been set up (e.g., database setup) for the execution of an preceding test method.
    */
-  protected static boolean INITIALIZED = false;
+  protected boolean initialized = false;
 
   /**
    * Suggests to use {@link #doSetUp()} method before each tests.
@@ -53,8 +53,8 @@ public abstract class BaseTest extends Assertions {
 
     // Simply sets INITIALIZED to true when setUp is called for the first time.
     doSetUp();
-    if (!INITIALIZED) {
-      INITIALIZED = true;
+    if (!initialized) {
+      initialized = true;
     }
   }
 
@@ -73,7 +73,7 @@ public abstract class BaseTest extends Assertions {
    */
   protected boolean isInitialSetup() {
 
-    return INITIALIZED;
+    return !initialized;
   }
 
   /**
