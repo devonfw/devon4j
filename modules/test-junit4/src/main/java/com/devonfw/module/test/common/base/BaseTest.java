@@ -40,15 +40,15 @@ import org.junit.BeforeClass;
  */
 public abstract class BaseTest extends Assertions {
 
-  private static boolean INITIALIZED = false;
+  private static boolean initialSetup = false;
 
   /**
    * Initializes this test class and resets {@link #isInitialSetup() initial setup flag}.
    */
   @BeforeClass
-  public static void initTest() {
+  public static void setUpClass() {
 
-    INITIALIZED = false;
+    initialSetup = true;
   }
 
   /**
@@ -57,10 +57,9 @@ public abstract class BaseTest extends Assertions {
   @Before
   public final void setUp() {
 
-    // Simply sets INITIALIZED to true when setUp is called for the first time.
     doSetUp();
-    if (!INITIALIZED) {
-      INITIALIZED = true;
+    if (initialSetup) {
+      initialSetup = false;
     }
   }
 
@@ -79,7 +78,7 @@ public abstract class BaseTest extends Assertions {
    */
   protected boolean isInitialSetup() {
 
-    return !INITIALIZED;
+    return initialSetup;
   }
 
   /**
