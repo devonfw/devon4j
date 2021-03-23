@@ -2,6 +2,7 @@ package com.devonfw.module.test.common.base;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -33,17 +34,20 @@ import org.junit.jupiter.api.BeforeEach;
  *
  * Additional value is provided by {@link #isInitialSetup()} that may be helpful for specific implementations of
  * {@link #doSetUp()} where you want to do some cleanup only once for the test-class rather than for every test method.
- * Unlike {@link org.junit.BeforeClass} this can be used in non-static method code so you have access to injected
- * dependencies.
- *
- * @author shuber, jmolinar
+ * Unlike {@link BeforeAll} this can be used in non-static method code so you have access to injected dependencies.
  */
 public abstract class BaseTest extends Assertions {
+
+  private static boolean initialSetup;
+
   /**
-   * Indicates if the test class is to be set up for the first time. {@code true} indicates that the class has already
-   * been set up (e.g., database setup) for the execution of an preceding test method.
+   * Initializes this test class and resets {@link #isInitialSetup() initial setup flag}.
    */
-  protected static boolean INITIALIZED = false;
+  @BeforeAll
+  public static void setUpClass() {
+
+    initialSetup = true;
+  }
 
   /**
    * Suggests to use {@link #doSetUp()} method before each tests.
@@ -53,8 +57,8 @@ public abstract class BaseTest extends Assertions {
 
     // Simply sets INITIALIZED to true when setUp is called for the first time.
     doSetUp();
-    if (!INITIALIZED) {
-      INITIALIZED = true;
+    if (initialSetup) {
+      initialSetup = false;
     }
   }
 
@@ -73,7 +77,7 @@ public abstract class BaseTest extends Assertions {
    */
   protected boolean isInitialSetup() {
 
-    return INITIALIZED;
+    return initialSetup;
   }
 
   /**
