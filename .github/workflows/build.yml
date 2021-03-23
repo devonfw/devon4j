@@ -1,8 +1,5 @@
 name: CI build
-on:
-  push:
-  pull_request_target:
-    types: [opened, synchronize, reopened]
+on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
