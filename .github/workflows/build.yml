@@ -5,20 +5,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        if: github.ref == 'refs/heads/master' && github.base_ref == ''
         uses: actions/checkout@v2
         with:
           submodules: recursive
       - name: Set up JDK
-        if: github.ref == 'refs/heads/master' && github.base_ref == ''
         uses: actions/setup-java@v1
         with:
           java-version: '11'
       - name: Build project with Maven
-        if: github.ref == 'refs/heads/master' && github.base_ref == ''
         run: mvn install
       - name: Sonarcloud analysis
-        if: github.ref == 'refs/heads/master' && github.base_ref == ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
