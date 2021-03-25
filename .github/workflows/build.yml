@@ -13,5 +13,15 @@ jobs:
         with:
           java-version: '11'
       - name: Build project with Maven
-        run: |
-          mvn install && ([[ github.event.pull_request != "false" ]] || mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true deploy)
+        run: mvn install
+      - name: Sonarcloud analysis
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=devonfw_devon4j
+      - name: Deploy if not a PR
+        if: github.ref == 'refs/heads/master' && github.base_ref == ''
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        run: mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true -Dmaven.install.skip=true deploy
