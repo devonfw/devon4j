@@ -3,6 +3,7 @@ package com.devonfw.module.test.common.base;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 /**
  * This is the {@code abstract} base class for all tests. In most cases it will be convenient to extend this class. <br>
@@ -38,11 +39,17 @@ import org.junit.Before;
  *
  */
 public abstract class BaseTest extends Assertions {
+
+  private static boolean initialSetup = false;
+
   /**
-   * Indicates if the test class is to be set up for the first time. {@code true} indicates that the class has already
-   * been set up (e.g., database setup) for the execution of an preceding test method.
+   * Initializes this test class and resets {@link #isInitialSetup() initial setup flag}.
    */
-  protected static boolean INITIALIZED = false;
+  @BeforeClass
+  public static void setUpClass() {
+
+    initialSetup = true;
+  }
 
   /**
    * Suggests to use {@link #doSetUp()} method before each tests.
@@ -50,10 +57,9 @@ public abstract class BaseTest extends Assertions {
   @Before
   public final void setUp() {
 
-    // Simply sets INITIALIZED to true when setUp is called for the first time.
     doSetUp();
-    if (!INITIALIZED) {
-      INITIALIZED = true;
+    if (initialSetup) {
+      initialSetup = false;
     }
   }
 
@@ -72,7 +78,7 @@ public abstract class BaseTest extends Assertions {
    */
   protected boolean isInitialSetup() {
 
-    return INITIALIZED;
+    return initialSetup;
   }
 
   /**
