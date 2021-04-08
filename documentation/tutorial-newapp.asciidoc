@@ -23,8 +23,12 @@ For low-level creation you can also manually call this command:
 
 [source,bash]
 ---- 
-mvn -DarchetypeVersion=3.1.0 -DarchetypeGroupId=com.devonfw.java.templates -DarchetypeArtifactId=devon4j-template-server archetype:generate -DgroupId=com.example.application -DartifactId=sampleapp -Dversion=1.0.0-SNAPSHOT -Dpackage=com.devonfw.application.sampleapp 
+mvn -DarchetypeVersion=${devon4j.version} -DarchetypeGroupId=com.devonfw.java.templates -DarchetypeArtifactId=devon4j-template-server archetype:generate -DgroupId=com.example.application -DartifactId=sampleapp -Dversion=1.0.0-SNAPSHOT -Dpackage=com.devonfw.application.sampleapp 
 ---- 
+
+Attention: The `archetypeVersion` (first argument) should be set to the latest version of `devon4j`. You can easily determine the version from this badge excluding the `v` prefix:
+image:https://img.shields.io/maven-central/v/com.devonfw.java.templates/devon4j-template-server.svg?label=Maven%20Central["web artifact",link=https://search.maven.org/search?q=g:com.devonfw.java.templates+a:devon4j-template-server]
+
 
 Further providing additional properties (using `-D` parameter) you can customize the generated app:
 

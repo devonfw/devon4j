@@ -90,7 +90,6 @@ The protocol to communicate these validation errors is described in xref:rest-ex
 == JAX-RS
 For implementing REST services we use the https://jax-rs-spec.java.net/[JAX-RS] standard. As an implementation we recommend http://cxf.apache.org/[CXF]. For link:guide-json.asciidoc[JSON] bindings we use http://wiki.fasterxml.com/JacksonHome[Jackson] while link:guide-xml.asciidoc[XML] binding works out-of-the-box with http://www.oracle.com/technetwork/articles/javase/index-140168.html[JAXB].
 To implement a service you write an interface with JAX-RS annotations for the API and a regular implementation class annotated with `@Named` to make it a spring-bean. Here is a simple example:
-com.devonfw.application.mtsj.dishmanagement.service.impl.rest
 [source,java]
 --------
 @Path("/imagemanagement/v1")
@@ -145,23 +144,24 @@ The following table specifies how to use the HTTP methods (verbs) for collection
 
 === Unparameterized loading of a single resource
 * *HTTP Method*: `GET`
-* *URL example*: `/products/123`
+* *URL example*: `/services/rest/productmanagement/v1/product/123`
 
-For loading of a single resource, embed the `identifier` of the resource in the URL (for example `/products/123`).
+For loading of a single resource, embed the `identifier` (e.g. `123`) of the resource in the URL.
 
 The response contains the resource in JSON format, using a JSON object at the top-level, for example:
 
 [source,javascript]
 ----
 {
-    "name": "Steak",
-    "color": "brown"
+  "id": 123,
+  "name": "Steak",
+  "color": "brown"
 }
 ----
 
 === Unparameterized loading of a collection of resources
 * *HTTP Method*: `GET`
-* *URL example*: `/products`
+* *URL example*: `/services/rest/productmanagement/v1/product`
 
 For loading of a collection of resources, make sure that the size of the collection can never exceed a reasonable maximum size. For parameterized loading (searching, pagination), see below.
 
@@ -170,44 +170,46 @@ The response contains the collection in JSON format, using a JSON object at the 
 [source,javascript]
 ----
 {
-    "result": [
-        {
-            "name": "Steak",
-            "color": "brown"
-        },
-        {
-            "name": "Broccoli",
-            "color": "green"
-        }
-    ]
+  "result": [
+    {
+      "id": 123,
+      "name": "Steak",
+      "color": "brown"
+    },
+    {
+      "id": 124,
+      "name": "Broccoli",
+      "color": "green"
+    }
+  ]
 }
 ----
 
 === Saving a resource
 * *HTTP Method*: `POST`
-* *URL example*: `/products`
+* *URL example*: `/services/rest/productmanagement/v1/product`
 
 The resource will be passed via JSON in the request body. If updating an existing resource, include the resource's `identifier` in the JSON and not in the URL, in order to avoid ambiguity.
 
-If saving was successful, an empty HTTP 204 response is generated.
+If saving was successful, the updated product (e.g. with assigned ID or updated modification counter) is returned.
 
 If saving was unsuccessful, refer below for the format to return errors to the client.
 
 
 === Parameterized loading of a resource
 * *HTTP Method*: `POST`
-* *URL example*: `/products/search`
+* *URL example*: `/services/rest/productmanagement/v1/product/search`
 
 In order to differentiate from an unparameterized load, a special _subpath_ (for example `search`) is introduced. The parameters are passed via JSON in the request body. An example of a simple, paginated search would be:
 
 [source,javascript]
 --------
 {
-    "status": "OPEN",
-    "pagination": {
-        "page": 2,
-        "size": 25
-    }
+  "status": "OPEN",
+  "pagination": {
+    "page": 2,
+    "size": 25
+  }
 }
 --------
 
@@ -216,30 +218,31 @@ The response contains the requested page of the collection in JSON format, using
 [source,javascript]
 ----
 {
-    "pagination": {
-        "page": 2,
-        "size": 25,
-        "total": null
+  "pagination": {
+    "page": 2,
+    "size": 25,
+    "total": null
+  },
+  "result": [
+    {
+      "id": 123,
+      "name": "Steak",
+      "color": "brown"
     },
-    "result": [
-        {
-            "name": "Steak",
-            "color": "brown"
-        },
-        {
-            "name": "Broccoli",
-            "color": "green"
-        }
-    ]
+    {
+      "id": 124,
+      "name": "Broccoli",
+      "color": "green"
+    }
+  ]
 }
 ----
 
 
 Compare the code needed on server side to accept this request:
-com.devonfw.application.mtsj.dishmanagement.service.api.rest
 [source,java]
 ----
-@Path("/category/search")
+  @Path("/category/search")
   @POST
   public PaginatedListTo<CategoryEto> findCategorysByPost(CategorySearchCriteriaTo searchCriteriaTo) {
     return this.dishmanagement.findCategoryEtos(searchCriteriaTo);
@@ -274,9 +277,9 @@ The service is free to honour this request. If it chooses to do so, it returns t
 
 === Deletion of a resource
 * *HTTP Method*: `DELETE`
-* *URL example*: `/products/123`
+* *URL example*: `/services/rest/productmanagement/v1/product/123`
 
-For deletion of a single resource, embed the `identifier` of the resource in the URL (for example `/products/123`).
+For deletion of a single resource, embed the `identifier` of the resource in the URL.
 
 === Error results
 
@@ -285,9 +288,9 @@ The general format for returning an error to the client is as follows:
 [source,javascript]
 ----
 {
-    "message": "A human-readable message describing the error",
-    "code": "A code identifying the concrete error",
-    "uuid": "An identifier (generally the correlation id) to help identify corresponding requests in logs"
+  "message": "A human-readable message describing the error",
+  "code": "A code identifying the concrete error",
+  "uuid": "An identifier (generally the correlation id) to help identify corresponding requests in logs"
 }
 ----
 
@@ -296,16 +299,16 @@ If the error is caused by a failed validation of the entity, the above format is
 [source,javascript]
 ----
 {
-    "message": "A human-readable message describing the error",
-    "code": "A code identifying the concrete error",
-    "uuid": "An identifier (generally the correlation id) to help identify corresponding requests in logs",
-    "errors": {
-        "property failing validation": [
-            "First error message on this property",
-            "Second error message on this property"
-        ],
-        // ....
-    }
+  "message": "A human-readable message describing the error",
+  "code": "A code identifying the concrete error",
+  "uuid": "An identifier (generally the correlation id) to help identify corresponding requests in logs",
+  "errors": {
+    "property failing validation": [
+       "First error message on this property",
+       "Second error message on this property"
+    ],
+    // ....
+  }
 }
 ----
 
@@ -324,9 +327,7 @@ For manual testing REST services there are browser plugins:
 Your services are the major entry point to your application. Hence security considerations are important here.
 
 === CSRF
-A common security threat is https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)[CSRF] for REST services. Therefore all REST operations that are performing modifications (PUT, POST, DELETE, etc. - all except GET) have to be secured against CSRF attacks. In devon4j we are using spring-security that already solves CSRF token generation and verification. The integration is part of the application template as well as the sample-application.
-
-For testing in development environment the CSRF protection can be disabled using the JVM option `-DCsrfDisabled=true` when starting the application.
+A common security threat is https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)[CSRF] for REST services. Therefore all REST operations that are performing modifications (PUT, POST, DELETE, etc. - all except GET) have to be secured against CSRF attacks. See link:guide-csrf.asciidoc[CSRF] how to do this.
 
 === JSON top-level arrays
 OWASP suggests to prevent returning JSON arrays at the top-level, to prevent attacks (see https://www.owasp.org/index.php/OWASP_AJAX_Security_Guidelines). However, no rationale is given at OWASP. We digged deep and found http://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx/[anatomy-of-a-subtle-json-vulnerability]. To sum it up the attack is many years old and does not work in any recent or relevant browser. Hence it is fine to use arrays as top-level result in a JSON REST service (means you can return `List<Foo>` in a Java JAX-RS service).
