@@ -20,17 +20,21 @@
     <guava.version>$[guava.version]</guava.version>
     <devonfw.test.excluded.groups>system</devonfw.test.excluded.groups>
     <app.version>${revision}${changelist}</app.version>
+    <jib.version>$[jib.version]</jib.version>
+    <jib.container.image>$[jib.container.image]</jib.container.image>
+    <jib.app.port>8081</jib.app.port>
+    <jib.goal>buildTar</jib.goal>
   </properties>
 
   <modules>
     <module>api</module>
     <module>core</module>
-    #if ($earProjectName != '.')
+#if ($earProjectName != '.')
     <module>${earProjectName}</module>
-    #end
-    #if ($batch == 'batch')
+#end
+#if ($batch == 'batch')
     <module>batch</module>
-    #end
+#end
     <module>server</module>
   </modules>
 
@@ -328,6 +332,49 @@
   </build>
 
   <profiles>
+    <profile>
+      <id>release</id>
+      <properties>
+        <jib.goal>build</jib.goal>
+      </properties>
+    </profile>
+    <profile>
+      <id>container</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.google.cloud.tools</groupId>
+            <artifactId>jib-maven-plugin</artifactId>
+            <version>${jib.version}</version>
+            <configuration>
+              <from>
+                <image>${jib.container.image}</image>
+              </from>
+              <to>
+                <image>${project.name}/java:${project.version}</image>
+              </to>
+              <container>
+                <mainClass>${package}.SpringBootApp</mainClass>
+                <ports>
+                  <port>${jib.app.port}</port>
+                </ports>
+              </container>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>${jib.goal}</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>moduletest</id>
       <properties>
