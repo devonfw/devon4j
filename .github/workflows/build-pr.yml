@@ -1,7 +1,5 @@
-name: CI Build
-on: 
-  push:
-    branches: [ master ]
+name: CI Build PR
+on: pull_request_target
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,8 +19,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=devonfw_devon4j
-      - name: Deploy if not a PR
-        env:
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: mvn --settings .mvn/settings.xml -DskipTests=true -Darchetype.test.skip=true -Dmaven.install.skip=true deploy
