@@ -433,7 +433,13 @@ A common link:guide-security.asciidoc[security] threat is http://en.wikipedia.or
   String query = "Select op from OrderPosition op where op.comment = " + userInput;
   return getEntityManager().createQuery(query).getResultList();
 ----
-Via the parameter `userInput` an attacker can inject SQL (JPQL) and execute arbitrary statements in the database causing extreme damage. In order to prevent such injections you have to strictly follow our rules for xref:queries[queries]: Use named queries for static queries and QueryDSL for dynamic queries. Please also consult the https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet[SQL Injection Prevention Cheat Sheet].
+Via the parameter `userInput` an attacker can inject SQL (JPQL) and execute arbitrary statements in the database causing extreme damage. 
+
+In order to prevent such injections you have to strictly follow our rules for xref:queries[queries]: 
+
+* Use named queries for link:guide-jpa-query.asciidoc#static-queries[static queries].
+* Use QueryDSL for link:guide-jpa-query.asciidoc#dynamic-queries[dynamic queries].
+* Please also consult the https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet[SQL Injection Prevention Cheat Sheet].
 
 === Limited Permissions for Application
 We suggest that you operate your application with a database user that has limited permissions so he can not modify the SQL schema (e.g. drop tables). For initializing the schema (DDL) or to do schema migrations use a separate user that is not used by the application itself.
