@@ -25,5 +25,28 @@
       <groupId>org.flywaydb</groupId>
       <artifactId>flyway-core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.liquibase</groupId>
+      <artifactId>liquibase-core</artifactId>
+    </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-maven-plugin</artifactId>
+        <configuration>
+          <propertyFile>/devon4j-test-jpa/src/main/java/com/devonfw/module/test/common/base/clean/TestCleanerPluginFlyway.java</propertyFile>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-maven-plugin</artifactId>
+        <configuration>
+          <propertyFile>/devon4j-test-jpa/src/main/java/com/devonfw/module/test/common/base/clean/TestCleanerPluginLiquibase.java</propertyFile>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
