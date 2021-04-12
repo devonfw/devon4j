@@ -6,32 +6,22 @@ toc::[]
 The service layer is responsible for exposing functionality made available by the link:guide-logic-layer.asciidoc[logical layer] to external consumers over a network via xref:protocol[technical protocols].
 
 == Types of Services
-We distinguish between the following types of services:
 
-* *External Services* +
-are used for communication between different companies, vendors, or partners.
-* *Internal Services* +
-are used for communication between different applications in the same application landscape of the same vendor.
-** *Back-end Services* +
-are internal services between Java back-end components typically with different release and deployment cycles (if not Java consider this as an external service).
-** *JS-Client Services* +
-are internal services provided by the Java back-end for JavaScript clients (GUI).
-** *Java-Client Services* +
-are internal services provided by the Java back-end for a native Java client (JavaFx, EclipseRcp, etc.).
+Before you start creating your services you should consider some general design aspects:
 
-The choices for technology and protocols will depend on the type of service. The following table gives a guideline for aspects according to the service types.
+* Do you want to create a https://en.wikipedia.org/wiki/RPC[RPC] service?
+* Or is your problem better addressed by messaging or eventing?
+* Who will consume your service? 
+** Do you have one or multiple consumers?
+** Do web-browsers have to use your service?
+** Will apps from other vendors or parties have to consume your service that you can not influence if the service may have to change or be extended?
 
-.Aspects according to service-type
-[options="header"]
-|=======================
-|*Aspect*                     |*External Service*|*Back-end Service*|*JS-Client Service*|*Java-Client Service*
-|xref:versioning[*Versioning*]|required          |required          |not required       |not required
-|xref:interoperability[*Interoperability*]|mandatory         |not required      |implicit           |not required
-|xref:protocol[Recommended *Protocol*]|link:guide-soap.asciidoc[SOAP] or link:guide-rest.asciidoc[REST]|link:guide-rest.asciidoc[REST]|link:guide-rest.asciidoc[REST]+JSON|link:guide-rest.asciidoc[REST]
-|=======================
+For RPC a common choice is link:guide-rest.asciidoc[REST] but there are also interesting alternatives like https://grpc.io/[gRPC]. We also have a guide for link:guide-soap.asciidoc[SOAP] but this technology should rather be considered as legacy and is not recommended for new services.
+
+When it comes to messaging in Java the typical answer will be link:guide-jms.asciidoc[JMS]. However, a very promising alternative is link:guide-kafka.asciidoc[Kafka].
 
 == Versioning
-For services consumed by other applications we use versioning to prevent incompatibilities between applications when deploying updates. This is done by the following conventions:
+For RPC services consumed by other applications we use versioning to prevent incompatibilities between applications when deploying updates. This is done by the following conventions:
 
 * We define a version number and prefix it with `v` (e.g. `v1`).
 * If we support previous versions we use that version numbers as part of the Java package defining the service API (e.g. `com.foo.application.component.service.api.v1`)
