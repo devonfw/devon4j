@@ -2,6 +2,26 @@
 
 This file documents all notable changes to https://https://github.com/devonfw/devon4j[devon4j].
 
+== 2021.04.001
+
+ATTENTION: This release is currently work in progress.
+
+New release of `devon4j` with fixes, updates and improvements:
+
+* https://github.com/devonfw/devon4j/issues/370[#370]: Minor updates (spring-boot 2.4.4, jackson 2.12.2, CXF 3.4.3, etc.) 
+* https://github.com/devonfw/devon4j/issues/366[#366]: BaseTest.isInitialSetup() broken
+* https://github.com/devonfw/devon4j/issues/85[#85]: ci-friendly-maven also for archetype
+* https://github.com/devonfw/devon4j/issues/164[#164]: Flattened pom for core project invalid
+* https://github.com/devonfw/devon4j/issues/323[#323]: Add spring integration test to archetype
+* https://github.com/devonfw/devon4j/pull/351[#351]: improved error handling of service client
+* https://github.com/devonfw/devon4j/issues/71[#71]: password encryption buggy
+* https://github.com/devonfw/devon4j/issues/354[#354]: JMS senders should not be part of data access layer, but logical layer
+* https://github.com/devonfw/devon4j/pull/337[#377]: updated T-Architecture
+* https://github.com/devonfw/devon4j/issues/294[#294]: integrate sonarcloud analysis into devon4j CI pipeline
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2021.04.001/devon4j-doc-2021.04.001.pdf[devon4j guide 2021.04.001].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/15?closed=1[milestone devon4j 2020.04.001].
+
 == 2020.12.002
 
 New release of `devon4j` with various updates and new CORS starter:
