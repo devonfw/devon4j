@@ -169,7 +169,7 @@ In order to support encrypted passwords in spring-boot `application.properties` 
 This will smoothly integrate http://jasypt.org/[jasypt] into your https://projects.spring.io/spring-boot/[spring-boot] application. Read this https://apereo.atlassian.net/wiki/spaces/CASUM/pages/103261428/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files[HOWTO] to learn how to encrypt and decrypt passwords using jasypt. Here is a simple example output of an encrypted password (of course you have to use strong passwords instead of `secret` and `postgres` - this is only an example):
 
 ----
-jasypt-1.9.3\bin>java -cp C:/projects/devonfw-ide-scripts-2020.12.001/conf/.m2/repository/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar  org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI password=secret algorithm=PBEWITHHMACSHA512ANDAES_256 input=postgres ivGeneratorClassName=org.jasypt.iv.RandomIvGenerator
+jasypt-1.9.3\bin>java -cp ${M2_REPO}/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar  org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI password=secret algorithm=PBEWITHHMACSHA512ANDAES_256 input=postgres ivGeneratorClassName=org.jasypt.iv.RandomIvGenerator
 
 ----ENVIRONMENT-----------------
 
@@ -192,9 +192,9 @@ The master-password can be configured on your target environment via the propert
 ```
 jasypt:
     encryptor:
-        password: secret
+        password: «secret»
 ```
-(of course you will replace `secret` with a strong password). In case you happen to have multiple apps on the same machine, you can symlink the `application.yml` from a central place.
+(of course you will replace `«secret»` with a strong password). In case you happen to have multiple apps on the same machine, you can symlink the `application.yml` from a central place.
 Now you are able to put encrypted passwords into your `application.properties`
 ```
 spring.datasource.password=ENC(vRZkKth6WKCtzUAGdx/+NUPjhzYvBZXjXQDPillqUrWB1I59bdFM66UQ6SYmJrE4)
@@ -213,7 +213,7 @@ Here is an example on how to use different algorithm for encryption and decrypti
 
 Use the below command to encrypt, specify the algorithm PBEWITHMD5ANDTRIPLEDES with master password "secret" and the string to be encrypted as "postgres"
 ----
-jasypt-1.9.3\bin>java -cp C:/projects/devonfw-ide-scripts-2020.12.001/conf/.m2/repository/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar  org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI password=secret algorithm=PBEWITHMD5ANDTRIPLEDES input=postgres ivGeneratorClassName=org.jasypt.iv.RandomIvGenerator
+jasypt-1.9.3\bin>java -cp ${M2_REPO}/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar  org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI password=secret algorithm=PBEWITHMD5ANDTRIPLEDES input=postgres ivGeneratorClassName=org.jasypt.iv.RandomIvGenerator
 
 ----ENVIRONMENT-----------------
 
