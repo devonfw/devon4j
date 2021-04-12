@@ -19,7 +19,7 @@
     <jackson.version>$[jackson.version]</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
     <guava.version>$[guava.version]</guava.version>
     <devonfw.test.excluded.groups>system</devonfw.test.excluded.groups>
-    <app.version>${revision}${changelist}</app.version>
+    <app.version>${revision}</app.version>
   </properties>
 
   <modules>
