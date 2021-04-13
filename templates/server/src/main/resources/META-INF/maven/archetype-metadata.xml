@@ -13,12 +13,13 @@
       <defaultValue>h2</defaultValue>
       <!-- <validationRegex>h2|postgresql|mysql|mariadb|oracle|hana|db2</validationRegex> -->
     </requiredProperty>
-     <requiredProperty key="dbMigration">
-      <defaultValue>flyway</defaultValue>
+    <requiredProperty key="dbMigration">  
+      <defaultValue>flyway</defaultValue> 
+      <!-- <validationRegex>flyway|liquibase</validationRegex> -->  
     </requiredProperty>
     <requiredProperty key="batch">
       <defaultValue>.</defaultValue>
-     <validationRegex>batch|[.]</validationRegex>
+      <validationRegex>batch|[.]</validationRegex>
     </requiredProperty>
   </requiredProperties>
 
@@ -68,13 +69,13 @@
         <include>.gitignore</include>
       </includes>
     </fileSet>
-     <fileSet packaged="false" filtered="true" encoding="UTF-8">
+    <fileSet packaged="false" filtered="true" encoding="UTF-8">
       <directory>.mvn</directory>
       <includes>
         <include>**/*.*</include>
       </includes>
     </fileSet>
-  </fileSets> 
+  </fileSets>
   <modules>
     <module id="server" dir="server" name="server">
       <fileSets>
