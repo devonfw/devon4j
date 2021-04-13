@@ -9,7 +9,7 @@ The service layer is responsible for exposing functionality made available by th
 
 Before you start creating your services you should consider some general design aspects:
 
-* Do you want to create a https://en.wikipedia.org/wiki/RPC[RPC] service?
+* Do you want to create a https://en.wikipedia.org/wiki/Remote_procedure_call[RPC] service?
 * Or is your problem better addressed by messaging or eventing?
 * Who will consume your service? 
 ** Do you have one or multiple consumers?
