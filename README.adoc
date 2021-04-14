@@ -4,7 +4,7 @@ Devon4j is the Java stack of http://devonfw.com[devonfw]. It allows you to build
 
 image:https://img.shields.io/github/license/devonfw/devon4j.svg?label=License["Apache License, Version 2.0",link=https://github.com/devonfw/devon4j/blob/develop/LICENSE.txt]
 image:https://img.shields.io/maven-central/v/com.devonfw.java.modules/devon4j-basic.svg?label=Maven%20Central["Maven Central",link=https://search.maven.org/search?q=g:com.devonfw.java.modules]
-image:https://travis-ci.com/devonfw/devon4j.svg?branch=develop["Build Status",link="https://travis-ci.com/devonfw/devon4j"]
+image:https://github.com/devonfw/devon4j/actions/workflows/build.yml/badge.svg["Build Status",link="https://github.com/devonfw/devon4j/actions/workflows/build.yml"]
 
 For details see xref:modules[modules] below.
 

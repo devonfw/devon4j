@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -167,8 +167,7 @@
     </dependency>
 #end
 
-   
- <!-- DB Schema version management and migration  -->
+   <!-- DB Schema version management and migration  -->
 #if ($dbMigration == 'flyway')
       <dependency> 
        <groupId>org.flywaydb</groupId>
@@ -180,6 +179,7 @@
        <artifactId>liquibase-core</artifactId>
        </dependency>
 #end
+
     <!-- CXF for REST and Webservices -->
     <dependency>
       <groupId>org.apache.cxf</groupId>
@@ -244,7 +244,7 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-tomcat</artifactId>
           <!-- workaround as of https://github.com/mojohaus/flatten-maven-plugin/issues/70 -->
-          <version>${spring.boot.version}</version>
+					<version>${spring.boot.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -261,7 +261,7 @@
           </excludes>
         </configuration>
       </plugin>
-       <plugin>
+      <plugin>
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-maven-plugin</artifactId>
       <configuration>
@@ -271,5 +271,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>

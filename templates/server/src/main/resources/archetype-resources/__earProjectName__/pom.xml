@@ -1,22 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>${groupId}</groupId>
-		<artifactId>${artifactId}</artifactId>
-		<version>${version}</version>
-	</parent>
-	<artifactId>${earProjectName}</artifactId>
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>${groupId}</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <version>${app.version}</version>
+  </parent>
+  <artifactId>${earProjectName}</artifactId>
   <name>${project.artifactId}</name>
-	<description>Enterprise application packaging.</description>
-	<packaging>ear</packaging>
+  <description>Enterprise application packaging.</description>
+  <packaging>ear</packaging>
 
-	<dependencies>
-		<dependency>
-			<groupId>${groupId}</groupId>
-			<artifactId>${artifactId}-server</artifactId>
-			<version>${project.version}</version>
-			<type>war</type>
-		</dependency>
-	</dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>${groupId}</groupId>
+      <artifactId>${artifactId}-server</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+  </dependencies>
 </project>
