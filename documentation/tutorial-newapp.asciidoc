@@ -26,7 +26,7 @@ For low-level creation you can also manually call this command:
 mvn -DarchetypeVersion=${devon4j.version} -DarchetypeGroupId=com.devonfw.java.templates -DarchetypeArtifactId=devon4j-template-server archetype:generate -DgroupId=com.example.application -DartifactId=sampleapp -Dversion=1.0.0-SNAPSHOT -Dpackage=com.devonfw.application.sampleapp 
 ---- 
 
-Attention: The `archetypeVersion` (first argument) should be set to the latest version of `devon4j`. You can easily determine the version from this badge excluding the `v` prefix:
+Attention: The `archetypeVersion` (first argument) should be set to the latest version of `devon4j`. You can easily determine the version from this badge:
 image:https://img.shields.io/badge/javadoc-2020.12.002-brightgreen.svg["web artifact",link=https://search.maven.org/search?q=g:com.devonfw.java.templates+a:devon4j-template-server]
 
 
