@@ -27,7 +27,7 @@ mvn -DarchetypeVersion=${devon4j.version} -DarchetypeGroupId=com.devonfw.java.te
 ---- 
 
 Attention: The `archetypeVersion` (first argument) should be set to the latest version of `devon4j`. You can easily determine the version from this badge excluding the `v` prefix:
-image:https://img.shields.io/maven-central/v/com.devonfw.java.templates/devon4j-template-server.svg?label=Maven%20Central["web artifact",link=https://search.maven.org/search?q=g:com.devonfw.java.templates+a:devon4j-template-server]
+image:https://img.shields.io/badge/javadoc-2020.12.002-brightgreen.svg["web artifact",link=https://search.maven.org/search?q=g:com.devonfw.java.templates+a:devon4j-template-server]
 
 
 Further providing additional properties (using `-D` parameter) you can customize the generated app:
