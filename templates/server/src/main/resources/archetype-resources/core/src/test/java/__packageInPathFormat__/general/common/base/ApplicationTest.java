@@ -1,22 +1,49 @@
 package ${package}.general.common.base;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import javax.inject.Inject;
 
-import com.devonfw.module.basic.common.api.reflect.Devon4jPackage;
-import com.devonfw.module.test.common.base.ModuleTest;
-import com.example.application.sampleapp.SpringBootApp;
-import com.example.application.sampleapp.general.common.base.Devon4jPackageCheckTest;
+import org.junit.jupiter.api.Test;
+
+import com.devonfw.module.basic.common.api.to.AbstractEto;
+import com.devonfw.module.beanmapping.common.api.BeanMapper;
+
+import ${package}.general.common.base.test.ApplicationComponentTest;
+import ${package}.general.dataaccess.api.ApplicationPersistenceEntity;
 
 /**
- * This test verifies that {@link SpringBootApp} is able to startup.
+ * This test verifies that {@link ${package}.SpringBootApp} is able to startup.
  */
 public class ApplicationTest extends ApplicationComponentTest {
-  @Test
-  public void contextLoads() {
 
-    Devon4jPackage pkg = Devon4jPackage.of(Devon4jPackageCheckTest.class);
-    assertThat(pkg.isValid()).isTrue();
+  @Inject
+  private BeanMapper beanMapper;
+
+  /** Test that {@link it.pkg.SpringBootApp} is able to startup. */
+  @Test
+  public void testContextLoads() {
+
+    // given
+    Long id = Long.valueOf(4711);
+    MyEntity entity = new MyEntity();
+    entity.setId(id);
+    // when
+    MyEto eto = this.beanMapper.map(entity, MyEto.class);
+    // then
+    assertThat(eto.getId()).isEqualTo(id);
+    assertThat(eto.getModificationCounter()).isEqualTo(0);
+    // and when
+    entity.setModificationCounter(5);
+    // then
+    assertThat(eto.getModificationCounter()).isEqualTo(5);
+  }
+
+  /** Dummy entity for testing. */
+  public static class MyEntity extends ApplicationPersistenceEntity {
+    private static final long serialVersionUID = 1L;
+  }
+
+  /** Dummy ETO for testing. */
+  public static class MyEto extends AbstractEto {
+    private static final long serialVersionUID = 1L;
   }
 }
