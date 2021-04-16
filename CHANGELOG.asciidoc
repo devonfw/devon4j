@@ -11,6 +11,7 @@ New release of `devon4j` with fixes, updates and improvements:
 * https://github.com/devonfw/devon4j/issues/370[#370]: Minor updates (spring-boot 2.4.4, jackson 2.12.2, CXF 3.4.3, etc.) 
 * https://github.com/devonfw/devon4j/issues/366[#366]: BaseTest.isInitialSetup() broken
 * https://github.com/devonfw/devon4j/issues/85[#85]: ci-friendly-maven also for archetype
+* https://github.com/devonfw/devon4j/issues/373[#373]: CORS starter not part of devon4j release
 * https://github.com/devonfw/devon4j/issues/164[#164]: Flattened pom for core project invalid
 * https://github.com/devonfw/devon4j/issues/323[#323]: Add spring integration test to archetype
 * https://github.com/devonfw/devon4j/pull/351[#351]: improved error handling of service client
