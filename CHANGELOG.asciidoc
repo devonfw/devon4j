@@ -4,8 +4,6 @@ This file documents all notable changes to https://https://github.com/devonfw/de
 
 == 2021.04.001
 
-ATTENTION: This release is currently work in progress.
-
 New release of `devon4j` with fixes, updates and improvements:
 
 * https://github.com/devonfw/devon4j/issues/370[#370]: Minor updates (spring-boot 2.4.4, jackson 2.12.2, CXF 3.4.3, etc.) 
@@ -15,7 +13,7 @@ New release of `devon4j` with fixes, updates and improvements:
 * https://github.com/devonfw/devon4j/issues/164[#164]: Flattened pom for core project invalid
 * https://github.com/devonfw/devon4j/issues/323[#323]: Add spring integration test to archetype
 * https://github.com/devonfw/devon4j/pull/351[#351]: improved error handling of service client
-* https://github.com/devonfw/devon4j/issues/71[#71]: password encryption buggy
+* https://github.com/devonfw/devon4j/issues/71[#71]: improve documentation for strong password encryption
 * https://github.com/devonfw/devon4j/issues/354[#354]: JMS senders should not be part of data access layer, but logical layer
 * https://github.com/devonfw/devon4j/pull/337[#377]: updated T-Architecture
 * https://github.com/devonfw/devon4j/issues/294[#294]: integrate sonarcloud analysis into devon4j CI pipeline
