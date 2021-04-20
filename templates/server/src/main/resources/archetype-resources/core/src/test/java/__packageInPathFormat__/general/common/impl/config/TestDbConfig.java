@@ -7,6 +7,7 @@ import com.devonfw.module.test.common.base.clean.TestCleaner;
 import com.devonfw.module.test.common.base.clean.TestCleanerImpl;
 import com.devonfw.module.test.common.base.clean.TestCleanerPlugin;
 import com.devonfw.module.test.common.base.clean.TestCleanerPluginFlyway;
+import com.devonfw.module.test.common.base.clean.TestCleanerPluginLiquibase;
 
 /**
  * {@link Configuration} for Database in JUnit tests.
@@ -27,9 +28,17 @@ public class TestDbConfig {
    * @return the {@link TestCleanerPluginFlyway}.
    */
   @Bean
-  public TestCleanerPlugin testCleanerPluginFlyway() {
+  public TestCleanerPlugin testCleanerPlugin() {
 
+
+  String dbMigrationValue = System.getenv($dbMigration);
+  
+  if(dbMigrationValue=="flyway")
+  {
     return new TestCleanerPluginFlyway();
+    
+  }else if(dbMigrationValue=="liquibase") {
+    return new TestCleanerPluginLiquibase();
   }
-
+}
 }

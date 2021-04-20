@@ -70,6 +70,7 @@
       <artifactId>devon4j-starter-spring-data-jpa</artifactId>
     </dependency>
 
+
     <!-- auto-configure datasource
       https://stackoverflow.com/questions/34964066/spring-boot-doesnt-use-datasource-properties
     -->
