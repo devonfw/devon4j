@@ -152,6 +152,7 @@ We recommend the following base layout for the hierarchical business configurati
 
 `component.[subcomponent].[subcomponent].propertyname`
 
+
 == Security
 Often you need to have passwords (for databases, third-party services, etc.) as part of your configuration. These are typically environment specific (see above). However, with DevOps and continuous-deployment you might be tempted to commit such configurations into your version-control (e.g. `git`). Doing that with plain text passwords is a severe problem especially for production systems. Never do that! Instead we offer some suggestions how to deal with sensible configurations:
 
@@ -169,50 +170,6 @@ In order to support encrypted passwords in spring-boot `application.properties` 
 This will smoothly integrate http://jasypt.org/[jasypt] into your https://projects.spring.io/spring-boot/[spring-boot] application. Read this https://apereo.atlassian.net/wiki/spaces/CASUM/pages/103261428/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files[HOWTO] to learn how to encrypt and decrypt passwords using jasypt. Here is a simple example output of an encrypted password (of course you have to use strong passwords instead of `secret` and `postgres` - this is only an example):
 
 ----
-jasypt-1.9.3\bin>java -cp ${M2_REPO}/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar  org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI password=secret algorithm=PBEWITHHMACSHA512ANDAES_256 input=postgres ivGeneratorClassName=org.jasypt.iv.RandomIvGenerator
-
-----ENVIRONMENT-----------------
-
-Runtime: Oracle Corporation OpenJDK 64-Bit Server VM 12+33
-
-----ARGUMENTS-------------------
-
-input: postgres
-password: secret
-ivGeneratorClassName: org.jasypt.iv.RandomIvGenerator
-algorithm: PBEWITHHMACSHA512ANDAES_256
-
-----OUTPUT----------------------
-
-vRZkKth6WKCtzUAGdx/+NUPjhzYvBZXjXQDPillqUrWB1I59bdFM66UQ6SYmJrE4
-
-----
-
-The master-password can be configured on your target environment via the property `jasypt.encryptor.password`. As system properties given on the command-line are visible in the process list, we recommend to use an `config/application.yml` file only for this purpose (as we recommended to use `application.properties` for regular configs):
-```
-jasypt:
-    encryptor:
-        password: «secret»
-```
-(of course you will replace `«secret»` with a strong password). In case you happen to have multiple apps on the same machine, you can symlink the `application.yml` from a central place.
-Now you are able to put encrypted passwords into your `application.properties`
-```
-spring.datasource.password=ENC(vRZkKth6WKCtzUAGdx/+NUPjhzYvBZXjXQDPillqUrWB1I59bdFM66UQ6SYmJrE4)
-```
-
-To prevent jasypt to throw an exception in dev or test scenarios simply put this in your local config (`src/main/config/application.properties` and same for `test`, see above for details):
-```
-jasypt.encryptor.password=none
-```
-
-==== Configure Algorithm
-Algorithm can be configured for stronger encryption. Jasypt uses PBEWITHHMACSHA512ANDAES_256 as the Default encryption algorithm.
-Algorithm can be configured through System, properties file, command line argumments, environment variable etc.
-
-Here is an example on how to use different algorithm for encryption and decryption.
-
-Use the below command to encrypt, specify the algorithm PBEWITHMD5ANDTRIPLEDES with master password "secret" and the string to be encrypted as "postgres"
-----
 jasypt-1.9.3\bin>java -cp ${M2_REPO}/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar  org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI password=secret algorithm=PBEWITHMD5ANDTRIPLEDES input=postgres ivGeneratorClassName=org.jasypt.iv.RandomIvGenerator
 
 ----ENVIRONMENT-----------------
@@ -228,20 +185,31 @@ algorithm: PBEWITHMD5ANDTRIPLEDES
 
 ----OUTPUT----------------------
 
-vCfZDp9Ru3+GsGy39rpE6gWJ8LJexaz6KeFSm+KQnyI=
-----
-
-For decryption, specify the algorithm in the  "applicaiton.properties" file as shown here. Keep the master password in config/application.yaml as described above.
+3fOgrTkUy/LZZsbY81ILev59o0kHHOkk2NzSl8mbWBg=
 
 ----
-spring.datasource.password=ENC(vCfZDp9Ru3+GsGy39rpE6gWJ8LJexaz6KeFSm+KQnyI=)
+
+The master-password can be configured on your target environment via the property `jasypt.encryptor.password`. As system properties given on the command-line are visible in the process list, we recommend to use an `config/application.yml` file only for this purpose (as we recommended to use `application.properties` for regular configs):
+```
+jasypt:
+    encryptor:
+        password: «secret»
+```
+(of course you will replace `«secret»` with a strong password). In case you happen to have multiple apps on the same machine, you can symlink the `application.yml` from a central place.
+Now you are able to put encrypted passwords into your `application.properties` and specify the algorithm.
+```
+spring.datasource.password=ENC(3fOgrTkUy/LZZsbY81ILev59o0kHHOkk2NzSl8mbWBg=)
 jasypt.encryptor.algorithm=PBEWITHMD5ANDTRIPLEDES
-----
+```
 
+To prevent jasypt to throw an exception in dev or test scenarios simply put this in your local config (`src/main/config/application.properties` and same for `test`, see above for details):
+```
+jasypt.encryptor.password=none
+```
+Algorithm can be configured through System, properties file, command line argumments, environment variable etc.
 
-Other configurable properties can be found https://github.com/ulisesbocchio/jasypt-spring-boot#password-based-encryption-configuration[here]
+Our recommendation is to use the default (PBEWITHHMACSHA512ANDAES_256), which means algorithm need not be specified while encrypting or decrypting.
 
-AES is considered secure in available encryption algorithms, PBEWITHHMACSHA512ANDAES_256 as highest level, which is the default algorithm as on Jasypt version 1.9.3. Our recommendation is to use the default (PBEWITHHMACSHA512ANDAES_256), which means algorithm need not be specified.
 
 ==== Is this Security by Obscurity?
 
