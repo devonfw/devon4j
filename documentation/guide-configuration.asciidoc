@@ -158,7 +158,7 @@ Often you need to have passwords (for databases, third-party services, etc.) as 
 
 === Password Encryption
 A simple but reasonable approach is to configure the passwords encrypted with a master-password. The master-password should be a strong secret that is specific for each environment. It must never be committed to version-control.
-In order to support encrypted passwords in spring-boot `application.properties` all you need to do is to add https://github.com/ulisesbocchio/jasypt-spring-boot#jasypt-spring-boot[jasypt-spring-boot] as dependency in your `pom.xml`(please check for recent version link:https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter[here]):
+In order to support encrypted passwords in spring-boot `application.properties` all you need to do is to add https://github.com/ulisesbocchio/jasypt-spring-boot#jasypt-spring-boot[jasypt-spring-boot] as dependency in your `pom.xml` (please check for recent version link:https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter[here]):
 [source, xml]
 ----
 <dependency>
@@ -167,49 +167,55 @@ In order to support encrypted passwords in spring-boot `application.properties` 
   <version>3.0.3</version>
 </dependency>
 ----
-This will smoothly integrate http://jasypt.org/[jasypt] into your https://projects.spring.io/spring-boot/[spring-boot] application. Read this https://apereo.atlassian.net/wiki/spaces/CASUM/pages/103261428/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files[HOWTO] to learn how to encrypt and decrypt passwords using jasypt. Here is a simple example output of an encrypted password (of course you have to use strong passwords instead of `secret` and `postgres` - this is only an example):
-Different algorithms can be used for stronger encryption, here in this example we are using PBEWITHMD5ANDTRIPLEDES.
+This will smoothly integrate http://jasypt.org/[jasypt] into your https://projects.spring.io/spring-boot/[spring-boot] application. Read this https://apereo.atlassian.net/wiki/spaces/CASUM/pages/103261428/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files[HOWTO] to learn how to encrypt and decrypt passwords using jasypt. 
+
+Here we give a simple example how to encypt and configure a secret value. Different algorithms can be used if perferred (e.g. `PBEWITHMD5ANDTRIPLEDES`). However, the default in jasypt is `PBEWITHHMACSHA512ANDAES_256` that provides strong encryption.
 ----
-jasypt-1.9.3\bin>java -cp ${M2_REPO}/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar  org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI password=secret algorithm=PBEWITHMD5ANDTRIPLEDES input=postgres ivGeneratorClassName=org.jasypt.iv.RandomIvGenerator
+java -cp ${M2_REPO}/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI password=masterpassword algorithm=PBEWITHHMACSHA512ANDAES_256 input=secret ivGeneratorClassName=org.jasypt.iv.RandomIvGenerator
 
 ----ENVIRONMENT-----------------
 
-Runtime: Oracle Corporation OpenJDK 64-Bit Server VM 12+33
+Runtime: AdoptOpenJDK OpenJDK 64-Bit Server VM 11.0.5+10 
+
+
 
 ----ARGUMENTS-------------------
 
-input: postgres
-password: secret
+input: secret
+password: masterpassword
 ivGeneratorClassName: org.jasypt.iv.RandomIvGenerator
-algorithm: PBEWITHMD5ANDTRIPLEDES
+algorithm: PBEWITHHMACSHA512ANDAES_256
+
+
 
 ----OUTPUT----------------------
 
-3fOgrTkUy/LZZsbY81ILev59o0kHHOkk2NzSl8mbWBg=
+PoUxkNjY2juQMCyPu6ic5KJy1XfK+bX9vu2/mPj3pmcO4iydG6mhgZRZSw50z/oC
 
 ----
+Of course the master-password (`masterpassword`) and the actual password to encrypt (`secret`) are just examples.
+Please replace them with reasonable strong passwords for your environment.
+There entire line after the `OUTPUT` block is your encrypted secret.
+It even contains some random salt so that multiple encryption invocations with the same parameters (`ARGUMENTS`) will produce a different `OUTPUT`.
 
 The master-password can be configured on your target environment via the property `jasypt.encryptor.password`. As system properties given on the command-line are visible in the process list, we recommend to use an `config/application.yml` file only for this purpose (as we recommended to use `application.properties` for regular configs):
 ```
 jasypt:
     encryptor:
-        password: «secret»
+        password: masterpassword
 ```
-(of course you will replace `«secret»` with a strong password). In case you happen to have multiple apps on the same machine, you can symlink the `application.yml` from a central place.
+Again `masterpassword` is just an example that your replace with your actual master password.
 Now you are able to put encrypted passwords into your `application.properties` and specify the algorithm.
 ```
-spring.datasource.password=ENC(3fOgrTkUy/LZZsbY81ILev59o0kHHOkk2NzSl8mbWBg=)
-jasypt.encryptor.algorithm=PBEWITHMD5ANDTRIPLEDES
+spring.datasource.password=ENC(PoUxkNjY2juQMCyPu6ic5KJy1XfK+bX9vu2/mPj3pmcO4iydG6mhgZRZSw50z/oC)
+jasypt.encryptor.algorithm=PBEWITHHMACSHA512ANDAES_256
 ```
+This `application.properties` file can be version controlled (git-opts) and without knowing the masterpassword nobody is able to decrypt this to get the actual secret back.
 
-To prevent jasypt to throw an exception in dev or test scenarios simply put this in your local config (`src/main/config/application.properties` and same for `test`, see above for details):
+To prevent jasypt to throw an exception in dev or test scenarios you can simply put this in your local config (`src/main/config/application.properties` and same for `test`, see above for details):
 ```
 jasypt.encryptor.password=none
 ```
-Algorithm can be configured through System, properties file, command line argumments, environment variable etc.
-
-Our recommendation is to use the default (PBEWITHHMACSHA512ANDAES_256), which means algorithm need not be specified while encrypting or decrypting.
-
 
 ==== Is this Security by Obscurity?
 
