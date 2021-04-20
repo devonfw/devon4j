@@ -195,7 +195,7 @@ PoUxkNjY2juQMCyPu6ic5KJy1XfK+bX9vu2/mPj3pmcO4iydG6mhgZRZSw50z/oC
 ----
 Of course the master-password (`masterpassword`) and the actual password to encrypt (`secret`) are just examples.
 Please replace them with reasonable strong passwords for your environment.
-There entire line after the `OUTPUT` block is your encrypted secret.
+The entire line after the `OUTPUT` block is your encrypted secret.
 It even contains some random salt so that multiple encryption invocations with the same parameters (`ARGUMENTS`) will produce a different `OUTPUT`.
 
 The master-password can be configured on your target environment via the property `jasypt.encryptor.password`. As system properties given on the command-line are visible in the process list, we recommend to use an `config/application.yml` file only for this purpose (as we recommended to use `application.properties` for regular configs):
