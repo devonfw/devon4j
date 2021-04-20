@@ -168,7 +168,7 @@ In order to support encrypted passwords in spring-boot `application.properties` 
 </dependency>
 ----
 This will smoothly integrate http://jasypt.org/[jasypt] into your https://projects.spring.io/spring-boot/[spring-boot] application. Read this https://apereo.atlassian.net/wiki/spaces/CASUM/pages/103261428/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files[HOWTO] to learn how to encrypt and decrypt passwords using jasypt. Here is a simple example output of an encrypted password (of course you have to use strong passwords instead of `secret` and `postgres` - this is only an example):
-
+Different algorithms can be used for stronger encryption, here in this example we are using PBEWITHMD5ANDTRIPLEDES.
 ----
 jasypt-1.9.3\bin>java -cp ${M2_REPO}/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar  org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI password=secret algorithm=PBEWITHMD5ANDTRIPLEDES input=postgres ivGeneratorClassName=org.jasypt.iv.RandomIvGenerator
 
