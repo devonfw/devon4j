@@ -19,10 +19,10 @@ However, when you have the freedom of choice and a modern case-sensitive databas
 * Define columns and constraints inline in the statement to create the table
 * Indent column types so they all start in the same text column
 * Constraints should be named explicitly (to get a reasonable hint error messages) with:
-** `+PK_{table}+` for primary key (name optional here as PK constraint are fundamental)
-** `+FK_{table}_{property}+` for foreign keys (`+{table}+` and `+{property}+` are both on the source where the foreign key is defined)
-** `+UC_{table}_{property}[_{propertyN}]*+` for unique constraints
-** `+CK_{table}_{check}+` for check constraints (`+{check}+` describes the check, if it is defined on a single property it should start with the property).
+** `PK_«table»` for primary key (name optional here as PK constraint are fundamental)
+** `FK_«table»_«property»` for foreign keys (`«table»` and `«property»` are both on the source where the foreign key is defined)
+** `+UC_«table»_«property»[_«propertyN»]*+` for unique constraints
+** `CK_«table»_«check»` for check constraints (`«check»` describes the check, if it is defined on a single property it should start with the property).
 * Old RDBMS had hard limitations for names (e.g. 30 characters). Please note that recent databases have overcome this very low length limitations. However, keep your names short but precise and try to define common abbreviations in your project for according (business) terms. Especially do not just truncate the names at the limit.
 * If possible add comments on table and columns to help DBAs understanding your schema. This is also honored by many tools (not only DBA-tools).
 
