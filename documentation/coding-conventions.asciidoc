@@ -14,6 +14,7 @@ The code should follow general conventions for Java (see http://www.oracle.com/t
 Besides general Java naming conventions, we follow the additional rules listed here explicitly:
 
 * Always use short but speaking names (for types, methods, fields, parameters, variables, constants, etc.).
+* Strictly avoid special characters in technical names (for files, types, fields, methods, properties, variables, database tables, columns, constraints, etc.). In other words only use Latin alpahnumeric ASCII characters with the common allowed technical separators for the accordign context (e.g. underscore) for technical names (even excluding whitespaces).
 * For package segments and type names prefer singular forms (`CustomerEntity` instead of [line-through]`CustomersEntity`). Only use plural forms when there is no singular or it is really semantically required (e.g. for a container that contains multiple of such objects).
 * Avoid having duplicate type names. The name of a class, interface, enum or annotation should be unique within your project unless this is intentionally desired in a special and reasonable situation.
 * Avoid artificial naming constructs such as prefixes (`I*`) or suffixes (`*IF`) for interfaces.
