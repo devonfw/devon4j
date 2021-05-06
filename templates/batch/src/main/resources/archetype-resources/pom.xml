@@ -22,10 +22,10 @@
   </properties>
 
   <modules>
-    <module>api</module>
+    <module>batch</module>
     <module>core</module>
-    <module>server</module>
   </modules>
+
 
   <dependencyManagement>
     <dependencies>
@@ -513,5 +513,4 @@
       </plugin>
     </plugins>
   </reporting>
-
 </project>

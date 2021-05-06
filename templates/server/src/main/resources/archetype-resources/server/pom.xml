@@ -18,13 +18,7 @@
       <artifactId>${rootArtifactId}-core</artifactId>
       <version>${project.version}</version>
     </dependency>
-#if ($batch == 'batch')
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>${rootArtifactId}-batch</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-#end
+
     <!-- Tests -->
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
