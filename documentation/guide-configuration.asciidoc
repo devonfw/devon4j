@@ -169,7 +169,9 @@ In order to support encrypted passwords in spring-boot `application.properties` 
 ----
 This will smoothly integrate http://jasypt.org/[jasypt] into your https://projects.spring.io/spring-boot/[spring-boot] application. Read this https://apereo.atlassian.net/wiki/spaces/CASUM/pages/103261428/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files[HOWTO] to learn how to encrypt and decrypt passwords using jasypt. 
 
-Here we give a simple example how to encypt and configure a secret value. Different algorithms can be used if perferred (e.g. `PBEWITHMD5ANDTRIPLEDES`). However, the default in jasypt is `PBEWITHHMACSHA512ANDAES_256` that provides strong encryption.
+Next, we give a simple example how to encypt and configure a secret value.
+We use the algorithm `PBEWITHHMACSHA512ANDAES_256` that provides strong encryption and is the default of `jasypt-spring-boot-starter`.
+However, different algorithms can be used if perferred (e.g. `PBEWITHMD5ANDTRIPLEDES`).
 ----
 java -cp ${M2_REPO}/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI password=masterpassword algorithm=PBEWITHHMACSHA512ANDAES_256 input=secret ivGeneratorClassName=org.jasypt.iv.RandomIvGenerator
 
@@ -195,7 +197,13 @@ PoUxkNjY2juQMCyPu6ic5KJy1XfK+bX9vu2/mPj3pmcO4iydG6mhgZRZSw50z/oC
 ----
 Of course the master-password (`masterpassword`) and the actual password to encrypt (`secret`) are just examples.
 Please replace them with reasonable strong passwords for your environment.
-The entire line after the `OUTPUT` block is your encrypted secret.
+Further, if you are using https://github.com/devonfw/ide[devonfw-ide] you can make your life much easier and just type:
+```
+devon jasypt encrypt
+```
+See https://github.com/devonfw/ide/blob/master/documentation/jasypt.asciidoc[jasypt commandlet] for details.
+
+Now the entire line after the `OUTPUT` block is your encrypted secret.
 It even contains some random salt so that multiple encryption invocations with the same parameters (`ARGUMENTS`) will produce a different `OUTPUT`.
 
 The master-password can be configured on your target environment via the property `jasypt.encryptor.password`. As system properties given on the command-line are visible in the process list, we recommend to use an `config/application.yml` file only for this purpose (as we recommended to use `application.properties` for regular configs):
