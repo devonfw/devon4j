@@ -19,6 +19,7 @@
     <jackson.version>$[jackson.version]</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
     <guava.version>$[guava.version]</guava.version>
     <devonfw.test.excluded.groups>system</devonfw.test.excluded.groups>
+    <flatten.mode>oss</flatten.mode>
   </properties>
 
   <modules>
@@ -118,6 +119,31 @@
             <id>default-report</id>
             <goals>
               <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <!-- generate and use flattened pom instead of pom.xml -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <configuration>
+          <flattenMode>${flatten.mode}</flattenMode>
+        </configuration>
+        <executions>
+          <execution>
+            <id>flatten</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
             </goals>
           </execution>
         </executions>
