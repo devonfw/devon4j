@@ -2,6 +2,16 @@
 
 This file documents all notable changes to https://https://github.com/devonfw/devon4j[devon4j].
 
+== 2021.04.002
+
+Bugfix release of with the following stories:
+* https://github.com/devonfw/devon4j/issues/389[#389]: archetype build broken with ci-friendly-maven
+* https://github.com/devonfw/devon4j/pull/391[#391]: jasypt documentation improvements
+* https://github.com/devonfw/devon4j/pull/387[#387]: rebuild and updated diagram with drawio
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2021.04.002/devon4j-doc-2021.04.002.pdf[devon4j guide 2021.04.002].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/18?closed=1[milestone devon4j 2020.04.002].
+
 == 2021.04.001
 
 New release of `devon4j` with fixes, updates and improvements:
