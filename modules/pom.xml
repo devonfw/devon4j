@@ -34,6 +34,7 @@
     <module>security-csrf</module>
     <module>security-keystore</module>
     <module>security-jwt</module>
+    <module>security-cors</module>
     <module>jpa-basic</module>
     <module>jpa-dao</module>
     <module>jpa-envers</module>
