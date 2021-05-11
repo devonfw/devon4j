@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>${artifactId}</artifactId>
   <groupId>${groupId}</groupId>
-  <version>${version}</version>
+  <version>${app.version}</version>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
   <description>Application based on the devon4j.</description>
@@ -19,17 +19,18 @@
     <jackson.version>$[jackson.version]</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
     <guava.version>$[guava.version]</guava.version>
     <devonfw.test.excluded.groups>system</devonfw.test.excluded.groups>
+    <app.version>${revision}</app.version>
   </properties>
 
   <modules>
     <module>api</module>
     <module>core</module>
-#if ($earProjectName != '.')
+    #if ($earProjectName != '.')
     <module>${earProjectName}</module>
-#end
-#if ($batch == 'batch')
+    #end
+    #if ($batch == 'batch')
     <module>batch</module>
-#end
+    #end
     <module>server</module>
   </modules>
 
@@ -50,7 +51,7 @@
         <version>${junit.version}</version>
         <type>pom</type>
         <scope>import</scope>
-      </dependency>      
+      </dependency>
       <!-- Library with general utilities -->
       <dependency>
         <groupId>com.google.guava</groupId>
@@ -196,7 +197,7 @@
           <version>$[maven.javadoc.plugin.version]</version>
           <configuration>
             <!-- http://jira.codehaus.org/browse/MJAVADOC-308 -->
-            <!--<maxmemory>5048m</maxmemory>-->
+            <!--<maxmemory>5048m</maxmemory> -->
             <notree>true</notree>
             <show>protected</show>
             <encoding>${project.reporting.outputEncoding}</encoding>
@@ -287,7 +288,8 @@
             <useMissingFile>true</useMissingFile>
             <failOnMissing>true</failOnMissing>
             <licenseMerges>
-              <licenseMerge>Apache Software License, Version 2.0|The Apache Software License, Version 2.0|Apache 2.0|Apache License, Version 2.0</licenseMerge>
+              <licenseMerge>Apache Software License, Version 2.0|The Apache Software License, Version 2.0|Apache
+                2.0|Apache License, Version 2.0</licenseMerge>
             </licenseMerges>
           </configuration>
         </plugin>
@@ -329,7 +331,7 @@
     <profile>
       <id>moduletest</id>
       <properties>
-      <devonfw.test.excluded.groups>component,subsystem,system</devonfw.test.excluded.groups>
+        <devonfw.test.excluded.groups>component,subsystem,system</devonfw.test.excluded.groups>
       </properties>
     </profile>
     <profile>
@@ -340,7 +342,7 @@
     </profile>
     <profile>
       <id>subsystemtest</id>
-       <properties>
+      <properties>
         <devonfw.test.excluded.groups>system</devonfw.test.excluded.groups>
       </properties>
     </profile>
