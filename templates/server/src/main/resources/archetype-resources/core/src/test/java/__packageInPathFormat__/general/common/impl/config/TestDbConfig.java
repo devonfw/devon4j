@@ -6,15 +6,20 @@ import org.springframework.context.annotation.Configuration;
 import com.devonfw.module.test.common.base.clean.TestCleaner;
 import com.devonfw.module.test.common.base.clean.TestCleanerImpl;
 import com.devonfw.module.test.common.base.clean.TestCleanerPlugin;
-import com.devonfw.module.test.common.base.clean.TestCleanerPluginFlyway;
+#if ($dbMigration == 'liquibase')  
 import com.devonfw.module.test.common.base.clean.TestCleanerPluginLiquibase;
+#else 
+import com.devonfw.module.test.common.base.clean.TestCleanerPluginFlyway;
+#end
+
+
 
 /**
  * {@link Configuration} for Database in JUnit tests.
  */
 @Configuration
 public class TestDbConfig {
-
+  
   /**
    * @return the {@link TestCleaner}.
    */
@@ -24,21 +29,25 @@ public class TestDbConfig {
     return new TestCleanerImpl();
   }
 
-  /**
-   * @return the {@link TestCleanerPluginFlyway}.
-   */
-  @Bean
-  public TestCleanerPlugin testCleanerPlugin() {
+  #if ($dbMigration == 'liquibase')  
+    /**
+     * @return the {@link TestCleanerPluginLiquibase}.
+     */
+    @Bean
+    public TestCleanerPlugin testCleanerPluginLiquibase() {
 
+      return new TestCleanerPluginLiquibase();
+    }
 
-  String dbMigrationValue = System.getenv($dbMigration);
+  #else 
+    /**
+     * @return the {@link TestCleanerPluginFlyway}.
+     */
+    @Bean
+    public TestCleanerPlugin testCleanerPluginFlyway() {
+
+      return new TestCleanerPluginFlyway();
+    }
+  #end
   
-  if(dbMigrationValue==null)
-  {
-    return new TestCleanerPluginFlyway();
-    
-  }else if(dbMigrationValue=="liquibase") {
-    return new TestCleanerPluginLiquibase();
-  }
-}
 }

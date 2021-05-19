@@ -74,7 +74,7 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-    </dependencies>
+     </dependencies>
   </dependencyManagement>
 
   <dependencies>
@@ -101,6 +101,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <excludedGroups>${devonfw.test.excluded.groups}</excludedGroups>
+          <testFailureIgnore>true</testFailureIgnore>
         </configuration>
       </plugin>
 
