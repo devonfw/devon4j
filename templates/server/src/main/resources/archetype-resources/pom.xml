@@ -63,8 +63,7 @@
       <dependency>
         <groupId>com.devonfw.java.boms</groupId>
         <artifactId>devon4j-bom</artifactId>
-        <!--<version>${devon4j.version}</version>-->
-        <version>2021.04.001</version>
+        <version>${devon4j.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
