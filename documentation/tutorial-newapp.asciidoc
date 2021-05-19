@@ -17,7 +17,13 @@ To create a new devon4j application from command line, you can simply run the fo
 [source,bash]
 ---- 
 devon java create com.example.application.sampleapp
----- 
+----
+
+If you want to create a new application with a batch module, you can simply run the following command:
+[source,bash]
+----
+devon java create com.example.application.sampleapp -Dbatch=batch
+----
 
 For low-level creation you can also manually call this command: 
 
@@ -37,9 +43,9 @@ Further providing additional properties (using `-D` parameter) you can customize
 |=======================
 |*property*      |*comment*                                                                                           |*example*
 |`dbType`        |Choose the type of RDBMS to use (`hana`, `oracle`, `mssql`, `postgresql`, `mariadb`, `mysql`, etc.) |`-DdbTpye=postgresql`
-|`batch`         |Option to add an `batch` module                                                                     |`-Dbatch=batch`
-|`earProjectName`|Option to add an EAR module with the given name                                                     |`-DearProjectName=ear`
 |=======================
+
+
 
 === From Eclipse
  After that, you should follow this Eclipse steps to create your application:
