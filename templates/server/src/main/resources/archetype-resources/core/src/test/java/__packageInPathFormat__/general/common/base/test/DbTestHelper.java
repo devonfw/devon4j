@@ -41,17 +41,6 @@ public class DbTestHelper {
  }
  #end
  
- 
-//  public DbTestHelper(#if ($dbMigration == 'liquibase') Liquibase liquibase #else Flyway flyway #end) {
-//    super();
-//    #if ($dbMigration == 'liquibase')  
-//      this.liquibase = liquibase;
-//    #else 
-//      this.flyway = flyway;
-//    #end
-//  }
-
- 
   #if ($dbMigration == 'flyway')
   /**
    * Calls {@link #dropDatabase()} internally, and migrates to the highest available migration (default) or to the
