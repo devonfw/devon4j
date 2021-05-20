@@ -4,7 +4,7 @@
   <parent>
     <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
-    <version>${app.version}</version>
+    <version>${revision}</version>
   </parent>
   <artifactId>${earProjectName}</artifactId>
   <name>${project.artifactId}</name>
