@@ -1,6 +1,5 @@
 package ${package}.general.common.base.test;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 #if ($dbMigration == 'liquibase')  
  import liquibase.Liquibase;
