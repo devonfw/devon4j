@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>${artifactId}</artifactId>
   <groupId>${groupId}</groupId>
-  <version>${app.version}</version>
+  <version>${revision}</version>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
   <description>Application based on the devon4j.</description>
@@ -74,7 +74,7 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-     </dependencies>
+    </dependencies>
   </dependencyManagement>
 
   <dependencies>
@@ -101,7 +101,6 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <excludedGroups>${devonfw.test.excluded.groups}</excludedGroups>
-          <testFailureIgnore>true</testFailureIgnore>
         </configuration>
       </plugin>
 
