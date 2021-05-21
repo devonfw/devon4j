@@ -23,7 +23,7 @@ import com.devonfw.module.basic.common.api.config.SpringProfileConstants;
 @Profile(SpringProfileConstants.JUNIT)
 public class TestWebSecurityConfig extends BaseWebSecurityConfig {
   private static Logger LOG = LoggerFactory.getLogger(TestWebSecurityConfig.class);
-  
+
   /**
    * Configure spring security to enable a simple webform-login + a simple rest login.
    */
