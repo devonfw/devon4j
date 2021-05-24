@@ -9,9 +9,9 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import ${package}.general.common.base.test.TestUtil;
 import com.devonfw.module.test.common.base.ComponentTest;
 #if ($dbMigration == 'liquibase')  
-  import liquibase.Liquibase;
+import liquibase.Liquibase;
 #else 
- import org.flywaydb.core.Flyway;
+import org.flywaydb.core.Flyway;
 #end
 
 /**

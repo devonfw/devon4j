@@ -1,11 +1,14 @@
 package com.devonfw.module.test.common.base.clean;
 
 import javax.inject.Inject;
+
+import org.flywaydb.core.Flyway;
+
 import liquibase.Liquibase;
 
 /**
- * @author ayudixit
- *
+ * Implementation of {@link TestCleanerPlugin} base on {@link Liquibase}. It will {@link Liquibase#dropAll() clean}
+ * on {@link #cleanup()}. Therefore after {@link #cleanup()} it will drop all database objects.
  */
 public class TestCleanerPluginLiquibase implements TestCleanerPlugin {
 
