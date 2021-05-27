@@ -25,9 +25,6 @@
   <modules>
     <module>api</module>
     <module>core</module>
-#if ($earProjectName != '.')
-    <module>${earProjectName}</module>
-#end
 #if ($batch == 'batch')
     <module>batch</module>
 #end
