@@ -145,6 +145,19 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>servicedocgen-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>servicedocgen</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
@@ -319,6 +332,20 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>servicedocgen-maven-plugin</artifactId>
           <version>$[mojo.servicedocgen.plugin.version]</version>
+          <configuration>
+            <descriptor>
+              <info>
+                <title>${servicedoc.info.title}</title>
+                <description>${servicedoc.info.description}</description>
+              </info>
+              <host>${servicedoc.host}</host>
+              <port>${servicedoc.port}</port>
+              <basePath>${servicedoc.basePath}</basePath>
+              <schemes>
+                <scheme>http</scheme>
+              </schemes>
+            </descriptor>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
@@ -512,20 +539,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>servicedocgen-maven-plugin</artifactId>
-        <configuration>
-          <descriptor>
-            <info>
-              <title>${servicedoc.info.title}</title>
-              <description>${servicedoc.info.description}</description>
-            </info>
-            <host>${servicedoc.host}</host>
-            <port>${servicedoc.port}</port>
-            <basePath>${servicedoc.basePath}</basePath>
-            <schemes>
-              <scheme>http</scheme>
-            </schemes>
-          </descriptor>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
