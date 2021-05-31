@@ -12,10 +12,10 @@ Properties properties = request.properties
 String dbMigration = properties.get("dbMigration")
 
 
-if(dbMigration == "flyway") {
+if (dbMigration == "flyway") {
   // delete the changelog folder as it is not required for flyway
   new File(rootDir, "src/main/resources/db/changelog").deleteDir()
-}else if(dbMigration == "liquibase") {
+} else if(dbMigration == "liquibase") {
   // delete the changelog folder as it is not required for flyway
   new File(rootDir, "src/main/resources/db/migration").deleteDir()
-  }
+}
