@@ -22,22 +22,7 @@
       <validationRegex>batch|[.]</validationRegex>
     </requiredProperty>
   </requiredProperties>
-
   <fileSets>
-    <!--
-      This file set allow the archetype to include ear packaging or not in the generated project.
-      It's is based on the pattern name substitution that uses maven to generate the packaging.
-      In archetype-resources exists a folder named __earProjectName__, and based on the value of
-      earProjectName renames the folder to the final module name.
-      The default value is . (dot), that implies that the __earProjectName__ folder is renamed to
-      . (dot), and don't create the ear project.
-
-      Additionally, when the artifact creates the ear project, the generated pom.xml add the ear
-      module to the generated project. This is possible due to take advantadge of velocity template
-      used by maven archetype plugin, so it's is very important not to modify the filtered attribute
-      value (true), that implies the ability of consider the files matching the include pattern as
-      velocity templates.
-    -->
     <fileSet packaged="false" filtered="true" encoding="UTF-8">
       <directory>api</directory>
       <includes>
@@ -50,15 +35,9 @@
         <include>**/*.*</include>
       </excludes>
     </fileSet>
-    <fileSet packaged="false" filtered="true" encoding="UTF-8">
-      <directory>__earProjectName__</directory>
-      <includes>
-        <include>**/*.*</include>
-      </includes>
-    </fileSet>
     <!-- Include batch only if explicitly configured -->
     <fileSet packaged="false" filtered="true" encoding="UTF-8">
-      <directory>__batch__</directory>
+      <directory>batch</directory>
       <includes>
         <include>**/*.*</include>
       </includes>
@@ -97,5 +76,4 @@
       </fileSets>
     </module>
   </modules>
-
 </archetype-descriptor>
