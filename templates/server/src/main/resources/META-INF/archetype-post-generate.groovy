@@ -11,6 +11,7 @@ Properties properties = request.properties
 // dbMigration is either flyway or liquibase
 String dbMigration = properties.get("dbMigration")
 
+
 if (dbMigration == "flyway") {
   // delete the changelog folder as it is not required for flyway
   Files.deleteIfExists projectPath.resolve("src/main/resources/db/changelog/changelog-master.xml")
@@ -23,4 +24,3 @@ if (dbMigration == "flyway") {
    Files.deleteIfExists projectPath.resolve("src/main/resources/db/migration/1.0/V0001_Create_Sequence.sql")
    Files.deleteIfExists projectPath.resolve("src/main/resources/db/test/V0001_InitDb.sql")
 }
-

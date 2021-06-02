@@ -4,6 +4,7 @@ import javax.inject.Named;
 import com.devonfw.module.test.common.base.clean.TestCleanerPlugin;
 import com.devonfw.module.test.common.base.clean.TestCleanerPluginLiquibase;
 import com.devonfw.module.test.common.base.clean.TestCleanerPluginFlyway;
+
 /**
  * This class provides methods for handling the database during testing where resets (and other operations) may be
  * necessary.
@@ -23,6 +24,7 @@ public class DbTestHelper{
   /**
    * Drops the whole database.
    */
+
   public void dropDatabase() {
 #if($dbMigration == 'liquibase')
       testCleanerPlugin = new TestCleanerPluginLiquibase();
