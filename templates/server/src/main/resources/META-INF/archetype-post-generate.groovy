@@ -23,4 +23,3 @@ if (dbMigration == "flyway") {
    Files.deleteIfExists projectPath.resolve("src/main/resources/db/migration/1.0/V0001_Create_Sequence.sql")
    Files.deleteIfExists projectPath.resolve("src/main/resources/db/test/V0001_InitDb.sql")
 }
-
