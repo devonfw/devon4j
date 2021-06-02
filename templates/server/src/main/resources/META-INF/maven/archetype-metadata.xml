@@ -15,7 +15,6 @@
     </requiredProperty>
     <requiredProperty key="dbMigration">  
       <defaultValue>flyway</defaultValue> 
-      <!-- <validationRegex>flyway|liquibase</validationRegex> -->  
     </requiredProperty>
     <requiredProperty key="batch">
       <defaultValue>.</defaultValue>
