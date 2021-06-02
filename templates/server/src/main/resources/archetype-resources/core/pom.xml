@@ -36,6 +36,12 @@
       <artifactId>devon4j-web</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-test-jpa</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
     <!-- Only required if you want to call external REST services within your Java application -->
     <dependency>
       <groupId>com.devonfw.java.starters</groupId>
@@ -264,17 +270,18 @@
         </configuration>
       </plugin>
       
-      #if($dbMigration == 'liquibase')      
+#if($dbMigration == 'liquibase')      
       <plugin>
         <groupId>org.liquibase</groupId>
         <artifactId>liquibase-maven-plugin</artifactId>
+        <version>3.8.0</version>  
         <configuration>
         <goals> 
           <goalPrefix>liquibase</goalPrefix>
           </goals>
         </configuration>
       </plugin>
-       #end
+#end
     </plugins>
   </build>
   
