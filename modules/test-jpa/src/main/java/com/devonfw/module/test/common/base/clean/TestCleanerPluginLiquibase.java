@@ -2,7 +2,6 @@ package com.devonfw.module.test.common.base.clean;
 
 import javax.inject.Inject;
 
-import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +45,7 @@ public class TestCleanerPluginLiquibase implements TestCleanerPlugin {
   try {
     this.liquibase.dropAll();
   }catch(DatabaseException databaseException) {
-     LOG.error("Database exception occurred!", new DatabaseException());
+     LOG.error("Database exception occurred!", databaseException);
   }
   
   }
