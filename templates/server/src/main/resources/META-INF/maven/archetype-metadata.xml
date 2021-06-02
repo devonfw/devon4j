@@ -6,9 +6,6 @@
   <id>devon4j-template-server</id>
 
   <requiredProperties>
-    <requiredProperty key="earProjectName">
-      <defaultValue>.</defaultValue>
-    </requiredProperty>
     <requiredProperty key="dbType">
       <defaultValue>h2</defaultValue>
       <!-- <validationRegex>h2|postgresql|mysql|mariadb|oracle|hana|db2</validationRegex> -->
