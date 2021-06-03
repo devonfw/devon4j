@@ -14,18 +14,26 @@ String batch = properties.get("batch")
 // dbMigration is either flyway or liquibase
 String dbMigration = properties.get("dbMigration")
 
+println "*****************************Hello Groovy**************************************"
 
 if (dbMigration == "flyway") {
-  // delete the changelog folder as it is not required for flyway
-  Files.deleteIfExists projectPath.resolve("src/main/resources/db/changelog/changelog-master.xml")
-  Files.deleteIfExists projectPath.resolve("src/main/resources/db/changelog/changelog-v1.0.xml")
-  Files.deleteIfExists projectPath.resolve("src/test/resources/db/changelog/changelog-master.xml")
-  Files.deleteIfExists projectPath.resolve("src/test/resources/db/changelog/changelog-v1.0.xml")
+  println "*****************************Hello Groovy inside flyway**************************************"
+//delete changelog and testchangelog folder which is not required for flyway
+  Path rootPath = projectPath.resolve("core/src/main/resources/db/changelog")
+  deleteDirectoryRecursion(rootPath)
+  
+  Path rootPathtest = projectPath.resolve("core/src/test/resources/db/changelog")
+  deleteDirectoryRecursion(rootPathtest)
   
 } else if(dbMigration == "liquibase") {
-  // delete the changelog folder as it is not required for flyway
-   Files.deleteIfExists projectPath.resolve("src/main/resources/db/migration/1.0/V0001_Create_Sequence.sql")
-   Files.deleteIfExists projectPath.resolve("src/main/resources/db/test/V0001_InitDb.sql")
+println "*****************************Hello Groovy inside liquibase**************************************"
+//delete migration and test folder which is not required for liquibase
+  Path rootPath = projectPath.resolve("core/src/main/resources/db/migration")
+  deleteDirectoryRecursion(rootPath)
+  
+  Path rootPathtest = projectPath.resolve("core/src/test/resources/db/test")
+  deleteDirectoryRecursion(rootPathtest)
+  
 }
 
 if (batch != "batch") {
