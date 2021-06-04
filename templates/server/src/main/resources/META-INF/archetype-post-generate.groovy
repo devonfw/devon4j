@@ -14,10 +14,8 @@ String batch = properties.get("batch")
 // dbMigration is either flyway or liquibase
 String dbMigration = properties.get("dbMigration")
 
-println "*****************************Hello Groovy**************************************"
 
 if (dbMigration == "flyway") {
-  println "*****************************Hello Groovy inside flyway**************************************"
 //delete changelog and testchangelog folder which is not required for flyway
   Path rootPath = projectPath.resolve("core/src/main/resources/db/changelog")
   deleteDirectoryRecursion(rootPath)
@@ -26,7 +24,6 @@ if (dbMigration == "flyway") {
   deleteDirectoryRecursion(rootPathtest)
   
 } else if(dbMigration == "liquibase") {
-println "*****************************Hello Groovy inside liquibase**************************************"
 //delete migration and test folder which is not required for liquibase
   Path rootPath = projectPath.resolve("core/src/main/resources/db/migration")
   deleteDirectoryRecursion(rootPath)
