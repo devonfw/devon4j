@@ -11,7 +11,13 @@ Properties properties = request.properties
 
 String batch = properties.get("batch")
 
-// dbMigration is either flyway or liquibase
+if (batch != "batch") {
+  // delete folder batch recursively
+  Path rootPath = projectPath.resolve("batch")
+  deleteDirectoryRecursion(rootPath)
+}
+
+//dbMigration is either flyway or liquibase
 String dbMigration = properties.get("dbMigration")
 
 
@@ -31,12 +37,6 @@ if (dbMigration == "flyway") {
   Path rootPathtest = projectPath.resolve("core/src/test/resources/db/test")
   deleteDirectoryRecursion(rootPathtest)
   
-}
-
-if (batch != "batch") {
-  // delete folder batch recursively
-  Path rootPath = projectPath.resolve("batch")
-  deleteDirectoryRecursion(rootPath)
 }
 
 void deleteDirectoryRecursion(Path path) {
