@@ -8,12 +8,16 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import ${package}.general.common.base.test.TestUtil;
 import com.devonfw.module.test.common.base.ComponentTest;
+import com.devonfw.module.test.common.base.DbTest;
 import com.devonfw.module.test.common.base.clean.TestCleanerPlugin;
 import com.devonfw.module.test.common.base.clean.TestCleanerPluginFlyway;
+
 /**
  * Base class for all spring batch integration tests. It helps to do End-to-End job tests.
  */
 public abstract class SpringBatchIntegrationTest extends ComponentTest {
+
+  private static final Logger LOG = LoggerFactory.getLogger(SpringBatchIntegrationTest.class);
 
   @Inject
   private JobLauncher jobLauncher;
@@ -29,7 +33,13 @@ public abstract class SpringBatchIntegrationTest extends ComponentTest {
 #else if($dbMigration == 'liquibase')
    testCleanerPlugin = new TestCleanerPluginLiquibase();
 #end
-   testCleanerPlugin.cleanup();
+try {
+  testCleanerPlugin.cleanup();
+}
+catch(Exception exception) {
+  LOG.error("Exception occurred while performing cleanup", exception);
+}
+   
   }
 
   protected void doTearDown() {

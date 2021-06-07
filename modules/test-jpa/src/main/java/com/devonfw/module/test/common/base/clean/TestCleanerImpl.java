@@ -21,7 +21,7 @@ public class TestCleanerImpl implements TestCleaner {
   }
 
   @Override
-  public void cleanup() {
+  public void cleanup() throws Exception {
 
     for (TestCleanerPlugin plugin : this.plugins) {
       plugin.cleanup();

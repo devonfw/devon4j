@@ -24,7 +24,7 @@ public class DbTestHelper{
   /**
    * Drops the whole database.
    */
-  public void dropDatabase() {
+  public void dropDatabase() throws Exception {
 #if($dbMigration == 'liquibase')
       testCleanerPlugin = new TestCleanerPluginLiquibase();
 #end 

@@ -34,7 +34,7 @@ public class TestCleanerPluginFlyway implements TestCleanerPlugin {
   }
 
   @Override
-  public void cleanup() {
+  public void cleanup() throws Exception {
 
     this.flyway.clean();
     this.flyway.migrate();

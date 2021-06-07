@@ -5,7 +5,6 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import liquibase.Liquibase;
 import liquibase.exception.DatabaseException;
 
@@ -14,10 +13,7 @@ import liquibase.exception.DatabaseException;
  * {@link #cleanup()}. Therefore after {@link #cleanup()} it will drop all database objects.
  */
 public class TestCleanerPluginLiquibase implements TestCleanerPlugin {
-  
-  private static final Logger LOG = LoggerFactory.getLogger(TestCleanerPluginLiquibase.class);
 
- 
   @Inject
   private Liquibase liquibase;
 
@@ -41,13 +37,8 @@ public class TestCleanerPluginLiquibase implements TestCleanerPlugin {
   }
 
   @Override
-  public void cleanup()  {
-  try {
-    this.liquibase.dropAll();
-  }catch(DatabaseException databaseException) {
-     LOG.error("Database exception occurred!", databaseException);
-  }
-  
+  public void cleanup() throws Exception {
+    this.liquibase.dropAll();    
   }
 
 }
