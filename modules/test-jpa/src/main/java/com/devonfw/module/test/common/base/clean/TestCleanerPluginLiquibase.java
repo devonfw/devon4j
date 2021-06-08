@@ -2,9 +2,7 @@ package com.devonfw.module.test.common.base.clean;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.springframework.beans.factory.annotation.Qualifier;
 import liquibase.Liquibase;
 import liquibase.exception.DatabaseException;
 
@@ -12,6 +10,7 @@ import liquibase.exception.DatabaseException;
  * Implementation of {@link TestCleanerPlugin} base on {@link Liquibase}. It will {@link Liquibase#dropAll() clean} on
  * {@link #cleanup()}. Therefore after {@link #cleanup()} it will drop all database objects.
  */
+@Qualifier("TestCleanerPluginLiquibase")
 public class TestCleanerPluginLiquibase implements TestCleanerPlugin {
 
   @Inject
@@ -37,8 +36,12 @@ public class TestCleanerPluginLiquibase implements TestCleanerPlugin {
   }
 
   @Override
-  public void cleanup() throws Exception {
-    this.liquibase.dropAll();    
+  public void cleanup() {
+    try {
+      this.liquibase.dropAll();
+    } catch(DatabaseException databaseException ) {
+      throw new RuntimeException(databaseException);
+    }
   }
 
 }

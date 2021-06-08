@@ -1,8 +1,6 @@
 package ${package}.general.batch.base.test;
 
 import javax.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.test.JobLauncherTestUtils;
@@ -10,36 +8,29 @@ import ${package}.general.common.base.test.TestUtil;
 import com.devonfw.module.test.common.base.ComponentTest;
 import com.devonfw.module.test.common.base.DbTest;
 import com.devonfw.module.test.common.base.clean.TestCleanerPlugin;
-import com.devonfw.module.test.common.base.clean.TestCleanerPluginFlyway;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Base class for all spring batch integration tests. It helps to do End-to-End job tests.
  */
 public abstract class SpringBatchIntegrationTest extends ComponentTest {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SpringBatchIntegrationTest.class);
-
   @Inject
   private JobLauncher jobLauncher;
-
+  
   @Inject
+#if($dbMigration == 'flyway')
+  @Qualifier("TestCleanerPluginFlyway")
   private TestCleanerPlugin testCleanerPlugin;
+#else if($dbMigration == 'liquibase')  
+  @Qualifier("TestCleanerPluginLiquibase")
+  private TestCleanerPlugin testCleanerPlugin;
+#end
 
   @Override
   protected void doSetUp() {
   super.doSetUp();
-#if($dbMigration == 'flyway')
-   testCleanerPlugin = new TestCleanerPluginFlyway();
-#else if($dbMigration == 'liquibase')
-   testCleanerPlugin = new TestCleanerPluginLiquibase();
-#end
-try {
   testCleanerPlugin.cleanup();
-}
-catch(Exception exception) {
-  LOG.error("Exception occurred while performing cleanup", exception);
-}
-   
   }
 
   protected void doTearDown() {

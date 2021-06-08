@@ -12,7 +12,6 @@ import com.devonfw.module.test.common.base.clean.TestCleanerPluginLiquibase;
 import com.devonfw.module.test.common.base.clean.TestCleanerPluginFlyway;
 #end
 
-
 /**
  * {@link Configuration} for Database in JUnit tests.
  */
@@ -28,7 +27,6 @@ public class TestDbConfig {
     return new TestCleanerImpl();
   }
 
-
 #if ($dbMigration == 'liquibase')  
     /**
      * @return the {@link TestCleanerPluginLiquibase}.
@@ -38,8 +36,6 @@ public class TestDbConfig {
 
       return new TestCleanerPluginLiquibase();
     }
-
-
 #else 
     /**
      * @return the {@link TestCleanerPluginFlyway}.
@@ -49,7 +45,5 @@ public class TestDbConfig {
 
       return new TestCleanerPluginFlyway();
     }
-
 #end
-  
 }

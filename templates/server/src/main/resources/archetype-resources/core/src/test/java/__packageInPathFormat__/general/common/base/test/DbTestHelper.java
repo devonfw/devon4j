@@ -1,9 +1,9 @@
 package ${package}.general.common.base.test;
 
 import javax.inject.Named;
+import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Qualifier;
 import com.devonfw.module.test.common.base.clean.TestCleanerPlugin;
-import com.devonfw.module.test.common.base.clean.TestCleanerPluginLiquibase;
-import com.devonfw.module.test.common.base.clean.TestCleanerPluginFlyway;
 
 /**
  * This class provides methods for handling the database during testing where resets (and other operations) may be
@@ -11,9 +11,15 @@ import com.devonfw.module.test.common.base.clean.TestCleanerPluginFlyway;
  */
 @Named
 public class DbTestHelper{
-
   
+  @Inject
+#if($dbMigration == 'flyway')
+  @Qualifier("TestCleanerPluginFlyway")
   private TestCleanerPlugin testCleanerPlugin;
+#else if($dbMigration == 'liquibase')
+  @Qualifier("TestCleanerPluginLiquibase")
+  private TestCleanerPlugin testCleanerPlugin;
+#end
 
   public DbTestHelper(TestCleanerPlugin testCleanerPlugin) {
 
@@ -25,12 +31,6 @@ public class DbTestHelper{
    * Drops the whole database.
    */
   public void dropDatabase() throws Exception {
-#if($dbMigration == 'liquibase')
-      testCleanerPlugin = new TestCleanerPluginLiquibase();
-#end 
-#if($dbMigration == 'flyway')
-      testCleanerPlugin = new TestCleanerPluginFlyway();
-#end
       testCleanerPlugin.cleanup();
   }
 

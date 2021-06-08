@@ -4,9 +4,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.devonfw.module.test.common.base.clean.TestCleaner;
 
 /**
@@ -19,8 +16,6 @@ import com.devonfw.module.test.common.base.clean.TestCleaner;
  * </ul>
  */
 public abstract class DbTest extends BaseTest {
-
-  private static final Logger LOG = LoggerFactory.getLogger(DbTest.class);
 
   @PersistenceContext
   private EntityManager entityManager;
@@ -37,11 +32,7 @@ public abstract class DbTest extends BaseTest {
     }
     if (isPerformCleanup()) {
       if (isAllowMultiCleanup() || isInitialSetup()) {
-        try {
-          this.testUtility.cleanup();
-        } catch (Exception exception) {
-          LOG.error("Exception occurred while performing cleanup", exception);
-        }
+        this.testUtility.cleanup();
       }
     }
   }

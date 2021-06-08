@@ -8,7 +8,7 @@ package com.devonfw.module.test.common.base.clean;
 public class TestCleanerPluginNone implements TestCleanerPlugin {
 
   @Override
-  public void cleanup() throws Exception {
+  public void cleanup() {
 
     // do nothing by design
   }

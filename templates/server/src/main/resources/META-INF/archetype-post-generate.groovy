@@ -20,23 +20,21 @@ if (batch != "batch") {
 //dbMigration is either flyway or liquibase
 String dbMigration = properties.get("dbMigration")
 
-
 if (dbMigration == "flyway") {
 //delete changelog and testchangelog folder which is not required for flyway
   Path rootPath = projectPath.resolve("core/src/main/resources/db/changelog")
   deleteDirectoryRecursion(rootPath)
-  
-  Path rootPathtest = projectPath.resolve("core/src/test/resources/db/changelog")
-  deleteDirectoryRecursion(rootPathtest)
+   
+  Files.deleteIfExists projectPath.resolve("core/src/test/resources/db/test/changelog-master.xml")
+  Files.deleteIfExists projectPath.resolve("core/src/test/resources/db/test/changelog-v1.0.xml")
   
 } else if(dbMigration == "liquibase") {
 //delete migration and test folder which is not required for liquibase
   Path rootPath = projectPath.resolve("core/src/main/resources/db/migration")
   deleteDirectoryRecursion(rootPath)
   
-  Path rootPathtest = projectPath.resolve("core/src/test/resources/db/test")
-  deleteDirectoryRecursion(rootPathtest)
-  
+  Files.deleteIfExists projectPath.resolve("core/src/test/resources/db/test/V0001__InitDb.sql")
+
 }
 
 void deleteDirectoryRecursion(Path path) {
