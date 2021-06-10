@@ -13,13 +13,8 @@ import com.devonfw.module.test.common.base.clean.TestCleanerPlugin;
 public class DbTestHelper{
   
   @Inject
-#if($dbMigration == 'flyway')
-  @Qualifier("TestCleanerPluginFlyway")
+  @Qualifier("testCleanerPlugin$dbMigration")
   private TestCleanerPlugin testCleanerPlugin;
-#else if($dbMigration == 'liquibase')
-  @Qualifier("TestCleanerPluginLiquibase")
-  private TestCleanerPlugin testCleanerPlugin;
-#end
 
   public DbTestHelper(TestCleanerPlugin testCleanerPlugin) {
 
@@ -30,7 +25,7 @@ public class DbTestHelper{
   /**
    * Drops the whole database.
    */
-  public void dropDatabase() throws Exception {
+  public void dropDatabase() {
       testCleanerPlugin.cleanup();
   }
 

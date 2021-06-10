@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * {@link Flyway#migrate() migrate} on {@link #cleanup()}. Therefore after {@link #cleanup()} only DDL and master-data
  * will be left in the database.
  */
-@Qualifier("TestCleanerPluginFlyway")
+@Qualifier("testCleanerPluginflyway")
 public class TestCleanerPluginFlyway implements TestCleanerPlugin {
 
   @Inject

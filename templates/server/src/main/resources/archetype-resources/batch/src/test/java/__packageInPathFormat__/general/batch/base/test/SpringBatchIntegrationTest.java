@@ -19,14 +19,9 @@ public abstract class SpringBatchIntegrationTest extends ComponentTest {
   private JobLauncher jobLauncher;
   
   @Inject
-#if($dbMigration == 'flyway')
-  @Qualifier("TestCleanerPluginFlyway")
+  @Qualifier("testCleanerPlugin$dbMigration")
   private TestCleanerPlugin testCleanerPlugin;
-#else if($dbMigration == 'liquibase')  
-  @Qualifier("TestCleanerPluginLiquibase")
-  private TestCleanerPlugin testCleanerPlugin;
-#end
-
+  
   @Override
   protected void doSetUp() {
   super.doSetUp();

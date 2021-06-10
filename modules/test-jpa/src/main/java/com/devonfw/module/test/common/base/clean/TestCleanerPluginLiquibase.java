@@ -10,7 +10,7 @@ import liquibase.exception.DatabaseException;
  * Implementation of {@link TestCleanerPlugin} base on {@link Liquibase}. It will {@link Liquibase#dropAll() clean} on
  * {@link #cleanup()}. Therefore after {@link #cleanup()} it will drop all database objects.
  */
-@Qualifier("TestCleanerPluginLiquibase")
+@Qualifier("testCleanerPluginliquibase")
 public class TestCleanerPluginLiquibase implements TestCleanerPlugin {
 
   @Inject
