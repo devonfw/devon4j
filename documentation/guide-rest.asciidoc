@@ -330,4 +330,7 @@ Your services are the major entry point to your application. Hence security cons
 A common security threat is https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)[CSRF] for REST services. Therefore all REST operations that are performing modifications (PUT, POST, DELETE, etc. - all except GET) have to be secured against CSRF attacks. See link:guide-csrf.asciidoc[CSRF] how to do this.
 
 === JSON top-level arrays
-OWASP suggests to prevent returning JSON arrays at the top-level, to prevent attacks (see https://www.owasp.org/index.php/OWASP_AJAX_Security_Guidelines). However, no rationale is given at OWASP. We digged deep and found http://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx/[anatomy-of-a-subtle-json-vulnerability]. To sum it up the attack is many years old and does not work in any recent or relevant browser. Hence it is fine to use arrays as top-level result in a JSON REST service (means you can return `List<Foo>` in a Java JAX-RS service).
+OWASP earlier suggested to never return JSON arrays at the top-level, to prevent attacks without rationale.
+We digged deep and found https://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx/[anatomy-of-a-subtle-json-vulnerability].
+To sum it up the attack is many years old and does not work in any recent or relevant browser.
+Hence it is fine to use arrays as top-level result in a JSON REST service (means you can return `List<Foo>` in a Java JAX-RS service).
