@@ -9,6 +9,7 @@ import com.devonfw.module.basic.common.api.config.ConfigProperties;
 import com.devonfw.module.basic.common.api.config.SimpleConfigProperties;
 import com.devonfw.module.service.common.api.client.AsyncServiceClient;
 import com.devonfw.module.service.common.api.client.ServiceClientFactory;
+import com.devonfw.module.service.common.api.client.SyncServiceClient;
 import com.devonfw.module.service.common.api.client.async.AsyncServiceClientFactory;
 import com.devonfw.module.service.common.api.client.discovery.ServiceDiscoverer;
 import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
@@ -171,6 +172,36 @@ public class ServiceClientFactoryImpl implements ServiceClientFactory {
           "Unsuppoerted service type - client could not be created by any factory for " + serviceInterface);
     }
     return serviceClient;
+  }
+
+  @Override
+  public <S> SyncServiceClient<S> createSync(Class<S> serviceInterface, Map<String, String> config) {
+
+    ServiceContextImpl<S> context = createContext(serviceInterface, config);
+    SyncServiceClient<S> serviceClient = createClientSync(serviceInterface, context);
+    return serviceClient;
+  }
+
+  private <S> SyncServiceClient<S> createClientSync(Class<S> serviceInterface, ServiceContextImpl<S> context) {
+
+    SyncServiceClient<S> serviceClient = null;
+    for (SyncServiceClientFactory factory : this.syncServiceClientFactories) {
+      serviceClient = factory.create(context);
+      if (serviceClient != null) {
+        break;
+      }
+    }
+    if (serviceClient == null) {
+      throw new IllegalStateException(
+          "Unsuppoerted service type - client could not be created by any factory for " + serviceInterface);
+    }
+    return serviceClient;
+  }
+
+  @Override
+  public <S> SyncServiceClient<S> createSync(Class<S> serviceInterface) {
+
+    return createSync(serviceInterface, null);
   }
 
 }

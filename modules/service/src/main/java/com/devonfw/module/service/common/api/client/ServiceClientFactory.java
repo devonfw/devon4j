@@ -79,4 +79,22 @@ public interface ServiceClientFactory {
    */
   <S> AsyncServiceClient<S> createAsync(Class<S> serviceInterface, Map<String, String> config);
 
+  /**
+   * @param <S> type of the {@link com.devonfw.module.service.common.api.client.context.ServiceContext#getApi() service
+   *        API}.
+   * @param serviceInterface the {@link Class} reflecting the interface that defines the API of your {@link Service}.
+   * @param config the {@link Map} with explicit configuration properties. See
+   *        {@link com.devonfw.module.service.common.base.config.ServiceConfigProperties} for further details.
+   * @return an {@link AsyncServiceClient} allowing to call service operations asynchronously.
+   */
+  <S> SyncServiceClient<S> createSync(Class<S> serviceInterface, Map<String, String> config);
+
+  /**
+   * @param <S> type of the {@link com.devonfw.module.service.common.api.client.context.ServiceContext#getApi() service
+   *        API}.
+   * @param serviceInterface the {@link Class} reflecting the interface that defines the API of your {@link Service}.
+   * @return an {@link AsyncServiceClient} allowing to call service operations asynchronously.
+   */
+  <S> SyncServiceClient<S> createSync(Class<S> serviceInterface);
+
 }
