@@ -87,6 +87,7 @@ public interface ServiceClientFactory {
    *        {@link com.devonfw.module.service.common.base.config.ServiceConfigProperties} for further details.
    * @return an {@link AsyncServiceClient} allowing to call service operations asynchronously.
    */
+
   <S> SyncServiceClient<S> createSync(Class<S> serviceInterface, Map<String, String> config);
 
   /**

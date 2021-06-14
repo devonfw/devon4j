@@ -8,7 +8,7 @@ import com.devonfw.module.service.common.api.client.ServiceClientErrorFactory;
 import com.devonfw.module.service.common.api.client.SyncServiceClient;
 import com.devonfw.module.service.common.api.client.async.AsyncServiceClientFactory;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
-import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
+import com.devonfw.module.service.common.api.client.sync.SyncHttpServiceClientFactory;
 import com.devonfw.module.service.common.base.client.PartialServiceClientFactory;
 
 /**
@@ -17,21 +17,21 @@ import com.devonfw.module.service.common.base.client.PartialServiceClientFactory
  * @since 2020.08.001
  */
 public abstract class SyncServiceClientFactoryHttp extends PartialServiceClientFactory
-    implements SyncServiceClientFactory {
+    implements SyncHttpServiceClientFactory {
 
   private ServiceClientErrorFactory errorUnmarshaller;
 
   private HttpClient httpClient;
 
   @Override
-  public <S> S create(ServiceContext<S> context) {
+  public <S> SyncServiceClient<S> create(ServiceContext<S> context) {
 
     boolean responsible = isResponsibleForService(context);
     if (!responsible) {
       return null;
     }
     String url = getUrl(context);
-    S serviceClient = (S) createService(context, url);
+    SyncServiceClient<S> serviceClient = createService(context, url);
     return serviceClient;
   }
 

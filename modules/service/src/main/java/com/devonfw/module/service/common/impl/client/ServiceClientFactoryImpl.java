@@ -12,6 +12,7 @@ import com.devonfw.module.service.common.api.client.ServiceClientFactory;
 import com.devonfw.module.service.common.api.client.SyncServiceClient;
 import com.devonfw.module.service.common.api.client.async.AsyncServiceClientFactory;
 import com.devonfw.module.service.common.api.client.discovery.ServiceDiscoverer;
+import com.devonfw.module.service.common.api.client.sync.SyncHttpServiceClientFactory;
 import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
 import com.devonfw.module.service.common.api.header.ServiceHeaderCustomizer;
 import com.devonfw.module.service.common.base.context.ServiceContextImpl;
@@ -25,6 +26,8 @@ public class ServiceClientFactoryImpl implements ServiceClientFactory {
 
   private Collection<SyncServiceClientFactory> syncServiceClientFactories;
 
+  private Collection<SyncHttpServiceClientFactory> syncHttpServiceClientFactories;
+
   private Collection<AsyncServiceClientFactory> asyncServiceClientFactories;
 
   private Collection<ServiceDiscoverer> serviceDiscoverers;
@@ -37,6 +40,17 @@ public class ServiceClientFactoryImpl implements ServiceClientFactory {
   public ServiceClientFactoryImpl() {
 
     super();
+  }
+
+  /**
+   * @param syncServiceClientFactories the {@link Collection} of {@link SyncServiceClientFactory factories} to
+   *        {@link Inject}.
+   */
+  @Inject
+  public void setSyncHttpServiceClientFactories(
+      Collection<SyncHttpServiceClientFactory> syncHttpServiceClientFactories) {
+
+    this.syncHttpServiceClientFactories = syncHttpServiceClientFactories;
   }
 
   /**
@@ -185,7 +199,7 @@ public class ServiceClientFactoryImpl implements ServiceClientFactory {
   private <S> SyncServiceClient<S> createClientSync(Class<S> serviceInterface, ServiceContextImpl<S> context) {
 
     SyncServiceClient<S> serviceClient = null;
-    for (SyncServiceClientFactory factory : this.syncServiceClientFactories) {
+    for (SyncHttpServiceClientFactory factory : this.syncHttpServiceClientFactories) {
       serviceClient = factory.create(context);
       if (serviceClient != null) {
         break;
