@@ -13,7 +13,6 @@ import liquibase.exception.DatabaseException;
 @Qualifier("testCleanerPluginliquibase")
 public class TestCleanerPluginLiquibase implements TestCleanerPlugin {
 
-  @Inject
   private Liquibase liquibase;
 
   /**

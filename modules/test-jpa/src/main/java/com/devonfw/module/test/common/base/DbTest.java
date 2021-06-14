@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.devonfw.module.test.common.base.BaseTest;
 import com.devonfw.module.test.common.base.clean.TestCleaner;
 
 /**
