@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration;
 import com.devonfw.module.jpa.dataaccess.api.AdvancedRevisionEntity;
 import com.devonfw.module.jpa.dataaccess.impl.data.GenericRepositoryFactoryBean;
 
@@ -15,6 +16,7 @@ import com.devonfw.module.jpa.dataaccess.impl.data.GenericRepositoryFactoryBean;
 @SpringBootApplication
 @EnableJpaRepositories(repositoryFactoryBeanClass = GenericRepositoryFactoryBean.class)
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
+@EnableAutoConfiguration(exclude = LiquibaseAutoConfiguration.class)
 public class SpringBootApp {
 
   /**
