@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,17 +42,11 @@ public class BaseUserDetailsService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    Set<GrantedAuthority> authorities = getAuthorities(username);
-    UserDetails user;
     try {
-      user = getAmBuilder().getDefaultUserDetailsService().loadUserByUsername(username);
-      User userData = new User(user.getUsername(), user.getPassword(), authorities);
-      return userData;
+      UserDetails user = getAmBuilder().getDefaultUserDetailsService().loadUserByUsername(username);
+      return new User(user.getUsername(), user.getPassword(), getAuthorities(user));
     } catch (Exception e) {
-      e.printStackTrace();
-      UsernameNotFoundException exception = new UsernameNotFoundException("Authentication failed.", e);
-      LOG.warn("Failed to get user {}.", username, exception);
-      throw exception;
+      throw new UsernameNotFoundException("Authentication failed, for user:" + username, e);
     }
   }
 
@@ -60,32 +55,30 @@ public class BaseUserDetailsService implements UserDetailsService {
    * @return the associated {@link GrantedAuthority}s
    * @throws AuthenticationException if no principal is retrievable for the given {@code username}
    */
-  protected Set<GrantedAuthority> getAuthorities(String username) throws AuthenticationException {
+  protected Set<GrantedAuthority> getAuthorities(UserDetails user) throws AuthenticationException {
 
-    Objects.requireNonNull(username, "username");
     // determine granted authorities for spring-security...
-    Set<GrantedAuthority> authorities = new HashSet<>();
-    Collection<String> accessControlIds = getRoles(username);
     Set<AccessControl> accessControlSet = new HashSet<>();
-    for (String id : accessControlIds) {
-      boolean success = this.accessControlProvider.collectAccessControls(id, accessControlSet);
-      if (!success) {
-        LOG.warn("Undefined access control {}.", id);
-      }
-    }
-    for (AccessControl accessControl : accessControlSet) {
-      authorities.add(new AccessControlGrantedAuthority(accessControl));
-    }
-    return authorities;
+
+    Set<String> undefinedIds = getRoles(user).stream()
+        .filter(id -> !this.accessControlProvider.collectAccessControls(id, accessControlSet))
+        .collect(Collectors.toUnmodifiableSet());
+
+    undefinedIds.forEach(id -> LOG.warn("Undefined access control {}.", id));
+
+    return accessControlSet.stream().map(accessControl -> new AccessControlGrantedAuthority(accessControl))
+        .collect(Collectors.toUnmodifiableSet());
   }
 
-  private Collection<String> getRoles(String username) {
+  static final String ROLE_PREFIX = "ROLE_";
 
-    Collection<String> roles = new ArrayList<>();
-    // TODO for a reasonable application you need to retrieve the roles of the user from a central IAM system
-    roles.add(username);
-    return roles;
+  private Collection<String> getRoles(UserDetails user) {
+
+    return user.getAuthorities().stream().filter(authority -> authority.getAuthority().startsWith(ROLE_PREFIX))
+        .map((authority) -> authority.getAuthority().substring(ROLE_PREFIX.length()))
+        .collect(Collectors.toUnmodifiableSet());
   }
+
 
   /**
    * @return amBuilder
@@ -121,3 +114,4 @@ public class BaseUserDetailsService implements UserDetailsService {
     this.accessControlProvider = accessControlProvider;
   }
 }
+
