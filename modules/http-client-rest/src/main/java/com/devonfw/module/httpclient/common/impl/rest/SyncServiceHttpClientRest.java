@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.devonfw.module.httpclient.common.impl.AbstractSyncServiceHttpClient;
 import com.devonfw.module.httpclient.common.impl.ServiceHttpClient;
-import com.devonfw.module.service.common.api.client.AsyncServiceClient;
+import com.devonfw.module.service.common.api.client.SyncServiceClient;
 import com.devonfw.module.service.common.api.client.async.ServiceClientInvocation;
 import com.devonfw.module.service.common.api.client.async.ServiceClientStub;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
@@ -24,7 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Implementation of {@link AsyncServiceClient} for REST (JAX-RS) using Java HTTP client.
+ * Implementation of {@link SyncServiceClient} for REST (JAX-RS) using Java HTTP client.
  *
  * @param <S> type of the {@link #get() service client}.
  * @since 2020.08.001
@@ -39,7 +39,7 @@ public class SyncServiceHttpClientRest<S> extends AbstractSyncServiceHttpClient<
    * @param proxy the {@link #get() service client}.
    * @param stub the {@link ServiceClientStub}.
    * @param client the {@link ServiceHttpClient} to use.
-   * @param factory the owning {@link AsyncServiceClientFactoryHttpRest}.
+   * @param factory the owning {@link SyncServiceClientFactoryHttpRest}.
    */
   public SyncServiceHttpClientRest(S proxy, ServiceClientStub<S> stub, ServiceHttpClient client,
       SyncServiceClientFactoryHttpRest factory) {
@@ -127,7 +127,7 @@ public class SyncServiceHttpClientRest<S> extends AbstractSyncServiceHttpClient<
    * @param <S> type of the {@link #get() service client}.
    * @param context the {@link ServiceContext}.
    * @param client the {@link HttpClient} to use.
-   * @param factory the {@link AsyncServiceClientFactoryHttpRest}.
+   * @param factory the {@link SyncServiceClientFactoryHttpRest}.
    * @return the new {@link SyncServiceHttpClientRest}.
    */
   public static <S> SyncServiceHttpClientRest<S> of(ServiceContext<S> context, ServiceHttpClient client,

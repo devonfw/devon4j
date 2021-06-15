@@ -94,7 +94,7 @@ public interface ServiceClientFactory {
    * @param <S> type of the {@link com.devonfw.module.service.common.api.client.context.ServiceContext#getApi() service
    *        API}.
    * @param serviceInterface the {@link Class} reflecting the interface that defines the API of your {@link Service}.
-   * @return an {@link AsyncServiceClient} allowing to call service operations asynchronously.
+   * @return an {@link SyncServiceClient} allowing to call service operations synchronously.
    */
   <S> SyncServiceClient<S> createSync(Class<S> serviceInterface);
 

@@ -35,7 +35,7 @@ public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClie
    * @param proxy the {@link #get() service client}.
    * @param stub the {@link ServiceClientStub}.
    * @param httpClient the {@link ServiceHttpClient} to use.
-   * @param factory the owning {@link AsyncServiceClientFactoryHttp factory}.
+   * @param factory the owning {@link SyncServiceClientFactoryHttp factory}.
    */
   public AbstractSyncServiceHttpClient(S proxy, ServiceClientStub<S> stub, ServiceHttpClient httpClient, F factory) {
 
@@ -57,22 +57,10 @@ public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClie
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-
     handleResponse(future, startTime, invocation, resultHandler, getErrorHandler());
     future.body();
-    // future.body();
-    // future.thenAccept(response -> handleResponse(response, startTime, invocation, resultHandler, getErrorHandler()));
   }
 
-  /*
-   * @Override protected <R> void doCall(ServiceClientInvocation<S> invocation, Consumer<R> resultHandler) {
-   *
-   * long startTime = System.nanoTime(); HttpRequest request = createRequest(invocation); HttpResponse<String> response;
-   * try { response = this.client.getHttpClient().send(request, BodyHandlers.ofString()); } catch (IOException e) {
-   * e.printStackTrace(); } catch (InterruptedException e) { e.printStackTrace(); } // future.body(); //
-   * response.thenAccept(response -> handleResponse(response, startTime, invocation, resultHandler, //
-   * getErrorHandler())); }
-   */
   private Throwable createError(HttpResponse<?> response, ServiceClientInvocation<S> invocation, String service) {
 
     int statusCode = response.statusCode();

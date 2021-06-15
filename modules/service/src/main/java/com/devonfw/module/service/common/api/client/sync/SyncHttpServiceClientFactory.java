@@ -16,7 +16,7 @@ import com.devonfw.module.service.common.api.client.context.ServiceContext;
 public interface SyncHttpServiceClientFactory {
 
   /**
-   * @see com.devonfw.module.service.common.api.client.ServiceClientFactory#createAsync(Class)
+   * @see com.devonfw.module.service.common.api.client.ServiceClientFactory#createSync(Class)
    *
    * @param <S> the generic type of the {@link ServiceContext#getApi() service API}.
    * @param context the {@link ServiceContext}.

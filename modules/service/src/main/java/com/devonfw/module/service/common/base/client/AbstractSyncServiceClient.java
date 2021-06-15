@@ -8,14 +8,13 @@ import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.devonfw.module.service.common.api.client.AsyncServiceClient;
 import com.devonfw.module.service.common.api.client.SyncServiceClient;
 import com.devonfw.module.service.common.api.client.async.ServiceClientInvocation;
 import com.devonfw.module.service.common.api.client.async.ServiceClientStub;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
 
 /**
- * Abstract base implementation of {@link AsyncServiceClient}.
+ * Abstract base implementation of {@link SyncServiceClient}.
  *
  * @param <S> type of the {@link #get() service client}.
  * @since 2020.08.001
