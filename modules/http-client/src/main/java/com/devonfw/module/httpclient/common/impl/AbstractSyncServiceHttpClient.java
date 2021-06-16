@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import com.devonfw.module.service.common.api.client.SyncServiceClient;
@@ -44,6 +43,7 @@ public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClie
     this.factory = factory;
   }
 
+  @SuppressWarnings("null")
   @Override
   protected <R> void doCall(ServiceClientInvocation<S> invocation, Consumer<R> resultHandler) {
 
@@ -104,17 +104,6 @@ public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClie
    * @return the according {@link HttpResponse} to send.
    */
   protected abstract HttpRequest createRequest(ServiceClientInvocation<S> invocation);
-
-  @Override
-  protected <R> CompletableFuture<R> doCall(ServiceClientInvocation<S> invocation) {
-
-    long startTime = System.nanoTime();
-    HttpRequest request = createRequest(invocation);
-    CompletableFuture<HttpResponse<String>> future = this.client.getHttpClient().sendAsync(request,
-        BodyHandlers.ofString());
-    return future.thenApplyAsync(
-        response -> handleResponse(response, startTime, invocation, null, ErrorHandlerThrowImmediately.get()));
-  }
 
   @SuppressWarnings({ "unchecked" })
   private <R> R handleResponse(HttpResponse<?> response, long startTime, ServiceClientInvocation<S> invocation,

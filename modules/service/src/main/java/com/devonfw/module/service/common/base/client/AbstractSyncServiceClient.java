@@ -2,7 +2,6 @@ package com.devonfw.module.service.common.base.client;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import org.slf4j.Logger;
@@ -87,13 +86,6 @@ public abstract class AbstractSyncServiceClient<S> implements SyncServiceClient<
     }
   }
 
-  @Override
-  public CompletableFuture<Void> callVoid(Runnable serviceInvoker) {
-
-    serviceInvoker.run();
-    return call(null);
-  }
-
   private ServiceClientInvocation<S> getInvocation() {
 
     this.invocation = this.stub.getInvocation();
@@ -132,17 +124,4 @@ public abstract class AbstractSyncServiceClient<S> implements SyncServiceClient<
     return parameters.length;
   }
 
-  @Override
-  public <R> CompletableFuture<R> call(R result) {
-
-    return doCall(getInvocation());
-  }
-
-  /**
-   * @param <R> type of the return/result type.
-   * @param serviceInvocation the {@link ServiceClientInvocation}.
-   * @return a {@link CompletableFuture} to receive the result asynchronously.
-   * @see #call(Object)
-   */
-  protected abstract <R> CompletableFuture<R> doCall(ServiceClientInvocation<S> serviceInvocation);
 }

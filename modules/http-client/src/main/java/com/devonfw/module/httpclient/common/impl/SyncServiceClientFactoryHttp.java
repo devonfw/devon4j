@@ -6,13 +6,13 @@ import javax.inject.Inject;
 
 import com.devonfw.module.service.common.api.client.ServiceClientErrorFactory;
 import com.devonfw.module.service.common.api.client.SyncServiceClient;
-import com.devonfw.module.service.common.api.client.async.AsyncServiceClientFactory;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
 import com.devonfw.module.service.common.api.client.sync.SyncHttpServiceClientFactory;
+import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
 import com.devonfw.module.service.common.base.client.PartialServiceClientFactory;
 
 /**
- * Abstract base implementation of {@link AsyncServiceClientFactory} for service clients using Java HTTP client.
+ * Abstract base implementation of {@link SyncServiceClientFactory} for service clients using Java HTTP client.
  *
  * @since 2020.08.001
  */

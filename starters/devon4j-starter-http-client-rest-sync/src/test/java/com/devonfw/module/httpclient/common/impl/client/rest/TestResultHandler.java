@@ -2,7 +2,6 @@ package com.devonfw.module.httpclient.common.impl.client.rest;
 
 import java.util.function.Consumer;
 
-import com.devonfw.module.service.common.api.client.AsyncServiceClient;
 import com.devonfw.module.service.common.api.client.SyncServiceClient;
 
 /**
@@ -20,7 +19,7 @@ public class TestResultHandler<T> implements Consumer<T> {
   /**
    * The constructor.
    *
-   * @param serviceClient the {@link AsyncServiceClient}.
+   * @param serviceClient the {@link SyncServiceClient}.
    */
   public TestResultHandler(SyncServiceClient<?> serviceClient) {
 
