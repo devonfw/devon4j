@@ -17,7 +17,7 @@ import com.devonfw.module.service.common.base.client.ServiceClientPerformanceLog
  *
  * @param <S> type of the {@link #get() service client}.
  * @param <F> type of the owning {@link SyncServiceClientFactoryHttp factory}.
- * @since 2020.08.001
+ * @since 2021.08.003
  */
 public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClientFactoryHttp>
     extends AbstractSyncServiceClient<S> {
@@ -43,20 +43,13 @@ public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClie
     this.factory = factory;
   }
 
-  @SuppressWarnings("null")
   @Override
-  protected <R> void doCall(ServiceClientInvocation<S> invocation, Consumer<R> resultHandler) {
+  protected <R> void doCall(ServiceClientInvocation<S> invocation, Consumer<R> resultHandler)
+      throws IOException, InterruptedException {
 
     long startTime = System.nanoTime();
     HttpRequest request = createRequest(invocation);
-    HttpResponse<String> future = null;
-    try {
-      future = this.client.getHttpClient().send(request, BodyHandlers.ofString());
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    HttpResponse<String> future = this.client.getHttpClient().send(request, BodyHandlers.ofString());
     handleResponse(future, startTime, invocation, resultHandler, getErrorHandler());
     future.body();
   }

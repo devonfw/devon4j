@@ -10,7 +10,7 @@ import com.devonfw.module.service.common.impl.client.ServiceClientAutoConfigurat
 /**
  * {@link Configuration} for REST (JAX-RS) clients using Java HTTP client.
  *
- * @since 2020.08.001
+ * @since 2021.08.003
  */
 @Configuration
 @Import(ServiceClientAutoConfiguration.class)

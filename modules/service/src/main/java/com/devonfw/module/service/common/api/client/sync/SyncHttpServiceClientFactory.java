@@ -11,7 +11,7 @@ import com.devonfw.module.service.common.api.client.context.ServiceContext;
  *
  * @see com.devonfw.module.service.common.api.client.ServiceClientFactory
  *
- * @since 3.0.0
+ * @since 2021.08.003
  */
 public interface SyncHttpServiceClientFactory {
 

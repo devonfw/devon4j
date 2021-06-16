@@ -25,14 +25,4 @@ public interface SyncServiceClientFactory {
    */
   <S> S create(ServiceContext<S> context);
 
-  /**
-   * @see com.devonfw.module.service.common.api.client.ServiceClientFactory#createAsync(Class)
-   *
-   * @param <S> the generic type of the {@link ServiceContext#getApi() service API}.
-   * @param context the {@link ServiceContext}.
-   * @return a new instance of the given {@code serviceInterface} that is a client stub. May be {@code null} if this
-   *         implementation does not handle services for the given {@link ServiceContext}.
-   */
-  // <S> SyncServiceClient<S> create(ServiceContext<S> context);
-
 }

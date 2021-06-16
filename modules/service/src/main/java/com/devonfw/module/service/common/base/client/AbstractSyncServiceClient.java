@@ -1,5 +1,6 @@
 package com.devonfw.module.service.common.base.client;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -16,7 +17,7 @@ import com.devonfw.module.service.common.api.client.context.ServiceContext;
  * Abstract base implementation of {@link SyncServiceClient}.
  *
  * @param <S> type of the {@link #get() service client}.
- * @since 2020.08.001
+ * @since 2021.08.003
  */
 public abstract class AbstractSyncServiceClient<S> implements SyncServiceClient<S> {
 
@@ -113,8 +114,11 @@ public abstract class AbstractSyncServiceClient<S> implements SyncServiceClient<
    * @param <R> type of the return/result type.
    * @param serviceInvocation the {@link ServiceClientInvocation}.
    * @param resultHandler - see {@link #call(Object, Consumer)}.
+   * @throws InterruptedException
+   * @throws IOException
    */
-  protected abstract <R> void doCall(ServiceClientInvocation<S> serviceInvocation, Consumer<R> resultHandler);
+  protected abstract <R> void doCall(ServiceClientInvocation<S> serviceInvocation, Consumer<R> resultHandler)
+      throws IOException, InterruptedException;
 
   private static int getLength(Object[] parameters) {
 

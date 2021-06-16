@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Implementation of {@link SyncServiceClient} for REST (JAX-RS) using Java HTTP client.
  *
  * @param <S> type of the {@link #get() service client}.
- * @since 2020.08.001
+ * @since 2021.08.003
  */
 public class SyncServiceHttpClientRest<S> extends AbstractSyncServiceHttpClient<S, SyncServiceClientFactoryHttpRest> {
 

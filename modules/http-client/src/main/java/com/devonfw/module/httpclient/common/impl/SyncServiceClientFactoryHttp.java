@@ -14,7 +14,7 @@ import com.devonfw.module.service.common.base.client.PartialServiceClientFactory
 /**
  * Abstract base implementation of {@link SyncServiceClientFactory} for service clients using Java HTTP client.
  *
- * @since 2020.08.001
+ * @since 2021.08.003
  */
 public abstract class SyncServiceClientFactoryHttp extends PartialServiceClientFactory
     implements SyncHttpServiceClientFactory {

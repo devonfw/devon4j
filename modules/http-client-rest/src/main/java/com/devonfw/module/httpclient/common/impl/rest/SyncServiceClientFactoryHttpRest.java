@@ -16,9 +16,9 @@ import com.devonfw.module.service.common.api.constants.ServiceConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Implementation of {@link SyncServiceClientFactory} for JAX-RS REST service clients using Apache CXF.
+ * Implementation of {@link SyncServiceClientFactory} for JAX-RS REST service clients using HTTP.
  *
- * @since 2020.08.001
+ * @since 2021.08.003
  */
 public class SyncServiceClientFactoryHttpRest extends SyncServiceClientFactoryHttp {
 

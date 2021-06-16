@@ -25,7 +25,7 @@ import java.util.function.Consumer;
  * followed by a {@link #call(Object, Consumer) call} method invocation.
  *
  * @param <S> type of the {@link #get() service client}.
- * @since 2020.08.001
+ * @since 2021.08.003
  * @see ServiceClientFactory#createSync(Class)
  */
 public interface SyncServiceClient<S> {

@@ -10,7 +10,7 @@ import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactor
  * implementation is found frameworks like spring will throw an exception (No qualifying bean of type
  * 'java.util.Collection&lt;{@link SyncServiceClientFactory}&gt;' available).
  *
- * @since 2020.08.001
+ * @since 2021.08.003
  */
 public class EmptySyncHttpServiceClientFactory implements SyncHttpServiceClientFactory {
 
