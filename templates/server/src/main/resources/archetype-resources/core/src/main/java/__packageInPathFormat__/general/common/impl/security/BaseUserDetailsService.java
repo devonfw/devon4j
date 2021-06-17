@@ -51,7 +51,7 @@ public class BaseUserDetailsService implements UserDetailsService {
   }
 
   /**
-   * @param user the login of the user
+   * @param user the {@link UserDetails} from spring-security.
    * @return the associated {@link GrantedAuthority}s
    * @throws AuthenticationException if no principal is retrievable for the given {@code username}
    */
