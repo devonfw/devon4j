@@ -51,7 +51,7 @@ public class BaseUserDetailsService implements UserDetailsService {
   }
 
   /**
-   * @param username the login of the user
+   * @param user the {@link UserDetails} from spring-security.
    * @return the associated {@link GrantedAuthority}s
    * @throws AuthenticationException if no principal is retrievable for the given {@code username}
    */
@@ -70,15 +70,9 @@ public class BaseUserDetailsService implements UserDetailsService {
         .collect(Collectors.toUnmodifiableSet());
   }
 
-  static final String ROLE_PREFIX = "ROLE_";
-
   private Collection<String> getRoles(UserDetails user) {
-
-    return user.getAuthorities().stream().filter(authority -> authority.getAuthority().startsWith(ROLE_PREFIX))
-        .map((authority) -> authority.getAuthority().substring(ROLE_PREFIX.length()))
-        .collect(Collectors.toUnmodifiableSet());
+    return user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toUnmodifiableSet());
   }
-
 
   /**
    * @return amBuilder
