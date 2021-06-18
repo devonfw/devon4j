@@ -107,6 +107,12 @@ The alternative "solution" that may be used with `Long` instead of `IdRef` is ty
 While this "solution" works is most cases, we discovered some more complex cases, where it fails with very strange hibernate exceptions.
 When cleanly creating the entity via `EntityManager.getReference` instead it is working in all cases.
 So how can `JpaHelper.asEntity` as a static method access the `EntityManager`?
+Therefore we need to initialize this as otherwise you may see this exception:
+```
+java.lang.IllegalStateException: EntityManager has not yet been initialized!
+	at com.devonfw.module.jpa.dataaccess.api.JpaEntityManagerAccess.getEntityManager(JpaEntityManagerAccess.java:38)
+	at com.devonfw.module.jpa.dataaccess.api.JpaHelper.asEntity(JpaHelper.java:49)
+```
 
 For main usage in your application we assume that there is only one instance of `EntityManager`.
 Therefore we can initialize this instance during the spring boot setup.
