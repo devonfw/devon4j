@@ -113,28 +113,6 @@ Using the Aliases API of QueryDSL might result in an `InvalidDataAccessApiUsageE
 
 . Make sure, that all your custom types used in entities provide a non-argument constructor with at least visibility level `protected`.
 
-==== IdRef
-
-IdRef can be used to reference the other entities in TOs
-
-IdRef is just a wrapper for reference ID as Long. so instead of 
-
-[source,java]
-----
-private Long orderId;
-----
-
-you can write
-
-[source,java]
-----
-private IdRef<Order> orderId;
-----
-
-When using IdRef make sure that the Junit tests contains the following
-
-Junit test should be derived from DbTest (e.g. ComponentDbTest and SubsystemDbTest).
-
 === Primary Keys
 We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). This is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` that you can extend.
 In case you have business oriented keys (often as `String`), you can define an additional property for it and declare it as unique (`@Column(unique=true)`).
@@ -257,6 +235,11 @@ By default, nothing is done in these situations. This can be changed by using th
 * ALL (cascade all of the above operations)
 
 See http://meri-stuff.blogspot.de/2012/03/jpa-tutorial.html[here] for more information. 
+
+=== Typesafe Foreign Keys using IdRef
+
+For simple usage you can use `Long` for all your foreign keys.
+However, as an optional pattern for advanced and type-safe usage, we offer link:guide-jpa-idref.asciidoc[IdRef].
 
 == Embeddable
 An embeddable Object is a way to group properties of an xref:entity[entity] into a separate Java (child) object. Unlike with implement xref:relationships[relationships] the embeddable is not a separate entity and its properties are stored (embedded) in the same table together with the entity. This is helpful to structure and reuse groups of properties.
