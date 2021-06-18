@@ -72,6 +72,12 @@ We address these common threats individually in _security_ sections of our techn
 |devonfw proposes to use rich-clients (SPA/RIA). We only use redirects for login in a safe way.
 |=======================
 
+== Advanced Security
+
+While OWASP Top 10 covers the basic aspects of application security, there are advanced standards such as `AVS`.
+In devonfw we address this in the https://github.com/devonfw/security/wiki[
+Application Security Quick Solution Guide].
+
 == Tools
 === Dependency Check
 To address the thread `Using Components with Known Vulnerabilities` we integrated https://www.owasp.org/index.php/OWASP_Dependency_Check[OWASP dependency check] into the devon4j maven build. If you build an devon4j application (sample or any app created from our link:tutorial-newapp.asciidoc[app-template]) you can activate dependency check with the `security` profile:
