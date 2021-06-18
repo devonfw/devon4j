@@ -79,7 +79,7 @@ To address the thread `Using Components with Known Vulnerabilities` we integrate
 ---- 
 mvn clean install -P security
 ---- 
-This does not run by default as it causes a huge overhead for the build performance. However, consider to build this in your CI at least nightly.
+This does not run by default as it causes some overhead for the build performance. However, consider to build this in your CI at least nightly.
 After the dependency check is performed, you will find the results in `target/dependency-check-report.html` of each module. The report will also be generated when the site is build (`mvn site`) even without the profile.
 
 === Penetration Testing
