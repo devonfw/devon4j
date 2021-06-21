@@ -3,7 +3,7 @@ toc::[]
 
 = IdRef
 
-IdRef can be used to reference the other entities in TOs in order to make them type-safe and semantically more expressive.
+IdRef can be used to reference other entities in TOs in order to make them type-safe and semantically more expressive.
 It is an optional concept in devon4j for more complex applications that make intensive use of relations and foreign keys.
 
 == Motivation
@@ -23,9 +23,8 @@ So what are the paremeters? What is returned?
 IdRef<Contract> approve(IdRef<Contract> cId, IdRef<Customer> cuId);
 ----
 
-As you can easily see, you can now see that the result and the parameters are foreign-keys.
-Further, the generic also shows us the entity (business-object) that is referenced.
-We can read the javadoc of these entities and understand the context.
+Now we can easily see, that the result and the parameters are foreign-keys and which entity they are referring to via their generic type.
+We can read the javadoc of these entities from the generic type and understand the context.
 Finally, when passing `IdRef` objects to such methods, we get compile errors in case we accidentally place parameters in the wrong order.
 
 == IdRef and Mapping
@@ -123,12 +122,13 @@ when link:tutorial-newapp.asciidoc[creating a devon4j app].
 
 Further, you also want your code to work in integration tests.
 Spring-test provides a lot of magic under the hood to make integration testing easy for you.
-To boost the performance when running multiple tests, spring is smart enough to avoid creating the same spring-context multiple times.
-Instead it stores or caches them so that if a test-case is executed with a specific spring-configuration that has already been setup before,
-the same spring-context can be reused instead of creating it again from scratch.
-However, your tests may have multiple spring configurations leading to multiple spring-context.
+To boost the performance when running multiple tests, spring is smart and avoids creating the same spring-context multiple times.
+Therefore it stores these contexts so that if a test-case is executed with a specific spring-configuration that has already been setup before,
+the same spring-context can be reused instead of creating it again.
+However, your tests may have multiple spring configurations leading to multiple spring-contexts.
 Even worse these tests can run in any order leading to switching between spring-contexts forth and back.
 Therefore, a static initializer during the spring boot setup can lead to strange errors as you can get the wrong `EntityManager` instance.
 In order to fix such problems, we provide a solution pattern via https://github.com/devonfw/devon4j/blob/master/modules/test-jpa/src/main/java/com/devonfw/module/test/common/base/DbTest.java#L32[DbTest] ensuring for every test,
 that the proper instance of `EntityManager` is initialized.
 Therefore you should derive directly or indirectly (e.g. via `ComponentDbTest` and `SubsystemDbTest`) from `DbTesT` or adopt your own way to apply this pattern to your tests, when using `JpaHelper`.
+This already happens if you are extending `ApplicationComponentTest` or `ApplicationSubsystemTest`.
