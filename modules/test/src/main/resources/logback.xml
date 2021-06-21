@@ -16,6 +16,7 @@
   <!-- Minimize infrastructure debug logs -->
   <logger name="com.github.dozermapper" level="INFO"/>
   <logger name="org.flywaydb" level="INFO"/>
+  <logger name="liquibase.Liquibase" level="INFO"/>
   <logger name="org.springframework" level="INFO"/>
   <logger name="org.hibernate" level="INFO"/>
   <logger name="kafka" level="WARN"/>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -36,6 +36,12 @@
       <artifactId>devon4j-web</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-test-jpa</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
     <!-- Only required if you want to call external REST services within your Java application -->
     <dependency>
       <groupId>com.devonfw.java.starters</groupId>
@@ -66,7 +72,7 @@
 
     <!-- auto-configure datasource
       https://stackoverflow.com/questions/34964066/spring-boot-doesnt-use-datasource-properties
-      -->
+    -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
@@ -132,7 +138,7 @@
 #elseif ($dbType == 'postgresql')
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <!--<version>9.4.1211.jre7</version>-->
+      <!--<version>9.4.1211.jre7</version> -->
 #elseif ($dbType == 'mysql')
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
@@ -167,11 +173,20 @@
     </dependency>
 #end
 
-    <!-- Flyway for DB Schema version management and migration -->
+    <!-- DB Schema version management and migration -->
+#if ($dbMigration == 'flyway')
     <dependency>
       <groupId>org.flywaydb</groupId>
       <artifactId>flyway-core</artifactId>
     </dependency>
+#end
+
+#if ($dbMigration == 'liquibase')
+    <dependency>
+      <groupId>org.liquibase</groupId>
+      <artifactId>liquibase-core</artifactId>
+    </dependency>
+#end
 
     <!-- CXF for REST and Webservices -->
     <dependency>
@@ -254,7 +269,20 @@
           </excludes>
         </configuration>
       </plugin>
+      
+#if($dbMigration == 'liquibase')      
+      <plugin>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-maven-plugin</artifactId>
+        <version>3.8.0</version>  
+        <configuration>
+        <goals> 
+          <goalPrefix>liquibase</goalPrefix>
+          </goals>
+        </configuration>
+      </plugin>
+#end
     </plugins>
   </build>
-
+  
 </project>

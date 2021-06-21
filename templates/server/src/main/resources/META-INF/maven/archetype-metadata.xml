@@ -10,6 +10,9 @@
       <defaultValue>h2</defaultValue>
       <!-- <validationRegex>h2|postgresql|mysql|mariadb|oracle|hana|db2</validationRegex> -->
     </requiredProperty>
+    <requiredProperty key="dbMigration">  
+      <defaultValue>flyway</defaultValue> 
+    </requiredProperty>
     <requiredProperty key="batch">
       <defaultValue>.</defaultValue>
       <validationRegex>batch|[.]</validationRegex>
