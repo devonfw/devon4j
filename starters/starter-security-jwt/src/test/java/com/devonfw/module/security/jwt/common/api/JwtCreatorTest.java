@@ -28,7 +28,7 @@ public class JwtCreatorTest extends JwtComponentTest {
    * Test of {@link JwtCreator#create(Authentication)}.
    */
   @Test
-  public void testDo() {
+  public void testCreateJwt() {
 
     // given
     List<GrantedAuthority> authorities = new ArrayList<>();
