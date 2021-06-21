@@ -22,7 +22,7 @@ public class JwtAuthenticatorTest extends JwtComponentTest {
    * Test of {@link JwtAuthenticator#authenticate(String)}.
    */
   @Test
-  public void testDo() {
+  public void testAuthenticateJwt() {
 
     // prepare
     adjustClock();
@@ -41,10 +41,7 @@ public class JwtAuthenticatorTest extends JwtComponentTest {
     assertThat(authentication).isInstanceOf(AdvancedAuthentication.class);
     assertThat(authentication.getCredentials()).isEqualTo(token);
     AdvancedAuthentication advancedAuthentication = (AdvancedAuthentication) authentication;
-    assertThat((Number) advancedAuthentication.getAttribute(Claims.EXPIRATION)).isEqualTo(1587742156);
-
-    // reset/cleanup
-    resetClock();
+    assertThat((Number) advancedAuthentication.getAttribute(Claims.EXPIRATION)).isEqualTo(1587730516);
   }
 
 }

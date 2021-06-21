@@ -2,9 +2,25 @@
 
 This file documents all notable changes to https://https://github.com/devonfw/devon4j[devon4j].
 
+== 2021.04.003
+
+ATTENTION: This release is still work in progress.
+
+Bugfix release of with the following stories:
+
+* https://github.com/devonfw/devon4j/issues/336[#336]: archetype contains batch artefacts even when no batch was generated
+* https://github.com/devonfw/devon4j/issues/385[#385]: Access-control should honor roles by default
+* https://github.com/devonfw/devon4j/issues/397[#397]: security-jwt should support the claim "groups" from the microprofile jwt
+* https://github.com/devonfw/devon4j/issues/393[#393]: devon4j JpaInitializer documentation not matching releases
+* https://github.com/devonfw/devon4j/issues/216[#216]: ability to generate OpenApi files automatically from JAX-RS services
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2021.04.003/devon4j-doc-2021.04.003.pdf[devon4j guide 2021.04.003].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/19?closed=1[milestone devon4j 2020.04.003].
+
 == 2021.04.002
 
 Bugfix release of with the following stories:
+
 * https://github.com/devonfw/devon4j/issues/389[#389]: archetype build broken with ci-friendly-maven
 * https://github.com/devonfw/devon4j/pull/391[#391]: jasypt documentation improvements
 * https://github.com/devonfw/devon4j/pull/387[#387]: rebuild and updated diagram with drawio

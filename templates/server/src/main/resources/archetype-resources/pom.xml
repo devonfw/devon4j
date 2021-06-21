@@ -120,7 +120,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <!-- generate and use flattened pom instead of pom.xml -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -141,6 +141,19 @@
             <phase>clean</phase>
             <goals>
               <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>servicedocgen-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>servicedocgen-generate</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>generate</goal>
             </goals>
           </execution>
         </executions>
@@ -319,6 +332,20 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>servicedocgen-maven-plugin</artifactId>
           <version>$[mojo.servicedocgen.plugin.version]</version>
+          <configuration>
+            <descriptor>
+              <info>
+                <title>${servicedoc.info.title}</title>
+                <description>${servicedoc.info.description}</description>
+              </info>
+              <host>${servicedoc.host}</host>
+              <port>${servicedoc.port}</port>
+              <basePath>${servicedoc.basePath}</basePath>
+              <schemes>
+                <scheme>http</scheme>
+              </schemes>
+            </descriptor>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
@@ -437,7 +464,7 @@
     </profile>
   </profiles>
 
-  #if ($dbType == 'oracle')
+#if ($dbType == 'oracle')
   <repositories>
     <repository>
       <id>maven.oracle.com</id>
@@ -463,7 +490,7 @@
     </pluginRepository>
   </pluginRepositories>
 
-  #end
+#end
   <reporting>
     <plugins>
       <plugin>
@@ -512,20 +539,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>servicedocgen-maven-plugin</artifactId>
-        <configuration>
-          <descriptor>
-            <info>
-              <title>${servicedoc.info.title}</title>
-              <description>${servicedoc.info.description}</description>
-            </info>
-            <host>${servicedoc.host}</host>
-            <port>${servicedoc.port}</port>
-            <basePath>${servicedoc.basePath}</basePath>
-            <schemes>
-              <scheme>http</scheme>
-            </schemes>
-          </descriptor>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>

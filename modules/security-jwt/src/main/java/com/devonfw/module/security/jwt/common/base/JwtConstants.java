@@ -9,7 +9,11 @@ public class JwtConstants {
 
   /**
    * The roles/permissions assigned to the user
+   *
+   * @deprecated configurable via {@link com.devonfw.module.security.jwt.common.impl.JwtConfigProperties#getClaims()} in
+   *             {@link com.devonfw.module.security.jwt.common.impl.JwtConfigProperties.ClaimsConfigProperties#getAccessControlsName()}.
    */
+  @Deprecated
   public static final String CLAIM_ROLES = "roles";
 
   /**
