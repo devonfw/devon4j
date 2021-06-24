@@ -14,6 +14,7 @@ import com.devonfw.module.logging.common.impl.DiagnosticContextFacadeImpl;
 import com.devonfw.module.logging.common.impl.DiagnosticContextFilter;
 import com.devonfw.module.logging.common.impl.PerformanceLogFilter;
 import com.devonfw.module.service.common.api.constants.ServiceConstants;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 
 /**
  * Registers a number of filters for web requests.
