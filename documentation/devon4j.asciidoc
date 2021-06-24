@@ -87,6 +87,7 @@ include::guide-dao.asciidoc[leveloffset=3]
 
 include::guide-jpa-performance.asciidoc[leveloffset=3]
 
+include::guide-jpa-idref.asciidoc[leveloffset=3]
 
 <<<<
 
