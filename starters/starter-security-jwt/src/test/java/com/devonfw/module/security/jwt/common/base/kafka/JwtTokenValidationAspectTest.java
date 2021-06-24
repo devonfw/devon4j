@@ -93,8 +93,6 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
 
     // Assert
     Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(1));
-
-    resetClock();
   }
 
   /**
@@ -121,7 +119,6 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
 
     // Assert
     Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(0));
-    resetClock();
   }
 
   /**
@@ -171,7 +168,5 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
 
     // Assert
     Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(1));
-
-    resetClock();
   }
 }

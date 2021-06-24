@@ -63,7 +63,13 @@ security.authentication.jwt.validation.not-before-required=false
 security.authentication.jwt.creation.add-issued-at=true
 security.authentication.jwt.creation.validity=4h
 security.authentication.jwt.creation.not-before-delay=1m
+# the following properties enable backward compatiblity for devon4j <= 2021.04.002
+# after microprofile JWT is used by default since 2021.04.003
+#security.authentication.jwt.claims.access-controls-name=roles
+#security.authentication.jwt.claims.access-controls-array=false
 ----
+
+See also https://github.com/devonfw/devon4j/blob/master/modules/security-jwt/src/main/java/com/devonfw/module/security/jwt/common/impl/JwtConfigProperties.java[JwtConfigProperties] for details about configuration.
 
 == Authentication with JWT via OAuth
 

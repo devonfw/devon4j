@@ -4,7 +4,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * Initializer bean for {@link EntityManager}. Will be auto configured via {@code devon4j-starter-jpa}.
+ * Initializer bean for {@link EntityManager}. Required in case you are using {@link JpaHelper} to get access to
+ * {@link EntityManager}. When you create a devon4j application it will contain a class called {@code JpaConfig} that
+ * will configure this {@link JpaInitializer} as spring bean automatically for you application. See
+ * <a href="https://github.com/devonfw/devon4j/blob/master/documentation/guide-jpa-idref.asciidoc">IdRef guide</a> for a
+ * detailed documentation.
  *
  * @since 3.0.0
  */
