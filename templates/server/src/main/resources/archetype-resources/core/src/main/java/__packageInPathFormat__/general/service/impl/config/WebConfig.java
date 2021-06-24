@@ -77,4 +77,14 @@ public class WebConfig {
     registration.addUrlPatterns("/*");
     return registration;
   }
+
+  /**
+   * This allows to change the role prefix of spring-security. By default spring-security is magically adding a strange
+   * prefix called "ROLE_" to your granted authorities. In order to prevent this we use this class with an empty prefix.
+   */
+  @Bean
+  GrantedAuthorityDefaults grantedAuthorityDefaults() {
+
+    return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
+  }
 }
