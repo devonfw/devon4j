@@ -35,6 +35,9 @@ You need to add (at least one of) these dependencies to your application:
 </dependency>
 --------
 
+* *Note* +
+In case of a synchronous service invocation You can only have 'http' OR 'cxf' dependency as sync client but not both.
+
 == Features
 When invoking a service you need to consider many cross-cutting aspects. You might not think about them in the very first place and you do not want to implement them multiple times redundantly. Therefore you should consider using this approach. The following sub-sections list the covered features and aspects:
 

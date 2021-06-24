@@ -1,3 +1,4 @@
+
 package com.devonfw.module.service.common.api.client;
 
 import java.util.concurrent.CompletableFuture;
@@ -28,6 +29,7 @@ import java.util.function.Consumer;
  * @since 2021.08.003
  * @see ServiceClientFactory#createSync(Class)
  */
+
 public interface SyncServiceClient<S> {
 
   /**
@@ -37,6 +39,7 @@ public interface SyncServiceClient<S> {
    *         the service invocation you need to invoke the {@link #call(Object, Consumer) call} method immediately after
    *         calling the service operation as described in the type comment of this {@link SyncServiceClient}.
    */
+
   S get();
 
   /**
@@ -49,12 +52,14 @@ public interface SyncServiceClient<S> {
    *         {@link net.sf.mmm.util.exception.api.ServiceInvocationFailedException}) will be wrapped in a
    *         {@link java.util.concurrent.ExecutionException}.
    */
+
   Consumer<Throwable> getErrorHandler();
 
   /**
    * @param errorHandler the {@link Consumer} callback {@link Consumer#accept(Object) accepting} a potential exception
    *        that occurred during sending the request or receiving the response.
    */
+
   void setErrorHandler(Consumer<Throwable> errorHandler);
 
   /**
@@ -63,6 +68,7 @@ public interface SyncServiceClient<S> {
    * @param resultHandler the {@link Consumer} callback {@link Consumer#accept(Object) accepting} the actual result
    *        asynchronously when available. Errors will reported via {@link #getErrorHandler() errorHandler}.
    */
+
   <R> void call(R result, Consumer<R> resultHandler);
 
   /**

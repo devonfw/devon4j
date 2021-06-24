@@ -1,10 +1,11 @@
+
 package com.devonfw.module.httpclient.common.impl.rest;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import com.devonfw.module.service.common.api.client.sync.SyncHttpServiceClientFactory;
+import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
 import com.devonfw.module.service.common.impl.client.ServiceClientAutoConfiguration;
 
 /**
@@ -12,15 +13,17 @@ import com.devonfw.module.service.common.impl.client.ServiceClientAutoConfigurat
  *
  * @since 2021.08.003
  */
+
 @Configuration
+
 @Import(ServiceClientAutoConfiguration.class)
 public class HttpRestClientSyncAutoConfiguration {
 
   /**
-   * @return an implementation of {@link SyncHttpServiceClientFactory} based on Java HTTP client for REST (JAX-RS).
+   * @return an implementation of {@link SyncServiceClientFactory} based on Java HTTP client for REST (JAX-RS).
    */
   @Bean
-  public SyncHttpServiceClientFactory syncServiceClientFactoryHttpRest() {
+  public SyncServiceClientFactory syncServiceClientFactoryHttpRest() {
 
     return new SyncServiceClientFactoryHttpRest();
   }

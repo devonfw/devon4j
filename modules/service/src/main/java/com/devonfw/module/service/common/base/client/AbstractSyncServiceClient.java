@@ -1,3 +1,4 @@
+
 package com.devonfw.module.service.common.base.client;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import com.devonfw.module.service.common.api.client.context.ServiceContext;
  * @param <S> type of the {@link #get() service client}.
  * @since 2021.08.003
  */
+
 public abstract class AbstractSyncServiceClient<S> implements SyncServiceClient<S> {
 
   private static final Logger LOG = LoggerFactory.getLogger(AbstractSyncServiceClient.class);
@@ -28,9 +30,11 @@ public abstract class AbstractSyncServiceClient<S> implements SyncServiceClient<
   private final ServiceClientStub<S> stub;
 
   /** The {@link #setErrorHandler(Consumer)} */
+
   private Consumer<Throwable> errorHandler;
 
   /** The most recent invocation. */
+
   private ServiceClientInvocation<S> invocation;
 
   /**
@@ -39,6 +43,7 @@ public abstract class AbstractSyncServiceClient<S> implements SyncServiceClient<
    * @param proxy the {@link #get() service client}.
    * @param stub the {@link ServiceClientStub}.
    */
+
   public AbstractSyncServiceClient(S proxy, ServiceClientStub<S> stub) {
 
     super();

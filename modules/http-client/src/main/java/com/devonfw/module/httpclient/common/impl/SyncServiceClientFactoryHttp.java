@@ -5,9 +5,7 @@ import java.net.http.HttpClient;
 import javax.inject.Inject;
 
 import com.devonfw.module.service.common.api.client.ServiceClientErrorFactory;
-import com.devonfw.module.service.common.api.client.SyncServiceClient;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
-import com.devonfw.module.service.common.api.client.sync.SyncHttpServiceClientFactory;
 import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
 import com.devonfw.module.service.common.base.client.PartialServiceClientFactory;
 
@@ -17,21 +15,21 @@ import com.devonfw.module.service.common.base.client.PartialServiceClientFactory
  * @since 2021.08.003
  */
 public abstract class SyncServiceClientFactoryHttp extends PartialServiceClientFactory
-    implements SyncHttpServiceClientFactory {
+    implements SyncServiceClientFactory {
 
   private ServiceClientErrorFactory errorUnmarshaller;
 
   private HttpClient httpClient;
 
   @Override
-  public <S> SyncServiceClient<S> create(ServiceContext<S> context) {
+  public <S> S create(ServiceContext<S> context) {
 
     boolean responsible = isResponsibleForService(context);
     if (!responsible) {
       return null;
     }
     String url = getUrl(context);
-    SyncServiceClient<S> serviceClient = createService(context, url);
+    S serviceClient = createService(context, url);
     return serviceClient;
   }
 
@@ -41,7 +39,7 @@ public abstract class SyncServiceClientFactoryHttp extends PartialServiceClientF
    * @param url the resolved end-point URL of the service to invoke.
    * @return a new client stub for the service. See {@link #create(ServiceContext)} for further details.
    */
-  protected abstract <S> SyncServiceClient<S> createService(ServiceContext<S> context, String url);
+  protected abstract <S> S createService(ServiceContext<S> context, String url);
 
   /**
    * @return the {@link HttpClient} to use. Will be created lazily.

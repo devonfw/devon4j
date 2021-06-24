@@ -1,3 +1,4 @@
+
 package com.devonfw.module.httpclient.common.impl;
 
 import java.io.IOException;
@@ -19,13 +20,16 @@ import com.devonfw.module.service.common.base.client.ServiceClientPerformanceLog
  * @param <F> type of the owning {@link SyncServiceClientFactoryHttp factory}.
  * @since 2021.08.003
  */
+
 public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClientFactoryHttp>
     extends AbstractSyncServiceClient<S> {
 
   /** {@link ServiceHttpClient} to use. */
+
   protected final ServiceHttpClient client;
 
   /** The owning {@link SyncServiceClientFactoryHttp factory} which created this client. */
+
   protected final F factory;
 
   /**
@@ -36,6 +40,7 @@ public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClie
    * @param httpClient the {@link ServiceHttpClient} to use.
    * @param factory the owning {@link SyncServiceClientFactoryHttp factory}.
    */
+
   public AbstractSyncServiceHttpClient(S proxy, ServiceClientStub<S> stub, ServiceHttpClient httpClient, F factory) {
 
     super(proxy, stub);
@@ -68,13 +73,14 @@ public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClie
     return this.factory.getErrorUnmarshaller().unmarshall(data, contentType, statusCode, service);
   }
 
-  /**
-   * @param body the body of the HTTP request/response.
-   * @return nothing. Will already throw an exception.
-   */
+ /**
+    * @param body the body of the HTTP request/response.
+    * @return nothing. Will already throw an exception.
+    */
+
   protected Object handleUnsupportedBody(Object body) {
 
-    String bodyType = "null";
+  String bodyType = "null";
     if (body != null) {
       body.getClass().getName(); // avoid OWASP sensitive data exposure and only reveal classname in message
     }
@@ -90,6 +96,7 @@ public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClie
    * @throws IllegalStateException if the unmarshalling of the result failed.
    * @throws UnsupportedOperationException if the body type is not supported.
    */
+
   protected abstract Object createResult(HttpResponse<?> response, ServiceClientInvocation<S> invocation);
 
   /**

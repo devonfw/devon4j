@@ -7,7 +7,6 @@ import com.devonfw.module.service.common.api.client.ServiceClientErrorFactory;
 import com.devonfw.module.service.common.api.client.ServiceClientFactory;
 import com.devonfw.module.service.common.api.client.async.AsyncServiceClientFactory;
 import com.devonfw.module.service.common.api.client.discovery.ServiceDiscoverer;
-import com.devonfw.module.service.common.api.client.sync.SyncHttpServiceClientFactory;
 import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
 import com.devonfw.module.service.common.api.config.ServiceConfig;
 import com.devonfw.module.service.common.api.header.ServiceHeaderCustomizer;
@@ -101,19 +100,11 @@ public class ServiceClientAutoConfiguration {
   /**
    * @return an instance of {@link EmptySyncServiceClientFactory}.
    */
+
   @Bean
   public SyncServiceClientFactory emptySyncServiceClientFactory() {
 
     return new EmptySyncServiceClientFactory();
-  }
-
-  /**
-   * @return an instance of {@link EmptySyncServiceClientFactory}.
-   */
-  @Bean
-  public SyncHttpServiceClientFactory emptySyncHttpServiceClientFactory() {
-
-    return new EmptySyncHttpServiceClientFactory();
   }
 
   /**
@@ -124,4 +115,5 @@ public class ServiceClientAutoConfiguration {
 
     return new EmptyAsyncServiceClientFactory();
   }
+
 }

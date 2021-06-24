@@ -1,3 +1,4 @@
+
 package com.devonfw.module.httpclient.common.impl.rest;
 
 import java.io.File;
@@ -19,7 +20,6 @@ import com.devonfw.module.service.common.api.client.SyncServiceClient;
 import com.devonfw.module.service.common.api.client.async.ServiceClientInvocation;
 import com.devonfw.module.service.common.api.client.async.ServiceClientStub;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
-import com.devonfw.module.service.common.base.client.async.ServiceClientStubImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @param <S> type of the {@link #get() service client}.
  * @since 2021.08.003
  */
+
 public class SyncServiceHttpClientRest<S> extends AbstractSyncServiceHttpClient<S, SyncServiceClientFactoryHttpRest> {
 
   private final RestServiceMetadata<S> serviceMetadata;
@@ -41,6 +42,7 @@ public class SyncServiceHttpClientRest<S> extends AbstractSyncServiceHttpClient<
    * @param client the {@link ServiceHttpClient} to use.
    * @param factory the owning {@link SyncServiceClientFactoryHttpRest}.
    */
+
   public SyncServiceHttpClientRest(S proxy, ServiceClientStub<S> stub, ServiceHttpClient client,
       SyncServiceClientFactoryHttpRest factory) {
 
@@ -133,7 +135,8 @@ public class SyncServiceHttpClientRest<S> extends AbstractSyncServiceHttpClient<
   public static <S> SyncServiceHttpClientRest<S> of(ServiceContext<S> context, ServiceHttpClient client,
       SyncServiceClientFactoryHttpRest factory) {
 
-    ServiceClientStub<S> stub = ServiceClientStubImpl.of(context, factory.getClassLoader());
+    ServiceClientStub<S> stub = SyncServiceClientStubImpl.of(context, factory.getClassLoader(), client,
+        factory.getObjectMapper(), factory.getServiceMetadata(context));
     return new SyncServiceHttpClientRest<>(stub.getProxy(), stub, client, factory);
   }
 
