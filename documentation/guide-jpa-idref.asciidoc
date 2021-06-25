@@ -1,0 +1,134 @@
+:toc: macro
+toc::[]
+
+= IdRef
+
+IdRef can be used to reference other entities in TOs in order to make them type-safe and semantically more expressive.
+It is an optional concept in devon4j for more complex applications that make intensive use of relations and foreign keys.
+
+== Motivation
+
+Assuming you have a method signature like the following:
+[source,java]
+----
+Long approve(Long cId, Long cuId);
+----
+
+So what are the paremeters? What is returned?
+
+`IdRef` is just a wrapper for a Long used as foreign key. This makes our signature much more expressive and self-explanatory:
+
+[source,java]
+----
+IdRef<Contract> approve(IdRef<Contract> cId, IdRef<Customer> cuId);
+----
+
+Now we can easily see, that the result and the parameters are foreign-keys and which entity they are referring to via their generic type.
+We can read the javadoc of these entities from the generic type and understand the context.
+Finally, when passing `IdRef` objects to such methods, we get compile errors in case we accidentally place parameters in the wrong order.
+
+== IdRef and Mapping
+
+In order to easily map relations from entities to link:guide-transferobject.asciidoc[transfer-objects] and back, we can easily also put according getters and setters into our entities:
+
+[source,java]
+----
+public class ContractEntity extends ApplicationPersistenceEntity implements Contract {
+
+  private CustomerEntity customer;
+  
+  ...
+  
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "CUSTOMER_ID")
+  public CustomerEntity getCustomer() {
+    return this.customer;
+  }
+  
+  public void setCustomer(CustomerEntity customer) {
+    this.customer = customer;
+  }
+  
+  @Transient
+  public IdRef<Customer> getCustomerId() {
+    return IdRef.of(this.customer);
+  }
+  
+  public void setCustomerId(IdRef<Customer> customerId) {
+    this.customer = JpaHelper.asEntity(customerId, CustomerEntity.class);
+  }
+}
+----
+
+Now, ensure that you have the same getters and setters for `customerId` in your `Eto`:
+
+[source,java]
+----
+public class ContractEto extends AbstractEto implements Contract {
+
+  private IdRef<Customer> customerId;
+  
+  ...
+  
+  public IdRef<Customer> getCustomerId() {
+    return this.customerId;
+  }
+  
+  public void setCustomerId(IdRef<Customer> customerId) {
+    this.customerId = customerId;
+  }
+}
+----
+
+This way the bean-mapper can automatically map from your entity (`ContractEntity`) to your Eto (`ContractEto`) and vice-versa.
+
+== JpaHelper and EntityManager access
+
+In the above example we used `JpaHelper.asEntity` to convert the foreign key (`IdRef<Customer>`) to the according entity (`CustomerEntity`).
+This will internally use `EntityManager.getReference` to properly create a JPA entity.
+The alternative "solution" that may be used with `Long` instead of `IdRef` is typically:
+[source,java]
+----
+  public void setCustomerId(IdRef<Customer> customerId) {
+    Long id = null;
+    if (customerId != null) {
+      id = customerId.getId();
+    }
+    if (id == null) {
+      this.customer = null;
+    } else {
+      this.customer = new CustomerEntity();
+      this.customer.setId(id);
+    }
+  }
+----
+
+While this "solution" works is most cases, we discovered some more complex cases, where it fails with very strange hibernate exceptions.
+When cleanly creating the entity via `EntityManager.getReference` instead it is working in all cases.
+So how can `JpaHelper.asEntity` as a static method access the `EntityManager`?
+Therefore we need to initialize this as otherwise you may see this exception:
+```
+java.lang.IllegalStateException: EntityManager has not yet been initialized!
+	at com.devonfw.module.jpa.dataaccess.api.JpaEntityManagerAccess.getEntityManager(JpaEntityManagerAccess.java:38)
+	at com.devonfw.module.jpa.dataaccess.api.JpaHelper.asEntity(JpaHelper.java:49)
+```
+
+For main usage in your application we assume that there is only one instance of `EntityManager`.
+Therefore we can initialize this instance during the spring boot setup.
+This is what we provide for you in https://github.com/devonfw/devon4j/blob/master/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/JpaInitializer.java[JpaInitializer] for you
+when link:tutorial-newapp.asciidoc[creating a devon4j app].
+
+=== JpaHelper and spring-test
+
+Further, you also want your code to work in integration tests.
+Spring-test provides a lot of magic under the hood to make integration testing easy for you.
+To boost the performance when running multiple tests, spring is smart and avoids creating the same spring-context multiple times.
+Therefore it stores these contexts so that if a test-case is executed with a specific spring-configuration that has already been setup before,
+the same spring-context can be reused instead of creating it again.
+However, your tests may have multiple spring configurations leading to multiple spring-contexts.
+Even worse these tests can run in any order leading to switching between spring-contexts forth and back.
+Therefore, a static initializer during the spring boot setup can lead to strange errors as you can get the wrong `EntityManager` instance.
+In order to fix such problems, we provide a solution pattern via https://github.com/devonfw/devon4j/blob/master/modules/test-jpa/src/main/java/com/devonfw/module/test/common/base/DbTest.java#L32[DbTest] ensuring for every test,
+that the proper instance of `EntityManager` is initialized.
+Therefore you should derive directly or indirectly (e.g. via `ComponentDbTest` and `SubsystemDbTest`) from `DbTesT` or adopt your own way to apply this pattern to your tests, when using `JpaHelper`.
+This already happens if you are extending `ApplicationComponentTest` or `ApplicationSubsystemTest`.

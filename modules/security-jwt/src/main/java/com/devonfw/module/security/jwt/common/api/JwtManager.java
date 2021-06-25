@@ -14,7 +14,11 @@ public interface JwtManager {
   /**
    * Custom {@link Claims#get(String, Class) claim} for the
    * {@link com.devonfw.module.security.common.api.accesscontrol.AccessControl roles/permissions} assigned to the user.
+   *
+   * @deprecated configurable via {@link com.devonfw.module.security.jwt.common.impl.JwtConfigProperties#getClaims()} in
+   *             {@link com.devonfw.module.security.jwt.common.impl.JwtConfigProperties.ClaimsConfigProperties#getAccessControlsName()}.
    */
+  @Deprecated
   String CLAIM_ROLES = "roles";
 
   /** Custom {@link Claims#get(String, Class) claim} for the email address of the user. */

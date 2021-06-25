@@ -120,7 +120,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <!-- generate and use flattened pom instead of pom.xml -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -150,7 +150,7 @@
         <artifactId>servicedocgen-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>servicedocgen</id>
+            <id>servicedocgen-generate</id>
             <phase>prepare-package</phase>
             <goals>
               <goal>generate</goal>
@@ -464,7 +464,7 @@
     </profile>
   </profiles>
 
-  #if ($dbType == 'oracle')
+#if ($dbType == 'oracle')
   <repositories>
     <repository>
       <id>maven.oracle.com</id>
@@ -490,7 +490,7 @@
     </pluginRepository>
   </pluginRepositories>
 
-  #end
+#end
   <reporting>
     <plugins>
       <plugin>
