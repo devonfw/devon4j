@@ -1,10 +1,7 @@
 
 package com.devonfw.module.httpclient.common.impl;
 
-import java.io.IOException;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
 import java.util.function.Consumer;
 
 import com.devonfw.module.service.common.api.client.SyncServiceClient;
@@ -48,17 +45,6 @@ public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClie
     this.factory = factory;
   }
 
-  @Override
-  protected <R> void doCall(ServiceClientInvocation<S> invocation, Consumer<R> resultHandler)
-      throws IOException, InterruptedException {
-
-    long startTime = System.nanoTime();
-    HttpRequest request = createRequest(invocation);
-    HttpResponse<String> future = this.client.getHttpClient().send(request, BodyHandlers.ofString());
-    handleResponse(future, startTime, invocation, resultHandler, getErrorHandler());
-    future.body();
-  }
-
   private Throwable createError(HttpResponse<?> response, ServiceClientInvocation<S> invocation, String service) {
 
     int statusCode = response.statusCode();
@@ -73,14 +59,14 @@ public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClie
     return this.factory.getErrorUnmarshaller().unmarshall(data, contentType, statusCode, service);
   }
 
- /**
-    * @param body the body of the HTTP request/response.
-    * @return nothing. Will already throw an exception.
-    */
+  /**
+   * @param body the body of the HTTP request/response.
+   * @return nothing. Will already throw an exception.
+   */
 
   protected Object handleUnsupportedBody(Object body) {
 
-  String bodyType = "null";
+    String bodyType = "null";
     if (body != null) {
       body.getClass().getName(); // avoid OWASP sensitive data exposure and only reveal classname in message
     }
@@ -98,12 +84,6 @@ public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClie
    */
 
   protected abstract Object createResult(HttpResponse<?> response, ServiceClientInvocation<S> invocation);
-
-  /**
-   * @param invocation the {@link ServiceClientInvocation}.
-   * @return the according {@link HttpResponse} to send.
-   */
-  protected abstract HttpRequest createRequest(ServiceClientInvocation<S> invocation);
 
   @SuppressWarnings({ "unchecked" })
   private <R> R handleResponse(HttpResponse<?> response, long startTime, ServiceClientInvocation<S> invocation,

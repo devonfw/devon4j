@@ -1,18 +1,12 @@
 
 package com.devonfw.module.httpclient.common.impl.rest;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublisher;
 import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpRequest.Builder;
 import java.net.http.HttpResponse;
 import java.nio.file.Path;
-import java.time.temporal.Temporal;
-
-import javax.ws.rs.core.MediaType;
 
 import com.devonfw.module.httpclient.common.impl.AbstractSyncServiceHttpClient;
 import com.devonfw.module.httpclient.common.impl.ServiceHttpClient;
@@ -20,7 +14,6 @@ import com.devonfw.module.service.common.api.client.SyncServiceClient;
 import com.devonfw.module.service.common.api.client.async.ServiceClientInvocation;
 import com.devonfw.module.service.common.api.client.async.ServiceClientStub;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -75,45 +68,6 @@ public class SyncServiceHttpClientRest<S> extends AbstractSyncServiceHttpClient<
     } else {
       return handleUnsupportedBody(body);
     }
-  }
-
-  @Override
-  protected HttpRequest createRequest(ServiceClientInvocation<S> invocation) {
-
-    RestMethodMetadata method = this.serviceMetadata.getMethod(invocation.getMethod());
-    String url = method.getPath().resolve(this.client.getBaseUrl(), invocation);
-    String contentType = null;
-    BodyPublisher body = null;
-    RestParameter bodyParameter = method.getParameters().getBodyParameter();
-    if (bodyParameter != null) {
-      Object value = invocation.getParameter(bodyParameter.index);
-      if (value != null) {
-        if ((value instanceof CharSequence) || (value instanceof Number) || (value instanceof Temporal)) {
-          body = BodyPublishers.ofString(value.toString());
-          // contentType = MediaType.TEXT_PLAIN;
-        } else if (value instanceof File) {
-          body = createBody(((File) value).toPath());
-          contentType = MediaType.APPLICATION_OCTET_STREAM;
-        } else if (value instanceof Path) {
-          body = createBody((Path) value);
-          contentType = MediaType.APPLICATION_OCTET_STREAM;
-        } else {
-          ObjectMapper objectMapper = this.factory.getObjectMapper();
-          try {
-            String json = objectMapper.writeValueAsString(value);
-            body = BodyPublishers.ofString(json);
-            contentType = MediaType.APPLICATION_JSON;
-          } catch (JsonProcessingException e) {
-            throw new IllegalStateException(e);
-          }
-        }
-      }
-    }
-    Builder requestBuilder = this.client.requestBuilder(url, invocation, method.getHttpMethod(), body);
-    if (contentType != null) {
-      requestBuilder.header("Content-Type", contentType);
-    }
-    return requestBuilder.build();
   }
 
   private BodyPublisher createBody(Path path) {

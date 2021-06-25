@@ -1,7 +1,6 @@
 
 package com.devonfw.module.service.common.base.client;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -58,40 +57,6 @@ public abstract class AbstractSyncServiceClient<S> implements SyncServiceClient<
     return this.proxy;
   }
 
-  @Override
-  public Consumer<Throwable> getErrorHandler() {
-
-    return this.errorHandler;
-  }
-
-  @Override
-  public void setErrorHandler(Consumer<Throwable> errorHandler) {
-
-    Objects.requireNonNull(errorHandler);
-    this.errorHandler = errorHandler;
-  }
-
-  @Override
-  public <R> void call(R result, Consumer<R> resultHandler) {
-
-    try {
-      doCall(getInvocation(), resultHandler);
-    } catch (Throwable t) {
-      this.errorHandler.accept(t);
-    }
-  }
-
-  @Override
-  public void callVoid(Runnable serviceInvoker, Consumer<Void> resultHandler) {
-
-    serviceInvoker.run();
-    try {
-      doCall(getInvocation(), resultHandler);
-    } catch (Throwable t) {
-      this.errorHandler.accept(t);
-    }
-  }
-
   private ServiceClientInvocation<S> getInvocation() {
 
     this.invocation = this.stub.getInvocation();
@@ -114,16 +79,6 @@ public abstract class AbstractSyncServiceClient<S> implements SyncServiceClient<
     }
     LOG.error("Failed to invoke service {}#{} at {}", context.getApi().getName(), methodName, context.getUrl(), error);
   }
-
-  /**
-   * @param <R> type of the return/result type.
-   * @param serviceInvocation the {@link ServiceClientInvocation}.
-   * @param resultHandler - see {@link #call(Object, Consumer)}.
-   * @throws InterruptedException
-   * @throws IOException
-   */
-  protected abstract <R> void doCall(ServiceClientInvocation<S> serviceInvocation, Consumer<R> resultHandler)
-      throws IOException, InterruptedException;
 
   private static int getLength(Object[] parameters) {
 
