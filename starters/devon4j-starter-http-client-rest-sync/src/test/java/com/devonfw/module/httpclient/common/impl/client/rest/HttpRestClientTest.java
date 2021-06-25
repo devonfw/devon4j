@@ -30,7 +30,7 @@ public class HttpRestClientTest extends ComponentTest {
    * on random port via HTTP client.
    */
   @Test
-  public void testGetWithUrlParam1() {
+  public void testGetWithUrlParam() {
 
     // given
     MyExampleRestService service = this.serviceClientFactory.create(MyExampleRestService.class,

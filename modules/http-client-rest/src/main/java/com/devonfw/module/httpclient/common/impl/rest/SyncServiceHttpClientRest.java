@@ -1,20 +1,13 @@
 
 package com.devonfw.module.httpclient.common.impl.rest;
 
-import java.io.FileNotFoundException;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest.BodyPublisher;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpResponse;
-import java.nio.file.Path;
 
 import com.devonfw.module.httpclient.common.impl.AbstractSyncServiceHttpClient;
 import com.devonfw.module.httpclient.common.impl.ServiceHttpClient;
 import com.devonfw.module.service.common.api.client.SyncServiceClient;
-import com.devonfw.module.service.common.api.client.async.ServiceClientInvocation;
 import com.devonfw.module.service.common.api.client.async.ServiceClientStub;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Implementation of {@link SyncServiceClient} for REST (JAX-RS) using Java HTTP client.
@@ -25,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SyncServiceHttpClientRest<S> extends AbstractSyncServiceHttpClient<S, SyncServiceClientFactoryHttpRest> {
 
+  @SuppressWarnings("unused")
   private final RestServiceMetadata<S> serviceMetadata;
 
   /**
@@ -43,42 +37,7 @@ public class SyncServiceHttpClientRest<S> extends AbstractSyncServiceHttpClient<
     this.serviceMetadata = factory.getServiceMetadata(stub.getContext());
   }
 
-  @Override
-  protected Object createResult(HttpResponse<?> response, ServiceClientInvocation<S> invocation) {
-
-    Object body = response.body();
-    if (body == null) {
-      return null;
-    }
-    Class<?> returnType = invocation.getMethod().getReturnType();
-    if ((returnType == void.class) || (returnType == Void.class)) {
-      return null;
-    }
-    if (body instanceof String) {
-      ObjectMapper objectMapper = this.factory.getObjectMapper();
-      if (CharSequence.class.isAssignableFrom(returnType)) {
-        return body;
-      }
-      try {
-        Object result = objectMapper.readValue((String) body, returnType);
-        return result;
-      } catch (Exception e) {
-        throw new IllegalStateException(e);
-      }
-    } else {
-      return handleUnsupportedBody(body);
-    }
-  }
-
-  private BodyPublisher createBody(Path path) {
-
-    try {
-      return BodyPublishers.ofFile(path);
-    } catch (FileNotFoundException e) {
-      throw new IllegalArgumentException(e);
-    }
-  }
-
+  /**/
   /**
    * @param <S> type of the {@link #get() service client}.
    * @param context the {@link ServiceContext}.

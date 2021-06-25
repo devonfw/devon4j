@@ -2,13 +2,11 @@
 package com.devonfw.module.httpclient.common.impl;
 
 import java.net.http.HttpResponse;
-import java.util.function.Consumer;
 
 import com.devonfw.module.service.common.api.client.SyncServiceClient;
 import com.devonfw.module.service.common.api.client.async.ServiceClientInvocation;
 import com.devonfw.module.service.common.api.client.async.ServiceClientStub;
 import com.devonfw.module.service.common.base.client.AbstractSyncServiceClient;
-import com.devonfw.module.service.common.base.client.ServiceClientPerformanceLogger;
 
 /**
  * Abstract base implementation of {@link SyncServiceClient} using Java HTTP client.
@@ -45,6 +43,7 @@ public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClie
     this.factory = factory;
   }
 
+  @SuppressWarnings("unused")
   private Throwable createError(HttpResponse<?> response, ServiceClientInvocation<S> invocation, String service) {
 
     int statusCode = response.statusCode();
@@ -72,44 +71,6 @@ public abstract class AbstractSyncServiceHttpClient<S, F extends SyncServiceClie
     }
     throw new UnsupportedOperationException(
         "HTTP request/response body of type " + bodyType + " is currently not supported!");
-  }
-
-  /**
-   * @param response the received {@link HttpResponse}.
-   * @param invocation the {@link ServiceClientInvocation}.
-   * @return the unmarshalled result object from the response body or {@code null} if no body was found or return type
-   *         is {@code void}.
-   * @throws IllegalStateException if the unmarshalling of the result failed.
-   * @throws UnsupportedOperationException if the body type is not supported.
-   */
-
-  protected abstract Object createResult(HttpResponse<?> response, ServiceClientInvocation<S> invocation);
-
-  @SuppressWarnings({ "unchecked" })
-  private <R> R handleResponse(HttpResponse<?> response, long startTime, ServiceClientInvocation<S> invocation,
-      Consumer<R> resultHandler, Consumer<Throwable> errorHandler) {
-
-    Throwable error = null;
-    String service = invocation.getServiceDescription(response.uri().toString());
-    try {
-      int statusCode = response.statusCode();
-      if (statusCode >= 400) {
-        error = createError(response, invocation, service);
-        errorHandler.accept(error);
-      } else {
-        R result = (R) createResult(response, invocation);
-        if (resultHandler != null) {
-          resultHandler.accept(result);
-        }
-        return result;
-      }
-    } catch (Throwable t) {
-      errorHandler.accept(t);
-      error = t;
-    } finally {
-      ServiceClientPerformanceLogger.log(startTime, service, response.statusCode(), error);
-    }
-    return null;
   }
 
 }
