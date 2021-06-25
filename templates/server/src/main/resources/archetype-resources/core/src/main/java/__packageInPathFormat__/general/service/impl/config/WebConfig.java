@@ -1,7 +1,5 @@
 package ${package}.general.service.impl.config;
 
-import javax.servlet.Filter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -80,11 +78,12 @@ public class WebConfig {
   }
 
   /**
-   * This allows to change the role prefix of spring-security. By default spring-security is magically adding a strange
-   * prefix called "ROLE_" to your granted authorities. In order to prevent this we use this class with an empty prefix.
+   * @return the {@link GrantedAuthorityDefaults} to configure the "role prefix" to the empty string. By default
+   *         spring-security is magically adding a strange prefix called "ROLE_" to your granted authorities. In order
+   *         to prevent this we use this class with an empty prefix.
    */
   @Bean
-  GrantedAuthorityDefaults grantedAuthorityDefaults() {
+  public GrantedAuthorityDefaults grantedAuthorityDefaults() {
 
     return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
   }
