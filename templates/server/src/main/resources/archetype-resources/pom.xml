@@ -151,7 +151,7 @@
         <executions>
           <execution>
             <id>servicedocgen-generate</id>
-            <phase>process-test-resources</phase>
+            <phase>prepare-package</phase>
             <goals>
               <goal>generate</goal>
             </goals>
