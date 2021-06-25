@@ -1,7 +1,5 @@
 package ${package}.general.service.impl.config;
 
-import javax.servlet.Filter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -14,6 +12,7 @@ import com.devonfw.module.logging.common.impl.DiagnosticContextFacadeImpl;
 import com.devonfw.module.logging.common.impl.DiagnosticContextFilter;
 import com.devonfw.module.logging.common.impl.PerformanceLogFilter;
 import com.devonfw.module.service.common.api.constants.ServiceConstants;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 
 /**
  * Registers a number of filters for web requests.
@@ -76,5 +75,16 @@ public class WebConfig {
     registration.setFilter(characterEncodingFilter);
     registration.addUrlPatterns("/*");
     return registration;
+  }
+
+  /**
+   * @return the {@link GrantedAuthorityDefaults} to configure the "role prefix" to the empty string. By default
+   *         spring-security is magically adding a strange prefix called "ROLE_" to your granted authorities. In order
+   *         to prevent this we use this class with an empty prefix.
+   */
+  @Bean
+  public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+
+    return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
   }
 }
