@@ -36,7 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @param <S> type of the {@link ServiceContext#getApi() service API}.
  * @since 2021.08.003
  */
-public class SyncServiceClientStubImpl<S> implements ServiceClientStub<S>, InvocationHandler {
+public class SyncServiceClientStubImpl<S> implements InvocationHandler {
   private static final Logger LOG = LoggerFactory.getLogger(SyncServiceClientStubImpl.class);
 
   private final ServiceContext<S> context;
@@ -50,16 +50,10 @@ public class SyncServiceClientStubImpl<S> implements ServiceClientStub<S>, Invoc
 
   private final RestServiceMetadata<S> serviceMetadata;
 
-  /** The {@link #setErrorHandler(Consumer)} */
-  private Consumer<Throwable> errorHandler;
-
   /** The most recent invocation. */
   private ServiceClientInvocation<S> invocation;
 
   private ServiceClientStub<S> stub;
-
-  /** The owning {@link SyncServiceClientFactoryHttp factory} which created this client. */
-  // protected final F factory = null;
 
   /**
    * The constructor.
@@ -77,20 +71,6 @@ public class SyncServiceClientStubImpl<S> implements ServiceClientStub<S>, Invoc
     this.client = client;
     this.objectMapper = objectMapper;
     this.serviceMetadata = serviceMetadata;
-    this.errorHandler = this::logError;
-  }
-
-  @Override
-  public S getProxy() {
-
-    assert (this.proxy != null);
-    return this.proxy;
-  }
-
-  @Override
-  public ServiceClientInvocation<S> getInvocation() {
-
-    return null;
   }
 
   @Override
@@ -118,7 +98,7 @@ public class SyncServiceClientStubImpl<S> implements ServiceClientStub<S>, Invoc
     HttpRequest request = createRequest(invocation);
     HttpResponse<String> response = this.client.getHttpClient().send(request, BodyHandlers.ofString());
     long startTime = System.nanoTime();
-    handleResponse(response, startTime, invocation, null, SyncErrorHandlerThrowImmediately.get());
+    handleResponse(response, startTime, invocation, null, ErrorHandlerThrowImmediately.get());
     Object result = createResult(response, invocation);
     return result;
 
@@ -135,9 +115,7 @@ public class SyncServiceClientStubImpl<S> implements ServiceClientStub<S>, Invoc
     } else {
       handleUnsupportedBody(body);
     }
-    // return this.factory.getErrorUnmarshaller().unmarshall(data, contentType, statusCode, service);
-    return null;
-
+    return this.factory.getErrorUnmarshaller().unmarshall(data, contentType, statusCode, service);
   }
 
   @SuppressWarnings({ "unchecked" })
