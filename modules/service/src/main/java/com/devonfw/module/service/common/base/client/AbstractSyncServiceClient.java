@@ -57,6 +57,19 @@ public abstract class AbstractSyncServiceClient<S> implements SyncServiceClient<
     return this.proxy;
   }
 
+  @Override
+  public Consumer<Throwable> getErrorHandler() {
+
+    return this.errorHandler;
+  }
+
+  @Override
+  public void setErrorHandler(Consumer<Throwable> errorHandler) {
+
+    Objects.requireNonNull(errorHandler);
+    this.errorHandler = errorHandler;
+  }
+
   private ServiceClientInvocation<S> getInvocation() {
 
     this.invocation = this.stub.getInvocation();

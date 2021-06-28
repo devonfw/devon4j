@@ -13,9 +13,7 @@ import com.devonfw.module.service.common.impl.client.ServiceClientAutoConfigurat
  *
  * @since 2021.08.003
  */
-
 @Configuration
-
 @Import(ServiceClientAutoConfiguration.class)
 public class HttpRestClientSyncAutoConfiguration {
 

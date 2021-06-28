@@ -1,6 +1,7 @@
 
 package com.devonfw.module.service.common.api.client;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 /**
@@ -41,4 +42,21 @@ public interface SyncServiceClient<S> {
 
   S get();
 
+  /**
+   * @return the the {@link Consumer} callback {@link Consumer#accept(Object) accepting} a potential exception that
+   *         occurred during sending the request or receiving the response. <b>ATTENTION:</b> The error handler is only
+   *         used to report errors for {@link Consumer} usage (via {@link #call(Object, Consumer)} and
+   *         {@link #callVoid(Runnable, Consumer)}). When using {@link CompletableFuture} instead, errors will be
+   *         reported via the {@link CompletableFuture} itself. Please also note that due to design of
+   *         {@link CompletableFuture} the errors (like
+   *         {@link net.sf.mmm.util.exception.api.ServiceInvocationFailedException}) will be wrapped in a
+   *         {@link java.util.concurrent.ExecutionException}.
+   */
+  Consumer<Throwable> getErrorHandler();
+
+  /**
+   * @param errorHandler the {@link Consumer} callback {@link Consumer#accept(Object) accepting} a potential exception
+   *        that occurred during sending the request or receiving the response.
+   */
+  void setErrorHandler(Consumer<Throwable> errorHandler);
 }

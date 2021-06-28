@@ -29,7 +29,6 @@ public class SyncServiceHttpClientRest<S> extends AbstractSyncServiceHttpClient<
    * @param client the {@link ServiceHttpClient} to use.
    * @param factory the owning {@link SyncServiceClientFactoryHttpRest}.
    */
-
   public SyncServiceHttpClientRest(S proxy, ServiceClientStub<S> stub, ServiceHttpClient client,
       SyncServiceClientFactoryHttpRest factory) {
 

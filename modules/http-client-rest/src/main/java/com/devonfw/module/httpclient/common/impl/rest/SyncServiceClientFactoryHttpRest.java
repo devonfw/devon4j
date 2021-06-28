@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  * @since 2021.08.003
  */
-
 public class SyncServiceClientFactoryHttpRest extends SyncServiceClientFactoryHttp {
 
   private final Map<Class<?>, RestServiceMetadata<?>> serviceMetadataMap;
@@ -34,7 +33,6 @@ public class SyncServiceClientFactoryHttpRest extends SyncServiceClientFactoryHt
   /**
    * The constructor.
    */
-
   public SyncServiceClientFactoryHttpRest() {
 
     super();
@@ -44,7 +42,6 @@ public class SyncServiceClientFactoryHttpRest extends SyncServiceClientFactoryHt
   /**
    * @return objectMapper
    */
-
   public ObjectMapper getObjectMapper() {
 
     if (this.objectMapper == null) {
@@ -56,7 +53,6 @@ public class SyncServiceClientFactoryHttpRest extends SyncServiceClientFactoryHt
   /**
    * @return the {@link ObjectMapperFactory}.
    */
-
   public ObjectMapperFactory getObjectMapperFactory() {
 
     return this.objectMapperFactory;
@@ -65,7 +61,6 @@ public class SyncServiceClientFactoryHttpRest extends SyncServiceClientFactoryHt
   /**
    * @param objectMapperFactory the {@link ObjectMapperFactory} to {@link Inject}.
    */
-
   @Inject
   public void setObjectMapperFactory(ObjectMapperFactory objectMapperFactory) {
 

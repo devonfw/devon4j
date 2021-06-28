@@ -13,13 +13,18 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.file.Path;
 import java.time.temporal.Temporal;
+import java.util.function.Consumer;
 
 import javax.ws.rs.core.MediaType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.devonfw.module.httpclient.common.impl.ServiceHttpClient;
 import com.devonfw.module.service.common.api.client.async.ServiceClientInvocation;
 import com.devonfw.module.service.common.api.client.async.ServiceClientStub;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
+import com.devonfw.module.service.common.base.client.ServiceClientPerformanceLogger;
 import com.devonfw.module.service.common.base.client.SyncServiceClientInvocationImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +37,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @since 2021.08.003
  */
 public class SyncServiceClientStubImpl<S> implements ServiceClientStub<S>, InvocationHandler {
+  private static final Logger LOG = LoggerFactory.getLogger(SyncServiceClientStubImpl.class);
 
   private final ServiceContext<S> context;
 
@@ -43,6 +49,17 @@ public class SyncServiceClientStubImpl<S> implements ServiceClientStub<S>, Invoc
   private final ObjectMapper objectMapper;
 
   private final RestServiceMetadata<S> serviceMetadata;
+
+  /** The {@link #setErrorHandler(Consumer)} */
+  private Consumer<Throwable> errorHandler;
+
+  /** The most recent invocation. */
+  private ServiceClientInvocation<S> invocation;
+
+  private ServiceClientStub<S> stub;
+
+  /** The owning {@link SyncServiceClientFactoryHttp factory} which created this client. */
+  // protected final F factory = null;
 
   /**
    * The constructor.
@@ -60,6 +77,7 @@ public class SyncServiceClientStubImpl<S> implements ServiceClientStub<S>, Invoc
     this.client = client;
     this.objectMapper = objectMapper;
     this.serviceMetadata = serviceMetadata;
+    this.errorHandler = this::logError;
   }
 
   @Override
@@ -99,9 +117,62 @@ public class SyncServiceClientStubImpl<S> implements ServiceClientStub<S>, Invoc
     invocation = new SyncServiceClientInvocationImpl<>(method, args, this.context);
     HttpRequest request = createRequest(invocation);
     HttpResponse<String> response = this.client.getHttpClient().send(request, BodyHandlers.ofString());
+    long startTime = System.nanoTime();
+    handleResponse(response, startTime, invocation, null, SyncErrorHandlerThrowImmediately.get());
     Object result = createResult(response, invocation);
     return result;
 
+  }
+
+  private Throwable createError(HttpResponse<?> response, ServiceClientInvocation<S> invocation, String service) {
+
+    int statusCode = response.statusCode();
+    String contentType = response.headers().firstValue("Content-Type").orElse("application/json");
+    String data = "";
+    Object body = response.body();
+    if (body instanceof String) {
+      data = (String) body;
+    } else {
+      handleUnsupportedBody(body);
+    }
+    // return this.factory.getErrorUnmarshaller().unmarshall(data, contentType, statusCode, service);
+    return null;
+
+  }
+
+  @SuppressWarnings({ "unchecked" })
+  private <R> R handleResponse(HttpResponse<?> response, long startTime, ServiceClientInvocation<S> invocation,
+      Consumer<R> resultHandler, Consumer<Throwable> errorHandler) {
+
+    Throwable error = null;
+    String service = invocation.getServiceDescription(response.uri().toString());
+    try {
+      int statusCode = response.statusCode();
+      if (statusCode >= 400) {
+        error = createError(response, invocation, service);
+        errorHandler.accept(error);
+      } else {
+        R result = (R) createResult(response, invocation);
+        if (resultHandler != null) {
+          resultHandler.accept(result);
+        }
+        return result;
+      }
+    } catch (Throwable t) {
+      errorHandler.accept(t);
+      error = t;
+    } finally {
+      ServiceClientPerformanceLogger.log(startTime, service, response.statusCode(), error);
+    }
+    return null;
+  }
+
+  /**
+   * @return errorHandler
+   */
+  public Consumer<Throwable> getErrorHandler() {
+
+    return this.errorHandler;
   }
 
   /**
@@ -220,6 +291,16 @@ public class SyncServiceClientStubImpl<S> implements ServiceClientStub<S>, Invoc
     Class<?>[] interfaces = new Class<?>[] { context.getApi() };
     stub.proxy = (S) Proxy.newProxyInstance(loader, interfaces, stub);
     return stub;
+  }
+
+  private void logError(Throwable error) {
+
+    ServiceContext<S> context = this.stub.getContext();
+    String methodName = "undefined";
+    if (this.invocation != null) {
+      methodName = this.invocation.getMethod().getName();
+    }
+    LOG.error("Failed to invoke service {}#{} at {}", context.getApi().getName(), methodName, context.getUrl(), error);
   }
 
 }
