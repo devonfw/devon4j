@@ -1,34 +1,21 @@
 
 package com.devonfw.module.httpclient.common.impl.rest;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import javax.inject.Inject;
-import javax.ws.rs.Path;
 
-import com.devonfw.module.httpclient.common.impl.ServiceHttpClient;
-import com.devonfw.module.httpclient.common.impl.SyncServiceClientFactoryHttp;
-import com.devonfw.module.json.common.base.ObjectMapperFactory;
+import com.devonfw.module.httpclient.common.impl.ServiceClientHttpAdapter;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
 import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
-import com.devonfw.module.service.common.api.constants.ServiceConstants;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.devonfw.module.service.common.base.client.AbstractSyncServiceClientFactoryRest;
 
 /**
  * Implementation of {@link SyncServiceClientFactory} for JAX-RS REST service clients using HTTP.
  *
- * @since 2021.08.003
+ * @since 2021.04.003
  */
-public class SyncServiceClientFactoryHttpRest extends SyncServiceClientFactoryHttp {
+public class SyncServiceClientFactoryHttpRest extends AbstractSyncServiceClientFactoryRest {
 
-  private final Map<Class<?>, RestServiceMetadata<?>> serviceMetadataMap;
-
-  private ClassLoader classLoader;
-
-  private ObjectMapperFactory objectMapperFactory;
-
-  private ObjectMapper objectMapper;
+  private ServiceClientHttpAdapter adapter;
 
   /**
    * The constructor.
@@ -36,89 +23,29 @@ public class SyncServiceClientFactoryHttpRest extends SyncServiceClientFactoryHt
   public SyncServiceClientFactoryHttpRest() {
 
     super();
-    this.serviceMetadataMap = new ConcurrentHashMap<>();
   }
 
   /**
-   * @return objectMapper
+   * @return the {@link ServiceClientHttpAdapter}.
    */
-  public ObjectMapper getObjectMapper() {
+  public ServiceClientHttpAdapter getAdapter() {
 
-    if (this.objectMapper == null) {
-      this.objectMapper = this.objectMapperFactory.createInstance();
-    }
-    return this.objectMapper;
+    return this.adapter;
   }
 
   /**
-   * @return the {@link ObjectMapperFactory}.
-   */
-  public ObjectMapperFactory getObjectMapperFactory() {
-
-    return this.objectMapperFactory;
-  }
-
-  /**
-   * @param objectMapperFactory the {@link ObjectMapperFactory} to {@link Inject}.
+   * @param adapter new value of {@link #getAdapter()}.
    */
   @Inject
-  public void setObjectMapperFactory(ObjectMapperFactory objectMapperFactory) {
+  public void setAdapter(ServiceClientHttpAdapter adapter) {
 
-    this.objectMapperFactory = objectMapperFactory;
-  }
-
-  /**
-   * @return the {@link ClassLoader} to use.
-   */
-
-  public ClassLoader getClassLoader() {
-
-    if (this.classLoader == null) {
-      this.classLoader = Thread.currentThread().getContextClassLoader();
-    }
-    return this.classLoader;
-  }
-
-  /**
-   * @param classLoader new value of {@link #getClassLoader()}.
-   */
-
-  public void setClassLoader(ClassLoader classLoader) {
-
-    this.classLoader = classLoader;
-  }
-
-  @Override
-  protected String getServiceTypeFolderName() {
-
-    return ServiceConstants.URL_FOLDER_REST;
-  }
-
-  @Override
-  protected boolean isResponsibleForService(ServiceContext<?> context) {
-
-    return context.getApi().isAnnotationPresent(Path.class);
-  }
-
-  /**
-   * @param <S> type of the {@link ServiceContext#getApi() service API}.
-   * @param context the {@link ServiceContext}.
-   * @return the {@link RestServiceMetadata} for the given {@link ServiceContext}.
-   */
-  @SuppressWarnings("unchecked")
-  protected <S> RestServiceMetadata<S> getServiceMetadata(ServiceContext<S> context) {
-
-    Class<S> api = context.getApi();
-    RestServiceMetadata<S> serviceMetadata = (RestServiceMetadata<S>) this.serviceMetadataMap.computeIfAbsent(api,
-        s -> new RestServiceMetadata<>(context));
-    return serviceMetadata;
+    this.adapter = adapter;
   }
 
   @Override
   protected <S> S createService(ServiceContext<S> context, String url) {
 
-    ServiceHttpClient client = new ServiceHttpClient(getHttpClient(), url);
-    return SyncServiceHttpClientRest.of(context, client, this).get();
+    return SyncServiceClientStub.of(context, this.adapter, url).get();
   }
 
 }

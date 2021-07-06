@@ -6,15 +6,14 @@ import org.springframework.context.annotation.Import;
 
 import com.devonfw.module.service.common.api.client.async.AsyncServiceClientFactory;
 import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
-import com.devonfw.module.service.common.impl.client.ServiceClientAutoConfiguration;
 
 /**
- * {@link Configuration} for REST (JAX-RS) clients using Java HTTP client.
+ * {@link Configuration} for asynchronous REST (JAX-RS) clients using Java HTTP client.
  *
  * @since 2020.08.001
  */
 @Configuration
-@Import(ServiceClientAutoConfiguration.class)
+@Import(HttpRestClientAutoConfiguration.class)
 public class HttpRestClientAsyncAutoConfiguration {
 
   /**

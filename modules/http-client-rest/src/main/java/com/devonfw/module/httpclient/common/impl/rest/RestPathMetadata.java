@@ -16,7 +16,7 @@ public abstract class RestPathMetadata extends RestMetadata {
   private RestPathMetadata next;
 
   /**
-   * @param baseUrl the {@link com.devonfw.module.httpclient.common.impl.ServiceHttpClient#getBaseUrl() base URL}.
+   * @param baseUrl the base URL.
    * @param invocation the {@link ServiceClientInvocation} to build the URL path.
    * @return the final URL to invoke.
    */

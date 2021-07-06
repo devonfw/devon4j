@@ -23,7 +23,8 @@ import com.devonfw.module.cxf.common.impl.client.SyncServiceClientFactoryCxf;
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
 import com.devonfw.module.service.common.api.client.sync.SyncServiceClientFactory;
 import com.devonfw.module.service.common.api.config.ServiceConfig;
-import com.devonfw.module.service.common.api.constants.ServiceConstants;
+import com.devonfw.module.service.common.base.client.ServiceClientTypeHandler;
+import com.devonfw.module.service.common.base.client.ServiceClientTypeHandlerWs;
 
 /**
  * Implementation of {@link SyncServiceClientFactory} for JAX-WS SOAP service clients using Apache CXF.
@@ -32,7 +33,11 @@ import com.devonfw.module.service.common.api.constants.ServiceConstants;
  */
 public class SyncServiceClientFactoryCxfWs extends SyncServiceClientFactoryCxf {
 
-  private static final String WSDL_SUFFIX = "?wsdl";
+  @Override
+  protected ServiceClientTypeHandler getTypeHandler() {
+
+    return ServiceClientTypeHandlerWs.get();
+  }
 
   @Override
   protected <S> S createService(ServiceContext<S> context, String url) {
@@ -55,6 +60,7 @@ public class SyncServiceClientFactoryCxfWs extends SyncServiceClientFactoryCxf {
       BindingProvider bindingProvider = (BindingProvider) serviceClient;
       bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
     }
+    applyAspects(context, serviceClient);
     return serviceClient;
   }
 
@@ -69,29 +75,6 @@ public class SyncServiceClientFactoryCxfWs extends SyncServiceClientFactoryCxf {
       applyClientPolicy(context, httpConduit);
     }
     applyHeaders(context, cxfClient);
-  }
-
-  @Override
-  protected String getServiceTypeFolderName() {
-
-    return ServiceConstants.URL_FOLDER_WEB_SERVICE;
-  }
-
-  @Override
-  protected String getUrl(ServiceContext<?> context) {
-
-    String url = super.getUrl(context);
-    if (!url.endsWith(WSDL_SUFFIX)) {
-      String serviceName = context.getApi().getSimpleName();
-      if (!url.endsWith(serviceName)) {
-        if (!url.endsWith("/")) {
-          url = url + "/";
-        }
-        url = url + serviceName;
-      }
-      url = url + WSDL_SUFFIX;
-    }
-    return url;
   }
 
   private String getLocalName(Class<?> api, WebService webService) {
@@ -123,17 +106,6 @@ public class SyncServiceClientFactoryCxfWs extends SyncServiceClientFactoryCxf {
       }
       ((Client) client).getRequestContext().put(Message.PROTOCOL_HEADERS, headers);
     }
-  }
-
-  /**
-   * @param context the {@link ServiceContext}.
-   * @return {@code true} if this implementation is responsibe for creating a service client corresponding to the given
-   *         {@link ServiceContext}, {@code false} otherwise.
-   */
-  @Override
-  protected boolean isResponsibleForService(ServiceContext<?> context) {
-
-    return context.getApi().isAnnotationPresent(WebService.class);
   }
 
 }
