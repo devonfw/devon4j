@@ -23,20 +23,21 @@ You need to add (at least one of) these dependencies to your application:
   <groupId>com.devonfw.java.starters</groupId>
   <artifactId>devon4j-starter-http-client-rest-sync</artifactId>
 </dependency>
-<!-- Starter for synchronous consuming REST services via Apache CXF (Java8+) -->
+<!-- Starter for synchronous consuming REST services via Apache CXF (Java8+) 
+  NOTE: This is an alternative to devon4j-starter-http-client-rest-sync
+  -->
+<!--
 <dependency>
   <groupId>com.devonfw.java.starters</groupId>
   <artifactId>devon4j-starter-cxf-client-rest</artifactId>
 </dependency>
+-->
 <!-- Starter for synchronous consuming SOAP services via Apache CXF (Java8+) -->
 <dependency>
   <groupId>com.devonfw.java.starters</groupId>
   <artifactId>devon4j-starter-cxf-client-ws</artifactId>
 </dependency>
 --------
-
-* *Note* +
-In case of a synchronous service invocation You can only have 'http' OR 'cxf' dependency as sync client but not both.
 
 == Features
 When invoking a service you need to consider many cross-cutting aspects. You might not think about them in the very first place and you do not want to implement them multiple times redundantly. Therefore you should consider using this approach. The following sub-sections list the covered features and aspects:
