@@ -55,7 +55,7 @@ COMMENT ON TABLE RESTAURANT_ORDER IS 'An order and bill at the restaurant.';
 ...
 --------
 
-ATTENTION: Please note that `TABLE` and `ORDER` are reserved keywords in SQL and you should avoid using such keywords to avoid problems.
+ATTENTION: Please note that `TABLE` and `ORDER` are reserved keywords in SQL and you should avoid using such keywords to prevent problems.
 
 === Data
 For insert, update, delete, etc. of data SQL scripts should additionally follow these guidelines:
