@@ -37,7 +37,7 @@ Add the below properties in your application.properties file.
 ----
 #CORS support
 security.cors.spring.allowCredentials=true
-security.cors.spring.allowedOrigins=*
+security.cors.spring.allowedOriginPatterns=*
 security.cors.spring.allowedHeaders=*
 security.cors.spring.allowedMethods=OPTIONS,HEAD,GET,PUT,POST,DELETE,PATCH
 security.cors.pathPattern=/**

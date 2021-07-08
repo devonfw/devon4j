@@ -72,3 +72,9 @@ jobs:
            git commit -m "${REPO_SOURCE} documentation | GitHub Actions $GITHUB_WORKFLOW $GITHUB_RUN_NUMBER"
            git remote add origin-wiki "https://${BUILD_USER}:${BUILD_USER_PASSWD}@github.com/${ORG}/${REPO_CONSOLIDATE}.git"
            git push origin-wiki master
+       - name: Trigger Update devonfw-guide on success
+         uses: peter-evans/repository-dispatch@v1
+         with:
+           token: ${{ secrets.GHA_TOKEN }}
+           repository: devonfw/devonfw-guide
+           event-type: dispatch-update-guide
