@@ -1,6 +1,6 @@
 package com.devonfw.module.service.common.base.client;
 
-import javax.ws.rs.Path;
+import javax.jws.WebService;
 
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
 import com.devonfw.module.service.common.api.constants.ServiceConstants;
@@ -44,7 +44,7 @@ public class ServiceClientTypeHandlerWs implements ServiceClientTypeHandler {
   @Override
   public boolean isResponsibleForService(ServiceContext<?> context) {
 
-    return context.getApi().isAnnotationPresent(Path.class);
+    return context.getApi().isAnnotationPresent(WebService.class);
   }
 
   /**

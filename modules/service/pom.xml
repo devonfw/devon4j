@@ -53,11 +53,15 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <groupId>javax.jws</groupId>
+      <artifactId>javax.jws-api</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>javax.annotation</groupId>
       <artifactId>javax.annotation-api</artifactId>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 
 </project>
