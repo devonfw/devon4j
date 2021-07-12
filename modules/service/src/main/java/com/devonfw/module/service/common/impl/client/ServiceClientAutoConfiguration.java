@@ -100,6 +100,7 @@ public class ServiceClientAutoConfiguration {
   /**
    * @return an instance of {@link EmptySyncServiceClientFactory}.
    */
+
   @Bean
   public SyncServiceClientFactory emptySyncServiceClientFactory() {
 
@@ -114,4 +115,5 @@ public class ServiceClientAutoConfiguration {
 
     return new EmptyAsyncServiceClientFactory();
   }
+
 }
