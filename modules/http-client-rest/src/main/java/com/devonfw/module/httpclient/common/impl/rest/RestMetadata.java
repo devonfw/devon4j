@@ -7,11 +7,30 @@ import java.util.Arrays;
 
 import javax.ws.rs.core.MediaType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * @author hohwille
+ * Base class for metadata of a REST service.
  *
+ * @since 2020.08.001
  */
-public class RestMetadata {
+public abstract class RestMetadata {
+
+  private static final Logger LOG = LoggerFactory.getLogger(RestMetadata.class);
+
+  static String getMediaType(String[] mediaTypes, String service) {
+
+    if ((mediaTypes == null) || (mediaTypes.length == 0)) {
+      return MediaType.APPLICATION_JSON;
+    } else {
+      if (mediaTypes.length > 1) {
+        LOG.warn("Service {} is annotated with multiple media-types. Taking the first one of {}.", service, mediaTypes);
+      }
+      return mediaTypes[0];
+    }
+
+  }
 
   static void requireJson(String[] mediaTypes) {
 

@@ -97,21 +97,21 @@ public class ServiceClientHttpAdapterRest extends AbstractServiceClientHttpAdapt
     RestParameter bodyParameter = method.getParameters().getBodyParameter();
     if (bodyParameter != null) {
       Object value = invocation.getParameter(bodyParameter.index);
+      contentType = method.getConsumes();
       if (value != null) {
         if ((value instanceof CharSequence) || (value instanceof Number) || (value instanceof Temporal)) {
           body = BodyPublishers.ofString(value.toString());
-          // contentType = MediaType.TEXT_PLAIN;
         } else if (value instanceof File) {
           body = createBody(((File) value).toPath());
-          contentType = MediaType.APPLICATION_OCTET_STREAM;
+          checkContentType(MediaType.APPLICATION_OCTET_STREAM, contentType);
         } else if (value instanceof Path) {
           body = createBody((Path) value);
-          contentType = MediaType.APPLICATION_OCTET_STREAM;
+          checkContentType(MediaType.APPLICATION_OCTET_STREAM, contentType);
         } else {
           try {
             String json = getObjectMapper().writeValueAsString(value);
             body = BodyPublishers.ofString(json);
-            contentType = MediaType.APPLICATION_JSON;
+            checkContentType(MediaType.APPLICATION_JSON, contentType);
           } catch (JsonProcessingException e) {
             throw new IllegalStateException(e);
           }

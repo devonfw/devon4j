@@ -16,7 +16,7 @@ import javax.ws.rs.PUT;
  *
  * @since 2020.08.001
  */
-public class RestMethodMetadata extends RestMetadata {
+public class RestMethodMetadata extends RestInvokableMetadata {
 
   private final RestServiceMetadata<?> serviceMetadata;
 
@@ -36,7 +36,7 @@ public class RestMethodMetadata extends RestMetadata {
    */
   public RestMethodMetadata(RestServiceMetadata<?> serviceMetadata, Method method) {
 
-    super();
+    super(findConsumes(serviceMetadata, method), findProduces(serviceMetadata, method));
     this.serviceMetadata = serviceMetadata;
     this.javaMethod = method;
     this.httpMethod = determineHttpMethod(method);

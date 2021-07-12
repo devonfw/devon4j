@@ -7,6 +7,7 @@ import java.net.http.HttpRequest.BodyPublisher;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpRequest.Builder;
 import java.net.http.HttpResponse;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import javax.inject.Inject;
@@ -198,6 +199,19 @@ public abstract class AbstractServiceClientHttpAdapter implements ServiceClientH
     }
     return new UnsupportedOperationException(
         "HTTP request/response body of type " + bodyType + " is currently not supported!");
+  }
+
+  /**
+   * @param expected the expected content-type (mime-type).
+   * @param actual the actual content-type (mime-type).
+   */
+  protected void checkContentType(String expected, String actual) {
+
+    if (!Objects.equals(actual, actual)) {
+      LOG.warn(
+          "Content-type {} is not matching the expected content-type {}. We will invoke the service but if that fails this seems to be the problem.",
+          actual, expected);
+    }
   }
 
 }
