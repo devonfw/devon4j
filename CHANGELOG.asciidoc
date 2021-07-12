@@ -4,13 +4,12 @@ This file documents all notable changes to https://https://github.com/devonfw/de
 
 == 2021.04.003
 
-ATTENTION: This release is still work in progress.
-
 Bugfix release of with the following stories:
 
 * https://github.com/devonfw/devon4j/issues/336[#336]: archetype contains batch artefacts even when no batch was generated
 * https://github.com/devonfw/devon4j/issues/385[#385]: Access-control should honor roles by default
 * https://github.com/devonfw/devon4j/issues/397[#397]: security-jwt should support the claim "groups" from the microprofile jwt
+* https://github.com/devonfw/devon4j/issues/284[#284]: Support for synchronous rest client using HTTP client
 * https://github.com/devonfw/devon4j/issues/393[#393]: devon4j JpaInitializer documentation not matching releases
 * https://github.com/devonfw/devon4j/issues/216[#216]: ability to generate OpenApi files automatically from JAX-RS services
 
