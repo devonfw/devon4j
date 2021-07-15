@@ -1,4 +1,4 @@
-= devonfw for Java (devon4j)
+= Java 
 :description: comprehensive documentation for the Java stack of devonfw.
 :doctype: book
 :toc:
