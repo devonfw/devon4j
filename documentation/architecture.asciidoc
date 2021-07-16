@@ -88,7 +88,7 @@ The general dependencies allowed between business components are defined by the 
 In our reference architecture diagram we assume that the business component `A1` is allowed to depend
 on component `A2`. Therefore, a use-case within the logic component part of `A1` is allowed to call a
 use-case from `A2` via a dependency on the component API. The same applies for dialogs on the client layer.
-This is illustrated by the horizontal connectors. Please note that link:guide-jpa.asciidoc#entity[persistence entities] are part of the API of the data-access component part so only the logic component part of the same
+This is illustrated by the horizontal connectors. Please note that link:guide-jpa.asciidoc[persistence entities] are part of the API of the data-access component part so only the logic component part of the same
 business component may depend on them.
 
 The technical architecture has to address non-functional requirements:
@@ -115,8 +115,8 @@ The technology stack of the devonfw is illustrated by the following table.
 |link:guide-configuration.asciidoc[configuration]|framework|-|http://projects.spring.io/spring-boot/[spring-boot]
 |link:guide-dataaccess-layer.asciidoc[persistence]|OR-mapper|http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[JPA] | http://hibernate.org/orm/[hibernate]
 |link:guide-batch-layer.asciidoc[batch]|framework|https://jcp.org/en/jsr/detail?id=352[JSR352]|http://projects.spring.io/spring-batch/[spring-batch]
-|link:guide-service-layer.asciidoc[service]|link:guide-service-layer.asciidoc#soap[SOAP services]|https://jcp.org/en/jsr/detail?id=224[JAX-WS]|http://cxf.apache.org/[CXF]
-|link:guide-service-layer.asciidoc[service]|link:guide-service-layer.asciidoc#rest[REST services]|https://jax-rs-spec.java.net/[JAX-RS]| http://cxf.apache.org/[CXF]
+|link:guide-service-layer.asciidoc[service]|link:guide-service-layer.asciidoc[SOAP services]|https://jcp.org/en/jsr/detail?id=224[JAX-WS]|http://cxf.apache.org/[CXF]
+|link:guide-service-layer.asciidoc[service]|link:guide-service-layer.asciidoc[REST services]|https://jax-rs-spec.java.net/[JAX-RS]| http://cxf.apache.org/[CXF]
 |link:guide-logging.asciidoc[logging]|framework|http://www.slf4j.org/[slf4j]|http://logback.qos.ch/[logback]
 |link:guide-validation.asciidoc[validation]|framework|http://beanvalidation.org/[beanvalidation/JSR303]|http://hibernate.org/validator/[hibernate-validator]
 |link:guide-security.asciidoc[security]|Authentication & Authorization|http://www.oracle.com/technetwork/java/javase/jaas/index.html[JAAS]|http://projects.spring.io/spring-security/[spring-security]
