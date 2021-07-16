@@ -1,5 +1,5 @@
-= devonfw for Java (devon4j)
-:description: comprehensive documentation for the Java stack of devonfw.
+= spring 
+:description: comprehensive documentation for spring stack of devonfw.
 :doctype: book
 :toc:
 :toc-title: Table of Contents

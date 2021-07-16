@@ -1,0 +1,22 @@
+= Java
+:description: comprehensive documentation for the Java stack of devonfw.
+:doctype: book
+:toc:
+:toc-title: Table of Contents
+:idprefix:
+:idseparator: -
+:sectnums:
+:reproducible:
+:source-highlighter: rouge
+:listing-caption: Listing
+:chapter-label:
+:partnums:
+:imagesdir: ./
+The devonfw community
+${project.version}, ${buildtime}
+
+
+
+include::devon4j.wiki/devon4j[leveloffset=1]
+
+include::devon4quarkus.wiki/devon4quarkus[leveloffset=1]
