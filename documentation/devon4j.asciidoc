@@ -1,4 +1,5 @@
-= Java 
+= spring
+
 :description: comprehensive documentation for the Java stack of devonfw.
 :doctype: book
 :toc:
