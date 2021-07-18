@@ -16,6 +16,26 @@ public final class LoggingConstants {
   public static final String CORRELATION_ID = "correlationId";
 
   /**
+   * SPAN ID
+   */
+  public static final String SPAN_ID = "spanId";
+
+  /**
+   * TRACEID
+   */
+  public static final String TRACE_ID = "traceId";
+
+  /**
+   * SPANNAME
+   */
+  public static final String SPAN_NAME = "spanName";
+
+  /**
+   * PARENT_ID
+   */
+  public static final String PARENT_ID = "parentSpanId";
+
+  /**
    * Construction prohibited.
    */
   private LoggingConstants() {
