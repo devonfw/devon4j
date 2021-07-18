@@ -35,7 +35,7 @@ public class PermissionCheckTest extends ModuleTest {
       @Override
       public boolean accept(String value) {
 
-        return value.contains(".logic.impl.usecase.Uc") && value.endsWith("Impl");
+        return (value.contains(".logic.impl.usecase.Uc") &&  value.endsWith("Impl")) || value.endsWith("Impl");
       }
 
     };
@@ -49,15 +49,18 @@ public class PermissionCheckTest extends ModuleTest {
         Method parentMethod = ru.getParentMethod(method);
         if (parentMethod != null) {
           Class<?> declaringClass = parentMethod.getDeclaringClass();
-          if (declaringClass.isInterface() && declaringClass.getSimpleName().startsWith("Uc")) {
-            boolean hasAnnotation = false;
-            if (method.getAnnotation(RolesAllowed.class) != null || method.getAnnotation(DenyAll.class) != null
+          if(declaringClass.isInterface()) {
+            if ( declaringClass.getSimpleName().startsWith("Uc") ||
+              (clazz.getSimpleName().contains(declaringClass.getSimpleName()+"Impl"))&& clazz.isAnnotationPresent(Named.class)) {
+              boolean hasAnnotation = false;
+              if (method.getAnnotation(RolesAllowed.class) != null || method.getAnnotation(DenyAll.class) != null
                 || method.getAnnotation(PermitAll.class) != null) {
-              hasAnnotation = true;
-            }
-            assertions.assertThat(hasAnnotation)
+                hasAnnotation = true;
+              }
+              assertions.assertThat(hasAnnotation)
                 .as("Method " + method.getName() + " in Class " + clazz.getSimpleName() + " is missing access control")
                 .isTrue();
+            }
           }
         }
       }
