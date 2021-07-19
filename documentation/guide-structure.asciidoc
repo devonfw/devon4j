@@ -11,4 +11,4 @@ A long time ago maven standardized the project structure with `src/main/java`, e
 With devonfw we experienced the same for the codebase (what is inside `src/main/java`).
 
 We initially started `devon4j` based on spring and spring-boot and proposed a link:guide-structure-classic.asciidoc[classic project structure].
-With modern cloud-native trends we new added a link:guide-structure-modern.asciidoc[modern project structure], that is more lean and up-to-date with the latest market trends.
+With modern cloud-native trends we added a link:guide-structure-modern.asciidoc[modern project structure], that is more lean and up-to-date with the latest market trends.

@@ -8,7 +8,7 @@ When starting new projects with devonfw and escpecially in the context of cloud-
 
 == Modules
 
-Dues to trends such as microservices we are building smaller apps compared to moduliths.
+Due to trends such as microservices we are building smaller apps compared to moduliths.
 For simplicity we therefore do not split our app into different modules and keep everything top-level and easy.
 
 == Deployment
