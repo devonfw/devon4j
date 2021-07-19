@@ -60,7 +60,6 @@ The generic name of the service layer as initially suggested in `devon4j`.
 In order to help you to map the architecture, packaging, layering, etc. to the code and see where different code elements should be placed,
 we provide this architecture mapping:
 
-.Classic architecture mapping down to code
 [subs=+macros]
 ----
 «root»

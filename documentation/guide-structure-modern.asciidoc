@@ -13,7 +13,6 @@ For simplicity we therefore do not split our app into different modules and keep
 
 In addition to `java` and `resources` we also add `helm` for helm templates and `docker` for docker scripts (e.g. `Dockerfile`) in `src/main`:
 
-.Modern architecture mapping down to the code
 [subs=+macros]
 ----
 ├──/src
@@ -40,7 +39,6 @@ In case you want to go with spring you may consider using https://github.com/spr
 The package structure of your code inside `src/main/java` (and `src/test/java`) of your app is described in our coding conventions in the sections link:coding-conventions.asciidoc#packages[packages].
 For the modern project structure we the layers are defined by the following table:
 
-.Modern devon4j layers
 [options="header"]
 |=============================================
 |*Layer* | *«layer»* | *Description*
@@ -55,7 +53,6 @@ For the modern project structure we the layers are defined by the following tabl
 In order to help you to map the architecture, packaging, layering, etc. to the code and see where different code elements should be placed,
 we provide this architecture mapping:
 
-.Modern architecture mapping down to the code
 [subs=+macros]
 ----
 «root»
