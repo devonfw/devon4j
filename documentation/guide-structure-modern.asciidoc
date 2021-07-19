@@ -37,7 +37,7 @@ In case you want to go with spring you may consider using https://github.com/spr
 == Layers
 
 The package structure of your code inside `src/main/java` (and `src/test/java`) of your app is described in our coding conventions in the sections link:coding-conventions.asciidoc#packages[packages].
-For the modern project structure we the layers are defined by the following table:
+For the modern project structure the layers are defined by the following table:
 
 [options="header"]
 |=============================================

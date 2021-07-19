@@ -40,11 +40,8 @@ The package structure of your code inside `src/main/java` (and `src/test/java`) 
 == Layers
 
 The package structure of your code inside `src/main/java` (and `src/test/java`) of your app is described in our coding conventions in the sections link:coding-conventions.asciidoc#packages[packages].
-The following table describes our initial approach for packaging and layering.
-It is still supported and fine to use.
-However, when you start a new project, you should consider using the new modern structure as described above.
+The following table describes our classic approach for packaging and layering:
 
-The generic name of the service layer as initially suggested in `devon4j`.
 .Traditional generic devon4j layers
 [options="header"]
 |=============================================
@@ -52,6 +49,8 @@ The generic name of the service layer as initially suggested in `devon4j`.
 |link:guide-service-layer.asciidoc[service]|`service`
 |link:guide-logic-layer.asciidoc[logic]|`logic`
 |link:guide-dataaccess-layer.asciidoc[data-access]|`dataaccess`
+|link:guide-batch-layer.asciidoc[batch] (optional)|`batch`
+|link:guide-client-layer.asciidoc[client] (optional)|`client`
 |link:guide-common.asciidoc[common]|`common`
 |=============================================
 
