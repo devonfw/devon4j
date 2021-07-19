@@ -11,6 +11,23 @@ When starting new projects with devonfw and escpecially in the context of cloud-
 Due to trends such as microservices we are building smaller apps compared to moduliths.
 For simplicity we therefore do not split our app into different modules and keep everything top-level and easy.
 
+In addition to `java` and `resources` we also add `helm` for helm templates and `docker` for docker scripts (e.g. `Dockerfile`) in `src/main`:
+
+.Modern architecture mapping down to the code
+[subs=+macros]
+----
+├──/src
+|  ├──/main
+|  |  ├──/docker
+|  |  ├──/helm
+|  |  ├──/java
+|  |  └──/resources
+|  └──/test
+|     ├──/java
+|     └──/resources
+└──/pom.xml
+----
+
 == Deployment
 
 For modern projects we strongly recommend that your build process is generating the final deliverable as an OCI compliant container.
