@@ -32,44 +32,11 @@ E.g. in our example application we find the Spring Data repositories for the `or
 |*Segment*      | *Description* | *Example*
 |«root»|Is the basic Java Package name-space of your app. Typically we suggest to use `«group».«artifact»` where `«group»` is your maven/gradle `groupId` corresponding to your organization or IT project owning the code following common Java Package conventions. The segment `«artifact»` is your maven/gradle `artifactId` and is typically the technical name of your app. |`com.devonfw.application.mtsj`
 | «component» | The (business) component the code belongs to. It is defined by the business architecture and uses terms from the business domain. Use the implicit component `general` for code not belonging to a specific component (foundation code).| `salesmanagement`
-| «layer» | The name of the technical layer (See link:architecture.asciidoc[technical architecture]) which is one of the predefined layers as described blow in xref:#layers[layers] section. | `logic`
+| «layer» | The name of the technical layer (See link:architecture.asciidoc[technical architecture]). Details are described for the link:guide-structure-modern.asciidoc#layers[modern project structure] and for the link:guide-structure-classic.asciidoc[classic project structure]. | `logic`
 | «detail» | Here you are free to further divide your code into sub-components and other concerns according to the size of your component part. If you want to strictly separate API from implementation you should start `«detail»` with `«scope»` that is explained below. | `dao`
 | «scope» | The scope which is one of `api` (official API to be used by other layers or components),`base` (basic code to be reused by other implementations) and `impl` (implementation that should never be imported from outside). This segment was initially mandatory but due to trends such as microservices, lean, and agile we decided to make it optional and do not force anybody to use it. | `api`
 |=============================================
 Please note that `devon4j` library modules for spring use `com.devonfw.module` as `«root»` and the name of the module as `«component»`. E.g. the API of our `beanmapping` module can be found in the package `com.devonfw.module.beanmapping.common.api`.
-
-=== Layers
-
-With trends such as microservices, lean, and agile we decided for a more modern packaging and layering that fits better to recent market trends.
-It is described in the following table:
-
-.Modern devon4j layers
-[options="header"]
-|=============================================
-|*Layer* | *«layer»* | *Description*
-|link:guide-service-layer.asciidoc[service]|`«protocol»`|The actual service protocol such as `rest` for link:guide-rest.asciidoc[REST]. May also be any other protocol you are using such as `grpc` for https://grpc.io/[gRPC].
-|link:guide-dataaccess-layer.asciidoc[data-access]|`domain`|The domain with the data-model and DB access. Use sub-package (in `«detail»`) `repository` for link:guide-repository.asciidoc[repository] and `dao` for link:guide-dao.asciidoc[DAOs]. Also we recommend to put link:guide-jpa.asciidoc#entity[entities] in `model` sub-package.
-|link:guide-logic-layer.asciidoc[logic]|`logic`|The logic layer with the functionallity providing the business value.
-|link:guide-common.asciidoc[common]|`common`|cross-cutting code not assigned to a technical layer.
-|=============================================
-
-The following table describes our initial approach for packaging and layering.
-It is still supported and fine to use.
-However, when you start a new project, you should consider using the new modern structure as described above.
-
-The generic name of the service layer as initially suggested in `devon4j`.
-.Traditional generic devon4j layers
-[options="header"]
-|=============================================
-|*Layer* | *«layer»*
-|link:guide-service-layer.asciidoc[service]|`service`
-|link:guide-logic-layer.asciidoc[logic]|`logic`
-|link:guide-dataaccess-layer.asciidoc[data-access]|`dataaccess`
-|link:guide-common.asciidoc[common]|`common`
-|=============================================
-
-(`dataaccess`, `logic`, `service`, `batch`, `gui`, `client`) or `common` for code not assigned to a technical layer (datatypes, cross-cutting concerns).
-
 
 == Code Tasks
 Code spots that need some rework can be marked with the following tasks tags. These are already properly pre-configured in your development environment for auto completion and to view tasks you are responsible for. It is important to keep the number of code tasks low. Therefore, every member of the team should be responsible for the overall code quality. So if you change a piece of code and hit a code task that you can resolve in a reliable way, please do this as part of your change and remove the according tag.
