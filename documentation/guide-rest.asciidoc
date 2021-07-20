@@ -44,10 +44,10 @@ Further we define how to use the HTTP status codes for REST services properly. I
 |200          |OK          |requested result |Result of successful GET
 |204          |No Content  |_none_           |Result of successful POST, DELETE, or PUT with empty result (void return)
 |400          |Bad Request |error details    |The HTTP request is invalid (parse error, validation failed)
-|401          |Unauthorized|_none_ (security)|Authentication failed
-|403          |Forbidden   |_none_ (security)|Authorization failed
+|401          |Unauthorized|_none_           |Authentication failed
+|403          |Forbidden   |_none_           |Authorization failed
 |404          |Not found   |_none_           |Either the service URL is wrong or the requested resource does not exist
-|500          |Server Error|error code, UUID |Internal server error occurred (used for all technical exceptions)
+|500          |Server Error|error code, UUID |Internal server error occurred (used for exceptions)
 |=======================
 
 == JAX-RS
