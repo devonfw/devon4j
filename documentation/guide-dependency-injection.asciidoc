@@ -31,10 +31,10 @@ Here you can see the implementation of an example bean using dependency injectio
 [source, java]
 ----
 @ApplicationScoped
-@Named("MyBean")
-public class MyBeanImpl implements MyBean {
+@Named("MyComponent")
+public class MyComponentImpl implements MyComponent {
   @Inject
-  private MyOtherBean myOtherBean;
+  private MyOtherComponent myOtherComponent;
 
   @PostConstruct
   public void init() {
@@ -45,16 +45,19 @@ public class MyBeanImpl implements MyBean {
   public void dispose() {
     // shutdown bean, free resources if required (otherwise omit this method)
   }
+  
+  ...
 }
 ----
 
-Here `MyBeanImpl` depends on `MyOtherBean` that is injected into the field `myOtherBean` because of the `@Inject` annotation.
-To make this work there must be exactly one implementation of `MyOtherBean` in the container (e.g. spring or quarkus).
+Here `MyComponentImpl` depends on `MyOtherComponent` that is injected into the field `myOtherComponent` because of the `@Inject` annotation.
+To make this work there must be exactly one bean in the container (e.g. spring or quarkus) that is an instance of `MyOtherComponent`.
 In order to put a bean into the container, we can use `@ApplicationScoped` in case of CDI (required for quarkus) for a stateless bean.
 In spring we can ommit a CDI annotation and the `@Named` annotation is already sufficient as a bean is stateless by default in spring.
 If we always use `@ApplicationScoped` we can make this more explicit and more portable accross different frameworks.
-So in our example we put `MyBeanImpl` into the container.
-Therefore it can be injected into other beans using `@Inject` annotation either via `MyBean` interface (recommended when interface is present) or even directly via `MyBeanImpl`.
+So in our example we put `MyComponentImpl` into the container.
+That bean will be called `MyComponent` as we specified in the `@Named` annotation but we can also omit the name to use the classname as fallback.
+Now our bean can be injected into other beans using `@Inject` annotation either via `MyComponent` interface (recommended when interface is present) or even directly via `MyComponentImpl`.
 In case you omit the interface, you should also omit the `Impl` suffix or instead use `Bean` as suffix. 
 
 == Multiple bean implementations
@@ -66,7 +69,7 @@ In some cases you still have only one implementation active as bean in the conta
 A typical example is that you have different implemenations for test and main usage.
 This case is easy, as `@Inject` will always be unique.
 The only thing you need to care about is how to configure your framework (spring, quaruks, etc.) to know which implementation to put in the container depending on specific configuration.
-
+In spring this can be archived via the proprietary `@Profile` annotaiton.
 
 === Injecting all of multiple implementations
 In some situations you may have an interface that defines a kind of "plugin".
@@ -79,6 +82,8 @@ Then you can request a list with all the bean implementations via the interface 
 ----
 
 Your code may iterate over all plugins (converters) and apply them sequentially.
+Please note that the injection will fail (at least in spring), when there is no bean available to inject.
+So you do not get an empty list injected but will get an exception on startup.
 
 === Injecting one of multiple implementations 
 Another scenario is that you have multiple implementations in your container coexisting, but for injection you may want to choose a specific implementation.
@@ -111,7 +116,7 @@ public class MyServiceComponent {
 
 However, we discovered that this pattern is not so great:
 The identifiers in the `@Named` annotation are just strings that could easily break.
-You could use constants instead but that would cause more tight coupling.
+You could use constants instead but still this is not the best solution.
 
 In the end you can very much simplify this by just directly injecting the implementation instead:
 [source, java]
@@ -177,7 +182,7 @@ import javax.enterprise.context.ApplicationScoped;
 ----
 
 == Dependencies
-Please note that with https://jakarta.ee/[Jakarta EE] the packages and dependencies have changed.
+Please note that with https://jakarta.ee/[Jakarta EE] the dependencies have changed.
 When you want to start with Jakarta EE you should use these dependencies to get the annoations for dependency injection:
 
 [source, xml]
