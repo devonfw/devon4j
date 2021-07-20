@@ -18,10 +18,7 @@ For business operations (processing, calculation, advanced search, etc.) we simp
 Then we can `POST` the input for the business operation and get the result back. Example: `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity/search`
 
 == HTTP Methods
-While REST was designed as a pragmatical approach it sometimes leads to "religious discussions" e.g. about using `PUT` vs. `POST` (see ATTENTION notice above).
-As the devonfw has a string focus on usual business applications it proposes a more "pragmatic" approach to REST services.
-
-On the next table we compare the main differences between the "canonical" REST approach (or RESTful) and the devonfw proposal.
+The following table defines the HTTP methods (verbs) and their meaning:
 
 .Usage of HTTP methods
 [options="header"]
