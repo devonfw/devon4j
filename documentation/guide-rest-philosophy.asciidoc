@@ -1,0 +1,269 @@
+:toc: macro
+toc::[]
+
+= REST Philosophy
+
+REST and RESTful often implies very strict and specific rules and conventions.
+However different people will often have different opinions of such rules.
+We learned that this leads to "religious discussions" (starting from `PUT` vs. `POST` and IDs in path vs. payload up to Hypermedia and https://en.wikipedia.org/wiki/HATEOAS[HATEOAS]).
+These "religious discussions" waste a lot of time and money without adding real value in case of common business applications (if you publish your API on the internet to billions of users this is a different story).
+Therefore we give best practices that lead to simple, easy and pragmatic "HTTP APIs" (to avoid the term "REST services" and end "religious discussions").
+Please also note that we do not want to assault anybody nor force anyone to follow our guidelines.
+This guide is just an option for people who want to be pragmatic and face such "religious discussions".
+Please read the following best practices carefully and be aware that they might slightly differ from what your first hit on the web will say about REST (see e.g. http://restcookbook.com/[RESTful cookbook]).
+
+If you want to provide an entity with a different structure do not append further details to an element URL but create a separate collection URL as base.
+So use `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity-with-details/42` instead of `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity/42/with-details`.
+For offering a link:guide-transferobject.asciidoc#CTO[CTO] simply append `-cto` to the collection URL (e.g. `.../myentity-cto/`).
+
+While REST was designed as a pragmatical approach it sometimes leads to "religious discussions" e.g. about using `PUT` vs. `POST` (see ATTENTION notice above).
+As the devonfw has a strong focus on usual business applications it proposes a more "pragmatic" approach to REST services.
+
+On the next table we compare the main differences between the "canonical" REST approach (or RESTful) and the devonfw proposal.
+
+.Usage of HTTP methods
+[options="header"]
+|=======================
+|*HTTP Method*|*RESTful Meaning*|*devonfw*
+|`GET`        .<|Read single element.
+
+Search on an entity (with parametrized url) .<|Read a single element.
+
+|`PUT`        .<|Replace entity data.         
+
+Replace entire collection (typically not supported) .<| Not used
+|`POST`       .<|Create a new element in the collection  .<| Create or update an element in the collection.
+
+Search on an entity (parametrized post body)
+
+Bulk deletion.
+
+|`DELETE`     .<|Delete an entity.
+
+Delete an entire collection (typically not supported) .<|Delete an entity.
+
+Delete an entire collection (typically not supported)|
+|=======================
+
+Please consider these guidelines and rationales:
+
+* We use `POST` on the collection URL to save an entity (`create` if no ID provided in payload otherwise `update`). This avoids pointless discussions in distinctions between `PUT` and `POST` and what to do if a `create` contains an ID in the payload or if an `update` is missing the ID property or contains a different ID in payload than in URL.
+* Hence, we do NOT use `PUT` but always use `POST` for write operations. As we always have a technical ID for each entity, we can simply distinguish create and update by the presence of the ID property.
+* Please also note that for (large) bulk deletions you may be forced to used `POST` instead of `DELETE` as according to the HTTP standard `DELETE` must not have payload and URLs are limited in length.
+
+== Metadata
+devonfw has support for the following metadata in REST service invocations:
+
+[options="header"]
+|=======
+|Name |Description| Further information
+|X-Correlation-Id|HTTP header for a _correlation ID_ that is a unique identifier to associate different requests belonging to the same session / action| link:guide-logging.asciidoc[Logging guide]
+|Validation errors |Standardized format for a service to communicate validation errors to the client| Server-side validation is documented in the link:guide-validation.asciidoc[Validation guide].
+
+The protocol to communicate these validation errors is described in xref:rest-exception-handling[REST exception handling].
+|Pagination |Standardized format for a service to offer paginated access to a list of entities| Server-side support for pagination is documented in the link:guide-repository.asciidoc#pagination[Repository Guide].
+|=======
+
+== Recommendations for REST requests and responses
+The devonfw proposes, for simplicity, a deviation from the common REST pattern:
+
+* Using `POST` for updates (instead of `PUT`)
+* Using the payload for addressing resources on POST (instead of identifier on the `URL`)
+* Using parametrized `POST` for searches
+
+This use of REST will lead to simpler code both on client and on server. We discuss this use on the next points.
+
+The following table specifies how to use the HTTP methods (verbs) for collection and element URIs properly (see http://en.wikipedia.org/wiki/Representational_State_Transfer#Applied_to_web_services[wikipedia]).
+
+=== Unparameterized loading of a single resource
+* *HTTP Method*: `GET`
+* *URL example*: `/services/rest/productmanagement/v1/product/123`
+
+For loading of a single resource, embed the `identifier` (e.g. `123`) of the resource in the URL.
+
+The response contains the resource in JSON format, using a JSON object at the top-level, for example:
+
+[source,javascript]
+----
+{
+  "id": 123,
+  "name": "Steak",
+  "color": "brown"
+}
+----
+
+=== Unparameterized loading of a collection of resources
+* *HTTP Method*: `GET`
+* *URL example*: `/services/rest/productmanagement/v1/product`
+
+For loading of a collection of resources, make sure that the size of the collection can never exceed a reasonable maximum size. For parameterized loading (searching, pagination), see below.
+
+The response contains the collection in JSON format, using a JSON object at the top-level, and the actual collection underneath a `result` key, for example:
+
+[source,javascript]
+----
+{
+  "result": [
+    {
+      "id": 123,
+      "name": "Steak",
+      "color": "brown"
+    },
+    {
+      "id": 124,
+      "name": "Broccoli",
+      "color": "green"
+    }
+  ]
+}
+----
+
+=== Saving a resource
+* *HTTP Method*: `POST`
+* *URL example*: `/services/rest/productmanagement/v1/product`
+
+The resource will be passed via JSON in the request body. If updating an existing resource, include the resource's `identifier` in the JSON and not in the URL, in order to avoid ambiguity.
+
+If saving was successful, the updated product (e.g. with assigned ID or updated modification counter) is returned.
+
+If saving was unsuccessful, refer below for the format to return errors to the client.
+
+
+=== Parameterized loading of a resource
+* *HTTP Method*: `POST`
+* *URL example*: `/services/rest/productmanagement/v1/product/search`
+
+In order to differentiate from an unparameterized load, a special _subpath_ (for example `search`) is introduced. The parameters are passed via JSON in the request body. An example of a simple, paginated search would be:
+
+[source,javascript]
+--------
+{
+  "status": "OPEN",
+  "pagination": {
+    "page": 2,
+    "size": 25
+  }
+}
+--------
+
+The response contains the requested page of the collection in JSON format, using a JSON object at the top-level, the actual page underneath a `result` key, and additional pagination information underneath a `pagination` key, for example:
+
+[source,javascript]
+----
+{
+  "pagination": {
+    "page": 2,
+    "size": 25,
+    "total": null
+  },
+  "result": [
+    {
+      "id": 123,
+      "name": "Steak",
+      "color": "brown"
+    },
+    {
+      "id": 124,
+      "name": "Broccoli",
+      "color": "green"
+    }
+  ]
+}
+----
+
+
+Compare the code needed on server side to accept this request:
+[source,java]
+----
+  @Path("/category/search")
+  @POST
+  public PaginatedListTo<CategoryEto> findCategorysByPost(CategorySearchCriteriaTo searchCriteriaTo) {
+    return this.dishmanagement.findCategoryEtos(searchCriteriaTo);
+ }
+----
+
+With the equivalent code required if doing it the RESTful way by issuing a `GET` request:
+//I adjusted the example according to how I think it should be (not 100% certain it's correct).
+[source,java]
+----
+ @Path("/category/search")
+  @POST @Path("/order")
+  @GET
+  public PaginatedListTo<CategoryEto> findCategorysByPost( @Context UriInfo info) {
+
+    RequestParameters parameters = RequestParameters.fromQuery(info);
+    CategorySearchCriteriaTo criteria = new CategorySearchCriteriaTo();
+    criteria.setName(parameters.get("name", Long.class, false));
+    criteria.setDescription(parameters.get("description", OrderState.class, false));
+    criteria.setShowOrder(parameters.get("showOrder", OrderState.class, false));
+    return this.dishmanagement.findCategoryEtos(criteria);
+
+  }
+----
+
+
+==== Pagination details
+
+The client can choose to request a count of the total size of the collection, for example to calculate the total number of available pages. It does so, by specifying the `pagination.total` property with a value of `true`.
+
+The service is free to honour this request. If it chooses to do so, it returns the total count as the `pagination.total` property in the response.
+
+=== Deletion of a resource
+* *HTTP Method*: `DELETE`
+* *URL example*: `/services/rest/productmanagement/v1/product/123`
+
+For deletion of a single resource, embed the `identifier` of the resource in the URL.
+
+=== Error results
+
+The general format for returning an error to the client is as follows:
+
+[source,javascript]
+----
+{
+  "message": "A human-readable message describing the error",
+  "code": "A code identifying the concrete error",
+  "uuid": "An identifier (generally the correlation id) to help identify corresponding requests in logs"
+}
+----
+
+If the error is caused by a failed validation of the entity, the above format is extended to also include the list of individual validation errors:
+
+[source,javascript]
+----
+{
+  "message": "A human-readable message describing the error",
+  "code": "A code identifying the concrete error",
+  "uuid": "An identifier (generally the correlation id) to help identify corresponding requests in logs",
+  "errors": {
+    "property failing validation": [
+       "First error message on this property",
+       "Second error message on this property"
+    ],
+    // ....
+  }
+}
+----
+
+== REST Media Types
+The payload of a REST service can be in any format as REST by itself does not specify this. The most established ones that the devonfw recommends are link:guide-xml.asciidoc[XML] and link:guide-json.asciidoc[JSON]. Follow these links for further details and guidance how to use them properly. `JAX-RS` and `CXF` properly support these formats (`MediaType.APPLICATION_JSON` and `MediaType.APPLICATION_XML` can be specified for `@Produces` or `@Consumes`). Try to decide for a single format for all services if possible and NEVER mix different formats in a service.
+
+== REST Testing
+For testing REST services in general consult the link:guide-testing.asciidoc[testing guide].
+
+For manual testing REST services there are browser plugins:
+
+* Firefox: https://addons.mozilla.org/de/firefox/addon/rested/[rested]
+* Chrome: http://www.getpostman.com/[postman] (https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo[advanced-rest-client])
+
+== Security
+Your services are the major entry point to your application. Hence security considerations are important here.
+
+=== CSRF
+A common security threat is https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)[CSRF] for REST services. Therefore all REST operations that are performing modifications (PUT, POST, DELETE, etc. - all except GET) have to be secured against CSRF attacks. See link:guide-csrf.asciidoc[CSRF] how to do this.
+
+=== JSON top-level arrays
+OWASP earlier suggested to never return JSON arrays at the top-level, to prevent attacks without rationale.
+We digged deep and found https://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx/[anatomy-of-a-subtle-json-vulnerability].
+To sum it up the attack is many years old and does not work in any recent or relevant browser.
+Hence it is fine to use arrays as top-level result in a JSON REST service (means you can return `List<Foo>` in a Java JAX-RS service).

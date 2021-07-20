@@ -3,6 +3,8 @@ toc::[]
 :idprefix:
 :idseparator: -
 
+== Architecture
+
 There are many different views that are summarized by the term _architecture_. First, we will introduce the xref:key-principles[key principles] and xref:architecture-principles[architecture principles] of devonfw. Then, we will go into details of the the xref:application-architecture[architecture of an application].
 
 == Key Principles

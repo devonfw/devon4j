@@ -3,18 +3,12 @@ toc::[]
 
 = Project structure
 
-The structure of a `devon4j` application is divided into the following modules:
+In devonfw we want to give clear structure and guidance for building applications.
+This also allows tools such as https://github.com/devonfw/cobigen[CobiGen] or https://github.com/devonfw/sonar-devon4j-plugin/[sonar-devon4j-plugin] to "understand" the code.
+Also this helps developers going from one devonfw project to the next one to quickly understand the code-base.
+If every developer knows where to find what, the project gets more efficient.
+A long time ago maven standardized the project structure with `src/main/java`, etc. and turned chaos into structure.
+With devonfw we experienced the same for the codebase (what is inside `src/main/java`).
 
-* `api`: module containing the API of your application. The API contains the required artifacts to interact with your application via remote services. This can be link:guide-rest.asciidoc#jax-rs[REST service interfaces], link:guide-transferobject.asciidoc[transfer-objects] with their interfaces and link:guide-datatype.asciidoc[datatypes] but also https://www.openapis.org/[OpenAPI] or https://grpc.io/[gRPC] contracts.
-* `core`: maven module containing the core of the application with service implementation, as well as entire link:guide-logic-layer.asciidoc[logic layer] and link:guide-dataaccess-layer.asciidoc[dataaccess layer].
-* `batch`: optional module for link:guide-batch-layer.asciidoc[batch layer]
-* `server`: module that bundles the entire app (`core` with optional `batch`) typically as a bootified WAR file.
-
-== Make jar not war
-
-First of all it is important to understand that the above defined structure aims to make modules like `api`, `core`, and `batch` reusable maven artifacts, that can be used as a regular maven dependency.
-On the other hand to build and deploy your application you want a final artifact that is containing all required 3rd party libraries. This artifact is not reusable as a maven dependency. That is exactly the purpose of the `server` module to build and package this final deployment artifact. By default we first build a regular `WAR` file with maven in your `server/target` directory (`\*-server-«version».war`) and in a second step create a bootified `WAR` out of this (`*-server-bootified.war`). The bootified `WAR` file can then be started standalone (`java -jar «filename».war`). However, it is also possible to deploy the same `WAR` file to a servlet container like `tomcat` or `jetty`. As application servers and externally provided servlet containers are not recommendet anymore for various reasons (see link:guide-jee.asciidoc[JEE]), you may also want to create a bootified `JAR` file instead. All you need to do in that case is to change the `packaging` in your `server/pom.xml` from `war` to `jar`. 
-
-== Package Structure
-
-The package structure of your code inside `src/main/java` (and `src/test/java`) of your modules is described in our coding conventions in the sections link:coding-conventions.asciidoc#packages[packages] and link:coding-conventions.asciidoc#architecture-mapping[architecture-mapping].
+We initially started `devon4j` based on spring and spring-boot and proposed a link:guide-structure-classic.asciidoc[classic project structure].
+With modern cloud-native trends we added a link:guide-structure-modern.asciidoc[modern project structure], that is more lean and up-to-date with the latest market trends.

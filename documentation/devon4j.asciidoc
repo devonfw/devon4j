@@ -24,19 +24,19 @@ The following sections contain the complete compendium of https://github.com/dev
 You can also read the latest version of this documentation online in the http://github.com/devonfw/devon4j/wiki[devon4j wiki]
 or at https://devonfw.com/website/pages/docs/devon4j.asciidoc.html[devon4j on devonfw.com].
 
-== Architecture
-
 include::architecture.asciidoc[leveloffset=+1]
 
 <<<<
 
 include::guide-component.asciidoc[leveloffset=+2]
 
-== Coding Conventions
-
 include::coding-conventions.asciidoc[leveloffset=+1]
 
 include::guide-structure.asciidoc[leveloffset=+1]
+
+include::guide-structure-modern.asciidoc[leveloffset=+2]
+
+include::guide-structure-classic.asciidoc[leveloffset=+2]
 
 <<<<
 
@@ -60,11 +60,17 @@ include::guide-usecase.asciidoc[leveloffset=+3]
 
 <<<<
 
+include::guide-domain-layer.asciidoc[leveloffset=+2]
+
 include::guide-dataaccess-layer.asciidoc[leveloffset=+2]
 
 <<<<
 
 include::guide-batch-layer.asciidoc[leveloffset=+2]
+
+<<<<
+
+include::guide-common.asciidoc[leveloffset=+2]
 
 == Guides
 
