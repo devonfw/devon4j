@@ -14,6 +14,11 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '11'
+      - name: spell check
+      # Spellcheck
+      - uses: actions/checkout@v2
+      - uses: igsekor/pyspelling-any@v0.0.2
+        name: Spellcheck
       - name: Build project with Maven
         run: mvn install
       - name: Sonarcloud analysis
