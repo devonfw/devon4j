@@ -42,7 +42,7 @@ For the modern project structure the layers are defined by the following table:
 [options="header"]
 |=============================================
 |*Layer* | *«layer»* | *Description*
-|link:guide-service-layer.asciidoc[service]|`«protocol»`|The actual service protocol such as `rest` for link:guide-rest.asciidoc[REST]. May also be any other protocol you are using such as `grpc` for https://grpc.io/[gRPC].
+|link:guide-service-layer.asciidoc[service]|`service`|The service layer exposing functionality via its remote API. Typical protocol is link:guide-rest.asciidoc[REST]. May also be any other protocol you are using such as https://grpc.io/[gRPC].
 |link:guide-domain-layer.asciidoc[domain]|`domain`|The domain with the data-model and DB access. Use sub-package (in `«detail»`) `repository` for link:guide-repository.asciidoc[repository] and `dao` for link:guide-dao.asciidoc[DAOs]. Also we recommend to put link:guide-jpa.asciidoc#entity[entities] in `model` sub-package.
 |link:guide-logic-layer.asciidoc[logic]|`logic`|The logic layer with the functionallity providing the business value.
 |link:guide-common.asciidoc[common]|`common`|cross-cutting code not assigned to a technical layer.
@@ -70,8 +70,8 @@ we provide this architecture mapping:
    ├──.link:guide-logic-layer.asciidoc[logic]
    |  ├──«BusinessObject»Validator
    |  └──«BusinessObject»EventsEmitter
-   └──.link:guide-rest.asciidoc[rest]
-      ├──.link:guide-rest.asciidoc#rest-service-api[«Component»RestService]
+   └──.link:guide-service-layer.asciidoc[service]
+      ├──.link:guide-rest.asciidoc#jax-rs[«Component»RestService]
       ├──.mapper
       |  └──.«BusinessObject»Mapper
       └──.model
