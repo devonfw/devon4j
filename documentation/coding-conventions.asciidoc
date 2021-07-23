@@ -77,6 +77,77 @@ This section gives you best practices to write better code and avoid pitfalls an
 === BLOBs
 Avoid using `byte[]` for BLOBs as this will load them entirely into your memory. This will cause performance issues or out of memory errors. Instead, use streams when dealing with BLOBs. For further details see link:guide-blob-support.asciidoc[BLOB support].
 
+=== Stateless Programming
+When implementing logic as components or _beans_ of your container using link:guide-dependency-injection.asciidoc[dependency injection], we strongly encourage stateless programming.
+This is not about business objects like an link:guide-jpa.asciidoc#entity[entity] or link:guide-transferobject.asciidoc[transfer-object] that are stateful by design.
+Instead this applies to all classes annotated with `@Named`, `@ApplicationScoped`, `@Stateless`, etc. and all their super-classes.
+These classes especially include your link:guide-repository.asciidoc[repositories], link:guide-usecase.asciidoc[use-cases], and link:guide-rest.asciidoc#jax-rs[REST services].
+Such classes shall never be modified after initialization.
+Methods called at runtime (after initialization via the container) do not assing fields (member variables of your class) or mutate the object stored in a field.
+This allows your component or bean to be stateless and thread-safe.
+Therefore it can be initialized as a singleton so only one instance is created and shared accross all threads of the application.
+Here is an example:
+[source,java]
+----
+@ApplicationScoped
+@Named
+public class UcApproveContractImpl implements UcApproveContract {
+
+  // bad
+  private String contractOwner;
+  
+  private MyState state;
+
+  @Overide
+  public void approve(Contract contract) {
+    this.contractOwner = contract.getOwner();
+    this.contractOwner = this.contractOwner.toLowerCase(Locale.US);
+    this.state.setAdmin(this.contractOwner.endsWith("admin"));
+    if (this.state.isAdmin()) {
+      ...
+    } else {
+      ...
+    }
+  }
+  
+  // fine
+  @Overide
+  public void approveContract(Contract contract) {
+    String contractOwner = contract.getOwner().toLowerCase(Locale.US);
+    if (contractOwner.endsWith("admin")) {
+      ...
+    } else {
+      ...
+    }
+  }
+}
+----
+
+As you can see in the `bad` code fields of the class are assigned when the method `approve` is called.
+So in case mutliple users and therefore threads are calling this method concurrently can interfere and override this state causing side-effects on parallel threads.
+This will lead to nasty bugs and errors that are hard to trace down.
+They will not occur in simple tests but for sure in production with real users.
+Therefore *never* do this and implement your functionality stateless.
+That is keeping all state in local variables and strictly avoid modifying fields or their value as illustrated in the `fine` code.
+If you find yourself ending up, passing many parameters between methods that all represent state, you can easily create a separate class that encapsulates this state.
+However, then you need to create this state object in your method as local variable and pass it between methods as parameter:
+[source,java]
+----
+@ApplicationScoped
+@Named
+public class UcApproveContractImpl implements UcApproveContract {
+
+  // fine
+  @Overide
+  public void approveContract(Contract contract) {
+    String contractOwner = contract.getOwner().toLowerCase(Locale.US);
+    MyState state = new MyState();
+    state.setAdmin(this.contractOwner.endsWith("admin"));
+    doApproveContract(contract, state);
+  }
+}
+----
+
 === Closing Resources
 Resources such as streams (`InputStream`, `OutputStream`, `Reader`, `Writer`) or transactions need to be handled properly. Therefore, it is important to follow these rules:
 
