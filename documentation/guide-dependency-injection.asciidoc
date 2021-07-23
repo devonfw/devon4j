@@ -18,13 +18,13 @@ As best practice we use the following principles:
 * *Stateless implementation* +
 By default such beans shall be implemented stateless. If you store state information in member variables you can easily run into concurrency problems and nasty bugs. This is easy to avoid by using local variables and separate state classes for complex state-information. Try to avoid stateful beans wherever possible. Only add state if you are fully aware of what you are doing and properly document this as a warning in your JavaDoc.
 * *Usage of Java standards* +
-We use common standards (see above) that makes our code portable. We never use proprietary annotations such as `@Autowired` instead of standardized annotations like `@Inject`. Generally we avoid proprietary annotations in business code (link:guide-logic-layer.asciidoc[logic layer]).
+We use common standards (see above) that makes our code portable. Therefore we use standardized annotations like `@Inject` (`javax.inject.Inject`) instead of proprietary annotations such as `@Autowired`. Generally we avoid proprietary annotations in business code (link:guide-logic-layer.asciidoc[logic layer]).
 * *Simple injection-style* +
 In general you can choose between constructor, setter or field injection. For simplicity we recommend to do private field injection as it is very compact and easy to maintain. We believe that constructor injection is bad for maintenance especially in case of inheritance (if you change the dependencies you need to refactor all sub-classes). Private field injection and public setter injection are very similar but setter injection is much more verbose (often you are even forced to have javadoc for all public methods). If you are writing re-usable library code setter injection will make sense as it is more flexible. In a business application you typically do not need that and can save a lot of boiler-plate code if you use private field injection instead. Nowadays you are using container infrastructure also for your tests (see link:guide-testing.asciidoc[testing]) so there is no need to inject manually (what would require a public setter).
 * *KISS* +
 To follow the KISS (keep it small and simple) principle we avoid advanced features (e.g. custom link:guide-aop.asciidoc[AOP], non-singleton beans) and only use them where necessary.
 * *Separation of API and implementation* +
-For important components we should separate a self-contained API documented with JavaDoc from its implementation. Code from other components that wants to use the implementation shall only rely on the API. However, for things that will never be exchanged and here no API as interface is required you can skip such separation.
+For important components we should separate a self-contained API documented with JavaDoc from its implementation. Code from other components that wants to use the implementation shall only rely on the API. However, for things that will never be exchanged no API as interface is required you can skip such separation.
 
 == Example Bean
 Here you can see the implementation of an example bean using dependency injection:
@@ -179,6 +179,8 @@ import javax.inject.Named;
 import javax.enterprise.context.ApplicationScoped;
 // import javax.enterprise.context.RequestScoped;
 // import javax.enterprise.context.SessionScoped;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 ----
 
 == Dependencies
