@@ -59,7 +59,7 @@
 === Tutorials
 * link:tutorial-newapp.asciidoc[Start a new application]
 
-== spring
+== quarkus
 
 === Guides
 * link:guide-logging.asciidoc[Logging]
