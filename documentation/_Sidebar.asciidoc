@@ -1,3 +1,7 @@
+== General
+
+== spring
+
 === link:architecture.asciidoc[Architecture Overview]
 
 === Layers
@@ -54,3 +58,9 @@
 
 === Tutorials
 * link:tutorial-newapp.asciidoc[Start a new application]
+
+== spring
+
+=== Guides
+* link:guide-logging.asciidoc[Logging]
+* link:guide-cors-support.asciidoc[CORS support]

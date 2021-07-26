@@ -24,6 +24,8 @@ The following sections contain the complete compendium of https://github.com/dev
 You can also read the latest version of this documentation online in the http://github.com/devonfw/devon4j/wiki[devon4j wiki]
 or at https://devonfw.com/website/pages/docs/devon4j.asciidoc.html[devon4j on devonfw.com].
 
+== General
+
 == spring
 
 include::architecture.asciidoc[leveloffset=+2]
