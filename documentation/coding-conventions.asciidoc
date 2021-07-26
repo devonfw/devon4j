@@ -1,6 +1,8 @@
 :toc: macro
 toc::[]
 
+= Coding Conventions
+
 The code should follow general conventions for Java (see http://www.oracle.com/technetwork/java/namingconventions-139351.html[Oracle Naming Conventions], https://google.github.io/styleguide/javaguide.html[Google Java Style], etc.).We consider this as common sense and provide configurations for http://www.sonarqube.org/[SonarQube] and related tools such as http://checkstyle.sourceforge.net/[Checkstyle] instead of repeating this here.
 
 == Naming
@@ -20,7 +22,7 @@ Java Packages are the most important element to structure your code. We use a st
 
 For an devon4j based application we use the following Java-Package schema:
 [source]
-«rootpackage».«application».«component».«layer».«scope»[.«detail»]*
+«root».«component».«layer».[.«detail»]*
 
 E.g. in our example application we find the Spring Data repositories for the `ordermanagement` component in the package `com.devonfw.application.mtsj.ordermanagement.dataaccess.api.repo`
 
@@ -28,108 +30,13 @@ E.g. in our example application we find the Spring Data repositories for the `or
 [options="header"]
 |=============================================
 |*Segment*      | *Description* | *Example*
-|«rootpackage»|Is the basic Java Package name-space of the organization or IT project owning the code following common Java Package conventions. Consists of multiple segments corresponding to the Internet domain of the organization. |`com.devonfw.application.mtsj`
-| «application» | The name of the application build in this project. | `devonfw`
+|«root»|Is the basic Java Package name-space of your app. Typically we suggest to use `«group».«artifact»` where `«group»` is your maven/gradle `groupId` corresponding to your organization or IT project owning the code following common Java Package conventions. The segment `«artifact»` is your maven/gradle `artifactId` and is typically the technical name of your app. |`com.devonfw.application.mtsj`
 | «component» | The (business) component the code belongs to. It is defined by the business architecture and uses terms from the business domain. Use the implicit component `general` for code not belonging to a specific component (foundation code).| `salesmanagement`
-| «layer» | The name of the technical layer (See link:architecture.asciidoc[technical architecture]) which is one of the predefined layers (`dataaccess`, `logic`, `service`, `batch`, `gui`, `client`) or `common` for code not assigned to a technical layer (datatypes, cross-cutting concerns). | `dataaccess`
-| «scope» | The scope which is one of `api` (official API to be used by other layers or components),`base` (basic code to be reused by other implementations) and `impl` (implementation that should never be imported from outside) | `api`
-| «detail» | Here you are free to further divide your code into sub-components and other concerns according to the size of your component part. | `dao`
+| «layer» | The name of the technical layer (See link:architecture.asciidoc[technical architecture]). Details are described for the link:guide-structure-modern.asciidoc#layers[modern project structure] and for the link:guide-structure-classic.asciidoc#layers[classic project structure]. | `logic`
+| «detail» | Here you are free to further divide your code into sub-components and other concerns according to the size of your component part. If you want to strictly separate API from implementation you should start `«detail»` with `«scope»` that is explained below. | `dao`
+| «scope» | The scope which is one of `api` (official API to be used by other layers or components),`base` (basic code to be reused by other implementations) and `impl` (implementation that should never be imported from outside). This segment was initially mandatory but due to trends such as microservices, lean, and agile we decided to make it optional and do not force anybody to use it. | `api`
 |=============================================
-Please note that for library modules where we use `com.devonfw.module` as `«basepackage»` and the name of the module as `«component»`. E.g. the API of our `beanmapping` module can be found in the package `com.devonfw.module.beanmapping.common.api`.
-
-== Architecture Mapping
-
-We combine the above naming and packaging conventions to map the entire architecture to the code.
-This also allows tools such as https://github.com/devonfw/cobigen[CobiGen] or https://github.com/devonfw/sonar-devon4j-plugin/[sonar-devon4j-plugin] to "understand" the code.
-Also this helps developers going from one devon4j project to the next one to quickly understand the code-base.
-If every developer knows where to find what, the project gets more efficient.
-A long time ago maven standardized the project structure with `src/main/java`, etc. and turned chaos into structure.
-With devonfw we experienced the same for the codebase (what is inside `src/main/java`).
-
-.Architecture mapped to code
-[subs=+macros]
-----
-«rootpackage».«application»
-├──.link:guide-component.asciidoc#business-component[«component»]
-|  ├──.common
-|  |  ├──.api[.«detail»]
-|  |  |  ├──.link:guide-datatype.asciidoc[datatype]
-|  |  |  |  └──.link:guide-datatype.asciidoc[«Datatype»] (api)
-|  |  |  └──.link:guide-transferobject.asciidoc#bo[«BusinessObject»] (api)
-|  |  └──.impl[.«detail»]
-|  |     ├──.link:guide-configuration-mapping.asciidoc#mapping-advanced-configuration[«Aspect»ConfigProperties] (core)
-|  |     ├──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonSerializer] (core)
-|  |     └──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonDeserializer] (core)
-|  ├──.link:guide-dataaccess-layer.asciidoc[dataaccess]
-|  |  ├──.api[.«detail»]
-|  |  |  ├──.link:guide-repository.asciidoc[repo]
-|  |  |  |  └──.link:guide-repository.asciidoc#repository[«BusinessObject»Repository] (core)
-|  |  |  ├──.link:guide-dao.asciidoc[dao] (core) [alternative to repo]
-|  |  |  |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»Dao] (core) [alternative to Repository]
-|  |  |  └──.link:guide-jpa.asciidoc#entity[«BusinessObject»Entity] (core)
-|  |  └──.impl[.«detail»]
-|  |     ├──.link:guide-dao.asciidoc[dao] (core) [alternative to repo]
-|  |     |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»DaoImpl] (core) [alternative to Repository]
-|  |     └──.link:guide-jpa.asciidoc#entities-and-datatypes[«Datatype»AttributeConverter] (core)
-|  ├──.link:guide-logic-layer.asciidoc[logic]
-|  |  ├──.api
-|  |  |  ├──.[«detail».]link:guide-transferobject.asciidoc[to]
-|  |  |  |   ├──.link:guide-transferobject.asciidoc#to[«MyCustom»«To] (api)
-|  |  |  |   ├──.link:guide-jpa.asciidoc#embeddable[«DataStructure»Embeddable] (api)
-|  |  |  |   ├──.link:guide-transferobject.asciidoc#eto[«BusinessObject»Eto] (api)
-|  |  |  |   └──.link:guide-transferobject.asciidoc#cto[«BusinessObject»«Subset»Cto] (api)
-|  |  |  ├──.[«detail».]link:guide-usecase.asciidoc[usecase]
-|  |  |  |   ├──.link:guide-usecase.asciidoc#find[UcFind«BusinessObject»] (core)
-|  |  |  |   ├──.link:guide-usecase.asciidoc#manage[UcManage«BusinessObject»] (core)
-|  |  |  |   └──.link:guide-usecase.asciidoc#custom[Uc«Operation»«BusinessObject»] (core)
-|  |  |  └──.link:guide-logic-layer.asciidoc#component[«Component»] (core)
-|  |  ├──.base
-|  |  |  └──.[«detail».]link:guide-usecase.asciidoc[usecase]
-|  |  |     └──.link:guide-usecase.asciidoc[Abstract«BusinessObject»Uc] (core)
-|  |  └──.impl
-|  |     ├──.[«detail».]link:guide-usecase.asciidoc[usecase]
-|  |     |   ├──.link:guide-usecase.asciidoc#find[UcFind«BusinessObject»Impl] (core)
-|  |     |   ├──.link:guide-usecase.asciidoc#manage[UcManage«BusinessObject»Impl] (core)
-|  |     |   └──.link:guide-usecase.asciidoc#custom[Uc«Operation»«BusinessObject»Impl] (core)
-|  |     └──.link:guide-logic-layer.asciidoc#component[«Component»Impl] (core)
-|  └──.link:guide-service-layer.asciidoc[service]
-|     ├──.api[.«detail»]
-|     |  ├──.link:guide-rest.asciidoc[rest]
-|     |  |  └──.link:guide-rest.asciidoc#rest-service-api[«Component»RestService] (api)
-|     |  └──.link:guide-soap.asciidoc[ws]
-|     |     └──.link:guide-soap.asciidoc#web-service-api[«Component»WebService] (api)
-|     └──.impl[.«detail»]
-|        ├──.link:guide-jms.asciidoc[jms]
-|        |  └──.link:guide-jms.asciidoc#jms-listener[«BusinessObject»JmsListener] (core)
-|        ├──.link:guide-rest.asciidoc[rest]
-|        |  └──.link:guide-rest.asciidoc#rest-service-implementation[«Component»RestServiceImpl] (core)
-|        └──.link:guide-soap.asciidoc[ws]
-|           └──.link:guide-soap.asciidoc#web-service-implementation[«Component»WebServiceImpl] (core)
-├──.link:guide-component.asciidoc#general-component[general]
-│  ├──.common
-│  |  ├──.api
-|  |  |  ├──.to
-|  |  |  |  ├──.AbstractSearchCriteriaTo (api)
-|  |  |  └──.ApplicationEntity
-│  |  ├──.base
-|  |  |  └──.AbstractBeanMapperSupport (core)
-│  |  └──.impl
-│  |     ├──.config
-│  |     |  └──.ApplicationObjectMapperFactory (core)
-│  |     └──.security
-│  |        └──.ApplicationWebSecurityConfig (core)
-│  ├──.dataaccess
-│  |  └──.api
-|  |     └──.ApplicationPersistenceEntity (core)
-│  ├──.logic
-│  |  └──.base
-|  |     ├──.AbstractComponentFacade (core)
-|  |     ├──.AbstractLogic (core)
-|  |     └──.AbstractUc (core)
-|  └──.service
-|     └──...
-└──.SpringBootApp (core)
-----
+Please note that `devon4j` library modules for spring use `com.devonfw.module` as `«root»` and the name of the module as `«component»`. E.g. the API of our `beanmapping` module can be found in the package `com.devonfw.module.beanmapping.common.api`.
 
 == Code Tasks
 Code spots that need some rework can be marked with the following tasks tags. These are already properly pre-configured in your development environment for auto completion and to view tasks you are responsible for. It is important to keep the number of code tasks low. Therefore, every member of the team should be responsible for the overall code quality. So if you change a piece of code and hit a code task that you can resolve in a reliable way, please do this as part of your change and remove the according tag.
@@ -169,6 +76,77 @@ This section gives you best practices to write better code and avoid pitfalls an
 
 === BLOBs
 Avoid using `byte[]` for BLOBs as this will load them entirely into your memory. This will cause performance issues or out of memory errors. Instead, use streams when dealing with BLOBs. For further details see link:guide-blob-support.asciidoc[BLOB support].
+
+=== Stateless Programming
+When implementing logic as components or _beans_ of your container using link:guide-dependency-injection.asciidoc[dependency injection], we strongly encourage stateless programming.
+This is not about business objects like an link:guide-jpa.asciidoc#entity[entity] or link:guide-transferobject.asciidoc[transfer-object] that are stateful by design.
+Instead this applies to all classes annotated with `@Named`, `@ApplicationScoped`, `@Stateless`, etc. and all their super-classes.
+These classes especially include your link:guide-repository.asciidoc[repositories], link:guide-usecase.asciidoc[use-cases], and link:guide-rest.asciidoc#jax-rs[REST services].
+Such classes shall never be modified after initialization.
+Methods called at runtime (after initialization via the container) do not assing fields (member variables of your class) or mutate the object stored in a field.
+This allows your component or bean to be stateless and thread-safe.
+Therefore it can be initialized as a singleton so only one instance is created and shared accross all threads of the application.
+Here is an example:
+[source,java]
+----
+@ApplicationScoped
+@Named
+public class UcApproveContractImpl implements UcApproveContract {
+
+  // bad
+  private String contractOwner;
+  
+  private MyState state;
+
+  @Overide
+  public void approve(Contract contract) {
+    this.contractOwner = contract.getOwner();
+    this.contractOwner = this.contractOwner.toLowerCase(Locale.US);
+    this.state.setAdmin(this.contractOwner.endsWith("admin"));
+    if (this.state.isAdmin()) {
+      ...
+    } else {
+      ...
+    }
+  }
+  
+  // fine
+  @Overide
+  public void approveContract(Contract contract) {
+    String contractOwner = contract.getOwner().toLowerCase(Locale.US);
+    if (contractOwner.endsWith("admin")) {
+      ...
+    } else {
+      ...
+    }
+  }
+}
+----
+
+As you can see in the `bad` code fields of the class are assigned when the method `approve` is called.
+So in case mutliple users and therefore threads are calling this method concurrently can interfere and override this state causing side-effects on parallel threads.
+This will lead to nasty bugs and errors that are hard to trace down.
+They will not occur in simple tests but for sure in production with real users.
+Therefore *never* do this and implement your functionality stateless.
+That is keeping all state in local variables and strictly avoid modifying fields or their value as illustrated in the `fine` code.
+If you find yourself ending up, passing many parameters between methods that all represent state, you can easily create a separate class that encapsulates this state.
+However, then you need to create this state object in your method as local variable and pass it between methods as parameter:
+[source,java]
+----
+@ApplicationScoped
+@Named
+public class UcApproveContractImpl implements UcApproveContract {
+
+  // fine
+  @Overide
+  public void approveContract(Contract contract) {
+    String contractOwner = contract.getOwner().toLowerCase(Locale.US);
+    MyState state = new MyState();
+    state.setAdmin(this.contractOwner.endsWith("admin"));
+    doApproveContract(contract, state);
+  }
+}
+----
 
 === Closing Resources
 Resources such as streams (`InputStream`, `OutputStream`, `Reader`, `Writer`) or transactions need to be handled properly. Therefore, it is important to follow these rules:
@@ -318,9 +296,9 @@ id = Optional.ofNullable(fooCto).map(FooCto::getBar).map(BarCto::getBar).map(Bar
 === Encoding
 Encoding (esp. Unicode with combining characters and surrogates) is a complex topic. Please study this topic if you have to deal with encodings and processing of special characters. For the basics follow these recommendations:
 
-* When you have explicitly decided for an encoding always prefer Unicode (UTF-8 or better). This especially impacts your databases and has to be defined upfront as it typically can not be changed (easily) afterwards.
-* Do not cast from `byte` to `char` (Unicode characters can be composed of multiple bytes, such cast may only work for ASCII characters)
-* Never convert the case of a String using the default locale (esp. when writing generic code like in devonfw). E.g. if you do `"HI".toLowerCase()` and your system locale is Turkish, then the output will be "hı" instead of "hi", which can lead to wrong assumptions and serious problems. If you want to do a "universal" case conversion always use explicitly an according western locale (e.g. `toLowerCase(Locale.US)`). Consider using a library (https://github.com/m-m-m/util/blob/master/core/src/main/java/net/sf/mmm/util/lang/api/BasicHelper.java) or create your own little static utility for that in your project.
+* Whenever possible prefer unicode (UTF-8 or better) as encoding. This especially impacts your databases and has to be defined upfront as it typically can not be changed (easily) afterwards.
+* Do not cast from `byte` to `char` (unicode characters can be composed of multiple bytes, such cast may only work for ASCII characters)
+* Never convert the case of a String using the default locale (esp. when writing generic code like in devonfw). E.g. if you do `"HI".toLowerCase()` and your system locale is Turkish, then the output will be "hı" instead of "hi", which can lead to wrong assumptions and serious problems. If you want to do a "universal" case conversion always explicitly use an according western locale (e.g. `toLowerCase(Locale.US)`). Consider using a helper class (see e.g. https://github.com/m-m-m/base/blob/master/core/src/main/java/io/github/mmm/base/text/CaseHelper.java[CaseHelper]) or create your own little static utility for that in your project.
 * Write your code independent from the default encoding (system property `file.encoding`) - this will most likely differ in JUnit from production environment
 ** Always provide an encoding when you create a `String` from `byte[]`: `new String(bytes, encoding)`
 ** Always provide an encoding when you create a `Reader` or `Writer` : `new InputStreamReader(inStream, encoding)`
