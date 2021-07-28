@@ -20,19 +20,24 @@ ${project.version}, ${buildtime}
 http://www.devonfw.com/[_devonfw_] provides a solution to building applications which combine best-in-class frameworks and libraries as well as industry proven practices and code conventions.
 It massively speeds up development, reduces risks and helps you to deliver better results.
 
-The following sections contain the complete compendium of https://github.com/devonfw/devon4j/[devon4j], the Java stack of devonfw. devon4j is divided into two stacks, one for spring-boot and one for quarkus.
+The following sections contain the complete compendium of https://github.com/devonfw/devon4j/[devon4j], the Java stack of devonfw. devon4j is divided into two stacks, one for spring-boot and one for quarkus. The _general_ section contains documentation that is universal to Java and does not differ between the two stacks (e.g. coding conventions). The sections _spring_ and _quarkus_ contain documentation that is specific to the respective approach.
+
 You can also read the latest version of this documentation online in the http://github.com/devonfw/devon4j/wiki[devon4j wiki]
 or at https://devonfw.com/website/pages/docs/devon4j.asciidoc.html[devon4j on devonfw.com].
 
 == General
 
+Here you will find documentation and information to be used or observed when developing with Java in general. They do not differ between the spring-boot and the quarkus stack.
+
 == spring
+
+Here you can find the documentation about the spring-boot stack of devon4j. All documentation is available in the https://github.com/devonfw/devon4j/wiki[devon4j] GitHub repository.
 
 include::architecture.asciidoc[leveloffset=+2]
 
 <<<<
 
-include::guide-component.asciidoc[leveloffset=+2]
+include::guide-component.asciidoc[leveloffset=+3]
 
 include::coding-conventions.asciidoc[leveloffset=+2]
 
@@ -253,6 +258,8 @@ include::guide-text-search.asciidoc[leveloffset=+3]
 include::tutorial-newapp.asciidoc[leveloffset=+3]
 
 == quarkus
+
+Here you can find the documentation about the quarkus stack of devon4j. All documentation is available in the https://github.com/devonfw/devon4j/wiki[devon4j] GitHub repository. Additional things like extensions will be available on the  https://github.com/devonfw/devon4quarkus[devon4quarkus] GitHub repository.
 
 === Guides
 
