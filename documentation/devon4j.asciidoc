@@ -29,23 +29,39 @@ or at https://devonfw.com/website/pages/docs/devon4j.asciidoc.html[devon4j on de
 
 Here you will find documentation and information to be used or observed when developing with Java in general. They do not differ between the spring-boot and the quarkus stack.
 
-== spring
-
-Here you can find the documentation about the spring-boot stack of devon4j. All documentation is available in the https://github.com/devonfw/devon4j/wiki[devon4j] GitHub repository.
-
 include::architecture.asciidoc[leveloffset=+2]
 
 <<<<
-
-include::guide-component.asciidoc[leveloffset=+3]
 
 include::coding-conventions.asciidoc[leveloffset=+2]
 
 include::guide-structure.asciidoc[leveloffset=+2]
 
-include::guide-structure-modern.asciidoc[leveloffset=+3]
+include::guide-dependency-injection.asciidoc[leveloffset=+2]
 
-include::guide-structure-classic.asciidoc[leveloffset=+3]
+include::guide-blob-support.asciidoc[leveloffset=+2]
+
+<<<<
+
+include::guide-common.asciidoc[leveloffset=+3]
+
+<<<<
+
+include::guide-security.asciidoc[leveloffset=+2]
+
+<<<<
+
+include::guide-jee.asciidoc[leveloffset=+2]
+
+<<<<
+
+== spring
+
+Here you can find the documentation about the spring-boot stack of devon4j. All documentation is available in the https://github.com/devonfw/devon4j/wiki[devon4j] GitHub repository.
+
+include::guide-component.asciidoc[leveloffset=+2]
+
+include::guide-structure-classic.asciidoc[leveloffset=+2]
 
 <<<<
 
@@ -69,21 +85,13 @@ include::guide-usecase.asciidoc[leveloffset=+4]
 
 <<<<
 
-include::guide-domain-layer.asciidoc[leveloffset=+3]
-
 include::guide-dataaccess-layer.asciidoc[leveloffset=+3]
 
 <<<<
 
 include::guide-batch-layer.asciidoc[leveloffset=+3]
 
-<<<<
-
-include::guide-common.asciidoc[leveloffset=+3]
-
 === Guides
-
-include::guide-dependency-injection.asciidoc[leveloffset=+3]
 
 <<<<
 
@@ -124,10 +132,6 @@ include::guide-database-migration.asciidoc[leveloffset=+3]
 <<<<
 
 include::guide-logging.asciidoc[leveloffset=+3]
-
-<<<<
-
-include::guide-security.asciidoc[leveloffset=+3]
 
 <<<<
 
@@ -207,10 +211,6 @@ include::guide-cors-support.asciidoc[leveloffset=+3]
 
 <<<<
 
-include::guide-blob-support.asciidoc[leveloffset=+3]
-
-<<<<
-
 include::guide-jdk.asciidoc[leveloffset=+3]
 
 <<<<
@@ -235,10 +235,6 @@ include::guide-accessibility.asciidoc[leveloffset=+3]
 
 <<<<
 
-include::guide-jee.asciidoc[leveloffset=+3]
-
-<<<<
-
 include::guide-kafka.asciidoc[leveloffset=+3]
 
 <<<<
@@ -260,6 +256,10 @@ include::tutorial-newapp.asciidoc[leveloffset=+3]
 == quarkus
 
 Here you can find the documentation about the quarkus stack of devon4j. All documentation is available in the https://github.com/devonfw/devon4j/wiki[devon4j] GitHub repository. Additional things like extensions will be available on the  https://github.com/devonfw/devon4quarkus[devon4quarkus] GitHub repository.
+
+include::guide-structure-modern.asciidoc[leveloffset=+2]
+
+include::guide-domain-layer.asciidoc[leveloffset=+2]
 
 === Guides
 
