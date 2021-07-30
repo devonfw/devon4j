@@ -80,7 +80,16 @@ Application Security Quick Solution Guide].
 
 == Tools
 === Dependency Check
-To address the thread `Using Components with Known Vulnerabilities` we integrated https://www.owasp.org/index.php/OWASP_Dependency_Check[OWASP dependency check] into the devon4j maven build. If you build an devon4j application (sample or any app created from our link:tutorial-newapp.asciidoc[app-template]) you can activate dependency check with the `security` profile:
+To address the thread `Using Components with Known Vulnerabilities` we recomment to use https://www.owasp.org/index.php/OWASP_Dependency_Check[OWASP dependency check] that ships with a maven plugin and can analyze your dependencies for known https://en.wikipedia.org/wiki/Common_Vulnerabilities_and_Exposures[CVE]s.
+In order to run this check, you can simply call this command on any maven project:
+[source,bash]
+---- 
+mvn org.owasp:dependency-check-maven:6.1.5:aggregate
+---- 
+
+NOTE: The version is just for completeness. You should check yourself for using a recent version of the plugin.
+
+If you build an devon4j spring application from our link:tutorial-newapp.asciidoc[app-template] you can activate the dependency check even easier with the `security` profile:
 [source,bash]
 ---- 
 mvn clean install -P security
