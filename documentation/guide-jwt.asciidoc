@@ -1,123 +1,15 @@
 :toc: macro
 toc::[]
 
-= JSON Web Token(JWT)
+= JWT
 
-https://jwt.io/[JWT] is an open standard (https://tools.ietf.org/html/rfc7519[RFC 7519]) for creating Json based access token that assert some number of claims.
+https://jwt.io[JWT] (JSON Web Token) is an open standard (see https://tools.ietf.org/html/rfc7519[RFC 7519]) for creating Json based access token that assert some number of claims.
+With an IT landscape divided into multiple smaller apps you want to avoid coupling all those apps or services tightly with your IAM (Identity & Access Management).
+Instead your apps simply expects a JWT as https://oauth.net/2/bearer-tokens/[bearer-token] in the `Authorization` HTTP header field.
+All it needs to do for authentication is validating this JWT.
+Therefore we recommend to use strong asymmetric cryptography to sign the JWT when it is granted.
+Create a keypair per environment and keep the private key as a secret only known to the access system that authorizes the JWTs.
+You apps only need to know the public key to validate the JWT.
 
-image::images/jwt_flow.png[,width="450", link="images/jwt_flow.png"]
-
-For more information about JWT https://jwt.io/[click here]
-
-== Keystore
-
-A KeyStore is a repository of certificates and keys (public key, private key, or secret key). They can be used for TSL transportation, for encryption and decryption as well as for signing.
-For demonstration you might create a keystore with openssl, with the following commands:
-
-----
-openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
-openssl pkcs12 -export -in cert.pem -inkey key.pem -out example.p12 
-----
-
-For Java tooling you may also try the following instead:
-
-----
-keytool -genkeypair -alias devonfw -keypass "password" -storetype PKCS12 -keyalg RSA -keysize 4096 -storepass "password" -keystore keystore.pkcs
-----
-
-NOTE: Please use reasonable passwords instead of `password` what should be obvious. Also for the alias the value `devonfw` is just an example.
-
-== Dependency
-
-To use JWT support from devon4j you have to add following required dependency.
-
-[source,xml]
-----
-<dependency>
-  <groupId>com.devonfw.java.starters</groupId>
-  <artifactId>devon4j-starter-security-jwt</artifactId>
-</dependency> 
-----
-
-== Configuration
-
-The following properties need to be configured in your `application.properties` file:
-
-[source,properties]
-----
-# location of the keystore file, can be any spring resource (such as file or classpath URIs)
-security.keystore.location=classpath:config/keystore.pkcs
-# type of keystore e.g. "PKCS12" (recommended), "JKS", or "JCEKS"
-security.keystore.type=PKCS12
-# password the keystore is secured with. Consider using password encryption as described in devon4j configuration guide
-security.keystore.password=password
-# the algorithm for encryption/decryption and signing - see io.jsonwebtoken.SignatureAlgorithm
-security.authentication.jwt.algorithm=RS256
-# alias of public/private key in keystore (for validation only public key is used, for creation private key is required)
-security.authentication.jwt.alias=devonfw
-# the following properties are used if you are validating JWTs (e.g. via JwtAuthenticationFilter)
-security.authentication.jwt.validation.expiration-required=false
-security.authentication.jwt.validation.max-validity=42h
-security.authentication.jwt.validation.not-before-required=false
-# the following properties are only used if you are issuing JWTs (e.g. via JwtLoginFilter)
-security.authentication.jwt.creation.add-issued-at=true
-security.authentication.jwt.creation.validity=4h
-security.authentication.jwt.creation.not-before-delay=1m
-# the following properties enable backward compatiblity for devon4j <= 2021.04.002
-# after microprofile JWT is used by default since 2021.04.003
-#security.authentication.jwt.claims.access-controls-name=roles
-#security.authentication.jwt.claims.access-controls-array=false
-----
-
-See also https://github.com/devonfw/devon4j/blob/master/modules/security-jwt/src/main/java/com/devonfw/module/security/jwt/common/impl/JwtConfigProperties.java[JwtConfigProperties] for details about configuration.
-
-== Authentication with JWT via OAuth
-
-The authentication with JWT via OAuth (HTTP header), will happen via `JwtAuthenticationFilter` that is automatically added by `devon4j-starter-security-jwt` via `JwtAutoConfiguration`.
-With the starter and auto-configuration we want to make it as easy as possible for you.
-In case you would like to build a server app that e.g. wants to issue JWTs but does not allow authentication via JWT itself, you can use `devon4j-security-jwt` as dependency instead of the starter and do the spring config yourself (pick and choose from `JwtAutoConfiguration`).
-
-To do this, you need to add the following changes in your `BaseWebSecurityConfig`:
-
-[source,java]
-----
-  @Bean
-  public JwtAuthenticationFilter getJwtAuthenticationFilter() {
-    return new JwtAuthenticationFilter();
-  }
-  
-  @Override
-  public void configure(HttpSecurity http) throws Exception {
-    // ...
-    // add this line to the end of this existing method
-    http.addFilterBefore(getJwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-  }
-----
-
-== Login with Username and Password to get JWT
-
-To allow a client to login with username and password to get a JWT for sub-sequent requests, you need to do the following changes in your `BaseWebSecurityConfig`:
-
-[source,java]
-----
-  
-  @Bean
-  public JwtLoginFilter getJwtLoginFilter() throws Exception {
-
-    JwtLoginFilter jwtLoginFilter = new JwtLoginFilter("/login");
-    jwtLoginFilter.setAuthenticationManager(authenticationManager());
-    jwtLoginFilter.setUserDetailsService(this.userDetailsService);
-    return jwtLoginFilter;
-  }
-  
-  @Override
-  public void configure(HttpSecurity http) throws Exception {
-    // ...
-    // add this line to the end of this existing method
-    http.addFilterBefore(getJwtLoginFilter(), UsernamePasswordAuthenticationFilter.class);
-  }
-----
-
-== Authentication with Kafka
-
-Authentication with JWT and Kafka is explained in the link:guide-kafka.asciidoc[Kafka guide].
+When using link:spring.asciidoc[spring] check the link:spring/guide-jwt-spring.asciidoc[JWT Spring-Starter].
+For link:quarkus.asciidoc[quarkus] follow https://quarkus.io/guides/security-jwt[Using JWT RBAC].

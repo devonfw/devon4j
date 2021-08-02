@@ -9,8 +9,8 @@ See https://github.com/devonfw/devon4j/issues/303[devon4j#303] for details and s
 
 == Spring-boot usage
 
-For using liquibase in https://spring.io/projects/spring-boot[spring-boot] see https://docs.liquibase.com/tools-integrations/springboot/springboot.html[Using Liquibase with Spring Boot].
+For using liquibase in link:spring.asciidoc[spring] see https://docs.liquibase.com/tools-integrations/springboot/springboot.html[Using Liquibase with Spring Boot].
 
 == Quarkus usage
 
-For uisng liquibase in https://quarkus.io[quarkus] see https://quarkus.io/guides/liquibase[Using Liquibase].
+For uisng liquibase in link:quarkus.asciidoc[quarkus] see https://quarkus.io/guides/liquibase[Using Liquibase].
