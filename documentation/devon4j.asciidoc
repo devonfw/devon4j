@@ -47,6 +47,24 @@ include::guide-common.asciidoc[leveloffset=+2]
 
 <<<<
 
+include::guide-jpa.asciidoc[leveloffset=+2]
+
+include::guide-jpa-query.asciidoc[leveloffset=+3]
+
+include::guide-repository.asciidoc[leveloffset=+3]
+
+include::guide-dao.asciidoc[leveloffset=+3]
+
+include::guide-jpa-performance.asciidoc[leveloffset=+3]
+
+include::guide-jpa-idref.asciidoc[leveloffset=+3]
+
+<<<<
+
+include::guide-transactions.asciidoc[leveloffset=+3]
+
+<<<<
+
 include::guide-sql.asciidoc[leveloffset=+2]
 
 <<<<
@@ -59,7 +77,23 @@ include::guide-liquibase.asciidoc[leveloffset=+3]
 
 <<<<
 
+include::guide-logging.asciidoc[leveloffset=+2]
+
+<<<<
+
+include::guide-monitoring.asciidoc[leveloffset=+2]
+
+include::guide-log-monitoring.asciidoc[leveloffset=+2]
+
+include::guide-apm.asciidoc[leveloffset=+2]
+
+<<<<
+
 include::guide-security.asciidoc[leveloffset=+2]
+
+<<<<
+
+include::guide-jdk.asciidoc[leveloffset=+3]
 
 <<<<
 
@@ -67,9 +101,7 @@ include::guide-jee.asciidoc[leveloffset=+2]
 
 <<<<
 
-== spring
-
-Here you can find the documentation about the spring-boot stack of devon4j. All documentation is available in the https://github.com/devonfw/devon4j/wiki[devon4j] GitHub repository.
+include::spring.asciidoc[leveloffset=+1]
 
 include::guide-component.asciidoc[leveloffset=+2]
 
@@ -113,29 +145,7 @@ include::guide-configuration-mapping.asciidoc[leveloffset=+4]
 
 <<<<
 
-include::guide-jpa.asciidoc[leveloffset=+3]
-
-include::guide-jpa-query.asciidoc[leveloffset=+4]
-
-include::guide-repository.asciidoc[leveloffset=+4]
-
-include::guide-dao.asciidoc[leveloffset=+4]
-
-include::guide-jpa-performance.asciidoc[leveloffset=+4]
-
-include::guide-jpa-idref.asciidoc[leveloffset=+4]
-
-<<<<
-
 include::guide-auditing.asciidoc[leveloffset=+3]
-
-<<<<
-
-include::guide-transactions.asciidoc[leveloffset=+3]
-
-<<<<
-
-include::guide-logging.asciidoc[leveloffset=+3]
 
 <<<<
 
@@ -215,15 +225,7 @@ include::guide-cors-support.asciidoc[leveloffset=+3]
 
 <<<<
 
-include::guide-jdk.asciidoc[leveloffset=+3]
-
-<<<<
-
 include::guide-microservice.asciidoc[leveloffset=+3]
-
-<<<<
-
-include::guide-apm.asciidoc[leveloffset=+3]
 
 <<<<
 
@@ -247,28 +249,22 @@ include::guide-jms.asciidoc[leveloffset=+3]
 
 <<<<
 
-include::guide-monitoring.asciidoc[leveloffset=+3]
-
-<<<<
-
 include::guide-text-search.asciidoc[leveloffset=+3]
 
 === Tutorials
 
 include::tutorial-newapp.asciidoc[leveloffset=+3]
 
-== quarkus
+<<<<
 
-Here you can find the documentation about the quarkus stack of devon4j. All documentation is available in the https://github.com/devonfw/devon4j/wiki[devon4j] GitHub repository. Additional things like extensions will be available on the  https://github.com/devonfw/devon4quarkus[devon4quarkus] GitHub repository.
+include::quarkus.asciidoc[leveloffset=+1]
 
 include::guide-structure-modern.asciidoc[leveloffset=+2]
 
 include::guide-domain-layer.asciidoc[leveloffset=+2]
 
-=== Guides
-
-include::quarkus/guide-logging.asciidoc[leveloffset=+3]
-
 <<<<
+
+=== Guides
 
 include::quarkus/guide-cors-support.asciidoc[leveloffset=+3]

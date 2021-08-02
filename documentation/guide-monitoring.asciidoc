@@ -3,148 +3,43 @@ toc::[]
 
 = Monitoring
 
-Monitoring is a very comprehensive topic. For `devon4j` we focus on selected core topics which are most important when developing production-ready applications.
+For monitoring a complex application landscape it is crucial to have an exact overview which applications are up and running and which are not and why.
+In devonfw we only focus on topics which are most important when developing production-ready applications.
 On a high level view we strongly suggest to separate the application to be monitored from the `monitoring system` itself.
-The monitoring system covers aspects like
+Therefore, your application should concentrate on providing app specific data for the monitoring.
+Aspects such as aggregation, visualization, search, alerting, etc. should be addressed outside of your app by a monitoring system product.
+There are many products providing such a monitoring system like https://checkmk.com[checkmk], https://icinga.com/[icinga], https://skywalking.apache.org/[SkyWalking], etc.
+Please note that there is a huge list of such products and devonfw is not biased or aims to make a choice for you.
+Instead please search and find the products that fit best for your requirements and infrastructure.
 
-- Collect monitoring information
-- Aggregate, process and visualizate data, e.g. in dashboards
-- Provide alarms
-- ...
+== Types of monitoring
 
-In distributed systems it is crucial that a monitoring system provides a central overview over all applications in your application landscape. So it is not feasible to provide a monitoring system as part of your application. Your application is responsible for providing information to the monitoring system.
+As monitoring coveres a lot of different aspects we separate the following types of monitoring and according data:
 
-== How to provide monitoring information
+* *link:guide-log-monitoring.asciidoc[Log-monitoring]* +
+is about collecting and monitoring the logs of all apps and containers in your IT landscape. It is suitable for events such as an HTTP request with its URL, resulting status code and duration in milliseconds. Your monitoring may not react to such data in realtime. Instead it may take a delay of one or a few seconds.
+* *Infrastructure monitoring* +
+is about monitoring the (hardware) infrastructure with measures like usage of CPU, memory, disc-space, etc. This is a pure operational task and your app should have nothing to do with this. In other words it is a waste if your app tries to monitor these aspects as existing products can do this much better and your app will only see virtual machines and is unable to see the physical infrastructure.
+* *xref:health-check[Health check]* +
+is about providing internal data about the current health of your app. Typically you provide sensors with health status per component or interface to neighbour service (database connectivity, etc.).
+* *link:guide-apm.asciidoc[Application Performance Monitoring]* +
+is about measuring performance and tracing down performance issues.
 
-=== Java Management Extensions (JMX)
+== Health-Check
 
-JMX is the official java monitoring solution. It is part of the JDK. Your application may provide monitoring information or receive monitoring related commands via `MBeans`. There is a huge amount of information about JMX available. A good starting point might be link:https://en.wikipedia.org/wiki/Java_Management_Extensions:[JMX on wikipedia].
-Traditionally JMX uses RMI for communication. In many environments HTTP(S) is preferred, so be careful on deciding if JMX is the right solution.
-Alternativly your application could provide a monitoring API via REST.
+The idea of a health check is to prodvide monitoring data about the current health status of your application.
+This allows to integrate this specific data into the monitoring system used for your IT landscape.
+In order to keep the monitoring simple and easy to integreate consider using the following best practices:
 
-=== REST APIs
+* Use simple and established protocols such as link:guide-rest.asciidoc[REST] instead of link:guide-jmx.asciidoc[JMX via RMI].
+* Considuer using recent standards such as https://github.com/eclipse/microprofile-health[microprofile-health].
+* Consider to drop link:guide-access-control.asciidoc[access-control] for your monitoring interfaces and for security prevent external access to it in your infrastructure (loadbalancers or gateways). Monitoring is only for usage within an IT landscape internally. It does not make sense for externals and end-users to access your app for reading monitoring data from a random node decided by a loadbalancer. Furhter, external access can easily lead to https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure[sensitive data exposure].
+* Consider to define different end-points per usage-scenario. So if you want the loadbalancer to ask your app monitoring for availability of each node then create a separate service URL that only provides `OK` or anything else for failure (`NOK`, 404, 500, timeout). Do not mix this with a health-check that needs more detailed information.
+* Also do not forget about basic features such as prodiving the name and the release version of your application.
+* Be careful to automate decisions based on monitoring and health checks. It easily turns out to be stupid if you automatically restart your pod or container because of some monitoring indicator. In the worst case a failure of a central component will cause your health-check to report down for all apps and as a result all your containers will be restarted frequently. Indead of curing problems such decisions will cause much more harm and trouble.
+* Avoid causing reasonable load with your monitoring and health-check itself. In many cases it is better to use link:guide-log-monitoring.asciidoc[log-monitoring] or to collect monitoring data from use-cases that happen in your app anyway. If you create dummy read and write requests in your monitoring implementation you will easily turn it into a DOS-attack.
 
-Since REST APIs are very popular it is quite natural to provide monitoring information via REST. If your application already uses REST and there is no JMX/RMI based monitoring solution in place, it is often a better approach to provide monitoring APIs via REST than introducing a new protocol with JMX.
+For link:spring.asciidoc[spring] you can simply integrate app monitoring and health check via https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html[spring-boot-actuator].
 
-=== Logging
+For link:quarkus.asciidoc[quarkus] you can simply integrate app monitoring and health check via https://quarkus.io/guides/smallrye-health[smallrye-health].
 
-Some aspects of monitoring are covered by "logging". A typical case might be the requirement to "monitor" the application REST APIs. For that it is perfectly fine to log the perfomance of all (or some) request and ship this information to a logging system like link:www.graylog.org[Graylog]. So please carefully read the link:guide-logging.asciidoc[logging guide]. To allow efficient processing of those logs you should use JSON based logs.
-
-== Which monitoring informaton to provide?
-
-It is not possible to provide a final list of which monitoring information is exactly required for your application. But we give you a general advice what type of information your application should provide at a minimum.
-
-=== General information
-
-It is often useful if your application provides basic information about itself. This should cover
-
-* The name of the application
-* The version (or buildno., or commit-id, ...) of the application
-
-This is espicially useful in complex environments, e.g. to very that deployments went correctly.
-
-=== Metrics
-
-Metric means providing key figures about your applications like
-
-* performance key figures
-** request duration
-** queue lengths
-** duration of database queries
-** ..
-* business related information
-** number of successful / unsuccesful requests
-** size of result sets
-** worth of shopping baskets
-** ..
-* Technical key figures
-** JVM heap usage
-** cache sizes
-** (database) pool usage
-** ...
-* ...
-
-Remember that processing of this data should be done mainly in the monitoring system. You might have noticed that there are different types of metrics: those that represent current values (like JVM heap usage, queue length, ...), others base on (timed) events like (duration of requests). Handling of different types of metrics might be different. 
-For handling events you may:
-
-* Write log statements for each (or a sample of) event. These logs must then be shipped to your monitoring systems.
-* Send data for the event via an API of your monitoring system
-* Provide a REST API (or JMX MBeans) with pre-aggregated key figures, which is periodically polled by your monitoring system. This solution is a bit inferior since the aggregation is part of your application and might not fit to the desired visualization in your monitoring systems.
-
-For actual values you may:
-
-* Write them perodically to your log. These logs must then be shipped to your monitoring systems.
-* Send them peridocally via an API of your monitoring systems
-* Provide a REST API (or JMX MBeans) which is periodically polled by your monitoring system.
-
-[health]
-=== Health (Watchdog)
-
-For monitoring a complex application landscape it is crucial to have an exact overview if all applications are up and running. So your application should offer an API for the monitoring system which allows to easily check if the application is alive. Often this alive information is polled by the monitoring system with a kind of watchdog.
-The health check should include checks if the application is working "correctly". For that we suggest to check if all required neighbour systems and infrastructure components are usable:
-
-* Check if your database can be queried (with a dummy query)
-* Check if you can reach your messaging system
-* Check if you can reach all your neighbour system, e.g. by querying their info-endpoint
-
-You should be very careful to not cascade those requests, e.g. your system should only test their direct neighbours. This test should not lead to additional tests in these systems.
-
-The healthcheck should return a simple OK/NOK result for use in dashboards, but addtionally include detailed results for each check.
-
-== Implementation with Spring Boot Actuator
-
-To implement a monitoring API for your systems we suggest to use link:https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html[Spring Boot Actuator]. Actuator offers APIs which provide monitoring information including metrics via HTTP and JMX. It also contains a framework to implement xref:health[health checks].
-Please consult the original documentation for information about how to use it.
-Basically to use it, add the following dependency to the `pom.xml` of your application core:
-
-[source,xml]
-----
-<dependencies>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
-</dependencies>
-----
-
-There will be several link:https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-endpoints[endpoints] with monitoring information available out-of-the-box.
-We *strongly* advice to check carefully which information is required in your context, normally this is `ìnfo`, `health` and `metrics`. Be careful not to expose any security related information via this mechanismen (e.g. by exposing those endpoints externally).
-
-To make the info-endpoint useful you need to provide information to actuactor. A good way to achive this is by using the provided link:https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto-automatic-expansion[maven module].
-
-For first steps it might be useful to deactive security for the actuator endpoints (this is *just for testing*, *never release it!*). This can be accomblished by implementing the following class:
-
-[source, java]
-----
-@Configuration
-@EnableWebSecurity
-@Profile(SpringProfileConstants.NOT_JUNIT)
-public class WebSecurityConfig extends BaseWebSecurityConfig {
-
-  @Override
-  public void configure(WebSecurity web) throws Exception {
-
-    super.configure(web);
-    web.ignoring().requestMatchers(EndpointRequest.toAnyEndpoint());
-  }
-
-}
-----
-
-
-=== Devonfw additions
-
-Devonfw includes the following additions for Spring boot actuator:
-
-* link:link:TODO[Kafka Health Check] in devon4j-kafka (WIP)
-
-== Integration of monitoring information
-
-=== Loadbalancers
-
-To loadbalance HTTP requests the loadbalancers needs to know which instances of the desired application are available and functioning. Often loadbalancers support reacting on the HTTP status code of an HTTP request to the service. The loadbalancer will periodically poll the service to find out if is available or not.
-To configure this you may use the healthcheck of the service to find out if the instance is functioning correctly or not.
-
-=== Docker
-
-Docker supports a link:https://docs.docker.com/engine/reference/builder/#healthcheck[healtcheck]. You may use a simple local `curl` to your application here to find out if the service is healthy or not. But be careful often unhealthy containers are automatically restarted. If you use the xref:health[health information] of your application this may lead to undesired effects. Since the health checks relies on querying all neighbour systems and infrastucure components, applications often become unhealthy because a 3rd system has problems. Restarting the application itself will not heal the problem and be inexpedient. So generally it is better you query the info endpoint of your application to just check if the service itself is up and running.  

@@ -51,7 +51,7 @@ public class MyComponentImpl implements MyComponent {
 ----
 
 Here `MyComponentImpl` depends on `MyOtherComponent` that is injected into the field `myOtherComponent` because of the `@Inject` annotation.
-To make this work there must be exactly one bean in the container (e.g. spring or quarkus) that is an instance of `MyOtherComponent`.
+To make this work there must be exactly one bean in the container (e.g. link:spring.asciidoc[spring] or link:quarkus.asciidoc[quarkus]) that is an instance of `MyOtherComponent`.
 In order to put a bean into the container, we can use `@ApplicationScoped` in case of CDI (required for quarkus) for a stateless bean.
 In spring we can ommit a CDI annotation and the `@Named` annotation is already sufficient as a bean is stateless by default in spring.
 If we always use `@ApplicationScoped` we can make this more explicit and more portable accross different frameworks.
@@ -206,7 +206,7 @@ When you want to start with Jakarta EE you should use these dependencies to get 
 </dependency>
 ----
 
-Please note that with quarkus you will get them as transitive dependencies out of the box.
+Please note that with link:quarkus.asciidoc[quarkus] you will get them as transitive dependencies out of the box.
 The above Jakarate EE dependencies replace these JEE depdencies:
 
 [source, xml]
