@@ -43,7 +43,19 @@ include::guide-blob-support.asciidoc[leveloffset=+2]
 
 <<<<
 
-include::guide-common.asciidoc[leveloffset=+3]
+include::guide-common.asciidoc[leveloffset=+2]
+
+<<<<
+
+include::guide-sql.asciidoc[leveloffset=+2]
+
+<<<<
+
+include::guide-database-migration.asciidoc[leveloffset=+2]
+
+include::guide-flyway.asciidoc[leveloffset=+3]
+
+include::guide-liquibase.asciidoc[leveloffset=+3]
 
 <<<<
 
@@ -120,14 +132,6 @@ include::guide-auditing.asciidoc[leveloffset=+3]
 <<<<
 
 include::guide-transactions.asciidoc[leveloffset=+3]
-
-<<<<
-
-include::guide-sql.asciidoc[leveloffset=+3]
-
-<<<<
-
-include::guide-database-migration.asciidoc[leveloffset=+3]
 
 <<<<
 
