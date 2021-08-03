@@ -20,14 +20,20 @@ ${project.version}, ${buildtime}
 http://www.devonfw.com/[_devonfw_] provides a solution to building applications which combine best-in-class frameworks and libraries as well as industry proven practices and code conventions.
 It massively speeds up development, reduces risks and helps you to deliver better results.
 
-The following sections contain the complete compendium of https://github.com/devonfw/devon4j/[devon4j], the Java stack of devonfw. devon4j is divided into two stacks, one for spring-boot and one for quarkus. The _General_ section contains documentation that is universal to Java and does not differ between the two stacks (e.g. coding conventions). The sections _spring_ and _quarkus_ contain documentation that is specific to the respective approach.
+The following sections contain the complete compendium of https://github.com/devonfw/devon4j/[devon4j], the Java stack of devonfw.
+With devon4j we support both link:spring.asciidoc[spring] and link:quarkus.asciidoc[quarkus] as major frameworks.
+However, the general coding patterns are based on common Java standards mainly from https://jakarta.ee[Jakarta EE] and therefore do not differ between those frameworks.
+Therefore, the xref:general[general] section contains all the documentation that is universal to Java and does not differ between the two frameworks.
+Only the sections link:spring.asciidoc[spring] and link:quarkus.asciidoc[quarkus] contain documentation that is specific to the respective approach.
 
-You can also read the latest version of this documentation online in the http://github.com/devonfw/devon4j/wiki[devon4j wiki]
-or at https://devonfw.com/website/pages/docs/devon4j.asciidoc.html[devon4j on devonfw.com].
+You can also read the latest version of this documentation online at the following sources:
+
+* https://github.com/devonfw/devon4j/wiki[devon4j on github wiki]
+* https://devonfw.com/website/pages/docs/devon4j.asciidoc.html[devon4j on devonfw.com].
+* https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.devonfw.java.doc&a=devon4j-doc&v=LATEST&p=pdf[devon4j as PDF on maven-central]
 
 == General
-
-Here you will find documentation and information to be used or observed when developing with Java in general. They do not differ between the spring-boot and the quarkus stack.
+Here you will find documentation and code-patterns for developing with Java in general, independent of the framework you choose.
 
 include::architecture.asciidoc[leveloffset=+2]
 
