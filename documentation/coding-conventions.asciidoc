@@ -79,11 +79,11 @@ Avoid using `byte[]` for BLOBs as this will load them entirely into your memory.
 
 === Stateless Programming
 When implementing logic as components or _beans_ of your container using link:guide-dependency-injection.asciidoc[dependency injection], we strongly encourage stateless programming.
-This is not about business objects like an link:guide-jpa.asciidoc#entity[entity] or link:guide-transferobject.asciidoc[transfer-object] that are stateful by design.
+This is not about data objects like an link:guide-jpa.asciidoc#entity[entity] or link:guide-transferobject.asciidoc[transfer-object] that are stateful by design.
 Instead this applies to all classes annotated with `@Named`, `@ApplicationScoped`, `@Stateless`, etc. and all their super-classes.
 These classes especially include your link:guide-repository.asciidoc[repositories], link:guide-usecase.asciidoc[use-cases], and link:guide-rest.asciidoc#jax-rs[REST services].
 Such classes shall never be modified after initialization.
-Methods called at runtime (after initialization via the container) do not assing fields (member variables of your class) or mutate the object stored in a field.
+Methods called at runtime (after initialization via the container) do not assign fields (member variables of your class) or mutate the object stored in a field.
 This allows your component or bean to be stateless and thread-safe.
 Therefore it can be initialized as a singleton so only one instance is created and shared accross all threads of the application.
 Here is an example:
