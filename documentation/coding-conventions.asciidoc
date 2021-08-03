@@ -124,12 +124,12 @@ public class UcApproveContractImpl implements UcApproveContract {
 ----
 
 As you can see in the `bad` code fields of the class are assigned when the method `approve` is called.
-So in case mutliple users and therefore threads are calling this method concurrently can interfere and override this state causing side-effects on parallel threads.
+So mutliple users and therefore threads calling this method concurrently can interfere and override this state causing side-effects on parallel threads.
 This will lead to nasty bugs and errors that are hard to trace down.
 They will not occur in simple tests but for sure in production with real users.
 Therefore *never* do this and implement your functionality stateless.
 That is keeping all state in local variables and strictly avoid modifying fields or their value as illustrated in the `fine` code.
-If you find yourself ending up, passing many parameters between methods that all represent state, you can easily create a separate class that encapsulates this state.
+If you find yourself passing many parameters between methods that all represent state, you can easily create a separate class that encapsulates this state.
 However, then you need to create this state object in your method as local variable and pass it between methods as parameter:
 [source,java]
 ----
