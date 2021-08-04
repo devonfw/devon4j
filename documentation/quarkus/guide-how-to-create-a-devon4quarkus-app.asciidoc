@@ -1,0 +1,224 @@
+:toc: macro
+toc::[]
+
+= How to create a devon4quarkus application
+
+This guide should work as an introduction to the functionality given by https://quarkus.io/[Quarkus] and used in devon4quarkus and show how to build a first application.
+The guide will cover:
+
+* How to build a simple "Hello World" Quarkus app serving a hello endpoint.
+* A short introduction to testing and the development mode in a quarkus app.
+* Packaging the project and running as a self-contained jar file and producing a native executable. 
+
+=== Prerequisites
+To follow the guide and complete it, you need:
+
+* an IDE or an editor to edit files
+* JDK 11+ installed with JAVA_HOME configured appropriately
+* Apache Maven 3.8.1+
+
+
+This guide is heavily inspired by https://quarkus.io/guides/[Quarkus Guides] and the Katacoda tutorials by https://www.katacoda.com/openshift/courses/developing-with-quarkus[OpenShift for Quarkus Developement]. I would recommend also using the Katacoda tutorials to learn about quarkus.
+
+https://quarkus.io/guides/getting-started
+
+https://www.katacoda.com/openshift/courses/developing-with-quarkus/getting-started
+
+
+
+Let's get started.
+
+== Creating the application
+
+There are multiple ways to start a project. You can browse to https://code.quarkus.io and select some extensions, the build tool for your project, and if you want some starter code. This will provide a project skeleton with the configured project dependencies and also contributes the information to compile the application natively.
+
+To load a new Quarkus application from command line with the Quarkus Maven plugin run the following command:
+
+.Operating system
+. Linux and MacOs +
+`mvn io.quarkus:quarkus-maven-plugin:2.0.2.Final:create \
+    -DprojectGroupId=org.acme \
+    -DprojectArtifactId=getting-started \
+    -DclassName="org.acme.getting.started.GreetingResource" \
+    -Dpath="/hello"`
+
+. Windows +
+    `mvn io.quarkus:quarkus-maven-plugin:2.0.2.Final:create "-DprojectGroupId=org.acme" "-DprojectArtifactId=getting-started" "-DclassName=org.acme.getting.started.GreetingResource" "-Dpath=/hello"`
+ 
+
+it generates the following in the getting-started folder
+
+* the Maven structure
+* an org.acme.getting.started.GreetingResource resource exposed on /hello
+* an associated unit test
+* a landing page that is accessible on http://localhost:8080 after starting the application
+* example Dockerfile files for both native and JVM modes in src/main/docker
+* the application configuration file
+
+Once generarted change your directory with `cd getting-started` and take a look at the *pom.xml*. You will find the import of the Quarkus BOM, allowing you to omit the version on the different Quarkus dependencies. In addition, you can see the *quarkus-maven-plugin* responsible for packaging of the application and also providing the development mode.
+
+[source, xml]
+----
+  <properties>
+<artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
+    <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
+    <quarkus.platform.version>2.0.2.Final</quarkus.platform.version>
+  </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>${quarkus.platform.group-id}</groupId>
+        <artifactId>${quarkus.platform.artifact-id}</artifactId>
+        <version>${quarkus.platform.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>${quarkus.platform.group-id}</groupId>
+            <artifactId>quarkus-maven-plugin</artifactId>
+            <version>${quarkus.platform.version}</version>
+            <extensions>true</extensions>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>build</goal>
+                        <goal>generate-code</goal>
+                        <goal>generate-code-tests</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+----
+
+=== Extension management
+Extensions added by creating a project from https://code.quarkus.io or with the parameter `-Dextensions` in your mvn create command and can be found after that in the pom.xml. Now we are just using *RESTEasy*. 
+
+[source, xml]
+----
+    <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-resteasy</artifactId>
+    </dependency>
+----
+
+Later we will need an additional extension. Add an extension to an already created project by inserting the dependencies manually into the pom.xml or you can also use the mvn command `mvn quarkus:add-extension -Dextensions="container-image-docker"`.
+This extension will be needed in <<Build native executables without GraalVM>> to build docker images with quarkus.
+
+
+== Running the application
+
+The project was created with a simple `/hello` endpoint defined in *getting-started/src/main/java/org/acme/getting/started/GreetingResource.java* that will return "hello" to request on http://localhost:8080/hello.
+
+[source, java]
+----
+@Path("/hello")
+public class GreetingResource {
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String hello() {
+        return "Hello RESTEasy";
+    }
+}
+----
+
+Now run the application with the command `mvn quarkus:dev`. The application is running and you can send a request on the endpoint https://localhost:8080/hello and you should get a "Hello RESTEasy" response.
+
+== Development mode 
+
+With the command above we started the Quarkus app in development mode. It allows you to quickly visualize all the extensions currently loaded, see their status and go directly to their documentation. Go to http://localhost:8080 and you can see a Quarkus landing page with information about the application. There you can access the http://localhost:8080/q/dev/[Dev UI] via the link. Now you should see a Dashboard with a ArC tile. We are using Quarkus ArC in this project, a build-time oriented dependency injection based on CDI 2.0. There you can inspect the currently injected Beans. There is also a tile named Container Images that will be useful later.
+
+Quarkus apps expose a useful UI for inspecting and making on-the-fly changes to the app (much like live coding mode). It allows you to quickly visualize all the extensions currently loaded, see and edit their configuration values, see their status and go directly to their documentation.
+
+More Information on this Guide https://quarkus.io/guides/dev-ui
+
+== Testing the application 
+When in developer mode (via mvn quarkus:dev), Quarkus can automatically and continuously run your unit tests. Quarkus supports Junit 5 tests and also has generated a simple test for us. When the Quarkus application is running you should see in your command prompt:
+----
+Tests paused, press [r] to resume, [w] to open the browser, [h] for more options> 
+----
+The test is pretty simple and just checks if "Hello RESTEasy" will be returned. We can edit the *getting-started/src/main/java/org/acme/getting/started/GreetingResource.java* while the application is still running to:
+
+[source, java]
+----
+@Path("/hello")
+public class GreetingResource {
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String hello() {
+        return "Hello RESTHard";
+    }
+}
+----
+
+and by rerunning the test with `r`, the test should fail now. You can also test the application before running it with `mvn test`. Reset the return string to *"Hello RestEasy"* and we can continue.
+More Information on this Chapter{Chapter Testing ?} 
+
+== Packaging the application
+First, let's package the application with `mvn package` and produce:
+
+
+. *target/getting-started-1.0.0-SNAPSHOT.jar* +
+containing just the classes and resources of the projects, it’s the regular artifact produced by the Maven build
+. *target/quarkus-app/quarkus-run.jar* +
+being an executable jar. Be aware that it’s not an über-jar as the dependencies are copied into several subdirectories (and would need to be included in any layered container image).
+
+You can run the packaged application with this command `java -jar target/quarkus-app/quarkus-run.jar` and check http://localhost/hello.
+
+
+Let’s now produce a native executable for our application. It improves the startup time of the application and produces a minimal disk footprint. The executable would have everything to run the application including the "JVM" (shrunk to be just enough to run the application), and the application.
+
+
+Building a native executable requires using a distribution of GraalVM and a configured $GRAALVM_HOME. You can create a native application without GraalVM and use a multi-stage Docker build to run Maven inside a Docker container that embeds GraalVM. This will be explained in this chapter <<Build native executables without GraalVM>> or this https://quarkus.io/guides/building-native-image#container-runtime[guide]
+
+
+=== Installing GraalVM
+
+This chapter shows the installation of GraalVM, you can skip it if you have it installed already and go to the next chapter <<Build native executables without GraalVM>>
+
+The usage of GraalVM is easier on Linux, for Windows the setup for the environment takes some more steps.
+
+.Operating system
+
+. Linux
+* Download the *Community Edition of GraalVM* from https://github.com/graalvm/graalvm-ce-builds/releases[here] and unpack it like you would any other archive. Make sure to download and install at Java 11 version. 
+* Configure the environment variables with the command `export GRAALVM_HOME=<path_to_graalvm>/graalvm/` and install the native-image with the command `${GRAALVM_HOME}/bin/gu install native-image`. if you are having problems building the image also set *JAVA_HOME* to GraalVM directory with `export JAVA_HOME=${GRAALVM_HOME}`and add GraalVM to the *PATH* environment variable with `export PATH=${GRAALVM_HOME}/bin:$PATH`
+* Build the native executable with the command `mvn package -Pnative` and a target folder with the native Linux binary *getting-started-1.0.0-SNAPSHOT-runner* will be created. Run the image with `target/getting-started-1.0.0-SNAPSHOT-runner` and you should see the fast startup time and if you inspect the process properties also the low memory usage. You can again access http://localhost/hello to check the application.
+
+. Windows
+* Download the *Community Edition of GraalVM* from https://github.com/graalvm/graalvm-ce-builds/releases[here] and unpack it like you would any other archive. Make sure to download and install at Java 11 version. 
+* Configure the environment variables in the system properties or with the command `$Env:GRAALVM_HOME = "<path_to_graalvm>/graalvm"` and also set *JAVA_HOME* to GraalVM directory with `$Env:JAVA_HOME=${Env:GRAALVM_HOME}`and add GraalVM to the *PATH* environment variable with `§Env:PATH=${GRAALVM_HOME}/bin;$PATH`. Change your directory to *<path_to_graalvm>/graalvm/bin* and install the native-image with the command `gu install native-image`.
+* An installation of the *Visual Studio 2017 Visual C++ Build Tools* is needed. You can load it from https://aka.ms/vs/15/release/vs_buildtools.exe[here].
+* The creation of the native executable is only able in the x64 version of the *Native Tool Command Prompt for VS 2017*. Start the command prompt and jump into the *getting-started* folder. Build the native executable with the command `mvn package -Pnative` and a target folder with the executable *getting-started-1.0.0-SNAPSHOT-runner.exe* will be created. Start the application and you should see the fast startup time and if you inspect the process properties also the low memory usage. You can again access http://localhost/hello to check the application.
+
+
+. MacOS
+For MacOS just follow this guide https://quarkus.io/guides/building-native-image#prerequisites-for-oracle-graalvm-ceee.
+
+
+=== Build native executables without GraalVM 
+
+You can build the Linux executables without installing GraalVM or sometimes you just need the Linux executables on Windows to run them in a container. To do that you need a working container runtime, we use Docker in this guide. You can install Docker with your devonfw-ide distribution just follow this description https://github.com/devonfw/ide/blob/master/documentation/docker.asciidoc[Docker with devonfw-ide]. 
+
+[sidebar]
+.Docker on Windows
+--
+There are two modes for Docker on Windows, if you are using it in Hyper-V mode and not WSL 2 mode you have to share the project drive in the Docker settings or you will face some errors. 
+--
+We can start building our container image for the project.
+Create an executable in a container runtime with the command `mvn package -Pnative "-Dquarkus.container-image.build=true"` normally quarkus automatically detects the container runtime, but sometimes an error occurs and then you should try to you can explicitly select the container runtime with the parameter `"-Dquarkus.native.container-runtime=docker"´. You can omit the `-Pnative` parameter to create a Dockerfile with the .jar and not the native executable.
+
+Another way to create the native application without using the command prompt is the Dev UI we already showed. Start the application and go to http://localhost:8080/q/dev/. Select Build in the tile named Container Image and you are able to select a *Build Type* and a *Builder Type* and build a selected .jar oder native executable in the background.
+
+== Conclusion
+
+
+This was a first glance over the functionality of devon4quarkus. If something is missing in this overview or you need more information follow our following guides and some in-depth going guides can be found at https://quarkus.io/guides/[Quarkus Guides] and the Katacoda tutorials by https://www.katacoda.com/openshift/courses/developing-with-quarkus[OpenShift for Quarkus Developement]. 
