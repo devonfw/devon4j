@@ -1,0 +1,94 @@
+:toc: macro
+toc::[]
+
+= Monitoring
+When we talk about monitoring, we need to distinguish between monitoring system and monitoring application. The monitoring system covers aspects like
+
+    * Collect monitoring information
+    * Aggregate, process and visualizate data, e.g. in dashboards
+    * Provide alarms
+    * …​
+
+Monitoring application, on the other hand, provides metrics related to the application such as request duration, number of successful/failed requests etc. to the monitoring system. The monitoring system then use all information it collects to provide a central overview over all applications in your application landscape.
+
+In our https://github.com/devonfw/devon4j/blob/master/documentation/guide-monitoring.asciidoc[devon4j documentation], we have discussed more detailed about many fundamental points regarding how and what to monitor.
+Here we will focus on specifications for Quarkus.
+
+In devon4j we suggest to use https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html[Spring Boot Actuator] to implement a monitoring API for your applications, which is not supported in Quarkus. Quarkus recommends using https://quarkus.io/guides/micrometer[Micrometer] or when it's required to retain MicroProfile specification compatibility https://quarkus.io/guides/smallrye-metrics[SmallRye Metrics]. They both allow applications to gather various metrics and statistics that can be consumed by third parties such as https://prometheus.io/[Prometheus].
+
+== Micrometer
+Micrometer defines a core library providing a registration mechanism for Metrics and core metric types such as Counters, Timers etc. These core types provide an abstraction layer that can be adapted to different backend monitoring systems.
+It means, your application can register say a `Counter` with a `MeterRegistry` and Micrometer will delegate that registration to one or more implementations, where each handles the unique considerations for the associated monitoring stack.
+
+Micrometer uses naming convention to translate between registered Meters and the conventions used by backend registries. E.g. Meter names `a.name.like.this` will appear as `a_name_like_this` in Prometheus-formatted output metrics.
+
+=== Maven integration
+To use Micrometer, add to your pom.xml `quarkus-micrometer` for core micrometer support or other Quarkus and Quarkiverse extensions for additional support for specific monitoring systems e.g. `micrometer-registry-prometheus` `quarkus-micrometer-registry-stackdriver`
+```
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-micrometer-registry-prometheus</artifactId>
+</dependency>
+```
+
+=== Usage
+To register meters, you need a reference to a MeterRegistry. The MeterRegistry can be injected into your application as follows:
+```java
+public class ExampleResource {
+
+    private final MeterRegistry registry;
+
+    ExampleResource(MeterRegistry registry) {
+        this.registry = registry;
+    }
+}
+```
+Some examples of `Counter` `Gauge` `Timer` etc. can be further read https://quarkus.io/guides/micrometer[here]
+
+Micrometer supports two annotation `@Counted` and `@Timed` that can be added to methods.
+
+Metrics are exposed at `/q/metrics` endpoint
+
+=== Configuration
+The are many options you can set in the `application.properties` file to configure the behaviour of Micrometer. A full list is provided https://quarkus.io/guides/micrometer#quarkus-micrometer_configuration[here]
+
+You can also use MeterFilter instances to customize the metrics emitted by MeterRegistry instances. The Micrometer extension will detect MeterFilter CDI beans and use them when initializing MeterRegistry instances.
+```java
+@Singleton
+public class CustomConfiguration {
+
+    /** Define common tags that apply only to a Prometheus Registry */
+    @Produces
+    @Singleton
+    @MeterFilterConstraint(applyTo = PrometheusMeterRegistry.class)
+    public MeterFilter configurePrometheusRegistries() {
+        return MeterFilter.commonTags(Arrays.asList(
+                Tag.of("registry", "prometheus")));
+    }
+}
+```
+
+=== Unsupported registry
+In case the Micrometer registry you would like to use does not yet have an associated extension, you can add the core package `quarkus-micrometer` and your MeterRegistry dependency directly.
+```
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-micrometer</artifactId>
+</dependency>
+<dependency>
+    <groupId>com.acme</groupId>
+    <artifactId>custom-micrometer-registry</artifactId>
+</dependency>
+```
+Furthermore, you will have to specify your provider to configure and initialize the MeterRegistry. Please refer to https://quarkus.io/guides/micrometer#creating-a-customized-meterregistry[this guide] to create and configure a customized MeterRegistry
+
+== SmallRye Metrics
+SmallRye Metrics is an implementation of the https://github.com/eclipse/microprofile-metrics/[MicroProfile Metrics] specification.
+To use it, add this to your pom.xml
+```
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-smallrye-metrics</artifactId>
+</dependency>
+```
+Please refer to https://quarkus.io/guides/smallrye-metrics[this guide] for some examples and configuration options.
