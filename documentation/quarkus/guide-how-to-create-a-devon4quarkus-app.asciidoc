@@ -59,8 +59,8 @@ Once generarted change your directory with `cd getting-started` and take a look 
 
 [source, xml]
 ----
-  <properties>
-<artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
+  <properties>  
+    <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>2.0.2.Final</quarkus.platform.version>
   </properties>
@@ -98,14 +98,30 @@ Once generarted change your directory with `cd getting-started` and take a look 
 ----
 
 === Extension management
-Extensions added by creating a project from https://code.quarkus.io or with the parameter `-Dextensions` in your mvn create command and can be found after that in the pom.xml. Now we are just using *RESTEasy*. 
+Extensions added by creating a project from https://code.quarkus.io or with the parameter `-Dextensions` in your mvn create command and can be found after that in the pom.xml. Now we are just using *RESTEasy*, *Junit5*, *Quarkus ArC* and *REST Assured*. 
 
 [source, xml]
 ----
+  <dependencies>
     <dependency>
-        <groupId>io.quarkus</groupId>
-        <artifactId>quarkus-resteasy</artifactId>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-arc</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit5</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <scope>test</scope>
+    <dependency>
+  <dependencies>
 ----
 
 Later we will need an additional extension. Add an extension to an already created project by inserting the dependencies manually into the pom.xml or you can also use the mvn command `mvn quarkus:add-extension -Dextensions="container-image-docker"`.
@@ -182,26 +198,9 @@ Building a native executable requires using a distribution of GraalVM and a conf
 
 === Installing GraalVM
 
-This chapter shows the installation of GraalVM, you can skip it if you have it installed already and go to the next chapter <<Build native executables without GraalVM>>
+Building a native application requires an configured installation of GraalVM. This will be shown in this guide https://quarkus.io/guides/building-native-image#prerequisites-for-oracle-graalvm-ceee.
 
-The usage of GraalVM is easier on Linux, for Windows the setup for the environment takes some more steps.
-
-.Operating system
-
-. Linux
-* Download the *Community Edition of GraalVM* from https://github.com/graalvm/graalvm-ce-builds/releases[here] and unpack it like you would any other archive. Make sure to download and install at Java 11 version. 
-* Configure the environment variables with the command `export GRAALVM_HOME=<path_to_graalvm>/graalvm/` and install the native-image with the command `${GRAALVM_HOME}/bin/gu install native-image`. if you are having problems building the image also set *JAVA_HOME* to GraalVM directory with `export JAVA_HOME=${GRAALVM_HOME}`and add GraalVM to the *PATH* environment variable with `export PATH=${GRAALVM_HOME}/bin:$PATH`
-* Build the native executable with the command `mvn package -Pnative` and a target folder with the native Linux binary *getting-started-1.0.0-SNAPSHOT-runner* will be created. Run the image with `target/getting-started-1.0.0-SNAPSHOT-runner` and you should see the fast startup time and if you inspect the process properties also the low memory usage. You can again access http://localhost/hello to check the application.
-
-. Windows
-* Download the *Community Edition of GraalVM* from https://github.com/graalvm/graalvm-ce-builds/releases[here] and unpack it like you would any other archive. Make sure to download and install at Java 11 version. 
-* Configure the environment variables in the system properties or with the command `$Env:GRAALVM_HOME = "<path_to_graalvm>/graalvm"` and also set *JAVA_HOME* to GraalVM directory with `$Env:JAVA_HOME=${Env:GRAALVM_HOME}`and add GraalVM to the *PATH* environment variable with `§Env:PATH=${GRAALVM_HOME}/bin;$PATH`. Change your directory to *<path_to_graalvm>/graalvm/bin* and install the native-image with the command `gu install native-image`.
-* An installation of the *Visual Studio 2017 Visual C++ Build Tools* is needed. You can load it from https://aka.ms/vs/15/release/vs_buildtools.exe[here].
-* The creation of the native executable is only able in the x64 version of the *Native Tool Command Prompt for VS 2017*. Start the command prompt and jump into the *getting-started* folder. Build the native executable with the command `mvn package -Pnative` and a target folder with the executable *getting-started-1.0.0-SNAPSHOT-runner.exe* will be created. Start the application and you should see the fast startup time and if you inspect the process properties also the low memory usage. You can again access http://localhost/hello to check the application.
-
-
-. MacOS
-For MacOS just follow this guide https://quarkus.io/guides/building-native-image#prerequisites-for-oracle-graalvm-ceee.
+Execute the command `mvn package -Pnative` and a native executable will be created in the target folder. Depending on the operating system you execute the command the native Linux binary *getting-started-1.0.0-SNAPSHOT-runner* or the Windows executable *getting-started-1.0.0-SNAPSHOT-runner.exe* will be created. Start the application and you should see the fast startup time and if you inspect the process properties also the low memory usage. You can again access http://localhost/hello to check the application.
 
 
 === Build native executables without GraalVM 
@@ -221,4 +220,4 @@ Another way to create the native application without using the command prompt is
 == Conclusion
 
 
-This was a first glance over the functionality of devon4quarkus. If something is missing in this overview or you need more information follow our following guides and some in-depth going guides can be found at https://quarkus.io/guides/[Quarkus Guides] and the Katacoda tutorials by https://www.katacoda.com/openshift/courses/developing-with-quarkus[OpenShift for Quarkus Developement]. 
+This was a first glance over the functionality of Quarkus. If something is missing in this overview or you need more information follow our following guides and some in-depth going guides can be found at https://quarkus.io/guides/[Quarkus Guides] and the Katacoda tutorials by https://www.katacoda.com/openshift/courses/developing-with-quarkus[OpenShift for Quarkus Developement]. 
