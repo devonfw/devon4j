@@ -19,9 +19,11 @@ As implementation we recommend http://hibernate.org/validator/[hibernate-validat
 
 === Example
 
-A description of how to enable BV can be found in the relevant http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/htmlsingle/#validation-beanvalidation[Spring documentation]. For a quick summary follow these steps:
+A description of how to enable BV for spring applications can be found in the relevant http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/htmlsingle/#validation-beanvalidation[Spring documentation]. A guide you can use to integrate validation in Quarkus applications can be found https://quarkus.io/guides/validation[here]. For a quick summary follow these steps:
 
 * Make sure that hibernate-validator is located in the classpath by adding a dependency to the pom.xml.
+
+.*spring*
 [source,xml]
 ----
     <dependency>
@@ -30,10 +32,23 @@ A description of how to enable BV can be found in the relevant http://docs.sprin
     </dependency>
 ----
 
-* Add the +@Validated+ annotation to the implementation (spring bean) to be validated. The standard use case is to annotate the logic layer implementation, i.e. the use case implementation or component facade in case of simple logic layer pattern. Thus, the validation will be executed for service requests as well as batch processing. For methods to validate go to their declaration and add constraint annotations to the method parameters.
+.*spring*
+[source,xml]
+----
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-validator</artifactId>
+    </dependency>
+----
+
+* For methods to validate go to their declaration and add constraint annotations to the method parameters.
++
+__In spring applications you can add the `+@Validated+` annotation to the implementation (spring bean) to be validated (this is an annotation of the spring framework, so it`s not available in the Quarkus context). The standard use case is to annotate the logic layer implementation, i.e. the use case implementation or component facade in case of simple logic layer pattern. Thus, the validation will be executed for service requests as well as batch processing.__
+
 ** +@Valid+ annotation to the arguments to validate (if that class itself is annotated with constraints to check).
 ** +@NotNull+ for required arguments.
 ** Other constraints (e.g. +@Size+) for generic arguments (e.g. of type +String+ or +Integer+). However, consider to create link:guide-datatype.asciidoc[custom datatypes] and avoid adding too much validation logic (especially redundant in multiple places).
+
 //Replaced old example with BookingmanagementRestServiceImpl
 //com.devonfw.application.mtsj.bookingmanagement.service.rest
 .*BookingmanagementRestServiceImpl.java*
@@ -47,6 +62,7 @@ public class BookingmanagementRestServiceImpl implements BookingmanagementRestSe
 ----
 
 * Finally add appropriate validation constraint annotations to the fields of the ETO class.
+
 //com.devonfw.application.mtsj.bookingmanagement.logic.api.to
 .*BookingCto.java*
 [source,java]
@@ -101,6 +117,7 @@ public class Range<V extends Comparable<V>> {
 == Stateful Validation
 For complex and stateful business validations we do not use BV (possible with groups and context, etc.) but follow KISS and just implement this on the server in a straight forward manner.
 An example is the deletion of a table in the example application. Here the state of the table must be checked first:
+
 //com.devonfw.application.mtsj.bookingmanagement.logic.impl
 //Replaced the old example with is not stateful anymore -which I think is weird- with a new one
 //Text needs adjustments as well
