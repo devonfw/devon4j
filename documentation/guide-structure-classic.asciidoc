@@ -1,0 +1,144 @@
+:toc: macro
+toc::[]
+
+= Classic project structure
+
+In this section we describe the classic project structure as initially proposed for Java in devonfw.
+It is still valid and fully supported.
+However, if you want to start a new project, please consider using the link:guide-structure-modern.asciidoc[modern structure].
+
+== Modules
+
+The structure of a `devon4j` application is divided into the following modules:
+
+* `api`: module containing the API of your application. The API contains the required artifacts to interact with your application via remote services. This can be link:guide-rest.asciidoc#jax-rs[REST service interfaces], link:guide-transferobject.asciidoc[transfer-objects] with their interfaces and link:guide-datatype.asciidoc[datatypes] but also https://www.openapis.org/[OpenAPI] or https://grpc.io/[gRPC] contracts.
+* `core`: maven module containing the core of the application with service implementation, as well as entire link:guide-logic-layer.asciidoc[logic layer] and link:guide-dataaccess-layer.asciidoc[dataaccess layer].
+* `batch`: optional module for link:guide-batch-layer.asciidoc[batch layer]
+* `server`: module that bundles the entire app (`core` with optional `batch`) typically as a bootified WAR file.
+
+== Deployment
+
+[quote, Josh Long]
+____
+Make jar not war
+____
+
+First of all it is important to understand that the above defined modules aim to make `api`, `core`, and `batch` reusable artifacts, that can be used as a regular maven dependency.
+On the other hand to build and deploy your application you want a final artifact that is containing all required 3rd party libraries.
+This artifact is not reusable as a maven dependency.
+That is exactly the purpose of the `server` module to build and package this final deployment artifact.
+By default we first build a regular `WAR` file with maven in your `server/target` directory (`\*-server-«version».war`) and in a second step create a bootified `WAR` out of this (`*-server-bootified.war`).
+The bootified `WAR` file can then be started standalone (`java -jar «filename».war`).
+However, it is also possible to deploy the same `WAR` file to a servlet container like `tomcat` or `jetty`.
+As application servers and externally provided servlet containers are not recommendet anymore for various reasons (see link:guide-jee.asciidoc[JEE]), you may also want to create a bootified `JAR` file instead.
+All you need to do in that case is to change the `packaging` in your `server/pom.xml` from `war` to `jar`. 
+
+== Package Structure
+
+The package structure of your code inside `src/main/java` (and `src/test/java`) of your modules is described in our coding conventions in the sections link:coding-conventions.asciidoc#packages[packages]. A full mapping of the architecture and the different code elements to the packaging is described in the following section.
+
+== Layers
+
+The package structure of your code inside `src/main/java` (and `src/test/java`) of your app is described in our coding conventions in the sections link:coding-conventions.asciidoc#packages[packages].
+The following table describes our classic approach for packaging and layering:
+
+.Traditional generic devon4j layers
+[options="header"]
+|=============================================
+|*Layer* | *«layer»*
+|link:guide-service-layer.asciidoc[service]|`service`
+|link:guide-logic-layer.asciidoc[logic]|`logic`
+|link:guide-dataaccess-layer.asciidoc[data-access]|`dataaccess`
+|link:guide-batch-layer.asciidoc[batch] (optional)|`batch`
+|link:guide-client-layer.asciidoc[client] (optional)|`client`
+|link:guide-common.asciidoc[common]|`common`
+|=============================================
+
+== Architecture Mapping
+
+In order to help you to map the architecture, packaging, layering, etc. to the code and see where different code elements should be placed,
+we provide this architecture mapping:
+
+[subs=+macros]
+----
+«root»
+├──.link:guide-component.asciidoc#business-component[«component»]
+|  ├──.link:guide-common.asciidoc[common]
+|  |  ├──.api[.«detail»]
+|  |  |  ├──.link:guide-datatype.asciidoc[datatype]
+|  |  |  |  └──.link:guide-datatype.asciidoc[«Datatype»] (api)
+|  |  |  └──.link:guide-transferobject.asciidoc#bo[«BusinessObject»] (api)
+|  |  └──.impl[.«detail»]
+|  |     ├──.link:guide-configuration-mapping.asciidoc#mapping-advanced-configuration[«Aspect»ConfigProperties] (core)
+|  |     ├──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonSerializer] (core)
+|  |     └──.link:guide-json.asciidoc#custom-mapping[«Datatype»JsonDeserializer] (core)
+|  ├──.link:guide-dataaccess-layer.asciidoc[dataaccess]
+|  |  ├──.api[.«detail»]
+|  |  |  ├──.link:guide-repository.asciidoc[repo]
+|  |  |  |  └──.link:guide-repository.asciidoc#repository[«BusinessObject»Repository] (core)
+|  |  |  ├──.link:guide-dao.asciidoc[dao] (core) [alternative to repo]
+|  |  |  |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»Dao] (core) [alternative to Repository]
+|  |  |  └──.link:guide-jpa.asciidoc#entity[«BusinessObject»Entity] (core)
+|  |  └──.impl[.«detail»]
+|  |     ├──.link:guide-dao.asciidoc[dao] (core) [alternative to repo]
+|  |     |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»DaoImpl] (core) [alternative to Repository]
+|  |     └──.link:guide-jpa.asciidoc#entities-and-datatypes[«Datatype»AttributeConverter] (core)
+|  ├──.link:guide-logic-layer.asciidoc[logic]
+|  |  ├──.api
+|  |  |  ├──.[«detail».]link:guide-transferobject.asciidoc[to]
+|  |  |  |   ├──.link:guide-transferobject.asciidoc#to[«MyCustom»«To] (api)
+|  |  |  |   ├──.link:guide-jpa.asciidoc#embeddable[«DataStructure»Embeddable] (api)
+|  |  |  |   ├──.link:guide-transferobject.asciidoc#eto[«BusinessObject»Eto] (api)
+|  |  |  |   └──.link:guide-transferobject.asciidoc#cto[«BusinessObject»«Subset»Cto] (api)
+|  |  |  ├──.[«detail».]link:guide-usecase.asciidoc[usecase]
+|  |  |  |   ├──.link:guide-usecase.asciidoc#find[UcFind«BusinessObject»] (core)
+|  |  |  |   ├──.link:guide-usecase.asciidoc#manage[UcManage«BusinessObject»] (core)
+|  |  |  |   └──.link:guide-usecase.asciidoc#custom[Uc«Operation»«BusinessObject»] (core)
+|  |  |  └──.link:guide-logic-layer.asciidoc#component[«Component»] (core)
+|  |  ├──.base
+|  |  |  └──.[«detail».]link:guide-usecase.asciidoc[usecase]
+|  |  |     └──.link:guide-usecase.asciidoc[Abstract«BusinessObject»Uc] (core)
+|  |  └──.impl
+|  |     ├──.[«detail».]link:guide-usecase.asciidoc[usecase]
+|  |     |   ├──.link:guide-usecase.asciidoc#find[UcFind«BusinessObject»Impl] (core)
+|  |     |   ├──.link:guide-usecase.asciidoc#manage[UcManage«BusinessObject»Impl] (core)
+|  |     |   └──.link:guide-usecase.asciidoc#custom[Uc«Operation»«BusinessObject»Impl] (core)
+|  |     └──.link:guide-logic-layer.asciidoc#component[«Component»Impl] (core)
+|  └──.link:guide-service-layer.asciidoc[service]
+|     ├──.api[.«detail»]
+|     |  ├──.link:guide-rest.asciidoc[rest]
+|     |  |  └──.link:guide-rest.asciidoc#rest-service-api[«Component»RestService] (api)
+|     |  └──.link:guide-soap.asciidoc[ws]
+|     |     └──.link:guide-soap.asciidoc#web-service-api[«Component»WebService] (api)
+|     └──.impl[.«detail»]
+|        ├──.link:guide-jms.asciidoc[jms]
+|        |  └──.link:guide-jms.asciidoc#jms-listener[«BusinessObject»JmsListener] (core)
+|        ├──.link:guide-rest.asciidoc[rest]
+|        |  └──.link:guide-rest.asciidoc#rest-service-implementation[«Component»RestServiceImpl] (core)
+|        └──.link:guide-soap.asciidoc[ws]
+|           └──.link:guide-soap.asciidoc#web-service-implementation[«Component»WebServiceImpl] (core)
+├──.link:guide-component.asciidoc#general-component[general]
+│  ├──.link:guide-common.asciidoc[common]
+│  |  ├──.api
+|  |  |  ├──.to
+|  |  |  |  ├──.AbstractSearchCriteriaTo (api)
+|  |  |  └──.ApplicationEntity
+│  |  ├──.base
+|  |  |  └──.AbstractBeanMapperSupport (core)
+│  |  └──.impl
+│  |     ├──.config
+│  |     |  └──.ApplicationObjectMapperFactory (core)
+│  |     └──.security
+│  |        └──.ApplicationWebSecurityConfig (core)
+│  ├──.dataaccess
+│  |  └──.api
+|  |     └──.ApplicationPersistenceEntity (core)
+│  ├──.logic
+│  |  └──.base
+|  |     ├──.AbstractComponentFacade (core)
+|  |     ├──.AbstractLogic (core)
+|  |     └──.AbstractUc (core)
+|  └──.service
+|     └──...
+└──.SpringBootApp (core)
+----

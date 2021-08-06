@@ -42,6 +42,6 @@ In order to get started with client development as a Java developer we give you 
 
 |IDE  |https://code.visualstudio.com/[MS VS Code] or https://www.jetbrains.com/idea/[IntelliJ]|https://eclipse.org/downloads/[Eclipse] or https://www.jetbrains.com/idea/[IntelliJ]
 
-|Framework  |https://angularjs.org/[Angular] (etc.)|https://spring.io/[Spring] or https://quarkus.io/[Quarkus]
+|Framework  |https://angularjs.org/[Angular] (etc.)|link:spring.asciidoc[Spring] or link:quarkus.asciidoc[Quarkus]
 |=======================
 

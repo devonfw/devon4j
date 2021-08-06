@@ -3,16 +3,10 @@ toc::[]
 
 = Components
 
-Following link:architecture.asciidoc#architecture-principles[separation-of-concerns] we divide an application into components using our link:coding-conventions.asciidoc#packages[package-conventions] and link:coding-conventions.asciidoc#architecture-mapping[architecture-mapping].
-As described by the link:architecture.asciidoc[architecture] each component is divided into these layers:
-
-* link:guide-client-layer.asciidoc[client-layer] with the dialogs to view and modify the component's data.
-* link:guide-service-layer.asciidoc[service-layer] with the services to access the component's data remotely.
-* link:guide-logic-layer.asciidoc[logic-layer] with the link:guide-component-facade.asciidoc[component-facade] providing the business-logic to manage the component's data.
-* link:guide-dataaccess-layer.asciidoc[dataaccess-layer] with the link:guide-jpa.asciidoc#entity[entities] defining and the link:guide-repository.asciidoc[repositories] (or link:guide-dao.asciidoc[DAOs]) accessing the component's data.
-
-Please note that only CRUD oriented components will have all four layers within the same component.
-Some types of applications may have completely different components for the client.
+Following link:architecture.asciidoc#architecture-principles[separation-of-concerns] we divide an application into components using our link:coding-conventions.asciidoc#packages[package-conventions] and link:guide-structure.asciidoc[project structure].
+As described by the link:architecture.asciidoc[architecture] each component is divided into layers as described in the link:guide-structure.asciidoc[project structure].
+Please note that a component will only have the required layers.
+So a component may have any number from one to all layers.
 
 == General Component
 Cross-cutting aspects belong to the implicit component `general`. It contains technical configurations and very general code that is not business specific. Such code shall not have any dependencies to other components and therefore business related code.
