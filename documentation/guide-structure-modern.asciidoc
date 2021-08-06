@@ -70,6 +70,7 @@ we provide this architecture mapping:
    ├──.link:guide-logic-layer.asciidoc[logic]
    |  ├──«BusinessObject»Validator
    |  └──«BusinessObject»EventsEmitter
+   |  └──.link:./quarkus/guide-logic-layer.asciidoc[Uc«Operation»«BusinessObject»[Impl]]
    └──.link:guide-service-layer.asciidoc[service]
       ├──.link:guide-rest.asciidoc#jax-rs[«Component»RestService]
       ├──.mapper

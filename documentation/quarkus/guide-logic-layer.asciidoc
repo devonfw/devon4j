@@ -1,0 +1,92 @@
+:toc: macro
+toc::[]
+
+= Logic layer
+
+The logic layer is responsible for implementing the business logic, hence provides the actual value of the application. In devon4j we currently use link:../guide-component-facade.asciidoc[component-facade] and link:../guide-usecase.asciidoc[use-cases] to implement this layer. For quarkus application, we want to simplify things. Therefore, we will not adopt this approach. Instead, we will implement the use-cases directly without defining a component-facade. Please refer to link:../guide-structure-modern.asciidoc[this architecture mapping] to get familiar with our modern project structure.
+
+=== Use-case
+The logic layer defines different use-cases, each is responsible for certain operations on a particular entity. We adopt the convention for link:../guide-usecase.asciidoc[use-cases from devon4j]. In summary, use-cases should be named as `Uc«Operation»«BusinessObject»[Impl]`.
+
+    * `Uc` stands for use-case and allows to easily find and identify them in your IDE.
+    * `«Operation»` stands for a verb that is operated on the entity identified by `«BusinessObject»`.
+    * `[Impl]` notices an implementation class.
+
+We leave it up to you to decide whether you want to define an interface for each use-case or provide an implementation directly.
+
+For CRUD, we use standard operations `Find` and `Manage` corresponding to read and write operations. Our intention is to provide https://github.com/devonfw/cobigen[CobiGen] with templates for quarkus for code generation in the near future. Any other non CRUD operation uses any other custom verb for `«Operation»`. Belows is an example from our https://github.com/devonfw-sample/devon4quarkus-reference[quarkus reference project].
+
+=== Example
+Here we define an interface for each use-case.
+
+==== Find
+`UcFindAnimal` defines all read operations to retrieve and search for `«BusinessObject»` Animal and its associated attributes.
+[source,java]
+----
+public interface UcFindAnimal {
+    PageImpl<AnimalDto> findAnimals(AnimalSearchCriteriaDto dto);
+
+    PageImpl<AnimalDto> findAnimalsOrderedByName();
+
+    AnimalDto findAnimal(String id);
+
+    AnimalDto findAnimalByName(String name);
+
+    List<String> findAnimalFacts(String id);
+}
+----
+The implementation of this interface should carry its own name and the suffix `Impl` and is annotated with `@Named`. An implementation typically needs access to the persistent data. This is done by injecting the corresponding repository (or DAO). Furthermore, it shall not expose persistent entities from the data access layer and has to map them to transfer objects using the bean-mapper. Here we use Mapstruct and inject the corresponding mapper. Please refer to our bean mapping documentation for more information.
+[source,java]
+----
+@Named
+@Transactional
+public class UcFindAnimalImpl implements UcFindAnimal {
+    @Inject
+    AnimalRepository animalRepository;
+
+    @Inject
+    AnimalMapper mapper;
+
+    @Override
+    public AnimalDto findAnimal(String id) {...}
+
+    ...
+}
+----
+
+==== Manage
+`UcManageAnimal` defines all write operations on `«BusinessObject»` e.g. create, update, delete etc. , which is implemented by `UcManageAnimalImpl`
+
+[source,java]
+----
+public interface UcManageAnimal {
+    AnimalDto saveAnimal(NewAnimalDto dto);
+
+    AnimalDto deleteAnimal(String id);
+}
+----
+
+The use-cases can then be injected directly into the service.
+
+[source,java]
+----
+@Path("/animals")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class AnimalRestService {
+
+    @Inject
+    UcFindAnimal ucFindAnimal;
+
+    @Inject
+    UcManageAnimal ucManageAnimal;
+
+    @GET
+    @Path("{id}")
+    public AnimalDto getAnimalById(@Parameter(description = "Animal unique id") @PathParam("id") String id) {
+        return ucFindAnimal.findAnimal(id);
+    }
+    ...
+----
+
+
