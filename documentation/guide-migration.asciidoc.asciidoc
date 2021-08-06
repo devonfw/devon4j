@@ -1,0 +1,161 @@
+== Devon4j migration
+
+The below command upgrade the devon4j application to the current version:
+
+[source,bash]
+----
+devon java migrate
+----
+
+The below changes required to apply to fix the compilation issues or remove unwanted code.
+
+[arabic]
+
+. Remove the below statements from ../general/common/base/test/DbTestHelper.java
+[source,bash]
+----
+private MigrationVersion migrationVersion;
+....
+
+if (this.migrationVersion != null) {
+  this.flyway.setTarget(this.migrationVersion);
+}
+
+…..
+
+public void setMigrationVersion(String migrationVersion) {
+  this.migrationVersion = MigrationVersion.fromVersion(migrationVersion);
+}
+----
+[arabic, start=2]
+. Remove file ../general/service/impl/LoginController.java
+
+=== Nice to have changes
+
+==== To use CSRF starter.
+
+The below changes required to use the CSRF plugin
+
+[arabic]
+. Add the below dependency:
+
+[source,xml]
+----
+<dependency>
+    <groupId>com.devonfw.java.starters</groupId>
+    <artifactId>devon4j-starter-security-csrf</artifactId>
+</dependency>
+----
+
+[arabic, start=2]
+. Remove file ../general/service/api/rest/SecurityRestService.java
+. Remove the below line from
+../general/common/impl/config/ApplicationObjectMapperFactory.java
+[source,java]
+----
+module.addAbstractTypeMapping(CsrfToken.class, CsrfTokenImpl.class);
+----
+[arabic, start=4]
+. Remove file ../general/common/impl/config/CsrfTokenImpl.java
+
+
+. Remove the below lines from
+
+../core/src/main/java/com/devonfw/application/jtqj/general/service/impl/config/WebSecurityBeansConfig.java
+
+[source,java]
+----
+@Bean
+public CsrfTokenRepository csrfTokenRepository() {
+    return new HttpSessionCsrfTokenRepository();
+}
+----
+[arabic, start=6]
+. Modify  ../general/service/impl/config/BaseWebSecurityConfig.java according to the inline instructions below.
+
+[source,java]
+----
+@Override
+public void configure(HttpSecurity http) throws Exception {
+    //Add the below lines
+    http = http.csrf().disable();
+    http = this.webSecurityConfigurer.configure(http);
+    
+    //remove the below lines:
+    http.authorizeRequests().anyRequest().permitAll().and().csrf().disable();
+    if (this.corsEnabled) {
+     http.addFilterBefore(getCorsFilter(), CsrfFilter.class);
+    }
+}
+
+----
+
+[arabic, start=7]
+. Remove file ..\general\common\impl\security\CsrfRequestMatcher.java
+
+More information about the CSRF can be found https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides.html#guide-csrf.asciidoc[here]
+
+==== To use CORS starter.
+
+[arabic]
+. Add the below dependency:
+
+[source,xml]
+----
+<dependency>
+    <groupId>com.devonfw.java.starters</groupId>
+    <artifactId>devon4j-starter-security-cors</artifactId>
+</dependency>
+----
+
+[arabic, start=2]
+. Modify  ../general/service/impl/config/BaseWebSecurityConfig.java according to the inline instructions below.
+
+[source,java]
+----
+//Remove the below lines:
+@Value("${security.cors.enabled}")
+boolean corsEnabled = false;
+
+
+//Remove the method :
+
+private CorsFilter getCorsFilter() {
+    ......
+}
+
+//Add the below line:
+
+@Inject
+private WebSecurityConfigurer webSecurityConfigurer;
+
+
+
+@Override
+public void configure(HttpSecurity http) throws Exception {
+    //Add the below lines
+    http = http.csrf().disable();
+    http = this.webSecurityConfigurer.configure(http);
+    
+    //remove the below lines:
+    
+    if (this.corsEnabled) {
+     http.addFilterBefore(getCorsFilter(), CsrfFilter.class);
+    }
+}
+
+----
+[arabic, start=2]
+. Add below change in java/jtqj/core/src/main/resources/application.properties
+
+[source,properties]
+----
+#CORS support
+security.cors.spring.allowCredentials=true
+security.cors.spring.allowedOriginPatterns=*
+security.cors.spring.allowedHeaders=*
+security.cors.spring.allowedMethods=OPTIONS,HEAD,GET,PUT,POST,DELETE,PATCH
+security.cors.pathPattern=/*
+----
+
+More information about the CORS headers can be found https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides.html#devon4j.wiki_guide-cors-support.asciidoc[here]

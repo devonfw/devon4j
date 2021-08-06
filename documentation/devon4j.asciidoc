@@ -257,6 +257,10 @@ include::guide-jms.asciidoc[leveloffset=+3]
 
 include::guide-text-search.asciidoc[leveloffset=+3]
 
+<<<<
+
+include::guide-migration.asciidoc[leveloffset=2]
+
 === Tutorials
 
 include::tutorial-newapp.asciidoc[leveloffset=+3]
