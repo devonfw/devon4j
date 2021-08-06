@@ -32,7 +32,7 @@ A description of how to enable BV for spring applications can be found in the re
     </dependency>
 ----
 
-.*spring*
+.*quarkus*
 [source,xml]
 ----
     <dependency>
