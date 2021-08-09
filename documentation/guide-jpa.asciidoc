@@ -114,7 +114,7 @@ Using the Aliases API of QueryDSL might result in an `InvalidDataAccessApiUsageE
 . Make sure, that all your custom types used in entities provide a non-argument constructor with at least visibility level `protected`.
 
 === Primary Keys
-We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). For spring appliations this is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` that you can extend. In Quarkus applications, you need to add the ID attribute to your class manually.
+We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). For spring appliations this is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` that you can extend. In Quarkus applications, you need to add the ID attribute to your class manually (see https://github.com/devonfw-sample/devon4quarkus-reference/blob/master/src/main/java/com/devonfw/demoquarkus/domain/model/Animal.java[here]).
 In case you have business oriented keys (often as `String`), you can define an additional property for it and declare it as unique (`@Column(unique=true)`).
 Be sure to include "AUTO_INCREMENT" in your sql table field ID to be able to persist data (or similar for other databases).
 
@@ -328,7 +328,7 @@ As a best practice we advise you to avoid entity hierarchies at all where possib
 For each entity a code unit is created that groups all database operations for that entity. We recommend to use link:guide-repository.asciidoc[spring-data repositories] for that as it is most efficient for developers. As an alternative there is still the classic approach using link:guide-dao.asciidoc[DAOs].
 
 === Concurrency Control
-The concurrency control defines the way concurrent access to the same data of a database is handled. When several users (or threads of application servers) concurrently access a database, anomalies may happen, e.g. a transaction is able to see changes from another transaction although that one did, not yet commit these changes. Most of these anomalies are automatically prevented by the database system, depending on the http://en.wikipedia.org/wiki/Isolation_(database_systems)[_isolation level_] (property `hibernate.connection.isolation` in the `jpa.xml`, see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html[here]).
+The concurrency control defines the way concurrent access to the same data of a database is handled. When several users (or threads of application servers) concurrently access a database, anomalies may happen, e.g. a transaction is able to see changes from another transaction although that one did, not yet commit these changes. Most of these anomalies are automatically prevented by the database system, depending on the http://en.wikipedia.org/wiki/Isolation_(database_systems)[_isolation level_] (property `hibernate.connection.isolation` in the `jpa.xml`, see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html[here], or `quarkus.datasource.jdbc.transaction-isolation-level` in the `application.properties`).
 
 Another anomaly is when two stakeholders concurrently access a record, do some changes and write them back to the database. The JPA addresses this with different locking strategies (see http://www.objectdb.com/java/jpa/persistence/lock[here]).
 
