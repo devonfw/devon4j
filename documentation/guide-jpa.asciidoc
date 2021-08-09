@@ -4,7 +4,7 @@ toc::[]
 = Java Persistence API
 
 For mapping java objects to a relational database we use the http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[Java Persistence API (JPA)]. 
-As JPA implementation we recommend to use http://hibernate.org/orm/[hibernate]. For general documentation about JPA and hibernate follow the links above as we will not replicate the documentation. Here you will only find guidelines and examples how we recommend to use it properly. The following examples show how to map the data of a database to an entity. As we use JPA we abstract from link:guide-sql.asciidoc[SQL] here. However, you will still need a https://en.wikipedia.org/wiki/Data_definition_language[DDL] script for your schema and during maintenance also link:guide-database-migration.asciidoc[database migrations]. Please follow our link:guide-sql.asciidoc[SQL guide] for such artifacts.
+As JPA implementation we recommend to use http://hibernate.org/orm/[Hibernate]. For general documentation about JPA and Hibernate follow the links above as we will not replicate the documentation. Here you will only find guidelines and examples how we recommend to use it properly. The following examples show how to map the data of a database to an entity. As we use JPA we abstract from link:guide-sql.asciidoc[SQL] here. However, you will still need a https://en.wikipedia.org/wiki/Data_definition_language[DDL] script for your schema and during maintenance also link:guide-database-migration.asciidoc[database migrations]. Please follow our link:guide-sql.asciidoc[SQL guide] for such artifacts.
 
 == Entity
 Entities are part of the persistence layer and contain the actual data. They are POJOs (Plain Old Java Objects) on which the relational data of a database is mapped and vice versa. The mapping is configured via JPA annotations (`javax.persistence`). Usually an entity class corresponds to a table of a database and a property to a column of that table. A persistent entity instance then represents a row of the database table.
@@ -41,7 +41,7 @@ Entities should be simple POJOs and not contain business logic.
 
 === Entities and Datatypes
 Standard datatypes like `Integer`, `BigDecimal`, `String`, etc. are mapped automatically by JPA. Custom link:guide-datatype.asciidoc[datatypes] are mapped as serialized xref:blob[BLOB] by default what is typically undesired. 
-In order to map atomic custom datatypes (implementations of`+SimpleDatatype`) we implement an `AttributeConverter`. ere is a simple example:
+In order to map atomic custom datatypes (implementations of`+SimpleDatatype`) we implement an `AttributeConverter`. Here is a simple example:
 [source,java]
 ----
 @Converter(autoApply = true)
@@ -58,7 +58,7 @@ public class MoneyAttributeConverter implements AttributeConverter<Money, BigDec
 ----
 The annotation `@Converter` is detected by the JPA vendor if the annotated class is in the packages to scan. Further, `autoApply = true` implies that the converter is automatically used for all properties of the handled datatype. Therefore all entities with properties of that datatype will automatically be mapped properly (in our example `Money` is mapped as `BigDecimal`).
 
-In case you have a composite datatype that you need to map to multiple columns the JPA does not offer a real solution. As a workaround you can use a bean instead of a real datatype and declare it as xref:embeddable[`@Embeddable`]. If you are using hibernate you can implement `CompositeUserType`. Via the `@TypeDef` annotation it can be registered to hibernate. If you want to annotate the `CompositeUserType` implementation itself you also need another annotation (e.g. `MappedSuperclass` tough not technically correct) so it is found by the scan.
+In case you have a composite datatype that you need to map to multiple columns the JPA does not offer a real solution. As a workaround you can use a bean instead of a real datatype and declare it as xref:embeddable[`@Embeddable`]. If you are using Hibernate you can implement `CompositeUserType`. Via the `@TypeDef` annotation it can be registered to Hibernate. If you want to annotate the `CompositeUserType` implementation itself you also need another annotation (e.g. `MappedSuperclass` tough not technically correct) so it is found by the scan.
 
 ==== Enumerations
 By default JPA maps Enums via their ordinal. Therefore the database will only contain the ordinals (0, 1, 2, etc.) . So , inside the database you can not easily understand their meaning. Using `@Enumerated` with `EnumType.STRING` allows to map the enum values to their name (`Enum.name()`). Both approaches are fragile when it comes to code changes and refactoring (if you change the order of the enum values or rename them) after the application is deployed to production. If you want to avoid this and get a robust mapping you can define a dedicated string in each enum value for database representation that you keep untouched. Then you treat the enum just like any other xref:entities-and-datatypes[custom datatype].
@@ -114,7 +114,7 @@ Using the Aliases API of QueryDSL might result in an `InvalidDataAccessApiUsageE
 . Make sure, that all your custom types used in entities provide a non-argument constructor with at least visibility level `protected`.
 
 === Primary Keys
-We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). This is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` that you can extend.
+We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). For spring appliations this is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` that you can extend. In Quarkus applications, you need to add the ID attribute to your class manually.
 In case you have business oriented keys (often as `String`), you can define an additional property for it and declare it as unique (`@Column(unique=true)`).
 Be sure to include "AUTO_INCREMENT" in your sql table field ID to be able to persist data (or similar for other databases).
 
