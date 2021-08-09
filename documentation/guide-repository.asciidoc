@@ -2,7 +2,7 @@
 toc::[]
 
 = Spring-Data
-If you are using the Spring Framework and have no restrictions regarding that, we recommend to use https://projects.spring.io/spring-data-jpa/[spring-data-jpa] via http://repo1.maven.org/maven2/com/devonfw/java/starters/devon4j-starter-spring-data-jpa/[devon4j-starter-spring-data-jpa] that brings advanced integration (esp. for QueryDSL).
+If you are using the Spring Framework and have no restrictions regarding that, we recommend to use https://projects.spring.io/spring-data-jpa/[spring-data-jpa] via http://repo1.maven.org/maven2/com/devonfw/java/starters/devon4j-starter-spring-data-jpa/[devon4j-starter-spring-data-jpa] that brings advanced integration (esp. for QueryDSL). Quarkus also supports Spring Data via the `quarkus-spring-data-jpa` extension, but this approach still has some limitations. For more information, see the Quarkus Spring Data guide.
 
 == Motivation
 The benefits of spring-data are (for examples and explanations see next sections):
