@@ -303,7 +303,7 @@ For all other cases the JPA offers the annotation `@Inheritance` with the proper
 Each of the three approaches has its advantages and drawbacks, which are discussed in detail http://openjpa.apache.org/builds/1.0.4/apache-openjpa-1.0.4/docs/manual/jpa_overview_mapping_inher.html#jpa_overview_mapping_inher_tpc[here]. In most cases, the first one should be used, because it is usually the fastest way to do the mapping, as no joins are needed when retrieving, searching or persisting entities. Moreover it is rather simple and easy to understand.
 One major disadvantage is that the first approach could lead to a table with a lot of null values, which might have a negative impact on the database size.
           
-The inheritance strategy has to be annotated to the top-most entity of the class hierarchy (where `@MappedSuperclass`es are not considered) like in the following example:
+The inheritance strategy has to be annotated to the top-most entity of the class hierarchy (where `@MappedSuperclass` classes are not considered) like in the following example:
 [source,java]
 ----
 @Entity
