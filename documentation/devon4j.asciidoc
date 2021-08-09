@@ -274,3 +274,4 @@ include::guide-domain-layer.asciidoc[leveloffset=+2]
 === Guides
 
 include::quarkus/guide-cors-support.asciidoc[leveloffset=+3]
+include::quarkus/guide-logic-layer.asciidoc[leveloffset=+3]
