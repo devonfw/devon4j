@@ -101,7 +101,33 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 === Database Configuration
 
-To choose database of your choice , set `spring.profiles.active=XXX` in `src/main/resources/config/application.properties`. Also, one has to set all the active spring profiles in this `application.properties` and not in any of the other `application.properties`.
+The configuration for spring and Hibernate is already provided by devonfw in our sample application and the application template. So you only need to worry about a few things to customize.
+
+==== Database System and Access
+Obviously you need to configure which type of database you want to use as well as the location and credentials to access it. The defaults are configured in `application.properties` that is bundled and deployed with the release of the software. The files should therefore contain the properties as in the given example:
+
+[source, properties]
+----
+  database.url=jdbc:postgresql://database.enterprise.com/app
+  database.user.login=appuser01
+  database.user.password=************
+  database.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+  database.hibernate.hbm2ddl.auto=validate
+----
+
+For further details about `database.hibernate.hbm2ddl.auto` please see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html#configuration-misc-properties[here]. For production and acceptance environments we use the value `validate` that should be set as default. In case you want to use Oracle RDBMS you can find additional hints link:guide-oracle.asciidoc#driver[here].
+
+If your application supports multiples database types, set `spring.profiles.active=XXX` in `src/main/resources/config/application.properties` choose database of your choice. Also, one has to set all the active spring profiles in this `application.properties` and not in any of the other `application.properties`.
+
+==== Database Logging
+Add the following properties to `application.properties` to enable logging of database queries for debugging purposes.
+
+[source, properties]
+----
+spring.jpa.properties.hibernate.show_sql=true
+spring.jpa.properties.hibernate.use_sql_comments=true
+spring.jpa.properties.hibernate.format_sql=true
+----
 
 == Externalized Configuration
 
@@ -114,7 +140,7 @@ The environment configuration contains configuration parameters (typically port 
 The environment configuration is maintained in `application.properties` files, defining various properties (see https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[common application properties] for a list of properties defined by the spring framework).
 These properties are explained in the corresponding configuration sections of the guides for each topic:
 
-* link:guide-jpa.asciidoc#database-system-and-access[persistence configuration]
+* xref:database-configuration[persistence configuration]
 * link:guide-service-layer.asciidoc#jax-rs-configuration[service configuration]
 * link:guide-logging.asciidoc#configuration[logging guide]
 

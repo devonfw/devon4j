@@ -1,0 +1,56 @@
+:toc: macro
+toc::[]
+
+= Spring Data support
+
+https://spring.io/projects/spring-data-jpa[Spring Data JPA] is a layer on top of JPA, dedicates to make it easy for developers to implement JPA repositories.
+There are many discussions in the devonfw community about Spring Data vs classic DAO approach. Ultimately, we support both.
+
+== Spring Data in Quarkus
+
+Quarkus currently supports many features of Spring Data JPA. A detailed guide can be found https://quarkus.io/guides/spring-data-jpa[here].
+
+=== **Repository**
+To implement a repository, the interface has to extend one of the following Spring Data repositories:
+
+    * org.springframework.data.repository.Repository
+    * org.springframework.data.repository.CrudRepository
+    * org.springframework.data.repository.PagingAndSortingRepository
+    * org.springframework.data.jpa.repository.JpaRepository
+
+These Spring Data Repositories provide some basic implementations for accessing data. For example, the `CrudRepository` interface provides methods for returning all instances of a type `findAll` or returning an instance by its ID (`findById`).
+Methods of repository interfaces that follow Spring Data conventions are implemented automatically. This means that you do not have to write code for them. Examples:
+
+    * `findByName` (if there is a name attribute)
+    * `findByNameOrderByAge` (if there is a name and an age attribute)
+
+The generated repositories are also registered as beans so they can be injected into any other bean. Furthermore the methods that update the database are automatically annotated with @Transactional.
+
+You can also fine-tune the repository definition for your own need by defining repository interfaces to cherry-pick methods from any of the supported Spring Data repository interfaces without having to extend those interfaces. It's helpful when for example a repository needs to use some methods from `CrudRepository` but it's undesirable to expose the full list methods of said interface.
+
+In addition, repositories can be enriched with additional functionality or override the default implementations by using repository fragments.
+
+=== **Query**
+
+Quarkus supports the definition of static PSQL queries with the `@Query` annotation. https://github.com/devonfw-sample/devon4quarkus-reference/blob/62e7cb6c7af9668f864c6386fdc79464715ce8fb/src/main/java/com/devonfw/demoquarkus/domain/repo/AnimalRepository.java#L12[Examples]:
+```
+@Query("select a from Animal a where name = :name")
+Animal findByName(@Param("name") String name);
+```
+Quarkus supports the use of the Criteria API in both native and JVM mode to define dynamic queries.
+
+QueryDSL, contrary to what is claimed in the https://quarkus.io/guides/spring-data-jpa[Quarkus Spring Data guide], works in both native and JVM mode to define dynamic queries.
+
+=== **Pagination**
+Quarkus Spring Data offers paging support both in JVM mode and native mode.
+
+In native mode, `PageImpl<T>` has to be used as the return type so that all page information is returned properly.
+
+== Limitation
+
+* Native and named queries are not supported using `@Query` annotation. You will receive something like `Build step io.quarkus.spring.data.deployment.SpringDataJPAProcessor#build threw an exception: java.lang.IllegalArgumentException: Attribute nativeQuery of @Query is currently not supported.`
+* QueryDSL integration works only via custom fragments implementation. As we considered this approach rather poor, we created our own solution in devon4j. Making it work in native mode would mean a huge effort. For now we will leave it like that. Work in the future will be documented correspondingly.
+
+
+
+

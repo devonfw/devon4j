@@ -114,7 +114,7 @@ Using the Aliases API of QueryDSL might result in an `InvalidDataAccessApiUsageE
 . Make sure, that all your custom types used in entities provide a non-argument constructor with at least visibility level `protected`.
 
 === Primary Keys
-We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). For spring appliations this is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` that you can extend. In Quarkus applications, you need to add the ID attribute to your class manually (see https://github.com/devonfw-sample/devon4quarkus-reference/blob/master/src/main/java/com/devonfw/demoquarkus/domain/model/Animal.java[here]).
+We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). This is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` within the link:guide-structure-classic.asciidoc#architecture-mapping[classic project structure] respectively `com.devonfw.<projectName>.general.domain.model.AbstractPersistenceEntity` within the link:guide-structure-modern.asciidoc#architecture-mapping[modern project structure], that you can extend.
 In case you have business oriented keys (often as `String`), you can define an additional property for it and declare it as unique (`@Column(unique=true)`).
 Be sure to include "AUTO_INCREMENT" in your sql table field ID to be able to persist data (or similar for other databases).
 
@@ -369,65 +369,15 @@ We strongly recommend these principles:
 * Keep your entities simple and avoid putting advanced logic into entity methods.
 
 == Database Configuration
-The link:guide-configuration.asciidoc[configuration] for spring and Hibernate is already provided by devonfw in our sample application and the application template. So you only need to worry about a few things to customize. In Quarkus, Hibernate is provided by the `quarkus-hibernate-orm` extension.
 
-=== Database System and Access
-Obviously you need to configure which type of database you want to use as well as the location and credentials to access it. The defaults are configured in `application-default.properties` that is bundled and deployed with the release of the software. In Quarkus applications, use the `applications.properties` file to make the configurations. The files should therefore contain the properties as in the given example:
+For details on the configuration of the database connection and database logging of the individual framework, please refer to the respective configuration guide. 
 
-.**spring**
-[source, properties]
-----
-  database.url=jdbc:postgresql://database.enterprise.com/app
-  database.user.login=appuser01
-  database.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
-  database.hibernate.hbm2ddl.auto=validate
-----
+For link:spring.asciidoc[spring] see link:guide-configuration.asciidoc#database-configuration[here].
 
-The environment specific settings (especially passwords) are configured by the operators in `application.properties`. For further details consult the link:guide-configuration.asciidoc[configuration guide]. It can also override the default values. The relevant configuration properties can be seen by the following example for the development environment (located in `src/test/resources`):
-
-[source, properties]
-----
-  database.url=jdbc:postgresql://localhost/app
-  database.user.password=************
-  database.hibernate.hbm2ddl.auto=create
-----
-
-For further details about `database.hibernate.hbm2ddl.auto` please see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html#configuration-misc-properties[here]. For production and acceptance environments we use the value `validate` that should be set as default. In case you want to use Oracle RDBMS you can find additional hints link:guide-oracle.asciidoc#driver[here].
-
-.**quarkus**
-----
-  quarkus.datasource.jdbc.url=jdbc:postgresql://database.enterprise.com/app
-  quarkus.datasource.username=appuser01
-  quarkus.datasource.password=************
-  quarkus.datasource.db-kind=postgresql
-
-  # drop and create the database at startup (use only for local development)
-  quarkus.hibernate-orm.database.generation=drop-and-create
-----
-
-For Quarkus applications you additionally have to add the respective JDBC driver extension. There are different drivers for different database types. See https://quarkus.io/guides/hibernate-orm#setting-up-and-configuring-hibernate-orm[Quarkus Hibernate guide].
+For link:quarkus.asciidoc[quarkus] see link:quarkus/guide-configuration.asciidoc#database-configuration[here].
 
 === Database Migration
 See link:guide-database-migration.asciidoc[database migration].
-
-=== Database Logging
-Add the following properties to `application.properties` to enable logging of database queries for debugging purposes.
-
-.**spring**
-``` properties
-spring.jpa.properties.hibernate.show_sql=true
-spring.jpa.properties.hibernate.use_sql_comments=true
-spring.jpa.properties.hibernate.format_sql=true
-```
-
-.**quarkus**
-``` properties
-quarkus.hibernate-orm.log.sql=true
-quarkus.hibernate-orm.log.format-sql=true
-
-#Logs SQL bind parameters. Setting it to true is obviously not recommended in production.
-quarkus.hibernate-orm.log.bind-parameters=true
-```
 
 === Pooling
 You typically want to pool JDBC connections to boost performance by recycling previous connections. There are many libraries available to do connection pooling. We recommend to use https://github.com/brettwooldridge/HikariCP[HikariCP]. For Oracle RDBMS see link:guide-oracle.asciidoc#pooling[here].
