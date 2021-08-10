@@ -25,56 +25,37 @@ SELECT line FROM OrderLineEntity line WHERE line.order.id = :orderId
 == Dynamic Queries
 For dynamic queries we use http://www.querydsl.com/[QueryDSL]. It allows to implement queries in a powerful but readable and type-safe way (unlike Criteria API). If you already know JPQL you will quickly be able to read and write QueryDSL code. It feels like JPQL but implemented in Java instead of plain text.
 
-Please be aware that code-generation can be painful especially with large teams. We therefore recommend to use QueryDSL without code-generation. Here is an example from our sample applications:
+Here is an example from our sample applications:
 
-.**spring**
 [source,java]
 ----
-  public List<DishEntity> findOrders(DishSearchCriteriaTo criteria) {
-    DishEntity dish = Alias.alias(DishEntity.class);
-    JPAQuery<OrderEntity> query = newDslQuery(alias); // new JPAQuery<>(getEntityManager()).from(Alias.$(dish));
+  public List<DishEntity> findDishes(DishSearchCriteriaTo criteria) {
+    QDishEntity dish = QDishEntity.dishEntity;
+    JPAQuery<DishEntity> query = new JPAQuery<OrderEntity>(getEntityManager());
+    query.from(dish);
+
     Range<BigDecimal> priceRange = criteria.getPriceRange();
     if (priceRange != null) {
       BigDecimal min = priceRange.getMin();
       if (min != null) {
-        query.where(Alias.$(order.getPrice()).ge(min));
+        query.where(dish.price.goe(min));
       }
       BigDecimal max = priceRange.getMax();
       if (max != null) {
-        query.where(Alias.$(order.getPrice()).le(max));
+        query.where(dish.price.loe(max));
       }
     }
     String name = criteria.getName();
     if ((name != null) && (!name.isEmpty())) {
-      // query.where(Alias.$(alias.getName()).eq(name));
-      QueryUtil.get().whereString(query, Alias.$(alias.getName()), name, criteria.getNameOption());
+      query.where(dish.name.eq(name));
     }
     return query.fetch();
   }
 ----
 
-.**quarkus**
-[source,java]
-----
-  public Page<Animal> findAllQueryDsl(AnimalSearchCriteriaDto dto) {
+In this example we use the so called Q-types (`QDishEntity`). These are classes generated at build time by the QueryDSL annotation processor from entity classes. The Q-type classes can be used as static types representative of the original entity class.
 
-    QAnimal animal = QAnimal.animal;
-    JPAQuery<Animal> query = new JPAQuery<Animal>(this.em);
-    query.from(animal);
-    if (dto.getName() != null && !dto.getName().isEmpty()) {
-      query.where(animal.name.eq(dto.getName()));
-    }
-    if (dto.getNumberOfLegs() != null) {
-      query.where(animal.numberOfLegs.eq(dto.getNumberOfLegs()));
-    }
-
-    // Order by name
-    query.orderBy(animal.name.desc());
-
-    List<Animal> animals = query.limit(dto.getPageSize()).offset(dto.getPageNumber() * dto.getPageSize()).fetch();
-    return new PageImpl<>(animals, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animals.size());
-  }
-----
+For spring, devon4j provides the [QueryUtil](https://github.com/devonfw/devon4j/blob/master/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java) helper class that you can use for your Spring applications to implement QueryDSL logic without having to use these metaclasses. An example can be found link:spring/guide-querydsl-spring.asciidoc[here].
 
 == Using Wildcards
 For flexible queries it is often required to allow wildcards (especially in xref:dynamic_queries[dynamic queries]). While users intuitively expect glob syntax the SQL and JPQL standards work different. Therefore a mapping is required. devonfw provides this on a lower level by https://github.com/devonfw/devon4j/blob/develop/modules/basic/src/main/java/com/devonfw/module/basic/common/api/query/LikePatternSyntax.java[LikePatternSyntax] and on a high level by https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java#L54[QueryUtil] (see https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryHelper.java#L199[QueryHelper.newStringClause(...)]).
