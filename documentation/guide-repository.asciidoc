@@ -100,7 +100,7 @@ This `ExampleRepository` has the following features:
 * Support for https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/QueryDslSupport.java[QueryDSL integration], https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java[paging and more].
 * A static link:guide-jpa-query.asciidoc[query] method `findByName` to find all `ExampleEntity` instances from DB that have the given name. Please note the `@Param` annotation that links the method parameter with the variable inside the query (`:name`).
 * The same with pagination support via findByNamePaginated method.
-* A dynamic link:guide-jpa-query.asciidoc[query] method `findByCriteria` showing the QueryDSL and paging integration into Spring via a fragment implementatio.
+* A dynamic link:guide-jpa-query.asciidoc[query] method `findByCriteria` showing the QueryDSL and paging integration into Spring via a fragment implementation.
 
 NOTE: In Quarkus, native and named queries via the `@Query` annotation are currently not supported
 
