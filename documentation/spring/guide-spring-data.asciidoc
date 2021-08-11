@@ -8,7 +8,7 @@ Spring Data uses a fragment approach to implement custom functionality for repos
 The repository must extend https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/DefaultRepository.java[DefaultRepository], which uses https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/impl/data/GenericRepositoryImpl.java[GenericRepositoryImpl] as implementation. The https://github.com/devonfw/devon4j/blob/master/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java[QueryUtil] helper class provides methods to support pagination and query creation.
 
 == Example
-The following example shows how to write such a repository. The example has the same functionality as the example in the link:../guide-repository.asciidoc[Spring Data guide]:
+The following example shows how to write such a repository. The example has the same functionality as the example in the link:../guide-repository.asciidoc#example[Spring Data guide]:
 
 [source,java]
 ----
@@ -40,5 +40,5 @@ You can also read the JUnit test-case https://github.com/devonfw/devon4j/blob/de
 https://github.com/devonfw/devon4j/blob/develop/starters/starter-spring-data-jpa/src/test/java/com/devonfw/example/component/dataaccess/api/FooRepository.java[FooRepository].
 
 == Auditing
-In case you need link:guide-auditing.asciidoc[auditing], you only need to extend `DefaultRevisionedRepository` instead of `DefaultRepository`. The auditing methods can be found in https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/GenericRevisionedRepository.java[GenericRevisionedRepository].
+In case you need link:../guide-auditing.asciidoc[auditing], you only need to extend `DefaultRevisionedRepository` instead of `DefaultRepository`. The auditing methods can be found in https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/GenericRevisionedRepository.java[GenericRevisionedRepository].
 
