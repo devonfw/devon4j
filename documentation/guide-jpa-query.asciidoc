@@ -25,7 +25,7 @@ SELECT line FROM OrderLineEntity line WHERE line.order.id = :orderId
 == Dynamic Queries
 For dynamic queries we use http://www.querydsl.com/[QueryDSL]. It allows to implement queries in a powerful but readable and type-safe way (unlike Criteria API). If you already know JPQL you will quickly be able to read and write QueryDSL code. It feels like JPQL but implemented in Java instead of plain text.
 
-Here is an example from our sample applications:
+Here is an example from our sample application:
 
 [source,java]
 ----

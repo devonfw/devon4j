@@ -1,11 +1,11 @@
 :toc: macro
 toc::[]
 
-= Spring-Data
-If you are using the Spring Framework and have no restrictions regarding that, we recommend to use https://projects.spring.io/spring-data-jpa/[spring-data-jpa] via http://repo1.maven.org/maven2/com/devonfw/java/starters/devon4j-starter-spring-data-jpa/[devon4j-starter-spring-data-jpa] that brings advanced integration (esp. for QueryDSL). Quarkus also supports Spring Data via the `quarkus-spring-data-jpa` extension, but this approach still has some limitations. For more information, see the Quarkus Spring Data guide.
+= Spring Data
+If you are using the Spring Framework and have no restrictions regarding that, we recommend to use https://projects.spring.io/spring-data-jpa/[spring-data-jpa] via http://repo1.maven.org/maven2/com/devonfw/java/starters/devon4j-starter-spring-data-jpa/[devon4j-starter-spring-data-jpa] that brings advanced integration (esp. for QueryDSL). Quarkus also supports Spring Data via `quarkus-spring-data-jpa` extension, but this approach still has some limitations. For more information, see the official https://quarkus.io/guides/spring-data-jpa[Quarkus Spring Data guide].
 
 == Motivation
-The benefits of spring-data are (for examples and explanations see next sections):
+The benefits of Spring Data are (for examples and explanations see next sections):
 
 * All you need is one single repository interface for each entity. No need for a separate implementation or other code artifacts like XML descriptors, `NamedQueries` class, etc.
 * You have all information together in one place (the repository interface) that actually belong together (where as in the classic approach you have the static link:guide-jpa-query.asciidoc[queries] in an XML file, constants to them in `NamedQueries` class and referencing usages in DAO implementation classes).
@@ -13,54 +13,10 @@ The benefits of spring-data are (for examples and explanations see next sections
 * Support for paging is already build-in. Again for static link:guide-jpa-query.asciidoc[query] method the is nothing you have to do except using the paging objects in the signature.
 * Still you have the freedom to write custom implementations via default methods within the repository interface (e.g. for dynamic queries).
 
-== Repository
-For each entity `«Entity»Entity` an interface is created with the name `«Entity»Repository` extending https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/DefaultRepository.java[`DefaultRepository`].
-Such repository is the analogy to a link:guide-dao.asciidoc[Data-Access-Object (DAO)] used in the classic approach or when spring-data is not an option.
-
-=== Example
-The following example shows how to write such a repository:
-
-[source,java]
-----
-public interface ExampleRepository extends DefaultRepository<ExampleEntity> {
-
-  @Query("SELECT example FROM ExampleEntity example" //
-      + " WHERE example.name = :name")
-  List<ExampleEntity> findByName(@Param("name") String name);
-
-  @Query("SELECT example FROM ExampleEntity example" //
-      + " WHERE example.name = :name")
-  Page<ExampleEntity> findByNamePaginated(@Param("name") String name, Pageable pageable);
-
-  default Page<ExampleEntity> findByCriteria(ExampleSearchCriteriaTo criteria) {
-    ExampleEntity alias = newDslAlias();
-    JPAQuery<ExampleEntity> query = newDslQuery(alias);
-    String name = criteria.getName();
-    if ((name != null) && !name.isEmpty()) {
-      QueryUtil.get().whereString(query, $(alias.getName()), name, criteria.getNameOption());
-    }
-    return QueryUtil.get().findPaginated(criteria.getPageable(), query, false);
-  }
-
-}
-----
-This `ExampleRepository` has the following features:
-
-* CRUD support from spring-data (see https://docs.spring.io/spring-data/data-jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html[JavaDoc] for details).
-* Support for https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/QueryDslSupport.java[QueryDSL integration], https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java[paging and more] as well as https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/feature/FeatureForceIncrementModificationCounter.java[locking] via https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/GenericRepository.java[GenericRepository]
-* A static link:guide-jpa-query.asciidoc[query] method `findByName` to find all `ExampleEntity` instances from DB that have the given name. Please note the `@Param` annotation that links the method parameter with the variable inside the query (`:name`).
-* The same with pagination support via `findByNamePaginated` method.
-* A dynamic link:guide-jpa-query.asciidoc[query] method `findByCriteria` showing the QueryDSL and paging integration into spring-data provided by devon.
-
-=== Further examples
-You can also read the JUnit test-case https://github.com/devonfw/devon4j/blob/develop/starters/starter-spring-data-jpa/src/test/java/com/devonfw/module/jpa/dataaccess/api/DefaultRepositoryTest.java[DefaultRepositoryTest] that is testing an example
-https://github.com/devonfw/devon4j/blob/develop/starters/starter-spring-data-jpa/src/test/java/com/devonfw/example/component/dataaccess/api/FooRepository.java[FooRepository].
-
-=== Auditing
-In case you need link:guide-auditing.asciidoc[auditing], you only need to extend `DefaultRevisionedRepository` instead of `DefaultRepository`. The auditing methods can be found in https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/GenericRevisionedRepository.java[GenericRevisionedRepository].
-
 == Dependency
-In case you want to switch to or add spring-data support to your devon application all you need is this maven dependency:
+In case you want to switch to or add Spring Data support to your devon4j-spring or Quarkus application, all you need is to add the respective maven dependency:
+
+.**spring**
 [source,xml]
 --------
 <!-- Starter for consuming REST services -->
@@ -70,8 +26,94 @@ In case you want to switch to or add spring-data support to your devon applicati
 </dependency>
 --------
 
-== Drawbacks
-Spring-data also has some drawbacks:
+.**quarkus**
+[source,xml]
+--------
+<dependency>
+  <groupId>io.quarkus</groupId>
+  <artifactId>quarkus-spring-data-jpa</artifactId>
+</dependency>
+--------
 
-* Some kind of magic behind the scenes that are not so easy to understand. So in case you want to extend all your repositories without providing the implementation via a default method in a parent repository interface you need to deep-dive into spring-data. We assume that you do not need that and hope what spring-data and devon already provides out-of-the-box is already sufficient.
-* The spring-data magic also includes guessing the query from the method name. This is not easy to understand and especially to debug. Our suggestion is not to use this feature at all and either provide a `@Query` annotation or an implementation via default method.
+== Repository
+For each entity `«Entity»Entity` an interface is created with the name `«Entity»Repository` extending one of the following Spring Data repositories:
+    * org.springframework.data.repository.Repository
+    * org.springframework.data.repository.CrudRepository
+    * org.springframework.data.repository.PagingAndSortingRepository
+    * org.springframework.data.jpa.repository.JpaRepository
+Such repository is the analogy to a link:guide-dao.asciidoc[Data-Access-Object (DAO)] used in the classic approach or when Spring Data is not an option.
+
+These Spring Data repositories provide some basic implementations for accessing data, e.g. returning all instances of a type (`findAll`) or returning an instance by its ID (`findById`).
+
+In addition, repositories can be enriched with additional functionality, e.g. to add QueryDSL functionality or to override the default implementations, by using so called repository fragments:
+
+=== Example
+The following example shows how to write such a repository:
+
+.**Repository**
+[source,java]
+----
+public interface ExampleRepository extends JpaRepository<ExampleEntity, Long>, ExampleFragment {
+
+  @Query("SELECT example FROM ExampleEntity example WHERE example.name = :name")
+  List<ExampleEntity> findByName(@Param("name") String name);
+
+  @Query("SELECT example FROM ExampleEntity example WHERE example.name = :name")
+  Page<ExampleEntity> findByNamePaginated(@Param("name") String name, Pageable pageable);
+}
+----
+
+.**Repository fragment**
+[source,java]
+----
+public interface ExampleFragment {
+  Page<ExampleEntity> findByCriteria(ExampleSearchCriteriaTo criteria);
+}
+----
+
+.**Fragment implementation**
+[source,java]
+----
+public class ExampleFragment implements ExampleFragment {
+  @Inject
+  EntityManager entityManager;
+
+  public Page<ExampleEntity> findByCriteria(ExampleSearchCriteriaTo criteria) {
+    QExampleEntity example = QExampleEntity.exampleEntity;
+    JPAQuery<ExampleEntity> query = new JPAQuery<ExampleEntity>(this.entityManager);
+    query.from(example);
+
+    String name = criteria.getName();
+    if ((name != null) && !name.isEmpty()) {
+      query.where(example.name.eq(name));
+    }
+
+    List<ExampleEntity> examples = query.fetch();
+    return new PageImpl<>(examples, PageRequest.of(criteria.getPageNumber(), criteria.getPageSize()), examples.size());
+  }
+}
+----
+
+This `ExampleRepository` has the following features:
+
+* CRUD support from Spring Data (see https://docs.spring.io/spring-data/data-jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html[JavaDoc] for details).
+* Support for https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/QueryDslSupport.java[QueryDSL integration], https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java[paging and more].
+* A static link:guide-jpa-query.asciidoc[query] method `findByName` to find all `ExampleEntity` instances from DB that have the given name. Please note the `@Param` annotation that links the method parameter with the variable inside the query (`:name`).
+* The same with pagination support via findByNamePaginated method.
+* A dynamic link:guide-jpa-query.asciidoc[query] method `findByCriteria` showing the QueryDSL and paging integration into Spring via a fragment implementatio.
+
+NOTE: In Quarkus, native and named queries via the `@Query` annotation are currently not supported
+
+=== Integration of Spring Data in devon4j-spring
+
+For Spring applications, devon4j offers a proprietary solution that integrates seamlessly with QueryDsl and uses default methods instead of the fragment approach. A separate guide for this can be found link:spring/guide-spring-data.asciidoc[here].
+
+== Drawbacks
+Spring Data also has some drawbacks:
+
+* Some kind of magic behind the scenes that are not so easy to understand. So in case you want to extend all your repositories without providing the implementation via a default method in a parent repository interface you need to deep-dive into Spring Data. We assume that you do not need that and hope what Spring Data and devon already provides out-of-the-box is already sufficient.
+* The Spring Data magic also includes guessing the query from the method name. This is not easy to understand and especially to debug. Our suggestion is not to use this feature at all and either provide a `@Query` annotation or an implementation via default method.
+
+== Limitations in Quarkus
+* Native and named queries are not supported using `@Query` annotation. You will receive something like: __Build step io.quarkus.spring.data.deployment.SpringDataJPAProcessor#build threw an exception: java.lang.IllegalArgumentException: Attribute nativeQuery of @Query is currently not supported__
+* Customizing the base repository for all repository interfaces in the code base, which is done in Spring Data by registering a class the extends `SimpleJpaRepository`
