@@ -83,19 +83,19 @@ include::guide-liquibase.asciidoc[leveloffset=+3]
 
 <<<<
 
-include::guide-xml.asciidoc[leveloffset=+3]
+include::guide-rest.asciidoc[leveloffset=+2]
 
 <<<<
 
-include::guide-json.asciidoc[leveloffset=+3]
+include::guide-json.asciidoc[leveloffset=+2]
 
 <<<<
 
-include::guide-rest.asciidoc[leveloffset=+3]
+include::guide-xml.asciidoc[leveloffset=+2]
 
 <<<<
 
-include::guide-soap.asciidoc[leveloffset=+3]
+include::guide-soap.asciidoc[leveloffset=+2]
 
 <<<<
 
