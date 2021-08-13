@@ -2,6 +2,8 @@
 toc::[]
 
 = Component Facade
+[NOTE]
+Our recommended approach for implementing the logic layer is link:guide-usecase.asciidoc[use-cases]
 
 For each component of the application, the link:guide-logic-layer.asciidoc[logic layer] defines a component facade.
 This is an interface defining all business operations of the component.
@@ -57,6 +59,3 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
 
 As you can see, link:guide-jpa.asciidoc#entity[entities] (`BookingEntity`) are mapped to corresponding link:guide-transferobject.asciidoc#eto[ETOs] (`BookingEto`).
 Further details about this can be found in link:guide-beanmapping.asciidoc[bean-mapping].
-
-For complex applications, the component facade consisting of many different methods.
-For better maintainability in such case it is recommended to split it into separate link:guide-usecase.asciidoc[use-cases] that are then only aggregated by the component facade.
