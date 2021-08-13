@@ -13,7 +13,9 @@ For operations in REST we distinguish the following types of URLs:
 * A _collection URL_ is build from the rest service URL by appending the name of a collection. This is typically the name of an entity. Such URL identifies the entire collection of all elements of this type. Example: `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity`
 * An _element URL_ is build from a collection URL by appending an element ID. It identifies a single element (entity) within the collection. Example: `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity/42`
 
-This fits perfect for https://en.wikipedia.org/wiki/Create,_read,_update_and_delete[CRUD] operations.
+To follow KISS avoid using plural forms (`.../productmanagement/v1/products` vs. `.../productmanagement/v1/product/42`). Always use singular forms and avoid confusions (except for the rare cases where no singular exists).
+
+The REST URL scheme fits perfect for https://en.wikipedia.org/wiki/Create,_read,_update_and_delete[CRUD] operations.
 For business operations (processing, calculation, advanced search, etc.) we simply append a collection URL with the name of the business operation.
 Then we can `POST` the input for the business operation and get the result back. Example: `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity/search`
 

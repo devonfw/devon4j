@@ -83,6 +83,22 @@ include::guide-liquibase.asciidoc[leveloffset=+3]
 
 <<<<
 
+include::guide-rest.asciidoc[leveloffset=+2]
+
+<<<<
+
+include::guide-json.asciidoc[leveloffset=+2]
+
+<<<<
+
+include::guide-xml.asciidoc[leveloffset=+2]
+
+<<<<
+
+include::guide-soap.asciidoc[leveloffset=+2]
+
+<<<<
+
 include::guide-logging.asciidoc[leveloffset=+2]
 
 <<<<
@@ -141,9 +157,9 @@ include::guide-dataaccess-layer.asciidoc[leveloffset=+3]
 
 include::guide-batch-layer.asciidoc[leveloffset=+3]
 
-=== Guides
-
 <<<<
+
+=== Guides
 
 include::guide-configuration.asciidoc[leveloffset=+3]
 
@@ -188,22 +204,6 @@ include::guide-exceptions.asciidoc[leveloffset=+3]
 <<<<
 
 include::guide-i18n.asciidoc[leveloffset=+3]
-
-<<<<
-
-include::guide-xml.asciidoc[leveloffset=+3]
-
-<<<<
-
-include::guide-json.asciidoc[leveloffset=+3]
-
-<<<<
-
-include::guide-rest.asciidoc[leveloffset=+3]
-
-<<<<
-
-include::guide-soap.asciidoc[leveloffset=+3]
 
 <<<<
 
