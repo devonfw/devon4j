@@ -41,5 +41,5 @@ In order to keep the monitoring simple and easy to integreate consider using the
 
 For link:spring.asciidoc[spring] you can simply integrate app monitoring and health check via https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html[spring-boot-actuator].
 
-For link:quarkus.asciidoc[quarkus] you can simply integrate app monitoring and health check via https://quarkus.io/guides/smallrye-health[smallrye-health].
+For link:quarkus.asciidoc[quarkus] you can simply integrate app monitoring via https://quarkus.io/guides/micrometer[micrometer] or https://quarkus.io/guides/smallrye-metrics[smallrye-metrics] and health check via https://quarkus.io/guides/smallrye-health[smallrye-health].
 
