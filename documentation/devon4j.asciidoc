@@ -115,11 +115,15 @@ include::guide-security.asciidoc[leveloffset=+2]
 
 <<<<
 
-include::guide-jdk.asciidoc[leveloffset=+3]
+include::guide-jdk.asciidoc[leveloffset=+2]
 
 <<<<
 
 include::guide-jee.asciidoc[leveloffset=+2]
+
+<<<<
+
+include::guide-validation.asciidoc[leveloffset=+2]
 
 <<<<
 
@@ -188,10 +192,6 @@ include::guide-jwt.asciidoc[leveloffset=+3]
 <<<<
 
 include::guide-csrf.asciidoc[leveloffset=+3]
-
-<<<<
-
-include::guide-validation.asciidoc[leveloffset=+3]
 
 <<<<
 
