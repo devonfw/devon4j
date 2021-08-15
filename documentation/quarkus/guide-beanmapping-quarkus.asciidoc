@@ -1,0 +1,216 @@
+:toc: macro
+toc::[]
+
+= Bean mapping with Quarkus
+
+This guide will show bean mapping in particular for a Quarkus application. To get a quick introduction to Bean Mapping you can read this https://github.com/devonfw/devon4j/blob/master/documentation/guide-beanmapping.asciidoc#bean-mapping[guide] in the devon4j documentation. At the point, the guide recommending dozer or orika framework the Quarkus usage of bean mapper diverge from devon4j. The frameworks that will be recommended for devon4j, cant be used for a quarkus application because they are using java reflections. This is not supported in GraalVm right now and causes problems, building native applications. That's why we recommend using https://mapstruct.org/[MapStruct] with Quarkus. MapStruct is a code generator that greatly simplifies the implementation of mappings between Java bean types based on a convention over configuration approach. The mapping code will be genreated at compile-time and uses plain method invocations and thus is fast, type-safe, and easy to understand. MapStruct has to be configured to not use Java Reflections but it will be shown in this guide.
+
+You can find the official
+https://mapstruct.org/documentation/stable/reference/pdf/mapstruct-reference-guide.pdf[MapStruct reference guide] and a general introduction to MapStruct not in a quarkus context from https://www.baeldung.com/mapstruct[Baeldung].
+
+== MapStruct Dependency 
+To get access to MapStruct we have to add the dependency to our POM.xml:
+
+[source, xml]
+----
+<dependency>
+  <groupId>org.mapstruct</groupId>
+  <artifactId>mapstruct</artifactId>
+  <version>1.4.2.Final</version>
+  <scope>provided</scope>
+</dependency>
+----
+
+MapStruct provides an annotation processor that also has to be added to the POM.xml 
+[source, xml]
+----
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.8.1</version>
+    <configuration>
+        <source>1.8</source>
+        <target>1.8</target>
+        <annotationProcessorPaths>
+            <path>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>1.4.2.Final</version>
+            </path>
+          </path>
+      </annotationProcessorPaths>
+    </configuration>
+</plugin>
+----
+
+=== Lombok 
+MapStruct takes advantage of generated getters, setters, and constructors from Lombok and uses them to
+generate the mapper implementations. Lombok is also an annotation processor and since version 1.18.14 both frameworks are working together. Just add the `lombok-mapstruct-binding` to your POM.xml with the Lombok dependencies.
+
+The Lombok dependency:
+[source, xml]
+----
+<dependency>
+  <groupId>org.projectlombok</groupId>
+  <artifactId>lombok-mapstruct-binding</artifactId>
+  <version>0.2.0</version>
+</dependency>
+----
+The Lombok annotation processor and the `lomboko mapstruct binding`
+[source, xml]
+----
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.8.1</version>
+    <configuration>
+        <source>1.8</source>
+        <target>1.8</target>
+        <annotationProcessorPaths>
+            <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+	              <version>1.18.4</version>
+            </path>
+            <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-mapstruct-binding</artifactId>
+	              <version>0.2.0</version>
+            </path>
+        </annotationProcessorPaths>
+    </configuration>
+</plugin>
+----
+In our https://github.com/devonfw-sample/devon4quarkus-reference[quarkus reference project] you can get a look into the usage of both frameworks.
+
+== MapStruct Configuration
+
+We already discussed the benefits from https://github.com/devonfw/devon4j/blob/master/documentation/guide-dependency-injection.asciidoc#dependency-injection[dependency injection] and MapStruct supports CDI with EJB, spring, and jsr330. The default retrieving method for a mapper is a factory that uses reflections and should be avoided. The component model should be set to CDI, as this will allow us to easily inject the generated mapper implementation. The component model can be configured in multiple ways.
+
+=== Simple Configuration
+Add the attribute *componentModel* to the *@Mapper* annotation to the mapper interface.
+[source, java]
+----
+@Mapper(compnentModel = "cdi")
+public interface AnimalMapper{
+  ... 
+}
+----
+
+=== MapperConfig Configuration
+Create a shared configuration that can be used for multiple Mappers. Implement an Interface and use the annotation *@MapperConfig* for the class. You can define all configurations in this interface and pass the generated `MapperConfig.class` with the config attribute to the mapper.
+A list of all configurations can be found https://mapstruct.org/documentation/stable/api/org/mapstruct/MapperConfig.html[here].
+[source, java]
+----
+@MapperConfig(
+  compnentModel = "cdi",
+  mappingInheritanceStrategy = MappingInheritanceStrategy.AUTO_INHERIT_FROM_CONFIG
+  unmappedTargetPolicy = ReportingPolicy.ERROR,
+  injectionStrategy =InjectionStrategy.CONSTRUCTOR
+)
+public interface MapperConfig{
+}
+----
+
+[source, java]
+----
+@Mapper( config = MapperConfig.class )
+public interface AnimalMapper{
+  ...
+}
+----
+Any attributes notgiven via *@Mapper* will be inherited from the shared configuration `MapperConfig.class`.
+
+=== Configuration via annotaion processor options
+The MapStruct code generator can be configured using annotation processor options.
+You can pass the options to the compiler while invoking javac directly, or add the parameters to the maven configuration in the POM.xml
+[source, xml]
+----
+<build>
+  <plugins>
+    <plugin>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>${compiler-plugin.version}</version>
+      <configuration>
+        <parameters>true</parameters>
+        <compilerArgs>
+          <!-- mapstruct, please generate all classes as CDI beans -->
+          <arg>-Amapstruct.defaultComponentModel=cdi</arg>
+          <arg>-Amapstruct.defaultInjectionStrategy=CONSTRUCTOR</arg>
+        </compilerArgs>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+----
+A list of all annotation processor options can be found https://mapstruct.org/documentation/dev/reference/html/#configuration-options[here]. 
+
+We are also using the constructor injection strategie to avoid field injections and potential reflections also it will simplify our tests.
+The option to pass the parameter to the annotation processor in the POM.xml is used and can be inspected in our https://github.com/devonfw-sample/devon4quarkus-reference[quarkus reference project].
+
+
+
+
+== Basic Bean-Mapper Usage
+
+To use the mapper we have to implement the mapper Interface and the function prototypes with a *@Mapper* annotation. 
+
+[source, java]
+----
+@Mapper
+public interface AnimalMapper {
+
+  AnimalDto animal2AnimalDto(Animal entity);
+
+  Animal animalDto2Animal(AnimalDto dto);
+}
+----
+The MapStruct annotation processor will generate the implementation for us under `/target/generated-sources/`, we just need to tell it that we would like to have a method that accepts an `Animal` entity and returns a new `AnimalDto`. 
+https://mapstruct.org/documentation/dev/reference/html/#basic-mappings
+
+The generated mapper implementation will be marked with the *@ApplicationScoped* annotation and thus can be injected into fields, constructor arguments, etc. using the *@Inject* annotation: 
+
+[source, java]
+----
+public class AnimalRestController{
+  
+  @Inject
+  AnimalMapper mapper;
+}
+----
+
+That is the basic usage of a Mapstruct mapper. In the next chapter, we go a bit into detail and show some more configurations. 
+
+
+== Advanced Bean-Mapper Usage
+
+Let´s assume our `Animal` entity and the `AnimalDto` has some different named property that should be mapped. Add a mapping annotation to map the property *type* from `Animal` to *kind* from `AnimalDto`. We define the source name of the property and the target name.
+[source, java]
+----
+@Mapper
+public interface AnimalMapper {
+
+  @Mapping(target = "kind", source = "type")
+  AnimalDto animal2AnimalDto(Animal entity);
+
+  @InheritInverseConfiguration(name = "animal2AnimalDto" )
+  Animal animalDto2Animal(AnimalDto dto);
+}
+----
+For bi-directional mappings, we can indicate that a methode shall inherit the inverse configuration of the corresponding method with the *@InheritInverseConfiguration*. You can omit the name parameter if the result type of method A is the same as the
+single-source type of method B and if the single-source type of A is the same as the result type of B. If multiple applies the attribute name is needed. Specific mappings from the inversed method can (optionally) be overridden, ignored, and set to constants or expressions. 
+
+The mappingInheritanceStrategy can be defined as showed in <<Mapstruct Configuration>> the existing options can be found https://mapstruct.org/documentation/dev/reference/html/#shared-configurations[here].
+
+
+Not always a mapped attribute has the same type in the source and target objects. For instance, an attribute may be of type `int` in the source bean but of type `Long` in the target bean.
+
+Another example are references to other objects which should be mapped to the corresponding types in the target model. E.g. the class `ZooEnclosure` might have a property *inhabitant* of the type `Animal` which needs to be converted into an `AnimalDto` object when mapping a `ZooEclosure` object. For these cases, it's useful to understand how Mapstruct is https://mapstruct.org/documentation/dev/reference/html/#datatype-conversions[converting the data types] and should be read. 
+
+Also, the Chapter for https://mapstruct.org/documentation/dev/reference/html/#controlling-nested-bean-mappings[nested bean mappings] will help to configure MapStruct to map arbitrary deep object graphs.
+
+You can study running MapStruct implementation examples given by https://github.com/mapstruct/mapstruct-examples[MapStruct] or in our https://github.com/devonfw-sample/devon4quarkus-reference[Quarkus reference project]
+
+
+
+
