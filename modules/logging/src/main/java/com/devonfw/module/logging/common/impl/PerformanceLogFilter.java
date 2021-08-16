@@ -14,7 +14,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,7 +68,7 @@ public class PerformanceLogFilter implements Filter {
   }
 
   /**
-   * Logs the request URL, execution time and {@link HttpStatus}. In case of an error also logs class name and error
+   * Logs the request URL, execution time. In case of an error also logs class name and error
    * message.
    *
    * @param response - the {@link ServletResponse}
@@ -87,7 +86,7 @@ public class PerformanceLogFilter implements Filter {
     String errorClass = "";
     String errorMessage = "";
     if (error != null) {
-      statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
+      statusCode = 500;
       errorClass = error.getClass().getName();
       errorMessage = error.getMessage();
     }
