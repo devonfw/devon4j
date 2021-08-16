@@ -372,9 +372,9 @@ We strongly recommend these principles:
 
 For details on the configuration of the database connection and database logging of the individual framework, please refer to the respective configuration guide. 
 
-For link:spring.asciidoc[spring] see link:guide-configuration.asciidoc#database-configuration[here].
+For link:spring.asciidoc[spring] see link:spring/guide-spring-configuration.asciidoc#database-configuration[here].
 
-For link:quarkus.asciidoc[quarkus] see link:quarkus/guide-configuration.asciidoc#database-configuration[here].
+For link:quarkus.asciidoc[quarkus] see link:quarkus/guide-quarkus-configuration.asciidoc#database-configuration[here].
 
 === Database Migration
 See link:guide-database-migration.asciidoc[database migration].

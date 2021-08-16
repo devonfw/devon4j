@@ -71,11 +71,12 @@ we provide this architecture mapping:
 |  |  ├──«BusinessObject»Validator
 |  |  └──«BusinessObject»EventsEmitter
 |  └──.link:guide-service-layer.asciidoc[service]
-|     ├──.link:guide-rest.asciidoc#jax-rs[«Component»RestService]
-|     ├──.mapper
-|     |  └──.«BusinessObject»Mapper
-|     └──.model
-|        └──.«BusinessObject»Dto
+|     └──.link:guide-service-versioning.asciidoc#jax-rs[v1]
+|        ├──.link:guide-rest.asciidoc#jax-rs[«Component»RestService]
+|        ├──.mapper
+|        |     └──.«BusinessObject»Mapper
+|        └──.model
+|           └──.«BusinessObject»Dto
 └──.link:guide-component.asciidoc#general-component[general]
    └──.domain
       └──.model

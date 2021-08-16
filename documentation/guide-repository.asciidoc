@@ -2,7 +2,7 @@
 toc::[]
 
 = Spring Data
-If you are using the Spring Framework and have no restrictions regarding that, we recommend to use https://projects.spring.io/spring-data-jpa/[spring-data-jpa] via http://repo1.maven.org/maven2/com/devonfw/java/starters/devon4j-starter-spring-data-jpa/[devon4j-starter-spring-data-jpa] that brings advanced integration (esp. for QueryDSL). Quarkus also supports Spring Data via `quarkus-spring-data-jpa` extension, but this approach still has some limitations. For more information, see the official https://quarkus.io/guides/spring-data-jpa[Quarkus Spring Data guide].
+https://projects.spring.io/spring-data-jpa/[Spring Data JPA] is supported by both Spring and Quarkus. However, in Quarkus this approach still has some limitations. For detailed information, see the official https://quarkus.io/guides/spring-data-jpa[Quarkus Spring Data guide].
 
 == Motivation
 The benefits of Spring Data are (for examples and explanations see next sections):
@@ -14,15 +14,14 @@ The benefits of Spring Data are (for examples and explanations see next sections
 * Still you have the freedom to write custom implementations via default methods within the repository interface (e.g. for dynamic queries).
 
 == Dependency
-In case you want to switch to or add Spring Data support to your devon4j-spring or Quarkus application, all you need is to add the respective maven dependency:
+In case you want to switch to or add Spring Data support to your Spring or Quarkus application, all you need is to add the respective maven dependency:
 
 .**spring**
 [source,xml]
 --------
-<!-- Starter for consuming REST services -->
 <dependency>
-  <groupId>com.devonfw.java.starters</groupId>
-  <artifactId>devon4j-starter-spring-data-jpa</artifactId>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-data-jpa</artifactId>
 </dependency>
 --------
 
@@ -36,14 +35,20 @@ In case you want to switch to or add Spring Data support to your devon4j-spring 
 --------
 
 == Repository
-For each entity `«Entity»Entity` an interface is created with the name `«Entity»Repository` extending one of the following Spring Data repositories:
-    * org.springframework.data.repository.Repository
-    * org.springframework.data.repository.CrudRepository
-    * org.springframework.data.repository.PagingAndSortingRepository
-    * org.springframework.data.jpa.repository.JpaRepository
+For each entity `«Entity»Entity` an interface is created with the name `«Entity»Repository` extending https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html[JpaRepository].
 Such repository is the analogy to a link:guide-dao.asciidoc[Data-Access-Object (DAO)] used in the classic approach or when Spring Data is not an option.
 
-These Spring Data repositories provide some basic implementations for accessing data, e.g. returning all instances of a type (`findAll`) or returning an instance by its ID (`findById`).
+.**Repository**
+[source,java]
+----
+public interface ExampleRepository extends JpaRepository<ExampleEntity, Long> {
+
+}
+----
+
+The Spring Data repository provides some basic implementations for accessing data, e.g. returning all instances of a type (`findAll`) or returning an instance by its ID (`findById`).
+
+== Custom method implementation
 
 In addition, repositories can be enriched with additional functionality, e.g. to add QueryDSL functionality or to override the default implementations, by using so called repository fragments:
 
@@ -55,10 +60,12 @@ The following example shows how to write such a repository:
 ----
 public interface ExampleRepository extends JpaRepository<ExampleEntity, Long>, ExampleFragment {
 
-  @Query("SELECT example FROM ExampleEntity example WHERE example.name = :name")
+  @Query("SELECT example FROM ExampleEntity example" //
+      + " WHERE example.name = :name")
   List<ExampleEntity> findByName(@Param("name") String name);
 
-  @Query("SELECT example FROM ExampleEntity example WHERE example.name = :name")
+   @Query("SELECT example FROM ExampleEntity example" //
+      + " WHERE example.name = :name")
   Page<ExampleEntity> findByNamePaginated(@Param("name") String name, Pageable pageable);
 }
 ----
@@ -106,7 +113,7 @@ NOTE: In Quarkus, native and named queries via the `@Query` annotation are curre
 
 === Integration of Spring Data in devon4j-spring
 
-For Spring applications, devon4j offers a proprietary solution that integrates seamlessly with QueryDsl and uses default methods instead of the fragment approach. A separate guide for this can be found link:spring/guide-spring-data.asciidoc[here].
+For Spring applications, devon4j offers a proprietary solution that integrates seamlessly with QueryDSL and uses default methods instead of the fragment approach. A separate guide for this can be found link:spring/guide-devon4j-spring-repository.asciidoc[here].
 
 == Drawbacks
 Spring Data also has some drawbacks:

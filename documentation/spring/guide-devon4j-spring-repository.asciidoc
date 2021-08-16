@@ -3,9 +3,21 @@ toc::[]
 
 = Spring Data in devon4j-spring
 
+In devon4j-spring, https://projects.spring.io/spring-data-jpa/[spring-data-jpa] is provided via http://repo1.maven.org/maven2/com/devonfw/java/starters/devon4j-starter-spring-data-jpa/[devon4j-starter-spring-data-jpa] extension, which provides advanced integration (esp. for QueryDSL).
+
 Spring Data uses a fragment approach to implement custom functionality for repositories. For Spring applications, devon4j provides a solution that works without this fragment approach.
 
 The repository must extend https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/DefaultRepository.java[DefaultRepository], which uses https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/impl/data/GenericRepositoryImpl.java[GenericRepositoryImpl] as implementation. The https://github.com/devonfw/devon4j/blob/master/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java[QueryUtil] helper class provides methods to support pagination and query creation.
+
+== Dependency
+
+[source,xml]
+--------
+<dependency>
+  <groupId>com.devonfw.java.starters</groupId>
+  <artifactId>devon4j-starter-spring-data-jpa</artifactId>
+</dependency>
+--------
 
 == Example
 The following example shows how to write such a repository. The example has the same functionality as the example in the link:../guide-repository.asciidoc#example[Spring Data guide]:

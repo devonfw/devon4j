@@ -55,7 +55,7 @@ Here is an example from our sample application:
 
 In this example we use the so called Q-types (`QDishEntity`). These are classes generated at build time by the QueryDSL annotation processor from entity classes. The Q-type classes can be used as static types representative of the original entity class.
 
-For spring, devon4j provides the https://github.com/devonfw/devon4j/blob/master/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java[QueryUtil] helper class that you can use for your Spring applications to implement QueryDSL logic without having to use these metaclasses. An example can be found link:spring/guide-querydsl-spring.asciidoc[here].
+For spring, devon4j provides another approach that you can use for your Spring applications to implement QueryDSL logic without having to use these metaclasses. An example can be found link:spring/guide-querydsl-spring.asciidoc[here].
 
 == Using Wildcards
 For flexible queries it is often required to allow wildcards (especially in xref:dynamic_queries[dynamic queries]). While users intuitively expect glob syntax the SQL and JPQL standards work different. Therefore a mapping is required. devonfw provides this on a lower level by https://github.com/devonfw/devon4j/blob/develop/modules/basic/src/main/java/com/devonfw/module/basic/common/api/query/LikePatternSyntax.java[LikePatternSyntax] and on a high level by https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java#L54[QueryUtil] (see https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryHelper.java#L199[QueryHelper.newStringClause(...)]).
