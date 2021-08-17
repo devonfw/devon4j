@@ -59,7 +59,7 @@ public final class MessageTraceSupport {
     Span span = tracer.currentSpan();
 
     LOG.warn(EventKey.MESSAGE_WITHOUT_TRACEID.getMessage(),
-        new String(kafkaRecord.headers().lastHeader(KafkaHeaders.MESSAGE_KEY).value(), Charset.forName("UTF-8"),
+        new String(kafkaRecord.headers().lastHeader(KafkaHeaders.MESSAGE_KEY).value(), Charset.forName("UTF-8")),
         span.context().traceIdString());
   }
 
