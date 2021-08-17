@@ -2,6 +2,7 @@ package com.devonfw.module.kafka.common.messaging.retry.impl;
 
 import static com.devonfw.module.kafka.common.messaging.util.MessageUtil.addHeaderValue;
 
+import java.nio.charset.Charset;
 import java.time.Instant;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -174,7 +175,7 @@ public class MessageRetryContext {
 
     Header retryStateHeader = headers.lastHeader(RETRY_STATE);
     if (retryStateHeader != null && retryStateHeader.value() != null) {
-      String value = new String(headers.lastHeader(RETRY_STATE).value());
+      String value = new String(headers.lastHeader(RETRY_STATE).value(), Charset.forName("UTF-8");
       try {
         result.retryState = RetryState.valueOf(value);
       } catch (Exception e) {
@@ -186,19 +187,19 @@ public class MessageRetryContext {
 
     Header retryUntilHeader = headers.lastHeader(RETRY_UNTIL);
     if (retryUntilHeader != null && retryUntilHeader.value() != null) {
-      String value = new String(retryUntilHeader.value());
+      String value = new String(retryUntilHeader.value(), Charset.forName("UTF-8");
       result.setRetryUntil(Instant.parse(value));
     }
 
     Header retryNextHeader = headers.lastHeader(RETRY_NEXT);
     if (retryNextHeader != null && retryNextHeader.value() != null) {
-      String value = new String(retryNextHeader.value());
+      String value = new String(retryNextHeader.value(), Charset.forName("UTF-8");
       result.setRetryNext(Instant.parse(value));
     }
 
     Header retryReadCount = headers.lastHeader(RETRY_READ_COUNT);
     if (retryReadCount != null && retryReadCount.value() != null) {
-      String value = new String(retryReadCount.value());
+      String value = new String(retryReadCount.value(), Charset.forName("UTF-8");
       try {
         result.setRetryReadCount(Long.parseLong(value));
       } catch (Exception e) {
@@ -208,7 +209,7 @@ public class MessageRetryContext {
 
     Header retryCount = headers.lastHeader(RETRY_COUNT);
     if (retryCount != null && retryCount.value() != null) {
-      String value = new String(retryCount.value());
+      String value = new String(retryCount.value(), Charset.forName("UTF-8");
       try {
         result.setCurrentRetryCount(Long.parseLong(value));
       } catch (Exception e) {
