@@ -187,19 +187,19 @@ public class MessageRetryContext {
 
     Header retryUntilHeader = headers.lastHeader(RETRY_UNTIL);
     if (retryUntilHeader != null && retryUntilHeader.value() != null) {
-      String value = new String(retryUntilHeader.value(), Charset.forName("UTF-8");
+      String value = new String(retryUntilHeader.value(), Charset.forName("UTF-8"));
       result.setRetryUntil(Instant.parse(value));
     }
 
     Header retryNextHeader = headers.lastHeader(RETRY_NEXT);
     if (retryNextHeader != null && retryNextHeader.value() != null) {
-      String value = new String(retryNextHeader.value(), Charset.forName("UTF-8");
+      String value = new String(retryNextHeader.value(), Charset.forName("UTF-8"));
       result.setRetryNext(Instant.parse(value));
     }
 
     Header retryReadCount = headers.lastHeader(RETRY_READ_COUNT);
     if (retryReadCount != null && retryReadCount.value() != null) {
-      String value = new String(retryReadCount.value(), Charset.forName("UTF-8");
+      String value = new String(retryReadCount.value(), Charset.forName("UTF-8"));
       try {
         result.setRetryReadCount(Long.parseLong(value));
       } catch (Exception e) {
@@ -209,7 +209,7 @@ public class MessageRetryContext {
 
     Header retryCount = headers.lastHeader(RETRY_COUNT);
     if (retryCount != null && retryCount.value() != null) {
-      String value = new String(retryCount.value(), Charset.forName("UTF-8");
+      String value = new String(retryCount.value(), Charset.forName("UTF-8"));
       try {
         result.setCurrentRetryCount(Long.parseLong(value));
       } catch (Exception e) {
