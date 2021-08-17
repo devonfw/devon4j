@@ -61,14 +61,49 @@ For spring, devon4j provides another approach that you can use for your Spring a
 For flexible queries it is often required to allow wildcards (especially in xref:dynamic_queries[dynamic queries]). While users intuitively expect glob syntax the SQL and JPQL standards work different. Therefore a mapping is required. devonfw provides this on a lower level by https://github.com/devonfw/devon4j/blob/develop/modules/basic/src/main/java/com/devonfw/module/basic/common/api/query/LikePatternSyntax.java[LikePatternSyntax] and on a high level by https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java#L54[QueryUtil] (see https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryHelper.java#L199[QueryHelper.newStringClause(...)]).
 
 == Pagination
-devonfw provides pagination support. If you are using link:guide-repository.asciidoc[spring-data repositories] you will get that directly from spring for static queries. Otherwise for dynamic or generally handwritten queries we provide this via https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java#L102[QueryUtil.findPaginated(...)]:
+When dealing with large amounts of data, an efficient method of retrieving the data is required. Fetching the entire data set each time would be too time consuming. Instead, __Paging__ is used to process only small subsets of the entire data set.
+
+If you are using link:guide-repository.asciidoc[Spring Data repositories] you will get pagination support out of the box by providing the interfaces https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html[Page] and  https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html[Pageable]:
+
+.**repository**
 [source,java]
 ----
-boolean determineTotalHitCount = ...;
-return QueryUtil.get().findPaginated(criteria.getPageable(), query, determineTotalHitCount);
+Page<DishEntity> findAll(Pageable pageable);
 ----
 
-Internally the implementation uses the https://github.com/spring-projects/spring-data-commons/blob/main/src/main/java/org/springframework/data/domain/PageImpl.java[org.springframework.data.domain.PageImpl] class. In Quarkus applications you have to use PageImpl directly. You can find an example in our https://github.com/devonfw-sample/devon4quarkus-reference[Quarkus reference application].
+Then you can create a Pageable object and pass it to the method call as follows:
+
+[source,java]
+----
+int page = criteria.getPageNumber();
+int size = criteria.getPageSize();
+Pageable pageable = PageRequest.of(page, size);
+Page<DishEntity> dishes = dishRepository.findAll(pageable);
+----
+
+=== Paging with QueryDSL
+
+Pagination is also supported for dynamic queries with QueryDSL:
+
+[source,java]
+----
+  public Page<DishEntity> findDishes(DishSearchCriteriaTo criteria) {
+    QDishEntity dish = QDishEntity.dishEntity;
+    JPAQuery<DishEntity> query = new JPAQuery<OrderEntity>(getEntityManager());
+    query.from(dish);
+
+    // conditions
+
+    int page = criteria.getPageNumber();
+    int size = criteria.getPageSize();
+    Pageable pageable = PageRequest.of(page, size);
+    query.offset(pageable.getOffset());
+    query.limit(pageable.getPageSize());
+
+    List<DishEntity> dishes = query.fetch();
+    return new PageImpl<>(dishes, pageable, dishes.size());
+  }
+----
 
 === Pagination example
 For the table entity we can make a search request by accessing the REST endpoint with pagination support like in the following examples:
@@ -154,7 +189,10 @@ POST mythaistar/services/rest/tablemanagement/v1/table/search
         }
     ]
 }
----- 
+----
+
+=== Pagingation in devon4j-spring
+For spring applications, devon4j also offers its own solution for pagination. You can find an example of this link:spring/guide-querydsl-spring.asciidoc#pagination[here].
 
 == Query Meta-Parameters
 Queries can have meta-parameters and that are provided via `SearchCriteriaTo`. Besides paging (see above) we also get https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryHelper.java#L51[timeout support].
