@@ -1,5 +1,7 @@
 package com.devonfw.module.kafka.common.messaging.trace.impl;
 
+import java.nio.charset.Charset;
+
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +59,7 @@ public final class MessageTraceSupport {
     Span span = tracer.currentSpan();
 
     LOG.warn(EventKey.MESSAGE_WITHOUT_TRACEID.getMessage(),
-        new String(kafkaRecord.headers().lastHeader(KafkaHeaders.MESSAGE_KEY).value()),
+        new String(kafkaRecord.headers().lastHeader(KafkaHeaders.MESSAGE_KEY).value(), Charset.forName("UTF-8"),
         span.context().traceIdString());
   }
 
