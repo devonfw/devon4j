@@ -175,7 +175,7 @@ public class MessageRetryContext {
 
     Header retryStateHeader = headers.lastHeader(RETRY_STATE);
     if (retryStateHeader != null && retryStateHeader.value() != null) {
-      String value = new String(headers.lastHeader(RETRY_STATE).value(), Charset.forName("UTF-8");
+      String value = new String(headers.lastHeader(RETRY_STATE).value(), Charset.forName("UTF-8"));
       try {
         result.retryState = RetryState.valueOf(value);
       } catch (Exception e) {
