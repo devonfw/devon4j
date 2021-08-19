@@ -10,6 +10,11 @@ Therefore, in this guide, we aims to provide a general suggestion on basic frame
 
 With that said, please take this as a recommendation and not a compulsion. Depend on your project requirements, you might have to use another stack in comparison to what is listed below.
 
+=== Basic templates
+[start=1]
+. simple REST API (https://code.quarkus.io/?g=com.devonfw&e=resteasy&e=resteasy-jackson&e=hibernate-validator&e=hibernate-orm[go to code.quarkus.io])
+. simple REST API with monitoring (https://code.quarkus.io/?g=com.devonfw&e=resteasy&e=resteasy-jackson&e=hibernate-validator&e=hibernate-orm&e=micrometer[go to code.quarkus.io])
+
 
 [cols="1,1,1,2,3"]
 |===
@@ -105,18 +110,3 @@ With that said, please take this as a recommendation and not a compulsion. Depen
 
 |===
 [source, bash]
-
-
-=== Basic templates
-[start=1]
-. simple REST API (https://code.quarkus.io/?g=com.devonfw&e=resteasy&e=resteasy-jackson&e=hibernate-validator&e=hibernate-orm[go to code.quarkus.io])
-    * RESTEasy JAX-RS
-    * RESTEasy Jackson
-    * Hibernate Validator
-    * Hibernate ORM
-. simple REST API with monitoring (https://code.quarkus.io/?g=com.devonfw&e=resteasy&e=resteasy-jackson&e=hibernate-validator&e=hibernate-orm&e=micrometer[go to code.quarkus.io])
-    * RESTEasy JAX-RS
-    * RESTEasy Jackson
-    * Hibernate Validator
-    * Hibernate ORM
-    * Micrometer metrics
