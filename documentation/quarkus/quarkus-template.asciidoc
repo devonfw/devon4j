@@ -16,96 +16,86 @@ With that said, please take this as a recommendation and not a compulsion. Depen
 . simple REST API with monitoring (https://code.quarkus.io/?g=com.devonfw&e=resteasy&e=resteasy-jackson&e=hibernate-validator&e=hibernate-orm&e=micrometer[go to code.quarkus.io])
 
 
-[cols="1,1,1,2,3"]
+.Topic-based suggested implementation
+[cols="1,1,2,3"]
 |===
-|Topic | Detail | Standard (non-reactive) | Alternatives | Note
+|Topic | Detail | Suggested implementation | Note
 
 |runtime
 |servlet-container
 |Undertow
 |
-|
 
 |component management
 |dependency injection
 |ArC
-|
 |ArC is based on JSR 365. It also provides interceptors that can be used to implement the same functionality as AOP provides
 
 |configuration
 |
-|SmallRye Config
-|
+|https://quarkus.io/guides/config[SmallRye Config]
 |SmallRye Config is an implementation of Eclipse MicroProfile Config. It also supports YAML configuration files
 
 |persistence
 |OR-mapper
-|Hibernate ORM
-|Spring Data JPA
+|https://quarkus.io/guides/hibernate-orm[Hibernate ORM], https://quarkus.io/guides/spring-data-jpa[Spring Data JPA]
 |Hibernate ORM is the de facto standard JPA implementation and works perfectly in Quarkus. Quarkus also provides a compatibility layer for Spring Data JPA repositories in the form of the `spring-data-jpa` extension.
 
 
 |batch
 |
 |
-|
 |Quarkus JBeret Extension is a non-official extension, which is hosted in the https://github.com/quarkiverse/[Quarkiverse Hub]. It is an implementation of JSR 352.
 
-.2+|service
+.3+|service
 
 |REST services
-|RESTEasy, RESTEasy Jackson (Jackson serialization support for RESTEasy)
-|RESTEasy JSON-B (JSON-B serialization support for RESTEasy), RESTEasy JAXB (XML serialization support for RESTEasy), RESTEasy Multipart (Multipart support for RESTEasy)
+|https://quarkus.io/guides/rest-json[RESTEasy]
 |RESTEasy is an portable implementation of the new JCP specification JAX-RS JSR-311. It can be documented via Swagger OpenAPI.
 
 |async messaging
-|SmallRye Reactive Messaging, Vert.x EventBus
-|
+|https://quarkus.io/guides/kafka[SmallRye Reactive Messaging], Vert.x EventBus
 |SmallRye Reactive Messaging is an implementation of the Eclipse MicroProfile Reactive Messaging specification 1.0. You can also utilize SmallRye Reactive Messaging in your Quarkus application to interact with Apache Kafka.
+
+|marshalling
+|RESTEasy Jackson, RESTEasy JSON-B, RESTEasy JAXB, RESTEasy Multipart
+|
 
 .2+|cloud
 |kubernetes
 |Kubernetes
 |
-|
 
 |deployment
-|Minikube
-|k3d
+|Minikube, k3d
 |Minikube is quite popular when a Kubernetes cluster is needed for development purposes. Quarkus supports this with the `quarkus-minikube` extension.
 
 |logging
 |framework
-|JBoss Log Manager and the JBoss Logging facade
-|
+|https://quarkus.io/guides/logging[JBoss Log Manager and the JBoss Logging facade]
 |Internally, Quarkus uses JBoss Log Manager and the JBoss Logging facade. Logs from other supported Logging API (JBoss Logging, SLF4J, Apache Commons Logging) will be merged.
 
 |validation
 |framework
-|Hibernate Validator/Bean Validation (JSR 380)
-|
+|https://quarkus.io/guides/validation[Hibernate Validator]/Bean Validation (JSR 380)
 |
 
 |security
 |authentication & authorization
 |JWT authentication
-|
 |Quarkus supports https://quarkus.io/guides/security[various security mechanisms]. Depending on your protocol, identity provider you can choose the necessary extensions such as `quarkus-oidc` `quarkus-smallrye-jwt` `quarkus-elytron-security-oauth2`.
 
 .3+|monitoring
 |framework
-|Micrometer Metrics
-|SmallRye Metrics
+|https://quarkus.io/guides/micrometer[Micrometer Metrics], https://quarkus.io/guides/smallrye-metrics[SmallRye Metrics]
 |SmallRye Metrics is an implementation of the MicroProfile Metrics specification. Quarkus also offers various extensions to customize the metrics.
 
 |health
-|SmallRye Health
-|
+|https://quarkus.io/guides/smallrye-health[SmallRye Health]
 |SmallRye Health is an implementation of the MicroProfile Health specification.
 
 |fault tolerance
-|SmallRye Fault Tolerance
-|
+|https://quarkus.io/guides/smallrye-fault-tolerance[SmallRye Fault Tolerance]
 |SmallRye Fault Tolerance is an implementation of the MicroProfile Fault Tolerance specification.
 
 |===
