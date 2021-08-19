@@ -56,9 +56,7 @@ public interface UcApproveBooking {
 ----
 
 == Implementation
-For the implementation of a use-case, the same rules that are described for the link:guide-component-facade.asciidoc#implementation[component-facade implementation].
-
-In short, the implementation should carry its own name and the suffix `Impl` and is annotated with `@Named`. It will need access to the persistent data which is done by injecting the corresponding repository (or DAO). Furthermore, it shall not expose persistent entities from the data access layer and has to map them to transfer objects using the bean-mapper. Please refer to our bean mapping documentation for more information.
+The implementation should carry its own name and the suffix `Impl` and is annotated with `@Named`. It will need access to the persistent data which is done by injecting the corresponding repository (or DAO). Furthermore, it shall not expose persistent entities from the data access layer and has to map them to transfer objects using the bean-mapper. Please refer to our bean mapping documentation for more information.
 Here is an example:
 [source,java]
 ----
