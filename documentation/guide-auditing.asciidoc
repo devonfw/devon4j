@@ -23,7 +23,7 @@ For database auditing we use http://envers.jboss.org/[hibernate envers]. If you 
 </dependency>
 ----
 
-NOTE: The following part applies only to spring applications. At this point, the Quarkus extension does not provide any additional configurations. For Quarkus applications, simply use the `@Audited` annotation to enable auditing for an entity class, as described a few lines below.
+NOTE: The following part applies only to spring applications. At this point, the Quarkus extension does not provide any additional configurations. For Quarkus applications, simply use the `@Audited` annotation to enable auditing for an entity class, as described a few lines below or seen https://hibernate.org/orm/envers/[here].
 
 Make sure that entity manager also scans the package from the +devon4j-jpa[-envers]+ module in order to work properly. And make sure that correct Repository Factory Bean Class is chosen.
 
