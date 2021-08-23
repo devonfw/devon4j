@@ -86,7 +86,7 @@ public class PerformanceLogFilter implements Filter {
     String errorClass = "";
     String errorMessage = "";
     if (error != null) {
-      statusCode = 500;
+      statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
       errorClass = error.getClass().getName();
       errorMessage = error.getMessage();
     }
