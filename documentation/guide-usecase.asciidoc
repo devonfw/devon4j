@@ -16,7 +16,7 @@ Here is an example:
 [source,java]
 ----
 public interface UcFindBooking {
-
+  //*To = Eto, Dto or Cto
   Booking*To findBooking(Long id);
 }
 ----
@@ -28,6 +28,7 @@ Here is an example:
 ----
 public interface UcManageBooking {
 
+  //*To = Eto, Dto or Cto
   Booking*To saveBooking(Booking*To booking);
 
   void deleteBooking(Long id);
@@ -43,6 +44,7 @@ Here is an example:
 ----
 public interface UcApproveBooking {
 
+  //*To = Eto, Dto or Cto
   void approveBooking(Booking*To booking);
 
 }
