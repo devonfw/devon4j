@@ -18,7 +18,7 @@ To prove his authenticity the user provides some secret called _credentials_. Th
 
 NOTE: Please never implement your own authentication mechanism or credential store. You have to be aware of implicit demands such as salting and hashing credentials, password life-cycle with recovery, expiry, and renewal including email notification confirmation tokens, central password policies, etc. This is the domain of access managers and identity management systems. In a business context you will typically already find a system for this purpose that you have to integrate (e.g. via LDAP). Otherwise you should consider establishing such a system e.g. using http://keycloak.org[keycloak].
 
-We use https://projects.spring.io/spring-security/[spring-security] as a framework for authentication purposes. 
+For link:spring.asciidoc[spring], we use https://projects.spring.io/spring-security/[spring-security] as a framework for authentication purposes.
 
 Therefore you need to provide an implementation of https://docs.spring.io/spring-security/site/docs/4.2.x/apidocs/org/springframework/security/config/annotation/web/WebSecurityConfigurer.html[WebSecurityConfigurerAdapter]:
 [source,java]
@@ -44,6 +44,18 @@ For further details see https://docs.spring.io/spring-security/site/docs/current
 
 Further, you need to provide an implementation of the https://docs.spring.io/spring-security/site/docs/4.2.x/apidocs/org/springframework/security/core/userdetails/UserDetailsService.html[UserDetailsService] interface.
 A good starting point comes with our application template.
+
+For link:quarkus.asciidoc[quarkus], you can use different extensions for support of different authentication mechanisms. For example:
+
+    * https://quarkus.io/guides/security-properties[`quarkus-elytron-security-properties-file`] provides support for simple properties files that can be used for testing security. This supports both embedding user information in `application.properties` and standalone properties files.
+    * https://quarkus.io/guides/security-jpa[`quarkus-security-jpa`] provides support for authenticating via JPA.
+    * https://quarkus.io/guides/security-jdbc[`quarkus-elytron-security-jdbc`] provides support for authenticating with JDBC
+    * https://quarkus.io/guides/security-jwt[`quarkus-smallrye-jwt`] provides support for authenticating using Json Web Tokens. It allows you to inject the token and claims into the application as per the MicroProfile JWT specification.
+    * https://quarkus.io/guides/security-openid-connect[`quarkus-oidc`] provides support for authentication via an OpenID Connect provider e.g. KeyCloak
+    * https://quarkus.io/guides/security-keycloak-authorization[`quarkus-keycloak-authorization`] provides support for a policy enforcer using https://www.keycloak.org/docs/latest/authorization_services/index.html[Keycloak Authorization Services].
+    * ...
+
+For further details see https://quarkus.io/guides/security[Quarkus - Security architecture and guides]. Quarkus also provides a compatibility layer for Spring Security in the form of the https://quarkus.io/guides/spring-security[`spring-security`] extension.
 
 === Preserve original request anchors after form login redirect
 Spring Security will automatically redirect any unauthorized access to the defined login-page. After successful login, the user will be redirected to the original requested URL. The only pitfall is, that anchors in the request URL will not be transmitted to server and thus cannot be restored after successful login. Therefore the `devon4j-security` module provides the `RetainAnchorFilter`, which is able to inject javascript code to the source page and to the target page of any redirection. Using javascript this filter is able to retrieve the requested anchors and store them into a cookie. Heading the target URL this cookie will be used to restore the original anchors again.
@@ -80,7 +92,7 @@ For authentication via JSON Web Token (JWT) see link:guide-jwt.asciidoc[JWT guid
 === Mixed Authentication
 
 In rare cases you might need to mix multiple authentication mechanisms (form based, basic-auth, SAMLv2, OAuth, etc.) within the same app (for different URLs). For KISS this should be avoided where possible. However, when needed, you can find a solution  
-https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#multiple-httpsecurity[here]. 
+https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#multiple-httpsecurity[here] for spring or https://quarkus.io/guides/security#combining-authentication-mechanisms[here] for quarkus.
 
 == Authorization
 
