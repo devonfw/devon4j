@@ -65,7 +65,7 @@ Example:
   }
 ----
 
-For producer and consumer the prefixes are `messaging.kafka.producer...` and `message.kafka.consumer...`` and for retry the prefix is `messaging.retry...``
+For producer and consumer the prefixes are `messaging.kafka.producer...` and `message.kafka.consumer...` and for retry the prefix is `messaging.retry...`
 
 See https://github.com/devonfw-sample/devon4j-kafka-employeeapp/blob/master/core/src/main/resources/application.properties[devon4j-kafka-employeeapp's application.properties] file for an example.
 
@@ -78,7 +78,7 @@ We use the same properties defined by Apache Kafka or Spring Kafka. They are sim
 
 == Naming convention for topics
 
-For better managing of several Kafka topics in your application portfolio we devon strongly advice to introduce a naming scheme for your topics. The schema may depend on the actual usage pattern of kafka. For context where kafka is used
+For better managing of several Kafka topics in your application portfolio we strongly advice to introduce a naming scheme for your topics. The schema may depend on the actual usage pattern of kafka. For context where kafka is used
 in a 1-to-1-communication-scheme (not publish/subscribe) the following schema as been proven useful in practice:
 
 [source]
@@ -156,7 +156,7 @@ The group id can be mentioned in `application.properties` as listener properties
 ----
 messaging.kafka.consumer.groupId=default
 ----
-if there are multiple topics and multiple listeners then we suggest to specify the topic names directly on each listeners instead reading from the property file.
+If there are multiple topics and multiple listeners then we suggest to specify the topic names directly on each listeners instead reading from the property file.
 The container factory mentioned in the `@KafkaListener` is provided in the https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaListenerContainerProperties.java/[KafkaListenerContainerProperties.java] to create default container factory with acknowledgement.
 
 The default ack-mode is `manual_immediate` . It can be overridden by below example:
