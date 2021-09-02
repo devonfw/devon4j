@@ -13,12 +13,12 @@ The guide will cover:
 === Prerequisites
 To follow the guide and complete it, you need:
 
-* an IDE or an editor to edit files
+
 * JDK 11+ installed with JAVA_HOME configured appropriately
 * Apache Maven 3.8.1+
 
 
-This guide is heavily inspired by https://quarkus.io/guides/[Quarkus Guides] and the Katacoda tutorials by https://www.katacoda.com/openshift/courses/developing-with-quarkus[OpenShift for Quarkus Developement]. I would recommend also using the Katacoda tutorials to learn about quarkus.
+This guide is heavily inspired by https://quarkus.io/guides/[Quarkus Guides] and the Katacoda tutorials by https://www.katacoda.com/openshift/courses/developing-with-quarkus[OpenShift for Quarkus Developement]. Our recommendation is to use the Katacoda tutorials to learn about quarkus.
 
 https://quarkus.io/guides/getting-started
 
@@ -30,7 +30,7 @@ Let's get started.
 
 == Creating the application
 
-There are multiple ways to start a project. You can browse to https://code.quarkus.io and select some extensions, the build tool for your project, and if you want some starter code. This will provide a project skeleton with the configured project dependencies and also contributes the information to compile the application natively. To get a overview of the most important tools and a further introduction into the project builder follow this link:quarkus/guide-template.asciidoc[guide].
+There are multiple ways to start a project. You can browse to https://code.quarkus.io and select some extensions, the build tool for your project, and if you want some starter code. This will provide a project skeleton with the configured project dependencies and also contributes the information to compile the application natively. To get some recommendation on starter templates follow this link:quarkus/guide-template.asciidoc[guide].
 
 To load a new Quarkus application from command line with the Quarkus Maven plugin run the following command:
 
@@ -55,7 +55,7 @@ it generates the following in the getting-started folder
 * example Dockerfile files for both native and JVM modes in src/main/docker
 * the application configuration file
 
-Once generarted change your directory with `cd getting-started` and take a look at the *pom.xml*. You will find the import of the Quarkus BOM, allowing you to omit the version on the different Quarkus dependencies. In addition, you can see the *quarkus-maven-plugin* responsible for packaging of the application and also providing the development mode.
+Once generarted, change your directory with `cd getting-started` and take a look at the *pom.xml*. You will find the import of the Quarkus BOM, allowing you to omit the version on the different Quarkus dependencies. In addition, you can see the *quarkus-maven-plugin* responsible for packaging of the application and also providing the development mode.
 
 [source, xml]
 ----
@@ -130,7 +130,7 @@ This extension will be needed in <<Build native executables without GraalVM>> to
 
 == Running the application
 
-The project was created with a simple `/hello` endpoint defined in *getting-started/src/main/java/org/acme/getting/started/GreetingResource.java* that will return "hello" to request on http://localhost:8080/hello.
+The project was created with a simple `/hello` endpoint defined in *getting-started/src/main/java/org/acme/getting/started/GreetingResource.java*.
 
 [source, java]
 ----
@@ -176,7 +176,7 @@ public class GreetingResource {
 ----
 
 and by rerunning the test with `r`, the test should fail now. You can also test the application before running it with `mvn test`. Reset the return string to *"Hello RestEasy"* and we can continue.
-More Information on this Chapter{Chapter Testing ?} 
+TODO More Information on this Chapter{Chapter Testing ?}. TODO
 
 == Packaging the application
 First, let's package the application with `mvn package` and produce:
@@ -193,27 +193,24 @@ You can run the packaged application with this command `java -jar target/quarkus
 Let’s now produce a native executable for our application. It improves the startup time of the application and produces a minimal disk footprint. The executable would have everything to run the application including the "JVM" (shrunk to be just enough to run the application), and the application.
 
 
-Building a native executable requires using a distribution of GraalVM and a configured $GRAALVM_HOME. You can create a native application without GraalVM and use a multi-stage Docker build to run Maven inside a Docker container that embeds GraalVM. This will be explained in this chapter <<Build native executables without GraalVM>> or this https://quarkus.io/guides/building-native-image#container-runtime[guide]
+Building a native executable requires using a distribution of GraalVM and a configured $GRAALVM_HOME follow this https://quarkus.io/guides/building-native-image#prerequisites-for-oracle-graalvm-ceee[installation guide]. You can create a native application without GraalVM and use a multi-stage Docker build to run Maven inside a Docker container that embeds GraalVM. This will be explained in this chapter <<Build native executables without GraalVM>> or this https://quarkus.io/guides/building-native-image#container-runtime[guide]
 
 
-=== Installing GraalVM
+=== Build a native executable with GraalVM
 
-Building a native application requires an configured installation of GraalVM. This will be shown in this guide https://quarkus.io/guides/building-native-image#prerequisites-for-oracle-graalvm-ceee.
-
-Execute the command `mvn package -Pnative` and a native executable will be created in the target folder. Depending on the operating system you execute the command the native Linux binary *getting-started-1.0.0-SNAPSHOT-runner* or the Windows executable *getting-started-1.0.0-SNAPSHOT-runner.exe* will be created. Start the application and you should see the fast startup time and if you inspect the process properties also the low memory usage. You can again access http://localhost/hello to check the application.
+Execute the command `mvn package -Pnative` and a native executable will be created in the target folder. Depending on the operating system you execute the command on, the native Linux binary *getting-started-1.0.0-SNAPSHOT-runner* or the Windows executable *getting-started-1.0.0-SNAPSHOT-runner.exe* will be created. Start the application and you should see the fast startup time an, if you inspect the process properties also the low memory usage. You can again access http://localhost/hello to check the application.
 
 
-=== Build native executables without GraalVM 
+=== Build a native executables without GraalVM 
 
 You can build the Linux executables without installing GraalVM or sometimes you just need the Linux executables on Windows to run them in a container. To do that you need a working container runtime, we use Docker in this guide. You can install Docker with your devonfw-ide distribution just follow this description https://github.com/devonfw/ide/blob/master/documentation/docker.asciidoc[Docker with devonfw-ide]. 
 
-[sidebar]
 .Docker on Windows
---
+[WARNING]
 There are two modes for Docker on Windows, if you are using it in Hyper-V mode and not WSL 2 mode you have to share the project drive in the Docker settings or you will face some errors. 
---
+
 We can start building our container image for the project.
-Create an executable in a container runtime with the command `mvn package -Pnative "-Dquarkus.container-image.build=true"` normally quarkus automatically detects the container runtime, but sometimes an error occurs and then you should try to you can explicitly select the container runtime with the parameter `"-Dquarkus.native.container-runtime=docker"´. You can omit the `-Pnative` parameter to create a Dockerfile with the .jar and not the native executable.
+Create an executable in a container runtime with the command `mvn package -Pnative "-Dquarkus.container-image.build=true"` normally quarkus automatically detects the container runtime, but sometimes an error occurs and then you should try to you can explicitly select the container runtime with the parameter `"-Dquarkus.native.container-runtime=docker"`. You can omit the `-Pnative` parameter to create a Dockerfile with the .jar and not the native executable.
 
 Another way to create the native application without using the command prompt is the Dev UI we already showed. Start the application and go to http://localhost:8080/q/dev/. Select Build in the tile named Container Image and you are able to select a *Build Type* and a *Builder Type* and build a selected .jar oder native executable in the background.
 
