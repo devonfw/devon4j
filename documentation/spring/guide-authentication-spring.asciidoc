@@ -1,0 +1,59 @@
+:toc: macro
+toc::[]
+
+= Spring Security
+
+We use https://projects.spring.io/spring-security/[spring-security] as a framework for authentication purposes.
+
+Therefore, you need to provide an implementation of https://docs.spring.io/spring-security/site/docs/4.2.x/apidocs/org/springframework/security/config/annotation/web/WebSecurityConfigurer.html[WebSecurityConfigurerAdapter]:
+[source,java]
+----
+@Configuration
+@EnableWebSecurity
+public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+  @Inject
+  private UserDetailsService userDetailsService;
+  ...
+  public void configure(HttpSecurity http) throws Exception {
+    http.userDetailsService(this.userDetailsService)
+        .authorizeRequests().antMatchers("/public/**").permitAll()
+        .anyRequest().authenticated().and()
+        ...
+  }
+}
+----
+
+As you can see, spring-security offers a fluent API for easy configuration. You can simply add invocations like `formLogin().loginPage("/public/login")` or `httpBasic().realmName("MyApp")`. Also link:guide-security.asciidoc[CSRF] protection can be configured by invoking `csrf()`.
+For further details see https://docs.spring.io/spring-security/site/docs/current/reference/html/jc.html#jc-httpsecurity[spring Java-config for HTTP security].
+
+Further, you need to provide an implementation of the https://docs.spring.io/spring-security/site/docs/4.2.x/apidocs/org/springframework/security/core/userdetails/UserDetailsService.html[UserDetailsService] interface.
+A good starting point comes with our application template.
+
+For authentication via JSON Web Token (JWT), check the link:spring/guide-jwt-spring.asciidoc[JWT Spring-Starter].
+
+Mix authentication should be avoided where possible. However, when needed, you can find a solution
+https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#multiple-httpsecurity[here].
+
+=== Preserve original request anchors after form login redirect
+Spring Security will automatically redirect any unauthorized access to the defined login-page. After successful login, the user will be redirected to the original requested URL. The only pitfall is, that anchors in the request URL will not be transmitted to server and thus cannot be restored after successful login. Therefore the `devon4j-security` module provides the `RetainAnchorFilter`, which is able to inject javascript code to the source page and to the target page of any redirection. Using javascript this filter is able to retrieve the requested anchors and store them into a cookie. Heading the target URL this cookie will be used to restore the original anchors again.
+
+To enable this mechanism you have to integrate the `RetainAnchorFilter` as follows:
+First, declare the filter with
+
+* `storeUrlPattern`: an regular expression matching the URL, where anchors should be stored
+* `restoreUrlPattern`: an regular expression matching the URL, where anchors should be restored
+* `cookieName`: the name of the cookie to save the anchors in the intermediate time
+
+You can easily configure this as code in your `WebSecurityConfig` as following:
+
+[source,java]
+----
+RetainAnchorFilter filter = new RetainAnchorFilter();
+filter.setStoreUrlPattern("http://[^/]+/[^/]+/login.*");
+filter.setRestoreUrlPattern("http://[^/]+/[^/]+/.*");
+filter.setCookieName("TARGETANCHOR");
+http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+----
+
+
