@@ -55,7 +55,7 @@ it generates the following in the getting-started folder
 * example Dockerfile files for both native and JVM modes in src/main/docker
 * the application configuration file
 
-Once generarted, change your directory with `cd getting-started` and take a look at the *pom.xml*. You will find the import of the Quarkus BOM, allowing you to omit the version on the different Quarkus dependencies. In addition, you can see the *quarkus-maven-plugin* responsible for packaging of the application and also providing the development mode.
+Once generated, change your directory with `cd getting-started` and take a look at the *pom.xml*. You will find the import of the Quarkus BOM, allowing you to omit the version on the different Quarkus dependencies. In addition, you can see the *quarkus-maven-plugin* responsible for packaging of the application and also providing the development mode.
 
 [source, xml]
 ----
@@ -206,7 +206,7 @@ Execute the command `mvn package -Pnative` and a native executable will be creat
 You can build the Linux executables without installing GraalVM or sometimes you just need the Linux executables on Windows to run them in a container. To do that you need a working container runtime, we use Docker in this guide. You can install Docker with your devonfw-ide distribution just follow this description https://github.com/devonfw/ide/blob/master/documentation/docker.asciidoc[Docker with devonfw-ide]. 
 
 .Docker on Windows
-[WARNING]
+[NOTE]
 There are two modes for Docker on Windows, if you are using it in Hyper-V mode and not WSL 2 mode you have to share the project drive in the Docker settings or you will face some errors. 
 
 We can start building our container image for the project.
