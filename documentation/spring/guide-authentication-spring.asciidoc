@@ -41,8 +41,8 @@ Spring Security will automatically redirect any unauthorized access to the defin
 To enable this mechanism you have to integrate the `RetainAnchorFilter` as follows:
 First, declare the filter with
 
-* `storeUrlPattern`: an regular expression matching the URL, where anchors should be stored
-* `restoreUrlPattern`: an regular expression matching the URL, where anchors should be restored
+* `storeUrlPattern`: a regular expression matching the URL, where anchors should be stored
+* `restoreUrlPattern`: a regular expression matching the URL, where anchors should be restored
 * `cookieName`: the name of the cookie to save the anchors in the intermediate time
 
 You can easily configure this as code in your `WebSecurityConfig` as following:
