@@ -30,7 +30,7 @@ Let's get started.
 
 == Creating the application
 
-There are multiple ways to start a project. You can browse to https://code.quarkus.io and select some extensions, the build tool for your project, and if you want some starter code. This will provide a project skeleton with the configured project dependencies and also contributes the information to compile the application natively.
+There are multiple ways to start a project. You can browse to https://code.quarkus.io and select some extensions, the build tool for your project, and if you want some starter code. This will provide a project skeleton with the configured project dependencies and also contributes the information to compile the application natively. To get a overview of the most important tools and a further introduction into the project builder follow this link:quarkus/guide-template.asciidoc[guide].
 
 To load a new Quarkus application from command line with the Quarkus Maven plugin run the following command:
 
