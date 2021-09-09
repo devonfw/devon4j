@@ -19,11 +19,56 @@ public UserEto mapUser(UserEntity source) {
 ----
 
 Therefore we are using a `BeanMapper` for this purpose that makes our lives a lot easier.
+There are several bean mapping frameworks with different approaches.
 
+For a link:spring.asciidoc[devon4j-spring] application we recommend Orika, follow link:spring/guide-beanmapping-spring.asciidoc[Spring] for a introduction to Orika and Dozer in a devon4j-spring context application.
 
-For a link:spring.asciidoc[spring] application we recommend Orika, follow link:spring/guide-beanmapping-spring.asciidoc[Spring Security]
+NOTE: devon4j started with http://dozer.sourceforge.net/[Dozer] as framwork for Spring applications and still support it. However, we now recommend Orika (for new projects) as it is much faster (see https://www.baeldung.com/java-performance-mapping-frameworks#2-orika[Performance of Java Mapping Frameworks]).
 
-For a link:quarkus.asciidoc[quarkus] application we recommend Mapstruct, follow link:quarkus/guide-beanmapping-quarkus.asciidoc[Quarkus Bean-Mapping].
+For a link:quarkus.asciidoc[quarkus] application we recommend Mapstruct, follow xref:quarkus/guide-beanmapping-quarkus.asciidoc[Quarkus Bean-Mapping]for a introduction to Mapstruct in a quarkus context application.
+
+== Dependencies
+Add the following dependencies to your POM file in order to use Orika or MapStruct:
+
+.*Orika*
+[source, xml]
+----
+<dependency>
+    <groupId>ma.glasnost.orika</groupId>
+    <artifactId>orika-core</artifactId>
+    <version>1.4.6</version>
+</dependency>
+----
+
+.*Mapstruct*
+[source, xml]
+----
+<dependency>
+  <groupId>org.mapstruct</groupId>
+  <artifactId>mapstruct</artifactId>
+  <version>1.4.2.Final</version>
+</dependency>
+...
+<build>
+  <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.5.1</version>
+      <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <annotationProcessorPaths>
+              <path>
+                  <groupId>org.mapstruct</groupId>
+                  <artifactId>mapstruct-processor</artifactId>
+                  <version>1.4.2.Final</version>
+              </path>
+          </annotationProcessorPaths>
+      </configuration>
+  </plugin>
+<build>
+----
+
 
 
 

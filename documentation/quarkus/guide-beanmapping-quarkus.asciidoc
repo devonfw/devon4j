@@ -3,7 +3,7 @@ toc::[]
 
 = Bean mapping with Quarkus
 
-This guide will show bean mapping in particular for a Quarkus application. To get a quick introduction to Bean Mapping you can read this https://github.com/devonfw/devon4j/blob/master/documentation/guide-beanmapping.asciidoc#bean-mapping[guide] in the devon4j documentation. At the point, the guide is recommending dozer or orika framework the Quarkus usage of bean mapper diverge from devon4j. The frameworks that will be recommended for devon4j, can't be used for a quarkus application because they are using Java reflections. They are not supported in GraalVm right now and causes problems building native applications. That's why we recommend using https://mapstruct.org/[MapStruct] with Quarkus. MapStruct is a code generator that greatly simplifies the implementation of mappings between Java bean types based on a convention over configuration approach. The mapping code will be genreated at compile-time and uses plain method invocations and thus is fast, type-safe, and easy to understand. MapStruct has to be configured to not use Java reflections but it will be shown in this guide.
+This guide will show bean mapping in particular for a Quarkus application. We recommend using https://mapstruct.org/[MapStruct] with a Quarkus application because the other beanmapper frameworks are using Java reflections. They are not supported in GraalVm right now and causes problems building native applications. MapStruct is a code generator that greatly simplifies the implementation of mappings between Java bean types based on a convention over configuration approach. The mapping code will be genreated at compile-time and uses plain method invocations and thus is fast, type-safe, and easy to understand. MapStruct has to be configured to not use Java reflections but it will be shown in this guide.
 
 You can find the official
 https://mapstruct.org/documentation/stable/reference/pdf/mapstruct-reference-guide.pdf[MapStruct reference guide] and a general introduction to MapStruct not in a quarkus context from https://www.baeldung.com/mapstruct[Baeldung].
@@ -161,7 +161,7 @@ The option to pass the parameter to the annotation processor in the POM.xml is u
 
 == Basic Bean-Mapper Usage
 
-To use the mapper we have to implement the mapper interface and the function prototypes with a *@Mapper* annotation. 
+To use the mapper we have to implement the mapper interface and the function prototypes with a *@Mapper* annotation. Todo Link for DTO 
 
 [source, java]
 ----
