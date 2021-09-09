@@ -12,9 +12,7 @@ Definition:
 
 > Authentication is the verification that somebody interacting with the system is the actual subject for whom he claims to be.
 
-The one authenticated is properly called _subject_ or http://docs.oracle.com/javase/7/docs/api/java/security/Principal.html[_principal_]. However, for simplicity we use the common term _user_ even though it may not be a human (e.g. in case of a service call from an external system).
-
-There are two forms of principals you need to distinguish while designing your authentication: `human users` and `autonomous systems`. While e.g. a Kerberos/SPNEGO Single-Sign-On makes sense for human users, it is pointless for authenticating autonomous systems.
+The one authenticated is properly called _subject_ or http://docs.oracle.com/javase/7/docs/api/java/security/Principal.html[_principal_]. There are two forms of principals you need to distinguish while designing your authentication: `human users` and `autonomous systems`. While e.g. a Kerberos/SPNEGO Single-Sign-On makes sense for human users, it is pointless for authenticating autonomous systems.  For simplicity, we use the common term _user_ to refer to any principal even though it may not be a human (e.g. in case of a service call from an external system).
 
 To prove the authenticity, the user provides some secret called _credentials_. The most simple form of credentials is a password.
 
