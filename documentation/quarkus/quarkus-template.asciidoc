@@ -10,6 +10,8 @@ Therefore, in this guide, we aims to provide a general suggestion on basic frame
 
 With that said, please take this as a recommendation and not a compulsion. Depend on your project requirements, you might have to use another stack in comparison to what is listed below.
 
+If you are new to Quarkus, consider checking out their https://quarkus.io/guides/getting-started[getting started guide] to have an overview about how to create, run, test as well as package a Quarkus application. Another recommended source to get started is https://www.katacoda.com/openshift/courses/developing-with-quarkus/getting-started[the Katacoda tutorials].
+
 === Basic templates
 [start=1]
 . simple REST API (https://code.quarkus.io/?g=com.devonfw&e=resteasy&e=resteasy-jackson&e=hibernate-validator&e=hibernate-orm[go to code.quarkus.io])
