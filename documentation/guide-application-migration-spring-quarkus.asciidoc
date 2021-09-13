@@ -79,7 +79,7 @@ In devon4j, we propose to use link:guide-repository.asciidoc[Spring Data JPA] fo
 
 First, create a repository interface for your entity class that extends `JpaRepository` (see link:guide-repository.asciidoc#repository[here]).
 
-To implement link:guide-jpa-query#dynamic-queries[dynamic queries], we will use QueryDSL. To do this, add the following dependencies to your pom.xml file.
+To implement link:guide-jpa-query.asciidoc#dynamic-queries[dynamic queries], we will use QueryDSL. To do this, add the following dependencies to your pom.xml file.
 
 .**pom.xml**
 [source,xml]
@@ -124,7 +124,7 @@ And add the QueryDSL annotation processor to your plugins.
 </plugins>
 --------
 
-To implement the queries, follow the link:guide-jpa-query#dynamic-queries[corresponding guide].
+To implement the queries, follow the link:guide-jpa-query.asciidoc#dynamic-queries[corresponding guide].
 
 Set the following properties in the application.properties file to configure the connection to your database (see also link:quarkus/guide-quarkus-configuration.asciidoc#database-configuration[here]):
 
