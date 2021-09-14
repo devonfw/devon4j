@@ -1,13 +1,13 @@
 :toc: macro
 toc::[]
 
-= Building a native Image
+= Building a native image
 
-Quarkus provides the ability to create a native executable of the application. This improves the startup time of the application and also uses less space on the disk. Also, a JVM is not needed because it is included in the application. A Distribution of GraalVm is needed. You can find the differences between the available distributions https://quarkus.io/guides/building-native-image#graalvm[here].
+Quarkus provides the ability to create a native executable of the application. This improves the startup time, performance and efficiency. Also, a JVM is not needed because it is included in the application. A distribution of GraalVM is needed in some cases. You can find the differences between the available distributions https://quarkus.io/guides/building-native-image#graalvm[here].
 
-== Installing GraalVM
+=== Installing GraalVM
 
-A native image can be created locally or through a container environment. To create a native image locally an installed and configured version of GraalVm is needed, you can follow the https://quarkus.io/guides/building-native-image#prerequisites-for-oracle-graalvm-ceee[installation guide from quarkus] or the https://www.graalvm.org/docs/getting-started/#install-graalvm[guide provided by GraalVm] for this. 
+A native image can be created locally or through a container environment. To create a native image locally an installed and configured version of GraalVM is needed, you can follow the https://quarkus.io/guides/building-native-image#prerequisites-for-oracle-graalvm-ceee[installation guide from quarkus] or the https://www.graalvm.org/docs/getting-started/#install-graalvm[guide provided by GraalVM] for this. 
 
 
 
@@ -22,7 +22,7 @@ Follow this https://quarkus.io/guides/building-native-image#producing-a-native-e
 
 === Build a native executable with GraalVM through container environment
 
-You can build the Linux executables without installing GraalVM locally or sometimes you just need the Linux executables on Windows to run them in a container. To do that you need a working container runtime, we use Docker in this guide. You can install Docker with your devonfw-ide distribution just follow this description https://github.com/devonfw/ide/blob/master/documentation/docker.asciidoc[Docker with devonfw-ide].
+You can build the Linux executables without installing GraalVM locally or sometimes you just need the Linux executables on Windows to run them in a container. To do that you need a working container runtime, we recommend Docker. You can simply install Docker with your devonfw-ide distribution just follow this description https://github.com/devonfw/ide/blob/master/documentation/docker.asciidoc[Docker with devonfw-ide].
 
 .Docker on Windows
 [NOTE]
@@ -30,6 +30,6 @@ There are two modes for Docker on Windows, if you are using it in Hyper-V mode a
 
 Follow this https://quarkus.io/guides/building-native-image#container-runtime[chapter] to build a native Linux image through container runtime. 
 
-=== Configuring the Native Executable 
+=== Configuring the native executable 
 
 The native executable can be configured with properties provided with the application.properties. A list of the properties can be found https://quarkus.io/guides/building-native-image#configuration-reference[here].
