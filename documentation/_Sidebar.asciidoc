@@ -62,7 +62,7 @@
 == quarkus
 
 === Guides
-* link:quarkus/guide-how-to-create-a-quarkus-app,asciidoc[Create a quarkus application]
+* link:quarkus/guide-how-to-create-a-quarkus-app.asciidoc[Create a quarkus application]
 * link:quarkus/guide-building-native-image.asciidoc[Native image building]
 * link:quarkus/guide-logging.asciidoc[Logging]
 * link:quarkus/guide-cors-support.asciidoc[CORS support]
