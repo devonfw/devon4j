@@ -281,6 +281,6 @@ include::quarkus/guide-quarkus-configuration.asciidoc[leveloffset=+3]
 
 include::quarkus/guide-cors-support.asciidoc[leveloffset=+3]
 
-include::quarkus/guide-how-to-create-a-devon4quarkus-app.asciidoc[leveloffset=+3]
+include::quarkus/guide-how-to-create-a-quarkus-app.asciidoc[leveloffset=+3]
 
 include::quarkus/guide-building-native-image.asciidoc[leveloffset=+3]

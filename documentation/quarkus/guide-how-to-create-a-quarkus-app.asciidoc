@@ -8,7 +8,7 @@ toc::[]
 Quarkus provides guides for a variety of tools and 
 functionality that is given, the https://quarkus.io/guides/[list of all guides] can be found there.
 
-As a first introduction to the functionality given by https://quarkus.io/[Quarkus] and to show how to build a first application, follow the Quarkus https://quarkus.io/guides/getting-started#packaging-and-run-the-application[Creating your first application guide] to build a simple **Hello World** application and package it.
+As a first introduction to the functionality given by https://quarkus.io/[Quarkus] and to show how to build a first application, follow the Quarkus https://quarkus.io/guides/getting-started[Creating your first application guide] to build a simple **Hello World** application and package it.
 For a live and interactive guide follow the https://www.katacoda.com/openshift/courses/developing-with-quarkus/getting-started[Katacoda Quarkus Guide].
 
  
