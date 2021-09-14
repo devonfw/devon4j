@@ -23,6 +23,6 @@ As quarkus was born as cloud-native framework it is very light-weigth and does n
 Quarkus has the following drawbacks:
 
 * *less flexible* +
-Quarkus is less flexible compared to link:spring.asciidoc[spring] or in other words it is more biased and coupled to specific implementations. However, the implementations just work and you have less things to choose and worry about. However, in case you want to integrate a specific or custom library you may hit limitations or lose support for https://quarkus.io/guides/building-native-image[native-images] especially when that library is based on reflection. Therefore, check your requirements and technology stack early on when making your choice.
+Quarkus is less flexible compared to link:spring.asciidoc[spring] or in other words it is more biased and coupled to specific implementations. However, the implementations just work and you have less things to choose and worry about. However, in case you want to integrate a specific or custom library you may hit limitations or lose support for link:quarkus/guide-building-native-image.asciidoc[native-images] especially when that library is based on reflection. Therefore, check your requirements and technology stack early on when making your choice.
 * *less established* +
 Since quarkus was born in 2019 it is modern but also less established. It will be easier to get developers for link:spring.asciidoc[spring] but we already consider quarkus mature and established enought for building production ready apps.

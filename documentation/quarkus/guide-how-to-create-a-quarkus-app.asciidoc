@@ -1,0 +1,33 @@
+:toc: macro
+toc::[]
+
+= How to create a quarkus application
+
+== Quarkus guides
+
+Quarkus provides guides for a variety of tools and 
+functionality that is given, the https://quarkus.io/guides/[list of all guides] can be found there.
+
+As a first introduction to the functionality given by https://quarkus.io/[Quarkus] and to show how to build a first application, follow the Quarkus https://quarkus.io/guides/getting-started#packaging-and-run-the-application[Creating your first application guide] to build a simple **Hello World** application and package it.
+For a live and interactive guide follow the https://www.katacoda.com/openshift/courses/developing-with-quarkus/getting-started[Katacoda Quarkus Guide].
+
+ 
+
+=== Create a new Quarkus project
+The guide linked above shows how to build a Quarkus app with maven, but there are multiple ways to build a project. 
+
+.Code generator
+The usage of the Quarkus code generator can be read link:quarkus-template.asciidoc[here], there are also some recommendations on starter templates and basic frameworks.
+
+.Maven
+The guide https://quarkus.io/guides/maven-tooling[maven tooling] shows the basic way to scaffold a new project with maven like the guide above, but also provides some more information for configuration and also a list of attributes for the create command. To import an existing quarkus project into an IDE follow check this https://quarkus.io/guides/maven-tooling#import-in-your-ide[chapter].
+
+.Gradle
+An application can also be scaffolded with Gradle, the proper guide for this case and some additional attributes list and configuration properties will can be found https://quarkus.io/guides/gradle-tooling[here]. To import an existing quarkus project into an IDE check this https://quarkus.io/guides/maven-tooling#import-in-your-ide[chapter].
+
+.Quarkus CLI
+There is also a CLI provided by quarkus that can be installed and used to create and manage your application. This is still a **preview** and the Quarkus team is currently working on it but you can still check out the already provided functionality https://quarkus.io/guides/cli-tooling[here].
+
+
+
+

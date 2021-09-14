@@ -1,0 +1,33 @@
+:toc: macro
+toc::[]
+
+= Building a native Image
+
+Quarkus provides the ability to create a native executable of the application. This improves the startup time of the application and also uses less space on the disk. Also, a JVM is not needed because it is included in the application. A Distribution of GraalVm is needed. You can find the differences between the available distributions https://quarkus.io/guides/building-native-image#graalvm[here].
+
+== Installing GraalVM
+
+A native image can be created locally or through a container environment. To create a native image locally an installed and configured version of GraalVm is needed, you can follow the https://quarkus.io/guides/building-native-image#prerequisites-for-oracle-graalvm-ceee[installation guide from quarkus] or the https://www.graalvm.org/docs/getting-started/#install-graalvm[guide provided by GraalVm] for this. 
+
+
+
+=== Build a native executable with GraalVM
+
+A working quarkus application is needed, to build a quarkus application you can read the link:guide-how-to-create-a-quarkus-app.asciidoc.asciidoc[How to create a quarkus application guide], or clone the https://github.com/devonfw-sample/devon4quarkus-reference[example project] provided by devonfw. 
+Follow this https://quarkus.io/guides/building-native-image#producing-a-native-executable[Chapter] from the Quarkus Guide for building a native executable.
+
+
+
+=== Build a native executable with GraalVM through container environment
+
+You can build the Linux executables without installing GraalVM locally or sometimes you just need the Linux executables on Windows to run them in a container. To do that you need a working container runtime, we use Docker in this guide. You can install Docker with your devonfw-ide distribution just follow this description https://github.com/devonfw/ide/blob/master/documentation/docker.asciidoc[Docker with devonfw-ide].
+
+.Docker on Windows
+[NOTE]
+There are two modes for Docker on Windows, if you are using it in Hyper-V mode and not WSL 2 mode you have to share the project drive in the Docker settings or you will face some errors. 
+
+Follow this https://quarkus.io/guides/building-native-image#container-runtime[Chapter] to build a native Linux image through container runtime. 
+
+=== Configuring the Native Executable 
+
+The native executable can be configured with properties provided with the application.properties. A list of the properties can be found https://quarkus.io/guides/building-native-image#configuration-reference[here]. 

@@ -63,6 +63,8 @@
 
 === Guides
 * link:quarkus/guide-how-to-create-a-devon4quarkus-application[Start a new application]
+* link:quarkus/guide-building-native-image.asciidoc[Native image building]
 * link:quarkus/guide-logging.asciidoc[Logging]
 * link:quarkus/guide-cors-support.asciidoc[CORS support]
+
 
