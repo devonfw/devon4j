@@ -13,10 +13,10 @@ A native image can be created locally or through a container environment. To cre
 
 === Build a native executable with GraalVM
 
-A working quarkus application is needed, to build a quarkus application you can read the link:quarkus-template.asciidoc#basic-templates[Basic Quarkus application Chapter] 
+A working quarkus application is needed, to build a quarkus application you can read the link:quarkus-template.asciidoc#basic-templates[basic Quarkus application chapter] 
 // TODO other guide chapter title will be changed
  , or clone the https://github.com/devonfw-sample/devon4quarkus-reference[example project] provided by devonfw. 
-Follow this https://quarkus.io/guides/building-native-image#producing-a-native-executable[Chapter] from the Quarkus Guide for building a native executable.
+Follow this https://quarkus.io/guides/building-native-image#producing-a-native-executable[chapter] from the Quarkus Guide for building a native executable.
 
 
 
@@ -28,7 +28,7 @@ You can build the Linux executables without installing GraalVM locally or someti
 [NOTE]
 There are two modes for Docker on Windows, if you are using it in Hyper-V mode and not WSL 2 mode you have to share the project drive in the Docker settings or you will face some errors. 
 
-Follow this https://quarkus.io/guides/building-native-image#container-runtime[Chapter] to build a native Linux image through container runtime. 
+Follow this https://quarkus.io/guides/building-native-image#container-runtime[chapter] to build a native Linux image through container runtime. 
 
 === Configuring the Native Executable 
 
