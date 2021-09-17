@@ -15,7 +15,7 @@ If you are new to Quarkus, consider checking out their https://quarkus.io/guides
 === Basic templates
 [start=1]
 . simple REST API (https://code.quarkus.io/?g=com.devonfw&e=resteasy&e=resteasy-jackson&e=hibernate-validator&e=hibernate-orm[go to code.quarkus.io])
-. simple REST API with monitoring (https://code.quarkus.io/?g=com.devonfw&e=resteasy&e=resteasy-jackson&e=hibernate-validator&e=hibernate-orm&e=micrometer[go to code.quarkus.io])
+. simple REST API with monitoring (https://code.quarkus.io/?g=com.devonfw&e=resteasy&e=resteasy-jackson&e=hibernate-validator&e=hibernate-orm&e=micrometer&e=smallrye-health[go to code.quarkus.io])
 
 
 .Topic-based suggested implementation
