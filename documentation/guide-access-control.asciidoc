@@ -147,15 +147,17 @@ public class UcSafeOfferImpl extends ApplicationUc implements UcSafeOffer {
 ----
 
 === JEE Standard
-https://en.wikipedia.org/wiki/Role-based_access_control[Role-based Access Control (RBAC)] is commonly used for authorization. JSR 250 defines a number of common security annotation to secure your application.
+https://en.wikipedia.org/wiki/Role-based_access_control[Role-based Access Control (RBAC)] is commonly used for authorization.
+JSR 250 defines a number of common annotations to secure your application.
 
-* `javax.annotation.security.PermitAll` specifies that all security roles are allowed to invoke the specified method(s).
-* `javax.annotation.security.DenyAll` specifies that no security roles are allowed to invoke the specified method(s).
-* `javax.annotation.security.RolesAllowed` specifies that only a list of security roles are allowed to invoke the specified method(s).
+* `javax.annotation.security.PermitAll` specifies that no access control is required to invoke the specified method(s).
+* `javax.annotation.security.DenyAll` specifies that no access controls are allowed to invoke the specified method(s).
+* `javax.annotation.security.RolesAllowed` specifies that only a list of access controls are allowed to invoke the specified method(s).
 * `javax.annotation.security.DeclareRoles` defines roles for security checking.
 * `javax.annotation.security.RunAs` specifies the RunAs role for the given components.
 
-`@PermitAll` `@Denyall` `@RolesAllowed` annotations can be applied to both class and method. A method-level annotation will override the behaviour of class-level annotation. Using multiple annotations of those 3 is not valid.
+`@PermitAll`, `@Denyall`, and `@RolesAllowed` annotations can be applied to both class and method.
+A method-level annotation will override the behaviour of class-level annotation. Using multiple annotations of those 3 is not valid.
 ```java
 // invalid
 @PermitAll
@@ -171,6 +173,13 @@ public String bar()
 @RolesAllowed("admin", "user")
 public String bar()
 ```
+
+Please note that when specifying multiple arguments to `@RolesAllowed` those are combined with OR (and not with AND).
+So if the user has any of the specified access controls, he will be able to access the method.
+
+As a best practice avoid specifying string literals to `@RolesAllowed`.
+Instead define a class with all access controls as constants and reference them from there.
+This class is typically called `ApplicationAccessControlConfig` in devonfw.
 
 In many complicated cases where `@PermitAll` `@DenyAll` `@RolesAllowed` are insufficient e.g. a method should be accessed by a user in role A and not in role B at the same time, you have to verify the user role directly in the method. You can use `SecurityContext` class to get further needed information.
 
