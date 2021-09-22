@@ -27,13 +27,8 @@ To create a native image locally an installed and configured version of GraalVM 
 
 In order to make the build of native images more portable, you can also use your container environment and run the GraalVM inside a container (typically Docker).
 You can simply install Docker with your devonfw-ide distribution just follow this description https://github.com/devonfw/ide/blob/master/documentation/docker.asciidoc[Docker with devonfw-ide].
-
-.Docker on Windows
-[NOTE]
-There are two modes for Docker on Windows, if you are using it in Hyper-V mode and not WSL 2 mode you have to share the project drive in the Docker settings or you will face some errors. 
-
-Follow this https://quarkus.io/guides/building-native-image#container-runtime[chapter] to build a native Linux image through container runtime. 
+Follow this https://quarkus.io/guides/building-native-image#container-runtime[chapter] to build a native Linux image through container runtime.
 
 == Configuring the native executable 
 
-The native executable can be configured with properties provided with the application.properties. A list of the properties can be found https://quarkus.io/guides/building-native-image#configuration-reference[here].
+A list of all configuration properties for a native image can be found https://quarkus.io/guides/building-native-image#configuration-reference[here].

@@ -282,4 +282,4 @@ include::quarkus/guide-quarkus-configuration.asciidoc[leveloffset=+3]
 include::quarkus/guide-cors-support.asciidoc[leveloffset=+3]
 
 
-include::quarkus/guide-building-native-image.asciidoc[leveloffset=+3]
+include::quarkus/guide-native-image.asciidoc[leveloffset=+3]
