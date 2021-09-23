@@ -10,7 +10,6 @@ Quarkus supports different authentication mechanisms through different extension
 * https://quarkus.io/guides/security-jwt[`quarkus-smallrye-jwt`] provides support for authenticating using JSON Web Tokens. It allows you to inject the token and claims into the application as per the MicroProfile JWT specification.
 * https://quarkus.io/guides/security-openid-connect[`quarkus-oidc`] provides support for authentication via an OpenID Connect provider e.g. KeyCloak
 * https://quarkus.io/guides/security-keycloak-authorization[`quarkus-keycloak-authorization`] provides support for a policy enforcer using https://www.keycloak.org/docs/latest/authorization_services/index.html[Keycloak Authorization Services].
-* ...
 
 For mix authentication, see https://quarkus.io/guides/security#combining-authentication-mechanisms[here].
 
