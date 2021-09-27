@@ -213,10 +213,22 @@ As you have seen, some parts hardly differ when migrating a Spring application t
 
 Furthermore, we can summarize that migrating from a Spring application to a Quarkus representative is not complex. Although Quarkus is a very young framework (release 1.0 was in 2019), it brings a lot of proven startards and libraries that you can integrate into your application. This makes it easy to migrate and reuse code from existing (Spring) applications. Also, Quarkus comes with Spring API compatibility for many Spring modules (https://quarkus.io/guides/spring-data-jpa[Spring Data JPA], https://quarkus.io/guides/spring-di[Spring DI], https://github.com/quarkusio/quarkus/tree/main/extensions[etc.]), which makes it easier for developers to reuse their knowledge.
 
-Other benefits of using Quarkus include fast recompilation (live coding) and startup times, which optimize the development process without wasting time on processes such as building the application after each change. There is also a big difference in resource consumption between Spring and Quarkus applications. Especially in native mode, the memory footprint of a Quarkus application is extremely low, which can be a deciding factor in real-world environments. The following tables, which show the startup and memory consumption of two similar Quarkus and Spring applications, illustrate this point:
+Other benefits of using Quarkus include fast recompilation (live coding) and startup times, which optimize the development process without wasting time on processes such as building the application after each change. There is also a big difference in resource consumption between Spring and Quarkus applications. Especially in native mode, the memory footprint of a Quarkus application is extremely low, which can be a deciding factor in real-world environments. The tables <<PerformanceComparisonApplication1>> and <<PerformanceComparisonApplication2>>, which show the startup and memory consumption of two applications that are similar in their Quarkus and Spring implementations, illustrate this point. Application 1 is more complex in scope than Application 2 and uses more dependencies. The listings above the tables show the functions/extensions of the applications and the lines of code.
 
+.Application 1:
+* LOC
+** Quarkus: ~4600
+** Spring: ~ 5500
+* Features
+** 3 entitites
+** REST service
+** Connection to a Postgres database (using Spring Data JPA and QueryDSL for the repository implementation)
+** Flyway for database migration
+** Kafka for asynchronous messaging
+** Avro for data serialization combinded with a schema registry
 
-.Application 1
+.performace comparision application 1
+[#PerformanceComparisonApplication1]
 [cols="1,1,1,1"]
 |===
 |
@@ -235,7 +247,16 @@ Other benefits of using Quarkus include fast recompilation (live coding) and sta
 |~190 MB
 |===
 
-.Application 2
+.Application 2:
+* LOC
+** Quarkus: ~300
+** Spring: ~ 280
+* Features
+** 1 entity
+** REST service with Postgres database connection
+
+.performace comparision application 2
+[#PerformanceComparisonApplication2]
 [cols="1,1,1,1"]
 |===
 |
