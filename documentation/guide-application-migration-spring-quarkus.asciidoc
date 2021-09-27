@@ -218,7 +218,7 @@ Other benefits of using Quarkus include fast recompilation (live coding) and sta
 .Application 1:
 * LOC
 ** Quarkus: ~4600
-** Spring: ~ 5500
+** Spring: ~ 5400
 * Features
 ** 3 entitites
 ** REST service
