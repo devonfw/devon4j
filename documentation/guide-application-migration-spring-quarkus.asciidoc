@@ -216,9 +216,9 @@ Furthermore, we can summarize that migrating from a Spring application to a Quar
 Other benefits of using Quarkus include fast recompilation (live coding) and startup times, which optimize the development process without wasting time on processes such as building the application after each change. There is also a big difference in resource consumption between Spring and Quarkus applications. Especially in native mode, the memory footprint of a Quarkus application is extremely low, which can be a deciding factor in real-world environments. The tables <<PerformanceComparisonApplication1>> and <<PerformanceComparisonApplication2>>, which show the startup and memory consumption of two applications that are similar in their Quarkus and Spring implementations, illustrate this point. Application 1 is more complex in scope than Application 2 and uses more dependencies. The listings above the tables show the functions/extensions of the applications and the lines of code.
 
 .Application 1:
-* LOC
+* LOC (without automatically generated classes)
 ** Quarkus: ~4600
-** Spring: ~ 5400
+** Spring: ~7700 (separated into api and core module, as described for the link:guide-structure-classic.asciidoc[classic project structure]; api: ~3800, core: 3900)
 * Features
 ** 3 entitites
 ** REST service
