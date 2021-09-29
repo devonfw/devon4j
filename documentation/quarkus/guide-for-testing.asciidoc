@@ -1,11 +1,11 @@
 :toc: macro
 toc::[]
 
-= Testing 
+= Testing your Application
 The following guide https://quarkus.io/guides/getting-started-testing explains how to test applications in Quarkus. Furthermore, the injection into tests, as well as the testing of native executables will be discussed in more detail. 
 
 
-= continuous testing
+= Continuous testing
 In Quarkus continuous tests are supported, which are executed directly after saving the code changes. This has the advantage that you get feedback directly after the code change. Quarkus recognizes which relevant test is needed to test a code. 
 
 More information about continuous testing in Quarkus can be found in the following guide: https://quarkus.io/guides/continuous-testing
