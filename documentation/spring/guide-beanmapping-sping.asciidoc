@@ -3,7 +3,6 @@
 
 We have developed a solution that uses a `BeanMapper` that allows to abstract from the underlying implementation. As mentioned in the link:../guide-beanmapping.asccidoc[general bean mapping guide], we started with http://dozer.sourceforge.net/documentation/about.html[Dozer] a Java Bean to Java Bean mapper that recursively copies data from one object to another. Now we recommend using https://orika-mapper.github.io/orika-docs/[Orika]. This guide will show a introduction to the Orika and dozer bean mapper.
 
-You can also follow 
 
 == Bean-Mapper Dependency
 
@@ -29,9 +28,8 @@ To get access to the `BeanMapper` we have to use either of below dependency in o
 </dependency>
 ----
 
-== Bean-Mapper Configuration using Dozer
-Mein Text: Dozer can be configured via xml, api or annotations. Annotaions are not supported. 
-More information to api or annottions = links. 
+== Bean-Mapper Configuration 
+=== Bean-Mapper Configuration using Dozer
 
 The `BeanMapper` implementation is based on an existing open-source bean mapping framework. 
 In case of Dozer the mapping is configured `src/main/resources/config/app/common/dozer-mapping.xml`.
@@ -51,13 +49,8 @@ Important is that you configure all your custom datatypes as `<copy-by-reference
 ----
 
 == Bean-Mapper Configuration using Orika
-The basic cornerstone of the Orika mapping framework is the MapperFactory class. This is the class which you will use to configure any mappings, and obtain the MapperFacade which performs the actual mapping work. A very basic example is given below:
 
-Construct a MapperFactory:
-[source,java]
-----
-MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-----
+Orika with devonfw is configured by default and sets some custom mappings for _GenericEntity.java_ to _GenericEntityDto.java_. To specify and customize the mappings you can create the class _BeansOrikaConfig.java_ that extends the class _BaseOrikaConfig.java_ from the *devon4j.orika* package. To register a basic mapping, register a *ClassMap* for the *mapperFactory* with your custom mapping. Watch the example below and follow the https://orika-mapper.github.io/orika-docs/mappings-via-classmapbuilder.html[basic Orika mapping configuration guide] and the https://orika-mapper.github.io/orika-docs/advanced-mappings.html[Orika advanced mapping guide].
 
 Register Mappings:
 [source,java]
@@ -68,8 +61,6 @@ mapperFactory.classMap(UserEntity.class, UserEto.class)
 			.byDefault()
 			.register();
 ----
-
-more information you can get here 
 
 == Bean-Mapper Usage
 
@@ -82,5 +73,3 @@ UserEntity resultEntity = ...;
 ...
 return getBeanMapper().map(resultEntity, UserEto.class);
 ----
-
-There is also additional support for mapping entire collections.
