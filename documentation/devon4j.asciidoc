@@ -223,6 +223,10 @@ include::guide-beanmapping.asciidoc[leveloffset=+3]
 
 <<<<
 
+include::spring/guide-beanmapping-spring.asciidoc[leveloffset=+3]
+
+<<<<
+
 include::guide-datatype.asciidoc[leveloffset=+3]
 
 <<<<
@@ -257,6 +261,10 @@ include::guide-jms.asciidoc[leveloffset=+3]
 
 include::guide-text-search.asciidoc[leveloffset=+3]
 
+<<<<
+
+include::guide-lombok.asciidoc[leveloffset=+3]
+
 === Tutorials
 
 include::tutorial-newapp.asciidoc[leveloffset=+3]
@@ -274,4 +282,7 @@ include::guide-domain-layer.asciidoc[leveloffset=+2]
 === Guides
 
 include::quarkus/guide-cors-support.asciidoc[leveloffset=+3]
+
+<<<<
+
 include::quarkus/guide-beanmapping-quarkus.asciidoc[leveloffset=+3]
