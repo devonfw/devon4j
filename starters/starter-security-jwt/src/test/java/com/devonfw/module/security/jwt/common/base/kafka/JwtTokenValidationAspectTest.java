@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 import java.nio.charset.Charset;
 
-import org.apache.commons.codec.Charsets;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.Headers;
@@ -110,7 +109,7 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
     Headers headers = producerRecord.headers();
 
     // a inValid token but got expired.
-    headers.add(JwtConstants.HEADER_AUTHORIZATION, INVALID_TEST_JWT.getBytes(Charsets.UTF_8));
+    headers.add(JwtConstants.HEADER_AUTHORIZATION, INVALID_TEST_JWT.getBytes(Charset.forName("UTF-8")));
 
     adjustClock();
 

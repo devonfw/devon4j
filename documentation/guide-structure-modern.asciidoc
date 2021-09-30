@@ -56,24 +56,30 @@ we provide this architecture mapping:
 [subs=+macros]
 ----
 «root»
-└──.link:guide-component.asciidoc#business-component[«component»]
-   ├──.link:guide-domain-layer.asciidoc[domain]
-   |  ├──.link:guide-repository.asciidoc[repo]
-   |  |  ├──.link:guide-repository.asciidoc#repository[«BusinessObject»Repository]
-   |  |  ├──.link:guide-repository.asciidoc#fragment[«BusinessObject»Fragment]
-   |  |  └──.link:guide-repository.asciidoc#fragment[«BusinessObject»FragmentImpl]
-   |  ├──.link:guide-dao.asciidoc[dao] [alternative to repo]
-   |  |  ├──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»Dao]
-   |  |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»DaoImpl]
-   |  └──.model
-   |     └──.link:guide-jpa.asciidoc#entity[«BusinessObject»Entity]
-   ├──.link:guide-logic-layer.asciidoc[logic]
-   |  ├──«BusinessObject»Validator
-   |  └──«BusinessObject»EventsEmitter
-   └──.link:guide-service-layer.asciidoc[service]
-      ├──.link:guide-rest.asciidoc#jax-rs[«Component»RestService]
-      ├──.mapper
-      |  └──.«BusinessObject»Mapper
+├──.link:guide-component.asciidoc#business-component[«component»]
+|  ├──.link:guide-domain-layer.asciidoc[domain]
+|  |  ├──.link:guide-repository.asciidoc[repo]
+|  |  |  ├──.link:guide-repository.asciidoc#repository[«BusinessObject»Repository]
+|  |  |  ├──.link:guide-repository.asciidoc#fragment[«BusinessObject»Fragment]
+|  |  |  └──.link:guide-repository.asciidoc#fragment[«BusinessObject»FragmentImpl]
+|  |  ├──.link:guide-dao.asciidoc[dao] [alternative to repo]
+|  |  |  ├──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»Dao]
+|  |  |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»DaoImpl]
+|  |  └──.model
+|  |     └──.link:guide-jpa.asciidoc#entity[«BusinessObject»Entity]
+|  ├──.link:guide-logic-layer.asciidoc[logic]
+|  |  ├──«BusinessObject»Validator
+|  |  └──«BusinessObject»EventsEmitter
+|   |  └──.link:guide-usecase.asciidoc[Uc«Operation»«BusinessObject»[Impl]]
+|  └──.link:guide-service-layer.asciidoc[service]
+|     └──.link:guide-service-versioning.asciidoc#jax-rs[v1]
+|        ├──.link:guide-rest.asciidoc#jax-rs[«Component»RestService]
+|        ├──.mapper
+|        |     └──.«BusinessObject»Mapper
+|        └──.model
+|           └──.«BusinessObject»Dto
+└──.link:guide-component.asciidoc#general-component[general]
+   └──.domain
       └──.model
-         └──.«BusinessObject»Dto
+         └──.ApplicationPersistenceEntity
 ----
