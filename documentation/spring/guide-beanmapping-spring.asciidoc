@@ -1,7 +1,7 @@
 
 = Bean Mapping in devon4j-spring
 
-We have developed a solution that uses a `BeanMapper` that allows to abstract from the underlying implementation. As mentioned in the link:../guide-beanmapping.asccidoc[general bean mapping guide], we started with http://dozer.sourceforge.net/documentation/about.html[Dozer] a Java Bean to Java Bean mapper that recursively copies data from one object to another. Now we recommend using https://orika-mapper.github.io/orika-docs/[Orika]. This guide will show an introduction to the Orika and dozer bean mapper.
+We have developed a solution that uses a `BeanMapper` that allows to abstract from the underlying implementation. As mentioned in the link:../guide-beanmapping.asccidoc[general bean mapping guide], we started with http://dozer.sourceforge.net/documentation/about.html[Dozer] a Java Bean to Java Bean mapper that recursively copies data from one object to another. Now we recommend using https://orika-mapper.github.io/orika-docs/[Orika]. This guide will show an introduction to Orika and Dozer bean-mapper.
 
 
 == Bean-Mapper Dependency
@@ -31,7 +31,7 @@ To get access to the `BeanMapper` we have to use either of the below dependency 
 == Bean-Mapper Configuration 
 === Bean-Mapper Configuration using Dozer
 
-The `BeanMapper` implementation is based on an existing open-source bean mapping framework. 
+The `BeanMapper` implementation is based on an existing open-source bean-mapping framework. 
 In case of Dozer the mapping is configured `src/main/resources/config/app/common/dozer-mapping.xml`.
 
 See the my-thai-star https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/resources/config/app/common/dozer-mapping.xml[dozer-mapping.xml] as an example.

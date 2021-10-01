@@ -127,6 +127,10 @@ include::guide-validation.asciidoc[leveloffset=+2]
 
 <<<<
 
+include::guide-beanmapping.asciidoc[leveloffset=+2]
+
+<<<<
+
 include::spring.asciidoc[leveloffset=+1]
 
 include::guide-component.asciidoc[leveloffset=+2]
@@ -217,9 +221,6 @@ include::guide-testing.asciidoc[leveloffset=+3]
 
 include::guide-transferobject.asciidoc[leveloffset=+3]
 
-<<<<
-
-include::guide-beanmapping.asciidoc[leveloffset=+3]
 
 <<<<
 

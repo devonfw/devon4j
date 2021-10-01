@@ -3,7 +3,8 @@ toc::[]
 
 = Lombok 
 
-Lombok is a library that works with an annotation processor and will generate getter and setter for your classes. Lombok can save you some time and reduce the amount of boilerplate code in your project.
+https://projectlombok.org/[Lombok] is a library that works with an annotation processor and will generate code for you to save you some time and reduce the amount of boilerplate code in your project. Lombok can generate getter and setter, equals methods, automate your logging variables for your classes, and more. Follow the https://projectlombok.org/features/all[list of all the features] provided by Lombok to get an overview.
+
 
 == Lombok Dependency 
 To get access to the Lombok library just add the following dependency to the POM.xml.

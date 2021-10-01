@@ -21,11 +21,11 @@ public UserEto mapUser(UserEntity source) {
 Therefore we are using a `BeanMapper` for this purpose that makes our lives a lot easier.
 There are several bean mapping frameworks with different approaches.
 
-For a link:spring.asciidoc[devon4j-spring] application we recommend Orika, follow link:spring/guide-beanmapping-spring.asciidoc[Spring] for an introduction to Orika and Dozer in a devon4j-spring context application.
+For a link:spring.asciidoc[devon4j-spring] application we recommend Orika, follow link:spring/guide-beanmapping-spring.asciidoc[Spring Bean-Mapping] for an introduction to Orika and Dozer in a devon4j-spring context application.
 
 NOTE: devon4j started with http://dozer.sourceforge.net/[Dozer] as framework for Spring applications and still supports it. However, we now recommend Orika (for new projects) as it is much faster (see https://www.baeldung.com/java-performance-mapping-frameworks#2-orika[Performance of Java Mapping Frameworks]).
 
-For a link:quarkus.asciidoc[quarkus] application we recommend Mapstruct, follow xref:quarkus/guide-beanmapping-quarkus.asciidoc[Quarkus Bean-Mapping] for an introduction to Mapstruct in a quarkus context application.
+For a link:quarkus.asciidoc[Quarkus] application we recommend Mapstruct, follow xref:quarkus/guide-beanmapping-quarkus.asciidoc[Quarkus Bean-Mapping] for an introduction to Mapstruct in a quarkus context application.
 
 
 
