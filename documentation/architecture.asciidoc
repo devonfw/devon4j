@@ -59,7 +59,7 @@ It defines the following layers visualized as horizontal boxes:
 back-end to the client or other consumers.
 * link:guide-batch-layer.asciidoc[batch layer] for exposing functionality in batch-processes (e.g. mass imports).
 * link:guide-logic-layer.asciidoc[logic layer] for the business logic.
-* link:guide-domain-layer.asciidoc[domain layer] for the data access, especially (in the link:guide-structure-modern.asciidoc[classic project structure] this layer is named link:guide-dataaccess-layer.asciidoc[data-access layer]).
+* link:guide-domain-layer.asciidoc[domain layer] for the data access, especially persistence (in the link:guide-structure-classic.asciidoc[classic project structure] this layer is named link:guide-dataaccess-layer.asciidoc[data-access layer]).
 
 Also, you can see the (business) components as vertical boxes (e.g. _A_ and _X_) and how they are composed out of component parts each one assigned to one of the technical layers.
 
