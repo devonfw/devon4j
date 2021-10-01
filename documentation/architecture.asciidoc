@@ -59,7 +59,7 @@ It defines the following layers visualized as horizontal boxes:
 back-end to the client or other consumers.
 * link:guide-batch-layer.asciidoc[batch layer] for exposing functionality in batch-processes (e.g. mass imports).
 * link:guide-logic-layer.asciidoc[logic layer] for the business logic.
-* link:guide-dataaccess-layer.asciidoc[data-access layer] for the data access (esp. persistence).
+* link:guide-domain-layer.asciidoc[domain layer] for the data access, especially (in the link:guide-structure-modern.asciidoc[classic project structure] this layer is named link:guide-dataaccess-layer.asciidoc[data-access layer]).
 
 Also, you can see the (business) components as vertical boxes (e.g. _A_ and _X_) and how they are composed out of component parts each one assigned to one of the technical layers.
 
@@ -115,7 +115,7 @@ The technology stack of the devonfw is illustrated by the following table.
 |runtime|servlet-container|JEE|http://tomcat.apache.org/[tomcat]
 |link:guide-dependency-injection.asciidoc[component management]|dependency injection|https://jcp.org/en/jsr/detail?id=330[JSR330] & https://jcp.org/en/jsr/detail?id=250[JSR250]|http://spring.io/[spring]
 |link:guide-configuration.asciidoc[configuration]|framework|-|http://projects.spring.io/spring-boot/[spring-boot]
-|link:guide-dataaccess-layer.asciidoc[persistence]|OR-mapper|http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[JPA] | http://hibernate.org/orm/[hibernate]
+|link:guide-domain-layer.asciidoc[persistence]|OR-mapper|http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[JPA] | http://hibernate.org/orm/[hibernate]
 |link:guide-batch-layer.asciidoc[batch]|framework|https://jcp.org/en/jsr/detail?id=352[JSR352]|http://projects.spring.io/spring-batch/[spring-batch]
 |link:guide-service-layer.asciidoc[service]|link:guide-service-layer.asciidoc#soap[SOAP services]|https://jcp.org/en/jsr/detail?id=224[JAX-WS]|http://cxf.apache.org/[CXF]
 |link:guide-service-layer.asciidoc[service]|link:guide-service-layer.asciidoc#rest[REST services]|https://jax-rs-spec.java.net/[JAX-RS]| http://cxf.apache.org/[CXF]
