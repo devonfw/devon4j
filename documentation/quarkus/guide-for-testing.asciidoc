@@ -2,10 +2,40 @@
 toc::[]
 
 = Testing your Application
+The devon4j testing guide talks about general best practices (link:guide-testing.asciidoc[Testing]) that the user should follow when testing an application, Quarkus does not have these guidelines when testing an application. 
+Instead, there are two test dependencies in Quarkus, the JUnit5 and the rest-assured. The quarkus-junit5 is required for testing because it provides the @QuarkusTest annotations that drive the testing framework. The rest-assured is not required, but is used for convenient testing of HTTP endpoints. Quarkus also provides an integration that automatically sets the correct URL without configuration.
+In addition, devon4j describes that all assertions are performed using AssertJ. Quarkus does not use AssertJ. 
+
+== Use of test doubles
+Another difference is that Quarkus does not use test doubles apart from mocks. In Quarkus, mock objects can be supported in two different ways. The first variant is that the mock objects are used as CDI alternatives. This variant is used to mock a bean for all test classes. The other variant is to use the QuarkusMock. In this case, you temporarily mock the beans in each test individually.
+
+== Testing
+While devon4j uses any port for testing, Quarkus listens on port 8080 by default and uses port 8081 for running tests. This has the advantage that tests can be executed in parallel with running applications. It is also possible to configure the test ports so that the operating system used assigns a random port. 
+Furthermore devonfw defines a common terminology for what could be tested. However, it is emphasized that each project decides for itself where the focus of test automation should be. In the devon4j testing guide, different integration levels of test automation are described. 
+
+These are divided into: 
+
+* module test
+* component test
+* subsystem test
+* system test
+* classification of integration levels
+
+In Quarkus these integration levels are not used. To achieve a high degree of flexibility, Quarkus supports the testing of different profiles. Here Quarkus is started profile dependent, i.e. if the current test is not from the same profile as the previous test, Quarkus is shut down and restarted with the corresponding profile. It is also possible to test native executables in Quarkus.
+
+== Test, Transactions, Interceptor and Beans
+Both REST Assured and the @TestHTTPResource allow you to specify the test endpoint class instead of coordinating a fixed path. This makes it easier to keep track of which endpoints are tested by specific tests. The @TestHTTPResource annotation allows both the URL and URI to be injected directly into the test, simplifying the use of additional clients. It can also map the URL as a string representation. 
+For unit test execution and direct testing of the beans, CDI beans with the @Inject annotation are injected into the test in Quarkus. These CDI beans provide all CDI functions. Therefore, CDI interceptors can be applied as usual. For example, the @Transactional annotation can be applied to a test method that is executed in the context of a transaction. The transactional interceptor will recognize and apply this.
+The default Quarkus annotation @Transactional can also be applied to tests. However, it should be noted that any changes caused by the test will remain permanent in the database. If this is not desired and the changes should be undone after the test is finished, it is recommended to use the io.quarkus.test.TestTransaction annotation.
+Additionally, the @QuarkusTest classes can implement callback interfaces. These callback interfaces are an alternative or addition to the interceptor and must be set as "service provider". The callback is controlled by the read annotations of the test class or test method. It is possible to use JUnit Jupiter callback interfaces, but there may be problems loading the class because Quarkus runs the tests in a custom class loader that JUnit does not recognize.
+
+== Detect hangers
+Additionally, Quarkus provides the ability to diagnose unexpected hangs using the @QuarkusTest annotation. This is done by outputting a stack trace on the console if no JUnit callbacks are called after a certain time.
+
 The following guide https://quarkus.io/guides/getting-started-testing explains how to test applications in Quarkus. Furthermore, the injection into tests, as well as the testing of native executables will be discussed in more detail. 
 
 
-= Continuous testing
+== Continuous testing
 In Quarkus continuous tests are supported, which are executed directly after saving the code changes. This has the advantage that you get feedback directly after the code change. Quarkus recognizes which relevant test is needed to test a code. 
 
 More information about continuous testing in Quarkus can be found in the following guide: https://quarkus.io/guides/continuous-testing
