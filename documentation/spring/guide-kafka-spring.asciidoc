@@ -79,14 +79,14 @@ We use the same properties defined by Apache Kafka or Spring Kafka. They are sim
 == Naming convention for topics
 
 For better managing of several Kafka topics in your application portfolio we strongly advice to introduce a naming scheme for your topics. The schema may depend on the actual usage pattern of Kafka. For context where Kafka is used
-in a 1-to-1-communication-scheme (not publish/subscribe) the following schema as been proven useful in practice:
+in a 1-to-1-communication-scheme (not publish/subscribe) the following schema has been proven useful in practice:
 
 [source]
 ----
 <application name>-<service name>-<version>-<service-operation>
 ----
 
-To keep thing easy and prevent problems we suggest to use only small letters, hyphens but no other special characters.
+To keep things easy and prevent problems we suggest to use only small letters, hyphens but no other special characters.
 
 == Send Messages
 
@@ -157,7 +157,7 @@ The group id can be mentioned in `application.properties` as listener properties
 messaging.kafka.consumer.groupId=default
 ----
 If there are multiple topics and multiple listeners then we suggest to specify the topic names directly on each listener instead reading from the property file.
-The container factory mentioned in the `@KafkaListener` is provided in the https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaListenerContainerProperties.java/[KafkaListenerContainerProperties.java] to create default container factory with acknowledgement.
+The container factory mentioned in the `@KafkaListener` is provided in the https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaListenerContainerProperties.java/[KafkaListenerContainerProperties.java] to create a default container factory with acknowledgement.
 
 The default ack-mode is `manual_immediate` . It can be overridden by below example:
 
@@ -211,7 +211,7 @@ public class DeleteEmployeeMessageProcessor<K, V> implements MessageProcessor<K,
 It works as follows:
 
 * The application gets a message from the topic.
-* During processing of the message an error occurs, the message will be written to the redelivery topic.
+* During the processing of the message an error occurs, the message will be written to the redelivery topic.
 * The message is acknowledged in the topic.
 * The message will be processed from the re-delivery topic after a delay.
 * Processing of the message fails again. It retires until the retry count gets over.
@@ -324,11 +324,11 @@ devon4j-kafka provides multiple support classes to log the published message and
 * The class `ProducerLoggingListener` which implements ProducerListener<K,V> from Spring Kafka uses to log the message as soon as it is published in the Kafka broker.
 
 * The aspect class `MessageListenerLoggingAspect` which is annotated with `@Aspect` and has a method `logMessageprocessing` which is annotated with `@Around("@annotation(org.springframework.kafka.annotation.KafkaListener)&&args(kafkaRecord,..)")`
-used to listen to the classes which is annotated with `@KafkaListener` and logs the message as soon as it is consumed.
+is used to listen to the classes which is annotated with `@KafkaListener` and logs the message as soon as it is consumed.
 
 * The class `MessageLoggingSupport` has multiple methods to log different types of events like MessageReceived, MessageSent, MessageProcessed, MessageNotProcessed.
 
-* The class `LoggingErrorHandler` which implements `ErrorHandler` from spring-kafka which logs the message when an error occurred while consuming message. You may change this behavior by creating your own implementation class for the ErrorHandler.
+* The class `LoggingErrorHandler` which implements `ErrorHandler` from spring-kafka which logs the message when an error occurred while consuming messages. You may change this behavior by creating your own implementation class for the ErrorHandler.
 
 == Kafka Health check using Spring acutator
 The spring config class MessageCommonConfig automatically provides a spring health indicator bean for kafka if
