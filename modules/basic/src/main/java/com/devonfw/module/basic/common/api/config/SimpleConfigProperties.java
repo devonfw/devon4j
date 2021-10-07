@@ -30,6 +30,7 @@ public class SimpleConfigProperties implements ConfigProperties {
    * @param key the hierarchical key of this {@link ConfigProperties}-node.
    */
   protected SimpleConfigProperties(String key) {
+
     super();
     this.nodeKey = key;
     this.childMap = new HashMap<>();
@@ -285,6 +286,9 @@ public class SimpleConfigProperties implements ConfigProperties {
   @Override
   public String toString() {
 
+    if ((this.nodeKey == null) || this.nodeKey.isEmpty()) {
+      return "<empty>";
+    }
     StringBuilder buffer = new StringBuilder(this.nodeKey);
     buffer.append('=');
     String nodeValue = getValue();
