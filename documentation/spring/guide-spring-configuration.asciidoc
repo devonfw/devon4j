@@ -92,6 +92,24 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 ----
 
 == External Application Configuration
+=== application.properties files
+https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[Here] is a list of common properties provided by the Spring framework.
+
+For a general understanding how spring-boot is loading and boostrapping your `application.properties` see https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html[spring-boot external configuration].
+
+The following properties files are used in devonfw application:
+
+* `src/main/resources/application.properties` providing a default configuration - bundled and deployed with the application package. It further acts as a template to derive a tailored minimal environment-specific configuration.
+* `src/main/resources/config/application.properties` providing additional properties only used at development time (for all local deployment scenarios). This property file is excluded from all packaging.
+* `src/test/resources/config/application.properties` providing additional properties only used for testing (JUnits based on link:guide-testing.asciidoc[spring test]).
+
+For other environments where the software gets deployed such as `test`, `acceptance` and `production` you need to provide a tailored copy of `application.properties`. The location depends on the deployment strategy:
+
+* standalone run-able Spring Boot App using embedded tomcat: `config/application.properties` under the installation directory of the spring boot application.
+* dedicated tomcat (one tomcat per app): `$CATALINA_BASE/lib/config/application.properties`
+* tomcat serving a number of apps (requires expanding the wars): `$CATALINA_BASE/webapps/<app>/WEB-INF/classes/config`
+
+In this `application.properties` you only define the minimum properties that are environment specific and inherit everything else from the bundled `src/main/resources/application.properties`. In any case, make very sure that the classloader will find the file.
 
 === Database Configuration
 
