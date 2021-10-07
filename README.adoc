@@ -11,7 +11,7 @@ For details see xref:modules[modules] below.
 == Documentation
 
 * link:documentation/architecture.asciidoc[Architecture Overview]
-* link:documentation/guide-dataaccess-layer.asciidoc[Data Access Layer]
+* link:documentation/guide-domain-layer.asciidoc[Domain Layer]
 * link:documentation/guide-logic-layer.asciidoc[Logic Layer]
 * link:documentation/guide-service-layer.asciidoc[Service Layer]
 * link:documentation/guide-batch-layer.asciidoc[Batch Layer]

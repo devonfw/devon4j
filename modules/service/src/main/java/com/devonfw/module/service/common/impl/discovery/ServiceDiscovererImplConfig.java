@@ -69,8 +69,8 @@ public class ServiceDiscovererImplConfig implements ServiceDiscoverer, Applicati
       if (host == null) {
         return;
       }
-      String port = clientNode.getChild(ServiceConfig.KEY_SEGMENT_PORT).getValue();
-      String protocol = clientNode.getChild(ServiceConfig.KEY_SEGMENT_PROTOCOL).getValue();
+      String port = configNode.getChild(ServiceConfig.KEY_SEGMENT_PORT).getValue();
+      String protocol = configNode.getChild(ServiceConfig.KEY_SEGMENT_PROTOCOL).getValue();
       if (protocol == null) {
         if ("443".equals(port)) {
           protocol = "https";
@@ -88,11 +88,14 @@ public class ServiceDiscovererImplConfig implements ServiceDiscoverer, Applicati
         buffer.append(':');
         buffer.append(port);
       }
-      if (!this.contextPath.isEmpty()) {
-        buffer.append(this.contextPath);
+      if (!this.contextPath.startsWith("/")) {
         buffer.append('/');
       }
-      buffer.append(ServiceConstants.URL_PATH_SERVICES);
+      buffer.append(this.contextPath);
+      if (!this.contextPath.endsWith("/") && !this.contextPath.isEmpty()) {
+        buffer.append('/');
+      }
+      buffer.append(ServiceConstants.URL_FOLDER_SERVICES);
       buffer.append('/');
       buffer.append(ServiceConstants.VARIABLE_TYPE);
       url = buffer.toString();
@@ -126,6 +129,22 @@ public class ServiceDiscovererImplConfig implements ServiceDiscoverer, Applicati
       return true;
     }
     return false;
+  }
+
+  /**
+   * @param contextPath new value of {@link #getContextPath()}.
+   */
+  protected void setContextPath(String contextPath) {
+
+    this.contextPath = contextPath;
+  }
+
+  /**
+   * @return the context path of your application.
+   */
+  protected String getContextPath() {
+
+    return this.contextPath;
   }
 
 }
