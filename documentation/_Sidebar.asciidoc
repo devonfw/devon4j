@@ -69,4 +69,4 @@
 * link:quarkus/guide-logging.asciidoc[Logging]
 * link:quarkus/guide-cors-support.asciidoc[CORS support]
 * link:quarkus/guide-beanmapping-quarkus.asciidoc[Bean-Mapping with Quarkus]
-
+* link:quarkus/guide-native-image.asciidoc[Native image]
