@@ -55,7 +55,7 @@ Add the attribute *componentModel* to the *@Mapper* annotation in the mapper int
 [source, java]
 ----
 @Mapper(compnentModel = "cdi")
-public interface AnimalMapper{
+public interface ProductMapper{
   ... 
 }
 ----
@@ -77,7 +77,7 @@ public interface MapperConfig{
 [source, java]
 ----
 @Mapper( config = MapperConfig.class )
-public interface AnimalMapper{
+public interface ProductMapper{
   ...
 }
 ----
@@ -100,24 +100,24 @@ To use the mapper we have to implement the mapper interface and the function pro
 [source, java]
 ----
 @Mapper
-public interface AnimalMapper {
+public interface ProductMapper {
 
-  AnimalDto map(Animal entity);
+  ProductDto map(ProductEntity model);
 
-  Animal create(AnimalDto dto);
+  ProductEntity create(NewProductDto dto);
 }
 ----
-The MapStruct annotation processor will generate the implementation for us under `/target/generated-sources/`, we just need to tell it that we would like to have a method that accepts an `Animal` entity and returns a new `AnimalDto`. 
+The MapStruct annotation processor will generate the implementation for us under `/target/generated-sources/`, we just need to tell it that we would like to have a method that accepts an `ProductEntity` entity and returns a new `ProductDto` DTO. 
 
 
 The generated mapper implementation will be marked with the *@ApplicationScoped* annotation and thus can be injected into fields, constructor arguments, etc. using the *@Inject* annotation: 
 
 [source, java]
 ----
-public class AnimalRestController{
+public class ProductRestService{
   
   @Inject
-  AnimalMapper mapper;
+  ProductMapper mapper;
 }
 ----
 
@@ -126,22 +126,22 @@ That is the basic usage of a Mapstruct mapper. In the next chapter, we go a bit 
 
 == Advanced Bean-Mapper Usage
 
-Let´s assume our `Animal` entity and the `AnimalDto` has some different named property that should be mapped. Add a mapping annotation to map the property *type* from `Animal` to *kind* from `AnimalDto`. We define the source name of the property and the target name.
+Let´s assume our `Product` entity and the `ProductDto` has some different named property that should be mapped. Add a mapping annotation to map the property *type* from `Product` to *kind* from `ProductDto`. We define the source name of the property and the target name.
 [source, java]
 ----
 @Mapper
-public interface AnimalMapper {
+public interface ProductMapper {
   @Mapping(target = "kind", source = "type")
-  AnimalDto map(Animal entity);
+  ProductDto map(ProductEntity entity);
 
-  @InheritInverseConfiguration(name = "animal2AnimalDto" )
-  Animal create(AnimalDto dto);
+  @InheritInverseConfiguration(name = "map" )
+  ProductEntity create(ProductDto dto);
 }
 ----
 For bi-directional mappings, we can indicate that a method shall inherit the inverse configuration of the corresponding method with the *@InheritInverseConfiguration*. You can omit the name parameter if the result type of method A is the same as the
 single-source type of method B and if the single-source type of A is the same as the result type of B. If multiple applies the attribute name is needed. Specific mappings from the inversed method can (optionally) be overridden, ignored, and set to constants or expressions. 
 
-The mappingInheritanceStrategy can be defined as showed in <<Mapstruct Configuration>> the existing options can be found https://mapstruct.org/documentation/dev/reference/html/#shared-configurations[here].
+The mappingInheritanceStrategy can be defined as showed in <<MapStruct Configuration>> the existing options can be found https://mapstruct.org/documentation/dev/reference/html/#shared-configurations[here].
 
 
 Not always a mapped attribute has the same type in the source and target objects. For instance, an attribute may be of type `int` in the source bean but of type `Long` in the target bean.

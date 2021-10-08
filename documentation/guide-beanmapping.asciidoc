@@ -25,7 +25,7 @@ For a link:spring.asciidoc[devon4j-spring] application we recommend Orika, follo
 
 NOTE: devon4j started with http://dozer.sourceforge.net/[Dozer] as framework for Spring applications and still supports it. However, we now recommend Orika (for new projects) as it is much faster (see https://www.baeldung.com/java-performance-mapping-frameworks#2-orika[Performance of Java Mapping Frameworks]).
 
-For a link:quarkus.asciidoc[Quarkus] application we recommend Mapstruct, follow xref:quarkus/guide-beanmapping-quarkus.asciidoc[Quarkus Bean-Mapping] for an introduction to Mapstruct in a quarkus context application.
+For a link:quarkus.asciidoc[Quarkus] application we recommend Mapstruct, follow link:quarkus/guide-beanmapping-quarkus.asciidoc[Quarkus Bean-Mapping] for an introduction to Mapstruct in a quarkus context application.
 
 
 
