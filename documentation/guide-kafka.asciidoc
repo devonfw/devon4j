@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-WARNING: Devon4Js Kafka module has been abandoned. It's main feature was the implementation of a retry pattern using multiple topics. This implementation has become an integral part of Spring Kafka. We recommend to use Spring Kafkas own implemenation for retries. 
+WARNING: Devon4Js Kafka module has been abandoned. Its main feature was the implementation of a retry pattern using multiple topics. This implementation has become an integral part of Spring Kafka. We recommend to use Spring Kafkas own implemenation for retries. 
 
 = Messaging Services
 
