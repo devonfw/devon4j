@@ -10,9 +10,11 @@ import com.devonfw.module.kafka.common.messaging.retry.api.MessageRetryProcessin
  *
  * @param <K> the key type.
  * @param <V> the value type.
- *
+ * @deprecated The implementation of Devon4Js Kafka module will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
 @FunctionalInterface
+@Deprecated
 public interface MessageRetryOperations<K, V> {
 
   /**

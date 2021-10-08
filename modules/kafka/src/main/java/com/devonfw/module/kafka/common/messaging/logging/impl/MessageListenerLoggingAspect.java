@@ -33,7 +33,10 @@ import brave.Tracer;
  * @param <K> the key type
  * @param <V> the value type
  *
+ * @deprecated The implementation of Devon4Js Kafka module will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 @Aspect
 @Order(0)
 public class MessageListenerLoggingAspect<K, V> {

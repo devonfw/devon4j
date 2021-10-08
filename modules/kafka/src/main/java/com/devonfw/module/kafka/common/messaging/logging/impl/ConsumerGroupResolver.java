@@ -15,7 +15,10 @@ import org.springframework.util.StringUtils;
 /**
  * This class is an implementation of {@link BeanPostProcessor}.
  *
+ * @deprecated The implementation of Devon4Js Kafka module will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public class ConsumerGroupResolver implements BeanPostProcessor {
 
   private static final String DEFAULT_BEAN_NAME = KafkaListenerAnnotationBeanPostProcessor.DEFAULT_KAFKA_LISTENER_CONTAINER_FACTORY_BEAN_NAME;

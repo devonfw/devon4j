@@ -7,7 +7,10 @@ import com.devonfw.module.kafka.common.messaging.health.impl.KafkaHealthIndicato
 /**
  * A property class which is used to configure for {@link KafkaHealthIndicator}
  *
+ * @deprecated The implementation of Devon4Js Kafka module will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public class KafkaHealthIndicatorProperties {
 
   private int timeout = 60;

@@ -5,7 +5,11 @@ import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 
 /**
  * This is a property class used to create configuration for {@link MessageReceiverConfig}.
+ *
+ * @deprecated The implementation of Devon4Js Kafka module will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public class KafkaListenerContainerProperties {
 
   private Integer ackCount;

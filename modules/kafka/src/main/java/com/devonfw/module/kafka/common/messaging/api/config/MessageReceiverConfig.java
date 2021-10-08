@@ -27,7 +27,11 @@ import brave.Tracer;
 
 /**
  * A class used to create a configuration for the custom message receiver.
+ *
+ * @deprecated The implementation of Devon4Js Kafka module will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 @Configuration
 @EnableKafka
 @EnableAspectJAutoProxy

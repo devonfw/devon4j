@@ -7,7 +7,10 @@ import com.devonfw.module.kafka.common.messaging.retry.api.config.DefaultBackOff
 /**
  * This interface is used to calculate next retry time stamps.
  *
+ * @deprecated The implementation of Devon4Js Kafka module will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public interface MessageBackOffPolicy {
 
   /**
@@ -24,7 +27,7 @@ public interface MessageBackOffPolicy {
   /**
    * This method is used to make the thread to sleep for {@link DefaultBackOffPolicyProperties#getRetryReEnqueueDelay()}
    * seconds.
-   * 
+   *
    * @param topic the topic
    */
   void sleepBeforeReEnqueue(String topic);

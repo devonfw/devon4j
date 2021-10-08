@@ -19,7 +19,10 @@ import brave.propagation.TraceContextOrSamplingFlags;
 /**
  * A support class for {@link Tracer} to start and finish the span.
  *
+ * @deprecated The implementation of Devon4Js Kafka module will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public final class MessageTraceSupport {
 
   private static final Logger LOG = LoggerFactory.getLogger(MessageTraceSupport.class);
