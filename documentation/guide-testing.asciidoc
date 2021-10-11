@@ -24,11 +24,11 @@ For testing please follow our general best practices:
 * Prefer delegation over inheritance for cross-cutting testing functionality. Good places to put this kind of code can be realized and reused via the JUnit +@Rule+ mechanism.
 
 == Test Automation Technology Stack
-For test automation we use http://junit.org/[JUnit]. However, we are strictly doing all assertions with http://joel-costigliola.github.io/assertj/[AssertJ]. For xref:test-doubles[mocking] we use http://mockito.org/[mockito].
-In order to mock remote connections we use xref:wiremock[wiremock].
-For testing entire components or sub-systems we recommend to use https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html[spring-boot-starter-test] as lightweight and fast testing infrastructure that is already shipped with `devon4j-test`.
+Quarkus and Spring use different technologies for test automation. For more information click on the desired guide:
 
-In case you have to use a full blown JEE application server, we recommend to use http://arquillian.org/[arquillian]. To get started with arquillian, look http://arquillian.org/guides/getting_started/index.html#add_the_arquillian_apis[here].
+* link:guide-for-testing-spring.asciidoc[Spring Testing Guide]
+
+* link:guide-for-testing.asciidoc[Quarkus Testing Guide]
 
 == Test Doubles
 We use http://xunitpatterns.com/Using%20Test%20Doubles.html[test doubles] as generic term for mocks, stubs, fakes, dummies, or spys to avoid confusion. Here is a short summary from http://martinfowler.com/articles/mocksArentStubs.html[stubs VS mocks]:
@@ -54,52 +54,11 @@ Best Practices for applications:
 * Replace dependencies of your SUT to impact the control flow under test without establishing all the context parameters needed to match the control flow.
 * Remember: Not everything has to be mocked! Especially on lower levels of tests like isolated module tests you can be betrayed into a mocking delusion, where you end up in a hundred lines of code mocking the whole context and five lines executing the test and verifying the mocks behavior. Always keep in mind the benefit-cost ratio, when implementing tests using mocks.
 
-=== Wiremock
-//Wiremock is not used in the current Application
-If you need to mock remote connections such as HTTP-Servers, wiremock offers easy to use functionality. For a full description see the http://wiremock.org/[homepage] or the https://github.com/tomakehurst/wiremock[github repository]. Wiremock can be used either as a JUnit Rule, in Java outside of JUnit or as a standalone process. The mocked server can be configured to respond to specific requests in a given way via a fluent Java API, JSON files and JSON over HTTP. An example as an integration to JUnit can look as follows.
-[source,java]
--------------------------------------------
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
+Spring and Quarkus use different approaches to using mocks. For more information, click the desired guide:
 
-public class WireMockOfferImport{
+* link:guide-for-testing-spring.asciidoc[Spring Testing Guide]
 
-  @Rule
-  public WireMockRule mockServer = new WireMockRule(wireMockConfig().dynamicPort());
-
-  @Test
-  public void requestDataTest() throws Exception {
-  int port = this.mockServer.port();
-  ...}
--------------------------------------------
-This creates a server on a randomly chosen free port on the running machine. You can also specify the port to be used if wanted. Other than that there are several options to further configure the server. This includes HTTPs, proxy settings, file locations, logging and extensions.
-//We could replace this with a test example from com.devonfw.application.mtsj.dishmanagement.logic.impl
-[source,java]
--------------------------------------------
-  @Test
-  public void requestDataTest() throws Exception {
-      this.mockServer.stubFor(get(urlEqualTo("/new/offers")).withHeader("Accept", equalTo("application/json"))
-      .withHeader("Authorization", containing("Basic")).willReturn(aResponse().withStatus(200).withFixedDelay(1000)
-      .withHeader("Content-Type", "application/json").withBodyFile("/wireMockTest/jsonBodyFile.json")));
-  }
--------------------------------------------
-This will stub the URL `localhost:port/new/offers` to respond with a status 200 message containing a header (`Content-Type: application/json`) and a body with content given in `jsonBodyFile.json` if the request matches several conditions.
-It has to be a GET request to `../new/offers` with the two given header properties.
-
-Note that by default files are located in `src/test/resources/__files/`. When using only one WireMock server one can omit the `this.mockServer` in before the `stubFor` call (static method).
-You can also add a fixed delay to the response or processing delay with `WireMock.addRequestProcessingDelay(time)` in order to test for timeouts. 
-
-WireMock can also respond with different corrupted messages to simulate faulty behaviour. 
-[source,java]
--------------------------------------------
-@Test(expected = ResourceAccessException.class)
-public void faultTest() {
-
-    this.mockServer.stubFor(get(urlEqualTo("/fault")).willReturn(aResponse()
-    .withFault(Fault.MALFORMED_RESPONSE_CHUNK)));
-...}
--------------------------------------------
-A GET request to `../fault` returns an OK status header, then garbage, and then closes the connection.
+* link:guide-for-testing.asciidoc[Quarkus Testing Guide]
 
 == Integration Levels
 There are many discussions about the right level of integration for test automation. Sometimes it is better to focus on small, isolated modules of the system - whatever a "module" may be. In other cases it makes more sense to test integrated groups of modules. Because there is no universal answer to this question, devonfw only defines a common terminology for what could be tested. Each project must make its own decision where to put the focus of test automation. There is no worldwide accepted terminology for the integration levels of testing. In general we consider http://istqbexamcertification.com/what-are-software-testing-levels/[ISTQB]. However, with a technical focus on test automation we want to get more precise.
@@ -114,6 +73,8 @@ The main difference between the integration levels is the amount of infrastructu
 Consider, that more infrastructure does not automatically lead to a better bug-detection. There may be bugs in your software that are masked by bugs in the infrastructure. The best way to find those bugs is to test with very few infrastructure.
 
 External systems do not belong to any of the integration levels defined here. devonfw does not recommend involving real external systems in test automation. This means, they have to be replaced by test xref:test-doubles[doubles] in automated tests. An exception may be external systems that are fully under control of the own development team.
+
+Quarkus does not use integration levels , instead it tests different profiles. More details in link:guide-for-testing.asciidoc[Quarkus Testing Guide] 
 
 The following chapters describe the four integration levels.
 
@@ -312,51 +273,11 @@ We are using tools (SonarQube/Jacoco) to measure the coverage of the tests. Plea
 
 == Test Configuration
 This section covers test configuration in general without focusing on integration levels as in the first chapter.
+Spring and Quarkus also differ from each other in the test configuration. For more information, such as the use of beans, click on the corresponding guide
 
-=== Configure Test Specific Beans
-Sometimes it can become handy to provide other or differently configured bean implementations via CDI than those available in production. For example, when creating beans using `@Bean`-annotated methods they are usually configured within those methods. https://github.com/oasp/oasp4j/blob/master/samples/core/src/main/java/io/oasp/gastronomy/restaurant/general/service/impl/config/WebSecurityBeansConfig.java[WebSecurityBeansConfig] shows an example of such methods.
+* link:guide-for-testing-spring.asciidoc[Spring Testing Guide]
 
-[source,java]
--------------------------------------------
-@Configuration
-public class WebSecurityBeansConfig {
-  //...
-  @Bean
-  public AccessControlSchemaProvider accessControlSchemaProvider() {
-    // actually no additional configuration is shown here 
-    return new AccessControlSchemaProviderImpl();
-  }
-  //...
-}
--------------------------------------------
-
-`AccessControlSchemaProvider` allows to programmatically access data defined in some XML file, e.g. `access-control-schema.xml`. Now, one can imagine that it would be helpful if `AccessControlSchemaProvider` would point to some other file than the default within a test class. That file could provide content that differs from the default.
-The question is: how can I change resource path of `AccessControlSchemaProviderImpl` within a test?
-
-One very helpful solution is to use *static inner classes*.
-Static inner classes can contain `@Bean` -annotated methods, and by placing them in the `classes` parameter in `@SpringBootTest(classes = { /* place class here*/ })` annotation the beans returned by these methods are placed in the application context during test execution. Combining this feature with inheritance allows to override methods defined in other configuration classes as shown in the following listing where `TempWebSecurityConfig` extends `WebSecurityBeansConfig`. This relationship allows to override `public AccessControlSchemaProvider accessControlSchemaProvider()`. Here we are able to configure the instance of type `AccessControlSchemaProviderImpl` before returning it (and, of course, we could also have used a completely different implementation of the `AccessControlSchemaProvider` interface). By overriding the method the implementation of the super class is ignored, hence, only the new implementation is called at runtime. Other methods defined in `WebSecurityBeansConfig` which are not overridden by the subclass are still dispatched to `WebSecurityBeansConfig`.
-
-[source,java]
--------------------------------------------
-//... Other testing related annotations
-@SpringBootTest(classes = { TempWebSecurityConfig.class })
-public class SomeTestClass {
-
-  public static class TempWebSecurityConfig extends WebSecurityBeansConfig {
-
-    @Override
-    @Bean
-    public AccessControlSchemaProvider accessControlSchemaProvider() {
-
-      ClassPathResource resource = new ClassPathResource(locationPrefix + "access-control-schema3.xml");
-      AccessControlSchemaProviderImpl accessControlSchemaProvider = new AccessControlSchemaProviderImpl();
-      accessControlSchemaProvider.setAccessControlSchema(resource);
-      return accessControlSchemaProvider;
-    }
-  }
-}
--------------------------------------------
-The following http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#testcontext-ctx-management-javaconfig[chapter of the Spring framework documentation] explains issue, but uses a slightly different way to obtain the configuration.
+* link:guide-for-testing.asciidoc[Quarkus Testing Guide]
 
 === Test Data
 It is possible to obtain test data in two different ways depending on your test's integration level.

@@ -7,7 +7,7 @@ Instead, there are two test dependencies in Quarkus, the JUnit5 and the rest-ass
 In addition, devon4j describes that all assertions are performed using AssertJ. Quarkus does not use AssertJ. 
 
 == Use of test doubles
-Another difference is that Quarkus does not use test doubles apart from mocks. In Quarkus, mock objects can be supported in two different ways. The first variant is that the mock objects are used as CDI alternatives. This variant is used to mock a bean for all test classes. The other variant is to use the QuarkusMock. In this case, you temporarily mock the beans in each test individually.
+Quarkus does not use test doubles apart from mocks. In Quarkus, mock objects can be supported in two different ways. The first variant is that the mock objects are used as CDI alternatives. This variant is used to mock a bean for all test classes. The other variant is to use the QuarkusMock. In this case, you temporarily mock the beans in each test individually.
 
 == Testing
 While devon4j uses any port for testing, Quarkus listens on port 8080 by default and uses port 8081 for running tests. This has the advantage that tests can be executed in parallel with running applications. It is also possible to configure the test ports so that the operating system used assigns a random port. 
