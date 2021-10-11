@@ -33,9 +33,9 @@ These properties are explained in the corresponding configuration sections of th
 
 Make sure your properties are thoroughly documented by providing a comment to each property. This inline documentation is most valuable for your operating department.
 
-More about structuring your `application.properties` files can be read link:spring/guide-spring-configuration.asciidoc#application-properties[here] for Spring.
+More about structuring your `application.properties` files can be read link:spring/guide-spring-configuration.asciidoc#application-properties-files[here] for Spring.
 
-For Quarkus, please refer to https://smallrye.io/docs/smallrye-config/[SmallRye Config Documentation] for more details.
+For Quarkus, please refer to https://quarkus.io/guides/config-reference[Quarkus Config Reference] for more details.
 
 === Business Configuration
 Often applications do not need business configuration. In case they do it should typically be editable by administrators via the GUI. The business configuration values should therefore be stored in the database in key/value pairs.
