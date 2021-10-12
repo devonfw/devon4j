@@ -52,7 +52,7 @@ For detailed documentation how to use the logger API check the http://www.slf4j.
 NOTE: In case you are using https://github.com/devonfw/ide[devonfw-ide] and Eclipse you can just type `LOG` and hit `[ctrl][space]` to insert the code pattern including the imports into your class.
 
 === Lombok
-In case you are using link:guide-lombok.asciidoc[Lombok], you can simply use the https://projectlombok.org/api/lombok/extern/slf4j/Slf4j.html[`@Slf4j`] annotation for you class. This causes Lombok to generate the logger instance for you.
+In case you are using link:guide-lombok.asciidoc[Lombok], you can simply use the https://projectlombok.org/api/lombok/extern/slf4j/Slf4j.html[`@Slf4j`] annotation in your class. This causes Lombok to generate the logger instance for you.
 
 == Log-Levels
 We use a common understanding of the log-levels as illustrated by the following table.
