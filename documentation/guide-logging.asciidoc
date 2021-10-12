@@ -140,7 +140,7 @@ As you can quickly see besides the human readable `message` you also have the st
 
 == Classic log-files
 
-**NOTE: In devon4j, we strongly recommend using JSON logging instead of classic log files. The following section refers only to devon4j Spring applications that use Logback.**
+NOTE: **In devon4j, we strongly recommend using JSON logging instead of classic log files. The following section refers only to devon4j Spring applications that use Logback.**
 
 Even though we do not recommend anymore to write classical log-files to the local disc, here you can still find our approach for it.
 
