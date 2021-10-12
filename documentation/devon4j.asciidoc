@@ -282,5 +282,5 @@ include::guide-domain-layer.asciidoc[leveloffset=+2]
 === Guides
 
 include::quarkus/guide-quarkus-configuration.asciidoc[leveloffset=+3]
-
+include::quarkus/quarkus-template.asciidoc[leveloffset=+3]
 include::quarkus/guide-native-image.asciidoc[leveloffset=+3]
