@@ -60,10 +60,12 @@ public final class MessageTraceSupport {
   private static <K, V> void getCurrentSpanAndLog(ConsumerRecord<K, V> kafkaRecord, Tracer tracer) {
 
     Span span = tracer.currentSpan();
-
-    LOG.warn(EventKey.MESSAGE_WITHOUT_TRACEID.getMessage(),
-        new String(kafkaRecord.headers().lastHeader(KafkaHeaders.MESSAGE_KEY).value(), Charset.forName("UTF-8")),
-        span.context().traceIdString());
+    String messageKey = null;
+    if (kafkaRecord.headers().lastHeader(KafkaHeaders.MESSAGE_KEY) != null) {
+      messageKey = new String(kafkaRecord.headers().lastHeader(KafkaHeaders.MESSAGE_KEY).value(),
+          Charset.forName("UTF-8"));
+    }
+    LOG.warn(EventKey.MESSAGE_WITHOUT_TRACEID.getMessage(), messageKey, span.context().traceIdString());
   }
 
   private static void checkTraceHeadersAndSetContextAsSpanInScope(Tracer tracer,
