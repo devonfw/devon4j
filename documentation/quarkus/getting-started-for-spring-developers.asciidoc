@@ -128,4 +128,4 @@ mvn quarkus:dev
 +
 A common example is the JSON libraries which typically use reflection to serialize the objects to JSON. If you use them out of the box, you might encounter some errors in native mode. So, be sure to register the elements for reflection explicitly. A How-to is provided by https://quarkus.io/guides/writing-native-applications-tips#registering-for-reflection[Quarkus Registering For Reflection] with practical program snippets.
 
-A very good read on the topic is the e-book https://developers.redhat.com/e-books/quarkus-spring-developers[Quarkus for Spring Developers] by Red Hat.
+A very good read on the topic is the e-book https://developers.redhat.com/e-books/quarkus-spring-developers[Quarkus for Spring Developers] by Red Hat. Another good source for direct hands-on coding tutorial is https://www.katacoda.com/openshift/courses/developing-with-quarkus/spring[Katacoda Quarkus for Spring Boot Developers]
