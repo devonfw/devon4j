@@ -235,6 +235,8 @@ Example:
 [D: 2013-09-05 16:40:36,464] [P: DEBUG] [C: 12345] [T: main] [L: my.package.MyClass]-[M: My message...]
 ```
 
+NOTE: When using devon4j-logging, this format is used out of the box. To achieve this format in Quarkus, set `quarkus.log.console.format=[D: %d] [P: %p] [C: %X] [T: %t] [L: %c] [M: %m]%n` in your properties.
+
 === Correlation ID
 In order to correlate separate HTTP requests to services belonging to the same user / session, we provide a servlet filter called `DiagnosticContextFilter`.
 This filter takes a provided correlation ID from the HTTP header `X-Correlation-Id`.
