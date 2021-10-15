@@ -146,7 +146,7 @@ The mappingInheritanceStrategy can be defined as showed in <<MapStruct Configura
 
 Not always a mapped attribute has the same type in the source and target objects. For instance, an attribute may be of type `int` in the source bean but of type `Long` in the target bean.
 
-Another example are references to other objects which should be mapped to the corresponding types in the target model. E.g. the class `ZooEnclosure` might have a property *inhabitant* of the type `Animal` which needs to be converted into an `AnimalDto` object when mapping a `ZooEclosure` object. For these cases, it's useful to understand how Mapstruct is https://mapstruct.org/documentation/dev/reference/html/#datatype-conversions[converting the data types] and should be read. 
+Another example are references to other objects which should be mapped to the corresponding types in the target model. E.g. the class `ShoppingCart` might have a property *content* of the type `Product` which needs to be converted into an `ProductDto` object when mapping a `ShoppingCart` object to `ShoppingCartDto`. For these cases, it's useful to understand how Mapstruct is https://mapstruct.org/documentation/dev/reference/html/#datatype-conversions[converting the data types] and the https://mapstruct.org/documentation/dev/reference/html/#mapping-object-references[object references]. 
 
 Also, the Chapter for https://mapstruct.org/documentation/dev/reference/html/#controlling-nested-bean-mappings[nested bean mappings] will help to configure MapStruct to map arbitrary deep object graphs.
 
