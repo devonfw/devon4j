@@ -71,3 +71,5 @@
 * link:quarkus/quarkus-template.asciidoc[Quarkus template]
 * link:quarkus/guide-native-image.asciidoc[Native image]
 * link:quarkus/guide-beanmapping-quarkus.asciidoc[Bean-Mapping with Quarkus]
+* link:quarkus/getting-started-for-spring-developers.asciidoc[Getting started with Quarkus for Spring developers]
+
