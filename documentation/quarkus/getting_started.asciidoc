@@ -1,0 +1,102 @@
+= Quarkus Quickstart 
+
+This guide will show a quickstart how to create a quarkus app and will briefly show the key functionalities that quarkus provides and how to start as a beginner or also experienced developers.
+
+
+== Quarkus 
+
+To get a first introduction to Quarkus you can read the link:../quarkus.asciidoc[advantages and disadvantages] of a Quarkus application compared to the alternative framework spring. 
+
+
+== Installation of Tools and Dependencies
+
+First we need to install some dependencies and tools bevor we can start programming. We reccomend using our https://devonfw.com/website/pages/docs/devonfw-ide-introduction.asciidoc.html[devonfw-IDE] because it comes with many developement tools, frameworks and libaries for you. 
+We will install and need the following tools for this guide.
+
+* mvn 
+* java
+* any IDE (Devonfw-IDE supports eclipse, intellij and vscode)
+* CobiGen
+* docker 
+//* kubernetes // vll doch nicht
+
+If you already got your system configured and the tools from above installed you can skip to <<Bootstrapp a Quarkus project>> If you got a version of devonfw-IDE already installed we reccomend to update you IDE and all tools because we are still working to improve devonfw-iDE and there could be essential features for cloud developement with quarkus that you are missing. Follow this link to install a devonfw-ide with java and maven. https://github.com/devonfw/ide/wiki/setup#setup[Setup]. In the chapter <<Start coding>> we also reccomend the usage of CobiGen, that can be installed with the command `devon cobigen setup` in the devonfw-IDE directory.
+// Wenn wir später auch brauchen To install Kubernetes and docker just ude the commands `devon docker setup` and `devon kubernetes setup` to install the 
+Updating the IDE will be exlpained here https://github.com/devonfw/ide/wiki/usage#update[Update].
+// Jan meinte man muss beim updaten aufpassen und auch oder nicht nur die skripts update, finde es in der Doku nicht.
+// habe das gefunden https://github.com/devonfw-forge/devonfw-updater
+
+Go to the main folder under workspaces of the DevonIde installation. We will create the project there.
+
+== Bootstrapp a Quarkus project
+
+Quarkus provides multiple ways to bootstrap a project. The option to bootstrap a project via the commandline you can follo the quarkus getting stared guide https://quarkus.io/guides/getting-started#bootstrapping-the-project[Bootstrap the project]. Quarkus also provies a project builder where you can select select some extensions, the build tool for your project, and if you want some starter code. This will provide a project skeleton with the configured project dependencies and also contributes the information to compile the application natively. To get some recommendation on starter templates follow this guide link:guide-template.asciidoc[Templates Reccomendations].
+
+[NOTE]
+====
+By creating a Quarkus project with from command line or with the project builder you get a different project structure and have to adapt it to the devon4j conventions shown in the next Chapter.
+====
+// Extra ein BespielProjekt anlegen ? Die App würde eine kleinere funktionalität haben als das referenzproject um als einstiegsbeispiel eine datenbank und kubernetes deplay zu zeigen. Es gibt dafür leider kein Quarkus Beispiel das durchghängig fortgeführt wird. Ich kann extra ein Github Ordner dafür anlegen.
+
+=== Project Structure
+
+We provide a reccomondation and guideline for a link:../guide-structure-modern.asciidoc[modern project structure] to help organize a your project into the logically related modules. You should follow the guide and also use this structure in your project so you can find simmilar modules faster in our example projects 
+We are currently working on a command `devon init` that will generate the project structure for you, but for now you have to do it on your own. 
+
+
+== Quarkus functionality
+
+Before we start programming you should have a first look at the functionality of Quarkus. The https://quarkus.io/guides/getting-started[getting started guide] with a Hello World example gives you a good overview for beginners. 
+
+If you are already familiar with creating Restful Web Services with the Spring framework, you can read the link:getting-started-for-spring-developers.asciidoc[getting started with Quarkus for Spring developer], as it goes more into the differences that can give you a more detailed and comparison to spring. This guide(that is currently in progress) can show you how to https://github.com/GuentherJulian/devon4j/blob/migration_guide_spring_quarkus/documentation/guide-application-migration-spring-quarkus.asciidoc[migrate a Spring application to a quarkus application with devon4j conventions] and also a comparison of the used memory and startup time.
+//TODO Julians Guide mit dem richtigen link wenn er überarbeitet und gemerged wurde.
+
+== Start coding
+Now lets create our first REST service with Quarkus. We have some options how we can start from here. 
+
+.Methods
+
+. Create the service yourself +
+There is a good Quarkus guide for a simple https://quarkus.io/guides/rest-json#creating-your-first-json-rest-service[JSON REST Service] that will guide you through your first application and will help you to implement a Service with defining endpoint with JAX-RS and a Entity that will be managed and also how to https://quarkus.io/guides/rest-json#json[configure the JSON support].
+. Code generation with CobiGen
+Our tool https://github.com/devonfw/cobigen/wiki[Cobigen] can create ionic, angular , java and .NET applications. In the following list you can see the modules cobigen can create, based on devonfw architecture, for a Java CRUD application(that will be focused in this context).
+* CRUD devon4j Server
+* CRUD REST services
+* CRUD REST services (CTOs)
+* CRUD UC logic
+* TO's
+* Entity infrastructure
+* CTO's
+* CRUD SpringData Repository
+* CRUD UC logic (CTOs) 
+
+.. Code first approach +
+Create a https://github.com/devonfw/cobigen/wiki/cobigen-usecases#crud-server-application-for-devon4j[REST service from a single entity] that will be handled by that service. Our team is currently working on that feature for a quarkus application and until now cobigen is able to create springful REST services +
+
+.. Contract first approach + 
+You can define you REST service with an full openapi definition file and let the https://github.com/devonfw/cobigen/wiki/cobigen-openapiplugin[CobiGen openapiplugin] generate the modules from that file. The generation of quarkus applications is also currently under developement and will be added soon.
+Also there is no framework supported by Quarkus  to generate REST services from a openapi definition file. But you are able to https://quarkus.io/guides/openapi-swaggerui[generate your openapi definition file from an exisiting Project] with the Smallrye OpenAPI extension compliant with the MicroProfile OpenAPI specification.
+. Use an existing Quarkus project
+Quarkus provides many https://github.com/quarkusio/quarkus-quickstarts#quick-start-list[sample projects] for every provided quickstart guide and the supported framework.
+We provied some quarkus applications that are working and can be loaded an testet. 
+* https://github.com/devonfw-sample/devon4quarkus-reference[Reference Project] a Services that manages products with the devon4j modern project structure,pagination, queries, a postgres database, jaeger tracing, prometheus monitoring, swagger ui and support for kubernetes deploy.  
+This project will be steady improved and is used to showcase the abilities of quarkus with devon4j.
+* https://github.com/devonfw-sample/devon4quarkus-minimal[minimal Quarkus project] is just the Quarkus project from a https://quarkus.io/guides/getting-started[getting started quarkus guide] with a Greeting Services modified with the correct modern structure talked about in this chapter <<Project Structure>>.
+
+
+
+== Tests a Quarkus application 
+
+We have written or generated our first service and should implement tests now. But before we start implementing the tests, you should read our general guide for link:../guide-testing.asciidoc[best practices and recommendations for testing]. In addition, we provide also a guide that specifically addresses the link:guide-for-testing.asciidoc[testing of a Quarkus application].
+Most of the Quarkus applications are alreay equipped with some Test and also our https://github.com/devonfw-sample/devon4quarkus-reference[Reference Project] provides some test cases, if you want to improve them you can also follow the large https://quarkus.io/guides/getting-started-testing[Quarkus guide for Testing]. 
+
+
+
+
+== SoonTM 
+1. Docker
+2. Kubernetes  
+3. Azure oder AWS oder Google Cloud 
+devon hangar https://devonfw.com/website/pages/docs/hangar.asciidoc.html
+
+
