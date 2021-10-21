@@ -4,7 +4,7 @@ toc::[]
 = Java Persistence API
 
 For mapping java objects to a relational database we use the http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[Java Persistence API (JPA)]. 
-As JPA implementation we recommend to use http://hibernate.org/orm/[hibernate]. For general documentation about JPA and hibernate follow the links above as we will not replicate the documentation. Here you will only find guidelines and examples how we recommend to use it properly. The following examples show how to map the data of a database to an entity. As we use JPA we abstract from link:guide-sql.asciidoc[SQL] here. However, you will still need a https://en.wikipedia.org/wiki/Data_definition_language[DDL] script for your schema and during maintenance also link:guide-database-migration.asciidoc[database migrations]. Please follow our link:guide-sql.asciidoc[SQL guide] for such artifacts.
+As JPA implementation we recommend to use http://hibernate.org/orm/[Hibernate]. For general documentation about JPA and Hibernate follow the links above as we will not replicate the documentation. Here you will only find guidelines and examples how we recommend to use it properly. The following examples show how to map the data of a database to an entity. As we use JPA we abstract from link:guide-sql.asciidoc[SQL] here. However, you will still need a https://en.wikipedia.org/wiki/Data_definition_language[DDL] script for your schema and during maintenance also link:guide-database-migration.asciidoc[database migrations]. Please follow our link:guide-sql.asciidoc[SQL guide] for such artifacts.
 
 == Entity
 Entities are part of the persistence layer and contain the actual data. They are POJOs (Plain Old Java Objects) on which the relational data of a database is mapped and vice versa. The mapping is configured via JPA annotations (`javax.persistence`). Usually an entity class corresponds to a table of a database and a property to a column of that table. A persistent entity instance then represents a row of the database table.
@@ -41,7 +41,7 @@ Entities should be simple POJOs and not contain business logic.
 
 === Entities and Datatypes
 Standard datatypes like `Integer`, `BigDecimal`, `String`, etc. are mapped automatically by JPA. Custom link:guide-datatype.asciidoc[datatypes] are mapped as serialized xref:blob[BLOB] by default what is typically undesired. 
-In order to map atomic custom datatypes (implementations of`+SimpleDatatype`) we implement an `AttributeConverter`. ere is a simple example:
+In order to map atomic custom datatypes (implementations of`+SimpleDatatype`) we implement an `AttributeConverter`. Here is a simple example:
 [source,java]
 ----
 @Converter(autoApply = true)
@@ -58,7 +58,7 @@ public class MoneyAttributeConverter implements AttributeConverter<Money, BigDec
 ----
 The annotation `@Converter` is detected by the JPA vendor if the annotated class is in the packages to scan. Further, `autoApply = true` implies that the converter is automatically used for all properties of the handled datatype. Therefore all entities with properties of that datatype will automatically be mapped properly (in our example `Money` is mapped as `BigDecimal`).
 
-In case you have a composite datatype that you need to map to multiple columns the JPA does not offer a real solution. As a workaround you can use a bean instead of a real datatype and declare it as xref:embeddable[`@Embeddable`]. If you are using hibernate you can implement `CompositeUserType`. Via the `@TypeDef` annotation it can be registered to hibernate. If you want to annotate the `CompositeUserType` implementation itself you also need another annotation (e.g. `MappedSuperclass` tough not technically correct) so it is found by the scan.
+In case you have a composite datatype that you need to map to multiple columns the JPA does not offer a real solution. As a workaround you can use a bean instead of a real datatype and declare it as xref:embeddable[`@Embeddable`]. If you are using Hibernate you can implement `CompositeUserType`. Via the `@TypeDef` annotation it can be registered to Hibernate. If you want to annotate the `CompositeUserType` implementation itself you also need another annotation (e.g. `MappedSuperclass` tough not technically correct) so it is found by the scan.
 
 ==== Enumerations
 By default JPA maps Enums via their ordinal. Therefore the database will only contain the ordinals (0, 1, 2, etc.) . So , inside the database you can not easily understand their meaning. Using `@Enumerated` with `EnumType.STRING` allows to map the enum values to their name (`Enum.name()`). Both approaches are fragile when it comes to code changes and refactoring (if you change the order of the enum values or rename them) after the application is deployed to production. If you want to avoid this and get a robust mapping you can define a dedicated string in each enum value for database representation that you keep untouched. Then you treat the enum just like any other xref:entities-and-datatypes[custom datatype].
@@ -114,7 +114,7 @@ Using the Aliases API of QueryDSL might result in an `InvalidDataAccessApiUsageE
 . Make sure, that all your custom types used in entities provide a non-argument constructor with at least visibility level `protected`.
 
 === Primary Keys
-We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). This is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` that you can extend.
+We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). This is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` within the link:guide-structure-classic.asciidoc#architecture-mapping[classic project structure] respectively `com.devonfw.<projectName>.general.domain.model.AbstractPersistenceEntity` within the link:guide-structure-modern.asciidoc#architecture-mapping[modern project structure], that you can extend.
 In case you have business oriented keys (often as `String`), you can define an additional property for it and declare it as unique (`@Column(unique=true)`).
 Be sure to include "AUTO_INCREMENT" in your sql table field ID to be able to persist data (or similar for other databases).
 
@@ -303,7 +303,7 @@ For all other cases the JPA offers the annotation `@Inheritance` with the proper
 Each of the three approaches has its advantages and drawbacks, which are discussed in detail http://openjpa.apache.org/builds/1.0.4/apache-openjpa-1.0.4/docs/manual/jpa_overview_mapping_inher.html#jpa_overview_mapping_inher_tpc[here]. In most cases, the first one should be used, because it is usually the fastest way to do the mapping, as no joins are needed when retrieving, searching or persisting entities. Moreover it is rather simple and easy to understand.
 One major disadvantage is that the first approach could lead to a table with a lot of null values, which might have a negative impact on the database size.
           
-The inheritance strategy has to be annotated to the top-most entity of the class hierarchy (where `@MappedSuperclass`es are not considered) like in the following example:
+The inheritance strategy has to be annotated to the top-most entity of the class hierarchy (where `@MappedSuperclass` classes are not considered) like in the following example:
 [source,java]
 ----
 @Entity
@@ -328,7 +328,7 @@ As a best practice we advise you to avoid entity hierarchies at all where possib
 For each entity a code unit is created that groups all database operations for that entity. We recommend to use link:guide-repository.asciidoc[spring-data repositories] for that as it is most efficient for developers. As an alternative there is still the classic approach using link:guide-dao.asciidoc[DAOs].
 
 === Concurrency Control
-The concurrency control defines the way concurrent access to the same data of a database is handled. When several users (or threads of application servers) concurrently access a database, anomalies may happen, e.g. a transaction is able to see changes from another transaction although that one did, not yet commit these changes. Most of these anomalies are automatically prevented by the database system, depending on the http://en.wikipedia.org/wiki/Isolation_(database_systems)[_isolation level_] (property `hibernate.connection.isolation` in the `jpa.xml`, see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html[here]).
+The concurrency control defines the way concurrent access to the same data of a database is handled. When several users (or threads of application servers) concurrently access a database, anomalies may happen, e.g. a transaction is able to see changes from another transaction although that one did, not yet commit these changes. Most of these anomalies are automatically prevented by the database system, depending on the http://en.wikipedia.org/wiki/Isolation_(database_systems)[_isolation level_] (property `hibernate.connection.isolation` in the `jpa.xml`, see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html[here], or `quarkus.datasource.jdbc.transaction-isolation-level` in the `application.properties`).
 
 Another anomaly is when two stakeholders concurrently access a record, do some changes and write them back to the database. The JPA addresses this with different locking strategies (see http://www.objectdb.com/java/jpa/persistence/lock[here]).
 
@@ -369,41 +369,15 @@ We strongly recommend these principles:
 * Keep your entities simple and avoid putting advanced logic into entity methods.
 
 == Database Configuration
-The link:guide-configuration.asciidoc[configuration] for spring and hibernate is already provided by devonfw in our sample application and the application template. So you only need to worry about a few things to customize.
 
-=== Database System and Access
-Obviously you need to configure which type of database you want to use as well as the location and credentials to access it. The defaults are configured in `application-default.properties` that is bundled and deployed with the release of the software. It should therefore contain the properties as in the given example:
+For details on the configuration of the database connection and database logging of the individual framework, please refer to the respective configuration guide. 
 
-[source, properties]
-----
-  database.url=jdbc:postgresql://database.enterprise.com/app
-  database.user.login=appuser01
-  database.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
-  database.hibernate.hbm2ddl.auto=validate
-----
+For link:spring.asciidoc[spring] see link:spring/guide-spring-configuration.asciidoc#database-configuration[here].
 
-The environment specific settings (especially passwords) are configured by the operators in `application.properties`. For further details consult the link:guide-configuration.asciidoc[configuration guide]. It can also override the default values. The relevant configuration properties can be seen by the following example for the development environment (located in `src/test/resources`):
-
-[source, properties]
-----
-  database.url=jdbc:postgresql://localhost/app
-  database.user.password=************
-  database.hibernate.hbm2ddl.auto=create
-----
-
-For further details about `database.hibernate.hbm2ddl.auto` please see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html#configuration-misc-properties[here]. For production and acceptance environments we use the value `validate` that should be set as default. In case you want to use Oracle RDBMS you can find additional hints link:guide-oracle.asciidoc#driver[here].
+For link:quarkus.asciidoc[quarkus] see link:quarkus/guide-quarkus-configuration.asciidoc#database-configuration[here].
 
 === Database Migration
 See link:guide-database-migration.asciidoc[database migration].
-
-=== Database Logging
-Add the following properties to `application.properties` to enable logging of database queries for debugging purposes.
-
-``` properties
-spring.jpa.properties.hibernate.show_sql=true
-spring.jpa.properties.hibernate.use_sql_comments=true
-spring.jpa.properties.hibernate.format_sql=true
-```
 
 === Pooling
 You typically want to pool JDBC connections to boost performance by recycling previous connections. There are many libraries available to do connection pooling. We recommend to use https://github.com/brettwooldridge/HikariCP[HikariCP]. For Oracle RDBMS see link:guide-oracle.asciidoc#pooling[here].

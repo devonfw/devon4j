@@ -39,6 +39,10 @@ include::architecture.asciidoc[leveloffset=+2]
 
 <<<<
 
+include::guide-configuration.asciidoc[leveloffset=+2]
+
+<<<<
+
 include::coding-conventions.asciidoc[leveloffset=+2]
 
 include::guide-structure.asciidoc[leveloffset=+2]
@@ -165,7 +169,7 @@ include::guide-batch-layer.asciidoc[leveloffset=+3]
 
 === Guides
 
-include::guide-configuration.asciidoc[leveloffset=+3]
+include::spring/guide-spring-configuration.asciidoc[leveloffset=+3]
 
 include::guide-configuration-mapping.asciidoc[leveloffset=+4]
 
@@ -269,4 +273,8 @@ include::guide-domain-layer.asciidoc[leveloffset=+2]
 
 === Guides
 
+include::quarkus/getting-started-for-spring-developers.asciidoc[leveloffset=+3]
+include::quarkus/guide-quarkus-configuration.asciidoc[leveloffset=+3]
 include::quarkus/guide-cors-support.asciidoc[leveloffset=+3]
+include::quarkus/quarkus-template.asciidoc[leveloffset=+3]
+include::quarkus/guide-native-image.asciidoc[leveloffset=+3]
