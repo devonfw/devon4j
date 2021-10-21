@@ -152,8 +152,7 @@ The provided archetype `archetype-microservices-infra` already provides that ann
 ====
 
 [source, java]
-  ----
-  skjdflsd
+----
 @Configuration
 @EnableEurekaServer
 @EnableAutoConfiguration
