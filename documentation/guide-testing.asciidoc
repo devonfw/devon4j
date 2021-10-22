@@ -11,7 +11,7 @@ For testing please follow our general best practices:
 * Tests should follow a clear naming convention.
 * Automated tests need to properly assert the result of the tested operation(s) in a reliable way. E.g. avoid stuff like `assertThat(service.getAllEntities()).hasSize(42)` or even worse tests that have no assertion at all.
 * Tests need to be independent of each other. Never write test-cases or tests (in Java +@Test+ methods) that depend on another test to be executed before. 
-* Use http://joel-costigliola.github.io/assertj/[AssertJ] to write good readable and maintainable tests that also provide valuable feedback in case a test fails. Do not use legacy JUnit methods like `assertEquals` anymore!
+* Use in Spring http://joel-costigliola.github.io/assertj/[AssertJ] to write good readable and maintainable tests that also provide valuable feedback in case a test fails. Do not use legacy JUnit methods like `assertEquals` anymore!
 * For easy understanding divide your test in three commented sections:
 ** `//given`
 ** `//when`
