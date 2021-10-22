@@ -1,27 +1,16 @@
 :toc: macro
 toc::[]
 
-= Testing your Application
-The devon4j testing guide talks about general best practices (link:guide-testing.asciidoc[Testing]) that the user should follow when testing an application, Quarkus does not have these guidelines when testing an application. 
-Instead, there are two test dependencies in Quarkus, the JUnit5 and the rest-assured. The quarkus-junit5 is required for testing because it provides the @QuarkusTest annotations that drive the testing framework. The rest-assured is not required, but is used for convenient testing of HTTP endpoints. Quarkus also provides an integration that automatically sets the correct URL without configuration.
-In addition, devon4j describes that all assertions are performed using AssertJ. Quarkus does not use AssertJ. 
+= Testing your Application 
+In Quarkus are two test dependencies, the JUnit5 and the rest-assured. The quarkus-junit5 is required for testing because it provides the @QuarkusTest annotations that drive the testing framework. The rest-assured is not required, but is used for convenient testing of HTTP endpoints. Quarkus also provides an integration that automatically sets the correct URL without configuration.
 
 == Use of test doubles
 Quarkus does not use test doubles apart from mocks. In Quarkus, mock objects can be supported in two different ways. The first variant is that the mock objects are used as CDI alternatives. This variant is used to mock a bean for all test classes. The other variant is to use the QuarkusMock. In this case, you temporarily mock the beans in each test individually.
 
 == Testing
-While devon4j uses any port for testing, Quarkus listens on port 8080 by default and uses port 8081 for running tests. This has the advantage that tests can be executed in parallel with running applications. It is also possible to configure the test ports so that the operating system used assigns a random port. 
-Furthermore devonfw defines a common terminology for what could be tested. However, it is emphasized that each project decides for itself where the focus of test automation should be. In the devon4j testing guide, different integration levels of test automation are described. 
+Quarkus listens on port 8080 by default and uses port 8081 for running tests. This has the advantage that tests can be executed in parallel with running applications. It is also possible to configure the test ports so that the operating system used assigns a random port. 
 
-These are divided into: 
-
-* module test
-* component test
-* subsystem test
-* system test
-* classification of integration levels
-
-In Quarkus these integration levels are not used. To achieve a high degree of flexibility, Quarkus supports the testing of different profiles. Here Quarkus is started profile dependent, i.e. if the current test is not from the same profile as the previous test, Quarkus is shut down and restarted with the corresponding profile. It is also possible to test native executables in Quarkus.
+To achieve a high degree of flexibility, Quarkus supports the testing of different profiles. Here Quarkus is started profile dependent, i.e. if the current test is not from the same profile as the previous test, Quarkus is shut down and restarted with the corresponding profile. It is also possible to test native executables in Quarkus.
 
 == Test, Transactions, Interceptor and Beans
 Both REST Assured and the @TestHTTPResource allow you to specify the test endpoint class instead of coordinating a fixed path. This makes it easier to keep track of which endpoints are tested by specific tests. The @TestHTTPResource annotation allows both the URL and URI to be injected directly into the test, simplifying the use of additional clients. It can also map the URL as a string representation. 
