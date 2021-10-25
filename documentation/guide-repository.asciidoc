@@ -41,7 +41,7 @@ Such repository is the analogy to a link:guide-dao.asciidoc[Data-Access-Object (
 .**Repository**
 [source,java]
 ----
-public interface ExampleRepository extends JpaRepository<ExampleEntity, Long> {
+public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
 }
 ----
@@ -58,56 +58,58 @@ The following example shows how to write such a repository:
 .**Repository**
 [source,java]
 ----
-public interface ExampleRepository extends JpaRepository<ExampleEntity, Long>, ExampleFragment {
+public interface ProductRepository extends JpaRepository<ProductEntity, Long>, ProductFragment {
 
-  @Query("SELECT example FROM ExampleEntity example" //
-      + " WHERE example.name = :name")
-  List<ExampleEntity> findByName(@Param("name") String name);
+  @Query("SELECT product FROM ProductEntity product" //
+      + " WHERE product.title = :title")
+  List<ProductEntity> findByTitle(@Param("title") String title);
 
-   @Query("SELECT example FROM ExampleEntity example" //
-      + " WHERE example.name = :name")
-  Page<ExampleEntity> findByNamePaginated(@Param("name") String name, Pageable pageable);
+  @Query("SELECT product FROM ProductEntity product" //
+      + " WHERE product.title = :title")
+  Page<ProductEntity> findByTitlePaginated(@Param("title") String title, Pageable pageable);
 }
 ----
 
 .**Repository fragment**
 [source,java]
 ----
-public interface ExampleFragment {
-  Page<ExampleEntity> findByCriteria(ExampleSearchCriteriaTo criteria);
+public interface ProductFragment {
+  Page<ProductEntity> findByCriteria(ProductSearchCriteriaTo criteria);
 }
 ----
 
 .**Fragment implementation**
 [source,java]
 ----
-public class ExampleFragment implements ExampleFragment {
+public class ProductFragmentImpl implements ProductFragment {
   @Inject
   EntityManager entityManager;
 
-  public Page<ExampleEntity> findByCriteria(ExampleSearchCriteriaTo criteria) {
-    QExampleEntity example = QExampleEntity.exampleEntity;
-    JPAQuery<ExampleEntity> query = new JPAQuery<ExampleEntity>(this.entityManager);
-    query.from(example);
+  public Page<ProductEntity> findByCriteria(ProductSearchCriteriaTo criteria) {
+    QProductEntity product = QProductEntity.productEntity;
+    JPAQuery<ProductEntity> query = new JPAQuery<ProductEntity>(this.entityManager);
+    query.from(product);
 
-    String name = criteria.getName();
-    if ((name != null) && !name.isEmpty()) {
-      query.where(example.name.eq(name));
+    String title = criteria.getTitle();
+    if ((title != null) && !title.isEmpty()) {
+      query.where(product.title.eq(title));
     }
 
-    List<ExampleEntity> examples = query.fetch();
-    return new PageImpl<>(examples, PageRequest.of(criteria.getPageNumber(), criteria.getPageSize()), examples.size());
+    List<ProductEntity> products = query.fetch();
+    return new PageImpl<>(products, PageRequest.of(criteria.getPageNumber(), criteria.getPageSize()), products.size());
   }
 }
 ----
 
-This `ExampleRepository` has the following features:
+This `ProductRepository` has the following features:
 
 * CRUD support from Spring Data (see https://docs.spring.io/spring-data/data-jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html[JavaDoc] for details).
 * Support for https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/QueryDslSupport.java[QueryDSL integration], https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java[paging and more].
-* A static link:guide-jpa-query.asciidoc[query] method `findByName` to find all `ExampleEntity` instances from DB that have the given name. Please note the `@Param` annotation that links the method parameter with the variable inside the query (`:name`).
-* The same with pagination support via findByNamePaginated method.
+* A static link:guide-jpa-query.asciidoc[query] method `findByTitle` to find all `ProductEntity` instances from DB that have the given title. Please note the `@Param` annotation that links the method parameter with the variable inside the query (`:title`).
+* The same with pagination support via findByTitlePaginated method.
 * A dynamic link:guide-jpa-query.asciidoc[query] method `findByCriteria` showing the QueryDSL and paging integration into Spring via a fragment implementation.
+
+You can find an implementation of this `ProductRepository` in our https://github.com/devonfw-sample/devon4quarkus-reference/tree/master/src/main/java/com/devonfw/quarkus/productmanagement/domain/repo[Quarkus reference application].
 
 NOTE: In Quarkus, native and named queries via the `@Query` annotation are currently not supported
 
