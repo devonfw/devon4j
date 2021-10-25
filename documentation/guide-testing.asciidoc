@@ -11,7 +11,7 @@ For testing please follow our general best practices:
 * Tests should follow a clear naming convention.
 * Automated tests need to properly assert the result of the tested operation(s) in a reliable way. E.g. avoid stuff like `assertThat(service.getAllEntities()).hasSize(42)` or even worse tests that have no assertion at all.
 * Tests need to be independent of each other. Never write test-cases or tests (in Java +@Test+ methods) that depend on another test to be executed before. 
-* Use in Spring http://joel-costigliola.github.io/assertj/[AssertJ] to write good readable and maintainable tests that also provide valuable feedback in case a test fails. Do not use legacy JUnit methods like `assertEquals` anymore!
+* Use http://joel-costigliola.github.io/assertj/[AssertJ] to write good readable and maintainable tests that also provide valuable feedback in case a test fails. Do not use legacy JUnit methods like `assertEquals` anymore!
 * For easy understanding divide your test in three commented sections:
 ** `//given`
 ** `//when`
@@ -24,11 +24,12 @@ For testing please follow our general best practices:
 * Prefer delegation over inheritance for cross-cutting testing functionality. Good places to put this kind of code can be realized and reused via the JUnit +@Rule+ mechanism.
 
 == Test Automation Technology Stack
-Quarkus and Spring use different technologies for test automation. For more information click on the desired guide:
+For test automation we use http://junit.org/[JUnit]. However, we are strictly doing all assertions with http://joel-costigliola.github.io/assertj/[AssertJ]. For xref:test-doubles[mocking] we use http://mockito.org/[mockito].
+In order to mock remote connections we use xref:wiremock[wiremock].
 
-* link:https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides.html#guide-for-testing-spring.asciidoc[Spring Testing Guide]
+For testing entire components or sub-systems we recommend to use for Spring stack https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html[spring-boot-starter-test] as lightweight and fast testing infrastructure that is already shipped with `devon4j-test`. For Quarkus, you can add the necessary extensions manually such as `quarkus-junit5`, `quarkus-junit5-mockito`, `assertj-core` etc.
 
-* link:https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides_2.html#guide-for-testing.asciidoc[Quarkus Testing Guide]
+In case you have to use a full blown JEE application server, we recommend to use http://arquillian.org/[arquillian]. To get started with arquillian, look http://arquillian.org/guides/getting_started/index.html#add_the_arquillian_apis[here].
 
 == Test Doubles
 We use http://xunitpatterns.com/Using%20Test%20Doubles.html[test doubles] as generic term for mocks, stubs, fakes, dummies, or spys to avoid confusion. Here is a short summary from http://martinfowler.com/articles/mocksArentStubs.html[stubs VS mocks]:
@@ -54,11 +55,52 @@ Best Practices for applications:
 * Replace dependencies of your SUT to impact the control flow under test without establishing all the context parameters needed to match the control flow.
 * Remember: Not everything has to be mocked! Especially on lower levels of tests like isolated module tests you can be betrayed into a mocking delusion, where you end up in a hundred lines of code mocking the whole context and five lines executing the test and verifying the mocks behavior. Always keep in mind the benefit-cost ratio, when implementing tests using mocks.
 
-Spring and Quarkus use different approaches to using mocks. For more information, click the desired guide:
+=== Wiremock
+//Wiremock is not used in the current Application
+If you need to mock remote connections such as HTTP-Servers, wiremock offers easy to use functionality. For a full description see the http://wiremock.org/[homepage] or the https://github.com/tomakehurst/wiremock[github repository]. Wiremock can be used either as a JUnit Rule, in Java outside of JUnit or as a standalone process. The mocked server can be configured to respond to specific requests in a given way via a fluent Java API, JSON files and JSON over HTTP. An example as an integration to JUnit can look as follows.
+[source,java]
+-------------------------------------------
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
-* link:https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides.html#guide-for-testing-spring.asciidoc[Spring Testing Guide]
+public class WireMockOfferImport{
 
-* link:https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides_2.html#guide-for-testing.asciidoc[Quarkus Testing Guide]
+  @Rule
+  public WireMockRule mockServer = new WireMockRule(wireMockConfig().dynamicPort());
+
+  @Test
+  public void requestDataTest() throws Exception {
+  int port = this.mockServer.port();
+  ...}
+-------------------------------------------
+This creates a server on a randomly chosen free port on the running machine. You can also specify the port to be used if wanted. Other than that there are several options to further configure the server. This includes HTTPs, proxy settings, file locations, logging and extensions.
+//We could replace this with a test example from com.devonfw.application.mtsj.dishmanagement.logic.impl
+[source,java]
+-------------------------------------------
+  @Test
+  public void requestDataTest() throws Exception {
+      this.mockServer.stubFor(get(urlEqualTo("/new/offers")).withHeader("Accept", equalTo("application/json"))
+      .withHeader("Authorization", containing("Basic")).willReturn(aResponse().withStatus(200).withFixedDelay(1000)
+      .withHeader("Content-Type", "application/json").withBodyFile("/wireMockTest/jsonBodyFile.json")));
+  }
+-------------------------------------------
+This will stub the URL `localhost:port/new/offers` to respond with a status 200 message containing a header (`Content-Type: application/json`) and a body with content given in `jsonBodyFile.json` if the request matches several conditions.
+It has to be a GET request to `../new/offers` with the two given header properties.
+
+Note that by default files are located in `src/test/resources/__files/`. When using only one WireMock server one can omit the `this.mockServer` in before the `stubFor` call (static method).
+You can also add a fixed delay to the response or processing delay with `WireMock.addRequestProcessingDelay(time)` in order to test for timeouts.
+
+WireMock can also respond with different corrupted messages to simulate faulty behaviour.
+[source,java]
+-------------------------------------------
+@Test(expected = ResourceAccessException.class)
+public void faultTest() {
+
+    this.mockServer.stubFor(get(urlEqualTo("/fault")).willReturn(aResponse()
+    .withFault(Fault.MALFORMED_RESPONSE_CHUNK)));
+...}
+-------------------------------------------
+A GET request to `../fault` returns an OK status header, then garbage, and then closes the connection.
 
 == Integration Levels
 There are many discussions about the right level of integration for test automation. Sometimes it is better to focus on small, isolated modules of the system - whatever a "module" may be. In other cases it makes more sense to test integrated groups of modules. Because there is no universal answer to this question, devonfw only defines a common terminology for what could be tested. Each project must make its own decision where to put the focus of test automation. There is no worldwide accepted terminology for the integration levels of testing. In general we consider http://istqbexamcertification.com/what-are-software-testing-levels/[ISTQB]. However, with a technical focus on test automation we want to get more precise.
@@ -73,8 +115,6 @@ The main difference between the integration levels is the amount of infrastructu
 Consider, that more infrastructure does not automatically lead to a better bug-detection. There may be bugs in your software that are masked by bugs in the infrastructure. The best way to find those bugs is to test with very few infrastructure.
 
 External systems do not belong to any of the integration levels defined here. devonfw does not recommend involving real external systems in test automation. This means, they have to be replaced by test xref:test-doubles[doubles] in automated tests. An exception may be external systems that are fully under control of the own development team.
-
-Quarkus does not use integration levels , instead it tests different profiles. More details in link:https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides_2.html#guide-for-testing.asciidoc[Quarkus Testing Guide]
 
 The following chapters describe the four integration levels.
 
@@ -106,10 +146,11 @@ For an advanced example see https://github.com/devonfw/devon4j/blob/develop/modu
 === Level 2 Component Test
 
 A http://istqbexamcertification.com/what-is-component-testing/[_component test_] aims to test components or component parts as a unit.
-These tests typically run with a (light-weight) infrastructure such as spring-boot-starter-test and can access resources such as a database (e.g. for DAO tests).
+These tests can access resources such as a database (e.g. for DAO tests).
 Further, no remote communication is intended here. Access to external systems shall be replaced by a xref:test-doubles[test double].
 
-With devon4j and spring you can write a component-test as easy as illustrated in the following example:
+    * For Spring stack, they are typically run with a (light-weight) infrastructure such as spring-boot-starter-test. A component-test is illustrated in the following example:
++
 [source,java]
 ----
 @SpringBootTest(classes = { MySpringBootApp.class }, webEnvironment = WebEnvironment.NONE)
@@ -134,14 +175,27 @@ public class UcFindCountryTest extends ComponentTest {
   }
 }
 ----
++
 This test will start the entire spring-context of your app (`MySpringBootApp`). Within the test spring will inject according spring-beans into all your fields annotated with `@Inject`. In the test methods you can use these spring-beans and perform your actual tests. This pattern can be used for testing DAOs/Repositories, Use-Cases, or any other spring-bean with its entire configuration including database and transactions.
 
-When you are testing use-cases your link:guide-access-control.asciidoc#configuration-on-java-method-level[authorization] will also be in place. Therefore, you have to simulate a logon in advance what is done via the `login` method in the above example.  The test-infrastructure will automatically do a `logout` for you after each test method in `doTearDown`.
+* For Quarkus, you can similarly inject the CDI beans and perform tests. An example is shown below:
++
+[source,java]
+----
+@QuarkusTest
+public class UcFindCountryTest {
+  @Inject
+  private UcFindCountry ucFindCountry;
+  ...
+----
+
+When you are testing use-cases your link:guide-access-control.asciidoc#configuration-on-java-method-level[authorization] will also be in place. Therefore, you have to simulate a logon in advance what is done via the `login` method in the above Spring example.  The test-infrastructure will automatically do a `logout` for you after each test method in `doTearDown`.
 
 === Level 3 Subsystem Test
 A _subsystem test_ runs against the external interfaces (e.g. HTTP service) of the integrated subsystem. Subsystem tests of the client subsystem are described in the https://github.com/devonfw/devon4ng/blob/master/documentation/guide-testing.asciidoc[devon4ng testing guide]. In devon4j the server (JEE application) is the subsystem under test. The tests act as a client (e.g. service consumer) and the server has to be integrated and started in a container.
 
-With devon4j and spring you can write a subsystem-test as easy as illustrated in the following example:
+* With devon4j and Spring you can write a subsystem-test as easy as illustrated in the following example:
++
 [source,java]
 ----
 @SpringBootTest(classes = { MySpringBootApp.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -177,7 +231,7 @@ A http://istqbexamcertification.com/what-is-system-testing/[_system test_] has t
 The devonfw only gives advice for automated system test (TODO see allure testing framework). In nearly every project there must be manual system tests, too. This manual system tests are out of scope here.
 
 === Classifying Integration-Levels
-devon4j defines https://github.com/devonfw/devon4j/tree/develop/modules/test/src/main/java/com/devonfw/module/test/common/api/category[Category-Interfaces] that shall be used as https://github.com/junit-team/junit/wiki/Categories[JUnit Categories].
+For Spring stack, devon4j defines https://github.com/devonfw/devon4j/tree/develop/modules/test/src/main/java/com/devonfw/module/test/common/api/category[Category-Interfaces] that shall be used as https://github.com/junit-team/junit/wiki/Categories[JUnit Categories].
 Also devon4j provides https://github.com/devonfw/devon4j/tree/develop/modules/test/src/main/java/com/devonfw/module/test/common/base[abstract base classes] that you may extend in your test-cases if you like.
 
 devon4j further pre-configures the maven build to only run integration levels 1-2 by default (e.g. for fast feedback in continuous integration). It offers the profiles +subsystemtest+ (1-3) and +systemtest+ (1-4). In your nightly build you can simply add +-Psystemtest+ to run all tests.
@@ -185,73 +239,7 @@ devon4j further pre-configures the maven build to only run integration levels 1-
 == Implementation
 This section introduces how to implement tests on the different levels with the given devonfw infrastructure and the proposed frameworks.
 
-=== Module Test
-In devon4j you can extend the abstract class https://github.com/devonfw/devon4j/blob/develop/modules/test/src/main/java/com/devonfw/module/test/common/base/ModuleTest.java[ModuleTest] to basically get access to assertions. In order to test classes embedded in dependencies  and external services one needs to provide mocks for that. As the xref:test-automation-technology-stack[technology stack] recommends we use the Mockito framework to offer this functionality. The following example shows how to implement Mockito into a JUnit test.
-//We currently don't use Mockito in the application
-[source,java]
--------------------------------------------
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
-...
-
-public class StaffmanagementImplTest extends ModuleTest {
-  @Rule
-  public MockitoRule rule = MockitoJUnit.rule();
-
-  @Test
-  public void testFindStaffMember() {
-  ...}
-}
--------------------------------------------
-
-Note that the test class does not use the `@SpringApplicationConfiguration` annotation. In a module test one does not use the whole application.
-The JUnit rule is the best solution to use in order to get all needed functionality of Mockito. Static imports are a convenient option to enhance readability within Mockito tests.
-You can define mocks with the `@Mock` annotation or the `mock(*.class)` call. To inject the mocked objects into your class under test you can use the `@InjectMocks` annotation. This automatically uses the setters of `StaffmanagementImpl` to inject the defined mocks into the _class under test (CUT)_ when there is a setter available. In this case the `beanMapper` and the `staffMemberDao` are injected. Of course it is possible to do this manually if you need more control. 
-
-[source,java]
--------------------------------------------
-  @Mock
-  private BeanMapper beanMapper;
-  @Mock
-  private StaffMemberEntity staffMemberEntity;
-  @Mock
-  private StaffMemberEto staffMemberEto;
-  @Mock
-  private StaffMemberDao staffMemberDao;
-  @InjectMocks
-  StaffmanagementImpl staffmanagementImpl = new StaffmanagementImpl();
--------------------------------------------
-
-The mocked objects do not provide any functionality at the time being. To define what happens on a method call on a mocked dependency in the CUT one can use `when(_condition_).thenReturn(_result_)`. In this case we want to test `findStaffMember(Long id)` in the https://github.com/oasp/oasp4j/blob/master/samples/core/src/main/java/io/oasp/gastronomy/restaurant/staffmanagement/logic/impl/StaffmanagementImpl.java[StaffmanagementImpl].
-
-[source,java]
--------------------------------------------
-public StaffMemberEto findStaffMember(Long id) {
-  return getBeanMapper().map(getStaffMemberDao().find(id), StaffMemberEto.class);
-}
--------------------------------------------
-
-In this simple example one has to stub two calls on the CUT as you can see below. For example the method call of the CUT `staffMemberDao.find(id)` is stubbed for returning a mock object `staffMemberEntity` that is also defined as mock.
-
-=== Subsystem Test
-devon4j provides a simple test infrastructure to aid with the implementation of subsystem tests. It becomes available by simply subclassing link:https://github.com/oasp/oasp4j/blob/master/samples/core/src/test/java/io/oasp/gastronomy/restaurant/general/common/base/AbstractRestServiceTest.java[AbstractRestServiceTest.java].
-[source,java]
--------------------------------------------
-//given
-long id = 1L;
-Class<StaffMemberEto> targetClass = StaffMemberEto.class;
-when(this.staffMemberDao.find(id)).thenReturn(this.staffMemberEntity);
-when(this.beanMapper.map(this.staffMemberEntity, targetClass)).thenReturn(this.staffMemberEto);
-
-//when
-StaffMemberEto resultEto = this.staffmanagementImpl.findStaffMember(id);
-
-//then
-assertThat(resultEto).isNotNull();
-assertThat(resultEto).isEqualTo(this.staffMemberEto);
--------------------------------------------
-
-After the test method call one can verify the expected results. Mockito can check whether a mocked method call was indeed called. This can be done using Mockito `verify`. Note that it does not generate any value if you check for method calls that are needed to reach the asserted result anyway. Call verification can be useful e.g. when you want to assure that statistics are written out without actually testing them.
+For Spring, see link:spring/guide-for-testing-spring.asciidoc#implementation[Spring Test Implementation]
 
 == Regression testing
 
@@ -267,17 +255,14 @@ For that purpose, it is advisable to have fast running test suite that gives as 
 
 Note, that the deployment pipeline always should contain manual validation steps, at least manual acceptance testing. There also may be manual validation steps that have to be executed for special changes only, e.g. usability testing. Management and execution processes of those manual validation steps are currently not in the scope of devonfw.
 
-
 == Test Coverage
 We are using tools (SonarQube/Jacoco) to measure the coverage of the tests. Please always keep in mind that the only reliable message of a code coverage of +X%+ is that +(100-X)%+ of the code is entirely untested. It does not say anything about the quality of the tests or the software though it often relates to it.
 
 == Test Configuration
 This section covers test configuration in general without focusing on integration levels as in the first chapter.
-Spring and Quarkus also differ from each other in the test configuration. For more information, such as the use of beans, click on the corresponding guide
 
-* link:https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides.html#guide-for-testing-spring.asciidoc[Spring Testing Guide]
-
-* link:https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides_2.html#guide-for-testing.asciidoc[Quarkus Testing Guide]
+* For Spring, see link:spring/guide-for-testing-spring.asciidoc#configure-test-specific-beans[Configure Test Specific Beans]
+* For Quarkus, see link:quarkus/guide-for-testing.asciidoc#configuration[here]
 
 === Test Data
 It is possible to obtain test data in two different ways depending on your test's integration level.

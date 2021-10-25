@@ -1,30 +1,98 @@
 :toc: macro
 toc::[]
 
-= Testing your Application 
-In Quarkus are two test dependencies, the JUnit5 and the rest-assured. The quarkus-junit5 is required for testing because it provides the @QuarkusTest annotations that drive the testing framework. The rest-assured is not required, but is used for convenient testing of HTTP endpoints. Quarkus also provides an integration that automatically sets the correct URL without configuration.
+= Testing
 
-== Use of test doubles
-Quarkus does not use test doubles apart from mocks. In Quarkus, mock objects can be supported in two different ways. The first variant is that the mock objects are used as CDI alternatives. This variant is used to mock a bean for all test classes. The other variant is to use the QuarkusMock. In this case, you temporarily mock the beans in each test individually.
+== Configuration
+Quarkus relies on JUnit for testing.
+[source, xml]
+----
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-junit5</artifactId>
+    <scope>test</scope>
+</dependency>
+----
+The extension `quarkus-junit5` provides the `@QuarkusTest` annotation that controls the testing framework. The tests are run by default on port 8081. To change it, modify the `application.properties` correspondingly:
+[source, shell script]
+----
+quarkus.http.test-port=8083
+quarkus.http.test-ssl-port=8446
+----
+Quarkus supports injecting scoped CDI beans into your tests via `@Inject` annotation for e.g. unit testing or beans testing.
 
-== Testing
-Quarkus listens on port 8080 by default and uses port 8081 for running tests. This has the advantage that tests can be executed in parallel with running applications. It is also possible to configure the test ports so that the operating system used assigns a random port. 
+=== Mocking CDI beans
+The `io.quarkus.test.junit.QuarkusMock` class can be used to temporarily mock out any normal scoped bean (e.g. @ApplicationScoped, @RequestScoped etc, basically every scope except @Singleton and @Dependent). If you use this method in a `@BeforeAll`, the mock will take effect for all tests on the current class, while if you use this in a test method, the mock will only take effect there. An example is given below:
+[source, java]
+----
+@QuarkusTest
+public class MockTestCase {
+    @Inject
+    MockableBean1 mockableBean1;
 
-To achieve a high degree of flexibility, Quarkus supports the testing of different profiles. Here Quarkus is started profile dependent, i.e. if the current test is not from the same profile as the previous test, Quarkus is shut down and restarted with the corresponding profile. It is also possible to test native executables in Quarkus.
+    @Inject
+    MockableBean2 mockableBean2;
 
-== Test, Transactions, Interceptor and Beans
-Both REST Assured and the @TestHTTPResource allow you to specify the test endpoint class instead of coordinating a fixed path. This makes it easier to keep track of which endpoints are tested by specific tests. The @TestHTTPResource annotation allows both the URL and URI to be injected directly into the test, simplifying the use of additional clients. It can also map the URL as a string representation. 
-For unit test execution and direct testing of the beans, CDI beans with the @Inject annotation are injected into the test in Quarkus. These CDI beans provide all CDI functions. Therefore, CDI interceptors can be applied as usual. For example, the @Transactional annotation can be applied to a test method that is executed in the context of a transaction. The transactional interceptor will recognize and apply this.
-The default Quarkus annotation @Transactional can also be applied to tests. However, it should be noted that any changes caused by the test will remain permanent in the database. If this is not desired and the changes should be undone after the test is finished, it is recommended to use the io.quarkus.test.TestTransaction annotation.
-Additionally, the @QuarkusTest classes can implement callback interfaces. These callback interfaces are an alternative or addition to the interceptor and must be set as "service provider". The callback is controlled by the read annotations of the test class or test method. It is possible to use JUnit Jupiter callback interfaces, but there may be problems loading the class because Quarkus runs the tests in a custom class loader that JUnit does not recognize.
+    @BeforeAll
+    public static void setup() {
+        MockableBean1 mock = Mockito.mock(MockableBean1.class);
+        QuarkusMock.installMockForType(mock, MockableBean1.class);
+    }
 
-== Detect hangers
-Additionally, Quarkus provides the ability to diagnose unexpected hangs using the @QuarkusTest annotation. This is done by outputting a stack trace on the console if no JUnit callbacks are called after a certain time.
+    @Test
+    public void testPerTestMock() {
+        QuarkusMock.installMockForInstance(new MockClass(), mockableBean2);
+    }
+}
+----
+Quarkus also allows users to effortlessly take advantage of Mockito.
+[source, xml]
+----
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-junit5-mockito</artifactId>
+    <scope>test</scope>
+</dependency>
+----
+The example above can be simplified like so:
+[source, java]
+----
+@QuarkusTest
+public class MockTestCase {
+    @InjectMock
+    MockableBean1 mockableBean1;
 
-The following guide https://quarkus.io/guides/getting-started-testing explains how to test applications in Quarkus. Furthermore, the injection into tests, as well as the testing of native executables will be discussed in more detail. 
+    @InjectMock
+    MockableBean2 mockableBean2;
+}
+----
+A RestClient can also be easily mocked with `@InjectMock` and `@RestClient` annotations.
+[source, java]
+----
+@Path("/")
+@ApplicationScoped
+@RegisterRestClient
+public interface DemoRestClient {
+}
 
+@QuarkusTest
+public class MockTestCase {
+    @InjectMock
+    @RestClient
+    DemoRestClient demoRestClient;
+}
+----
+=== Test profiles
+Quarkus supports testing different configurations with test profiles. A test profile has to implement the `QuarkusTestProfile` . To write a profile, please follow https://quarkus.io/guides/getting-started-testing#writing-a-profile[this guide].
 
-== Continuous testing
-In Quarkus continuous tests are supported, which are executed directly after saving the code changes. This has the advantage that you get feedback directly after the code change. Quarkus recognizes which relevant test is needed to test a code. 
+=== Continuous testing
+By design, Quarkus enables test-driven development. It detects affected tests as changes are made and automatically rerun them in background. As that, it gives developer instant feedback. To use continuous testing, execute the following command:
+[source, shell script]
+----
+mvn quarkus:dev
+----
 
-More information about continuous testing in Quarkus can be found in the following guide: https://quarkus.io/guides/continuous-testing
+For more details, see https://quarkus.io/guides/continuous-testing[here].
+
+=== Native testing
+It's possible to test native executables using `@NativeImageTest` (which might be replaced by @QuarkusIntergrationTest in the future). For more, see https://quarkus.io/guides/getting-started-testing#native-executable-testing[here].
