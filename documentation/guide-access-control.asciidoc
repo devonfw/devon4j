@@ -12,75 +12,18 @@ Definition:
 
 > Authentication is the verification that somebody interacting with the system is the actual subject for whom he claims to be.
 
-The one authenticated is properly called _subject_ or http://docs.oracle.com/javase/7/docs/api/java/security/Principal.html[_principal_]. However, for simplicity we use the common term _user_ even though it may not be a human (e.g. in case of a service call from an external system).
+The one authenticated is properly called _subject_ or http://docs.oracle.com/javase/7/docs/api/java/security/Principal.html[_principal_]. There are two forms of principals you need to distinguish while designing your authentication: `human users` and `autonomous systems`. While e.g. a Kerberos/SPNEGO Single-Sign-On makes sense for human users, it is pointless for authenticating autonomous systems.  For simplicity, we use the common term _user_ to refer to any principal even though it may not be a human (e.g. in case of a service call from an external system).
 
-To prove his authenticity the user provides some secret called _credentials_. The most simple form of credentials is a password.
+To prove the authenticity, the user provides some secret called _credentials_. The most simple form of credentials is a password.
 
+=== Implementations
 NOTE: Please never implement your own authentication mechanism or credential store. You have to be aware of implicit demands such as salting and hashing credentials, password life-cycle with recovery, expiry, and renewal including email notification confirmation tokens, central password policies, etc. This is the domain of access managers and identity management systems. In a business context you will typically already find a system for this purpose that you have to integrate (e.g. via LDAP). Otherwise you should consider establishing such a system e.g. using http://keycloak.org[keycloak].
 
-We use https://projects.spring.io/spring-security/[spring-security] as a framework for authentication purposes. 
+We recommend using link:guide-jwt.asciidoc[JWT] when possible. For KISS, also try to avoid combining multiple authentication mechanisms (form based, basic-auth, SAMLv2, OAuth, etc.) within the same application (for different URLs).
 
-Therefore you need to provide an implementation of https://docs.spring.io/spring-security/site/docs/4.2.x/apidocs/org/springframework/security/config/annotation/web/WebSecurityConfigurer.html[WebSecurityConfigurerAdapter]:
-[source,java]
-----
-@Configuration
-@EnableWebSecurity
-public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
+For link:spring.asciidoc[spring], check the link:spring/guide-authentication-spring.asciidoc[Spring Security]
 
-  @Inject
-  private UserDetailsService userDetailsService;
-  ...
-  public void configure(HttpSecurity http) throws Exception {
-    http.userDetailsService(this.userDetailsService)
-        .authorizeRequests().antMatchers("/public/**").permitAll()
-        .anyRequest().authenticated().and()
-        ...
-  }
-}
-----
-
-As you can see spring-security offers a fluent API for easy configuration. You can simply add invocations like `formLogin().loginPage("/public/login")` or `httpBasic().realmName("MyApp")`. Also link:guide-security.asciidoc[CSRF] protection can be configured by invoking `csrf()`.
-For further details see https://docs.spring.io/spring-security/site/docs/current/reference/html/jc.html#jc-httpsecurity[spring Java-config for HTTP security].
-
-Further, you need to provide an implementation of the https://docs.spring.io/spring-security/site/docs/4.2.x/apidocs/org/springframework/security/core/userdetails/UserDetailsService.html[UserDetailsService] interface.
-A good starting point comes with our application template.
-
-=== Preserve original request anchors after form login redirect
-Spring Security will automatically redirect any unauthorized access to the defined login-page. After successful login, the user will be redirected to the original requested URL. The only pitfall is, that anchors in the request URL will not be transmitted to server and thus cannot be restored after successful login. Therefore the `devon4j-security` module provides the `RetainAnchorFilter`, which is able to inject javascript code to the source page and to the target page of any redirection. Using javascript this filter is able to retrieve the requested anchors and store them into a cookie. Heading the target URL this cookie will be used to restore the original anchors again.
-
-To enable this mechanism you have to integrate the `RetainAnchorFilter` as follows:
-First, declare the filter with 
-
-* `storeUrlPattern`: an regular expression matching the URL, where anchors should be stored
-* `restoreUrlPattern`: an regular expression matching the URL, where anchors should be restored
-* `cookieName`: the name of the cookie to save the anchors in the intermediate time
-
-You can easily configure this as code in your `WebSecurityConfig` as following:
-
-[source,java]
-----
-RetainAnchorFilter filter = new RetainAnchorFilter();
-filter.setStoreUrlPattern("http://[^/]+/[^/]+/login.*");
-filter.setRestoreUrlPattern("http://[^/]+/[^/]+/.*");
-filter.setCookieName("TARGETANCHOR");
-http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-----
-
-=== Users vs. Systems
-If we are talking about authentication we have to distinguish two forms of principals:
-
-* human users
-* autonomous systems
-
-While e.g. a Kerberos/SPNEGO Single-Sign-On makes sense for human users it is pointless for authenticating autonomous systems. So always keep this in mind when you design your authentication mechanisms and separate access for human users from access for systems.
-
-=== Using JWT
-For authentication via JSON Web Token (JWT) see link:guide-jwt.asciidoc[JWT guide].
-
-=== Mixed Authentication
-
-In rare cases you might need to mix multiple authentication mechanisms (form based, basic-auth, SAMLv2, OAuth, etc.) within the same app (for different URLs). For KISS this should be avoided where possible. However, when needed, you can find a solution  
-https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#multiple-httpsecurity[here]. 
+For link:quarkus.asciidoc[quarkus], check the link:quarkus/guide-authentication-quarkus.asciidoc[Quarkus Authentication]
 
 == Authorization
 
@@ -203,7 +146,67 @@ public class UcSafeOfferImpl extends ApplicationUc implements UcSafeOffer {
 }
 ----
 
-=== Check Data-Permissions
+=== JEE Standard
+https://en.wikipedia.org/wiki/Role-based_access_control[Role-based Access Control (RBAC)] is commonly used for authorization.
+JSR 250 defines a number of common annotations to secure your application.
+
+* `javax.annotation.security.PermitAll` specifies that no access control is required to invoke the specified method(s).
+* `javax.annotation.security.DenyAll` specifies that no access controls are allowed to invoke the specified method(s).
+* `javax.annotation.security.RolesAllowed` specifies that only a list of access controls are allowed to invoke the specified method(s).
+* `javax.annotation.security.DeclareRoles` defines roles for security checking.
+* `javax.annotation.security.RunAs` specifies the RunAs role for the given components.
+
+`@PermitAll`, `@Denyall`, and `@RolesAllowed` annotations can be applied to both class and method.
+A method-level annotation will override the behaviour of class-level annotation. Using multiple annotations of those 3 is not valid.
+```java
+// invalid
+@PermitAll
+@DenyAll
+public String foo()
+
+// invalid and compilation fails
+@RolesAllowed("admin")
+@RolesAllowed("user")
+public String bar()
+
+// OK
+@RolesAllowed("admin", "user")
+public String bar()
+```
+
+Please note that when specifying multiple arguments to `@RolesAllowed` those are combined with OR (and not with AND).
+So if the user has any of the specified access controls, he will be able to access the method.
+
+As a best practice avoid specifying string literals to `@RolesAllowed`.
+Instead define a class with all access controls as constants and reference them from there.
+This class is typically called `ApplicationAccessControlConfig` in devonfw.
+
+In many complicated cases where `@PermitAll` `@DenyAll` `@RolesAllowed` are insufficient e.g. a method should be accessed by a user in role A and not in role B at the same time, you have to verify the user role directly in the method. You can use `SecurityContext` class to get further needed information.
+
+==== Spring
+Spring Security also supports authorization on method level. To use it, you need to add the `spring-security-config` dependency. If you use Spring Boot, the dependency `spring-boot-starter-security` already includes `spring-security-config`. Then you can configure as follows:
+
+    * `prePostEnabled` property enables Spring Security pre/post annotations. `@PreAuthorize` and `@PostAuthorize` annotations provide expression-based access control. See more https://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/el-access.html[here]
+    * `securedEnabled` property determines if the `@Secured` annotation should be enabled. `@Secured` can be used similarly as `@RollesAllowed`.
+    * `jsr250Enabled` property allows us to use the JSR-250 annotations such as `@RolesAllowed`.
+
+```java
+@Configuration
+@EnableGlobalMethodSecurity(
+  prePostEnabled = true,
+  securedEnabled = true,
+  jsr250Enabled = true)
+public class MethodSecurityConfig
+  extends GlobalMethodSecurityConfiguration {
+}
+```
+
+A further read about the whole concept of Spring Security Authorization can be found https://docs.spring.io/spring-security/site/docs/current/reference/html5/#servlet-authorization[here].
+
+==== Quarkus
+Quarkus comes with built-in security to allow for RBAC based on the common security annotations `@RolesAllowed`, `@DenyAll`, `@PermitAll` on REST endpoints and CDI beans. Quarkus also provides the `io.quarkus.security.Authenticated` annotation that will permit any authenticated user to access the resource (equivalent to @RolesAllowed("**")).
+
+=== Data-based Permissions
 See link:guide-data-permission.asciidoc[data permissions]
 
 === Access Control Schema (deprecated)

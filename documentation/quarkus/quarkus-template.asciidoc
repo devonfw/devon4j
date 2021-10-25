@@ -101,4 +101,3 @@ If you are new to Quarkus, consider checking out their https://quarkus.io/guides
 |SmallRye Fault Tolerance is an implementation of the MicroProfile Fault Tolerance specification.
 
 |===
-[source, bash]
