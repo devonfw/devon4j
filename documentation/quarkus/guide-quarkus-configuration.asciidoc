@@ -26,13 +26,13 @@ You need to configure which database type you want to use, as well as the locati
 
 [source, properties]
 ----
-  quarkus.datasource.jdbc.url=jdbc:postgresql://database.enterprise.com/app
-  quarkus.datasource.username=appuser01
-  quarkus.datasource.password=************
-  quarkus.datasource.db-kind=postgresql
+quarkus.datasource.jdbc.url=jdbc:postgresql://database.enterprise.com/app
+quarkus.datasource.username=appuser01
+quarkus.datasource.password=************
+quarkus.datasource.db-kind=postgresql
 
-  # drop and create the database at startup (use only for local development)
-  quarkus.hibernate-orm.database.generation=drop-and-create
+# drop and create the database at startup (use only for local development)
+quarkus.hibernate-orm.database.generation=drop-and-create
 ----
 
 === Database Logging
@@ -56,8 +56,8 @@ There is also some libraries to make Jasypt work with Quarkus such as https://ca
 Quarkus supports many credentials provider with official extensions such as HashiCorp Vault.
 ```
 <dependency>
-    <groupId>io.quarkus</groupId>
-    <artifactId>quarkus-vault</artifactId>
+  <groupId>io.quarkus</groupId>
+  <artifactId>quarkus-vault</artifactId>
 </dependency>
 ```
 
