@@ -7,6 +7,25 @@ https://quarkus.io[Quarkus] is a Java framework for building cloud-native apps.
 It is fully supported by https://devonfw.com[devonfw] as an option and alternative to link:spring.asciidoc[spring].
 Additional things like extensions will be available on the  https://github.com/devonfw/devon4quarkus[devon4quarkus] GitHub repository.
 
+== Guide to the Reader
+
+Dependent on the intention you are reading this document, you might be most interested in the following chapters:
+
+* If you are completely new to Quarkus, you may be interested in the xref:pros[pros] and xref:cons[cons] of Quarkus. Also take a look at the link:https://quarkus.io/g[offical Quarkus website]. And you might also be interested in the features that link:https://www.graalvm.org/[GraalVM] offers.
+
+* If you are new to devon4j, also take a look at devon4j's recommendations on general best practices. Check out the chapters on  link:architecture.asciidoc[architecture design], link:guide-structure-modern.asciidoc[project structuring] and link:coding-conventions[coding conventions]. Follow the referenced links to explore a topic in more depth.
+
+* If you are an experienced devon4j (Spring) developer and want to get in touch with Quarkus, read our link:quarkus/getting-started-for-spring-developers.asciidoc[Getting started with Quarkus for Spring developers] guide.
+
+* If you're looking to build your first Quarkus application, the Quarkus webiste offers some good link:https://quarkus.io/get-started/[getting started guides]. Also check out our link:quarkus/quarkus-template.asciidoc[Quarkus template guide], which gives you some recommendations on extensions and frameworks to use. It also provides some links to the link:https://code.quarkus.io/[Quarkus code generator] with preselected configurations you can use to create your application.
+
+* If you want to have a Quarkus sample application using devon4j recommendations, check out our link:https://github.com/devonfw-sample/devon4quarkus-reference[Quarkus reference application].
+
+* If you have already developed with devon4j and Quarkus and need more information on a specific topic, check out our link:https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides_2.html[Quarkus guides]. If you don't find what you are looking for there, check out the link:https://devonfw.com/website/pages/docs/devon4j.asciidoc_general.html[general section]. devon4j tries to use general soultion working for Spring and Quarkus. Therefore, the solutions for both frameworks are documented there.
+
+* If you want to learn how to build native images, check out link:quarkus/guide-native-image.asciidoc[this guide].
+
+[[pros]]
 == Pros
 
 Quarkus offers the following benefits:
@@ -18,6 +37,7 @@ When building your app as link:quarkus/guide-native-image.asciidoc[native-images
 * *clean and lean*
 As quarkus was born as cloud-native framework it is very light-weigth and does not carry much history and legacy.
 
+[[cons]]
 == Cons
 
 Quarkus has the following drawbacks:
