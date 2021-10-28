@@ -1,0 +1,51 @@
+:toc: macro
+toc::[]
+
+= OpenAPI
+
+The link:https://spec.openapis.org/oas/latest.html[OpenAPI Specification (OAS)] defines a standard for describing RESTful web services in a machine- and human-readable format. OpenAPI allows REST APIs to be defined in a uniform manner.
+Technically, an OpenAPI document is written in YAML or JSON format. The specification defines the structure of a REST API by describing attributes such as path information, response codes, and return types. Some examples can be found link:https://github.com/OAI/OpenAPI-Specification/tree/main/examples/v3.0[here].
+
+OpenAPI is often used in combination with link:https://swagger.io/[Swagger]. Swagger is a set of tools build around OpenAPI, that help developers to design and document their REST APIs.
+The most common tool is the link:https://swagger.io/tools/swagger-ui/[Swagger UI], which uses the OpenAPI specification to create a graphical interface of the REST API that you can also interact with. Check out the link:https://editor.swagger.io/[Swagger online editor] to get a feeling of this.
+
+There are several extensions you can use in your project to automatically generate the OpenAPI specifications and the Swagger UI from your REST API (code first approach). 
+
+== Springdoc-OpenAPI
+
+The link:https://springdoc.org/[`springdoc-openapi-ui`] extension can be used to add OpenAPI and Swagger UI support to Spring application. Just add the following extension to you pom.xml file:
+
+[source,xml]
+--------
+<dependency>
+  <groupId>org.springdoc</groupId>
+  <artifactId>springdoc-openapi-ui</artifactId>
+  <version>1.5.12</version>
+</dependency>
+--------
+
+When the application is running, the Swagger UI is available at `http://server:port/context-path/swagger-ui.html`.
+
+The OpenAPI specification can be found at `http://server:port/context-path/v3/api-docs`.
+
+== Smallrye OpenAPI
+
+Quarkus provides OpenAPI support through Smallrye OpenAPI extension:
+
+--------
+<dependency>
+  <groupId>io.quarkus</groupId>
+  <artifactId>quarkus-smallrye-openapi</artifactId>
+</dependency>
+--------
+
+After adding the extension to your project, you can access the Swagger UI by navigating to `/q/swagger-ui`. 
+
+The OpenAPI specification can be accessed by requesting `/q/openapi`.
+
+Smallrye OpenAPI is compliant with link:https://github.com/eclipse/microprofile-open-api[MicroProfile OpenAPI]. You can add MicroProfile annotations to further describe your REST endpoints and extend the OpenAPI documentation.
+More information for this can be found link:https://quarkus.io/blog/openapi-for-everyone/#openapi[here] or link:https://quarkus.io/blog/openapi-for-everyone/#openapi[here]. 
+
+== ServiceDocGen Maven Plugin
+
+
