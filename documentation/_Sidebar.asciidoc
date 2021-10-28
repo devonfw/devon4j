@@ -65,4 +65,4 @@
 === Guides
 * link:quarkus/guide-logging.asciidoc[Logging]
 * link:quarkus/guide-cors-support.asciidoc[CORS support]
-* link:quarkus/guide-for-testing.asciidoc[Quarkus Testing Guide]
+* link:quarkus/guide-quarkus-testing.asciidoc[Quarkus Testing Guide]

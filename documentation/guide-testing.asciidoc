@@ -239,7 +239,7 @@ devon4j further pre-configures the maven build to only run integration levels 1-
 == Implementation
 This section introduces how to implement tests on the different levels with the given devonfw infrastructure and the proposed frameworks.
 
-For Spring, see link:spring/guide-for-testing-spring.asciidoc#implementation[Spring Test Implementation]
+For Spring, see link:spring/guide-spring-testing.asciidoc#implementation[Spring Test Implementation]
 
 == Regression testing
 
@@ -261,8 +261,8 @@ We are using tools (SonarQube/Jacoco) to measure the coverage of the tests. Plea
 == Test Configuration
 This section covers test configuration in general without focusing on integration levels as in the first chapter.
 
-* For Spring, see link:spring/guide-for-testing-spring.asciidoc#configure-test-specific-beans[Configure Test Specific Beans]
-* For Quarkus, see link:quarkus/guide-for-testing.asciidoc#configuration[here]
+* For Spring, see link:spring/guide-spring-testing.asciidoc#configure-test-specific-beans[Configure Test Specific Beans]
+* For Quarkus, see link:quarkus/guide-quarkus-testing.asciidoc#configuration[here]
 
 === Test Data
 It is possible to obtain test data in two different ways depending on your test's integration level.
