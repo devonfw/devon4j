@@ -3,16 +3,19 @@ toc::[]
 
 = Migrate from Spring to Quarkus
 
-This guide will cover the migration process of a Spring application to a Quarkus application. There are already articles about migrating from Spring to Quarkus (e.g. https://developers.redhat.com/blog/2020/04/10/migrating-a-spring-boot-microservices-application-to-quarkus, https://dzone.com/articles/migrating-a-spring-boot-application-to-quarkus-cha). This guide will focus more on the devon4j specific aspects. We assume that a working Spring application exists, built in the link:guide-structure-classic.asciidoc[classic devon4j specific way] (e.g. https://github.com/devonfw/jump-the-queue/tree/master/java/jtqj[Jump The Queue] or https://github.com/devonfw/my-thai-star[My Thai Star]).
+This guide will cover the migration process of a Spring application to a Quarkus application. There are already articles about migrating from Spring to Quarkus (e.g. https://developers.redhat.com/blog/2020/04/10/migrating-a-spring-boot-microservices-application-to-quarkus, https://dzone.com/articles/migrating-a-spring-boot-application-to-quarkus-cha).
+This guide will focus more on the devon4j specific aspects. We assume that a working Spring application exists, built in the link:guide-structure-classic.asciidoc[classic devon4j specific way] (e.g. https://github.com/devonfw/jump-the-queue/tree/master/java/jtqj[Jump The Queue] or https://github.com/devonfw/my-thai-star[My Thai Star]).
 
 == Create the Quarkus application
 
-We start with an empty Quarkus project. You can create the project with Maven on the command line or use the https://code.quarkus.io/[online generator]. The advantage of the online generator is that you have a pre-selection of dependencies to use in your project. For starters, let's select the basic dependencies needed to develop a REST service with database connectivity (you can use one of the links in the link:quarkus/quarkus-template.asciidoc[Quarkus template guide]): __RESTEasy JAX-RS, RESTEasy Jackson, Hibernate ORM, Spring Data JPA API, JDBC Driver (choose the type of database you need), Flyway (if you have database migration schemas), SmallRye Health (optional for Health Monitoring)__
+We start with an empty Quarkus project. You can create the project with Maven on the command line or use the https://code.quarkus.io/[online generator]. The advantage of the online generator is that you have a pre-selection of dependencies to use in your project.
+For starters, let's select the basic dependencies needed to develop a REST service with database connectivity (you can use one of the links in the link:quarkus/quarkus-template.asciidoc[Quarkus template guide]): __RESTEasy JAX-RS, RESTEasy Jackson, Hibernate ORM, Spring Data JPA API, JDBC Driver (choose the type of database you need), Flyway (if you have database migration schemas), SmallRye Health (optional for Health Monitoring)__
 
 The list does not include all required dependencies. We will add more dependencies to the project later. So for now generate the application with these dependencies.
 
 === Migration Toolkit from Red Hat
-Red Hat provides a migration toolkit (https://developers.redhat.com/products/mta/overview[MTA, Migration Toolkit for Applications]), that supports you migrating a Spring application to a Quarkus application. There are several versions of this toolkit (e.g., a web console, a Maven plugin, or an IDE plugin). The MTA analyzes your existing application and generates a report with hints and instructions for migrating from Spring to Quarkus. For example, it gives you an indication of which dependencies are not supported in your project for a Quarkus application and which dependencies you need to swap them with. The analysis is rule-based, and you can also add your own rules that will be checked during analysis.
+Red Hat provides a migration toolkit (https://developers.redhat.com/products/mta/overview[MTA, Migration Toolkit for Applications]), that supports you migrating a Spring application to a Quarkus application. There are several versions of this toolkit (e.g., a web console, a Maven plugin, or an IDE plugin).
+The MTA analyzes your existing application and generates a report with hints and instructions for migrating from Spring to Quarkus. For example, it gives you an indication of which dependencies are not supported in your project for a Quarkus application and which dependencies you need to swap them with. The analysis is rule-based, and you can also add your own rules that will be checked during analysis.
 
 == Entities
 
@@ -68,7 +71,8 @@ Now you can create your transfer objects. Most of the code of the transfer objec
 
 == Data Access Layer
 
-In devon4j, we propose to use link:guide-repository.asciidoc[Spring Data JPA] to build the data access layer using repositories and QueryDSL to build link:guide-jpa-query.asciidoc#dynamic-queries[dynamic queries]. We will also use this approach for Quarkus applications, but we need to change the implementation because the devon4j modules are based on reflection, which is not suitable for Quarkus. In Quarkus we will use Querydsl using code generation. So for this layer, more changes are required and we can't just take the existing code.
+In devon4j, we propose to use link:guide-repository.asciidoc[Spring Data JPA] to build the data access layer using repositories and QueryDSL to build link:guide-jpa-query.asciidoc#dynamic-queries[dynamic queries]. We will also use this approach for Quarkus applications, but we need to change the implementation because the devon4j modules are based on reflection, which is not suitable for Quarkus.
+In Quarkus we will use Querydsl using code generation. So for this layer, more changes are required and we can't just take the existing code.
 
 First, create a repository interface for your entity class that extends `JpaRepository` (see link:guide-repository.asciidoc#repository[here]).
 
@@ -173,7 +177,8 @@ Inject the mapper into your use-case implementation and simply use the methods. 
 
 == Service Layer
 
-For the implementation of the service layer, we use the link:guide-rest#jax-rs[JAX-RS] for both Quarkus and Spring applications to create the REST services. Classic devon4j Spring applications rely on Apache CFX as the implemention of JAX-RS. For Quarkus, we use RESTEasy. Since both are implementations of JAX-RS, much of the Spring application code can be reused.
+For the implementation of the service layer, we use the link:guide-rest#jax-rs[JAX-RS] for both Quarkus and Spring applications to create the REST services. Classic devon4j Spring applications rely on Apache CFX as the implemention of JAX-RS.
+For Quarkus, we use RESTEasy. Since both are implementations of JAX-RS, much of the Spring application code can be reused.
 
 Take the definition of the REST endpoints from the api module of the Spring application (make sure to rename the transfer objects), inject the use-cases from the logic layer and use them in the REST service methods as follows:
 
@@ -202,6 +207,8 @@ public class YourComponentRestService {
 
 == Summary
 
-As you have seen, some parts hardly differ when migrating a Spring application to a Quarkus application, while other parts differ more. The above sections describe the parts needed for simple applications that provide REST services with a data access layer. If you add more functionality, more customization and other frameworks/dependencies may be required. If that is the case, take a look at the corresponding guide on the topic in the devon4j documentation or check if there is a tutorial on the official https://quarkus.io/guides/[Quarkus website].
+As you have seen, some parts hardly differ when migrating a Spring application to a Quarkus application, while other parts differ more. The above sections describe the parts needed for simple applications that provide REST services with a data access layer.
+If you add more functionality, more customization and other frameworks/dependencies may be required. If that is the case, take a look at the corresponding guide on the topic in the devon4j documentation or check if there is a tutorial on the official https://quarkus.io/guides/[Quarkus website].
 
-Furthermore, we can summarize that migrating from a Spring application to a Quarkus representative is not complex. Although Quarkus is a very young framework (release 1.0 was in 2019), it brings a lot of proven startards and libraries that you can integrate into your application. This makes it easy to migrate and reuse code from existing (Spring) applications. Also, Quarkus comes with Spring API compatibility for many Spring modules (https://quarkus.io/guides/spring-data-jpa[Spring Data JPA], https://quarkus.io/guides/spring-di[Spring DI], https://github.com/quarkusio/quarkus/tree/main/extensions[etc.]), which makes it easier for developers to reuse their knowledge.
+Furthermore, we can summarize that migrating from a Spring application to a Quarkus representative is not complex. Although Quarkus is a very young framework (release 1.0 was in 2019), it brings a lot of proven standards and libraries that you can integrate into your application.
+This makes it easy to migrate and reuse code from existing (Spring) applications. Also, Quarkus comes with Spring API compatibility for many Spring modules (https://quarkus.io/guides/spring-data-jpa[Spring Data JPA], https://quarkus.io/guides/spring-di[Spring DI], https://github.com/quarkusio/quarkus/tree/main/extensions[etc.]), which makes it easier for developers to reuse their knowledge.
