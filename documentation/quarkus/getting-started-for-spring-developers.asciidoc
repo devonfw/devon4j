@@ -116,7 +116,7 @@ A full list of all Quarkus extensions can be found https://quarkus.pro/extension
 +
 Besides extensions, which are officially maintained by Quarkus team, Quarkus allows adding external libraries too. While extensions can be integrated seamlessly into Quarkus as they can be processed at build time and be built in native mode with GraalVM, external dependencies might not work out of the box with native compilation. If that is the case, then you have to recompile them with the right GraalVM configuration to make them work.
 
-. Quarkus's design accounted for native compilation by default. A Quarkus native executable starts much faster and utilizes far less memory than a traditional JVM (see the section about xref:performace-comparision[performace comparision]). To get familiar with building native executable, configuring and running it, please check out our link:guide-native-image.asciidoc[Native Image Guide]. Be sure to test your code in both JVM and native mode.
+. Quarkus's design accounted for native compilation by default. A Quarkus native executable starts much faster and utilizes far less memory than a traditional JVM (see our link:performance-comparision-spring-quarkus.asciidoc[performace comparision between Spring and Quarkus]). To get familiar with building native executable, configuring and running it, please check out our link:guide-native-image.asciidoc[Native Image Guide]. Be sure to test your code in both JVM and native mode.
 
 . Both Quarkus and Spring include testing frameworks based on https://junit.org/junit5/[JUnit] and https://site.mockito.org/[Mockito]. Thus, by design, Quarkus enables test-driven development by detecting affected tests as changes are made and automatically rerun them in background. As that, it gives developer instant feedback, hence improves productivity. To use continuous testing, execute the following command:
 +
@@ -129,70 +129,3 @@ mvn quarkus:dev
 A common example is the JSON libraries which typically use reflection to serialize the objects to JSON. If you use them out of the box, you might encounter some errors in native mode. So, be sure to register the elements for reflection explicitly. A How-to is provided by https://quarkus.io/guides/writing-native-applications-tips#registering-for-reflection[Quarkus Registering For Reflection] with practical program snippets.
 
 A very good read on the topic is the e-book https://developers.redhat.com/e-books/quarkus-spring-developers[Quarkus for Spring Developers] by Red Hat. Another good source for direct hands-on coding tutorial is https://www.katacoda.com/openshift/courses/developing-with-quarkus/spring[Katacoda Quarkus for Spring Boot Developers]
-
-[[performace-comparision]]
-== Performance Comparision
-
-As mentioned earlier, Quarkus offers a big advantage in resource consumption compared to a Spring application. Especially in native mode, the memory footprint of a Quarkus application is extremely low, which can be a deciding factor in real-world environments. The tables <<PerformanceComparisonApplication1>> and <<PerformanceComparisonApplication2>>, which show the startup and memory consumption of two applications that are similar in their Quarkus and Spring implementations, illustrate this point. Application 1 is more complex in scope than Application 2 and uses more dependencies. The listings above the tables show the functions/extensions of the applications and the lines of code (only java files).
-
-.**Application 1:**
-* LOC (without automatically generated classes)
-** Quarkus: ~4600
-** Spring: ~7700 (separated into api and core module, as described for the link:guide-structure-classic.asciidoc[classic project structure]; api: ~3800, core: 3900)
-* Features
-** 3 entitites
-** REST service
-** Connection to a Postgres database (using Spring Data JPA and QueryDSL for the repository implementation)
-** Flyway for database migration
-** Kafka for asynchronous messaging
-** Avro for data serialization combinded with a schema registry
-
-.performace comparision application 1
-[#PerformanceComparisonApplication1]
-[cols="1,1,1,1"]
-|===
-|
-|Spring 
-|Quarkus JVM Mode
-|Quarkus Native Mode
-
-|startup time (time until first response)
-|~35 seconds (+/- 1s)
-|~4,7 - 5,2 seconds
-|~0,9 seconds
-
-|memory usage
-|~850 - 900 MB
-|~550 MB
-|~190 MB
-|===
-
-___
-
-.**Application 2:**
-* LOC
-** Quarkus: ~300
-** Spring: ~ 280
-* Features
-** 1 entity
-** REST service with Postgres database connection
-
-.performace comparision application 2
-[#PerformanceComparisonApplication2]
-[cols="1,1,1,1"]
-|===
-|
-|Spring 
-|Quarkus JVM Mode
-|Quarkus Native Mode
-
-|startup time (time until first response)
-|~9 - 10 seconds
-|~3,9 seconds
-|~0,9 seconds
-
-|memory usage
-|~810 MB
-|~460 MB
-|~90 MB
-|===

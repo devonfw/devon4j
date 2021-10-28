@@ -14,7 +14,7 @@ Quarkus offers the following benefits:
 * *fast turn-around cycles for developers* +
 Save changes in your Java code and immediately test the results without restarting or waiting
 * *faster start-up and less memory footprint* +
-When building your app as link:quarkus/guide-native-image.asciidoc[native-images] via https://www.graalvm.org/[GraalVM] it gets highly optimized. As a result it starts up lightning fast and consumes much less memory. This is a great advantage for cloud deployment as well as for sustainability.
+When building your app as link:quarkus/guide-native-image.asciidoc[native-images] via https://www.graalvm.org/[GraalVM] it gets highly optimized. As a result it starts up lightning fast and consumes much less memory. This is a great advantage for cloud deployment as well as for sustainability. You can find a performance comparison between Spring and Quarkus link:performance-comparision-spring-quarkus.asciidoc[here].
 * *clean and lean*
 As quarkus was born as cloud-native framework it is very light-weigth and does not carry much history and legacy.
 
