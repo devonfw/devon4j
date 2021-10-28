@@ -7,12 +7,9 @@ toc::[]
 There usually is a main configuration registered with main Spring Boot App, but differing configurations to support automated test of the application can be defined using profiles (not detailed in this guide).
 
 === Spring Boot Application
-
-The devonfw recommends using http://projects.spring.io/spring-boot/[spring-boot] to build web applications.
-For a complete documentation see the http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/[Spring Boot Reference Guide].
+For a complete documentation, see the http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/[Spring Boot Reference Guide].
 
 With spring-boot you provide a simple _main class_ (also called starter class) like this:
-//Using new SpringBootApp now
 com.devonfw.mtsj.application
 [source, java]
 ----
