@@ -17,7 +17,7 @@ Dependent on the intention you are reading this document, you might be most inte
 
 * If you are an experienced Spring developer and want to get in touch with Quarkus, read our link:quarkus/getting-started-for-spring-developers.asciidoc[Getting started with Quarkus for Spring developers] guide.
 
-* If you're looking to build your first Quarkus application, the Quarkus webiste offers some good link:https://quarkus.io/get-started/[getting started guides]. Also check out our link:quarkus/quarkus-template.asciidoc[Quarkus template guide], which gives you some recommendations on extensions and frameworks to use. It also provides some links to the link:https://code.quarkus.io/[Quarkus code generator] with preselected configurations you can use to create your application.
+* If you're looking to build your first Quarkus application, the Quarkus website offers some good link:https://quarkus.io/get-started/[getting started guides]. Also check out our link:quarkus/quarkus-template.asciidoc[Quarkus template guide], which gives you some recommendations on extensions and frameworks to use. It also provides some links to the link:https://code.quarkus.io/[Quarkus code generator] with preselected configurations you can use to create your application.
 
 * If you want to have a Quarkus sample application using devon4j recommendations, check out our link:https://github.com/devonfw-sample/devon4quarkus-reference[Quarkus reference application].
 
