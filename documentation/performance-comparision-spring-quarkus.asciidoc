@@ -17,7 +17,7 @@ The listings above the tables show the functions/extensions of the applications 
 ** Connection to a Postgres database (using Spring Data JPA and QueryDSL for the repository implementation)
 ** Flyway for database migration
 ** Kafka for asynchronous messaging
-** Avro for data serialization combinded with a schema registry
+** Avro for data serialization combined with a schema registry
 
 .performace comparision application 1
 [#PerformanceComparisonApplication1]
