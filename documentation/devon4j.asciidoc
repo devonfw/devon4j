@@ -135,6 +135,13 @@ include::guide-validation.asciidoc[leveloffset=+2]
 
 <<<<
 
+include::guide-beanmapping.asciidoc[leveloffset=+2]
+
+
+include::guide-lombok.asciidoc[leveloffset=+2]
+
+<<<<
+
 include::spring.asciidoc[leveloffset=+1]
 
 include::guide-component.asciidoc[leveloffset=+2]
@@ -142,6 +149,7 @@ include::guide-component.asciidoc[leveloffset=+2]
 include::guide-structure-classic.asciidoc[leveloffset=+2]
 
 <<<<
+
 
 === Layers
 
@@ -187,10 +195,6 @@ include::guide-access-control.asciidoc[leveloffset=+3]
 
 <<<<
 
-include::guide-access-control-schema.asciidoc[leveloffset=+3]
-
-<<<<
-
 include::guide-data-permission.asciidoc[leveloffset=+4]
 
 <<<<
@@ -225,9 +229,10 @@ include::guide-testing.asciidoc[leveloffset=+3]
 
 include::guide-transferobject.asciidoc[leveloffset=+3]
 
+
 <<<<
 
-include::guide-beanmapping.asciidoc[leveloffset=+3]
+include::spring/guide-beanmapping-spring.asciidoc[leveloffset=+3]
 
 <<<<
 
@@ -265,6 +270,7 @@ include::guide-jms.asciidoc[leveloffset=+3]
 
 include::guide-text-search.asciidoc[leveloffset=+3]
 
+
 === Tutorials
 
 include::tutorial-newapp.asciidoc[leveloffset=+3]
@@ -281,6 +287,8 @@ include::guide-domain-layer.asciidoc[leveloffset=+2]
 
 === Guides
 
+include::quarkus/getting-started-for-spring-developers.asciidoc[leveloffset=+3]
 include::quarkus/guide-quarkus-configuration.asciidoc[leveloffset=+3]
 include::quarkus/quarkus-template.asciidoc[leveloffset=+3]
 include::quarkus/guide-native-image.asciidoc[leveloffset=+3]
+include::quarkus/guide-beanmapping-quarkus.asciidoc[leveloffset=+3]
