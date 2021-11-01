@@ -66,7 +66,6 @@
 == quarkus
 
 === Guides
-* link:quarkus/guide-logging.asciidoc[Logging]
 * link:quarkus/guide-cors-support.asciidoc[CORS support]
 * link:quarkus/quarkus-template.asciidoc[Quarkus template]
 * link:quarkus/guide-native-image.asciidoc[Native image]
