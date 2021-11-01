@@ -183,10 +183,6 @@ include::guide-access-control.asciidoc[leveloffset=+3]
 
 <<<<
 
-include::guide-access-control-schema.asciidoc[leveloffset=+3]
-
-<<<<
-
 include::guide-data-permission.asciidoc[leveloffset=+4]
 
 <<<<
@@ -277,6 +273,7 @@ include::guide-domain-layer.asciidoc[leveloffset=+2]
 
 === Guides
 
+include::quarkus/getting-started-for-spring-developers.asciidoc[leveloffset=+3]
 include::quarkus/guide-quarkus-configuration.asciidoc[leveloffset=+3]
 include::quarkus/guide-cors-support.asciidoc[leveloffset=+3]
 include::quarkus/quarkus-template.asciidoc[leveloffset=+3]
