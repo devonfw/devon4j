@@ -7,7 +7,7 @@ import org.springframework.kafka.core.ProducerFactory;
  * This is a property class to create configuration for for {@link MessageSenderConfig} by setting parameter for
  * {@link ProducerConfig} to create {@link ProducerFactory}.
  *
- * @deprecated The implementation of Devon4Js Kafka module will be abandoned. It is superseeded by Springs Kafka
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
  *             implementation.
  */
 @Deprecated

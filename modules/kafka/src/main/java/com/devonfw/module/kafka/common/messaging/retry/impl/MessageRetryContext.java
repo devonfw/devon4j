@@ -18,7 +18,7 @@ import com.devonfw.module.kafka.common.messaging.retry.api.RetryState;
  * The MessageRetryContext is a class used to create retry pattern with the custom headers carries values for the retry
  * to proceed.
  *
- * @deprecated The implementation of Devon4Js Kafka module will be abandoned. It is superseeded by Springs Kafka
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
  *             implementation.
  */
 @Deprecated

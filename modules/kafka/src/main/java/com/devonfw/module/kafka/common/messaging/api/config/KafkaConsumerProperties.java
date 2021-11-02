@@ -7,7 +7,7 @@ import org.springframework.kafka.core.ConsumerFactory;
  * This is a property class to create configuration for the {@link MessageReceiverConfig} by setting parameter for
  * {@link ConsumerConfig} to create {@link ConsumerFactory}.
  *
- * @deprecated The implementation of Devon4Js Kafka module will be abandoned. It is superseeded by Springs Kafka
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
  *             implementation.
  */
 @Deprecated

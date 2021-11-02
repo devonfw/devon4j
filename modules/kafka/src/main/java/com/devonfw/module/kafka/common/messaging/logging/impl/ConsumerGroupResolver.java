@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
 /**
  * This class is an implementation of {@link BeanPostProcessor}.
  *
- * @deprecated The implementation of Devon4Js Kafka module will be abandoned. It is superseeded by Springs Kafka
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
  *             implementation.
  */
 @Deprecated
