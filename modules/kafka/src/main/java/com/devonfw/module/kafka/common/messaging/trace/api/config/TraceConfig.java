@@ -10,7 +10,10 @@ import com.devonfw.module.kafka.common.messaging.trace.impl.MessageSpanInjector;
  * The configuration class to create configuration bean for the {@link MessageSpanInjector} and
  * {@link MessageSpanExtractor}
  *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 @Configuration
 public class TraceConfig {
 
@@ -27,7 +30,7 @@ public class TraceConfig {
 
   /**
    * Creates bean for the {@link MessageSpanExtractor}
-   * 
+   *
    * @param <K> the key type
    * @param <V> the value type
    *

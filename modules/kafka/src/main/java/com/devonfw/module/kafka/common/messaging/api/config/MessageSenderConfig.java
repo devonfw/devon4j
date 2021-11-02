@@ -25,7 +25,10 @@ import brave.Tracer;
 /**
  * A configuration class for the {@link MessageSender}
  *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 @Configuration
 @Import(MessageCommonConfig.class)
 public class MessageSenderConfig {
