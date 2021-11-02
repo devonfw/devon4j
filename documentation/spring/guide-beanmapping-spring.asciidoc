@@ -1,0 +1,75 @@
+
+= Bean Mapping in devon4j-spring
+
+We have developed a solution that uses a `BeanMapper` that allows to abstract from the underlying implementation. As mentioned in the link:../guide-beanmapping.asccidoc[general bean mapping guide], we started with http://dozer.sourceforge.net/documentation/about.html[Dozer] a Java Bean to Java Bean mapper that recursively copies data from one object to another. Now we recommend using https://orika-mapper.github.io/orika-docs/[Orika]. This guide will show an introduction to Orika and Dozer bean-mapper.
+
+
+== Bean-Mapper Dependency
+
+To get access to the `BeanMapper` we have to use either of the below dependency in our POM:
+
+.*Orika*
+[source,xml]
+----
+<dependency>
+    <groupId>com.devonfw.java.modules</groupId>
+    <artifactId>devon4j-beanmapping-orika</artifactId>
+    <version>2020.12.002</version>
+</dependency>
+----
+
+.*Dozer*
+[source,xml]
+----
+<dependency>
+    <groupId>com.devonfw.java.modules</groupId>
+    <artifactId>devon4j-beanmapping-dozer</artifactId>
+    <version>2020.12.002</version>
+</dependency>
+----
+
+== Bean-Mapper Configuration 
+=== Bean-Mapper Configuration using Dozer
+
+The `BeanMapper` implementation is based on an existing open-source bean-mapping framework. 
+In case of Dozer the mapping is configured `src/main/resources/config/app/common/dozer-mapping.xml`.
+
+See the my-thai-star https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/resources/config/app/common/dozer-mapping.xml[dozer-mapping.xml] as an example.
+Important is that you configure all your custom datatypes as `<copy-by-reference>` tags and have the mapping from `PersistenceEntity` (`ApplicationPersistenceEntity`) to `AbstractEto` configured properly:
+[source,xml]
+----
+ <mapping type="one-way">
+    <class-a>com.devonfw.module.basic.common.api.entity.PersistenceEntity</class-a>
+    <class-b>com.devonfw.module.basic.common.api.to.AbstractEto</class-b>
+    <field custom-converter="com.devonfw.module.beanmapping.common.impl.dozer.IdentityConverter">
+      <a>this</a>
+      <b is-accessible="true">persistentEntity</b>
+    </field>
+</mapping>
+----
+
+== Bean-Mapper Configuration using Orika
+
+Orika with devonfw is configured by default and sets some custom mappings for _GenericEntity.java_ to _GenericEntityDto.java_. To specify and customize the mappings you can create the class _BeansOrikaConfig.java_ that extends the class _BaseOrikaConfig.java_ from the *devon4j.orika* package. To register a basic mapping, register a *ClassMap* for the *mapperFactory* with your custom mapping. Watch the example below and follow the https://orika-mapper.github.io/orika-docs/mappings-via-classmapbuilder.html[basic Orika mapping configuration guide] and the https://orika-mapper.github.io/orika-docs/advanced-mappings.html[Orika advanced mapping guide].
+
+Register Mappings:
+[source,java]
+----
+mapperFactory.classMap(UserEntity.class, UserEto.class)
+			.field("email", "email")
+			.field("username", "name")
+			.byDefault()
+			.register();
+----
+
+== Bean-Mapper Usage
+
+Then we can get the `BeanMapper` via link:guide-dependency-injection.asciidoc[dependency-injection] what we typically already provide by an abstract base class (e.g. `AbstractUc`). Now we can solve our problem very easy:
+
+[source,java]
+----
+...
+UserEntity resultEntity = ...;
+...
+return getBeanMapper().map(resultEntity, UserEto.class);
+----
