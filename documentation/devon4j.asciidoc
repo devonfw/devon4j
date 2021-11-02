@@ -119,6 +119,10 @@ include::guide-security.asciidoc[leveloffset=+2]
 
 <<<<
 
+include::guide-cors-support.asciidoc[leveloffset=+2]
+
+<<<<
+
 include::guide-jdk.asciidoc[leveloffset=+2]
 
 <<<<
@@ -236,7 +240,7 @@ include::guide-datatype.asciidoc[leveloffset=+3]
 
 <<<<
 
-include::guide-cors-support.asciidoc[leveloffset=+3]
+include::spring/guide-cors-spring.asciidoc[leveloffset=+3]
 
 <<<<
 
@@ -285,7 +289,6 @@ include::guide-domain-layer.asciidoc[leveloffset=+2]
 
 include::quarkus/getting-started-for-spring-developers.asciidoc[leveloffset=+3]
 include::quarkus/guide-quarkus-configuration.asciidoc[leveloffset=+3]
-include::quarkus/guide-cors-support.asciidoc[leveloffset=+3]
 include::quarkus/quarkus-template.asciidoc[leveloffset=+3]
 include::quarkus/guide-native-image.asciidoc[leveloffset=+3]
 include::quarkus/guide-beanmapping-quarkus.asciidoc[leveloffset=+3]
