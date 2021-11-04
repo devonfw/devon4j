@@ -195,7 +195,6 @@ To simply build and run a Docker image you can follow the instructions Quarkus p
 
 Docker commands example for the from the JVM Dockerfile from our https://github.com/devonfw-sample/devon4quarkus-reference[reference project]
 
-[source, script]
 ----
 ####
 # This Dockerfile is used in order to build a container that runs the Quarkus application in JVM mode
