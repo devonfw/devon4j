@@ -9,7 +9,10 @@ import org.apache.kafka.common.header.Headers;
 /**
  * An utility class with support methods.
  *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public class MessageUtil {
 
   private static final Charset UTF_8 = Charset.forName("UTF-8");
