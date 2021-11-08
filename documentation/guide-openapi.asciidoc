@@ -13,8 +13,8 @@ The most common tool is the link:https://swagger.io/tools/swagger-ui/[Swagger UI
 
 There are several extensions you can use in your project to automatically generate the OpenAPI specifications and Swagger UI from your REST API (code-first approach). devon4j recommends the following two extensions/plugins to use:
 
-* Smallrye OpenAPI extension (for Quarkus)
-* ServicedocGen maven plugin (for Spring)
+* Smallrye OpenAPI extension
+* ServicedocGen maven plugin
 
 === Smallrye OpenAPI
 
@@ -33,7 +33,13 @@ After adding the extension to your project, you can access the Swagger UI by nav
 The OpenAPI specification can be accessed by requesting `/q/openapi`.
 
 Smallrye OpenAPI is compliant with link:https://github.com/eclipse/microprofile-open-api[MicroProfile OpenAPI]. You can add MicroProfile annotations to further describe your REST endpoints and extend the OpenAPI documentation.
-More information for this can be found link:https://quarkus.io/blog/openapi-for-everyone/#openapi[here] or link:https://download.eclipse.org/microprofile/microprofile-open-api-1.0/microprofile-openapi-spec.html#_documentation_mechanisms[here]. 
+More information for this can be found link:https://quarkus.io/blog/openapi-for-everyone/#openapi[here] or link:https://download.eclipse.org/microprofile/microprofile-open-api-1.0/microprofile-openapi-spec.html#_documentation_mechanisms[here].
+
+[NOTE]
+====
+Quarkus recommends using this extension and you can document your APIs in great detail by using the MicroProfile annotations. The downside to this is that using these annotations will blow up your code and you will have some duplicate information in it.
+If you don't want to specify the REST API again with all this annotation based information, we also recommend taking a look at the ServicedocGen Maven plugin for your Quarkus applications when implementing JAX-RS APIs.
+====
 
 === ServicedocGen Maven Plugin
 
