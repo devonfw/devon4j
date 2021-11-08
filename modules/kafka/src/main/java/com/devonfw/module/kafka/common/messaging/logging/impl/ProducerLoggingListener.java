@@ -11,7 +11,10 @@ import org.springframework.kafka.support.ProducerListener;
  *
  * @param <K> The key type
  * @param <V> The value type
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public class ProducerLoggingListener<K, V> implements ProducerListener<K, V> {
 
   private static final Logger LOG = LoggerFactory.getLogger(ProducerLoggingListener.class);
