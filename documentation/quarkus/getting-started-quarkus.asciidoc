@@ -5,38 +5,38 @@ This guide will show a quickstart how to create a Quarkus app and will briefly s
 
 == Introduction to Quarkus 
 
-To get the first introduction to Quarkus you can read the link:../quarkus.asciidoc[Quarkus introduction guide]. That guide contains a chapter **Guide to the Reader** for experienced Spring developers that have already followed devon4j guidelines that shows a brief summary of the important devon4j guidelines and recommendations. 
+To get the first introduction to Quarkus you can read the link:../quarkus.asciidoc[Quarkus introduction guide]. To get a short overwiev where you can finde the important Quarkus related guides follow the chapter **Guide to the Reader**.
 Also, a comparison of the link:../quarkus.asciidoc#Pros[advantages] and link:../quarkus.asciidoc#cons[disadvantages] of a Quarkus application compared to the alternative framework Spring.
 This comparison will be supported by our link:../performance-comparison-spring-quarkus.asciidoc[performance comparison between Spring and Quarkus] that shows the lower resource consumption and startup time of Quarkus applications.
 
 
 == Installation of Tools and Dependencies
 
-First, we need to install some dependencies and tools before we can start programming. We recommend using our https://devonfw.com/website/pages/docs/devonfw-ide-introduction.asciidoc.html[devonfw-ide] because it comes with many development tools, frameworks, and libraries for you.
+First, we need to install some dependencies and tools before we can start programming. Our tool https://devonfw.com/website/pages/docs/devonfw-ide-introduction.asciidoc.html[devonfw-ide] comes with many development tools, frameworks, and libraries for you.
 We will install and need the following tools for this guide.
 
 * Maven 
 * Java
-* any IDE (Devonfw-ide supports Eclipse, Intellij and VScode)
+* any IDE (devonfw-ide supports Eclipse, Intellij and VScode)
 * CobiGen
 * Docker 
 
-We recommend installing the Devonfw-ide but if you already got your system configured and the tools from above installed you can skip to <<Bootstrap a Quarkus Project>>.
-We advise to update your Devonfw-ide and all tools because we are still working to improve Devonfw-ide and there could be essential features for cloud development with Quarkus that you could be missing.
-Follow this link to install a Devonfw-ide with Java and Maven. 
+We recommend installing the devonfw-ide but if you already got your system configured and the tools from above installed you can skip to <<Bootstrap a Quarkus Project>>.
+We advise to update your already installed devonfw-ide and all tools because we are still working to improve devonfw-ide and there could be essential features for cloud development with Quarkus that you could be missing.
+Follow this link to install a devonfw-ide with Java and Maven. 
 
-.Devonfw-ide 
-. Install Devonfw-ide + 
-Follow the https://github.com/devonfw/ide/wiki/setup#setup[Setup] to install the Devonfw-ide with Java, Maven, Eclipse and VScode. 
+.devonfw-ide 
+. Install devonfw-ide + 
+Follow the https://github.com/devonfw/ide/wiki/setup#setup[Setup] to install the devonfw-ide with Java, Maven, Eclipse and VScode. 
 .. Command to install CobiGen + 
 `devon cobigen setup`
 .. Command to install Docker + 
 `devon docker setup`
 
-. Update Devonfw-ide + 
+. Update devonfw-ide + 
 Use the commands `devon ide update`, `devon ide update software` and `devon ide scripts` to update devonfw-ide and all software that is installed.
 
-Go to the main folder under workspaces of the Devonfw-ide installation. 
+Go to the main folder under workspaces of the devonfw-ide installation. 
 We will create the project there.
 
 == Bootstrap a Quarkus Project
@@ -65,7 +65,7 @@ Before we start programming you should have a first look at the functionality of
 . https://quarkus.io/guides/getting-started[Getting started guide from Quarkus] + 
 The guide is a good functionality overview, it shows with a simple **Greeting Service** a brief introduction into the concepts like CDI, testing, dev mode, packaging and running the app.  
 . From Spring to Quarkus +
-If you are already familiar with creating Restful Web Services with the Spring framework, you can read our guide to link:getting-started-for-spring-developers.asciidoc[getting started with Quarkus for Spring developer], as it goes more into the differences that can give you a more detailed comparison to Spring.
+For experienced Spring developers that have already followed devon4j guidelines, you can read our guide to link:getting-started-for-spring-developers.asciidoc[getting started with Quarkus for Spring developer], as it goes more into the differences that can give you a more detailed comparison to Spring.
 .. Migrate a Spring app to Quarkus + 
 This guide shows, how to link:../guide-migration-spring-quarkus.asciidoc[migrate a Spring application to a Quarkus application with devon4j conventions]. 
 
@@ -96,19 +96,6 @@ We provide a guide with a short introduction to the link:../guide-openaoi.asciid
 2. link:../guide-openaoi.asciidoc#servicedocgen-maven-plugin[servicedocgen Maven Plugin].
 
 A more detailed usage guide to the Smallrye Plugin is provided by https://quarkus.io/guides/openapi-swaggerui[Quarkus OpenAPI and Swagger guide].
-
-
-== Testing a Quarkus Application 
-After we have built the service, we have to verify it with some tests.
-We will give you some guidelines to implement some test cases.
-
-.Testing Guides 
-. General testing guide + 
-For users that aren't familiar with the devon4j testing principles, we created a general link:../guide-testing.asciidoc[best practices and recommendations guide for testing].
-.. Our guide for testing with Quarkus
-In addition, we also provide a guide that specifically addresses the link:guide-for-testing.asciidoc[testing of a Quarkus application].
-  
-Most of the Quarkus applications are already equipped with a basic Test and also our https://github.com/devonfw-sample/devon4quarkus-reference[reference project] provides some test cases, if you want to improve and extends the tests, you can also follow the large https://quarkus.io/guides/getting-started-testing[Quarkus guide for testing]. 
 
 
 == How to Integrate a Database
@@ -156,6 +143,20 @@ In that case there is our link:../guide-database-migration.asciidoc[Quarkus non-
 .. Flyway guide for Quarkus
 This Quarkus guide will show how to work with the https://quarkus.io/guides/flyway[Flyway extension in a Quarkus application].
 This should be used if you start your own database and do not leave the creation to quarkus.
+
+
+== Testing a Quarkus Application 
+After we have built the service, we have to verify it with some tests.
+We will give you some guidelines to implement some test cases.
+
+.Testing Guides 
+. General testing guide + 
+For users that aren't familiar with the devon4j testing principles, we created a general link:../guide-testing.asciidoc[best practices and recommendations guide for testing].
+.. Our guide for testing with Quarkus
+In addition, we also provide a guide that specifically addresses the link:guide-for-testing.asciidoc[testing of a Quarkus application].
+  
+Most of the Quarkus applications are already equipped with a basic Test and also our https://github.com/devonfw-sample/devon4quarkus-reference[reference project] provides some test cases, if you want to improve and extends the tests, you can also follow the large https://quarkus.io/guides/getting-started-testing[Quarkus guide for testing]. 
+
 
 
 == Packaging of a Quarkus application and creation of a native Executable
