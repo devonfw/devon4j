@@ -5,7 +5,7 @@ This guide will show a quickstart how to create a Quarkus app and will briefly s
 
 == Introduction to Quarkus 
 
-To get the first introduction to Quarkus you can read the link:../quarkus.asciidoc[Quarkus introduction guide]. To get a short overwiev where you can finde the important Quarkus related guides follow the chapter **Guide to the Reader**.
+To get the first introduction to Quarkus you can read the link:../quarkus.asciidoc[Quarkus introduction guide]. To get a short overview where you can find the important Quarkus related guides follow the chapter **Guide to the Reader**.
 Also, a comparison of the link:../quarkus.asciidoc#Pros[advantages] and link:../quarkus.asciidoc#cons[disadvantages] of a Quarkus application compared to the alternative framework Spring.
 This comparison will be supported by our link:../performance-comparison-spring-quarkus.asciidoc[performance comparison between Spring and Quarkus] that shows the lower resource consumption and startup time of Quarkus applications.
 
@@ -13,7 +13,7 @@ This comparison will be supported by our link:../performance-comparison-spring-q
 == Installation of Tools and Dependencies
 
 First, we need to install some dependencies and tools before we can start programming. Our tool https://devonfw.com/website/pages/docs/devonfw-ide-introduction.asciidoc.html[devonfw-ide] comes with many development tools, frameworks, and libraries for you.
-We will install and need the following tools for this guide.
+We will install the devonfw-ide with the following tools, that are needed for this guide.
 
 * Maven 
 * Java
