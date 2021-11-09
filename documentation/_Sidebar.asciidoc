@@ -62,6 +62,7 @@
 
 === Tutorials
 * link:tutorial-newapp.asciidoc[Start a new application]
+* link:quarkus/getting-started-quarkus.asciidoc[Start a new Quarkus application]
 
 == quarkus
 

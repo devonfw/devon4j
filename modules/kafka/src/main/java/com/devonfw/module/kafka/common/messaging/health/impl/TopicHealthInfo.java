@@ -5,7 +5,11 @@ import java.util.Set;
 
 /**
  * This class is used to indicate the health.
+ *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public class TopicHealthInfo {
 
   private String topic;
