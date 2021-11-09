@@ -1,0 +1,70 @@
+:toc: macro
+toc::[]
+
+= Performance comparison between Spring and Quarkus
+
+Quarkus offers a big advantage in resource consumption compared to a Spring application. Especially in native mode, the memory footprint of a Quarkus application is extremely low, which can be a deciding factor in real-world environments.
+The tables <<PerformanceComparisonApplication1>> and <<PerformanceComparisonApplication2>>, which show the startup and memory consumption of two applications that are similar in their Quarkus and Spring implementations, illustrate this point. Application 1 is more complex in scope than Application 2 and uses more dependencies.
+The listings above the tables show the functions/extensions of the applications and the lines of code (only java files).
+
+.**Application 1:**
+* LOC (without automatically generated classes)
+** Quarkus: ~4600
+** Spring: ~7700 (separated into api and core module, as described for the link:guide-structure-classic.asciidoc[classic project structure]; api: ~3800, core: 3900)
+* Features
+** 3 entitites
+** REST service
+** Connection to a Postgres database (using Spring Data JPA and QueryDSL for the repository implementation)
+** Flyway for database migration
+** Kafka for asynchronous messaging
+** Avro for data serialization combined with a schema registry
+
+.performace comparision application 1
+[#PerformanceComparisonApplication1]
+[cols="1,1,1,1"]
+|===
+|
+|Spring 
+|Quarkus JVM Mode
+|Quarkus Native Mode
+
+|startup time (time until first response)
+|~35 seconds (+/- 1s)
+|~4,7 - 5,2 seconds
+|~0,9 seconds
+
+|memory usage
+|~850 - 900 MB
+|~550 MB
+|~190 MB
+|===
+
+___
+
+.**Application 2:**
+* LOC
+** Quarkus: ~300
+** Spring: ~ 280
+* Features
+** 1 entity
+** REST service with Postgres database connection
+
+.performace comparision application 2
+[#PerformanceComparisonApplication2]
+[cols="1,1,1,1"]
+|===
+|
+|Spring 
+|Quarkus JVM Mode
+|Quarkus Native Mode
+
+|startup time (time until first response)
+|~9 - 10 seconds
+|~3,9 seconds
+|~0,9 seconds
+
+|memory usage
+|~810 MB
+|~460 MB
+|~90 MB
+|===
