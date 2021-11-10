@@ -16,7 +16,10 @@ import com.devonfw.module.kafka.common.messaging.retry.impl.MessageRetryTemplate
 /**
  * This configuration class is used to create configurations beans for the {@link MessageRetryOperations}.
  *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 @Configuration
 @EnableConfigurationProperties
 public class MessageDefaultRetryConfig {

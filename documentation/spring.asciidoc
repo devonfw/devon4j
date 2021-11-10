@@ -6,6 +6,19 @@ toc::[]
 https://spring.io[Spring] is the most famous and established Java framework.
 It is fully supported by https://devonfw.com[devonfw] as an option and alternative to link:quarkus.asciidoc[quarkus].
 
+== Guide to the Reader
+
+Dependent on the intention you are reading this document, you might be most interested in the following chapters:
+
+* If you are not yet familiar with Spring, you may be interested in xref:pros[pros] and xref:cons[cons] of Spring. Also take a look at the link:https://spring.io/why-spring[official Spring website].
+
+* If you already have experience developing with Spring but are new to devon4j, take a look at devon4j's recommendations on general best practices. Check out the chapters on link:architecture.asciidoc[architecture design], link:guide-structure-classic.asciidoc[project structuring] and link:coding-conventions[coding conventions]. Follow the referenced links to go deeper into a topic.
+
+* If you have already developed with devon4j and Spring and need more information on a specific topic, check out the link:https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides.html[devon4j guides for Spring]. If you don't find what you are looking for there, check out the link:https://devonfw.com/website/pages/docs/devon4j.asciidoc_general.html[general section]. devon4j uses general solutions for Java, so solutions for both Spring and Quarkus are documented there.
+
+* If you want to get started or create your first Spring application using devon4j, check out the guide about link:tutorial-newapp.asciidoc[creating a new application] or the link:https://github.com/devonfw/jump-the-queue[Jump the Queue] and link:https://github.com/devonfw/my-thai-star[My Thai Star] reference applications.
+
+[[pros]]
 == Pros
 
 Spring offers the following benefits:
@@ -19,6 +32,7 @@ Spring became famous for its non-invasive coding based on patterns instead of ha
 
 See https://spring.io/why-spring[Why Spring?] for details.
 
+[[cons]]
 == Cons
 
 Spring has the following drawbacks:

@@ -3,10 +3,12 @@ toc::[]
 
 = Logging
 
-We use http://www.slf4j.org/[SLF4J] as API for logging that has become a defacto standard in Java as it has a much better design than `java.util.logging` offered by the JDK.
-The recommended implementation is http://logback.qos.ch/[Logback].
+We recommend to use http://www.slf4j.org/[SLF4J] as API for logging, that has become a de facto standard in Java as it has a much better design than `java.util.logging` offered by the JDK.
+There are serveral implementations for SLF4J. For Spring applications our recommended implementation is http://logback.qos.ch/[Logback]. Quarkus uses JBoss Logging which provides a JBoss Log Manager implementation for SLF4J. For more information on logging in Quarkus, see the https://quarkus.io/guides/logging[Quarkus logging guide].
 
 == Logging Dependencies
+
+To use Logback in your Spring application, you need to include the following dependencies:
 
 [source, xml]
 ----
@@ -17,8 +19,8 @@ The recommended implementation is http://logback.qos.ch/[Logback].
 </dependency>
 <!-- Logback as logging implementation  -->
 <dependency>
-  <groupId>jakarta.annotation</groupId>
-  <artifactId>jakarta.annotation-api</artifactId>
+  <groupId>ch.qos.logback</groupId>
+  <artifactId>logback-classic</artifactId>
 </dependency>
 <!-- JSON logging for cloud-native log monitoring -->
 <dependency>
@@ -26,6 +28,10 @@ The recommended implementation is http://logback.qos.ch/[Logback].
   <artifactId>logstash-logback-encoder</artifactId>
 </dependency>
 ----
+
+In devon4j these dependencies are provided by the https://github.com/devonfw/devon4j/tree/master/modules/logging[devon4j-logging module].
+
+In Quarkus, SLF4J and the https://github.com/jboss-logging/slf4j-jboss-logmanager[`slf4j-jboss-logmanager`] are directly included in the Quarkus core runtime and can be used out of the box.
 
 == Logger Access
 The general pattern for accessing loggers from your code is a static logger instance per class using the following pattern:
@@ -46,10 +52,7 @@ For detailed documentation how to use the logger API check the http://www.slf4j.
 NOTE: In case you are using https://github.com/devonfw/ide[devonfw-ide] and Eclipse you can just type `LOG` and hit `[ctrl][space]` to insert the code pattern including the imports into your class.
 
 === Lombok
-In case you are using link:guide-lombok.asciidoc[lombok], you can 
-
-=== Quarkus
-When using link:quarkus.asciidoc[quarkus] please also check https://quarkus.io/guides/logging[quarkus logging].
+In case you are using link:guide-lombok.asciidoc[Lombok], you can simply use the https://projectlombok.org/api/lombok/extern/slf4j/Slf4j.html[`@Slf4j`] annotation in your class. This causes Lombok to generate the logger instance for you.
 
 == Log-Levels
 We use a common understanding of the log-levels as illustrated by the following table.
@@ -66,20 +69,25 @@ This helps for better maintenance and operation of the systems.
 | DEBUG | Development information that provides additional context for debugging problems. | No direct reaction required. Used for analysis. | development and testing
 | TRACE | Like DEBUG but exhaustive information and for code that is run very frequently. Will typically cause large log-files. | No direct reaction required. Used for problem analysis. | none (turned off by default)
 |=======================
-Exceptions (with their stacktrace) should only be logged on `FATAL` or `ERROR` level. For business exceptions typically a `WARNING` including the message of the exception is sufficient.
+Exceptions (with their stack trace) should only be logged on `FATAL` or `ERROR` level. For business exceptions typically a `WARNING` including the message of the exception is sufficient.
 
-=== Configuration
+=== Configuration of Logback
 The configuration of logback happens via the `logback.xml` file that you should place into `src/main/resources` of your app.
 For details consult the http://logback.qos.ch/manual/configuration.html[logback configuration manual].
 
 NOTE: Logback also allows to overrule the configuration with a `logback-test.xml` file that you may put into `src/test/resources` or into a test-dependency.
 
+=== Configuration in Quarkus
+The are several options you can set in the `application.properties` file to configure the behaviour of the logger in Quarkus. For a detailed overview, see the corresponding part of the https://quarkus.io/guides/logging#runtime-configuration[Quarkus guide].
+
 == JSON-logging
 
-For easy integration with link:guide-log-monitoring.asciidoc[log-monitoring] we recommend that your app logs to `standard out` in JSON following  https://jsonlines.org/[JSON Lines] and LogStash JSON format.
-This can be archived via https://github.com/logstash/logstash-logback-encoder[logstash-logback-encoder] (see xref:dependencies[dependencies]).
+For easy integration with link:guide-log-monitoring.asciidoc[log-monitoring], we recommend that your app logs to `standard out` in JSON following https://jsonlines.org/[JSON Lines].
+
+In Spring applications, this can be achieved via https://github.com/logstash/logstash-logback-encoder[logstash-logback-encoder] (see xref:dependencies[dependencies]). In Quarkus, it can be easily achieved using the https://github.com/quarkusio/quarkus/tree/main/extensions/logging-json[quarkus-logging-json] extension (see https://quarkus.io/guides/logging#json-logging[here] for more details).
  
-This will produce log-lines with the following format (example formatted for readablity):
+This will produce log-lines with the following format (example formatted for readability):
+
 [source,javascript]
 ----
 { 
@@ -94,7 +102,7 @@ This will produce log-lines with the following format (example formatted for rea
 }
 ----
 
-=== Adding custom values to JSON log
+=== Adding custom values to JSON log with Logstash
 
 The JSON encoder even supports logging custom properties for your link:guide-log-monitoring.asciidoc[log-monitoring].
 The _trick_ is to use the class `net.logstash.logback.argument.StructuredArguments` for adding the arguments to you log message, e.g.
@@ -122,8 +130,10 @@ This will produce the a JSON log-line with the following properties:
 As you can quickly see besides the human readable `message` you also have the structured properties `url`, `status` and `duration` that can be extremly valuable to configure dashboards in your link:guide-log-monitoring.asciidoc[log-monitoring] that visualize success/failure ratio as well as performance of your requests.
 
 == Classic log-files
-Even though we do not recommend anymore to write classical log-files to the local disc,
-here you can still find our approach for it.
+
+NOTE: **In devon4j, we strongly recommend using JSON logging instead of classic log files. The following section refers only to devon4j Spring applications that use Logback.**
+
+Even though we do not recommend anymore to write classical log-files to the local disc, here you can still find our approach for it.
 
 === Maven-Integration
 In the `pom.xml` of your application add this dependency:
@@ -215,6 +225,8 @@ Example:
 ```
 [D: 2013-09-05 16:40:36,464] [P: DEBUG] [C: 12345] [T: main] [L: my.package.MyClass]-[M: My message...]
 ```
+
+NOTE: When using devon4j-logging, this format is used by default. To achieve this format in Quarkus, set `quarkus.log.console.format=[D: %d] [P: %p] [C: %X] [T: %t] [L: %c] [M: %m]%n` in your properties.
 
 === Correlation ID
 In order to correlate separate HTTP requests to services belonging to the same user / session, we provide a servlet filter called `DiagnosticContextFilter`.

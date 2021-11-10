@@ -35,7 +35,7 @@ The implementation of an interface from the link:guide-logic-layer.asciidoc[logi
 An implementation typically needs access to the persistent data.
 This is done by link:guide-dependency-injection.asciidoc[injecting] the corresponding link:guide-repository.asciidoc[repository] (or link:guide-dao.asciidoc[DAO]).
 According to link:architecture.asciidoc#architecture-principles[data-sovereignty], only repositories of the same business component may be accessed directly.
-For accessing data from other components the implementation has to use the corresponding API of the logic layer (the component facade). Further, it shall not expose persistent entities from the link:guide-dataaccess-layer.asciidoc[dataaccess layer] and has to map them to link:guide-transferobject.asciidoc[transfer objects] using the link:guide-beanmapping.asciidoc[bean-mapper].
+For accessing data from other components the implementation has to use the corresponding API of the logic layer (the component facade). Further, it shall not expose persistent entities from the link:guide-domain-layer.asciidoc[domain layer] and has to map them to link:guide-transferobject.asciidoc[transfer objects] using the link:guide-beanmapping.asciidoc[bean-mapper].
 
 [source,java]
 ----

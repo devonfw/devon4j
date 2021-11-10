@@ -63,7 +63,7 @@ We address these common threats individually in _security_ sections of our techn
 |secure mutable service operations with an explicit CSRF security token sent in HTTP header and verified on the server
 |link:guide-csrf.asciidoc[CSRF guide]
 
-|https://www.owasp.org/index.php/Log_Forging[Log-Forging]
+|https://owasp.org/www-community/attacks/Log_Injection[Log-Forging]
 |Escape newlines in log messages
 |link:guide-logging.asciidoc#security[logging security]
 

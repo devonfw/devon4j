@@ -371,7 +371,7 @@ Debugging with the IDE is as easy as always. Even if you want to execute a `Subs
 Please refer to the following two links to find a guide for debugging tests when running them from Maven.
 
 * http://maven.apache.org/surefire/maven-surefire-plugin/examples/debugging.html 
-* https://www.eclipse.org/jetty/documentation/9.3.x/debugging-with-eclipse.html 
+* https://www.eclipse.org/jetty/documentation/jetty-9/index.html#debugging-with-eclipse 
 
 In essence, you first have to start execute a test using the command line. Maven will halt just before the test execution and wait for your IDE to connect to the process. When receiving a connection the test will start and then pause at any breakpoint set in advance.
 The first link states that tests are started through the following command: 
