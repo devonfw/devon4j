@@ -142,6 +142,10 @@ include::guide-lombok.asciidoc[leveloffset=+2]
 
 <<<<
 
+include::guide-openapi.asciidoc[leveloffset=+2]
+
+<<<<
+
 include::spring.asciidoc[leveloffset=+1]
 
 include::guide-component.asciidoc[leveloffset=+2]
