@@ -3,7 +3,7 @@ toc::[]
 
 = CORS support
 
-When you are developing Javascript client and server application separately, you have to deal with cross domain issues. We have to request from a origin domain distinct to target domain and browser does not allow this. 
+When you are developing Javascript client and server application separately, you have to deal with cross domain issues. We have to request from a origin domain distinct to target domain and browser does not allow this.
 
 So , we need to prepare server side to accept request from other domains. We need to cover the following points:
 
@@ -15,14 +15,12 @@ So , we need to prepare server side to accept request from other domains. We nee
 
 It is important to note that if you are using security in your request (sending cookies) you have to set  `withCredentials` flag to `true` in your client side request and deal with special IE8 characteristics.
 
+For more information about CORS see https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS[here]. Information about the CORS headers can be found https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers#cors[here].
+
 == Configuring CORS support
 
-On the server side we have defined a new filter in Spring security chain filters to support CORS and we have configured devonfw security chain filter to use it.
+To enable CORS support for your application, see the advanced guides. For Spring applications see link:spring/guide-cors-spring.asciidoc[here]. For Quarkus follow the https://quarkus.io/guides/http-reference#cors-filter[official Quarkus guide].
 
-You only have to change `CORSDisabled` property value in `application-default.properties` properties file.
+== Configuration with service mesh
 
-[source]
-----
-#CORS support
-security.cors.enabled=false
-----
+If you are using a service mesh, you can also define your CORS policy directly there. Here is an example from https://istio.io/latest/docs/reference/config/networking/virtual-service/#CorsPolicy[Istio].

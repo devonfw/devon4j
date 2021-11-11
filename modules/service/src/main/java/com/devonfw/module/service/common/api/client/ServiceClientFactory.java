@@ -34,13 +34,16 @@ import com.devonfw.module.service.common.api.Service;
  * </ul>
  * All these aspects can be configured via spring and customized with own implementations.
  *
+ * <b>ATTENTION:</b> This {@link ServiceClientFactory} is thread-safe. However, the client objects returned by it are
+ * not thread-safe and shall not be reused or shared between threads.
+ *
  * @since 3.0.0
  */
 public interface ServiceClientFactory {
 
   /**
-   * @param <S> the generic type of the {@code serviceInterface}. For flexibility and being not invasive this generic is
-   *        not bound to {@link Service} ({@code S extends Service}).
+   * @param <S> type of the {@link com.devonfw.module.service.common.api.client.context.ServiceContext#getApi() service
+   *        API}.
    * @param serviceInterface the {@link Class} reflecting the interface that defines the API of your {@link Service}.
    * @return a new instance of the given {@code serviceInterface} that is a client stub. Invocations to any of the
    *         service methods will trigger a remote call and synchronously return the result.
@@ -48,8 +51,8 @@ public interface ServiceClientFactory {
   <S> S create(Class<S> serviceInterface);
 
   /**
-   * @param <S> the generic type of the {@code serviceInterface}. For flexibility and being not invasive this generic is
-   *        not bound to {@link Service} ({@code S extends Service}).
+   * @param <S> type of the {@link com.devonfw.module.service.common.api.client.context.ServiceContext#getApi() service
+   *        API}.
    * @param serviceInterface the {@link Class} reflecting the interface that defines the API of your {@link Service}.
    * @param config the {@link Map} with explicit configuration properties. See
    *        {@link com.devonfw.module.service.common.base.config.ServiceConfigProperties} for further details.
@@ -57,5 +60,23 @@ public interface ServiceClientFactory {
    *         service methods will trigger a remote call and synchronously return the result.
    */
   <S> S create(Class<S> serviceInterface, Map<String, String> config);
+
+  /**
+   * @param <S> type of the {@link com.devonfw.module.service.common.api.client.context.ServiceContext#getApi() service
+   *        API}.
+   * @param serviceInterface the {@link Class} reflecting the interface that defines the API of your {@link Service}.
+   * @return an {@link AsyncServiceClient} allowing to call service operations asynchronously.
+   */
+  <S> AsyncServiceClient<S> createAsync(Class<S> serviceInterface);
+
+  /**
+   * @param <S> type of the {@link com.devonfw.module.service.common.api.client.context.ServiceContext#getApi() service
+   *        API}.
+   * @param serviceInterface the {@link Class} reflecting the interface that defines the API of your {@link Service}.
+   * @param config the {@link Map} with explicit configuration properties. See
+   *        {@link com.devonfw.module.service.common.base.config.ServiceConfigProperties} for further details.
+   * @return an {@link AsyncServiceClient} allowing to call service operations asynchronously.
+   */
+  <S> AsyncServiceClient<S> createAsync(Class<S> serviceInterface, Map<String, String> config);
 
 }

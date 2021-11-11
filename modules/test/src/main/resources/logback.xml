@@ -14,9 +14,12 @@
   </root>
 
   <!-- Minimize infrastructure debug logs -->
-  <logger name="org.dozer" level="INFO"/>
+  <logger name="com.github.dozermapper" level="INFO"/>
   <logger name="org.flywaydb" level="INFO"/>
   <logger name="org.springframework" level="INFO"/>
   <logger name="org.hibernate" level="INFO"/>
+  <logger name="kafka" level="WARN"/>
+  <logger name="org.apache" level="INFO"/>
+  <logger name="com.zaxxer.hikari" level="INFO"/>
 
 </configuration>

@@ -12,7 +12,7 @@
   <version>${devon4j.version}</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
-  <description>Support for service clients based on Apache CXF.</description>
+  <description>Support for REST service clients based on Apache CXF.</description>
 
   <dependencies>
     <dependency>
@@ -22,6 +22,16 @@
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-cxf-client-rest</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.devonfw.java.starters</groupId>
+      <artifactId>devon4j-starter-cxf-server-rest</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

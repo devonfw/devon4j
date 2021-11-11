@@ -1,11 +1,11 @@
-﻿﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>${groupId}</groupId>
     <artifactId>${rootArtifactId}</artifactId>
-    <version>${version}</version>
+    <version>${revision}</version>
   </parent>
   <artifactId>${rootArtifactId}-core</artifactId>
   <packaging>jar</packaging>
@@ -22,13 +22,13 @@
     <!-- Bean-Mapping for conversion from TO to Entity and vice versa -->
     <dependency>
       <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-beanmapping</artifactId>
+      <artifactId>devon4j-beanmapping-orika</artifactId>
     </dependency>
 
     <!-- Security for authorization integration with spring-security -->
     <dependency>
-      <groupId>com.devonfw.java.modules</groupId>
-      <artifactId>devon4j-security</artifactId>
+      <groupId>com.devonfw.java.starters</groupId>
+      <artifactId>devon4j-starter-security</artifactId>
     </dependency>
 
     <dependency>
@@ -36,16 +36,28 @@
       <artifactId>devon4j-web</artifactId>
     </dependency>
 
-    <!-- Only required if you want to call external REST services within your Java application -->
+    <!-- Starter for asynchronous consuming REST services via Jaca HTTP Client (Java11+) -->
+    <!--
     <dependency>
       <groupId>com.devonfw.java.starters</groupId>
-      <artifactId>devon4j-starter-cxf-client-rest</artifactId>
+      <artifactId>devon4j-starter-http-client-rest-async</artifactId>
     </dependency>
-    <!-- Only required if you want to call external SOAP services within your Java application -->
+    -->
+    <!-- Starter for synchronous consuming REST services via Jaca HTTP Client (Java11+)
+      NOTE: As an alternative you can also use devon4j-starter-cxf-client-rest with Apache CXF (Java8+) -->
+    <!--
+    <dependency>
+      <groupId>com.devonfw.java.starters</groupId>
+      <artifactId>devon4j-starter-http-client-rest-sync</artifactId>
+    </dependency>
+    -->
+    <!-- Starter for synchronous consuming SOAP services via Apache CXF (Java8+) -->
+    <!--
     <dependency>
       <groupId>com.devonfw.java.starters</groupId>
       <artifactId>devon4j-starter-cxf-client-ws</artifactId>
     </dependency>
+    -->
 
     <!-- Only required if you want to provide REST services within your Java application -->
     <dependency>
@@ -53,10 +65,12 @@
       <artifactId>devon4j-starter-cxf-server-rest</artifactId>
     </dependency>
     <!-- Only required if you want to provide SOAP services within your Java application -->
-    <dependency>
+    <!--
+      <dependency>
       <groupId>com.devonfw.java.starters</groupId>
       <artifactId>devon4j-starter-cxf-server-ws</artifactId>
-    </dependency>
+      </dependency>
+    -->
 
     <!-- Only required if you want to use spring-data to access DB via JPA -->
     <dependency>
@@ -66,7 +80,7 @@
 
     <!-- auto-configure datasource
       https://stackoverflow.com/questions/34964066/spring-boot-doesnt-use-datasource-properties
-      -->
+    -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
@@ -122,50 +136,50 @@
 
     <!-- Database -->
     <dependency>
-#if ($dbType == 'h2')
+      #if ($dbType == 'h2')
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-#elseif ($dbType == 'hsqldb')
+      #elseif ($dbType == 'hsqldb')
       <groupId>org.hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
       <version>2.4.0</version>
-#elseif ($dbType == 'postgresql')
+      #elseif ($dbType == 'postgresql')
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <!--<version>9.4.1211.jre7</version>-->
-#elseif ($dbType == 'mysql')
+      <!--<version>9.4.1211.jre7</version> -->
+      #elseif ($dbType == 'mysql')
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>8.0.8-dmr</version>
-#elseif ($dbType == 'mariadb')
+      #elseif ($dbType == 'mariadb')
       <groupId>org.mariadb.jdbc</groupId>
       <artifactId>mariadb-java-client</artifactId>
       <version>1.5.4</version>
-#elseif ($dbType == 'hana')
+      #elseif ($dbType == 'hana')
       <groupId>com.sap.cloud.db.jdbc</groupId>
       <artifactId>ngdbc</artifactId>
       <version>2.3.48</version>
-#elseif ($dbType == 'oracle')
+      #elseif ($dbType == 'oracle')
       <groupId>com.oracle.jdbc</groupId>
       <artifactId>ojdbc8</artifactId>
       <version>12.2.0.1</version>
-#elseif ($dbType == 'mssql')
+      #elseif ($dbType == 'mssql')
       <groupId>com.microsoft.sqlserver</groupId>
       <artifactId>mssql-jdbc</artifactId>
       <version>6.4.0.jre8</version>
-#else
+      #else
       <groupId>$dbType</groupId>
       <artifactId>$dbType</artifactId>
       <version>TODO</version>
-#end
+      #end
     </dependency>
-#if ($dbType != 'h2')
+    #if ($dbType != 'h2')
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <scope>test</scope>
     </dependency>
-#end
+    #end
 
     <!-- Flyway for DB Schema version management and migration -->
     <dependency>
@@ -230,24 +244,20 @@
     <profile>
       <id>embedded</id>
       <activation>
-       <activeByDefault>true</activeByDefault>
+        <activeByDefault>true</activeByDefault>
       </activation>
       <dependencies>
         <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-tomcat</artifactId>
+          <!-- workaround as of https://github.com/mojohaus/flatten-maven-plugin/issues/70 -->
+          <version>${spring.boot.version}</version>
         </dependency>
       </dependencies>
     </profile>
   </profiles>
 
   <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

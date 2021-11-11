@@ -20,7 +20,7 @@ public class ApplicationObjectMapperFactory extends ObjectMapperFactory {
   }
 }
 --------
-//Need to draw new diagram
+
 == JSON and Inheritance
 If you are using inheritance for your objects mapped to JSON then polymorphism can not be supported out-of-the box. So in general avoid polymorphic objects in JSON mapping. However, this is not always possible.
 Have a look at the following example from our sample application:
@@ -36,7 +36,7 @@ We typically do not want to specify the classname in the JSON as this should be 
 --------
 
 Therefore you add configuration code to the constructor of xref:configure-json-mapping[ApplicationObjectMapperFactory]. Here you can see an example from the sample application:
-//Doesn't exist anymore in the current project
+
 [source,java]
 --------
 setBaseClasses(ProductEto.class);

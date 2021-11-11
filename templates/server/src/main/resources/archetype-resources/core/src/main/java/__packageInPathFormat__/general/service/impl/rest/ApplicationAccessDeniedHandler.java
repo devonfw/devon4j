@@ -15,7 +15,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 /**
- *
+ * Implementation of {@link AccessDeniedHandler}.
  */
 @Named("ApplicationAccessDeniedHandler")
 public class ApplicationAccessDeniedHandler implements AccessDeniedHandler {
@@ -35,7 +35,7 @@ public class ApplicationAccessDeniedHandler implements AccessDeniedHandler {
   }
 
   /**
-   * @param exceptionFacade the exceptionFacade to set
+   * @param exceptionFacade the {@link RestServiceExceptionFacade} to inject.
    */
   @Inject
   public void setExceptionFacade(RestServiceExceptionFacade exceptionFacade) {

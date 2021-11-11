@@ -1,3 +1,0 @@
-= Tutorials
-
-include::tutorial-newapp.asciidoc[leveloffset=2]

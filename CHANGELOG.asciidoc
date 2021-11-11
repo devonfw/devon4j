@@ -1,0 +1,230 @@
+= Changelog of devon4j
+
+This file documents all notable changes to https://https://github.com/devonfw/devon4j[devon4j].
+
+== 2021.04.003
+
+Bugfix release of with the following stories:
+
+* https://github.com/devonfw/devon4j/issues/336[#336]: archetype contains batch artefacts even when no batch was generated
+* https://github.com/devonfw/devon4j/issues/385[#385]: Access-control should honor roles by default
+* https://github.com/devonfw/devon4j/issues/397[#397]: security-jwt should support the claim "groups" from the microprofile jwt
+* https://github.com/devonfw/devon4j/issues/284[#284]: Support for synchronous rest client using HTTP client
+* https://github.com/devonfw/devon4j/issues/393[#393]: devon4j JpaInitializer documentation not matching releases
+* https://github.com/devonfw/devon4j/issues/216[#216]: ability to generate OpenApi files automatically from JAX-RS services
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2021.04.003/devon4j-doc-2021.04.003.pdf[devon4j guide 2021.04.003].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/19?closed=1[milestone devon4j 2020.04.003].
+
+== 2021.04.002
+
+Bugfix release of with the following stories:
+
+* https://github.com/devonfw/devon4j/issues/389[#389]: archetype build broken with ci-friendly-maven
+* https://github.com/devonfw/devon4j/pull/391[#391]: jasypt documentation improvements
+* https://github.com/devonfw/devon4j/pull/387[#387]: rebuild and updated diagram with drawio
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2021.04.002/devon4j-doc-2021.04.002.pdf[devon4j guide 2021.04.002].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/18?closed=1[milestone devon4j 2020.04.002].
+
+== 2021.04.001
+
+New release of `devon4j` with fixes, updates and improvements:
+
+* https://github.com/devonfw/devon4j/issues/370[#370]: Minor updates (spring-boot 2.4.4, jackson 2.12.2, CXF 3.4.3, etc.) 
+* https://github.com/devonfw/devon4j/issues/366[#366]: BaseTest.isInitialSetup() broken
+* https://github.com/devonfw/devon4j/issues/85[#85]: ci-friendly-maven also for archetype
+* https://github.com/devonfw/devon4j/issues/373[#373]: CORS starter not part of devon4j release
+* https://github.com/devonfw/devon4j/issues/164[#164]: Flattened pom for core project invalid
+* https://github.com/devonfw/devon4j/issues/323[#323]: Add spring integration test to archetype
+* https://github.com/devonfw/devon4j/pull/351[#351]: improved error handling of service client
+* https://github.com/devonfw/devon4j/issues/71[#71]: improve documentation for strong password encryption
+* https://github.com/devonfw/devon4j/issues/354[#354]: JMS senders should not be part of data access layer, but logical layer
+* https://github.com/devonfw/devon4j/pull/337[#377]: updated T-Architecture
+* https://github.com/devonfw/devon4j/issues/294[#294]: integrate sonarcloud analysis into devon4j CI pipeline
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2021.04.001/devon4j-doc-2021.04.001.pdf[devon4j guide 2021.04.001].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/15?closed=1[milestone devon4j 2020.04.001].
+
+== 2020.12.002
+
+New release of `devon4j` with various updates and new CORS starter:
+
+* https://github.com/devonfw/devon4j/issues/311[#311]: update spring-boot to 2.4.0, spring-cloud to 2020.0.0, cxf to 3.4.1, etc.
+* https://github.com/devonfw/devon4j/issues/329[#329]: Create spring-boot starter for CORS 
+* https://github.com/devonfw/devon4j/issues/320[#320]: switch default branch from develop to master
+* https://github.com/devonfw/devon4j/issues/318[#318]: broken link for access-control-schema
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2020.12.002/devon4j-doc-2020.12.002.pdf[devon4j guide 2020.12.002].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/13?closed=1[milestone devon4j 2020.12.002].
+
+== 2020.12.001
+
+New release of `devon4j` with pluggable web security (CSRF starter) and `CompletableFuture` support for async REST service client as well as other improvements:
+
+* https://github.com/devonfw/devon4j/issues/283[#283]: Support for CompletableFuture in async service client
+* https://github.com/devonfw/devon4j/issues/307[#307]: Fix CSRF protection support
+* https://github.com/devonfw/devon4j/issues/287[#287]: spring-boot update to 2.3.3
+* https://github.com/devonfw/devon4j/issues/288[#288]: Update jackson to 2.11.2
+* https://github.com/devonfw/devon4j/issues/293[#293]: Update owasp-dependency-check plugin version to 5.3.2
+* https://github.com/devonfw/devon4j/pull/302[#302]: added guide for project/app structure
+* https://github.com/devonfw/devon4j/pull/315[#315]: devon4j documentation correction
+* https://github.com/devonfw/devon4j/pull/306[#306]: improve documentation to launch app
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2020.12.001/devon4j-doc-2020.12.001.pdf[devon4j guide 2020.12.001].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/14?closed=1[milestone devon4j 2020.12.001].
+
+== 2020.08.001
+
+New release of `devon4j` with async REST service client support and other improvements:
+
+* https://github.com/devonfw/devon4j/issues/279[#279]: support for async service clients
+* https://github.com/devonfw/devon4j/issues/277[#277]: Update Security-Guide to recent OWASP Top (2017)
+* https://github.com/devonfw/devon4j/pull/281[#281]: cleanup documentation
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2020.08.001/devon4j-doc-2020.08.001.pdf[devon4j guide 2020.08.001].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/12?closed=1[milestone devon4j 2020.08.001].
+
+== 2020.04.002
+
+Minor update of `devon4j` with the following bugfixes and small improvements:
+
+* https://github.com/devonfw/devon4j/issues/261[#261]: JUnit4 backward compatibility
+* https://github.com/devonfw/devon4j/pull/267[#267]: Fix JWT permission expansion
+* https://github.com/devonfw/devon4j/issues/254[#254]: JWT Authentication support for devon4j-kafka
+* https://github.com/devonfw/devon4j/issues/258[#258]: archetype is still lacking a .gitignore
+* https://github.com/devonfw/devon4j/pull/273[#273]: Update libs
+* https://github.com/devonfw/devon4j/pull/271[#271]: Do not enable resource filtering by default
+* https://github.com/devonfw/devon4j/issues/255[#255]: Kafka: Support different retry configuration for different topics
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2020.04.002/devon4j-doc-2020.04.002.pdf[devon4j guide 2020.04.002].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/11?closed=1[milestone devon4j 2020.04.002].
+
+== 2020.04.001
+
+Starting with this release we have changed the versioning schema in `devonfw` to `yyyy.mm.NNN` where `yyyy.mm` is the date of the planned milestone release and `NNN` is a running number increased with every bug- or security-fix update.
+
+The following changes have been incorporated in devon4j:
+
+* https://github.com/devonfw/devon4j/pull/233[#233]: Various version updates
+* https://github.com/devonfw/devon4j/issues/241[#241]: Add module to support JWT and parts of OAuth
+* https://github.com/devonfw/devon4j/issues/147[#147]: Switch from dozer to orika
+* https://github.com/devonfw/devon4j/pull/180[#180]: Cleanup archtype
+* https://github.com/devonfw/devon4j/pull/240[#240]: Add unreferenced guides
+* https://github.com/devonfw/devon4j/issues/202[#202]: Architecture documentation needs update for components
+* https://github.com/devonfw/devon4j/issues/145[#145]: Add a microservices article in the documentation
+* https://github.com/devonfw/devon4j/issues/198[#198]: Deploy SNAPSHOTs to OSSRH in travis CI
+* https://github.com/devonfw/devon4j/issues/90[#90]: Authorization of batches 
+* https://github.com/devonfw/devon4j/pull/221[#221]: Wrote monitoring guide
+* https://github.com/devonfw/devon4j/pull/213[#213]: Document logging of custom field in json
+* https://github.com/devonfw/devon4j/issues/138[#138]: Remove deprecated RevisionMetadata[Type]
+* https://github.com/devonfw/devon4j/issues/211[#211]: Archetype: security config broken
+* https://github.com/devonfw/devon4j/issues/109[#109]: LoginController not following devon4j to use JAX-RS but uses spring-webmvc instead
+* https://github.com/devonfw/devon4j/issues/52[#52]: Improve configuration
+* https://github.com/devonfw/devon4j/issues/39[#39]: Ability to log custom fields via SLF4J
+* https://github.com/devonfw/devon4j/issues/204[#204]: Slf4j version
+* https://github.com/devonfw/devon4j/issues/190[#190]: Rework of spring-batch integration
+* https://github.com/devonfw/devon4j/pull/210[#210]: Rework documentation for blob support
+* https://github.com/devonfw/devon4j/pull/191[#191]: Rework of devon4j-batch module
+* https://github.com/devonfw/devon4j/pull/209[#209]: Include performance info in separate fields
+* https://github.com/devonfw/devon4j/pull/207[#207]: Use more specific exception for not found entity
+* https://github.com/devonfw/devon4j/pull/208[#208]: Remove unnecesary clone
+* https://github.com/devonfw/devon4j/issues/116[#116]: Bug in JSON Mapping for ZonedDateTime
+* https://github.com/devonfw/devon4j/pull/184[#184]: Fixed BOMs so devon4j and archetype can be used again 
+* https://github.com/devonfw/devon4j/issues/183[#183]: Error in executing the project created with devon4j 
+* https://github.com/devonfw/devon4j/issues/177[#177]: Switch to new maven-parent
+* https://github.com/devonfw/devon4j/pull/169[169]: Provide a reason, why unchecked exceptions are used in devon4j
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2020.04.001/devon4j-doc-2020.04.001.pdf[devon4j guide 2020.04.001].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/8?closed=1[milestone devon4j 2020.04.001].
+
+== 3.2.1
+
+Bugfix release:
+
+* https://github.com/devonfw/devon4j/issues/166[#166]: JUnit5 not working (in Eclipse)
+* https://github.com/devonfw/devon4j/pull/170[#170]: show SQL from hibernate during development for debugging
+* https://github.com/devonfw/devon4j/pull/168[#168]: fixes for JUnit5 to work properly in all environments
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.2.1/devon4j-doc-3.2.1.pdf[devon4j guide 3.2.1].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/10?closed=1[milestone devon4j 3.2.1].
+
+== 3.2.0
+
+The following changes have been incorporated in devon4j:
+
+* https://github.com/devonfw/devon4j/pull/140[#140]: Completed full support from Java8 to Java11
+* https://github.com/devonfw/devon4j/issues/96[#96]: Several security fixes
+* https://github.com/devonfw/devon4j/pull/163[#163]: Upgrade to Spring Boot 2.1.9
+* https://github.com/devonfw/devon4j/pull/163[#163]: Upgrade to Spring 5.1.8
+* https://github.com/devonfw/devon4j/issues/130[#130]: Upgrade to JUnit 5 (requires migration via devonfw-ide)
+* https://github.com/devonfw/devon4j/issues/150[#150]: Improved JPA support for IdRef
+* https://github.com/devonfw/devon4j/issues/47[#47]: Improved auditing metadata support
+* https://github.com/devonfw/devon4j/pull/140[#140]: Many improvements to documentation (added JDK guide, architecture-mapping, JMS, etc.)
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.2.0/devon4j-doc-3.2.0.pdf[devon4j guide 3.2.0].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/6?closed=1[milestone devon4j 3.2.0].
+
+== 3.1.1
+
+Bugfix release for security fixes:
+
+* https://github.com/devonfw/devon4j/issues/115[#115]: Resolve CVEs identified for 3.1.0 release 
+* https://github.com/devonfw/devon4j/issues/122[#122]: Update guava to version 28.0-jre
+* https://github.com/devonfw/devon4j/issues/123[#123]: Update jacskon to 2.9.9.1  
+* https://github.com/devonfw/devon4j/pull/131[#131]: Resolve CVEs identified 
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.1.1/devon4j-doc-3.1.1.pdf[devon4j guide 3.1.1].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/7?closed=1[milestone devon4j 3.1.1].
+
+== 3.1.0
+
+The following changes have been incorporated in devon4j:
+
+* https://github.com/devonfw/devon4j/issues/16[#16]: Added Support for Java8 up to Java11
+* https://github.com/devonfw/devon4j/pull/111[#111]: Upgrade to Spring Boot 2.1.6.
+* https://github.com/devonfw/devon4j/pull/111[#111]: Upgrade to Spring 5.1.8
+* https://github.com/devonfw/devon4j/issues/12[#12]: Upgrade to JPA 2.2
+* https://github.com/devonfw/devon4j/issues/12[#12]: Upgrade to Hibernate 5.3
+* https://github.com/devonfw/devon4j/issues/72[#72]: Upgrade to Dozer 6.4.1 (ATTENTION: Requires Migration, use devon-ide for automatic upgrade)
+* https://github.com/devonfw/devon4j/pull/101[#101]: Many improvements to documentation (added JDK guide, architecture-mapping, JMS, etc.)
+* https://github.com/devonfw/devon4j/issues/106[#106]: Completed support (JSON, Beanmapping) for pagination, IdRef, and java.time
+* https://github.com/devonfw/devon4j/pull/32[#32]: Added MasterCto
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.1.1/devon4j-doc-3.1.1.pdf[devon4j guide 3.1.1].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/3?closed=1[milestone devon4j 3.1.0].
+
+== 3.0.2
+
+Bugfix release :
+
+* https://github.com/devonfw/devon4j/issues/93[#93]: Update to latest spring-boot 2.0.x for bugfix release devon4j 3.0.x 
+
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/5?closed=1[milestone devon4j 3.0.2].
+
+== 3.0.1
+
+Bugfix release :
+
+* https://github.com/devonfw/devon4j/pull/48[#48]: Fixed NPE for uuid instance
+
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/2?closed=1[milestone devon4j 3.0.1].
+
+== 3.0.0
+
+The following changes have been incorporated in devon4j:
+
+* https://github.com/oasp/oasp4j/issues/674[#674]: Spring Boot 2.0.4 Integrated.[oasp4j]
+* https://github.com/oasp/oasp4j/issues/626[#626]: Spring Data layer Integrated.[oasp4j]
+* https://github.com/devonfw/devon4j/issues/14[#14]: Decouple mmm.util.*
+* https://github.com/oasp/oasp4j/issues/648[648]: Removed depreciated restaurant sample.[oasp4j]
+* https://github.com/oasp/oasp4j/issues/669[#669]: Updated Pagination support for Spring Data[oasp4j]
+* https://github.com/oasp/oasp4j/pull/671[#671]: Add support for hana as dbType.
+
+If you want to upgrade from oasp4j to devon4j, please consider the https://github.com/devonfw/devon4j/blob/develop/documentation/guide-migration-oasp3-to-devon3.1.asciidoc[migration guide].
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/3.0.0/devon4j-doc-3.0.0.pdf[devon4j guide 3.0.0].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/1?closed=1[milestone devon4j 3.0.0].
+and https://github.com/oasp/oasp4j/milestone/24?closed=1[milestone oasp4j 3.0.0]
+
+Note : If you want to upgrade devon4j version in your project, please see https://github.com/devonfw/ide/blob/master/documentation/java.asciidoc#migrate

@@ -1,5 +1,7 @@
 package com.devonfw.module.security.common.api.accesscontrol;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -39,8 +41,8 @@ public interface AccessControlProvider {
   boolean collectAccessControlIds(String id, Set<String> permissions);
 
   /**
-   * This method collects the {@link AccessControl}s contained in the {@link AccessControl} 
-   * {@link AccessControl#getId() identified} by the given <code>groupId</code>.
+   * This method collects the {@link AccessControl}s contained in the {@link AccessControl} {@link AccessControl#getId()
+   * identified} by the given <code>groupId</code>.
    *
    * @param id is the {@link AccessControl#getId() ID} of the {@link AccessControl} (typically an
    *        {@link AccessControlGroup}) to collect.
@@ -50,5 +52,21 @@ public interface AccessControlProvider {
    * @return {@code true} if the given <code>groupId</code> has been found, {@code false} otherwise.
    */
   boolean collectAccessControls(String id, Set<AccessControl> permissions);
+
+  /**
+   * This is a convenience method to expand the permissions for all given roleIds. So for each provided roleId the
+   * corresponding {@link AccessControl} are collected via {@link #collectAccessControls(String, Set)}.
+   *
+   * @param accessControlIds the {@link Collection} of {@link AccessControl#getId()} access control IDs.
+   * @return A collection of {@link AccessControl} belonging to the given roleIds.
+   */
+  default Set<AccessControl> expandPermissions(Collection<String> accessControlIds) {
+
+    Set<AccessControl> accessControlSet = new HashSet<>();
+    for (String id : accessControlIds) {
+      collectAccessControls(id, accessControlSet);
+    }
+    return accessControlSet;
+  }
 
 }

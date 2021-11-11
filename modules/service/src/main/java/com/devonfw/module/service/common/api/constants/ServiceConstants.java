@@ -16,6 +16,12 @@ public class ServiceConstants {
   /** Key for error code. */
   public static final String KEY_CODE = "code";
 
+  /** Key for HTTP status code. */
+  public static final String KEY_STATUS = "status";
+
+  /** Key for HTTP error. */
+  public static final String KEY_ERROR = "error";
+
   /** Key for (validation) error details. */
   public static final String KEY_ERRORS = "errors";
 
@@ -55,4 +61,12 @@ public class ServiceConstants {
    * The variable that resolves to type of the service (e.g. "rest" for REST service and "ws" for SOAP service).
    */
   public static final String VARIABLE_TYPE = "${type}";
+
+  /**
+   * URL suffix for convention to retrieve WSDL from SOAP service.
+   *
+   * @since 2021.04.003
+   */
+  public static final String WSDL_SUFFIX = "?wsdl";
+
 }

@@ -1,15 +1,18 @@
 package com.devonfw.module.cxf.common.impl.client.interceptor;
 
-import net.sf.mmm.util.date.api.TimeMeasure;
+import java.lang.reflect.Method;
 
+import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
-import org.apache.cxf.transport.Conduit;
-import org.apache.cxf.ws.addressing.EndpointReferenceType;
+import org.apache.cxf.service.model.EndpointInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.devonfw.module.service.common.base.client.ServiceClientPerformanceLogger;
 
 /**
  * Implementation of {@link AbstractPhaseInterceptor} that logs the duration time of a service client invocation.
@@ -26,28 +29,36 @@ public class PerformanceStopInterceptor extends AbstractPhaseInterceptor<Message
    * The constructor.
    */
   public PerformanceStopInterceptor() {
+
     super(Phase.POST_INVOKE);
   }
 
   @Override
   public void handleMessage(Message message) throws Fault {
 
-    TimeMeasure timeMeasure = message.getExchange().get(TimeMeasure.class);
-    if (timeMeasure == null) {
+    Exchange exchange = message.getExchange();
+    SystemNanoTime start = exchange.get(SystemNanoTime.class);
+    if (start == null) {
       if (!this.errorLogged) {
-        LOG.warn("Invalid setup - no TimeMeasure present!");
+        LOG.warn("Invalid setup - no SystemNanoTime present!");
         this.errorLogged = true;
       }
       return;
     }
+    Endpoint endpoint = exchange.getEndpoint();
     Throwable exception = message.getContent(Exception.class);
-    if (exception == null) {
-      timeMeasure.succeed();
+    EndpointInfo endpointInfo = endpoint.getEndpointInfo();
+    String url = endpointInfo.getAddress();
+    Method method = exchange.get(Method.class);
+    String service;
+    if (method != null) {
+      service = method.getDeclaringClass().getName() + "#" + method.getName();
+    } else {
+      service = endpointInfo.getName().toString();
     }
-    Conduit conduit = message.get(Conduit.class);
-    EndpointReferenceType target = conduit.getTarget();
-    String url = target.getAddress().getValue();
-    timeMeasure.log(LOG, url);
+    service = service + "[" + url + "]";
+    Integer statusCode = (Integer) exchange.get(Message.RESPONSE_CODE);
+    ServiceClientPerformanceLogger.log(start.getNanoTime(), service, statusCode.intValue(), exception);
   }
 
 }

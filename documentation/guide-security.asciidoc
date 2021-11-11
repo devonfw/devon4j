@@ -15,60 +15,87 @@ We address these common threats individually in _security_ sections of our techn
 [options="header"]
 |=======================
 |*Threat*|*Protection*|*Link to details*
-|https://www.owasp.org/index.php/Top_10_2013-A1-Injection[A1 Injection]
+|https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A1-Injection.html[A1 Injection]
 |validate input, escape output, use proper frameworks
 |link:guide-jpa.asciidoc#security[SQL Injection]
 
-|https://www.owasp.org/index.php/Top_10_2013-A2-Broken_Authentication_and_Session_Management[A2 Broken Authentication and Session Management]
+|https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A2-Broken_Authentication.html[A2 Broken Authentication]
 |encrypt all channels, use a central identity management with strong password-policy
 |link:guide-access-control.asciidoc#authentication[Authentication]
 
-|https://www.owasp.org/index.php/Top_10_2013-A3-Cross-Site_Scripting_(XSS)[A3 XSS]
-|prevent injection (see A1) for HTML, JavaScript and CSS and understand same-origin-policy
-|link:guide-client-layer.asciidoc#security[client-layer]
-
-|https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References[A4 Insecure Direct Object References]
-|Using direct object references (IDs) only with appropriate authorization
-|link:guide-logic-layer.asciidoc#direct-object-references[logic-layer]
-
-|https://www.owasp.org/index.php/Top_10_2013-A5-Security_Misconfiguration[A5 Security Misconfiguration]
-|Use devonfw application template and guides to avoid
-|https://github.com/devonfw/devon4j/blob/develop/documentation/tutorial-newapp.asciidoc[tutorial-newapp] and link:guide-configuration.asciidoc#security[sensitive configuration]
-
-|https://www.owasp.org/index.php/Top_10_2013-A6-Sensitive_Data_Exposure[A6 Sensitive Data Exposure]
+|https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A3-Sensitive_Data_Exposure.html[A3 Sensitive Data Exposure]
 |Use secured exception facade, design your data model accordingly
 |link:guide-service-layer.asciidoc#rest-exception-handling[REST exception handling]
 
-|https://www.owasp.org/index.php/Top_10_2013-A7-Missing_Function_Level_Access_Control[A7 Missing Function Level Access Control]
+|https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A4-XML_External_Entities_(XXE).html[A4 XML External Entities]
+|Prefer JSON over XML, ensure https://docs.oracle.com/en/java/javase/11/security/java-api-xml-processing-jaxp-security-guide.html[FSP] when parsing (external) XML
+|link:guide-xml.asciidoc[XML guide]
+
+|https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A5-Broken_Access_Control.html[A5 Broken Access Control]
 |Ensure proper authorization for all use-cases, use `@DenyAll` as default to enforce
-|link:guide-access-control.asciidoc#configuration-on-java-method-level[Method authorization]
+|link:guide-access-control.asciidoc[Access-control guide] especially link:guide-access-control.asciidoc#configuration-on-java-method-level[method authorization]
 
-|https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)[A8 CSRF]
-|secure mutable service operations with an explicit CSRF security token sent in HTTP header and verified on the server
-|link:guide-service-layer.asciidoc#csrf[service-layer security]
+|https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A6-Security_Misconfiguration.html[A6 Security Misconfiguration]
+|Use devon4j application template and guides to avoid
+|link:tutorial-newapp.asciidoc[tutorial-newapp] and link:guide-configuration.asciidoc#security[sensitive configuration]
 
-|https://www.owasp.org/index.php/Top_10_2013-A9-Using_Components_with_Known_Vulnerabilities[A9 Using Components with Known Vulnerabilities]
+|https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A7-Cross-Site_Scripting_(XSS).html[A7 Cross-Site Scripting]
+|prevent injection (see A1) for HTML, JavaScript and CSS and understand same-origin-policy
+|link:guide-client-layer.asciidoc#security[client-layer]
+
+|https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A8-Insecure_Deserialization.html[A8 Insecure Deserialization]
+|Use simple and established serialization formats such as JSON, prevent generic deserialization (for polymorphic types)
+|link:guide-json.asciidoc[JSON guide] especially link:guide-json.asciidoc#json-and-inheritance[inheritence], link:guide-xml.asciidoc[XML guide]
+
+|https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities.html[A9 Using Components with Known Vulnerabilities]
 |subscribe to security newsletters, recheck products and their versions continuously, use devonfw dependency management
 |https://cve.mitre.org/news/newsletter.html[CVE newsletter] and xref:dependency-check[dependency check]
 
-|https://www.owasp.org/index.php/Top_10_2013-A10-Unvalidated_Redirects_and_Forwards[A10 Unvalidated Redirects and Forwards]
-|Avoid using redirects and forwards, in case you need them do a security audit on the solution.
-|devonfw proposes to use rich-clients (SPA/RIA). We only use redirects for login in a safe way.
+|https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A10-Insufficient_Logging%252526Monitoring.html[A10 Insufficient_Logging & Monitoring]
+|Ensure to log all security related events (login, logout, errors), establish effective monitoring
+|link:guide-logging.asciidoc[Logging guide] and link:guide-monitoring.asciidoc[monitoring guide]
 
-|https://www.owasp.org/index.php/Log_Forging[Log-Forging]
+|https://owasp.org/www-chapter-ghana/assets/slides/IDOR.pdf[Insecure Direct Object References]
+|Using direct object references (IDs) only with appropriate authorization
+|link:guide-logic-layer.asciidoc#direct-object-references[logic-layer]
+
+|https://owasp.org/www-community/attacks/csrf[Cross-Site Request Forgery (CSRF)]
+|secure mutable service operations with an explicit CSRF security token sent in HTTP header and verified on the server
+|link:guide-csrf.asciidoc[CSRF guide]
+
+|https://owasp.org/www-community/attacks/Log_Injection[Log-Forging]
 |Escape newlines in log messages
 |link:guide-logging.asciidoc#security[logging security]
+
+|https://owasp.org/www-pdf-archive//OWASP_LA_New_OWASP_Top_10_David_Caissy_2017_07.pdf[Unvalidated Redirects and Forwards]
+|Avoid using redirects and forwards, in case you need them do a security audit on the solution.
+|devonfw proposes to use rich-clients (SPA/RIA). We only use redirects for login in a safe way.
 |=======================
+
+== Advanced Security
+
+While OWASP Top 10 covers the basic aspects of application security, there are advanced standards such as `AVS`.
+In devonfw we address this in the https://github.com/devonfw/security/wiki[
+Application Security Quick Solution Guide].
 
 == Tools
 === Dependency Check
-To address https://www.owasp.org/index.php/Top_10_2013-A9-Using_Components_with_Known_Vulnerabilities[A9 Using Components with Known Vulnerabilities] we integrated https://www.owasp.org/index.php/OWASP_Dependency_Check[OWASP dependency check] into the devonfw maven build. If you build an devonfw application (sample or any app created from our link:tutorial-newapp.asciidoc[app-template]) you can activate dependency check with the `security` profile:
+To address the thread `Using Components with Known Vulnerabilities` we recomment to use https://www.owasp.org/index.php/OWASP_Dependency_Check[OWASP dependency check] that ships with a maven plugin and can analyze your dependencies for known https://en.wikipedia.org/wiki/Common_Vulnerabilities_and_Exposures[CVE]s.
+In order to run this check, you can simply call this command on any maven project:
+[source,bash]
+---- 
+mvn org.owasp:dependency-check-maven:6.1.5:aggregate
+---- 
+
+NOTE: The version is just for completeness. You should check yourself for using a recent version of the plugin.
+
+If you build an devon4j spring application from our link:tutorial-newapp.asciidoc[app-template] you can activate the dependency check even easier with the `security` profile:
 [source,bash]
 ---- 
 mvn clean install -P security
 ---- 
-This does not run by default as it causes a huge overhead for the build performance. However , consider to build this in your CI at least nightly.
-After the dependency check is performed , you will find the results in `target/dependency-check-report.html` of each module. The report will also always be generated when the site is build (`mvn site`).
+This does not run by default as it causes some overhead for the build performance. However, consider to build this in your CI at least nightly.
+After the dependency check is performed, you will find the results in `target/dependency-check-report.html` of each module. The report will also be generated when the site is build (`mvn site`) even without the profile.
 
 === Penetration Testing
 For penetration testing (testing for vulnerabilities) of your web application, we recommend the following tools:

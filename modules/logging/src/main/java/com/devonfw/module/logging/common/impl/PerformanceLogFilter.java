@@ -1,5 +1,7 @@
 package com.devonfw.module.logging.common.impl;
 
+import static net.logstash.logback.argument.StructuredArguments.v;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -12,7 +14,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,8 +47,8 @@ public class PerformanceLogFilter implements Filter {
   }
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-      ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
 
     long startTime;
     String path = ((HttpServletRequest) request).getServletPath();
@@ -67,7 +68,7 @@ public class PerformanceLogFilter implements Filter {
   }
 
   /**
-   * Logs the request URL, execution time and {@link HttpStatus}. In case of an error also logs class name and error
+   * Logs the request URL, execution time. In case of an error also logs class name and error
    * message.
    *
    * @param response - the {@link ServletResponse}
@@ -85,31 +86,12 @@ public class PerformanceLogFilter implements Filter {
     String errorClass = "";
     String errorMessage = "";
     if (error != null) {
-      statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
+      statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
       errorClass = error.getClass().getName();
       errorMessage = error.getMessage();
     }
-    String message =
-        createMessage(url, Long.toString(duration), Integer.toString(statusCode), errorClass, errorMessage);
-    LOG.info(message);
-  }
-
-  /**
-   * Returns a {@link String} representing the log message, which contains the given arguments separated by ';'
-   *
-   * @param args - the arguments for the log message
-   * @return a {@link String} representing the log message
-   */
-  private String createMessage(String... args) {
-
-    StringBuilder buffer = new StringBuilder();
-    for (String s : args) {
-      if (buffer.length() > 0) {
-        buffer.append(';');
-      }
-      buffer.append(s);
-    }
-    return buffer.toString();
+    LOG.info("{};{};{};{};{}", v("url", url), v("ms", duration), v("sc", statusCode), v("errCls", errorClass),
+        v("errMsg", errorMessage));
   }
 
   @Override

@@ -156,6 +156,19 @@ public class ObjectMapperFactory {
   protected SimpleModule initMapping() {
 
     SimpleModule module = getExtensionModule();
+    module.addSerializer(IdRef.class, new IdRefJsonSerializer());
+    module.addDeserializer(IdRef.class, new IdRefJsonDeserializer());
+    try {
+      initMappingSpringData();
+    } catch (NoClassDefFoundError e) {
+      // ignore...
+    }
+    return module;
+  }
+
+  private void initMappingSpringData() {
+
+    SimpleModule module = getExtensionModule();
     // use fully qualified names for spring-data so users can override this method and opt-out
     module.addSerializer(org.springframework.data.domain.Pageable.class, new PageableJsonSerializer());
     module.addDeserializer(org.springframework.data.domain.Pageable.class, new PageableJsonDeserializer());
@@ -163,8 +176,5 @@ public class ObjectMapperFactory {
         com.devonfw.module.json.common.base.type.JsonPage.class);
     module.setMixInAnnotation(org.springframework.data.domain.Page.class,
         com.devonfw.module.json.common.base.type.JsonPage.class);
-    module.addSerializer(IdRef.class, new IdRefJsonSerializer());
-    module.addDeserializer(IdRef.class, new IdRefJsonDeserializer());
-    return module;
   }
 }

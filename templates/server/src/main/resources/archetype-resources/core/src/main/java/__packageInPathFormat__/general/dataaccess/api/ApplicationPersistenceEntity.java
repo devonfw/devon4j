@@ -55,9 +55,9 @@ public abstract class ApplicationPersistenceEntity implements ApplicationEntity,
   }
 
   @Override
-  public void setModificationCounter(int version) {
+  public void setModificationCounter(int modificationCounter) {
 
-    this.modificationCounter = version;
+    this.modificationCounter = modificationCounter;
   }
 
   @Override

@@ -7,18 +7,32 @@ toc::[]
 This guide is about consuming (calling) services from other applications (micro-services). For providing services see the link:guide-service-layer.asciidoc[Service-Layer Guide]. Services can be consumed in the link:guide-client-layer.asciidoc[client] or the server. As the client is typically not written in Java you should consult the according guide for your client technology. In case you want to call a service within your Java code this guide is the right place to get help.
 
 == Motivation
-Various solutions already exist for calling services such as `RestTemplate` from spring or the JAX-RS client API. Further each and every service framework offers its own API as well. These solutions might be suitable for very small and simple projects (with one or two such invocations). However, with the trend of microservices the invocation of a service becomes a very common use-case that occurs all over the place. Have a look at the following features to get an idea why you want to use the solution offered here.
+Various solutions already exist for calling services such as `RestTemplate` from spring or the JAX-RS client API. Further each and every service framework offers its own API as well. These solutions might be suitable for very small and simple projects (with one or two such invocations). However, with the trend of microservices the invocation of a service becomes a very common use-case that occurs all over the place. You typically need a solution that is very easy to use but supports flexible configuration, adding headers for authentication, mapping of errors from server, logging success/errors with duration for performance analysis, support for synchronous and asynchronous invocations, etc. This is exactly what this `devon4j` service-client solution brings for you.
 
-== Requirements
+== Dependency
 You need to add (at least one of) these dependencies to your application:
 [source,xml]
 --------
-<!-- Starter for consuming REST services -->
+<!-- Starter for asynchronous consuming REST services via Jaca HTTP Client (Java11+) -->
+<dependency>
+  <groupId>com.devonfw.java.starters</groupId>
+  <artifactId>devon4j-starter-http-client-rest-async</artifactId>
+</dependency>
+<!-- Starter for synchronous consuming REST services via Jaca HTTP Client (Java11+) -->
+<dependency>
+  <groupId>com.devonfw.java.starters</groupId>
+  <artifactId>devon4j-starter-http-client-rest-sync</artifactId>
+</dependency>
+<!-- Starter for synchronous consuming REST services via Apache CXF (Java8+) 
+  NOTE: This is an alternative to devon4j-starter-http-client-rest-sync
+  -->
+<!--
 <dependency>
   <groupId>com.devonfw.java.starters</groupId>
   <artifactId>devon4j-starter-cxf-client-rest</artifactId>
 </dependency>
-<!-- Starter for consuming SOAP services -->
+-->
+<!-- Starter for synchronous consuming SOAP services via Apache CXF (Java8+) -->
 <dependency>
   <groupId>com.devonfw.java.starters</groupId>
   <artifactId>devon4j-starter-cxf-client-ws</artifactId>
@@ -42,6 +56,10 @@ public interface MyService extends RestService {
   @POST
   @Path("/getresult")
   MyResult getResult(MyArgs myArgs);
+
+  @DELETE
+  @Path("/entity/{id}")
+  void deleteEntity(@PathParam("id") long id);
 }
 --------
 
@@ -55,15 +73,44 @@ public class UcMyUseCaseImpl extends MyUseCaseBase implements UcMyUseCase {
   private ServiceClientFactory serviceClientFactory;
 
   ...
-  private MyResult callMyServiceMethod(MyArgs myArgs) {
+  private void callSynchronous(MyArgs myArgs) {
     MyService myService = this.serviceClientFactory.create(MyService.class);
-    MyResult myResult = myService.myMethod(myArgs); // synchronous call of service over the wire
-    return myResult;
+    // call of service over the wire, synchronously blocking until result is received or error occurred
+    MyResult myResult = myService.myMethod(myArgs);
+    handleResult(myResult);
   }
+
+  private void callAsynchronous(MyArgs myArgs) {
+    AsyncServiceClient<MyService> client = this.serviceClientFactory.createAsync(MyService.class);
+    // call of service over the wire, will return when request is send and invoke handleResult asynchronously
+    client.call(client.get().myMethod(myArgs), this::handleResult);
+  }
+
+  private void handleResult(MyResult myResult) {
+    ...
+  }
+  ...
+}
 --------
 
-As you can see the synchronous invocation of a service is very simple. Still it is very flexible and powerful (see following features). The actual call of `myMethod` will technically call the remote service over the wire (e.g. via HTTP) including marshaling the arguments (e.g. converting `myArgs` to JSON) and unmarshalling the result (e.g. converting the received JSON to `myResult`).
+As you can see both synchronous and asynchronous invocation of a service is very simple and type-safe. Still it is very flexible and powerful (see following features). The actual call of `myMethod` will technically call the remote service over the wire (e.g. via HTTP) including marshaling the arguments (e.g. converting `myArgs` to JSON) and unmarshalling the result (e.g. converting the received JSON to `myResult`).
 
+==== Asynchronous Invocation of void Methods
+
+If you want to call a service method with `void` as return type, the type-safe `call` method can not be used as `void` methods do not return a result. Therefore you can use the `callVoid` method as following:
+
+[source,java]
+--------
+  private void callAsynchronousVoid(long id) {
+    AsyncServiceClient<MyService> client = this.serviceClientFactory.createAsync(MyService.class);
+    // call of service over the wire, will return when request is send and invoke resultHandler asynchronously
+    Consumer<Void> resultHandler = r -> { System.out.println("Response received")};
+    client.callVoid(() -> { client.get().deleteEntity(id);}, resultHandler);
+  }
+
+--------
+
+You may also provide `null` as `resultHandler` for "fire and forget". However, this will lead to the result being ignored so even in case of an error you will not be notified.
 
 === Configuration
 This solution allows a very flexible configuration on the following levels:
@@ -94,19 +141,28 @@ this.serviceClientFactory.create(MyService.class,
   new ServiceClientConfigBuilder().authBasic().userLogin(login).userPassword(password).buildMap());
 --------
 
-NOTE: *TODO* add configuration properties for external/mock service from Sneha
+Here is an example of a configuration block for your `application.properties`:
+```
+service.client.default.url=https://api.company.com/services/${type}
+service.client.default.timeout.connection=120
+service.client.default.timeout.response=3600
 
+service.client.app.bar.url=https://bar.company.com:8080/services/rest
+service.client.app.bar.auth=basic
+service.client.app.bar.user.login=user4711
+service.client.app.bar.user.password=ENC(jd5ZREpBqxuN9ok0IhnXabgw7V3EoG2p)
+
+service.client.app.foo.url=https://foo.company.com:8443/services/rest
+# authForward: simply forward Authorization header (e.g. with JWT) to remote service
+service.client.app.bar.auth=authForward
+```
 
 === Service Discovery
 You do not want to hardwire service URLs in your code, right? Therefore different strategies might apply 
 to _discover_ the URL of the invoked service. This is done internally by an implementation of the interface 
-`ServiceDiscoverer`. The default implementation simply reads the base URL from the configuration (see above). 
-So you can simply add this to your `application.properties`:
-```
-service.client.app.foo.url=https://foo.company.com:8443/services/rest
-service.client.app.bar.url=http://bar.company.com:8080/services/rest
-service.client.default.url=https://api.company.com/services/rest
-```
+`ServiceDiscoverer`. The default implementation simply reads the base URL from the configuration. 
+So you can simply add this to your `application.properties` as in the above configuration example.
+
 Assuming your service interface would have the fully qualified name 
 `com.company.department.foo.mycomponent.service.api.rest.MyService` then the URL would be resolved to 
 `https://foo.company.com:8443/services/rest` as the `«application»` is `foo`.
@@ -123,13 +179,15 @@ service.client.default.url=https://api.company.com/${app}/services/${type}
 ```
 
 As you can use any implementation of `ServiceDiscoverer`, you can also easily use https://github.com/Netflix/eureka#eureka[eureka] (or anything else) instead to discover your services.
+However, we recommend to use https://istio.io/[istio] instead as described below.
 
 === Headers
 A very common demand is to tweak (HTTP) headers in the request to invoke the service. May it be for security (authentication data) or for other cross-cutting concerns (such as the link:guide-logging.asciidoc#correlation-id[Correlation ID]). This is done internally by implementations of the interface  `ServiceHeaderCustomizer`.
 We already provide several implementations such as:
 
-* `ServiceHeaderCustomizerBasicAuth` for basic authentication (mainly for testing).
-* `ServiceHeaderCustomizerOAuth` for OAuth (passes a security token from security context such as a https://jwt.io/[JWT] via OAuth).
+* `ServiceHeaderCustomizerBasicAuth` for basic authentication (`auth=basic`).
+* `ServiceHeaderCustomizerOAuth` for OAuth: passes a security token from security context such as a https://jwt.io/[JWT] via OAuth (`auth=oauth`).
+* `ServiceHeaderCustomizerAuthForward` forwards the `Authorization` HTTP header from the running request to the request to the remote serivce as is (`auth=authForward`). Be careful to avoid security pitfals by misconfiguring this feature as it may also sensitive credentials (e.g. basic auth) to the remote service. Never use as default.
 * `ServiceHeaderCustomizerCorrelationId` passed the link:guide-logging.asciidoc#correlation-id[Correlation ID] to the service request.
 
 Additionally, you can add further custom implementations of `ServiceHeaderCustomizer` for your individual requirements and additional headers.
@@ -145,50 +203,75 @@ In such case (host not found, connection refused, time out, etc.) there is not e
 * *Service error* +
 In case the service failed on the server-side the link:guide-rest.asciidoc#error-results[error result] will be parsed and thrown as a `ServiceInvocationFailedException` with the received message and code.
 
-=== Logging
-By default this solution will log all invocations including the URL of the invoked service, success or error status flag and the duration in seconds (with decimal nano precision as available). Therefore you can easily monitor the status and performance of the service invocations.
+This allows to catch and handle errors when a service-invocation failed. You can even distinguish business errors from the server-side from technical errors and implement retry strategies or the like.
+Further the created exception contains detailed contextual information about the serivce that failed (service interface class, method, URL) what makes it much easier to trace down errors. Here is an example from our tests:
 
-=== Asynchronous Support
-An important aspect is also asynchronous (and reactive) support. So far we only propose this as an enhancement for a future release with an API like this:
+```
+While invoking the service com.devonfw.test.app.myexample.service.api.rest.MyExampleRestService#businessError[http://localhost:50178/app/services/rest/my-example/v1/business-error] the following error occurred: Test of business error. Probably the service is temporary unavailable. Please try again later. If the problem persists contact your system administrator.
+2f43b03e-685b-45c0-9aae-23ff4b220c85:BusinessErrorCode
+```
+
+You may even provide your own implementation of `ServiceClientErrorFactory` instead to provide an own exception class for this purpose.
+
+==== Handling Erros
+
+In case of a synchronous service invocation an error will be immediately thrown so you can sourround the call with a regular try-catch block:
 
 [source,java]
 --------
-public interface ServiceClientAsyncFactory extends ServiceClientFactory {
-  AsyncClient<S> createAsync(Class<S> serviceInterface);
-}
-
-public interface AsyncClient<S> {
-  S getClient();
-  <R> Mono<R> call(R result);
-  <T> Flux<T> call(Collection<? extends T> result);
-  <R> void call(R result, Consumer<R> callback);
-  <R> CompletableFuture<R> callFuture(R result);
-}
+  private void callSynchronous(MyArgs myArgs) {
+    MyService myService = this.serviceClientFactory.create(MyService.class);
+    // call of service over the wire, synchronously blocking until result is received or error occurred
+    try {
+      MyResult myResult = myService.myMethod(myArgs);
+      handleResult(myResult);
+    } catch (ServiceInvocationFailedException e) {
+      if (e.isTechnical()) {
+        handleTechnicalError(e);
+      } else {
+        // error code you defined in the exception on the server side of the service
+        String errorCode = e.getCode();
+        handleBusinessError(e, errorCode;
+      }
+    } catch (Throwable e) { // you may not handle this explicitly here...
+      handleTechnicalError(e);
+    }
+  }
 --------
 
-This API would allow typesafe usage like this:
+If you are using asynchronous service invocation an error can occurr in a separate thread. Therefore you may and should define a custom error handler:
+
 [source,java]
 --------
-@Named
-public class UcMyUseCaseImpl extends MyUseCaseBase implements UcMyUseCase {
-  @Inject private ServiceClientFactoryAsync clientFactory;
- 
-  @Override @RolesAllowed(...)
-  public void doSomething(Bar bar) {
-    AsyncClient<MyExternalServiceApi> client = this.clientFactory.createAsync(MyExternalServiceApi.class);
-    Mono<Some> result = client.call(client.getService().doSomething(convert(bar)));
-    // client.call(client.getService().doSomething(convert(bar)), x -> processSync(x));
-    return process(result);
+  private void callAsynchronous(MyArgs myArgs) {
+    AsyncServiceClient<MyService> client = this.serviceClientFactory.createAsync(MyService.class);
+    Consumer<Throwalbe> errorHandler = this::handleError;
+    client.setErrorHandler(errorHandler);
+    // call of service over the wire, will return when request is send and invoke handleResult asynchronously
+    client.call(client.get().myMethod(myArgs), this::handleResult);
+  }
+
+  private void handleError(Throwalbe error) {
+    ...
   }
 }
 --------
-How can this work? The ServiceClientAsyncFactory implementation would create its own dynamic proxy for the given service interface. That proxy would only track the last call that was invoked internally and always return a dummy result (`null` for Object types, `false` for boolean, `0` for primitive numbers). The actual implementation of the `call` methods can access the internal invocation that has been recorded from the last service call. It will then trigger the actual service call internally according to the desired style (using a `Consumer` callback, `Mono`, `Flux`, `Future`...).
+
+The error handler consumes `Throwable` and not only `RuntimeException` so you can get notified even in case of an unexpected `OutOfMemoryError`, `NoClassDefFoundError`, or other technical problems. Please note that the error handler may also be called from the thread calling the service (e.g. if already creating the request fails). The default error handler used if no custom handler is set will only log the error and do nothing else.
+
+=== Logging
+By default this solution will log all invocations including the URL of the invoked service, success or error status flag and the duration in seconds (with decimal nano precision as available). Therefore you can easily monitor the status and performance of the service invocations. Here is an example from our tests:
+```
+Invoking service com.devonfw.test.app.myexample.service.api.rest.MyExampleRestService#greet[http://localhost:50178/app/services/rest/my-example/v1/greet/John%20Doe%20%26%20%3F%23] took PT20.309756622S (20309756622ns) and succeded with status 200.
+```
 
 === Resilience
-Resilience adds a lot of complexity and that typically means that addressing this here would most probably result in not being up-to-date and not meeting all requirements. Therefore we recommend something completely different: the _sidecar_ approach (based on https://docs.microsoft.com/en-us/azure/architecture/patterns/sidecar[sidecar pattern]). This means that you use a generic proxy app that runs as a separate process on the same host, VM, or container of your actual application. Then in your app you are calling the service via the sidecar proxy on `localhost` (service discovery URL is e.g. `http://localhost:8081/${app}/services/${type}`) that then acts as proxy to the actual remote service. Now aspects such as resilience with circuit breaking and the actual service discovery can be configured in the sidecar proxy app and independent of your actual application. Therefore, you can even share and reuse configuration and experience with such a sidecar proxy app even across different technologies (Java, .NET/C#, Node.JS, etc.).
+Resilience adds a lot of complexity and that typically means that addressing this here would most probably result in not being up-to-date and not meeting all requirements. Therefore we recommend something completely different: the _sidecar_ approach (based on https://docs.microsoft.com/en-us/azure/architecture/patterns/sidecar[sidecar pattern]). This means that you use a generic proxy app that runs as a separate process on the same host, VM, or container of your actual application. Then in your app you are calling the service via the sidecar proxy on `localhost` (service discovery URL is e.g. `http://localhost:8081/${app}/services/${type}`) that then acts as proxy to the actual remote service. Now aspects such as resilience with circuit breaking and the actual service discovery can be configured in the sidecar proxy app and independent of your actual application. Therefore, you can even share and reuse configuration and experience with such a sidecar proxy app even across different technologies (Java, .NET/C#, Node.JS, etc.). Further, you do not pollute the technology stack of your actual app with the infrastructure for resilience, throttling, etc. and can update the app and the side-card independently when security-fixes are available.
 
 Various implementations of such sidecar proxy apps are available as free open source software. 
-*TODO*: Decide for the best available solution and suggest here as default.
+Our recommendation in devonfw is to use https://istio.io/[istio]. This not only provides such a side-car but also an entire management solution for service-mesh making administration and maintenance much easier. Platforms like OpenShift support this out of the box.
+
+However, if you are looking for details about side-car implementations for services you can have a look at the following links:
 
 * Netflix Sidecar - see http://cloud.spring.io/spring-cloud-netflix/single/spring-cloud-netflix.html#_polyglot_support_with_sidecar[Spring Cloud Netflix docs]
 * https://lyft.github.io/envoy/[Envoy] - see https://dzone.com/articles/microservices-patterns-with-envoy-sidecar-proxy-pa[Microservices Patterns With Envoy Sidecar Proxy]

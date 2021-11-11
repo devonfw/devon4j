@@ -32,6 +32,11 @@
       </dependency>
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-test-junit4</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-test-jpa</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -57,7 +62,37 @@
       </dependency>
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-beanmapping-dozer</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-beanmapping-orika</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-security</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-security-csrf</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-security-cors</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-security-jwt</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-security-keystore</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -107,6 +142,16 @@
       </dependency>
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-http-client</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-http-client-rest</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-jpa-basic</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -130,10 +175,15 @@
         <artifactId>devon4j-web</artifactId>
         <version>${project.version}</version>
       </dependency>
-       <dependency>
+      <dependency>
         <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-test-jpa</artifactId>
         <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-kafka</artifactId>
+        <version>${devon4j.version}</version>
       </dependency>
       <!-- Starters -->
       <dependency>
@@ -169,6 +219,51 @@
       <dependency>
         <groupId>com.devonfw.java.starters</groupId>
         <artifactId>devon4j-starter-spring-data-jpa</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-kafka-sender</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-kafka-receiver</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-security</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-security-csrf</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-security-cors</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-security-keystore</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-security-jwt</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-http-client-rest-async</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-http-client-rest-sync</artifactId>
         <version>${project.version}</version>
       </dependency>
     </dependencies>
