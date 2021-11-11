@@ -111,8 +111,7 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
   @SuppressWarnings("javadoc")
   @Inject
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
-    auth.inMemoryAuthentication().withUser("admin").password(this.passwordEncoder.encode("admin")).roles("Admin");
+    auth.inMemoryAuthentication().withUser("admin").password(this.passwordEncoder.encode("admin")).authorities("Admin");
   }
 
 }

@@ -61,9 +61,9 @@ We address these common threats individually in _security_ sections of our techn
 
 |https://owasp.org/www-community/attacks/csrf[Cross-Site Request Forgery (CSRF)]
 |secure mutable service operations with an explicit CSRF security token sent in HTTP header and verified on the server
-|link:guide-service-layer.asciidoc#csrf[service-layer security]
+|link:guide-csrf.asciidoc[CSRF guide]
 
-|https://www.owasp.org/index.php/Log_Forging[Log-Forging]
+|https://owasp.org/www-community/attacks/Log_Injection[Log-Forging]
 |Escape newlines in log messages
 |link:guide-logging.asciidoc#security[logging security]
 
@@ -72,14 +72,29 @@ We address these common threats individually in _security_ sections of our techn
 |devonfw proposes to use rich-clients (SPA/RIA). We only use redirects for login in a safe way.
 |=======================
 
+== Advanced Security
+
+While OWASP Top 10 covers the basic aspects of application security, there are advanced standards such as `AVS`.
+In devonfw we address this in the https://github.com/devonfw/security/wiki[
+Application Security Quick Solution Guide].
+
 == Tools
 === Dependency Check
-To address the thread `Using Components with Known Vulnerabilities` we integrated https://www.owasp.org/index.php/OWASP_Dependency_Check[OWASP dependency check] into the devon4j maven build. If you build an devon4j application (sample or any app created from our link:tutorial-newapp.asciidoc[app-template]) you can activate dependency check with the `security` profile:
+To address the thread `Using Components with Known Vulnerabilities` we recomment to use https://www.owasp.org/index.php/OWASP_Dependency_Check[OWASP dependency check] that ships with a maven plugin and can analyze your dependencies for known https://en.wikipedia.org/wiki/Common_Vulnerabilities_and_Exposures[CVE]s.
+In order to run this check, you can simply call this command on any maven project:
+[source,bash]
+---- 
+mvn org.owasp:dependency-check-maven:6.1.5:aggregate
+---- 
+
+NOTE: The version is just for completeness. You should check yourself for using a recent version of the plugin.
+
+If you build an devon4j spring application from our link:tutorial-newapp.asciidoc[app-template] you can activate the dependency check even easier with the `security` profile:
 [source,bash]
 ---- 
 mvn clean install -P security
 ---- 
-This does not run by default as it causes a huge overhead for the build performance. However, consider to build this in your CI at least nightly.
+This does not run by default as it causes some overhead for the build performance. However, consider to build this in your CI at least nightly.
 After the dependency check is performed, you will find the results in `target/dependency-check-report.html` of each module. The report will also be generated when the site is build (`mvn site`) even without the profile.
 
 === Penetration Testing

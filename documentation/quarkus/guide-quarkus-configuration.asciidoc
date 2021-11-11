@@ -1,0 +1,64 @@
+:toc: macro
+toc::[]
+
+= Configuration
+
+link:quarkus.asciidoc[Quarkus] provides a comprehensive guide to configuration https://quarkus.io/guides/config-reference[here].
+
+== External Application Configuration
+
+=== Database Configuration
+
+In Quarkus, Hibernate is provided by the `quarkus-hibernate-orm` extension. Ensure the extension is added to your `pom.xml` as follows:
+
+[source,xml]
+----
+<dependency>
+  <groupId>io.quarkus</groupId>
+  <artifactId>quarkus-hibernate-orm</artifactId>
+</dependency>
+----
+
+You additionally have to add the respective JDBC driver extension to your `pom.xml`. There are different drivers for different database types. See https://quarkus.io/guides/hibernate-orm#setting-up-and-configuring-hibernate-orm[Quarkus Hibernate guide].
+
+=== Database System and Access
+You need to configure which database type you want to use, as well as the location and credentials to access it. The defaults are configured in `application.properties`. The file should therefore contain the properties as in the given example:
+
+[source, properties]
+----
+quarkus.datasource.jdbc.url=jdbc:postgresql://database.enterprise.com/app
+quarkus.datasource.username=appuser01
+quarkus.datasource.password=************
+quarkus.datasource.db-kind=postgresql
+
+# drop and create the database at startup (use only for local development)
+quarkus.hibernate-orm.database.generation=drop-and-create
+----
+
+=== Database Logging
+Add the following properties to `application.properties` to enable logging of database queries for debugging purposes.
+
+[source, properties]
+----
+quarkus.hibernate-orm.log.sql=true
+quarkus.hibernate-orm.log.format-sql=true
+
+#Logs SQL bind parameters. Setting it to true is obviously not recommended in production.
+quarkus.hibernate-orm.log.bind-parameters=true
+----
+
+== Security
+
+=== Password Encryption
+
+There is also some libraries to make Jasypt work with Quarkus such as https://camel.apache.org/camel-quarkus/latest/reference/extensions/jasypt.html[Camel Quarkus Jasypt]. Unfortunately, this feature only works in JVM mode and not in native mode.
+
+Quarkus supports many credentials provider with official extensions such as HashiCorp Vault.
+```
+<dependency>
+  <groupId>io.quarkus</groupId>
+  <artifactId>quarkus-vault</artifactId>
+</dependency>
+```
+
+A detailed guide can be found https://quarkus.io/guides/vault[here] and https://quarkus.io/guides/credentials-provider[here].

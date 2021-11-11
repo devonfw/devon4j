@@ -5,7 +5,11 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 
 /**
  * Kafka Common Properties class which contains properties for the {@link KafkaProducer}} and {@link KafkaConsumer}}.
+ *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public class KafkaCommonProperties {
 
   private String bootstrapServers;
@@ -346,7 +350,7 @@ public class KafkaCommonProperties {
 
   /**
    * Set the requestTimeoutMs for {@link #getRequestTimeoutMs()}
-   * 
+   *
    * @param requestTimeoutMs the request timeout in milliseconds.
    */
   public void setRequestTimeoutMs(Integer requestTimeoutMs) {

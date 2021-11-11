@@ -24,7 +24,10 @@ import com.devonfw.module.kafka.common.messaging.retry.util.MessageRetryUtils;
  * @param <K> the key type
  * @param <V> the value type
  *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public class DefaultRetryPolicy<K, V> implements MessageRetryPolicy<K, V> {
 
   private static final Logger LOG = LoggerFactory.getLogger(DefaultRetryPolicy.class);

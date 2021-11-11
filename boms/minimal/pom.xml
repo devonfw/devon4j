@@ -82,6 +82,11 @@
       </dependency>
       <dependency>
         <groupId>com.devonfw.java.modules</groupId>
+        <artifactId>devon4j-security-cors</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.modules</groupId>
         <artifactId>devon4j-security-jwt</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -238,6 +243,11 @@
       </dependency>
       <dependency>
         <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-security-cors</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
         <artifactId>devon4j-starter-security-keystore</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -249,6 +259,11 @@
       <dependency>
         <groupId>com.devonfw.java.starters</groupId>
         <artifactId>devon4j-starter-http-client-rest-async</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.devonfw.java.starters</groupId>
+        <artifactId>devon4j-starter-http-client-rest-sync</artifactId>
         <version>${project.version}</version>
       </dependency>
     </dependencies>

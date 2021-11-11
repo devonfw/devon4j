@@ -4,9 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 
 import com.devonfw.module.service.common.api.client.context.ServiceContext;
 
@@ -16,7 +14,7 @@ import com.devonfw.module.service.common.api.client.context.ServiceContext;
  * @param <S> type of the {@link ServiceContext#getApi() service API}.
  * @since 2020.08.001
  */
-public class RestServiceMetadata<S> extends RestMetadata {
+public class RestServiceMetadata<S> extends RestInvokableMetadata {
 
   private final ServiceContext<S> context;
 
@@ -31,20 +29,12 @@ public class RestServiceMetadata<S> extends RestMetadata {
    */
   public RestServiceMetadata(ServiceContext<S> context) {
 
-    super();
+    super(findConsumes(context.getApi()), findProduces(context.getApi()));
     this.context = context;
     this.methodMap = new ConcurrentHashMap<>();
     Class<S> api = context.getApi();
     Path pathAnnotation = api.getAnnotation(Path.class);
     this.path = pathAnnotation.value();
-    Consumes consumesAnnotation = findAnnotation(api, Consumes.class);
-    if (consumesAnnotation != null) {
-      requireJson(consumesAnnotation.value());
-    }
-    Produces producesAnnotation = findAnnotation(api, Produces.class);
-    if (producesAnnotation != null) {
-      requireJson(producesAnnotation.value());
-    }
   }
 
   /**

@@ -18,6 +18,8 @@ public class JwtConfigProperties {
 
   private String alias = "jwt";
 
+  private ClaimsConfigProperties claims = new ClaimsConfigProperties();
+
   private ValidationConfigProperties validation = new ValidationConfigProperties();
 
   private CreationConfigProperties creation = new CreationConfigProperties();
@@ -37,6 +39,14 @@ public class JwtConfigProperties {
   public CreationConfigProperties getCreation() {
 
     return this.creation;
+  }
+
+  /**
+   * @return the {@link ClaimsConfigProperties configuration of the JWT claims}.
+   */
+  public ClaimsConfigProperties getClaims() {
+
+    return this.claims;
   }
 
   /**
@@ -217,6 +227,58 @@ public class JwtConfigProperties {
     public void setAddIssuedAt(boolean addIssuedAt) {
 
       this.addIssuedAt = addIssuedAt;
+    }
+
+  }
+
+  /**
+   * {@link ConfigurationProperties} for claims of the JWT.
+   *
+   * @see JwtConfigProperties#getClaims
+   */
+  public static class ClaimsConfigProperties {
+
+    private String accessControlsName = "groups";
+
+    private boolean accessControlsArray = true;
+
+    /**
+     * @return name of the claim containing the access-controls (groups, roles, permissions). Defaults to "groups"
+     *         according to
+     *         <a href="https://www.eclipse.org/community/eclipse_newsletter/2017/september/article2.php">MP-JWT</a>
+     *         standard.
+     */
+    public String getAccessControlsName() {
+
+      return this.accessControlsName;
+    }
+
+    /**
+     * @param accessControlsName new value of {@link #getAccessControlsName()}.
+     */
+    public void setAccessControlsName(String accessControlsName) {
+
+      this.accessControlsName = accessControlsName;
+    }
+
+    /**
+     * @return {@code true} if a JSON array should be used to encode the actual items in the
+     *         {@link #getAccessControlsName() access controls claim}, {@code false} to use a comma separated JSON
+     *         string. Defaults to {@code true} according to
+     *         <a href="https://www.eclipse.org/community/eclipse_newsletter/2017/september/article2.php">MP-JWT</a>
+     *         standard.
+     */
+    public boolean isAccessControlsArray() {
+
+      return this.accessControlsArray;
+    }
+
+    /**
+     * @param accessControlsArray new value of {@link #isAccessControlsArray()}.
+     */
+    public void setAccessControlsArray(boolean accessControlsArray) {
+
+      this.accessControlsArray = accessControlsArray;
     }
 
   }

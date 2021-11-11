@@ -4,8 +4,6 @@ import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
-import com.devonfw.module.security.jwt.common.base.JwtConstants;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.impl.DefaultClaims;
 
@@ -13,6 +11,8 @@ import io.jsonwebtoken.impl.DefaultClaims;
  * Test of {@link JwtManager}.
  */
 public class JwtManagerTest extends JwtComponentTest {
+
+  private static final String CLAIM_GROUPS = "groups";
 
   /**
    * Test of encoding claims to JWT and decoding to assert claims afterwards.
@@ -24,7 +24,7 @@ public class JwtManagerTest extends JwtComponentTest {
     String login = TEST_LOGIN;
     DefaultClaims claims = new DefaultClaims();
     claims.setSubject(login);
-    claims.put(JwtConstants.CLAIM_ROLES, TEST_ROLES);
+    claims.put(CLAIM_GROUPS, TEST_ACCESS_CONTROLS);
     Date now = new Date();
     JwtManager jwtManager = getJwtManager();
 
@@ -59,12 +59,9 @@ public class JwtManagerTest extends JwtComponentTest {
     // then
     assertThat(claims.getIssuer()).isEqualTo(TEST_ISSUER);
     assertThat(claims.getSubject()).isEqualTo(TEST_LOGIN);
-    assertThat(claims.get(JwtConstants.CLAIM_ROLES)).isEqualTo(TEST_ROLES);
-    assertThat(claims.getNotBefore()).isEqualTo(new Date(1587713056000L));
-    assertThat(claims.getExpiration()).isEqualTo(new Date(1587742156000L));
-
-    // cleanup/reset
-    resetClock();
+    assertThat(claims.get(CLAIM_GROUPS)).isEqualTo(TEST_ACCESS_CONTROLS);
+    assertThat(claims.getNotBefore()).isEqualTo(new Date(1587716056000L));
+    assertThat(claims.getExpiration()).isEqualTo(new Date(1587730516000L));
   }
 
 }

@@ -17,7 +17,7 @@ public class ApplicationAccessControlConfig extends AccessControlConfig {
 
   public static final String GROUP_READ_MASTER_DATA = PREFIX + "ReadMasterData";
 
-  public static final String GROUP_ADMIN = PREFIX + "Admin";
+  public static final String GROUP_ADMIN = "Admin";
 
   /**
    * The constructor.

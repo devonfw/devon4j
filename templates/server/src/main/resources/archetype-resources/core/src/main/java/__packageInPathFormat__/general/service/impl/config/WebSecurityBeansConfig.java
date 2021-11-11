@@ -7,8 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
-import ${package}.general.logic.impl.config.DefaultRolesPrefixPostProcessor;
-
 /**
  * This configuration class provides factory methods for several Spring security related beans.
  */
@@ -24,19 +22,6 @@ public class WebSecurityBeansConfig {
   public CsrfTokenRepository csrfTokenRepository() {
 
     return new HttpSessionCsrfTokenRepository();
-  }
-
-  /**
-   * This method provides a new instance of {@code DefaultRolesPrefixPostProcessor}
-   *
-   * @return the newly create {@code DefaultRolesPrefixPostProcessor}
-   */
-  @Bean
-  public static DefaultRolesPrefixPostProcessor defaultRolesPrefixPostProcessor() {
-
-    // By default Spring-Security is setting the prefix "ROLE_" for all permissions/authorities.
-    // We disable this undesired behavior here...
-    return new DefaultRolesPrefixPostProcessor("");
   }
 
   /**

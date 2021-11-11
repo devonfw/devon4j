@@ -3,7 +3,9 @@ package com.devonfw.module.basic.common.api.reference;
 import com.devonfw.module.basic.common.api.entity.GenericEntity;
 
 /**
- * A {@link Ref} using {@link Long} values as {@link #getId() ID}.
+ * A {@link Ref} using {@link Long} values as {@link #getId() ID}. See
+ * <a href="https://github.com/devonfw/devon4j/blob/master/documentation/guide-jpa-idref.asciidoc">IdRef guide</a> for a
+ * detailed documentation.
  *
  * @param <E> generic type of the referenced {@link GenericEntity entity}.
  */

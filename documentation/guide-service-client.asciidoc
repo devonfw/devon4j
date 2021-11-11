@@ -18,11 +18,20 @@ You need to add (at least one of) these dependencies to your application:
   <groupId>com.devonfw.java.starters</groupId>
   <artifactId>devon4j-starter-http-client-rest-async</artifactId>
 </dependency>
-<!-- Starter for synchronous consuming REST services via Apache CXF (Java8+) -->
+<!-- Starter for synchronous consuming REST services via Jaca HTTP Client (Java11+) -->
+<dependency>
+  <groupId>com.devonfw.java.starters</groupId>
+  <artifactId>devon4j-starter-http-client-rest-sync</artifactId>
+</dependency>
+<!-- Starter for synchronous consuming REST services via Apache CXF (Java8+) 
+  NOTE: This is an alternative to devon4j-starter-http-client-rest-sync
+  -->
+<!--
 <dependency>
   <groupId>com.devonfw.java.starters</groupId>
   <artifactId>devon4j-starter-cxf-client-rest</artifactId>
 </dependency>
+-->
 <!-- Starter for synchronous consuming SOAP services via Apache CXF (Java8+) -->
 <dependency>
   <groupId>com.devonfw.java.starters</groupId>

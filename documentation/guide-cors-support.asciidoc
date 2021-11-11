@@ -15,58 +15,12 @@ So , we need to prepare server side to accept request from other domains. We nee
 
 It is important to note that if you are using security in your request (sending cookies) you have to set  `withCredentials` flag to `true` in your client side request and deal with special IE8 characteristics.
 
+For more information about CORS see https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS[here]. Information about the CORS headers can be found https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers#cors[here].
+
 == Configuring CORS support
 
-=== Dependency
+To enable CORS support for your application, see the advanced guides. For Spring applications see link:spring/guide-cors-spring.asciidoc[here]. For Quarkus follow the https://quarkus.io/guides/http-reference#cors-filter[official Quarkus guide].
 
-To enable the CORS support from the server side add the below dependency.
+== Configuration with service mesh
 
-[source,xml]
-----
-<dependency>
-  <groupId>com.devonfw.java.starters</groupId>
-  <artifactId>devon4j-starter-security-cors</artifactId>
-</dependency>
-----
-
-=== Configuration
-
-Add the below properties in your application.properties file.
-
-[source]
-----
-#CORS support
-security.cors.spring.allowCredentials=true
-security.cors.spring.allowedOrigins=*
-security.cors.spring.allowedHeaders=*
-security.cors.spring.allowedMethods=OPTIONS,HEAD,GET,PUT,POST,DELETE,PATCH
-security.cors.pathPattern=/**
-----
-
-
-[cols="1,1,1"]
-|===
-|Attribute |Description |HTTP Header
-
-|allowCredentials
-|Decides the browser should include any cookies associated with the request (`true` if cookies should be included).
-|Access-Control-Allow-Credentials
-
-|allowedOrigins
-|List of allowed origins (use `*` to allow all orgins).
-|Access-Control-Allow-Origin
-
-|allowedMethods
-|List of allowed HTTP request methods (`OPTIONS`, `HEAD`, `GET`, `PUT`, `POST`, `DELETE`, `PATCH`, etc.).
-|-
-
-|allowedHeaders
-|List of allowed headers that can be used during the request (use `*` to allow all headers requested by the client)
-|Access-Control-Allow-Headers
-
-|pathPattern
-|Ant-style pattern for the URL paths where to apply CORS. Use "/**" to match all URL paths.
-|
-|===
-
-More information about the CORS headers can be found https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers#cors[here]
+If you are using a service mesh, you can also define your CORS policy directly there. Here is an example from https://istio.io/latest/docs/reference/config/networking/virtual-service/#CorsPolicy[Istio].

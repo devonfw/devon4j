@@ -2,9 +2,9 @@ package com.devonfw.module.kafka.common.messaging.retry.impl;
 
 import static com.devonfw.module.kafka.common.messaging.util.MessageUtil.addHeaderValue;
 
+import java.nio.charset.Charset;
 import java.time.Instant;
 
-import org.apache.commons.codec.Charsets;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.Header;
@@ -18,7 +18,10 @@ import com.devonfw.module.kafka.common.messaging.retry.api.RetryState;
  * The MessageRetryContext is a class used to create retry pattern with the custom headers carries values for the retry
  * to proceed.
  *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public class MessageRetryContext {
 
   /**
@@ -175,7 +178,7 @@ public class MessageRetryContext {
 
     Header retryStateHeader = headers.lastHeader(RETRY_STATE);
     if (retryStateHeader != null && retryStateHeader.value() != null) {
-      String value = new String(headers.lastHeader(RETRY_STATE).value(), Charsets.UTF_8);
+      String value = new String(headers.lastHeader(RETRY_STATE).value(), Charset.forName("UTF-8"));
       try {
         result.retryState = RetryState.valueOf(value);
       } catch (Exception e) {
@@ -187,19 +190,19 @@ public class MessageRetryContext {
 
     Header retryUntilHeader = headers.lastHeader(RETRY_UNTIL);
     if (retryUntilHeader != null && retryUntilHeader.value() != null) {
-      String value = new String(retryUntilHeader.value(), Charsets.UTF_8);
+      String value = new String(retryUntilHeader.value(), Charset.forName("UTF-8"));
       result.setRetryUntil(Instant.parse(value));
     }
 
     Header retryNextHeader = headers.lastHeader(RETRY_NEXT);
     if (retryNextHeader != null && retryNextHeader.value() != null) {
-      String value = new String(retryNextHeader.value(), Charsets.UTF_8);
+      String value = new String(retryNextHeader.value(), Charset.forName("UTF-8"));
       result.setRetryNext(Instant.parse(value));
     }
 
     Header retryReadCount = headers.lastHeader(RETRY_READ_COUNT);
     if (retryReadCount != null && retryReadCount.value() != null) {
-      String value = new String(retryReadCount.value(), Charsets.UTF_8);
+      String value = new String(retryReadCount.value(), Charset.forName("UTF-8"));
       try {
         result.setRetryReadCount(Long.parseLong(value));
       } catch (Exception e) {
@@ -209,7 +212,7 @@ public class MessageRetryContext {
 
     Header retryCount = headers.lastHeader(RETRY_COUNT);
     if (retryCount != null && retryCount.value() != null) {
-      String value = new String(retryCount.value(), Charsets.UTF_8);
+      String value = new String(retryCount.value(), Charset.forName("UTF-8"));
       try {
         result.setCurrentRetryCount(Long.parseLong(value));
       } catch (Exception e) {
