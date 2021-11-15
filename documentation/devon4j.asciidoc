@@ -276,9 +276,10 @@ include::guide-text-search.asciidoc[leveloffset=+3]
 include::tutorial-newapp.asciidoc[leveloffset=+3]
 
 <<<<
-include::quarkus/getting-started-quarkus.asciidoc[leveloffset=+1]
 
 include::quarkus.asciidoc[leveloffset=+1]
+
+include::quarkus/getting-started-quarkus.asciidoc[leveloffset=+2]
 
 include::guide-structure-modern.asciidoc[leveloffset=+2]
 
