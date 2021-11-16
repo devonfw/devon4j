@@ -1,0 +1,153 @@
+:toc: macro
+toc::[]
+
+= API first development guide
+
+Cloud native promotes the use of microservices, which are loosely coupled and self-contained. These services communicate with each other using a well-defined interface or API, and no consumer needs to be aware of any implementation details of the provider. There could even be multiple providers of the same API, or we can decide to swap existing implementation for a new one, without disrupting our clients - all because we adhere to a well defined API. 
+This guide focuses on HTTP interfaces following RESTful design principles. 
+
+== OpenAPI
+OpenAPI or OAS is a specification for machine(and human)-readable interfaces of RESTful web services. It is the most common way to describe RESTful APIs.
+At its heart is as an OpenAPI document - the schema that describes our API which conforms the OpenAPI spec. It is a document(yaml/json), where we descibe our API in general, all the operations and resources/models used.
+Apart from documenting the API, this schema then also acts as a contract between provider and consumers, guaranteeing interoperability between various technologies. 
+[NOTE]
+====
+Swagger and OpenAPI: Swagger is a former specification, based on which the OpenAPI was created. Swagger 2.0 is still commonly used for describing APIs. OpenAPI is an open-source collaboration and it started from version 3.0.0(semver)
+====
+
+There are many tools that work with OpenAPI: code generators, documentation tools, validators etc. Quarkus provides support for OpenAPI using quarkus-smallrye-openapi extension which allows both schema generation from code, and API documentation using swagger-ui.
+
+== API first strategy 
+API first strategy treats APIs as first class citizens in the delivery model.  
+The APIs are modeled/designed first, often in a collaborative process between provider and consumers and only once the APIs is defined do we start with development of the provider service. 
+This requires a bit more time upfront, but also provides opportunity to think about the behaviour of the system before it gets implemented. Several other advatages of this approach:
+
+ * provider and client implementation can run in parallel - we have the contract, client does not need to wait for provider to finish implementation
+ * support for automation and great ecosystem - we can easily generate stubs and clients for most languages/frameworks, generate documentation and API catalogues using one of the many opensource and commercial tools
+
+== Quarkus API first provider 
+
+After careful planning, we defined our future API. Now we would like to implement a provider of this API using Quarkus. We could manually create all the JAXRS endpoints based on the schema and then test whether the actually provided interface conforms the API schema, but is error prone and laborous process, especially if API gets big.
+Luckily we can use great opensource tooling to generate JAXRS interfaces, that are 100% coform to the schema, and then we simply implement them.
+
+There are many opensource tools, that allow code generation from OpenAPI schema files, for example https://openapi-generator.tech/[OpenAPI tech generator] or https://github.com/swagger-api/swagger-codegen[Swagger codegen]. Both of these are based on java and even provide maven plugins to integrate them in our build.
+
+=== OpenAPI tech generator maven plugin
+
+If we already have our backend maven project, using the maven plugin will be easiest for us. Lets define a new maven profile and add the OpenAPI generator plugin:
+[source, xml]
+----
+<profile>
+  <id>apigen</id>
+  <activation><activeByDefault>true</activeByDefault></activation>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>5.1.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <!-- input spec can be a url, or a local file -->
+              <inputSpec>https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.yaml</inputSpec>
+              <!-- <inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec> -->
+              <generatorName>jaxrs-spec</generatorName>
+              <apiPackage>com.petclinic.api</apiPackage>
+              <modelPackage>com.petclinic.api.model</modelPackage>
+              <!-- <library>quarkus</library> -->
+              <configOptions>
+                <sourceFolder>src/gen/java/main</sourceFolder>
+                <useSwaggerAnnotations>false</useSwaggerAnnotations>
+                <useTags>true</useTags>
+                <interfaceOnly>true</interfaceOnly>
+                <generatePom>false</generatePom>
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</profile>
+----
+
+OpenAPI generator project includes support for many languages and frameworks - in our case we picked `jaxrs-spec` server generator, as Quarkus supports Jaxrs/Resteasy extension.
+Many of the generator templates have further sub-generators, for example for your specific framework. We could, for example use `quarkus` sub-generator to bootstrap a full working Quarkus maven project, but in our case we want to have more control over the process, therefore we opt for standard `jaxrs` template and pass some additional configuration: 
+
+* `apiPackage` = generated package name for our endpoint interfaces
+* `modelPackage` = generated package name for our API models(DTOs)
+* `sourceFolder` = where do we want to output the generated files, relative to the `output` folder - if we regenerate the files with every build, then it is recommended to put them in `${project.build.directory}/generated-sources/openapi` (default, can be changed via `output` plugin attribute). Final location of our generated java files will be then `${project.build.directory}/generated-sources/openapi/src/gen/java/main` 
+* `useTags` = group the generated endpoints by schema `tag` attribute
+* `interfaceOnly` = we want to implement the endpoint logic ourselves, so we only want JAXRS interfaces
+* `generatePom` = we are generating the files into existing project, so we dont want to generate additional maven pom
+
+Lets run the plugin now using `mvn clean compile`. If everything went well we end up with something like this:
+
+[[img-generated-sources]]
+.Generated sources by OpenAPI codegen
+image::../images/apifirst-generated-sources.png["Generated sources by OpenAPI codegen",scaledwidth="80%",align="center",link="https://devonfw.com/website/pages/docs/images/apifirst-generated-sources.png"]
+
+
+Depending on the configuration of your codegen, you might need to add some additional dependencies to your `pom.xml` for example for bean validation or Jackson annotations.
+
+The codegen has many more configuration options that our outside the scope of this guide and you can find full documentation of the codegen plugin in the https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin[projects repo]
+
+
+=== Generate once vs generate always
+
+Depending on our needs, we may either want to generate the interfaces and models once and afterwards copy them to our project as general source code files, or treat them as immutable generated assets, that we generate anew with every build.
+Both scenarios have their pros and cons and you'll need to find out what best suits your project. In the example above we use a profile with `activeByDefault=true` which will cause the generator to run with every build. The generated files will be included as sources in our project, so we can import them in any other java class without issues.
+
+In case you want to generate your API resorces only once and afterwards version them in SCM, simply run the generator, outputing to some temp location, afterwards copy them to `src/main/java` and your are done. Be careful if you manualy modify the generated files afterwards and you want to re-generate them after API schema update, you will loose any manual changes. 
+
+=== Implement the generated interfaces
+
+To implement the generated interfaces, we simply create an impl class - rest controller bean - that implements the interface from our `gen` package:
+
+[source, java]
+----
+package org.acme.rest.controller;
+
+import java.util.List;
+
+import com.petclinic.api.PetsApi;
+import com.petclinic.api.model.Pet;
+
+public class PetClinicController implements PetsApi {
+
+    @Override
+    public void createPets() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public List<Pet> listPets(Integer limit) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Pet showPetById(String petId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+}
+----
+
+And now we can invoke our API endpoint as usual: `http://localhost:8080/pets` - because `/pets` is the `@Path` annotation value in the generated `PetsApi` interface.
+
+=== Serving API docs/swagger-ui
+
+A common requirement is that our backend API provider should also provide an endpoint with the schema or a Swagger-UI application with that schema. 
+In our example, we decided to generate the JAXRS interface without swagger/openapi annotations, therefore Quarkus will not be able to re-construct the schema 1:1 from our code(missing method documentation, error handling etc, etc).
+We can tell Quarkus to serve a static version of the API as our openapi schema(the same file we used to generate the interfaces and models) and to disable the auto-generating of the schema. Follow the https://quarkus.io/guides/openapi-swaggerui#openapi[Quarkus Openapi documentation] for more info.
+
+=== Advanced topics
+
+In some cases, we may have specific requirements or API extensions that are not supported by the existing generators. OpenAPI generator project allows us to define https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin#custom-generator[custom genererator], or to extend the existing https://openapi-generator.tech/docs/templating[generator templates]. We can also selectively generate subset of the models or API endpoints, generate test code and much more. 
