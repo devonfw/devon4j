@@ -21,7 +21,7 @@ Dependent on the intention you are reading this document, you might be most inte
 
 * If you want to have a Quarkus sample application using devon4j recommendations, check out our https://github.com/devonfw-sample/devon4quarkus-reference[Quarkus reference application].
 
-* If you already have some experience with devon4j and Quarkus and need more information on a specific topic, check out our https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides_2.html[Quarkus guides]. If you don't find what you are looking for there, check out the https://devonfw.com/website/pages/docs/devon4j.asciidoc_general.html[general section]. devon4j uses general solutions for Java, so solutions for both Quarkus and Spring are documented there.
+* If you already have some experience with devon4j and Quarkus and need more information on a specific topic, check out our link:devon4j.asciidoc#guides[Quarkus guides]. If you don't find what you are looking for there, check out the link:devon4j.asciidoc#general[general section]. devon4j uses general solutions for Java, so solutions for both Quarkus and Spring are documented there.
 
 * If you want to learn how to build native images, check out link:quarkus/guide-native-image.asciidoc[this guide].
 
