@@ -20,7 +20,7 @@ We need to install the following tools for this guide.
 * any IDE (devonfw-ide supports Eclipse, Intellij and VScode)
 * Docker 
 
-We recommend installing the devonfw-ide with the tools, but if you already got your system configured and the tools from above installed you can skip to xref:bootstrap-quarkus-project[Bootstrap a Quarkus Project] otherwise we will show you how to setup and update your devonfw-ide.
+We recommend installing the devonfw-ide with the tools, but if you already got your system configured and the tools from above installed you can skip to xref:bootstrap-a-quarkus-project[Bootstrap a Quarkus Project] otherwise we will show you how to setup and update your devonfw-ide.
 
 .devonfw-ide 
 . Install devonfw-ide + 
