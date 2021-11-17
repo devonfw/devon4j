@@ -11,9 +11,9 @@ Additional things like extensions will be available on the  https://github.com/d
 
 Dependent on the intention you are reading this document, you might be most interested in the following chapters:
 
-* If you are completely new to Quarkus, you may be interested in the xref:pros[pros] and xref:cons[cons] of Quarkus. Also take a look at the link:https://quarkus.io/g[official Quarkus website]. And you might also be interested in the features that link:https://www.graalvm.org/[GraalVM] offers.
+* If you are completely new to Quarkus, you may be interested in the link:quarkus.asciidoc#pros[pros] and link:quarkus.asciidoc#cons[cons] of Quarkus. Also take a look at the link:https://quarkus.io[official Quarkus website]. And you might also be interested in the features that link:https://www.graalvm.org/[GraalVM] offers.
 
-* If you are new to devon4j, also take a look at devon4j's recommendations on general best practices. Check out the chapters on link:architecture.asciidoc[architecture design], link:guide-structure-modern.asciidoc[project structuring] and link:coding-conventions[coding conventions]. Follow the referenced links to explore a topic in more depth.
+* If you are new to devon4j, also take a look at devon4j's recommendations on general best practices. Check out the chapters on link:architecture.asciidoc[architecture design], link:guide-structure-modern.asciidoc[project structuring] and link:coding-conventions.asciidoc[coding conventions]. Follow the referenced links to explore a topic in more depth.
 
 * If you are an experienced Spring developer and want to get in touch with Quarkus, read our link:quarkus/getting-started-for-spring-developers.asciidoc[Getting started with Quarkus for Spring developers] guide.
 
