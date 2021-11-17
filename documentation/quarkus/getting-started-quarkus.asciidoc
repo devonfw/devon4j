@@ -5,35 +5,31 @@ This guide will show a quickstart how to create a Quarkus app and will briefly s
 
 == Introduction to Quarkus 
 
-To get the first introduction to Quarkus you can read the link:../quarkus.asciidoc[Quarkus introduction guide]. To get a short overview where you can find the important Quarkus related guides follow the chapter **Guide to the Reader**.
+To get the first introduction to Quarkus you can read the link:../quarkus.asciidoc[Quarkus introduction guide]. To get a short overview where you can find the important Quarkus related guides follow the chapter link:../quarkus.asciidoc#guide-to-the-reader[guide to the reader].
 Also, a comparison of the link:../quarkus.asciidoc#Pros[advantages] and link:../quarkus.asciidoc#cons[disadvantages] of a Quarkus application compared to the alternative framework Spring.
 This comparison will be supported by our link:../performance-comparison-spring-quarkus.asciidoc[performance comparison between Spring and Quarkus] that shows the lower resource consumption and startup time of Quarkus applications.
 
 
 == Installation of Tools and Dependencies
 
-First, we need to install some dependencies and tools before we can start programming. Our tool https://devonfw.com/website/pages/docs/devonfw-ide-introduction.asciidoc.html[devonfw-ide] comes with many development tools, frameworks, and libraries for you.
-We will install the devonfw-ide with the following tools, that are needed for this guide.
+First, we need to install some dependencies and tools before we can start programming. Our tool https://devonfw.com/website/pages/docs/devonfw-ide-introduction.asciidoc.html[devonfw-ide] comes with many development tools for you.
+We need to install the following tools for this guide.
 
 * Maven 
 * Java
 * any IDE (devonfw-ide supports Eclipse, Intellij and VScode)
-* CobiGen
 * Docker 
 
-We recommend installing the devonfw-ide but if you already got your system configured and the tools from above installed you can skip to <<Bootstrap a Quarkus Project>>.
-We advise to update your already installed devonfw-ide and all tools because we are still working to improve devonfw-ide and there could be essential features for cloud development with Quarkus that you could be missing.
-Follow this link to install a devonfw-ide with Java and Maven. 
+We recommend installing the devonfw-ide with the tools, but if you already got your system configured and the tools from above installed you can skip to link:getting-started-quarkus.asciidoc#bootstrap-quarkus-project[Bootstrap a Quarkus Project] otherwise we will show you how to setup and update your devonfw-ide.
 
 .devonfw-ide 
 . Install devonfw-ide + 
 Follow the https://github.com/devonfw/ide/wiki/setup#setup[Setup] to install the devonfw-ide with Java, Maven, Eclipse and VScode. 
-.. Command to install CobiGen + 
-`devon cobigen setup`
 .. Command to install Docker + 
 `devon docker setup`
 
-. Update devonfw-ide + 
+. Update devonfw-ide +
+We advise to update your already installed devonfw-ide and all tools because we are still working to improve devonfw-ide and there could be essential features for cloud development with Quarkus that you could be missing. 
 Use the commands `devon ide update`, `devon ide update software` and `devon ide scripts` to update devonfw-ide and all software that is installed.
 
 Go to the main folder under workspaces of the devonfw-ide installation. 
@@ -73,7 +69,6 @@ This guide shows, how to link:../guide-migration-spring-quarkus.asciidoc[migrate
 == Create a REST service
 Now let's create our first REST CRUD service with Quarkus. 
 We give you the options to use a guide and start to code the service yourself,
-// TODO generate a service with CobiGen 
 or just download a service that's ready to use. 
 
 
@@ -85,7 +80,7 @@ You don't want to code a service and just want to test some Quarkus functionalit
 Our Team also provides some Quarkus applications that are working and can be loaded and tested. 
 * https://github.com/devonfw-sample/devon4quarkus-reference[reference project] is a service that manages products. It contains the devon4j modern project structure, pagination, queries, a Postgres database, Jaeger tracing, Prometheus monitoring, SwaggerUI and support for Kubernetes deploy. 
 This project will be steadily improved and is used to showcase the abilities of Quarkus with devon4j.
-* https://github.com/devonfw-sample/devon4quarkus-minimal[minimal Quarkus project] is just the Quarkus project from a https://quarkus.io/guides/getting-started[getting started with Quarkus] guide with a **Greeting Services** modified with the correct modern structure talked about in this chapter <<Project Structure>>.
+* https://github.com/devonfw-sample/devon4quarkus-minimal[minimal Quarkus project] is just the Quarkus project from a https://quarkus.io/guides/getting-started[getting started with Quarkus] guide with a **Greeting Services** modified with the correct modern structure talked about in this chapter link:getting-started-quarkus.asciidoc#project-structure[Project Structure]
 
 
 == OpenAPI generation 
@@ -139,7 +134,7 @@ You need an installed Docker version for the https://quarkus.io/guides/datasourc
 .Database Migration
 . Migration guide
 For schema-based databases, we recommend migrating databases with Flyway.
-In that case there is our link:../guide-database-migration.asciidoc[Quarkus non-specific migration guide] can give you an overview if you are not familiar with migration.
+In that case there is our link:../guide-database-migration.asciidoc[general migration guide] can give you an overview if you are not familiar with migration.
 .. Flyway guide for Quarkus
 This Quarkus guide will show how to work with the https://quarkus.io/guides/flyway[Flyway extension in a Quarkus application].
 This should be used if you start your own database and do not leave the creation to quarkus.
@@ -159,7 +154,7 @@ Most of the Quarkus applications are already equipped with a basic Test and also
 
 
 
-== Packaging of a Quarkus application and creation of a native Executable
+== Packaging of a Quarkus application and creation of a native executable
 Quarkus applications can be packed into different types. The following link will show how to build and also give you a short explanation of the characteristics of these files.
 
 .Package types
@@ -176,7 +171,7 @@ Configure the Output with these https://quarkus.io/guides/maven-tooling#configur
 == Create and build a Docker Image
 
 Quarkus supports Jib, S2I and https://www.docker.com/[Docker] for building images. We focus on building a Quarkus App with Docker.
-You get a created Dockerfile from Quarkus in the src/main/docker folder of any created project. There are multiple Dockerfiles.
+You get a created Dockerfile from Quarkus in the src/main/docker folder of any project generated from Quarkus. There are multiple Dockerfiles.
 
 .Dockerfiles
 . Dockerfile.jvm + 
@@ -190,7 +185,7 @@ The native file will run in a **Distroless container**. Distroless images are ve
 
 [Note]
 ====
-For more information to the different executables go back to the chapter <<Packaging of a Quarkus application and creation of a native Executable>> 
+For more information to the different executables go back to the chapter link:getting-started-quarkus.asciidoc#Packaging-of-a-Quarkus-application-and-creation-of-a-native-executable[Packaging of a Quarkus application and creation of a native executable] //TODO
 ====
 To simply build and run a Docker image you can follow the instructions Quarkus provides for every Dockerfile in the comments block. 
 
@@ -232,4 +227,3 @@ If your needs exceed the instructions given by the file, we recommend to follow 
 To specify your container build, you can use the https://quarkus.io/guides/container-image#container-image-options[general container image configurations properties] and the https://quarkus.io/guides/container-image#docker-options[Docker image configurations properties] when building and runnig Docker images. 
 
 
-// add devon hangar if function is implemented
