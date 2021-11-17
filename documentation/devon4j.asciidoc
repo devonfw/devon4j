@@ -284,6 +284,8 @@ include::quarkus/getting-started-quarkus.asciidoc[leveloffset=+1]
 
 include::quarkus.asciidoc[leveloffset=+1]
 
+include::quarkus/getting-started-quarkus.asciidoc[leveloffset=+2]
+
 include::guide-structure-modern.asciidoc[leveloffset=+2]
 
 include::guide-domain-layer.asciidoc[leveloffset=+2]
