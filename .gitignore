@@ -3,6 +3,7 @@
 !.gitignore
 !.mvn
 !.travis.yml
+!.spellcheck.yml
 *.bak
 *.log
 *.class

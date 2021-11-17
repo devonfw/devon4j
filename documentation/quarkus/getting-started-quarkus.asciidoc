@@ -15,6 +15,7 @@ This comparison will be supported by our link:../performance-comparison-spring-q
 First, we need to install some dependencies and tools before we can start programming. Our tool https://devonfw.com/website/pages/docs/devonfw-ide-introduction.asciidoc.html[devonfw-ide] comes with many development tools for you.
 We need to install the following tools for this guide.
 
+
 * Maven 
 * Java
 * any IDE (devonfw-ide supports Eclipse, Intellij and VScode)
@@ -25,11 +26,13 @@ We recommend installing the devonfw-ide with the tools, but if you already got y
 .devonfw-ide 
 . Install devonfw-ide + 
 Follow the https://github.com/devonfw/ide/wiki/setup#setup[Setup] to install the devonfw-ide with Java, Maven, Eclipse and VScode. 
+
 .. Command to install Docker + 
 `devon docker setup`
 
 . Update devonfw-ide +
 We advise to update your already installed devonfw-ide and all tools because we are still working to improve devonfw-ide and there could be essential features for cloud development with Quarkus that you could be missing. 
+
 Use the commands `devon ide update`, `devon ide update software` and `devon ide scripts` to update devonfw-ide and all software that is installed.
 
 Go to the main folder under workspaces of the devonfw-ide installation. 
@@ -51,7 +54,6 @@ By creating a Quarkus project from command-line or with the project builder you 
 
 We provide a recommendation and guideline for a link:../guide-structure-modern.asciidoc[modern project structure] to help organize your project into logically related modules.
 You should follow the guide and also it in your project so you structure the project to the needs of modern cloud development and microservice architectures and also find similar modules faster in our example projects.
-// TODO We are currently working on a command `devon init` that will generate the project structure for you, but for now, you have to do it on your own. 
 
 
 == Introduction to Quarkus Functionality
@@ -81,6 +83,7 @@ Our Team also provides some Quarkus applications that are working and can be loa
 * https://github.com/devonfw-sample/devon4quarkus-reference[reference project] is a service that manages products. It contains the devon4j modern project structure, pagination, queries, a Postgres database, Jaeger tracing, Prometheus monitoring, SwaggerUI and support for Kubernetes deploy. 
 This project will be steadily improved and is used to showcase the abilities of Quarkus with devon4j.
 * https://github.com/devonfw-sample/devon4quarkus-minimal[minimal Quarkus project] is just the Quarkus project from a https://quarkus.io/guides/getting-started[getting started with Quarkus] guide with a **Greeting Services** modified with the correct modern structure talked about in this chapter xref:project-structure[Project Structure]
+
 
 
 == OpenAPI generation 

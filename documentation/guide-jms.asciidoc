@@ -9,7 +9,7 @@ Messaging in Java is done using the https://en.wikipedia.org/wiki/Java_Message_S
 For messaging you need to choose a JMS provider such as:
 
 * https://www.rabbitmq.com/[RabbitMQ]
-* https://activemq.apache.org/jms[ActiveMQ]
+* https://activemq.apache.org[ActiveMQ]
 * link:guide-oracle.asciidoc#messaging[Oracle Advanced Queuing] (esp. if you already use link:guide-oracle.asciidoc[Oracle RDBMS])
 
 == Receiver
