@@ -20,7 +20,7 @@ We need to install the following tools for this guide.
 * any IDE (devonfw-ide supports Eclipse, Intellij and VScode)
 * Docker 
 
-We recommend installing the devonfw-ide with the tools, but if you already got your system configured and the tools from above installed you can skip to link:getting-started-quarkus.asciidoc#bootstrap-quarkus-project[Bootstrap a Quarkus Project] otherwise we will show you how to setup and update your devonfw-ide.
+We recommend installing the devonfw-ide with the tools, but if you already got your system configured and the tools from above installed you can skip to xref:bootstrap-quarkus-project[Bootstrap a Quarkus Project] otherwise we will show you how to setup and update your devonfw-ide.
 
 .devonfw-ide 
 . Install devonfw-ide + 
@@ -80,7 +80,7 @@ You don't want to code a service and just want to test some Quarkus functionalit
 Our Team also provides some Quarkus applications that are working and can be loaded and tested. 
 * https://github.com/devonfw-sample/devon4quarkus-reference[reference project] is a service that manages products. It contains the devon4j modern project structure, pagination, queries, a Postgres database, Jaeger tracing, Prometheus monitoring, SwaggerUI and support for Kubernetes deploy. 
 This project will be steadily improved and is used to showcase the abilities of Quarkus with devon4j.
-* https://github.com/devonfw-sample/devon4quarkus-minimal[minimal Quarkus project] is just the Quarkus project from a https://quarkus.io/guides/getting-started[getting started with Quarkus] guide with a **Greeting Services** modified with the correct modern structure talked about in this chapter link:getting-started-quarkus.asciidoc#project-structure[Project Structure]
+* https://github.com/devonfw-sample/devon4quarkus-minimal[minimal Quarkus project] is just the Quarkus project from a https://quarkus.io/guides/getting-started[getting started with Quarkus] guide with a **Greeting Services** modified with the correct modern structure talked about in this chapter xref:project-structure[Project Structure]
 
 
 == OpenAPI generation 
@@ -185,7 +185,7 @@ The native file will run in a **Distroless container**. Distroless images are ve
 
 [Note]
 ====
-For more information to the different executables go back to the chapter link:getting-started-quarkus.asciidoc#Packaging-of-a-Quarkus-application-and-creation-of-a-native-executable[Packaging of a Quarkus application and creation of a native executable] //TODO
+For more information to the different executables go back to the chapter xref:packaging-of-a-quarkus-application-and-creation-of-a-native-executable[Packaging of a Quarkus application and creation of a native executable]
 ====
 To simply build and run a Docker image you can follow the instructions Quarkus provides for every Dockerfile in the comments block. 
 
