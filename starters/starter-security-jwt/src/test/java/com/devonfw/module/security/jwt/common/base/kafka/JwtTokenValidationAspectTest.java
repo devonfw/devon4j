@@ -19,11 +19,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
 import com.devonfw.module.security.jwt.common.api.JwtComponentTest;
 import com.devonfw.module.security.jwt.common.base.JwtConstants;
 
@@ -47,10 +47,10 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
   public static final String TEST_TOPIC_2 = "jwt-test-2";
 
   @Autowired
-  private MessageSender<String, String> messageSender;
+  private KafkaTemplate<String, String> kafkaTemplate;
 
   @Autowired
-  private MessageTestProcessorImpl messageProcessor;
+  private KafkaMessageListener messageListener;
 
   @Autowired
   private JwtTokenValidationAspect jwtTokenValidationAspect;
@@ -67,7 +67,7 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
   @AfterEach
   public void removeMessages() {
 
-    this.messageProcessor.getReceivedMessages().clear();
+    this.messageListener.getReceivedMessages().clear();
   }
 
   /**
@@ -88,10 +88,10 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
     adjustClock();
 
     // Act
-    this.messageSender.sendMessageAndWait(producerRecord);
+    this.kafkaTemplate.send(producerRecord);
 
     // Assert
-    Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(1));
+    Awaitility.await().until(() -> this.messageListener.getReceivedMessages().size(), equalTo(1));
   }
 
   /**
@@ -114,10 +114,10 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
     adjustClock();
 
     // Act
-    this.messageSender.sendMessageAndWait(producerRecord);
+    this.kafkaTemplate.send(producerRecord);
 
     // Assert
-    Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(0));
+    Awaitility.await().until(() -> this.messageListener.getReceivedMessages().size(), equalTo(0));
   }
 
   /**
@@ -139,7 +139,7 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
     Mockito.when(this.jwtAuthentication.failOnMissingToken()).thenReturn(true);
 
     // Act
-    this.messageSender.sendMessageAndWait(producerRecord);
+    this.kafkaTemplate.send(producerRecord);
 
     // Assert
     Awaitility.await().untilAsserted(() -> Assertions.assertThrows(MissingTokenException.class,
@@ -163,9 +163,9 @@ public class JwtTokenValidationAspectTest extends JwtComponentTest {
     adjustClock();
 
     // Act
-    this.messageSender.sendMessageAndWait(producerRecord);
+    this.kafkaTemplate.send(producerRecord);
 
     // Assert
-    Awaitility.await().until(() -> this.messageProcessor.getReceivedMessages().size(), equalTo(1));
+    Awaitility.await().until(() -> this.messageListener.getReceivedMessages().size(), equalTo(1));
   }
 }

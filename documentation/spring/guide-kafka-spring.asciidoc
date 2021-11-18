@@ -73,7 +73,7 @@ We use the same properties defined by Apache Kafka or Spring Kafka. They are sim
 
 * The `https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaProducerProperties.java/[Devon4j-Kafka-Producer properties]` are defined from `https://kafka.apache.org/documentation/#producerconfigs/[kafka prodcuer config]`.
 * The `https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaConsumerProperties.java/[Devon4j-Kafka-Consumer properties]` are defined from `https://kafka.apache.org/documentation/#consumerconfigs/[kafka consumer config]`.
-* The `https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaListenerContainerProperties.java/[Devon4j-Kafka-Listener container properties]` are defined from `https://docs.spring.io/spring-kafka/api/org/springframework/kafka/listener/ContainerProperties.html/[Spring kafka listener properties]`.
+* The `https://github.com/devonfw/devon4j/blob/develop/modules/kafka/src/main/java/com/devonfw/module/kafka/common/messaging/api/config/KafkaListenerContainerProperties.java/[Devon4j-Kafka-Listener container properties]` are defined from `https://docs.spring.io/spring-kafka/api/org/springframework/kafka/listener/ContainerProperties.html[Spring kafka listener properties]`.
 
 
 == Naming convention for topics

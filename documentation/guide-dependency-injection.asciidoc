@@ -68,7 +68,7 @@ The following sub-sections handle the different scenarios to give you guidance.
 In some cases you still have only one implementation active as bean in the container at runtime.
 A typical example is that you have different implemenations for test and main usage.
 This case is easy, as `@Inject` will always be unique.
-The only thing you need to care about is how to configure your framework (spring, quaruks, etc.) to know which implementation to put in the container depending on specific configuration.
+The only thing you need to care about is how to configure your framework (spring, quarkus, etc.) to know which implementation to put in the container depending on specific configuration.
 In spring this can be archived via the proprietary `@Profile` annotaiton.
 
 === Injecting all of multiple implementations

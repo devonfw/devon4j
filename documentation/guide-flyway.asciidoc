@@ -39,7 +39,7 @@ With regard to content, separation of concerns (SoC) is an important goal. SoC c
 It is important to have clear responsibilities regarding the database, the persistence layer (JPA), and migrations. Therefore a dedicated database expert should be in charge of any migrations performed or she should at least be informed before any change to any of the mentioned parts is applied.
 
 == Technical Configuration
-Database migrations can be http://flywaydb.org/documentation/migration/sql.html[SQL] based or http://flywaydb.org/documentation/migration/java.html[Java] based.
+Database migrations can be https://flywaydb.org/documentation/concepts/migrations#sql-based-migrations[SQL] based or https://flywaydb.org/documentation/concepts/migrations#java-based-migrations[Java] based.
 
 To enable auto migration on startup (not recommended for productive environment) set the following property in the `application.properties` file for an environment.
 [source, properties]

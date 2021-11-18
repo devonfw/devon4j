@@ -9,7 +9,10 @@ import com.devonfw.module.kafka.common.messaging.retry.impl.DefaultRetryPolicy;
 /**
  * This is a property class for {@link DefaultRetryPolicy}.
  *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public class DefaultRetryPolicyProperties {
 
   private Map<String, Long> retryPeriod = new HashMap<>();

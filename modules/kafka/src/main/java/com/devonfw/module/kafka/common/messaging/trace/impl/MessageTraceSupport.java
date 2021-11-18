@@ -19,7 +19,10 @@ import brave.propagation.TraceContextOrSamplingFlags;
 /**
  * A support class for {@link Tracer} to start and finish the span.
  *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public final class MessageTraceSupport {
 
   private static final Logger LOG = LoggerFactory.getLogger(MessageTraceSupport.class);
@@ -57,10 +60,12 @@ public final class MessageTraceSupport {
   private static <K, V> void getCurrentSpanAndLog(ConsumerRecord<K, V> kafkaRecord, Tracer tracer) {
 
     Span span = tracer.currentSpan();
-
-    LOG.warn(EventKey.MESSAGE_WITHOUT_TRACEID.getMessage(),
-        new String(kafkaRecord.headers().lastHeader(KafkaHeaders.MESSAGE_KEY).value(), Charset.forName("UTF-8")),
-        span.context().traceIdString());
+    String messageKey = null;
+    if (kafkaRecord.headers().lastHeader(KafkaHeaders.MESSAGE_KEY) != null) {
+      messageKey = new String(kafkaRecord.headers().lastHeader(KafkaHeaders.MESSAGE_KEY).value(),
+          Charset.forName("UTF-8"));
+    }
+    LOG.warn(EventKey.MESSAGE_WITHOUT_TRACEID.getMessage(), messageKey, span.context().traceIdString());
   }
 
   private static void checkTraceHeadersAndSetContextAsSpanInScope(Tracer tracer,
