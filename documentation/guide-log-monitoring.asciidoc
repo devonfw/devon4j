@@ -22,8 +22,9 @@ Typical products for such a log monitoring system are:
 * https://www.graylog.org/[Graylog]
 * https://www.splunk.com/[Splunk]
 
-In devonfw we are not biased for any of these products.
-Therefore, feel free to make your choice according to the requirements of your project.
+In devonfw we are not biased for any of these products. Therefore, feel free to make your choice according to the requirements of your project.
+
+For Quarkus applications, you can get an insight into the topic by reading the guide about https://quarkus.io/guides/centralized-log-management[centralized log management].
 
 == API for log-monitoring
 

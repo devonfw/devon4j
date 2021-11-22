@@ -4,7 +4,11 @@ import com.devonfw.module.kafka.common.messaging.api.client.MessageSender;
 
 /**
  * A property class used to configure for {@link MessageSender}
+ *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public class MessageSenderProperties {
 
   private int defaultSendTimeoutSeconds = 60;
