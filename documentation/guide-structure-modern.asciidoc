@@ -71,7 +71,7 @@ we provide this architecture mapping:
 |  |  ├──«BusinessObject»Validator
 |  |  └──«BusinessObject»EventsEmitter
 |   |  └──.link:guide-usecase.asciidoc[Uc«Operation»«BusinessObject»[Impl]]
-|  └──.link:guide-service-layer.asciidoc[service]
+|  └──.link:guide-service-layer.asciidoc[rest]
 |     └──.link:guide-service-versioning.asciidoc#jax-rs[v1]
 |        ├──.link:guide-rest.asciidoc#jax-rs[«Component»RestService]
 |        ├──.mapper
