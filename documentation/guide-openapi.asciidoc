@@ -1,0 +1,86 @@
+:toc: macro
+toc::[]
+
+= OpenAPI
+
+The link:https://spec.openapis.org/oas/latest.html[OpenAPI Specification (OAS)] defines a standard for describing RESTful web services in a machine- and human-readable format. OpenAPI allows REST APIs to be defined in a uniform manner.
+Technically, an OpenAPI document is written in YAML or JSON format. The specification defines the structure of a REST API by describing attributes such as path information, response codes, and return types. Some examples can be found link:https://github.com/OAI/OpenAPI-Specification/tree/main/examples/v3.0[here].
+
+OpenAPI is often used in combination with link:https://swagger.io/[Swagger]. Swagger is a set of tools build around OpenAPI, that help developers to design and document their REST APIs.
+The most common tool is the link:https://swagger.io/tools/swagger-ui/[Swagger UI], which uses the OpenAPI specification to create a graphical interface of the REST API that you can also interact with. Check out the link:https://editor.swagger.io/[Swagger online editor] to get a feeling for it.
+
+== OpenAPI generation
+
+There are several extensions you can use in your project to automatically generate the OpenAPI specifications and Swagger UI from your REST API (code-first approach). devon4j recommends the following two extensions/plugins to use:
+
+* Smallrye OpenAPI extension
+* ServicedocGen maven plugin
+
+=== Smallrye OpenAPI
+
+Quarkus provides OpenAPI support through Smallrye OpenAPI extension:
+
+[source,xml]
+--------
+<dependency>
+  <groupId>io.quarkus</groupId>
+  <artifactId>quarkus-smallrye-openapi</artifactId>
+</dependency>
+--------
+
+After adding the extension to your project, you can access the Swagger UI by navigating to `/q/swagger-ui`. 
+
+The OpenAPI specification can be accessed by requesting `/q/openapi`.
+
+Smallrye OpenAPI is compliant with link:https://github.com/eclipse/microprofile-open-api[MicroProfile OpenAPI]. You can add MicroProfile annotations to further describe your REST endpoints and extend the OpenAPI documentation.
+More information for this can be found link:https://quarkus.io/blog/openapi-for-everyone/#openapi[here] or link:https://download.eclipse.org/microprofile/microprofile-open-api-1.0/microprofile-openapi-spec.html#_documentation_mechanisms[here].
+
+[NOTE]
+====
+Quarkus recommends using this extension and you can document your APIs in great detail by using the MicroProfile annotations. The downside to this is that using these annotations will blow up your code and you will have some duplicate information in it.
+If you don't want to specify the REST API again with all this annotation based information, we also recommend taking a look at the ServicedocGen Maven plugin for your Quarkus applications when implementing JAX-RS APIs.
+====
+
+=== ServicedocGen Maven Plugin
+
+The link:https://github.com/mojohaus/servicedocgen-maven-plugin[ServicedocGen maven plugin] can be used within both Spring and Quarkus applications.
+It works a bit different then the Smallrye extensions mentioned above. The plugin analysis the REST API and it's JavaDoc and then generate the OpenAPI specification and the Swagger UI as static files. So no Swagger or MicroProfile annotations have to be added.
+
+The plugin can be configured in the pom.xml file of your application as follows:
+
+[source,xml]
+--------
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>servicedocgen-maven-plugin</artifactId>
+      <version>1.0.0</version>
+      <executions>
+        <execution>
+          <goals>
+            <goal>generate</goal>
+          </goals>
+        </execution>
+      </executions>
+      <configuration>
+        <descriptor>
+          <info>
+            <title>...</title>
+            <description>...</description>
+          </info>
+          <host>...</host>
+          <port>...</port>
+          <basePath>...</basePath>
+          <schemes>
+            <scheme>...</scheme>
+          </schemes>
+        </descriptor>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+--------
+
+In the configuration section you have to define additional information to generate the OpenAPI specification correctly. An example can be found in our link:https://github.com/devonfw-sample/devon4quarkus-reference/blob/master/pom.xml[Quarkus reference application].
+When building the application, an OpenApi.yaml and a SwaggerUI.html file are created in the `/target/site` folder. To make the Swagger UI available in the browser, the file must be served by some servlet.
