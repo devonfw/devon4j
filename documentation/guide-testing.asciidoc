@@ -24,8 +24,8 @@ For testing please follow our general best practices:
 * Prefer delegation over inheritance for cross-cutting testing functionality. Good places to put this kind of code can be realized and reused via the JUnit +@Rule+ mechanism.
 
 == Test Automation Technology Stack
-For test automation we use http://junit.org/[JUnit]. However, we are strictly doing all assertions with http://joel-costigliola.github.io/assertj/[AssertJ]. For xref:test-doubles[mocking] we use http://mockito.org/[mockito].
-In order to mock remote connections we use xref:wiremock[wiremock].
+For test automation we use http://junit.org/[JUnit]. However, we are strictly doing all assertions with http://joel-costigliola.github.io/assertj/[AssertJ]. For xref:test-doubles[mocking] we use http://mockito.org/[Mockito].
+In order to mock remote connections we use xref:wiremock[WireMock].
 
 For testing entire components or sub-systems we recommend to use for Spring stack https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html[spring-boot-starter-test] as lightweight and fast testing infrastructure that is already shipped with `devon4j-test`. For Quarkus, you can add the necessary extensions manually such as `quarkus-junit5`, `quarkus-junit5-mockito`, `assertj-core` etc.
 
@@ -55,9 +55,9 @@ Best Practices for applications:
 * Replace dependencies of your SUT to impact the control flow under test without establishing all the context parameters needed to match the control flow.
 * Remember: Not everything has to be mocked! Especially on lower levels of tests like isolated module tests you can be betrayed into a mocking delusion, where you end up in a hundred lines of code mocking the whole context and five lines executing the test and verifying the mocks behavior. Always keep in mind the benefit-cost ratio, when implementing tests using mocks.
 
-=== Wiremock
+=== WireMock
 //Wiremock is not used in the current Application
-If you need to mock remote connections such as HTTP-Servers, wiremock offers easy to use functionality. For a full description see the http://wiremock.org/[homepage] or the https://github.com/tomakehurst/wiremock[github repository]. Wiremock can be used either as a JUnit Rule, in Java outside of JUnit or as a standalone process. The mocked server can be configured to respond to specific requests in a given way via a fluent Java API, JSON files and JSON over HTTP. An example as an integration to JUnit can look as follows.
+If you need to mock remote connections such as HTTP-Servers, WireMock offers easy to use functionality. For a full description see the http://wiremock.org/[homepage] or the https://github.com/tomakehurst/wiremock[github repository]. Wiremock can be used either as a JUnit Rule, in Java outside of JUnit or as a standalone process. The mocked server can be configured to respond to specific requests in a given way via a fluent Java API, JSON files and JSON over HTTP. An example as an integration to JUnit can look as follows.
 [source,java]
 -------------------------------------------
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
@@ -238,8 +238,9 @@ devon4j further pre-configures the maven build to only run integration levels 1-
 
 == Implementation
 This section introduces how to implement tests on the different levels with the given devonfw infrastructure and the proposed frameworks.
-
 For Spring, see link:spring/guide-spring-testing.asciidoc#implementation[Spring Test Implementation]
+
+
 
 == Regression testing
 
@@ -264,6 +265,52 @@ This section covers test configuration in general without focusing on integratio
 * For Spring, see link:spring/guide-spring-testing.asciidoc#configure-test-specific-beans[Configure Test Specific Beans]
 * For Quarkus, see link:quarkus/guide-quarkus-testing.asciidoc#configuration[here]
 
+=== Configure Test Specific Beans
+Sometimes it can become handy to provide other or differently configured bean implementations via CDI than those available in production. For example, when creating beans using `@Bean`-annotated methods they are usually configured within those methods. https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/general/service/impl/config/WebSecurityBeansConfig.java[WebSecurityBeansConfig] shows an example of such methods.
+
+[source,java]
+-------------------------------------------
+@Configuration
+public class WebSecurityBeansConfig {
+  //...
+  @Bean
+  public AccessControlSchemaProvider accessControlSchemaProvider() {
+    // actually no additional configuration is shown here 
+    return new AccessControlSchemaProviderImpl();
+  }
+  //...
+}
+-------------------------------------------
+
+`AccessControlSchemaProvider` allows to programmatically access data defined in some XML file, e.g. `access-control-schema.xml`. Now, one can imagine that it would be helpful if `AccessControlSchemaProvider` would point to some other file than the default within a test class. That file could provide content that differs from the default.
+The question is: how can I change resource path of `AccessControlSchemaProviderImpl` within a test?
+
+One very helpful solution is to use *static inner classes*.
+Static inner classes can contain `@Bean` -annotated methods, and by placing them in the `classes` parameter in `@SpringBootTest(classes = { /* place class here*/ })` annotation the beans returned by these methods are placed in the application context during test execution. Combining this feature with inheritance allows to override methods defined in other configuration classes as shown in the following listing where `TempWebSecurityConfig` extends `WebSecurityBeansConfig`. This relationship allows to override `public AccessControlSchemaProvider accessControlSchemaProvider()`. Here we are able to configure the instance of type `AccessControlSchemaProviderImpl` before returning it (and, of course, we could also have used a completely different implementation of the `AccessControlSchemaProvider` interface). By overriding the method the implementation of the super class is ignored, hence, only the new implementation is called at runtime. Other methods defined in `WebSecurityBeansConfig` which are not overridden by the subclass are still dispatched to `WebSecurityBeansConfig`.
+
+[source,java]
+-------------------------------------------
+//... Other testing related annotations
+@SpringBootTest(classes = { TempWebSecurityConfig.class })
+public class SomeTestClass {
+
+  public static class TempWebSecurityConfig extends WebSecurityBeansConfig {
+
+    @Override
+    @Bean
+    public AccessControlSchemaProvider accessControlSchemaProvider() {
+
+      ClassPathResource resource = new ClassPathResource(locationPrefix + "access-control-schema3.xml");
+      AccessControlSchemaProviderImpl accessControlSchemaProvider = new AccessControlSchemaProviderImpl();
+      accessControlSchemaProvider.setAccessControlSchema(resource);
+      return accessControlSchemaProvider;
+    }
+  }
+}
+-------------------------------------------
+The following http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#testcontext-ctx-management-javaconfig[chapter of the Spring framework documentation] explains issue, but uses a slightly different way to obtain the configuration.
+
+
 === Test Data
 It is possible to obtain test data in two different ways depending on your test's integration level.
 
@@ -277,7 +324,7 @@ Debugging with the IDE is as easy as always. Even if you want to execute a `Subs
 Please refer to the following two links to find a guide for debugging tests when running them from Maven.
 
 * http://maven.apache.org/surefire/maven-surefire-plugin/examples/debugging.html 
-* https://www.eclipse.org/jetty/documentation/9.3.x/debugging-with-eclipse.html 
+* https://www.eclipse.org/jetty/documentation/jetty-9/index.html#debugging-with-eclipse 
 
 In essence, you first have to start execute a test using the command line. Maven will halt just before the test execution and wait for your IDE to connect to the process. When receiving a connection the test will start and then pause at any breakpoint set in advance.
 The first link states that tests are started through the following command: 

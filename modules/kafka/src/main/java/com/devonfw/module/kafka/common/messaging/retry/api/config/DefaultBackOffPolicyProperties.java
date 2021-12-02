@@ -8,7 +8,10 @@ import com.devonfw.module.kafka.common.messaging.retry.api.client.MessageBackOff
 /**
  * This is a property class to define the retry pattern for {@link MessageBackOffPolicy}
  *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public class DefaultBackOffPolicyProperties {
 
   private Map<String, Long> retryDelay = new HashMap<>();

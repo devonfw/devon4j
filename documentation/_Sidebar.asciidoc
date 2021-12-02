@@ -1,4 +1,6 @@
 == General
+* link:guide-beanmapping.asciidoc[Bean-Mapping]
+* link:guide-lombok.asciidoc[]
 
 == spring
 
@@ -18,7 +20,7 @@
 * link:guide-exceptions.asciidoc[Exception Handling]
 * link:guide-i18n.asciidoc[Internationalization (I18N)]
 * link:guide-transferobject.asciidoc[Transferobjects]
-* link:guide-beanmapping.asciidoc[Bean-Mapping]
+
 * link:guide-datatype.asciidoc[Datatypes]
 * link:guide-xml.asciidoc[XML]
 * link:guide-json.asciidoc[JSON]
@@ -46,6 +48,8 @@
 * link:guide-blob-support.asciidoc[BLOB support]
 * link:guide-sql.asciidoc[SQL]
 * link:guide-apm.asciidoc[Application Performance Management]
+* link:spring/guide-beanmapping-spring.asciidoc[Bean-Mapping with Spring]
+
 
 == Options
 * link:guide-jee.asciidoc[JEE]
@@ -59,13 +63,15 @@
 
 === Tutorials
 * link:tutorial-newapp.asciidoc[Start a new application]
+* link:quarkus/getting-started-quarkus.asciidoc[Start a new Quarkus application]
 
 == quarkus
 
 === Guides
-* link:quarkus/guide-logging.asciidoc[Logging]
 * link:quarkus/guide-cors-support.asciidoc[CORS support]
 * link:quarkus/guide-quarkus-testing.asciidoc[Quarkus Testing Guide]
 * link:quarkus/quarkus-template.asciidoc[Quarkus template]
 * link:quarkus/guide-native-image.asciidoc[Native image]
+* link:quarkus/guide-beanmapping-quarkus.asciidoc[Bean-Mapping with Quarkus]
 * link:quarkus/getting-started-for-spring-developers.asciidoc[Getting started with Quarkus for Spring developers]
+

@@ -10,7 +10,10 @@ import org.springframework.util.ObjectUtils;
  * This is an implementation class for the {@link ErrorHandler}. This class handles the exception by logging the error
  * message and the exception thrown.
  *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 public class LoggingErrorHandler implements ErrorHandler {
 
   private static final Logger LOG = LoggerFactory.getLogger(LoggingErrorHandler.class);

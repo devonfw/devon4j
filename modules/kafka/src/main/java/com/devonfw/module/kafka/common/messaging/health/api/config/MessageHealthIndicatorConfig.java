@@ -12,7 +12,11 @@ import com.devonfw.module.kafka.common.messaging.health.impl.KafkaHealthIndicato
 
 /**
  * A class used to create a configuration for the custom message receiver.
+ *
+ * @deprecated The implementation of devon4j-kafka will be abandoned. It is superseeded by Springs Kafka
+ *             implementation.
  */
+@Deprecated
 @Configuration
 @Import(MessageReceiverConfig.class)
 public class MessageHealthIndicatorConfig {
