@@ -1,11 +1,11 @@
 == Spring Native vs Quarkus
 
 Nowadays, it is very common to write an application and deploy it to
-cloud. Serverless computing and Function-as-a-Service (FaaS) have become
+a cloud. Serverless computing and Function-as-a-Service (FaaS) have become
 very popular. While many challenges arise when deploying a Java
 application into the latest cloud environment, the biggest challenges facing
 developers are memory footprint and the startup time required
-for the Java application as more of these keeps the host's costs high in
+for the Java application, as more of these keeps the host's costs high in
 public clouds and Kubernetes clusters. With the introduction of
 frameworks like micronaut and microprofile, Java processes are getting
 faster and more lightweight. In a similar context, Spring has introduced
@@ -88,14 +88,13 @@ There are https://github.com/oracle/graal/blob/master/docs/reference-manual/nati
 
 devonfw actively supports Spring, as it is widely used and is unmatched regarding stability and support, despite being slower in build and start times and having a bigger memory footprint in general. 
 While Spring Native solves these problems quite well, it is still in beta and therefore not considered stable enough to be an option for devonfw as of now. 
-devonfw Spring modules could be supported in a Spring Native application but there is no guarantee that it will work.
-Despite being quite new, we still consider Quarkus as stable and mature enough to be supported eventhough there are no Quarkus modules in devonfw at the moment.
+devonfw Spring modules could be supported in a Spring Native application, but there is no guarantee that it will work.
+Despite being quite new, we still consider Quarkus as stable and mature enough to be supported, even though there are no Quarkus modules in devonfw at the moment.
 
 === General recommendations and conclusion
 
 For Greenfield projects which are mainly focusing on microservices or the cloud, Quarkus can be recommended, as it is more suitable for their requirements. 
 Spring projects, should be able to use Spring Native in the future in order to improve their performance. 
-Despite devonfw not officially supporting Spring Native, you still can read https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/[how to migrate from Spring to Spring Native] if you want to try things out. 
 We also provide a link:quarkus/getting-started-for-spring-developers.asciidoc[guide
 for Spring developers] who want to adopt or try Quarkus for their
 (next) projects as it really has some gamechanging advantages over

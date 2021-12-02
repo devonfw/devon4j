@@ -51,4 +51,4 @@ As of today we typically use the terms _spring_ and _spring-boot_ rather synonym
 
 https://github.com/spring-projects-experimental/spring-native[Spring-native] adds cloud-native support to the spring ecosystem and allows to build a spring app as cloud-native image via https://www.graalvm.org/[GraalVM].
 This feature is currently beta.
-You may also consider link:quarkus.asciidoc[quarkus] if you are interested in building cloud-native images.
+You may also consider link:quarkus.asciidoc[quarkus] if you are interested in building cloud-native images. For a comparison of both Spring Native and Quarkus, you may refer to link:Spring-native-vs-Quarkus.asciidoc[Spring-native vs Quarkus]
