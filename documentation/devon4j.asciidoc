@@ -142,6 +142,10 @@ include::guide-lombok.asciidoc[leveloffset=+2]
 
 <<<<
 
+include::guide-openapi.asciidoc[leveloffset=+2]
+
+<<<<
+
 include::spring.asciidoc[leveloffset=+1]
 
 include::guide-component.asciidoc[leveloffset=+2]
@@ -275,9 +279,9 @@ include::guide-text-search.asciidoc[leveloffset=+3]
 
 include::tutorial-newapp.asciidoc[leveloffset=+3]
 
-<<<<
-
 include::quarkus.asciidoc[leveloffset=+1]
+
+include::quarkus/getting-started-quarkus.asciidoc[leveloffset=+2]
 
 include::guide-structure-modern.asciidoc[leveloffset=+2]
 
