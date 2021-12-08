@@ -18,7 +18,7 @@ The following additional aspects are also included in its responsibility:
 * link:guide-transactions.asciidoc[transaction-handling] (in addition to link:guide-service-layer.asciidoc[service layer]).
 
 == Security
-The logic layer is the heart of the application. It is also responsible for authorization and hence security is important in this current case. Every method exposed in an interface needs to be annotated with an authorization check, stating what role(s) a caller must provide in order to be allowed to make the call. The authorization concept is described link:guide-security.asciidoc#authorization[here].
+The logic layer is the heart of the application. It is also responsible for authorization and hence security is important in this current case. Every method exposed in an interface needs to be annotated with an authorization check, stating what role(s) a caller must provide in order to be allowed to make the call. The authorization concept is described link:guide-access-control.asciidoc#authorization[here].
 
 === Direct Object References
 A security threat are https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References[Insecure Direct Object References]. This simply gives you two options:
