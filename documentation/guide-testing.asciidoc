@@ -178,7 +178,7 @@ This test will start the entire spring-context of your app (`MySpringBootApp`). 
 When you are testing use-cases your link:guide-access-control.asciidoc#configuration-on-java-method-level[authorization] will also be in place. Therefore, you have to simulate a logon in advance what is done via the `login` method in the above example.  The test-infrastructure will automatically do a `logout` for you after each test method in `doTearDown`.
 
 === Level 3 Subsystem Test
-A _subsystem test_ runs against the external interfaces (e.g. HTTP service) of the integrated subsystem. Subsystem tests of the client subsystem are described in the https://github.com/devonfw/devon4ng/blob/master/documentation/guide-testing.asciidoc[devon4ng testing guide]. In devon4j the server (JEE application) is the subsystem under test. The tests act as a client (e.g. service consumer) and the server has to be integrated and started in a container.
+A _subsystem test_ runs against the external interfaces (e.g. HTTP service) of the integrated subsystem. Subsystem tests of the client subsystem are described in the link:https://github.com/devonfw/devon4ng/blob/master/documentation/guide-testing.asciidoc[devon4ng testing guide]. In devon4j the server (JEE application) is the subsystem under test. The tests act as a client (e.g. service consumer) and the server has to be integrated and started in a container.
 
 With devon4j and spring you can write a subsystem-test as easy as illustrated in the following example:
 [source,java]
