@@ -184,7 +184,7 @@ Further, if you are using https://github.com/devonfw/ide[devonfw-ide] you can ma
 ```
 devon jasypt encrypt
 ```
-See https://github.com/devonfw/ide/blob/master/documentation/jasypt.asciidoc[jasypt commandlet] for details.
+See link:https://github.com/devonfw/ide/blob/master/documentation/jasypt.asciidoc[jasypt commandlet] for details.
 
 Now the entire line after the `OUTPUT` block is your encrypted secret.
 It even contains some random salt so that multiple encryption invocations with the same parameters (`ARGUMENTS`) will produce a different `OUTPUT`.
