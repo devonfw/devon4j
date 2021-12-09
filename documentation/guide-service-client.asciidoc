@@ -274,6 +274,6 @@ Our recommendation in devonfw is to use https://istio.io/[istio]. This not only 
 However, if you are looking for details about side-car implementations for services you can have a look at the following links:
 
 * Netflix Sidecar - see http://cloud.spring.io/spring-cloud-netflix/single/spring-cloud-netflix.html#_polyglot_support_with_sidecar[Spring Cloud Netflix docs]
-* https://lyft.github.io/envoy/[Envoy] - see https://dzone.com/articles/microservices-patterns-with-envoy-sidecar-proxy-pa[Microservices Patterns With Envoy Sidecar Proxy]
+* https://www.envoyproxy.io/[Envoy] - see https://dzone.com/articles/microservices-patterns-with-envoy-sidecar-proxy-pa[Microservices Patterns With Envoy Sidecar Proxy]
 * https://github.com/netflix/Prana[Prana] - see https://medium.com/netflix-techblog/prana-a-sidecar-for-your-netflix-paas-based-applications-and-services-258a5790a015[Prana: A Sidecar for your Netflix PaaS based Applications and Services] <- *Not updated as it's not used internally by Netflix*
 * Keycloak - see http://www.hawkular.org/blog/2017/07/jaeger-with-security-proxy.html[Protecting Jaeger UI with a sidecar security proxy]
