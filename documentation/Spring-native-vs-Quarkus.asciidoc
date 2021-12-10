@@ -86,17 +86,14 @@ There are https://github.com/oracle/graal/blob/master/docs/reference-manual/nati
 
 === Considering devonfw best practices
 
-devonfw actively supports Spring, as it is widely used and is unmatched regarding stability and support, despite being slower in build and start times and having a bigger memory footprint in general. 
-While Spring Native solves these problems quite well, it is still in beta and therefore not considered stable enough to be an option for devonfw as of now. 
-devonfw Spring modules could be supported in a Spring Native application, but there is no guarantee that it will work.
-Despite being quite new, we still consider Quarkus as stable and mature enough to be supported, even though there are no Quarkus modules in devonfw at the moment.
-
-=== General recommendations and conclusion
-
-For Greenfield projects which are mainly focusing on microservices or the cloud, Quarkus can be recommended, as it is more suitable for their requirements. 
-Spring projects, should be able to use Spring Native in the future in order to improve their performance. 
-We also provide a link:quarkus/getting-started-for-spring-developers.asciidoc[guide
+As of now, devonfw actively supports Spring but not Spring Native. 
+Although quarkus has been released to a stable release in early 2021, it has been already used in multiple big projects successfully showing its potential to implement cloud native services with low resource consumption matching the needs of scalability and resilience in cloud native environments. With major stakeholders behind the open source community like Red Hat, its development and growth from its kickoff to the current state is very impressive and really shows the market needs and focus.
+Another big advantage of quarkus is that it started on a green field and therefore did not need to circumvetn main pillars of the spring framework like reflection, being able to take clean and up-to-date design decisions not needing to cope with elegacy issues.
+Nonetheless, there is a experimental support also for some spring libraries already available in quarkus, which make switching from spring to quarkus much more easier if needed. We also provide a link:quarkus/getting-started-for-spring-developers.asciidoc[guide
 for Spring developers] who want to adopt or try Quarkus for their
 (next) projects as it really has some gamechanging advantages over
 Spring.
-As of now, Quarkus and Spring Native both have their own use cases, but neither of them can be considered as a general recommendation for everybody.
+
+=== General recommendations and conclusion
+
+Quarkus and Spring Native both have their own use cases. Under the consideration of the limitations of GraalVM (SubstrateVM) to be used for native images built by Quarkus and Spring Native, there is a strong recommendation towards Quarkus from devonfw. One essential differentiation has to be made on the decision for native or against native applications - the foreseen performance optimization of the JIT compiler of the JVM, which is not available anymore in a native image deployment. For sure, both component frameworks will also run on a JVM getting advantage again from JIT compilation, but depending on the overall landscape then, it is recommended to stay with the knowledge of the available teams, e.g. continue making use of devon4j based on spring or even if already in that state also here make use of Quarkus on JVM.
