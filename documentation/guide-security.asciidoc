@@ -41,7 +41,7 @@ We address these common threats individually in _security_ sections of our techn
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A7-Cross-Site_Scripting_(XSS).html[A7 Cross-Site Scripting]
 |prevent injection (see A1) for HTML, JavaScript and CSS and understand same-origin-policy
-|link:guide-client-layer.asciidoc#security[client-layer]
+|link:guide-client-layer.asciidoc[client-layer]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A8-Insecure_Deserialization.html[A8 Insecure Deserialization]
 |Use simple and established serialization formats such as JSON, prevent generic deserialization (for polymorphic types)

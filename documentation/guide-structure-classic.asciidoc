@@ -77,11 +77,11 @@ we provide this architecture mapping:
 |  |  |  ├──.link:guide-repository.asciidoc[repo]
 |  |  |  |  └──.link:guide-repository.asciidoc#repository[«BusinessObject»Repository] (core)
 |  |  |  ├──.link:guide-dao.asciidoc[dao] (core) [alternative to repo]
-|  |  |  |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»Dao] (core) [alternative to Repository]
+|  |  |  |  └──.link:guide-dao.asciidoc[«BusinessObject»Dao] (core) [alternative to Repository]
 |  |  |  └──.link:guide-jpa.asciidoc#entity[«BusinessObject»Entity] (core)
 |  |  └──.impl[.«detail»]
 |  |     ├──.link:guide-dao.asciidoc[dao] (core) [alternative to repo]
-|  |     |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»DaoImpl] (core) [alternative to Repository]
+|  |     |  └──.link:guide-dao.asciidoc[«BusinessObject»DaoImpl] (core) [alternative to Repository]
 |  |     └──.link:guide-jpa.asciidoc#entities-and-datatypes[«Datatype»AttributeConverter] (core)
 |  ├──.link:guide-logic-layer.asciidoc[logic]
 |  |  ├──.api

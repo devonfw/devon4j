@@ -237,5 +237,5 @@ Therefore, it will then be included to any log message of the current request (t
 Further concepts such as link:guide-service-client.asciidoc[service invocations] will pass this correlation ID to subsequent calls in the application landscape. Hence you can find all log messages related to an initial request simply via the correlation ID even in highly distributed systems.
 
 === Security
-In order to prevent https://www.owasp.org/index.php/Log_Forging[log forging] attacks you can simply use the suggested xref:json-logging[JSON logging] format.
+In order to prevent https://owasp.org/www-community/attacks/Log_Injection[log forging] attacks you can simply use the suggested xref:json-logging[JSON logging] format.
 Otherwise you can use `com.devonfw.module.logging.common.impl.SingleLinePatternLayout` as demonstrated  https://github.com/devonfw/devon4j/blob/master/modules/logging/src/main/resources/com/devonfw/logging/logback/appender-file-warn.xml[here] in order to prevent such attacks.
