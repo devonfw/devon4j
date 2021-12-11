@@ -97,4 +97,4 @@ This way your application will be secured against CSRF attacks.
 
 == Configure devon4ng client for CSRF
 
-Devon4ng client configuration for CSRF is described https://github.com/devonfw/devon4ng/blob/develop/documentation/guide-consuming-rest-services.asciidoc[here]
+Devon4ng client configuration for CSRF is described link:https://github.com/devonfw/devon4ng/blob/develop/documentation/guide-consuming-rest-services.asciidoc[here]
