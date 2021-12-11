@@ -1,0 +1,77 @@
+== Decision between Spring and Quarkus
+
+=== Spring
+
+==== Pros
+* *highly flexible:*
+Spring is famous for its great flexibility. You can customize and integrate nearly everything.
+
+* *well established:*
+While JEE application servers including very expensive commercial products turned out to be a dead-end, spring has guided projects through the changing trends of IT throughout decades.
+It may be the framework with the longest history track and popularity. 
+As a result you can easily find a lot of developers, experts, books, articles, etc. about spring.
+
+* *non-invasive and not biased:*
+Spring became famous for its non-invasive coding based on patterns instead of hard dependencies. It gives you a lot of freedom and avoids tight coupling of your (business) code.
+
+==== Cons
+
+* *history and legacy:*
+Due to its long established history, spring carries a lot of legacy. 
+As a result there are many ways to do the same thing, which can be encouraging or confusing at first. 
+Spring Developers needs some guidance (e.g. via devon4j) as they may enter pitfalls and dead-ends when choosing the first solution they found on google or stackoverflow.
+
+* *lost lead in cloud-native:*
+While for the last decades spring was leading innovation in Java app development, it seems that with the latest trends and shift such as cloud-native, they have been overtaken by frameworks like Quarkus. 
+However, spring is trying to catch up with spring-native.
+
+=== Quarkus
+
+=== Quarkus main information:
+Quarkus is a full-stack, Kubernetes-native Java framework made for JVMs.
+With its container-first-philosophy and its native compilation with GraalVM, Quarkus optimizes Java for containers with low memory usage and fast startup times.
+
+Quarkus achieves this in the following ways:
+
+* *First Class Support for GraalVM*
+
+* *Build Time Metadata Processing:* As much processing as possible is done at build time, so your application will only contain the classes that are actually needed at runtime. This results in less memory usage, and also faster startup time, as all metadata processing has already been done.
+
+* *Reduction in Reflection Usage:* Quarkus tries to avoid reflection as much as possible in order to reduce startup time and memory usage.
+
+* *Native Image Pre Boot:* When running in a native image, Quarkus pre-boots as much of the framework as possible during the native image build process. 
+This means that the resulting native image has already run most of the startup code and serialized the result into the executable, resulting in an even faster startup-time.
+
+This gives Quarkus the potential for a great platform for serverless cloud and Kubernetes environments. 
+For more information about Quarkus and its support for devonfw please refer to the link:quarkus.asciidoc[Quarkus introduction guide].
+
+Although Quarkus has been released to a stable release in early 2021, it has been already used in multiple big projects successfully showing its potential to implement cloud native services with low resource consumption matching the needs of scalability and resilience in cloud native environments.
+With major stakeholders behind the open source community like Red Hat, its development and growth from its kickoff to the current state is very impressive and really shows the market needs and focus. 
+Another big advantage of Quarkus is that it started on a green field and therefore did not need to circumvent main pillars of the spring framework like reflection, being able to take clean and up-to-date design decisions not needing to cope with legacy issues. 
+Nonetheless, there is a experimental support also for some spring libraries already available in Quarkus, which make switching from spring to Quarkus much more easier if needed.
+We also provide a link:quarkus/getting-started-for-spring-developers.asciidoc[guide for Spring developers] who want to adopt or try Quarkus for their (next) projects as it really has some gamechanging advantages over Spring.
+
+==== Pros:
+
+* *fast turn-around cycles for developers:* Save changes in your Java code and immediately test the results without restarting or waiting
+
+* *faster start-up and less memory footprint:*
+When building your app as native-images via GraalVM it gets highly optimized. As a result it starts up lightning fast and consumes much less memory. 
+This is a great advantage for cloud deployment as well as for sustainability. 
+You can find a performance comparison between Spring and Quarkus here.
+
+* *clean and lean:* As Quarkus was born as cloud-native framework it is very light-weight and does not carry much history and legacy.
+
+==== Cons:
+
+* *less flexible:*
+Quarkus is less flexible compared to spring or in other words it is more biased and coupled to specific implementations. However, the implementations just work and you have less things to choose and worry about.
+However, in case you want to integrate a specific or custom library you may hit limitations or lose support for native-images especially when that library is based on reflection.
+Therefore, check your requirements and technology stack early on when making your choice.
+
+* *less established:*
+Since Quarkus was born in 2019 it is modern but also less established. It will be easier to get developers for spring but we already consider Quarkus mature and established enought for building production ready apps.
+
+=== General Recommendation
+One essential differentiation has to be made on the decision for native or against native applications - the foreseen performance optimization of the JIT compiler of the JVM, which is not available anymore in a native image deployment.
+Depending on the overall landscape, it is recommended to stay with the knowledge of the available teams, e.g. continue making use of devon4j based on spring or even if already in that state, make use of Quarkus on JVM.
