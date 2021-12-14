@@ -23,7 +23,7 @@ SELECT line FROM OrderLineEntity line WHERE line.order.id = :orderId
 ----
 
 == Dynamic Queries
-For dynamic queries, we use http://www.querydsl.com/[QueryDSL]. It allows to implement queries in a powerful but readable and type-safe way (unlike Criteria API). If you already know JPQL, you will quickly be able to read and write QueryDSL code. It feels like JPQL but implemented in Java instead of plain text.
+For dynamic queries, we use the https://spring.io/projects/spring-data-jpa[JPA] module for http://www.querydsl.com/[QueryDSL]. Querydsl also supports other modules such as http://querydsl.com/static/querydsl/latest/reference/html/ch02s07.html[MongoDB], and http://querydsl.com/static/querydsl/latest/reference/html/ch02s05.html[Apache Lucene]. It allows to implement queries in a powerful but readable and type-safe way (unlike Criteria API). If you already know JPQL, you will quickly be able to read and write QueryDSL code. It feels like JPQL but implemented in Java instead of plain text.
 
 To use QueryDSL in your Maven project, add the following dependencies:
 
