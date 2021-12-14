@@ -17,4 +17,4 @@ For Spring, follow the link:spring/guide-service-client-spring.asciidoc[Spring r
 
 *Quarkus*
 
-For Quarkus, we recommend to follow the the official link:https://quarkus.io/guides/rest-client[Quarkus rest-client guide]
+For Quarkus, we recommend to follow the official link:https://quarkus.io/guides/rest-client[Quarkus rest-client guide]
