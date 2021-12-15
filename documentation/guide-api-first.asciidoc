@@ -8,7 +8,7 @@ This guide focuses on HTTP interfaces following RESTful design principles.
 
 == API first strategy 
 API first strategy treats APIs as first class citizens in the delivery model.  
-The APIs are modeled/designed first (usually as link:guide-openapi.asciidoc[OpenAPI specification]), often in a collaborative process between provider and consumers and only once the APIs is defined do we start with development of the provider service. 
+The APIs are modeled/designed first (usually as link:guide-openapi.asciidoc[OpenAPI specification]), often in a collaborative process between providers and consumers, and only once the APIs are defined do we start with development of the provider service. 
 This requires a bit more time upfront, but also provides opportunity to think about the behaviour of the system before it gets implemented. Several other advatages of this approach:
 
  * provider and client implementation can run in parallel - we have the contract, client does not need to wait for provider to finish implementation
@@ -17,10 +17,10 @@ This requires a bit more time upfront, but also provides opportunity to think ab
 == API first provider 
 
 After careful planning, we defined our future API. Now we would like to implement a provider of this API.
-We could manually create all the link:guide-rest.asciidoc#jax-rs[JAX-RS] endpoints based on the schema and then test whether the actually provided interface conforms the API schema, but is error prone and laborous process, especially if API gets big.
-Luckily, we can use great opensource tooling to generate JAX-RS interfaces, that are 100% coform to the schema, and then we simply implement them.
+We could manually create all the link:guide-rest.asciidoc#jax-rs[JAX-RS] endpoints based on the schema and then test whether the actually provided interface conforms with the API schema. However, it is an error prone and laborious process, especially if the API gets big.
+Luckily, we can use great open source tooling to generate JAX-RS interfaces that conform to 100% with the schema, and then we simply implement them.
 
-There are many opensource tools, that allow code generation from OpenAPI schema files, for example https://openapi-generator.tech/[OpenAPI Generator] or https://github.com/swagger-api/swagger-codegen[Swagger codegen]. Both are based on Java and even provide maven plugins to integrate them in our build.
+There are many open source tools, that allow code generation from OpenAPI schema files, for example https://openapi-generator.tech/[OpenAPI Generator] or https://github.com/swagger-api/swagger-codegen[Swagger codegen]. Both are based on Java and even provide maven plugins to integrate them in our build.
 
 === OpenAPI Generator maven plugin
 
@@ -70,7 +70,7 @@ Many of the generator templates have further sub-generators, for example for you
 
 * `apiPackage` = generated package name for our endpoint interfaces
 * `modelPackage` = generated package name for our API models (DTOs)
-* `sourceFolder` = where do we want to output the generated files, relative to the `output` folder - if we regenerate the files with every build, then it is recommended to put them in `${project.build.directory}/generated-sources/openapi` (default, can be changed via `output` plugin attribute). Final location of our generated java files will be then `${project.build.directory}/generated-sources/openapi/src/gen/java/main` 
+* `sourceFolder` = where do we want to output the generated files, relative to the `output` folder - if we regenerate the files with every build, then it is recommended to put them in `${project.build.directory}/generated-sources/openapi` (default, can be changed via `output` plugin attribute). Final location of our generated Java files will then be `${project.build.directory}/generated-sources/openapi/src/gen/java/main` 
 * `useTags` = group the generated endpoints by schema `tag` attribute
 * `interfaceOnly` = we want to implement the endpoint logic ourselves, so we only want JAX-RS interfaces
 * `generatePom` = we are generating the files into existing project, so we dont want to generate additional maven pom
@@ -82,17 +82,17 @@ Let's run the plugin now using `mvn clean compile`. If everything went well, we 
 image::images/apifirst-generated-sources.png["Generated sources by OpenAPI generator",scaledwidth="80%",align="center",link="https://devonfw.com/website/pages/docs/images/apifirst-generated-sources.png"]
 
 
-Depending on the configuration of your code generator, you might need to add some additional dependencies to your `pom.xml` for example for bean validation or Jackson annotations.
+Depending on the configuration of your code generator, you might need to add some additional dependencies to your `pom.xml`, for example for bean validation or Jackson annotations.
 
-The OpenAPI generator has many more configuration options that our outside the scope of this guide and you can find full documentation of the codegen plugin in the https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin[projects GitHub repository].
+The OpenAPI generator has many more configuration options that are outside the scope of this guide. You can find full documentation of the codegen plugin in the https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin[projects GitHub repository].
 
 
 === Generate once vs generate always
 
 Depending on our needs, we may either want to generate the interfaces and models once and afterwards copy them to our project as general source code files, or treat them as immutable generated assets, that we generate anew with every build.
-Both scenarios have their pros and cons, and you'll need to find out what best suits your project. In the example above we use a profile with `activeByDefault=true` which will cause the generator to run with every build. The generated files will be included as sources in our project, so we can import them in any other java class without issues.
+Both scenarios have their pros and cons, and you'll need to find out what best suits your project. In the example above, we use a profile with `activeByDefault=true`, which will cause the generator to run with every build. The generated files will be included as sources in our project, so we can import them in any other java class without issues.
 
-In case you want to generate your API resources only once and afterwards version them in SCM, simply run the generator, outputing to some temp location, afterwards copy them to `src/main/java` and your are done. Be careful if you manualy modify the generated files afterwards and you want to re-generate them after API schema update, you will loose any manual changes. 
+In case you only want to generate your API resources once and version them afterwards in SCM, simply run the generator, outputting to some temporary location, then, copy them to `src/main/java` and you are done. Be careful if you manually modify the generated files afterwards and you want to re-generate them after an API schema update, you will lose any manual changes. 
 
 === Implement the generated interfaces
 
