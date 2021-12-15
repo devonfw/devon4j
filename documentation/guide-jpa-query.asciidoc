@@ -23,9 +23,9 @@ SELECT line FROM OrderLineEntity line WHERE line.order.id = :orderId
 ----
 
 == Dynamic Queries
-For dynamic queries, we use the https://spring.io/projects/spring-data-jpa[JPA] module for http://www.querydsl.com/[QueryDSL]. Querydsl also supports other modules such as http://querydsl.com/static/querydsl/latest/reference/html/ch02s07.html[MongoDB], and http://querydsl.com/static/querydsl/latest/reference/html/ch02s05.html[Apache Lucene]. It allows to implement queries in a powerful but readable and type-safe way (unlike Criteria API). If you already know JPQL, you will quickly be able to read and write QueryDSL code. It feels like JPQL but implemented in Java instead of plain text.
+For dynamic queries, we use the http://querydsl.com/static/querydsl/latest/reference/html/ch02.html[JPA] module for http://www.querydsl.com/[Querydsl]. Querydsl also supports other modules such as http://querydsl.com/static/querydsl/latest/reference/html/ch02s07.html[MongoDB], and http://querydsl.com/static/querydsl/latest/reference/html/ch02s05.html[Apache Lucene]. It allows to implement queries in a powerful but readable and type-safe way (unlike Criteria API). If you already know JPQL, you will quickly be able to read and write Querydsl code. It feels like JPQL but implemented in Java instead of plain text.
 
-To use QueryDSL in your Maven project, add the following dependencies:
+To use Querydsl in your Maven project, add the following dependencies:
 
 [source,xml]
 ----
@@ -106,13 +106,13 @@ Here is an example from our sample application:
   }
 ----
 
-In this example, we use the so called Q-types (`QDishEntity`). These are classes generated at build time by the QueryDSL annotation processor from entity classes. The Q-type classes can be used as static types representative of the original entity class.
+In this example, we use the so called Q-types (`QDishEntity`). These are classes generated at build time by the Querydsl annotation processor from entity classes. The Q-type classes can be used as static types representative of the original entity class.
 
 The `query.from(dish)` method call defines the query source, in this case the `dish` table. The `where` method defines a filter. For example, The first call uses the `goe` operator to filter out any dishes that are not greater or equal to the minimal price. Further operators can be found https://querydsl.com/static/querydsl/latest/apidocs/com/querydsl/core/types/dsl/ComparableExpression.html[here].
 
 The `orderBy` method is used to sort the query results according to certain criteria. Here, we sort the results first by their price and then by their name, both in ascending order. To sort in descending order, use `.desc()`. To partition query results into groups of rows, see the https://querydsl.com/static/querydsl/latest/reference/html_single/#d0e377[groupBy] method.
 
-For spring, devon4j provides another approach that you can use for your Spring applications to implement QueryDSL logic without having to use these metaclasses. An example can be found link:spring/guide-querydsl-spring.asciidoc[here].
+For spring, devon4j provides another approach that you can use for your Spring applications to implement Querydsl logic without having to use these metaclasses. An example can be found link:spring/guide-querydsl-spring.asciidoc[here].
 
 
 
@@ -140,9 +140,9 @@ Pageable pageable = PageRequest.of(page, size);
 Page<DishEntity> dishes = dishRepository.findAll(pageable);
 ----
 
-=== Paging with QueryDSL
+=== Paging with Querydsl
 
-Pagination is also supported for dynamic queries with QueryDSL:
+Pagination is also supported for dynamic queries with Querydsl:
 
 [source,java]
 ----
