@@ -293,6 +293,7 @@ include::guide-domain-layer.asciidoc[leveloffset=+2]
 
 include::quarkus/getting-started-for-spring-developers.asciidoc[leveloffset=+3]
 include::quarkus/guide-quarkus-configuration.asciidoc[leveloffset=+3]
+include::Spring-native-vs-Quarkus.asciidoc[leveloffset=+3]
 include::quarkus/quarkus-template.asciidoc[leveloffset=+3]
 include::quarkus/guide-native-image.asciidoc[leveloffset=+3]
 include::quarkus/guide-beanmapping-quarkus.asciidoc[leveloffset=+3]
