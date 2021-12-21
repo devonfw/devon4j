@@ -61,7 +61,7 @@ Before we start programming, you should first have a look at the functionality o
 
 .Quarkus functionality guides
 . https://quarkus.io/guides/getting-started[Getting started guide from Quarkus] + 
-This guide presents a good overview of the functionality of quarkus. The simple **Greeting Service** gives a brief introduction into concepts like CDI, testing, dev mode, packaging, and running the app.  
+This guide presents a good overview of the functionality of Quarkus. The simple **Greeting Service** gives a brief introduction into concepts like CDI, testing, dev mode, packaging, and running the app.  
 . From Spring to Quarkus +
 For experienced Spring developers that have already followed devon4j guidelines, you can read our guide to link:getting-started-for-spring-developers.asciidoc[getting started with Quarkus for Spring developer], as it goes more into the differences that can give you a more detailed comparison to Spring.
 .. Migrate a Spring app to Quarkus + 
@@ -78,7 +78,7 @@ There is a good Quarkus guide for a simple https://quarkus.io/guides/rest-json#c
 . Use an existing Quarkus project + 
 You don't want to code a service and just want to test some Quarkus functionalities? Just load a Quarkus https://github.com/quarkusio/quarkus-quickstarts#quick-start-list[sample project] provided for every existing quickstart guide and the supported framework.
 Our Team also provides some Quarkus applications that are working and can be loaded and tested. 
-* https://github.com/devonfw-sample/devon4quarkus-reference[reference project] is a service that manages products. It contains the devon4j modern project structure, pagination, queries, a Postgres database, Jaeger tracing, Prometheus monitoring, SwaggerUI, and support for Kubernetes deploy. 
+* https://github.com/devonfw-sample/devon4quarkus-reference[reference project] is a service that manages products. It contains the devon4j modern project structure, pagination, queries, a Postgres database, SwaggerUI, and support for Kubernetes deploy. To add OpenTelemetry support, see the following link:../opentelemetry-deployment.asciidoc[guide].
 This project will be steadily improved and is used to showcase the abilities of Quarkus with devon4j.
 * https://github.com/devonfw-sample/devon4quarkus-minimal[minimal Quarkus project] is just the Quarkus project from a https://quarkus.io/guides/getting-started[getting started with Quarkus] guide with a **Greeting Services** modified with the correct modern structure mentioned in the chapter xref:project-structure[Project Structure]
 
@@ -121,9 +121,9 @@ A list of all configuration that is possible with a https://quarkus.io/guides/da
 . Reactive CRUD application with Panache + 
 Quarkus unifies reactive and imperative programming.
 Reactive is an architectural principle to build robust, efficient, and concurrent applications. 
-For an introduction into reactive and how Quarkus is enables it, follow this https://quarkus.io/guides/quarkus-reactive-architecture[Quarkus reactive architecture] article and also the https://quarkus.io/guides/getting-started-reactive[reactive quickstart].
+For an introduction into reactive and how Quarkus enables it, follow this https://quarkus.io/guides/quarkus-reactive-architecture[Quarkus reactive architecture] article and also the https://quarkus.io/guides/getting-started-reactive[reactive quickstart].
 To get started with reactive and implement reactive methods, you can follow the https://quarkus.io/guides/hibernate-reactive-panache[Quarkus reactive guide].
-The reactive guide is usues the Quarkus based implementation of a Hibernate ORM called Panache. 
+The reactive guide uses the Quarkus based implementation of a Hibernate ORM called Panache. 
 The implementation is not our first choice with devon4j and therefore not part of our recommendations, but to understand the reactive guide you can read the https://quarkus.io/guides/hibernate-orm-panache[Hibernate ORM with Panache guide] first to prevent possible problems following the guide.
 
 [NOTE]
@@ -163,7 +163,7 @@ Quarkus applications can be packaged into different file types. The following li
 . https://quarkus.io/guides/maven-tooling#uber-jar-maven[uber-jar]
 . link:guide-native-image.asciidoc[native executable]
 
-To package an application, use the command `mvn package` and Quarkus will generate the output in the **/target** folder. For the native executables, the command needs more parameters, whichh is explained in the link above.
+To package an application, use the command `mvn package` and Quarkus will generate the output in the **/target** folder. For the native executables, the command needs more parameters, which is explained in the link above.
 
 Configure the Output with these https://quarkus.io/guides/maven-tooling#configuration-reference[configuration properties]
 
