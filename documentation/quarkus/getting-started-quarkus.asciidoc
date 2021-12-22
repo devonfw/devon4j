@@ -78,7 +78,7 @@ There is a good Quarkus guide for a simple https://quarkus.io/guides/rest-json#c
 . Use an existing Quarkus project + 
 You don't want to code a service and just want to test some Quarkus functionalities? Just load a Quarkus https://github.com/quarkusio/quarkus-quickstarts#quick-start-list[sample project] provided for every existing quickstart guide and the supported framework.
 Our Team also provides some Quarkus applications that are working and can be loaded and tested. 
-* https://github.com/devonfw-sample/devon4quarkus-reference[reference project] is a service that manages products. It contains the devon4j modern project structure, pagination, queries, a Postgres database, SwaggerUI, and support for Kubernetes deploy. To add OpenTelemetry support, see the following link:../opentelemetry-deployment.asciidoc[guide].
+* https://github.com/devonfw-sample/devon4quarkus-reference[reference project] is a service that manages products. It contains the devon4j modern project structure, pagination, queries, a Postgres database, SwaggerUI, and support for Kubernetes deploy. To add OpenTelemetry support, see the following https://github.com/devonfw-sample/devon4quarkus-reference/blob/master/documentation/opentelemetry-deployment.asciidoc[guide].
 This project will be steadily improved and is used to showcase the abilities of Quarkus with devon4j.
 * https://github.com/devonfw-sample/devon4quarkus-minimal[minimal Quarkus project] is just the Quarkus project from a https://quarkus.io/guides/getting-started[getting started with Quarkus] guide with a **Greeting Services** modified with the correct modern structure mentioned in the chapter xref:project-structure[Project Structure]
 
