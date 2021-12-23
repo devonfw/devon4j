@@ -3,7 +3,7 @@ toc::[]
 
 = Configuration
 
-link:quarkus.asciidoc[Quarkus] provides a comprehensive guide to configuration https://quarkus.io/guides/config-reference[here].
+link:quarkus.asciidoc[Quarkus] provides a comprehensive guide on configuration https://quarkus.io/guides/config-reference[here].
 
 == External Application Configuration
 
@@ -19,7 +19,7 @@ In Quarkus, Hibernate is provided by the `quarkus-hibernate-orm` extension. Ensu
 </dependency>
 ----
 
-You additionally have to add the respective JDBC driver extension to your `pom.xml`. There are different drivers for different database types. See https://quarkus.io/guides/hibernate-orm#setting-up-and-configuring-hibernate-orm[Quarkus Hibernate guide].
+Additionally, you have to add the respective JDBC driver extension to your `pom.xml`. There are different drivers for different database types. See https://quarkus.io/guides/hibernate-orm#setting-up-and-configuring-hibernate-orm[Quarkus Hibernate guide].
 
 === Database System and Access
 You need to configure which database type you want to use, as well as the location and credentials to access it. The defaults are configured in `application.properties`. The file should therefore contain the properties as in the given example:
@@ -51,9 +51,9 @@ quarkus.hibernate-orm.log.bind-parameters=true
 
 === Password Encryption
 
-There is also some libraries to make Jasypt work with Quarkus such as https://camel.apache.org/camel-quarkus/latest/reference/extensions/jasypt.html[Camel Quarkus Jasypt]. Unfortunately, this feature only works in JVM mode and not in native mode.
+There are also some libraries to make Jasypt work with Quarkus, such as https://camel.apache.org/camel-quarkus/latest/reference/extensions/jasypt.html[Camel Quarkus Jasypt]. Unfortunately, this feature only works in JVM mode and not in native mode.
 
-Quarkus supports many credentials provider with official extensions such as HashiCorp Vault.
+Quarkus supports many credential providers with official extensions, such as HashiCorp Vault.
 ```
 <dependency>
   <groupId>io.quarkus</groupId>
