@@ -144,7 +144,7 @@ single-source type of method B and if the single-source type of A is the same as
 The mappingInheritanceStrategy can be defined as showed in <<MapStruct Configuration>>. The existing options can be found https://mapstruct.org/documentation/dev/reference/html/#shared-configurations[here].
 
 
-A mapped attribute does not alays have the same type in the source and target objects. For instance, an attribute may be of type `int` in the source bean but of type `Long` in the target bean.
+A mapped attribute does not always have the same type in the source and target objects. For instance, an attribute may be of type `int` in the source bean but of type `Long` in the target bean.
 
 Another example are references to other objects which should be mapped to the corresponding types in the target model. E.g. the class `ShoppingCart` might have a property *content* of the type `Product` which needs to be converted into a `ProductDto` object when mapping a `ShoppingCart` object to `ShoppingCartDto`. For these cases, it's useful to understand how Mapstruct https://mapstruct.org/documentation/dev/reference/html/#datatype-conversions[converts the data types] and the https://mapstruct.org/documentation/dev/reference/html/#mapping-object-references[object references]. 
 
