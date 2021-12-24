@@ -1,8 +1,11 @@
-== Decision between Spring and Quarkus
+:toc: macro
+toc::[]
 
-=== Spring
+= Decision between Spring and Quarkus
 
-==== Pros
+== Spring
+
+=== Pros
 * *highly flexible:*
 Spring is famous for its great flexibility. You can customize and integrate nearly everything.
 
@@ -14,7 +17,7 @@ As a result you can easily find a lot of developers, experts, books, articles, e
 * *non-invasive and not biased:*
 Spring became famous for its non-invasive coding based on patterns instead of hard dependencies. It gives you a lot of freedom and avoids tight coupling of your (business) code.
 
-==== Cons
+=== Cons
 
 * *history and legacy:*
 Due to its long established history, spring carries a lot of legacy. 
@@ -25,7 +28,7 @@ Spring Developers needs some guidance (e.g. via devon4j) as they may enter pitfa
 While for the last decades spring was leading innovation in Java app development, it seems that with the latest trends and shift such as cloud-native, they have been overtaken by frameworks like Quarkus. 
 However, spring is trying to catch up with spring-native.
 
-=== Quarkus
+== Quarkus
 
 === Quarkus main information:
 Quarkus is a full-stack, Kubernetes-native Java framework made for JVMs.
@@ -51,7 +54,7 @@ Another big advantage of Quarkus is that it started on a green field and therefo
 Nonetheless, there is a experimental support also for some spring libraries already available in Quarkus, which make switching from spring to Quarkus much more easier if needed.
 We also provide a link:quarkus/getting-started-for-spring-developers.asciidoc[guide for Spring developers] who want to adopt or try Quarkus for their (next) projects as it really has some gamechanging advantages over Spring.
 
-==== Pros:
+=== Pros:
 
 * *fast turn-around cycles for developers:* Save changes in your Java code and immediately test the results without restarting or waiting
 
@@ -62,7 +65,7 @@ You can find a performance comparison between Spring and Quarkus here.
 
 * *clean and lean:* As Quarkus was born as cloud-native framework it is very light-weight and does not carry much history and legacy.
 
-==== Cons:
+=== Cons:
 
 * *less flexible:*
 Quarkus is less flexible compared to spring or in other words it is more biased and coupled to specific implementations. However, the implementations just work and you have less things to choose and worry about.
@@ -72,6 +75,6 @@ Therefore, check your requirements and technology stack early on when making you
 * *less established:*
 Since Quarkus was born in 2019 it is modern but also less established. It will be easier to get developers for spring but we already consider Quarkus mature and established enought for building production ready apps.
 
-=== General Recommendation
+== General Recommendation
 One essential differentiation has to be made on the decision for native or against native applications - the foreseen performance optimization of the JIT compiler of the JVM, which is not available anymore in a native image deployment.
 Depending on the overall landscape, it is recommended to stay with the knowledge of the available teams, e.g. continue making use of devon4j based on spring or even if already in that state, make use of Quarkus on JVM.
