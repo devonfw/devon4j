@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.devonfw.tools</groupId>
     <artifactId>devonfw-docgen-pdf</artifactId>
-    <version>2021.04.001</version>
+    <version>2021.12.002</version>
     <relativePath></relativePath>
   </parent>
   <groupId>com.devonfw.java.doc</groupId>
