@@ -1,19 +1,19 @@
 = Quarkus Quickstart 
 
-This guide will show a quickstart how to create a Quarkus app and will briefly show the key functionalities that Quarkus provides and how to start as a beginner or also experienced developers.
+This guide serves as a quickstart on how to create a Quarkus app, briefly presenting the key functionalities that Quarkus provides, both for beginners and experienced developers.
 
 
 == Introduction to Quarkus 
 
-To get the first introduction to Quarkus you can read the link:../quarkus.asciidoc[Quarkus introduction guide]. To get a short overview where you can find the important Quarkus related guides follow the chapter link:../quarkus.asciidoc#guide-to-the-reader[guide to the reader].
-Also, a comparison of the link:../quarkus.asciidoc#Pros[advantages] and link:../quarkus.asciidoc#cons[disadvantages] of a Quarkus application compared to the alternative framework Spring.
-This comparison will be supported by our link:../performance-comparison-spring-quarkus.asciidoc[performance comparison between Spring and Quarkus] that shows the lower resource consumption and startup time of Quarkus applications.
+To get a first introduction to Quarkus, you can read the link:../quarkus.asciidoc[Quarkus introduction guide]. To get a brief overview of where you can find the important Quarkus related guides, follow the chapter link:../quarkus.asciidoc#guide-to-the-reader[guide to the reader].
+Also, see the comparison of the link:../quarkus.asciidoc#Pros[advantages] and link:../quarkus.asciidoc#cons[disadvantages] of a Quarkus application compared to the alternative framework Spring.
+This comparison will be supported by our link:../performance-comparison-spring-quarkus.asciidoc[performance comparison between Spring and Quarkus], which demonstrates the lower resource consumption and startup time of Quarkus applications.
 
 
 == Installation of Tools and Dependencies
 
 First, we need to install some dependencies and tools before we can start programming. Our tool https://devonfw.com/website/pages/docs/devonfw-ide-introduction.asciidoc.html[devonfw-ide] comes with many development tools for you.
-We need to install the following tools for this guide.
+We need to install the following tools for this guide:
 
 
 * Maven 
@@ -21,7 +21,7 @@ We need to install the following tools for this guide.
 * any IDE (devonfw-ide supports Eclipse, Intellij and VScode)
 * Docker 
 
-We recommend installing the devonfw-ide with the tools, but if you already got your system configured and the tools from above installed you can skip to xref:bootstrap-a-quarkus-project[Bootstrap a Quarkus Project] otherwise we will show you how to setup and update your devonfw-ide.
+We recommend installing the devonfw-ide with the tools, but if you already have your system configured and the tools above installed, you can skip to xref:bootstrap-a-quarkus-project[Bootstrap a Quarkus Project], otherwise we will show you how to set up and update your devonfw-ide.
 
 .devonfw-ide 
 . Install devonfw-ide + 
@@ -31,9 +31,9 @@ Follow the https://github.com/devonfw/ide/wiki/setup#setup[Setup] to install the
 `devon docker setup`
 
 . Update devonfw-ide +
-We advise to update your already installed devonfw-ide and all tools because we are still working to improve devonfw-ide and there could be essential features for cloud development with Quarkus that you could be missing. 
+As we are still working on improving devonfw-ide, we recommend to update your already installed devonfw-ide and tools in order to include essential features for cloud development with Quarkus that you could be missing. 
 
-Use the commands `devon ide update`, `devon ide update software` and `devon ide scripts` to update devonfw-ide and all software that is installed.
+Use the commands `devon ide update`, `devon ide update software`, and `devon ide scripts` to update devonfw-ide and all installed software.
 
 Go to the main folder under workspaces of the devonfw-ide installation. 
 We will create the project there.
@@ -41,48 +41,46 @@ We will create the project there.
 == Bootstrap a Quarkus Project
 
 Quarkus provides multiple ways to bootstrap a project.
-The option to bootstrap a project via the command-line will be shown in the Quarkus getting started guide https://quarkus.io/guides/getting-started#bootstrapping-the-project[Bootstrap the project].
-Quarkus also provides a project builder where you can select some extensions, the build tool for your project, and if you want some starter code.
-This will deliver a project skeleton with the configured project dependencies and also contributes the information to compile the application natively. To get some recommendations on starter templates follow this guide link:guide-template.asciidoc[templates recommendations].
+The option to bootstrap a project via the command-line is shown in the Quarkus getting started guide https://quarkus.io/guides/getting-started#bootstrapping-the-project[Bootstrap the project].
+Quarkus also provides a project builder where you can select some extensions, the build tool for your project, and if you want, some starter code.
+This will deliver a project skeleton with the configured project dependencies and also contributes the information to compile the application natively. To get some recommendations on starter templates, follow the guide on: link:guide-template.asciidoc[template recommendations].
 
 [NOTE]
 ====
-By creating a Quarkus project from command-line or with the project builder you get a different project structure and have to adapt it to the devon4j conventions shown in the next Chapter.
+By creating a Quarkus project from the command-line or with the project builder, you get a different project structure and have to adapt it to the devon4j conventions shown in the next Chapter.
 ====
 
 === Project Structure
 
 We provide a recommendation and guideline for a link:../guide-structure-modern.asciidoc[modern project structure] to help organize your project into logically related modules.
-You should follow the guide and also it in your project so you structure the project to the needs of modern cloud development and microservice architectures and also find similar modules faster in our example projects.
+In order to comply with the requirements of modern cloud development and microservice architectures, follow the guide and apply the modern project structure to your project. You can also find similar modules in our example projects.
 
 
 == Introduction to Quarkus Functionality
-Before we start programming you should have a first look at the functionality of Quarkus.
+Before we start programming, you should first have a look at the functionality of Quarkus.
 
 .Quarkus functionality guides
 . https://quarkus.io/guides/getting-started[Getting started guide from Quarkus] + 
-The guide is a good functionality overview, it shows with a simple **Greeting Service** a brief introduction into the concepts like CDI, testing, dev mode, packaging and running the app.  
+This guide presents a good overview of the functionality of Quarkus. The simple **Greeting Service** gives a brief introduction into concepts like CDI, testing, dev mode, packaging, and running the app.  
 . From Spring to Quarkus +
 For experienced Spring developers that have already followed devon4j guidelines, you can read our guide to link:getting-started-for-spring-developers.asciidoc[getting started with Quarkus for Spring developer], as it goes more into the differences that can give you a more detailed comparison to Spring.
 .. Migrate a Spring app to Quarkus + 
-This guide shows, how to link:../guide-migration-spring-quarkus.asciidoc[migrate a Spring application to a Quarkus application with devon4j conventions]. 
+This guide shows how to link:../guide-migration-spring-quarkus.asciidoc[migrate a Spring application to a Quarkus application with devon4j conventions]. 
 
 
 == Create a REST service
 Now let's create our first REST CRUD service with Quarkus. 
-We give you the options to use a guide and start to code the service yourself,
-or just download a service that's ready to use. 
-
+We give you the options of using a guide to start to code the service yourself or to just download a service that's ready to use. 
 
 .Options
 . Create the service yourself +
-There is a good Quarkus guide for a simple https://quarkus.io/guides/rest-json#creating-your-first-json-rest-service[JSON REST service] that will guide you through your first application and will help you to implement defining endpoint with JAX-RS and an Entity that will be managed by the service and also how to https://quarkus.io/guides/rest-json#json[configure the JSON support].
+There is a good Quarkus guide for a simple https://quarkus.io/guides/rest-json#creating-your-first-json-rest-service[JSON REST service] that will guide you through your first application and help you with implement the definition of endpoints with JAX-RS and an Entity that will be managed by the service, and also how to https://quarkus.io/guides/rest-json#json[configure the JSON support].
 . Use an existing Quarkus project + 
-You don't want to code a service and just want to test some Quarkus functionalities? Just load a Quarkus https://github.com/quarkusio/quarkus-quickstarts#quick-start-list[sample project], provided for every existing quick start guide and the supported framework.
+You don't want to code a service and just want to test some Quarkus functionalities? Just load a Quarkus https://github.com/quarkusio/quarkus-quickstarts#quick-start-list[sample project] provided for every existing quickstart guide and the supported framework.
 Our Team also provides some Quarkus applications that are working and can be loaded and tested. 
-* https://github.com/devonfw-sample/devon4quarkus-reference[reference project] is a service that manages products. It contains the devon4j modern project structure, pagination, queries, a Postgres database, Jaeger tracing, Prometheus monitoring, SwaggerUI and support for Kubernetes deploy. 
+* https://github.com/devonfw-sample/devon4quarkus-reference[reference project] is a service that manages products. It contains the devon4j modern project structure, pagination, queries, a Postgres database, SwaggerUI, and support for Kubernetes deploy. To add OpenTelemetry support, see the following https://github.com/devonfw-sample/devon4quarkus-reference/blob/master/documentation/opentelemetry-deployment.asciidoc[guide].
 This project will be steadily improved and is used to showcase the abilities of Quarkus with devon4j.
-* https://github.com/devonfw-sample/devon4quarkus-minimal[minimal Quarkus project] is just the Quarkus project from a https://quarkus.io/guides/getting-started[getting started with Quarkus] guide with a **Greeting Services** modified with the correct modern structure talked about in this chapter xref:project-structure[Project Structure]
+* https://github.com/devonfw-sample/devon4quarkus-minimal[minimal Quarkus project] is just the Quarkus project from a https://quarkus.io/guides/getting-started[getting started with Quarkus] guide with a **Greeting Services** modified with the correct modern structure mentioned in the chapter xref:project-structure[Project Structure]
 
 
 
@@ -100,19 +98,19 @@ A more detailed usage guide to the Smallrye Plugin is provided by https://quarku
 The next step for our REST service would be to integrate a database to store the objects of the entity. 
 
 With Quarkus, adding a database can be easy, because Quarkus can take over the build-up and connection process.
-First, you should understand our guides to the concepts of how to work with data and then we will show how to integrate a database with Quarkus.
+First, you should understand our guides on the concepts of working with data. Then, we will show how to integrate a database with Quarkus.
 
 .Data Principles Guides
 . General devon4j JPA guide + 
-To get an insight into the general JPA usage you should read the link:../guide-jpa.asciidoc[JPA guide] which contains a general explanation of the Java Persistence API.
+To get an insight into the general JPA usage, read the link:../guide-jpa.asciidoc[JPA guide] containing a general explanation of the Java Persistence API.
 . Difference to SpringData + 
-If you have already worked with SpringData this is also partially supported with Quarkus, this is explained in more detail in this link:../guide-repository.asciidoc[SpringData Guide].
+If you have already worked with SpringData, this is also partially supported with Quarkus. This is explained in more detail in this link:../guide-repository.asciidoc[SpringData Guide].
 
 
 .Database Integration 
 . Quarkus zero config dev mode + 
-Starting with database implementation in Quarkus, we recommend for beginners to use the https://quarkus.io/guides/datasource#dev-services[DEV mode Zero Config Setup (Dev Services)] this is especially great for testing the code without a database set up. 
-Quarkus does all the work for you and configures a database and creates the database and tables(schemas) for you.
+Starting with the database implementation in Quarkus, we recommend for beginners to use the https://quarkus.io/guides/datasource#dev-services[DEV mode Zero Config Setup (Dev Services)]. This is especially great for testing the code without a database set up. 
+Quarkus does all the work for you and configures a database and creates the database and tables (schemas) for you.
 .. Configuration Properties + 
 A list of all database configuration properties for the https://quarkus.io/guides/datasource#configuring-dev-services[Dev services]
 . Integrate a simple Hibernate ORM database + 
@@ -123,10 +121,10 @@ A list of all configuration that is possible with a https://quarkus.io/guides/da
 . Reactive CRUD application with Panache + 
 Quarkus unifies reactive and imperative programming.
 Reactive is an architectural principle to build robust, efficient, and concurrent applications. 
-An introduction into reactive and how Quarkus is enabling it follow this https://quarkus.io/guides/quarkus-reactive-architecture[Quarkus reactive architecture] article and also the https://quarkus.io/guides/getting-started-reactive[reactive quickstart].
-To get started with reactive and implement reactive methods you can follow the https://quarkus.io/guides/hibernate-reactive-panache[Quarkus reactive guide].
-The reactive guide is using the Quarkus based implementation of a Hibernate ORM called Panache. 
-That implementation is not our first choice with devon4j and therefore not part of our recommendations, but to understand the reactive guide you can read the https://quarkus.io/guides/hibernate-orm-panache[Hibernate ORM with Panache guide] first to prevent possible problems following the guide.
+For an introduction into reactive and how Quarkus enables it, follow this https://quarkus.io/guides/quarkus-reactive-architecture[Quarkus reactive architecture] article and also the https://quarkus.io/guides/getting-started-reactive[reactive quickstart].
+To get started with reactive and implement reactive methods, you can follow the https://quarkus.io/guides/hibernate-reactive-panache[Quarkus reactive guide].
+The reactive guide uses the Quarkus based implementation of a Hibernate ORM called Panache. 
+The implementation is not our first choice with devon4j and therefore not part of our recommendations, but to understand the reactive guide you can read the https://quarkus.io/guides/hibernate-orm-panache[Hibernate ORM with Panache guide] first to prevent possible problems following the guide.
 
 [NOTE]
 ====
@@ -135,9 +133,8 @@ You need an installed Docker version for the https://quarkus.io/guides/datasourc
 
 
 .Database Migration
-. Migration guide
 For schema-based databases, we recommend migrating databases with Flyway.
-In that case there is our link:../guide-database-migration.asciidoc[general migration guide] can give you an overview if you are not familiar with migration.
+In that case, our link:../guide-database-migration.asciidoc[general migration guide] can give you an overview if you are not familiar with migration.
 .. Flyway guide for Quarkus
 This Quarkus guide will show how to work with the https://quarkus.io/guides/flyway[Flyway extension in a Quarkus application].
 This should be used if you start your own database and do not leave the creation to quarkus.
@@ -153,12 +150,12 @@ For users that aren't familiar with the devon4j testing principles, we created a
 .. Our guide for testing with Quarkus
 In addition, we also provide a guide that specifically addresses the link:guide-for-testing.asciidoc[testing of a Quarkus application].
   
-Most of the Quarkus applications are already equipped with a basic Test and also our https://github.com/devonfw-sample/devon4quarkus-reference[reference project] provides some test cases, if you want to improve and extends the tests, you can also follow the large https://quarkus.io/guides/getting-started-testing[Quarkus guide for testing]. 
+Most of the Quarkus applications are already equipped with a basic test and our https://github.com/devonfw-sample/devon4quarkus-reference[reference project] provides some further test cases. If you want to improve and extend the tests, you can also follow the large https://quarkus.io/guides/getting-started-testing[Quarkus guide for testing]. 
 
 
 
 == Packaging of a Quarkus application and creation of a native executable
-Quarkus applications can be packed into different types. The following link will show how to build and also give you a short explanation of the characteristics of these files.
+Quarkus applications can be packaged into different file types. The following link will show you how to build them and give you a short explanation of the characteristics of these files.
 
 .Package types
 . https://quarkus.io/guides/maven-tooling#fast-jar[fast-jar]
@@ -166,7 +163,7 @@ Quarkus applications can be packed into different types. The following link will
 . https://quarkus.io/guides/maven-tooling#uber-jar-maven[uber-jar]
 . link:guide-native-image.asciidoc[native executable]
 
-To pack an application use the command `mvn package` and Quarkus will generate the output in the **/target** folder. For the native executables, the command needs more parameters but this is explained in the link above.
+To package an application, use the command `mvn package` and Quarkus will generate the output in the **/target** folder. For the native executables, the command needs more parameters, which is explained in the link above.
 
 Configure the Output with these https://quarkus.io/guides/maven-tooling#configuration-reference[configuration properties]
 
@@ -174,7 +171,7 @@ Configure the Output with these https://quarkus.io/guides/maven-tooling#configur
 == Create and build a Docker Image
 
 Quarkus supports Jib, S2I and https://www.docker.com/[Docker] for building images. We focus on building a Quarkus App with Docker.
-You get a created Dockerfile from Quarkus in the src/main/docker folder of any project generated from Quarkus. There are multiple Dockerfiles.
+You get a generated Dockerfile from Quarkus in the src/main/docker folder of any project generated from Quarkus. There are multiple Dockerfiles.
 
 .Dockerfiles
 . Dockerfile.jvm + 
@@ -184,15 +181,15 @@ DockerFile for Quarkus application in JVM mode with the legacy jar **running in 
 . Dockerfile.native + 
 Dockerfile using the native executable running in **Red Hat Universal Base Image 8 Minimal container**.
 . Dockerfile.native-distroless
-The native file will run in a **Distroless container**. Distroless images are very small containers with just the application and runtime dependencies and without the other programs coming with a Linux distribution.
+The native file will run in a **Distroless container**. Distroless images are very small containers with just the application and runtime dependencies and without the other programs that come with a Linux distribution.
 
 [Note]
 ====
 For more information to the different executables go back to the chapter xref:packaging-of-a-quarkus-application-and-creation-of-a-native-executable[Packaging of a Quarkus application and creation of a native executable]
 ====
-To simply build and run a Docker image you can follow the instructions Quarkus provides for every Dockerfile in the comments block. 
+To simply build and run a Docker image, you can follow the instructions Quarkus provides for every Dockerfile in the comments block. 
 
-Docker commands example for the from the JVM Dockerfile from our https://github.com/devonfw-sample/devon4quarkus-reference[reference project]
+Docker commands example for the JVM Dockerfile from our https://github.com/devonfw-sample/devon4quarkus-reference[reference project]
 
 ----
 ####
@@ -220,10 +217,10 @@ Docker commands example for the from the JVM Dockerfile from our https://github.
 ###
 ----
 
-Quarkus is also able to build the image while packaging the application so you don't have to execute the command from above. 
-To perform Docker builds with the generated Dockerfiles from above you need to add the following extension to your project with the command `mvn quarkus:add-extension -Dextensions="container-image-docker"`.
+Quarkus is also able to build the image while packaging the application, so you don't have to execute the command from above. 
+To perform Docker builds with the generated Dockerfiles from above, you need to add the following extension to your project with the command `mvn quarkus:add-extension -Dextensions="container-image-docker"`.
 
-Also you have to set the **quarkus.container-image.build=true**, you can add this to your **application.properties** or just append it to the packaging command like that `./mvn package -Dquarkus.container-image.build=true`.
+You also have to set the **quarkus.container-image.build=true**. You can add this to your **application.properties** or just append it to the packaging command like this: `./mvn package -Dquarkus.container-image.build=true`.
 
 
 If your needs exceed the instructions given by the file, we recommend to follow the Docker https://docs.docker.com/get-started/[getting started guide] to get familiar with Docker and customize the Dockerfiles according to your needs.

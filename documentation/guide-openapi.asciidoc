@@ -5,9 +5,17 @@ toc::[]
 
 The link:https://spec.openapis.org/oas/latest.html[OpenAPI Specification (OAS)] defines a standard for describing RESTful web services in a machine- and human-readable format. OpenAPI allows REST APIs to be defined in a uniform manner.
 Technically, an OpenAPI document is written in YAML or JSON format. The specification defines the structure of a REST API by describing attributes such as path information, response codes, and return types. Some examples can be found link:https://github.com/OAI/OpenAPI-Specification/tree/main/examples/v3.0[here].
+Apart from documenting the API, this schema then also acts as a contract between provider and consumers, guaranteeing interoperability between various technologies. 
 
 OpenAPI is often used in combination with link:https://swagger.io/[Swagger]. Swagger is a set of tools build around OpenAPI, that help developers to design and document their REST APIs.
 The most common tool is the link:https://swagger.io/tools/swagger-ui/[Swagger UI], which uses the OpenAPI specification to create a graphical interface of the REST API that you can also interact with. Check out the link:https://editor.swagger.io/[Swagger online editor] to get a feeling for it.
+
+[NOTE]
+====
+Swagger and OpenAPI: Swagger is a former specification, based on which the OpenAPI was created. Swagger 2.0 is still commonly used for describing APIs. OpenAPI is an open-source collaboration and it started from version 3.0.0(semver)
+====
+
+There are many tools that work with OpenAPI: code generators, documentation tools, validators etc.
 
 == OpenAPI generation
 

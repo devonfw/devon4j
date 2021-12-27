@@ -10,7 +10,7 @@ This improves the startup time, performance, and efficiency.
 A distribution of https://www.graalvm.org/[GraalVM] is needed.
 You can find the differences between the available distributions https://quarkus.io/guides/building-native-image#graalvm[here].
 
-To build your quarkus app as native-image, you have two options that are described in the following sections.
+To build your quarkus app as a native-image, you have two options that are described in the following sections.
 
 == Build a native executable with GraalVM
 
