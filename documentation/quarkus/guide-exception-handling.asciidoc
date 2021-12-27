@@ -22,7 +22,7 @@ You can find an example of this class https://github.com/devonfw-sample/devon4qu
 ----
 public abstract class AbstractExceptionMapper {
 
- ...
+  ...
 
   protected Response createResponse(int status, String errorCode, Exception exception) {
 
