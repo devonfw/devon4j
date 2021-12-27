@@ -26,6 +26,8 @@ However, the general coding patterns are based on common Java standards mainly f
 Therefore, the xref:general[general] section contains all the documentation that is universal to Java and does not differ between the two frameworks.
 Only the sections link:spring.asciidoc[spring] and link:quarkus.asciidoc[quarkus] contain documentation that is specific to the respective approach.
 
+If you're trying to decide which of the two frameworks to use, have a look at link:decision-between-Spring-and-Quarkus.asciidoc[this guide].
+
 You can also read the latest version of this documentation online at the following sources:
 
 * https://github.com/devonfw/devon4j/wiki[devon4j on github wiki]
@@ -284,6 +286,8 @@ include::quarkus.asciidoc[leveloffset=+1]
 include::quarkus/getting-started-quarkus.asciidoc[leveloffset=+2]
 
 include::guide-migration-spring-quarkus.asciidoc[leveloffset=+2]
+
+include::Spring-native-vs-Quarkus.asciidoc[leveloffset=+2]
 
 include::guide-structure-modern.asciidoc[leveloffset=+2]
 
