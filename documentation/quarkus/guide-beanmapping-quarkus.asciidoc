@@ -87,7 +87,9 @@ Any attributes not given via *@Mapper* will be inherited from the shared configu
 The MapStruct code generator can be configured using annotation processor options.
 You can pass the options to the compiler while invoking javac directly, or add the parameters to the maven configuration in the POM.xml
 
+
 We also use the constructor injection strategy to avoid field injections and potential reflections. This will also simplify our tests.
+
 The option to pass the parameter to the annotation processor in the POM.xml is used and can be inspected in our https://github.com/devonfw-sample/devon4quarkus-reference/blob/master/pom.xml#L220-L228[quarkus reference project].
 
 A list of all annotation processor options can be found https://mapstruct.org/documentation/dev/reference/html/#configuration-options[here]. 
@@ -96,7 +98,7 @@ A list of all annotation processor options can be found https://mapstruct.org/do
 
 == Basic Bean-Mapper Usage
 
-To use the mapper we have to implement the mapper interface and the function prototypes with a *@Mapper* annotation.
+To use the mapper, we have to implement the mapper interface and the function prototypes with a *@Mapper* annotation.
 [source, java]
 ----
 @Mapper
@@ -107,7 +109,7 @@ public interface ProductMapper {
   ProductEntity create(NewProductDto dto);
 }
 ----
-The MapStruct annotation processor will generate the implementation for us under `/target/generated-sources/`, we just need to tell it that we would like to have a method that accepts an `ProductEntity` entity and returns a new `ProductDto` DTO. 
+The MapStruct annotation processor will generate the implementation for us under `/target/generated-sources/`, we just need to tell it that we would like to have a method that accepts a `ProductEntity` entity and returns a new `ProductDto` DTO. 
 
 
 The generated mapper implementation will be marked with the *@ApplicationScoped* annotation and can thus be injected into fields, constructor arguments, etc. using the *@Inject* annotation: 
@@ -126,7 +128,8 @@ That is the basic usage of a Mapstruct mapper. In the next chapter, we'll go int
 
 == Advanced Bean-Mapper Usage
 
-Let´s assume our `Product` entity and the `ProductDto` have some differently named properties that should be mapped. Add a mapping annotation to map the property *type* from `Product` to *kind* from `ProductDto`. We define the source name of the property and the target name.
+Let´s assume that our `Product` entity and the `ProductDto` have some differently named properties that should be mapped. Add a mapping annotation to map the property *type* from `Product` to *kind* from `ProductDto`. We define the source name of the property and the target name.
+
 [source, java]
 ----
 @Mapper
