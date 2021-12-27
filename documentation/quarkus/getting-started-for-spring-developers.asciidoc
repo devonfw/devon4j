@@ -3,14 +3,14 @@ toc::[]
 
 = Getting started with Quarkus for Spring developers
 
-As a Spring developer, you heard more and more about Quarkus: its pros and cons, its fast growth etc. So, you decided to adopt/try Quarkus for your (next) project(s) and wonder where to go next and where do you need to pay attention to when moving from Spring to Quarkus.
+As a Spring developer, you have heard more and more about Quarkus: its pros and cons, its fast growth etc. So, you decided to adopt/try Quarkus for your (next) project(s) and are wondering where to go next and what you need to pay attention to when moving from Spring to Quarkus.
 
-This guide tries to address exactly this concern. In the following, we will present you some main points you should be aware of when starting to develop with Quarkus, along with some useful sources.
+This guide tries to address this exact concern. In the following, we will present you some main points you should be aware of when starting to develop with Quarkus, along with some useful sources.
 
-. Quarkus is fairly a new Java toolkit. Thus, it is very well documented. It also provides a set of well-written technical guides that are a good starting point to get in touch and make the first steps with Quarkus. See https://quarkus.io/get-started/[here]. It is an Open Source project licensed under the Apache License version 2.0. The source code is hosted in https://github.com/quarkusio/quarkus[GitHub]. If you have any question or concern, don't hesitate to reach out to the https://quarkus.io/community/[Quarkus community].
-. Same as https://start.spring.io/[Spring Initializr], you can go to https://code.quarkus.io/[code.quarkus.io] to create a new application. Also, check out our link:quarkus-template.asciidoc[Template Quarkus Guide] to have our recommendations on certain topics.
-. In Spring stack, we recommend structuring your application into multiple modules, known as our link:../guide-structure-classic.asciidoc[classic structure]. Moving to Quarkus and the world of cloud-native, microservices where we build smaller applications compared to monoliths, we recommend keeping everything top-level and simple. Therefore, we propose the link:../guide-structure-modern.asciidoc[modern structure] as a better fit.
-. Quarkus focuses not only on delivering top features but also on the developer experience. The *Quarkus's Live Coding* feature automatically detects changes made to Java files, application configuration, static resources or even classpath dependency changes and recompiles and redeploys the changes. As that, it solves the problem of traditional Java development workflow, hence improves productivity.
+. Quarkus is a fairly new Java toolkit. Thus, it is very well documented. It also provides a set of well-written technical guides that are a good starting point to get in touch and make the first steps with Quarkus. See https://quarkus.io/get-started/[here]. It is an Open Source project licensed under the Apache License version 2.0. The source code is hosted in https://github.com/quarkusio/quarkus[GitHub]. If you have any questions or concerns, don't hesitate to reach out to the https://quarkus.io/community/[Quarkus community].
+. Same as https://start.spring.io/[Spring Initializr], you can go to https://code.quarkus.io/[code.quarkus.io] to create a new application. Also, check out our link:quarkus-template.asciidoc[Template Quarkus Guide] to see our recommendations on certain topics.
+. In Spring stack, we recommend structuring your application into multiple modules, known as our link:../guide-structure-classic.asciidoc[classic structure]. Moving to Quarkus and the world of cloud-native microservices, where we build smaller applications compared to monoliths, we recommend keeping everything top-level and simple. Therefore, we propose the link:../guide-structure-modern.asciidoc[modern structure] as a better fit.
+. Quarkus focuses not only on delivering top features, but also on the developer experience. The *Quarkus's Live Coding* feature automatically detects changes made to Java files, application configuration, static resources, or even classpath dependency changes and recompiles and redeploys the changes. As that, it solves the problem of traditional Java development workflow, hence improves productivity.
 
 +
 ----
@@ -22,11 +22,11 @@ You can use this feature out of the box without any extra setup by running:
 ```
     mvn compile quarkus:dev
 ```
-Another highlight feature to speed up developing is the Quarkus's Dev Mode with *Dev Services*, which can automatically provision unconfigured services in development and test mode. It means that if you include an extension and don't configure it, Quarkus will automatically start the relevant service and wire up your application to use it, therefore will save you a lot of time setting up those services manually. In production mode, where the real configuration is provided, Dev Service will be disabled automatically.
+Another highlight feature to speed up developing is the Quarkus's Dev Mode with *Dev Services*, which can automatically provision unconfigured services in development and test mode. This means that if you include an extension and don't configure it, Quarkus will automatically start the relevant service and wire up your application to use it, therefore saving you a lot of time setting up those services manually. In production mode, where the real configuration is provided, Dev Services will be disabled automatically.
 +
-Also in Dev Mode, you can access the *Dev UI* at `\q\dev` to browse endpoints offered by various extensions, conceptually similar to what a Spring Boot actuator might provide.
+Additionally, you can access the *Dev UI* at `\q\dev` in Dev Mode to browse endpoints offered by various extensions, conceptually similar to what a Spring Boot actuator might provide.
 
-. Quarkus is made of a small core on which relies hundreds of extensions. In fact, the power of Quarkus is its extension mechanism. Think of these extensions as your project dependencies. You can add it per dependency manager such as maven or gradle.
+. Quarkus is made of a small core on which hundreds of extensions rely. In fact, the power of Quarkus is its extension mechanism. Think of these extensions as your project dependencies. You can add it per dependency manager such as maven or gradle.
 +
 ```
 mvn quarkus:list-extensions
@@ -101,7 +101,7 @@ spring-boot-starter-data-redis-reactive
 |===
 
 +
-A full list of all Quarkus extensions can be found https://quarkus.pro/extensions/[here]. Furthermore, you can check out the community extensions hosted by https://github.com/quarkiverse/quarkiverse/wiki[Quarkiverse Hub]. Quarkus has some extensions for Spring API as well which is helpful while migrating from Spring to Quarkus.
+A full list of all Quarkus extensions can be found https://quarkus.pro/extensions/[here]. Furthermore, you can check out the community extensions hosted by https://github.com/quarkiverse/quarkiverse/wiki[Quarkiverse Hub]. Quarkus has some extensions for Spring API as well, which is helpful when migrating from Spring to Quarkus.
 
     * https://quarkus.io/guides/spring-di[Quarkus Extension for Spring Dependency Injection]
     * https://quarkus.io/guides/spring-web[Quarkus Extension for Spring Web]
@@ -114,18 +114,18 @@ A full list of all Quarkus extensions can be found https://quarkus.pro/extension
     * https://quarkus.io/guides/spring-scheduled[Quarkus Extension for Spring Scheduled]
 
 +
-Besides extensions, which are officially maintained by Quarkus team, Quarkus allows adding external libraries too. While extensions can be integrated seamlessly into Quarkus as they can be processed at build time and be built in native mode with GraalVM, external dependencies might not work out of the box with native compilation. If that is the case, then you have to recompile them with the right GraalVM configuration to make them work.
+Besides extensions, which are officially maintained by Quarkus team, Quarkus allows adding external libraries too. While extensions can be integrated seamlessly into Quarkus, as they can be processed at build time and be built in native mode with GraalVM, external dependencies might not work out of the box with native compilation. If that is the case, you have to recompile them with the right GraalVM configuration to make them work.
 
-. Quarkus's design accounted for native compilation by default. A Quarkus native executable starts much faster and utilizes far less memory than a traditional JVM (see our link:../performance-comparision-spring-quarkus.asciidoc[performace comparision between Spring and Quarkus]). To get familiar with building native executable, configuring and running it, please check out our link:guide-native-image.asciidoc[Native Image Guide]. Be sure to test your code in both JVM and native mode.
+. Quarkus' design accounted for native compilation by default. A Quarkus native executable starts much faster and utilizes far less memory than a traditional JVM (see our link:../performance-comparision-spring-quarkus.asciidoc[performace comparision between Spring and Quarkus]). To get familiar with building native executable, configuring and running it, please check out our link:guide-native-image.asciidoc[Native Image Guide]. Be sure to test your code in both JVM and native mode.
 
-. Both Quarkus and Spring include testing frameworks based on https://junit.org/junit5/[JUnit] and https://site.mockito.org/[Mockito]. Thus, by design, Quarkus enables test-driven development by detecting affected tests as changes are made and automatically rerun them in background. As that, it gives developer instant feedback, hence improves productivity. To use continuous testing, execute the following command:
+. Both Quarkus and Spring include testing frameworks based on https://junit.org/junit5/[JUnit] and https://site.mockito.org/[Mockito]. Thus, by design, Quarkus enables test-driven development by detecting affected tests as changes are made and automatically reruns them in background. As that, it gives developer instant feedback, hence improves productivity. To use continuous testing, execute the following command:
 +
 ```
 mvn quarkus:dev
 ```
 
-.  For the sake of performance optimization, Quarkus avoids reflection as much as possible, instead favoring static class binding. When building a native executable, it analyzes the call tree and removes all the classes/methods/fields that are not used directly. As a consequence, the elements used via reflection are not part of the call tree so they are dead code eliminated (if not called directly in other cases).
+.  For the sake of performance optimization, Quarkus avoids reflection as much as possible, favoring static class binding instead. When building a native executable, it analyzes the call tree and removes all the classes/methods/fields that are not used directly. As a consequence, the elements used via reflection are not part of the call tree so they are dead code eliminated (if not called directly in other cases).
 +
-A common example is the JSON libraries which typically use reflection to serialize the objects to JSON. If you use them out of the box, you might encounter some errors in native mode. So, be sure to register the elements for reflection explicitly. A How-to is provided by https://quarkus.io/guides/writing-native-applications-tips#registering-for-reflection[Quarkus Registering For Reflection] with practical program snippets.
+A common example is the JSON library, which typically use reflection to serialize the objects to JSON. If you use them out of the box, you might encounter some errors in native mode. So, be sure to register the elements for reflection explicitly. A How-to is provided by https://quarkus.io/guides/writing-native-applications-tips#registering-for-reflection[Quarkus Registering For Reflection] with practical program snippets.
 
 A very good read on the topic is the e-book https://developers.redhat.com/e-books/quarkus-spring-developers[Quarkus for Spring Developers] by Red Hat. Another good source for direct hands-on coding tutorial is https://www.katacoda.com/openshift/courses/developing-with-quarkus/spring[Katacoda Quarkus for Spring Boot Developers]
