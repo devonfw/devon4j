@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.devonfw</groupId>
     <artifactId>maven-parent</artifactId>
-    <version>8</version>
+    <version>9</version>
   </parent>
   <groupId>com.devonfw.java.dev</groupId>
   <artifactId>devon4j</artifactId>
