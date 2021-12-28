@@ -113,11 +113,14 @@ public class ImagemanagementRestServiceImpl implements ImagemanagementRestServic
 === JAX-RS Configuration
 Starting from CXF 3.0.0 it is possible to enable the auto-discovery of JAX-RS roots.
 
-When the jaxrs server is instantiated all the scanned root and provider beans (beans annotated with `javax.ws.rs.Path` and `javax.ws.rs.ext.Provider`) are configured.
+When the JAX-RS server is instantiated, all the scanned root and provider beans (beans annotated with `javax.ws.rs.Path` and `javax.ws.rs.ext.Provider`) are configured.
 
 === REST Exception Handling
-For exceptions a service needs to have an exception façade that catches all exceptions and handles them by writing proper log messages and mapping them to a HTTP response with an according xref:http-status-codes[HTTP status code]. Therefore the devonfw provides a generic solution via `RestServiceExceptionFacade`. You need to follow the link:guide-exceptions.asciidoc[exception guide] so that it works out of the box because the façade needs to be able to distinguish between business and technical exceptions.
-Now your service may throw exceptions but the façade with automatically handle them for you.
+For exceptions, a service needs to have an exception facade that catches all exceptions and handles them by writing proper log messages and mapping them to a HTTP response with an corresponding xref:http-status-codes[HTTP status code].
+For this, devon4j provides a generic solution via `RestServiceExceptionFacade` that you can use within your Spring applications. You need to follow the link:guide-exceptions.asciidoc[exception guide] in order for it to work out of the box because the facade needs to be able to distinguish between business and technical exceptions.
+To implement a generic exception facade in Quarkus, follow the link:quarkus/guide-exception-handling.asciidoc[Quarkus exception guide].
+
+Now your service may throw exceptions, but the facade will automatically handle them for you.
 
 The general format for returning an error to the client is as follows:
 
