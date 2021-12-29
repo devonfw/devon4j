@@ -114,7 +114,29 @@ The `orderBy` method is used to sort the query results according to certain crit
 
 For spring, devon4j provides another approach that you can use for your Spring applications to implement Querydsl logic without having to use these metaclasses. An example can be found link:spring/guide-querydsl-spring.asciidoc[here].
 
+== Native Queries
+Spring Data supports the use of _native queries_. Native queries use simple native SQL syntax that is not parsed in JPQL. This allows you to use all the features that your database supports.
+The downside to this is that database portability is lost because there is no abstraction layer and the query may not work with another database because it may use a different syntax.
 
+You can implement a native query using `@Query` annotation with the `nativeQuery` attribute set to true: 
+
+[source,java]
+----
+@Query(value="...", nativeQuery=true)
+----
+
+NOTE: This will not work with Quarkus because Quarkus does not support native queries by using the `@Query` annotation (see link:guide-repository.asciidoc#limitations-in-quarkus[here]).
+
+You can also implement native queries directly using the `EntityManager` API and the `createNativeQuery` method.
+*This approach also works with Quarkus*.
+
+[source,java]
+----
+Query query = entityManager.createNativeQuery("SELECT * FROM Product", ProductEntity.class);
+List<ProductEntity> products = query.getResultList();
+----
+
+NOTE: Be sure to use the name of the table when using native queries, while you must use the entity name when implementing queries with JPQL.
 
 == Using Wildcards
 For flexible queries it is often required to allow wildcards (especially in xref:dynamic_queries[dynamic queries]). While users intuitively expect glob syntax the SQL and JPQL standards work different. Therefore a mapping is required. devonfw provides this on a lower level by https://github.com/devonfw/devon4j/blob/develop/modules/basic/src/main/java/com/devonfw/module/basic/common/api/query/LikePatternSyntax.java[LikePatternSyntax] and on a high level by https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java#L54[QueryUtil] (see https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryHelper.java#L199[QueryHelper.newStringClause(...)]).
