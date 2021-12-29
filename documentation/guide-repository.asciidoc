@@ -119,7 +119,7 @@ For Spring applications, devon4j offers a proprietary solution that integrates s
 
 === Custom methods without fragment approach
 
-The fragment approach is a bit laborious, as always three types (repository interface, fragment interface and fragment implementation) are needed to implement custom methods.
+The fragment approach is a bit laborious, as three types (repository interface, fragment interface and fragment implementation) are always needed to implement custom methods.
 We cannot simply use default methods within the repository because we cannot inject the `EntityManager` directly into the repository interface.
 
 As a workaround, you can create a `GenericRepository` interface, as is done in the https://github.com/devonfw/devon4j/tree/master/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/impl/data[devon4j jpa-spring-data module].
@@ -151,7 +151,7 @@ public class GenericRepositoryImpl<E> implements GenericRepository<E> {
 }
 ----
 
-Then all your repository interfaces can extend the `GenericRepository` and you can implement queries directly in the repository interface using default methods:
+Then, all your repository interfaces can extend the `GenericRepository` and you can implement queries directly in the repository interface using default methods:
 
 [source,java]
 ----
