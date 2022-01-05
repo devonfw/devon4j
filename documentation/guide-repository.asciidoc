@@ -117,6 +117,59 @@ NOTE: In Quarkus, native and named queries via the `@Query` annotation are curre
 
 For Spring applications, devon4j offers a proprietary solution that integrates seamlessly with QueryDSL and uses default methods instead of the fragment approach. A separate guide for this can be found link:spring/guide-devon4j-spring-repository.asciidoc[here].
 
+=== Custom methods without fragment approach
+
+The fragment approach is a bit laborious, as three types (repository interface, fragment interface and fragment implementation) are always needed to implement custom methods.
+We cannot simply use default methods within the repository because we cannot inject the `EntityManager` directly into the repository interface.
+
+As a workaround, you can create a `GenericRepository` interface, as is done in the https://github.com/devonfw/devon4j/tree/master/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/impl/data[devon4j jpa-spring-data module].
+
+[source,java]
+----
+public interface GenericRepository<E> {
+
+  EntityManager getEntityManager();
+
+  ...
+}
+----
+
+[source,java]
+----
+public class GenericRepositoryImpl<E> implements GenericRepository<E> {
+
+  @Inject
+  EntityManager entityManager;
+
+  @Override
+  public EntityManager getEntityManager() {
+
+    return this.entityManager;
+  }
+
+  ...
+}
+----
+
+Then, all your repository interfaces can extend the `GenericRepository` and you can implement queries directly in the repository interface using default methods:
+
+[source,java]
+----
+public interface ProductRepository extends JpaRepository<ProductEntity, Long>, GenericRepository<ProductEntity> {
+
+  default Page<ProductEntity> findByTitle(Title title) {
+
+    EntityManager entityManager = getEntityManager();
+    Query query = entityManager.createNativeQuery("select * from Product where title = :title", ProductEntity.class);
+    query.setParameter("title", title);
+    List<ProductEntity> products = query.getResultList();
+    return new PageImpl<>(products);
+  }
+
+  ...
+}
+----
+
 == Drawbacks
 Spring Data also has some drawbacks:
 

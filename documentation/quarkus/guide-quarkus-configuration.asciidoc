@@ -3,7 +3,7 @@ toc::[]
 
 = Configuration
 
-link:quarkus.asciidoc[Quarkus] provides a comprehensive guide to configuration https://quarkus.io/guides/config-reference[here].
+link:quarkus.asciidoc[Quarkus] provides a comprehensive guide on configuration https://quarkus.io/guides/config-reference[here].
 
 == External Application Configuration
 
@@ -19,7 +19,7 @@ In Quarkus, Hibernate is provided by the `quarkus-hibernate-orm` extension. Ensu
 </dependency>
 ----
 
-You additionally have to add the respective JDBC driver extension to your `pom.xml`. There are different drivers for different database types. See https://quarkus.io/guides/hibernate-orm#setting-up-and-configuring-hibernate-orm[Quarkus Hibernate guide].
+Additionally, you have to add the respective JDBC driver extension to your `pom.xml`. There are different drivers for different database types. See https://quarkus.io/guides/hibernate-orm#setting-up-and-configuring-hibernate-orm[Quarkus Hibernate guide].
 
 === Database System and Access
 You need to configure which database type you want to use, as well as the location and credentials to access it. The defaults are configured in `application.properties`. The file should therefore contain the properties as in the given example:
@@ -47,18 +47,92 @@ quarkus.hibernate-orm.log.format-sql=true
 quarkus.hibernate-orm.log.bind-parameters=true
 ----
 
-== Security
+== Secrets and environment specific configurations
 
-=== Password Encryption
+=== Environment variables
 
-There is also some libraries to make Jasypt work with Quarkus such as https://camel.apache.org/camel-quarkus/latest/reference/extensions/jasypt.html[Camel Quarkus Jasypt]. Unfortunately, this feature only works in JVM mode and not in native mode.
+There are also some libraries to make Jasypt work with Quarkus, such as https://camel.apache.org/camel-quarkus/latest/reference/extensions/jasypt.html[Camel Quarkus Jasypt]. Unfortunately, this feature only works in JVM mode and not in native mode.
 
-Quarkus supports many credentials provider with official extensions such as HashiCorp Vault.
+Quarkus supports many credential providers with official extensions, such as HashiCorp Vault.
 ```
 <dependency>
   <groupId>io.quarkus</groupId>
   <artifactId>quarkus-vault</artifactId>
 </dependency>
 ```
+Quarkus reads configuration values from several locations, ordered by a certain priority. An overview of these can be found at the official  link:https://quarkus.io/guides/config-extending-support[Quarkus config guide].
 
-A detailed guide can be found https://quarkus.io/guides/vault[here] and https://quarkus.io/guides/credentials-provider[here].
+Environment variables have a higher ordinal number and are therefore higher prioritized than e.g. the `application.properties` file.
+So instead of storing secrets in plain text in the configuration files, it is better to use environment variables for critical values to configure the application.
+
+Environment variables also have the advantage that they can be easily integrated into a containerized environment.
+When using Kubernetes, the secrets can be stored as __Kubernetes secret__ and then passed to the containers as an environment variable.
+
+=== Custom config sources
+
+Quarkus provides the possability to add custom config sources, which can be used to retrieve configuration values from custom locations.
+For a description of this feature, see the link:https://quarkus.io/guides/config-extending-support#custom-config-source[corresponding Quarkus guide].
+
+==== Config interceptors
+
+Quarkus also allows with the concept of interceptors to hook into the resolution of configuration values. This can be useful when configuration values are encrypted or need to be extracted.
+To do this, you have to implement a `ConfigSourceInterceptor`. 
+
+[source, Java]
+----
+public class CustomConfigInterceptor implements ConfigSourceInterceptor {
+
+  @Override
+  public ConfigValue getValue(ConfigSourceInterceptorContext context, String name) {
+
+    ConfigValue configValue = context.proceed(name);
+    if (name.equals("config-value-to-resolve")) {
+      configValue = new ConfigValue.ConfigValueBuilder()
+          .withName(name)
+          .withValue(resolveConfigurationValue(name))
+          .build();
+    }
+
+    return configValue;
+  }
+
+  private String resolveConfigurationValue(String name) {
+    ...
+  }
+}
+----
+
+To use the Interceptor, you must register it. To do this, create a file  `io.smallrye.config.ConfigSourceInterceptor` in the folder `src/main/resources/META-INF/services` and register the interceptor register the interceptor by writing the fully qualified class name to this file.
+
+=== Credential encryption
+
+As for link:../spring/guide-spring-configuration.asciidoc#security[Spring], there are also some libraries that let Jasypt work with Quarkus such as https://camel.apache.org/camel-quarkus/latest/reference/extensions/jasypt.html[Camel Quarkus Jasypt]. Unfortunately, this feature only works in JVM mode and not in native mode, so it is not a suitable approach.
+
+If you want to store usernames or passwords in encrypted form or retrieve them from a custom store, you can use a custom `CredentialsProvider` for this purpose.
+Consider the use case where you want to store your database credentials in encrypted form rather than in plain text. Then you can implement a credentials provider as follows:
+
+[source, Java]
+----
+@ApplicationScoped
+@Unremovable
+public class DatabaseCredentialsProvider implements CredentialsProvider {
+
+  @Override
+  public Map<String, String> getCredentials(String credentialsProviderName) {
+
+    Map<String, String> properties = new HashMap<>();
+    properties.put(USER_PROPERTY_NAME, decryptUsername());
+    properties.put(PASSWORD_PROPERTY_NAME, decryptPassword());
+    return properties;
+  }
+}
+----
+
+In the `application.properties` file you need to set `quarkus.datasource.credentials-provider=custom`.
+For more information about the credentials provider, see the official link:https://quarkus.io/guides/credentials-provider[Quarkus guide].
+
+=== HashiCorp Vault
+
+For centralized management of secrets and other critical configuration values, you can use link:https://www.vaultproject.io/[HashiCorp Vault] as external management tool.
+
+For detailed instructions on how to integrate Vault into your Quarkus application, see the official link:https://quarkus.io/guides/vault[Quarkus guide].

@@ -32,6 +32,7 @@
 * link:guide-security.asciidoc[Security]
 * link:guide-access-control.asciidoc[Access Control]
 * link:guide-testing.asciidoc[Testing]
+* link:guide-for-testing-spring.asciidoc[Spring Testing Guide]
 * link:guide-transactions.asciidoc[Transaction Handling]
 * link:guide-aop.asciidoc[AOP]
 * link:guide-jpa.asciidoc[JPA]
@@ -68,6 +69,7 @@
 
 === Guides
 * link:quarkus/guide-cors-support.asciidoc[CORS support]
+* link:quarkus/guide-quarkus-testing.asciidoc[Quarkus Testing Guide]
 * link:quarkus/quarkus-template.asciidoc[Quarkus template]
 * link:quarkus/guide-native-image.asciidoc[Native image]
 * link:quarkus/guide-beanmapping-quarkus.asciidoc[Bean-Mapping with Quarkus]

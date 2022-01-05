@@ -3,14 +3,14 @@ toc::[]
 
 = Quarkus template
 
-https://code.quarkus.io/?g=org.devonfw&e=resteasy&e=resteasy-jackson&e=hibernate-validator&e=hibernate-orm&e=micrometer[Quarkus Code Generator] is providing a lot of alternatives on technologies and libraries to be integrated. Detailed guides to multiple topics can be found https://quarkus.io/guides/[here].
+https://code.quarkus.io/?g=org.devonfw&e=resteasy&e=resteasy-jackson&e=hibernate-validator&e=hibernate-orm&e=micrometer[Quarkus Code Generator] is provides many alternative technologies and libraries that can be integrated into a project. Detailed guides on multiple topics can be found https://quarkus.io/guides/[here].
 
-Thus, the large selection can be difficult for developer to get started.
-Therefore, in this guide, we aims to provide a general suggestion on basic frameworks, libraries, technologies to make it easy for developer to begin with.
+Due to the large selection, getting started can be difficult for developers.
+In this guide we aim to provide a general suggestion on basic frameworks, libraries, and technologies to make it easy for developers to begin with.
 
-With that said, please take this as a recommendation and not a compulsion. Depend on your project requirements, you might have to use another stack in comparison to what is listed below.
+With that said, please take this as a recommendation and not as a compulsion. Depending on your project requirements, you might have to use another stack compared to what is listed below.
 
-If you are new to Quarkus, consider checking out their https://quarkus.io/guides/getting-started[getting started guide] to have an overview about how to create, run, test as well as package a Quarkus application. Another recommended source to get started is https://www.katacoda.com/openshift/courses/developing-with-quarkus/getting-started[the Katacoda tutorials].
+If you are new to Quarkus, consider checking out their https://quarkus.io/guides/getting-started[getting started guide] to get an overview of how to create, run, test, as well as package a Quarkus application. Another recommended source to get started is https://www.katacoda.com/openshift/courses/developing-with-quarkus/getting-started[the Katacoda tutorials].
 
 === Basic templates
 [start=1]

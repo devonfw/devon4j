@@ -1,0 +1,65 @@
+:toc:  macro
+toc::[]
+
+= Exception Handling in Quarkus
+
+For link:../guide-exceptions.asciidoc[handling exceptions] within a Spring application, devon4j provides the https://github.com/devonfw/devon4j/tree/master/modules/rest[devon4j-rest module], which provides a https://github.com/devonfw/devon4j/blob/develop/modules/rest/src/main/java/com/devonfw/module/rest/service/impl/RestServiceExceptionFacade.java[`RestServiceExceptionFacade`] to handle all exceptions in a consistent way. Since the module is not suitable for Quarkus, we need to implement this ourselves.
+
+This guide shows how to do just that. For an example, see our https://github.com/devonfw-sample/devon4quarkus-reference[Quarkus reference application].
+
+== Exception mapping
+
+We suggest to implement the exception handling the https://quarkus.io/specs/jaxrs/2.1/index.html#exceptionmapper[JAX-RS way] using `ExceptionMapper<T>`.
+
+RESTEasy provides several https://github.com/quarkusio/quarkus/tree/main/extensions/resteasy-classic/resteasy/runtime/src/main/java/io/quarkus/resteasy/runtime[exception mappers] out of the box. For example, RESTEasy's https://github.com/quarkusio/quarkus/blob/main/extensions/resteasy-classic/resteasy/runtime/src/main/java/io/quarkus/resteasy/runtime/NotFoundExceptionMapper.java[`NotFoundExceptionMapper`] provides a web page that shows all available endpoints in dev mode.
+
+Even though this looks really nice, we want to have consistent exception handling throughout the application.
+We create an abstract class `AbstractExceptionMapper` that acts as a base class for all of the more specific exception mappers and where the response is created in a consistent manner.
+You can find an example of this class https://github.com/devonfw-sample/devon4quarkus-reference/tree/master/src/main/java/com/devonfw/quarkus/general/rest/exception/mapper/AbstractExceptionMapper.java[here].
+
+.AbstractExceptionMapper
+[source,java]
+----
+public abstract class AbstractExceptionMapper {
+
+  ...
+
+  protected Response createResponse(int status, String errorCode, Exception exception) {
+
+    Map<String, Object> jsonMap = new HashMap<>();
+    jsonMap.put("code", errorCode);
+    if (this.exposeInternalErrorDetails) {
+      jsonMap.put("message", getExposedErrorDetails(exception));
+    } else {
+      jsonMap.put("message", exception.getMessage());
+    }
+    jsonMap.put("uri", this.uriInfo.getPath());
+    jsonMap.put("uuid", UUID.randomUUID());
+    jsonMap.put("timestamp", ZonedDateTime.now().toString());
+    return Response.status(status).type(MediaType.APPLICATION_JSON).entity(jsonMap).build();
+  }
+
+  ...
+}
+----
+
+For the exceptions that may occur during runtime, we create an `ExceptionMapper` that extends from our `AbstractExceptionMapper` class. To make the class discoverable by the JAX-RS runtime, we have to annotate the class with `@Provider`.
+
+.NotFoundExceptionMapper
+[source,java]
+----
+@Provider
+public class NotFoundExceptionMapper extends AbstractExceptionMapper implements ExceptionMapper<NotFoundException> {
+
+  @Override
+  public Response toResponse(NotFoundException exception) {
+
+    ...
+
+    return createResponse(Status.NOT_FOUND.getStatusCode(), exception.getClass().getSimpleName(), exception);
+  }
+}
+----
+
+NOTE: Unlike the https://github.com/devonfw/devon4j/blob/develop/modules/rest/src/main/java/com/devonfw/module/rest/service/impl/RestServiceExceptionFacade.java[`RestServiceExceptionFacade`] of the devon4j-rest module, we cannot use `ExceptionMapper<Throwable>` in Quarkus, because in this case, the exception mapper of RESTEasy would be used, since they are more specific.
+

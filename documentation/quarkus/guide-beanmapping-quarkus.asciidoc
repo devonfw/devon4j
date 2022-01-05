@@ -3,13 +3,13 @@ toc::[]
 
 = Bean mapping with Quarkus
 
-This guide will show bean-mapping in particular for a Quarkus application. We recommend using https://mapstruct.org/[MapStruct] with a Quarkus application because the other bean-mapper frameworks are using Java reflections. They are not supported in GraalVm right now and causes problems building native applications. MapStruct is a code generator that greatly simplifies the implementation of mappings between Java bean types based on a convention over configuration approach. The mapping code will be generated at compile-time and uses plain method invocations and thus is fast, type-safe, and easy to understand. MapStruct has to be configured to not use Java reflections but it will be shown in this guide.
+This guide will show bean-mapping, in particular for a Quarkus application. We recommend using https://mapstruct.org/[MapStruct] with a Quarkus application because the other bean-mapper frameworks use Java reflections. They are not supported in GraalVm right now and cause problems when building native applications. MapStruct is a code generator that greatly simplifies the implementation of mappings between Java bean types based on a convention over configuration approach. The mapping code will be generated at compile-time and uses plain method invocations and is thus fast, type-safe, and easy to understand. MapStruct has to be configured to not use Java reflections, which will be shown in this guide.
 
 You can find the official
 https://mapstruct.org/documentation/stable/reference/pdf/mapstruct-reference-guide.pdf[MapStruct reference guide] and a general introduction to MapStruct from https://www.baeldung.com/mapstruct[Baeldung].
 
 == MapStruct Dependency 
-To get access to MapStruct we have to add the dependency to our POM.xml:
+To get access to MapStruct, we have to add the dependency to our POM.xml:
 
 [source, xml]
 ----
@@ -48,7 +48,7 @@ MapStruct takes advantage of generated getters, setters, and constructors from t
 
 == MapStruct Configuration
 
-We already discussed the benefits of https://github.com/devonfw/devon4j/blob/master/documentation/guide-dependency-injection.asciidoc#dependency-injection[dependency injection] and MapStruct supports CDI with EJB, spring, and jsr330. The default retrieving method for a mapper is a factory that uses reflections and should be avoided. The component model should be set to CDI, as this will allow us to easily inject the generated mapper implementation. The component model can be configured in multiple ways.
+We already discussed the benefits of https://github.com/devonfw/devon4j/blob/master/documentation/guide-dependency-injection.asciidoc#dependency-injection[dependency injection]. MapStruct supports CDI with EJB, spring, and jsr330. The default retrieving method for a mapper is a factory that uses reflections, which should be avoided. The component model should be set to CDI, as this will allow us to easily inject the generated mapper implementation. The component model can be configured in multiple ways.
 
 === Simple Configuration
 Add the attribute *componentModel* to the *@Mapper* annotation in the mapper interface.
@@ -61,7 +61,7 @@ public interface ProductMapper{
 ----
 
 === MapperConfig Configuration
-Create a shared configuration that can be used for multiple mappers. Implement an Interface and use the annotation *@MapperConfig* for the class. You can define all configurations in this interface and pass the generated `MapperConfig.class` with the *config* attribute to the mapper. The `MapperConfig` also defines the *InjectionStrategy* and *MappingInheritaceStrategy* both will be explained later.
+Create a shared configuration that can be used for multiple mappers. Implement an interface and use the annotation *@MapperConfig* for the class. You can define all configurations in this interface and pass the generated `MapperConfig.class` with the *config* attribute to the mapper. The `MapperConfig` also defines the *InjectionStrategy* and *MappingInheritaceStrategy*, both of which will be explained later.
 A list of all configurations can be found https://mapstruct.org/documentation/stable/api/org/mapstruct/MapperConfig.html[here].
 [source, java]
 ----
@@ -87,7 +87,9 @@ Any attributes not given via *@Mapper* will be inherited from the shared configu
 The MapStruct code generator can be configured using annotation processor options.
 You can pass the options to the compiler while invoking javac directly, or add the parameters to the maven configuration in the POM.xml
 
-We are also using the constructor injection strategie to avoid field injections and potential reflections also it will simplify our tests.
+
+We also use the constructor injection strategy to avoid field injections and potential reflections. This will also simplify our tests.
+
 The option to pass the parameter to the annotation processor in the POM.xml is used and can be inspected in our https://github.com/devonfw-sample/devon4quarkus-reference/blob/master/pom.xml#L220-L228[quarkus reference project].
 
 A list of all annotation processor options can be found https://mapstruct.org/documentation/dev/reference/html/#configuration-options[here]. 
@@ -96,7 +98,7 @@ A list of all annotation processor options can be found https://mapstruct.org/do
 
 == Basic Bean-Mapper Usage
 
-To use the mapper we have to implement the mapper interface and the function prototypes with a *@Mapper* annotation.
+To use the mapper, we have to implement the mapper interface and the function prototypes with a *@Mapper* annotation.
 [source, java]
 ----
 @Mapper
@@ -107,10 +109,10 @@ public interface ProductMapper {
   ProductEntity create(NewProductDto dto);
 }
 ----
-The MapStruct annotation processor will generate the implementation for us under `/target/generated-sources/`, we just need to tell it that we would like to have a method that accepts an `ProductEntity` entity and returns a new `ProductDto` DTO. 
+The MapStruct annotation processor will generate the implementation for us under `/target/generated-sources/`, we just need to tell it that we would like to have a method that accepts a `ProductEntity` entity and returns a new `ProductDto` DTO. 
 
 
-The generated mapper implementation will be marked with the *@ApplicationScoped* annotation and thus can be injected into fields, constructor arguments, etc. using the *@Inject* annotation: 
+The generated mapper implementation will be marked with the *@ApplicationScoped* annotation and can thus be injected into fields, constructor arguments, etc. using the *@Inject* annotation: 
 
 [source, java]
 ----
@@ -121,12 +123,13 @@ public class ProductRestService{
 }
 ----
 
-That is the basic usage of a Mapstruct mapper. In the next chapter, we go a bit into detail and show some more configurations. 
+That is the basic usage of a Mapstruct mapper. In the next chapter, we'll go into a bit more detail and show some more configurations. 
 
 
 == Advanced Bean-Mapper Usage
 
-Let´s assume our `Product` entity and the `ProductDto` has some different named property that should be mapped. Add a mapping annotation to map the property *type* from `Product` to *kind* from `ProductDto`. We define the source name of the property and the target name.
+Let´s assume that our `Product` entity and the `ProductDto` have some differently named properties that should be mapped. Add a mapping annotation to map the property *type* from `Product` to *kind* from `ProductDto`. We define the source name of the property and the target name.
+
 [source, java]
 ----
 @Mapper
@@ -139,16 +142,16 @@ public interface ProductMapper {
 }
 ----
 For bi-directional mappings, we can indicate that a method shall inherit the inverse configuration of the corresponding method with the *@InheritInverseConfiguration*. You can omit the name parameter if the result type of method A is the same as the
-single-source type of method B and if the single-source type of A is the same as the result type of B. If multiple applies the attribute name is needed. Specific mappings from the inversed method can (optionally) be overridden, ignored, and set to constants or expressions. 
+single-source type of method B and if the single-source type of A is the same as the result type of B. If multiple apply, the attribute name is needed. Specific mappings from the inverse method can (optionally) be overridden, ignored, or set to constants or expressions. 
 
-The mappingInheritanceStrategy can be defined as showed in <<MapStruct Configuration>> the existing options can be found https://mapstruct.org/documentation/dev/reference/html/#shared-configurations[here].
+The mappingInheritanceStrategy can be defined as showed in <<MapStruct Configuration>>. The existing options can be found https://mapstruct.org/documentation/dev/reference/html/#shared-configurations[here].
 
 
-Not always a mapped attribute has the same type in the source and target objects. For instance, an attribute may be of type `int` in the source bean but of type `Long` in the target bean.
+A mapped attribute does not always have the same type in the source and target objects. For instance, an attribute may be of type `int` in the source bean but of type `Long` in the target bean.
 
-Another example are references to other objects which should be mapped to the corresponding types in the target model. E.g. the class `ShoppingCart` might have a property *content* of the type `Product` which needs to be converted into an `ProductDto` object when mapping a `ShoppingCart` object to `ShoppingCartDto`. For these cases, it's useful to understand how Mapstruct is https://mapstruct.org/documentation/dev/reference/html/#datatype-conversions[converting the data types] and the https://mapstruct.org/documentation/dev/reference/html/#mapping-object-references[object references]. 
+Another example are references to other objects which should be mapped to the corresponding types in the target model. E.g. the class `ShoppingCart` might have a property *content* of the type `Product` which needs to be converted into a `ProductDto` object when mapping a `ShoppingCart` object to `ShoppingCartDto`. For these cases, it's useful to understand how Mapstruct https://mapstruct.org/documentation/dev/reference/html/#datatype-conversions[converts the data types] and the https://mapstruct.org/documentation/dev/reference/html/#mapping-object-references[object references]. 
 
-Also, the Chapter for https://mapstruct.org/documentation/dev/reference/html/#controlling-nested-bean-mappings[nested bean mappings] will help to configure MapStruct to map arbitrary deep object graphs.
+Also, the Chapter for https://mapstruct.org/documentation/dev/reference/html/#controlling-nested-bean-mappings[nested bean mappings] will help to configure MapStruct to map arbitrarily deep object graphs.
 
 You can study running MapStruct implementation examples given by https://github.com/mapstruct/mapstruct-examples[MapStruct] or in our https://github.com/devonfw-sample/devon4quarkus-reference[Quarkus reference project]
 

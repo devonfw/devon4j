@@ -1,0 +1,112 @@
+:toc: macro
+toc::[]
+
+= Spring Native vs Quarkus
+
+Nowadays, it is very common to write an application and deploy it to a cloud. 
+Serverless computing and Function-as-a-Service (FaaS) have become
+very popular.
+While many challenges arise when deploying a Java application into the latest cloud environment, the biggest challenges facing developers are memory footprint and the startup time required
+for the Java application, as more of these keeps the host's costs high in public clouds and Kubernetes clusters. With the introduction of frameworks like micronaut and microprofile, Java processes are getting faster and more lightweight. In a similar context, Spring has introduced
+https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/#overview[Spring Native] which aims to solve the big memory footprint of Spring and its slow startup time to potentially rival the new framework called https://quarkus.io[Quarkus], by Red Hat. This document briefly discusses both of these two frameworks and their potential suitability with devonfw.
+
+== Quarkus
+
+Quarkus is a full-stack, Kubernetes-native Java framework made for JVMs. With its container-first-philosophy and its native compilation with GraalVM, Quarkus optimizes Java for containers with low memory usage and fast startup times.
+
+Quarkus achieves this in the following ways:
+
+* *First Class Support for GraalVM*
+* *Build Time Metadata Processing:* As much processing as possible is
+done at build time, so your application will only contain the classes
+that are actually needed at runtime. This results in less memory usage,
+and also faster startup time, as all metadata processing has already been
+done.
+* *Reduction in Reflection Usage:* Quarkus tries to avoid reflection as much as possible in order to reduce startup time and memory usage.
+* *Native Image Pre Boot:* When running in a native image, Quarkus
+pre-boots as much of the framework as possible during the native image
+build process. This means that the resulting native image has already
+run most of the startup code and serialized the result into the
+executable, resulting in an even faster startup-time.
+
+This gives Quarkus the potential for a great platform for serverless cloud and Kubernetes environments. For more information about Quarkus and its support for devonfw please refer to the link:quarkus.asciidoc[Quarkus introduction guide].
+
+== Spring Native
+
+====
+*The current version of Spring Native 0.10.5 is designed to be used with Spring Boot 2.5.6*
+====
+
+Like Quarkus, Spring Native provides support for compiling Spring applications to native executables using the GraalVM native-image compiler deisgned to be packaged in lightweight containers. 
+
+Spring Native is composed of the following modules:
+
+* *spring-native:* runtime dependency required for running Spring Native, provides also Native hints API.
+
+* *spring-native-configuration:* configuration hints for Spring classes used by Spring AOT plugins, including various Spring Boot auto-configurations.
+
+* *spring-native-docs:* reference guide, in asciidoc format.
+
+* *spring-native-tools:* tools used for reviewing image building configuration and output.
+
+* *spring-aot:* AOT transformation infrastructure common to Maven and Gradle plugins.
+
+* *spring-aot-test:* Test-specific AOT transformation infrastructure.
+
+* *spring-aot-gradle-plugin:* Gradle plugin that invokes AOT transformations.
+
+* *spring-aot-maven-plugin:* Maven plugin that invokes AOT transformations.
+
+* *samples:* contains various samples that demonstrate features usage and are used as integration tests.
+
+== Native compilation with GraalVM    
+
+Quarkus and Spring Native both use GraalVM for native compilation. Using a native image provides some key advantages, such as instant startup, instant peak performance, and reduced memory consumption. However, there are also some drawbacks: Creating a native image is a heavy process that is slower than a regular application. A native image also has fewer runtime optimizations after its warmup. Furthermore, it is less mature than the JVM and comes with some different behaviors.
+
+*Key characteristics:*
+
+* Static analysis of the application from the main entry point is
+performed at build time.
+* Unused parts are removed at build time.
+* Configuration required for reflection, resources, and dynamic proxies.
+* Classpath is fixed at build time.
+* No class lazy loading: everything shipped in the executables will be loaded in memory on startup.
+* Some code will run at build time.
+
+There are https://github.com/oracle/graal/blob/master/docs/reference-manual/native-image/Limitations.md[limitations] around some aspects of Java applications that are not fully supported
+
+== Build time and start time for apps
+
+[cols=",,",options="header",]
+|===
+|Framework |build time |start time
+|Spring Native |19.615s |2.913s
+|Quarkus Native executable |52.818s |0.802s
+|===
+
+== Memory footprints
+
+[cols=",",options="header",]
+|===
+|Framework |memory footprint
+|Spring Native |109 MB
+|Quarkus Native executable |75 MB
+|===
+
+== Considering devonfw best practices
+
+As of now, devonfw actively supports Spring but not Spring Native. 
+Although Quarkus has been released to a stable release in early 2021, it has been already used in multiple big projects successfully showing its potential to implement cloud native services with low resource consumption matching the needs of scalability and resilience in cloud native environments.
+With major stakeholders behind the open source community like Red Hat, its development and growth from its kickoff to the current state is very impressive and really shows the market needs and focus.
+Another big advantage of Quarkus is that it started on a green field and therefore did not need to circumvent main pillars of the spring framework like reflection, being able to take clean and up-to-date design decisions not needing to cope with legacy issues.
+Nonetheless, there is a experimental support also for some spring libraries already available in Quarkus, which make switching from spring to Quarkus much more easier if needed.
+We also provide a link:quarkus/getting-started-for-spring-developers.asciidoc[guide
+for Spring developers] who want to adopt or try Quarkus for their
+(next) projects as it really has some gamechanging advantages over
+Spring.
+
+== General recommendations and conclusion
+
+Quarkus and Spring Native both have their own use cases. Under the consideration of the limitations of GraalVM to be used for native images built by Quarkus and Spring Native, there is a strong recommendation towards Quarkus from devonfw. 
+One essential differentiation has to be made on the decision for native or against native applications - the foreseen performance optimization of the JIT compiler of the JVM, which is not available anymore in a native image deployment. 
+For sure, both component frameworks will also run on a JVM getting advantage again from JIT compilation, but depending on the overall landscape then, it is recommended to stay with the knowledge of the available teams, e.g. continue making use of devon4j based on spring or even if already in that state also here make use of Quarkus on JVM.
