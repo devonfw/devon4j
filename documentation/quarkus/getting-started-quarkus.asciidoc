@@ -1,3 +1,6 @@
+:toc: macro
+toc::[]
+
 = Quarkus Quickstart 
 
 This guide will show a quickstart how to create a Quarkus app and will briefly show the key functionalities that Quarkus provides and how to start as a beginner or also experienced developers.
