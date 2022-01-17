@@ -11,7 +11,7 @@ This guide explains some of the tkit extensions and how to use them.
 
 == tkit-quarkus-log
 
-The tkit logger extension consist of actual three extensions:
+The tkit logger extension consists of three extensions:
 
 * tkit-quarkus-log-cdi
 * tkit-quarkus-log-rs
@@ -90,7 +90,7 @@ CRUD operation following the DAO pattern are provided by `AbstractDAO<T>`. Your 
 
 This extension provides link:../guide-dto.asciidoc[DTOs] for entities (`org.tkit.quarkus.rs.models.TraceableDTO`), exceptions (`org.tkit.quarkus.rs.models.TraceableDTO.RestExceptionDTO`) and paged results (`tkit.quarkus.rs.models.TraceableDTO.PageResultDTO<T>`).
 
-Furthermore it provides an `DefaultExceptionMapper` to log the rest exceptions.
+Furthermore, it provides an `DefaultExceptionMapper` to log the rest exceptions.
 
 [source, xml]
 ----
