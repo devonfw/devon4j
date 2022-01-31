@@ -1,4 +1,6 @@
-name: devon4jx
-version: '1.5.6'
+
+name: devon4j
+title: Devon4j
+version: '1.0'
 nav:
 - modules/ROOT/nav.adoc
