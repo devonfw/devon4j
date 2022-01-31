@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<access-control-schema>
-  <group id="Admin">
-    <inherits>
-      <group-ref>User1</group-ref>
-    </inherits>
-  </group>
-</access-control-schema>

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<included>
-  <include resource="com/devonfw/logging/logback/appender-file-warn.xml" />
-  <include resource="com/devonfw/logging/logback/appender-file-info.xml" />
-</included>
