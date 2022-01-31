@@ -1,0 +1,23 @@
+:toc: macro
+toc::[]
+
+= XML
+
+http://en.wikipedia.org/wiki/XML[XML] (Extensible Markup Language) is a W3C standard format for structured information. It has a large eco-system of additional standards and tools.
+
+In Java there are many different APIs and frameworks for accessing, producing and processing XML. For the devonfw we recommend to use xref:jaxb[JAXB] for mapping Java objects to XML and vice-versa. Further there is the popular http://docs.oracle.com/javase/7/docs/api/org/w3c/dom/package-summary.html[DOM API] for reading and writing smaller XML documents directly. When processing large XML documents http://en.wikipedia.org/wiki/StAX[StAX] is the right choice.
+
+== JAXB
+We use http://en.wikipedia.org/wiki/Java_Architecture_for_XML_Binding[JAXB] to serialize Java objects to XML or vice-versa.
+
+=== JAXB and Inheritance
+Use `@XmlSeeAlso` annotation to provide sub-classes.
+See section "Collective Polymorphism" described https://dzone.com/articles/java-and-xml-part-3-jaxb[here].
+
+=== JAXB Custom Mapping
+In order to map custom link:guide-datatype.asciidoc[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create dedicated objects for the XML mapping you can easily avoid such situations. When this is not suitable use `@XmlJavaTypeAdapter` and provide an `XmlAdapter` implementation that handles the mapping.
+For details see https://www.eclipse.org/eclipselink/documentation/2.6/moxy/advanced_concepts006.htm[here].
+
+== Security
+
+To prevent XML External Entity attacks, follow https://docs.oracle.com/en/java/javase/11/security/java-api-xml-processing-jaxp-security-guide.html[JAXP Security Guide] and enable https://docs.oracle.com/en/java/javase/11/security/java-api-xml-processing-jaxp-security-guide.html#GUID-88B04BE2-35EF-4F61-B4FA-57A0E9102342[FSP].

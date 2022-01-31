@@ -1,0 +1,47 @@
+:toc: macro
+toc::[]
+
+= Client Layer
+
+There are various technical approaches to building GUI clients. The devonfw proposes rich clients that connect to the server via data-oriented services (e.g. using REST with JSON).
+In general, we have to distinguish among the following types of clients:
+
+* web clients
+* native desktop clients
+* (native) mobile clients
+
+Our main focus is on web-clients. In our sample application https://github.com/devonfw/my-thai-star/[my-thai-star] we offer a responsive web-client based on Angular following https://github.com/devonfw/devon4ng/[devon4ng] that integrates seamlessly with the back ends of my-thai-star available for Java using devon4j as well as .NET/C# using https://github.com/devonfw/devon4net/[devon4net]. For building angular clients read the separate https://github.com/devonfw/devon4ng/wiki[devon4ng guide].
+
+== JavaScript for Java Developers
+
+In order to get started with client development as a Java developer we give you some hints to get started. Also if you are an experienced JavaScript developer and want to learn Java this can be helpful. First, you need to understand that the JavaScript ecosystem is as large as the Java ecosystem and developing a modern web client requires a lot of knowledge. The following table helps you as experienced developer to get an overview of the tools, configuration-files, and other related aspects from the new world to learn. Also it helps you to map concepts between the ecosystems. Please note that we list the tools recommended by devonfw here (and we know that there are alternatives not listed here such as gradle, grunt, bower, etc.).
+
+.Aspects in JavaScript and Java ecosystem
+[options="header"]
+|=======================
+|*Topic*                |*Aspect*  |*JavaScript*|*Java*
+|Programming            |Language  |https://www.typescriptlang.org/[TypeScript] (extends https://www.javascript.com/[JavaScript])|https://docs.oracle.com/javase/tutorial/[Java]
+|Runtime                |VM        |https://nodejs.org/[nodejs] (or web-browser)|http://www.oracle.com/technetwork/java/javase/[jvm]
+.5+|Build- & Dependency-Management
+|Tool      |https://github.com/npm/npm[npm] or http://yarnpkg.com/[yarn]|https://maven.apache.org/[maven]
+|Config    |https://docs.npmjs.com/files/package.json[package.json]|https://maven.apache.org/pom.html[pom.xml]
+|Repository|https://www.npmjs.com/[npm repo]|http://repo.maven.apache.org/maven2[maven central] (https://mvnrepository.com/[repo search])
+|Build cmd |`https://angular.io/cli[ng] build` or `npm run build` (goals are not standardized in npm) |mvn https://maven.apache.org/plugins/maven-install-plugin/usage.html[install] (see https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html[lifecycle])
+|Test cmd  |`https://angular.io/cli[ng] test`|mvn http://maven.apache.org/components/surefire/maven-surefire-plugin/[test]
+
+.3+|link:guide-testing.asciidoc[Testing]
+|Test-Tool |http://jasmine.github.io/[jasmine]|http://junit.org/[junit]
+|Test-Runner|https://karma-runner.github.io/[karma]|http://junit.org/[junit] / http://maven.apache.org/components/surefire/maven-surefire-plugin/[surefire]
+|E2E Testing|https://www.protractortest.org/[Protractor]|http://www.seleniumhq.org/[Selenium]
+
+.1+|Code Analysis
+
+|Code Coverage|`https://angular.io/guide/testing-code-coverage[ng test --no-watch --code-coverage]`|http://www.eclemma.org/jacoco/[JaCoCo]
+
+.2+|Development
+
+|IDE  |https://code.visualstudio.com/[MS VS Code] or https://www.jetbrains.com/idea/[IntelliJ]|https://eclipse.org/downloads/[Eclipse] or https://www.jetbrains.com/idea/[IntelliJ]
+
+|Framework  |https://angularjs.org/[Angular] (etc.)|link:spring.asciidoc[Spring] or link:quarkus.asciidoc[Quarkus]
+|=======================
+

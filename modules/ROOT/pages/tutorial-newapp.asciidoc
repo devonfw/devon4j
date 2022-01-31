@@ -1,0 +1,82 @@
+:toc: macro
+toc::[]
+
+= Creating a new application
+
+== Running the archetype
+
+In order to create a new application you must use the archetype provided by devon4j which uses the maven archetype functionality.
+
+To create a new application, you should have installed devonfw IDE. Follow the devon ide documentation to install
+the same.
+You can choose between 2 alternatives, create it from command line or, in more visual manner, within eclipse.
+
+=== From command Line
+To create a new devon4j application from command line, you can simply run the following command:
+
+[source,bash]
+---- 
+devon java create com.example.application.sampleapp
+---- 
+
+For low-level creation you can also manually call this command: 
+
+[source,bash]
+---- 
+mvn -DarchetypeVersion=${devon4j.version} -DarchetypeGroupId=com.devonfw.java.templates -DarchetypeArtifactId=devon4j-template-server archetype:generate -DgroupId=com.example.application -DartifactId=sampleapp -Dversion=1.0.0-SNAPSHOT -Dpackage=com.devonfw.application.sampleapp 
+---- 
+
+Attention: The `archetypeVersion` (first argument) should be set to the latest version of `devon4j`. You can easily determine the version from this badge:
+image:https://javadoc.io/badge2/com.devonfw.java.modules/devon4j-basic/javadoc.svg["latest devon4j version"]
+
+
+Further providing additional properties (using `-D` parameter) you can customize the generated app:
+
+.Options for app template
+[options="header"]
+|=======================
+|*property*      |*comment*                                                                                           |*example*
+|`dbType`        |Choose the type of RDBMS to use (`hana`, `oracle`, `mssql`, `postgresql`, `mariadb`, `mysql`, etc.) |`-DdbTpye=postgresql`
+|`batch`         |Option to add an `batch` module                                                                     |`-Dbatch=batch`
+|=======================
+
+=== From Eclipse
+ After that, you should follow this Eclipse steps to create your application:
+
+* Create a new Maven Project.
+* Choose the devon4j-template-server archetype, just like the image.
+
+image::images/eclipse-m2e-create-devon4j-project.png["Select archetype",scaledwidth="80%",align="center"]
+
+* Fill the Group Id, Artifact Id, Version and Package for your project.
+
+image::images/eclipse-m2e-create-devon4j-project-parameters.png["Configure archetype",scaledwidth="80%",align="center"]
+
+* Finish the Eclipse assistant and you are ready to start your project.
+
+== What is generated
+
+The application template (archetype) generates a Maven multi-module project. It has the following modules:
+
+* `api`: module with the API (REST service interfaces, transferobjects, datatypes, etc.) to be imported by other apps as a maven dependency in order to invoke and consume the offered (micro)services.
+* `core`: maven module containing the core of the application.
+* `batch`: optional module for link:guide-batch-layer.asciidoc[batch](es)
+* `server`: module that bundles the entire app (`core` with optional `batch`) as a WAR file.
+
+The toplevel `pom.xml` of the generated project has the following features:
+
+* Properties definition: Spring-boot version, Java version, etc.
+* Modules definition for the modules (described above)
+* Dependency management: define versions for dependencies of the technology stack that are recommended and work together in a compatible way.
+* Maven plugins with desired versions and configuration
+* Profiles for link:guide-testing.asciidoc[test stages]
+
+== How to run your app
+
+=== Run app from IDE
+
+To run your application from your favourite IDE, simply launch `SpringBootApp` as java application.
+
+=== Run app as bootified jar or war
+
+More details are available link:guide-structure.asciidoc#make-jar-not-war[here].

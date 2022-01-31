@@ -1,0 +1,241 @@
+:toc: macro
+toc::[]
+
+= Logging
+
+We recommend to use http://www.slf4j.org/[SLF4J] as API for logging, that has become a de facto standard in Java as it has a much better design than `java.util.logging` offered by the JDK.
+There are serveral implementations for SLF4J. For Spring applications our recommended implementation is http://logback.qos.ch/[Logback]. Quarkus uses JBoss Logging which provides a JBoss Log Manager implementation for SLF4J. For more information on logging in Quarkus, see the https://quarkus.io/guides/logging[Quarkus logging guide].
+
+== Logging Dependencies
+
+To use Logback in your Spring application, you need to include the following dependencies:
+
+[source, xml]
+----
+<!-- SLF4J as logging API -->
+<dependency>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-api</artifactId>
+</dependency>
+<!-- Logback as logging implementation  -->
+<dependency>
+  <groupId>ch.qos.logback</groupId>
+  <artifactId>logback-classic</artifactId>
+</dependency>
+<!-- JSON logging for cloud-native log monitoring -->
+<dependency>
+  <groupId>net.logstash.logback</groupId>
+  <artifactId>logstash-logback-encoder</artifactId>
+</dependency>
+----
+
+In devon4j these dependencies are provided by the https://github.com/devonfw/devon4j/tree/master/modules/logging[devon4j-logging module].
+
+In Quarkus, SLF4J and the https://github.com/jboss-logging/slf4j-jboss-logmanager[`slf4j-jboss-logmanager`] are directly included in the Quarkus core runtime and can be used out of the box.
+
+== Logger Access
+The general pattern for accessing loggers from your code is a static logger instance per class using the following pattern:
+
+[source,java]
+----
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class MyClass {
+  private static final Logger LOG = LoggerFactory.getLogger(MyClass.class);
+  ...
+}
+----
+
+For detailed documentation how to use the logger API check the http://www.slf4j.org/manual.html[SLF4j manual].
+
+NOTE: In case you are using https://github.com/devonfw/ide[devonfw-ide] and Eclipse you can just type `LOG` and hit `[ctrl][space]` to insert the code pattern including the imports into your class.
+
+=== Lombok
+In case you are using link:guide-lombok.asciidoc[Lombok], you can simply use the https://projectlombok.org/api/lombok/extern/slf4j/Slf4j.html[`@Slf4j`] annotation in your class. This causes Lombok to generate the logger instance for you.
+
+== Log-Levels
+We use a common understanding of the log-levels as illustrated by the following table.
+This helps for better maintenance and operation of the systems.
+
+.Log-levels
+[options="header"]
+|=======================
+| *Log-level* | *Description* | *Impact* | *Active Environments*
+| FATAL | Only used for fatal errors that prevent the application to work at all (e.g. startup fails or shutdown/restart required) | Operator has to react immediately | all
+| ERROR | An abnormal error indicating that the processing failed due to technical problems. | Operator should check for known issue and otherwise inform development | all
+| WARNING | A situation where something worked not as expected. E.g. a business exception or user validation failure occurred. | No direct reaction required. Used for problem analysis. | all
+| INFO | Important information such as context, duration, success/failure of request or process | No direct reaction required. Used for analysis. | all
+| DEBUG | Development information that provides additional context for debugging problems. | No direct reaction required. Used for analysis. | development and testing
+| TRACE | Like DEBUG but exhaustive information and for code that is run very frequently. Will typically cause large log-files. | No direct reaction required. Used for problem analysis. | none (turned off by default)
+|=======================
+Exceptions (with their stack trace) should only be logged on `FATAL` or `ERROR` level. For business exceptions typically a `WARNING` including the message of the exception is sufficient.
+
+=== Configuration of Logback
+The configuration of logback happens via the `logback.xml` file that you should place into `src/main/resources` of your app.
+For details consult the http://logback.qos.ch/manual/configuration.html[logback configuration manual].
+
+NOTE: Logback also allows to overrule the configuration with a `logback-test.xml` file that you may put into `src/test/resources` or into a test-dependency.
+
+=== Configuration in Quarkus
+The are several options you can set in the `application.properties` file to configure the behaviour of the logger in Quarkus. For a detailed overview, see the corresponding part of the https://quarkus.io/guides/logging#runtime-configuration[Quarkus guide].
+
+== JSON-logging
+
+For easy integration with link:guide-log-monitoring.asciidoc[log-monitoring], we recommend that your app logs to `standard out` in JSON following https://jsonlines.org/[JSON Lines].
+
+In Spring applications, this can be achieved via https://github.com/logstash/logstash-logback-encoder[logstash-logback-encoder] (see xref:dependencies[dependencies]). In Quarkus, it can be easily achieved using the https://github.com/quarkusio/quarkus/tree/main/extensions/logging-json[quarkus-logging-json] extension (see https://quarkus.io/guides/logging#json-logging[here] for more details).
+ 
+This will produce log-lines with the following format (example formatted for readability):
+
+[source,javascript]
+----
+{ 
+  "timestamp":"2000-12-31T23:59:59.999+00:00",
+  "@version":"1",
+  "message":"Processing 4 order(s) for shipment",
+  "logger_name":"com.myapp.order.logic.UcManageOrder",
+  "thread_name":"http-nio-8081-exec-6",
+  "level":"INFO",
+  "level_value":20000,
+  "appname":"myapp",
+}
+----
+
+=== Adding custom values to JSON log with Logstash
+
+The JSON encoder even supports logging custom properties for your link:guide-log-monitoring.asciidoc[log-monitoring].
+The _trick_ is to use the class `net.logstash.logback.argument.StructuredArguments` for adding the arguments to you log message, e.g.
+
+[source,java]
+----
+import static net.logstash.logback.argument.StructuredArguments.v;
+
+...
+    LOG.info("Request with {} and {} took {} ms.", v("url", url), v("status", statusCode), v("duration", millis));
+...
+----
+ 
+This will produce the a JSON log-line with the following properties:
+[source,javascript]
+----
+...
+  "message":"Request with url=https://api/service/v1/ordermanagement/order and status=200 took duration=251 ms",
+  "url":"https://api/service/v1/ordermanagement/order",
+  "status":"200",
+  "duration":"251",
+...
+----
+
+As you can quickly see besides the human readable `message` you also have the structured properties `url`, `status` and `duration` that can be extremly valuable to configure dashboards in your link:guide-log-monitoring.asciidoc[log-monitoring] that visualize success/failure ratio as well as performance of your requests.
+
+== Classic log-files
+
+NOTE: **In devon4j, we strongly recommend using JSON logging instead of classic log files. The following section refers only to devon4j Spring applications that use Logback.**
+
+Even though we do not recommend anymore to write classical log-files to the local disc, here you can still find our approach for it.
+
+=== Maven-Integration
+In the `pom.xml` of your application add this dependency:
+[source,xml]
+----
+<dependency>
+  <groupId>com.devonfw.java</groupId>
+  <artifactId>devon4j-logging</artifactId>
+</dependency>
+----
+
+The above dependency already adds transitive dependencies to SLF4J and logback.
+Also it comes with https://github.com/devonfw/devon4j/tree/master/modules/logging/src/main/resources/com/devonfw/logging/logback[configration snipplets] that can be included from your `logback.xml` file (see xref:configuration[configuration]).
+
+The `logback.xml` to write regular log-files can look as following:
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+  <property resource="com/devonfw/logging/logback/application-logging.properties" />
+  <property name="appname" value="MyApp"/>
+  <property name="logPath" value="../logs"/>
+  <include resource="com/devonfw/logging/logback/appenders-file-all.xml" />
+  <include resource="com/devonfw/logging/logback/appender-console.xml" />
+
+  <root level="DEBUG">
+    <appender-ref ref="ERROR_APPENDER"/>
+    <appender-ref ref="INFO_APPENDER"/>
+    <appender-ref ref="DEBUG_APPENDER"/>
+    <appender-ref ref="CONSOLE_APPENDER"/>
+  </root>
+
+  <logger name="org.springframework" level="INFO"/>
+</configuration>
+----
+
+The provided `logback.xml` is configured to use variables defined on the `config/application.properties` file.
+On our example, the log files path point to `../logs/` in order to log to tomcat log directory when starting tomcat on the bin folder.
+Change it according to your custom needs.
+
+.config/application.properties
+[source, properties]
+----
+log.dir=../logs/
+----
+
+=== Log Files
+The classical approach uses the following log files:
+
+* *Error Log*: Includes log entries to detect errors.
+* *Info Log*: Used to analyze system status and to detect bottlenecks.
+* *Debug Log*: Detailed information for error detection.
+
+The log file name pattern is as follows:
+[source]
+«LOGTYPE»_log_«HOST»_«APPLICATION»_«TIMESTAMP».log
+
+.Segments of Logfilename
+[options="header"]
+|=======================
+| *Element*     | *Value*              | *Description*
+| «LOGTYPE»     |  info, error, debug  |  Type of log file
+| «HOST»        |  e.g. mywebserver01  |  Name of server, where logs are generated 
+| «APPLICATION» |  e.g. myapp          |  Name of application, which causes logs
+| «TIMESTAMP»   |  +YYYY-MM-DD_HH00+   |  date of log file
+|=======================
+Example:
++error_log_mywebserver01_myapp_2013-09-16_0900.log+
+
+Error log from +mywebserver01+ at application +myapp+ at 16th September 2013 9pm.
+
+=== Output format
+
+We use the following output format for all log entries to ensure that searching and filtering of log entries work consistent for all logfiles:
+
+```
+[D: «timestamp»] [P: «priority»] [C: «NDC»][T: «thread»][L: «logger»]-[M: «message»]
+```
+
+   * *D*: Date (Timestamp in ISO8601 format e.g. 2013-09-05 16:40:36,464)
+   * *P*: Priority (the log level)
+   * *C*: xref:correlation-id[Correlation ID] (ID to identify users across multiple systems, needed when application is distributed)
+   * *T*: Thread (Name of thread)
+   * *L*: Logger name (use class name)
+   * *M*: Message (log message)
+
+Example: 
+```
+[D: 2013-09-05 16:40:36,464] [P: DEBUG] [C: 12345] [T: main] [L: my.package.MyClass]-[M: My message...]
+```
+
+NOTE: When using devon4j-logging, this format is used by default. To achieve this format in Quarkus, set `quarkus.log.console.format=[D: %d] [P: %p] [C: %X] [T: %t] [L: %c] [M: %m]%n` in your properties.
+
+=== Correlation ID
+In order to correlate separate HTTP requests to services belonging to the same user / session, we provide a servlet filter called `DiagnosticContextFilter`.
+This filter takes a provided correlation ID from the HTTP header `X-Correlation-Id`.
+If none was found, it will generate a new correlation id as `UUID`.
+This correlation ID is added as MDC to the logger.
+Therefore, it will then be included to any log message of the current request (thread).
+Further concepts such as link:guide-service-client.asciidoc[service invocations] will pass this correlation ID to subsequent calls in the application landscape. Hence you can find all log messages related to an initial request simply via the correlation ID even in highly distributed systems.
+
+=== Security
+In order to prevent https://www.owasp.org/index.php/Log_Forging[log forging] attacks you can simply use the suggested xref:json-logging[JSON logging] format.
+Otherwise you can use `com.devonfw.module.logging.common.impl.SingleLinePatternLayout` as demonstrated  https://github.com/devonfw/devon4j/blob/master/modules/logging/src/main/resources/com/devonfw/logging/logback/appender-file-warn.xml[here] in order to prevent such attacks.

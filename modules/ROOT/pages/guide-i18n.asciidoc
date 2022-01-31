@@ -1,0 +1,46 @@
+:toc: macro
+toc::[]
+= Internationalization
+//The property file doesn't exist anymore but the example looks fine. Keep it? 
+Internationalization (I18N) is about writing code independent from locale-specific information.
+For I18N of text messages we are suggesting 
+http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/nls/api/package-summary.html#documentation[mmm native-language-support].
+
+In devonfw we have developed a solution to manage text internationalization. devonfw solution comes into two aspects:
+
+* Bind locale information to the user. 
+
+* Get the messages in the current user locale.
+
+== Binding locale information to the user
+
+We have defined two different points to bind locale information to user, depending on user is authenticated or not.
+
+* User not authenticated: devonfw intercepts unsecured request and extract locale from it. At first, we try to extract a `language` parameter from the request and if it is not possible, we extract locale from Àccept-language` header. 
+
+* User authenticated. During login process, applications developers are responsible to fill `language` parameter in the UserProfile class. This `language` parameter could be obtain from DB, LDAP, request, etc. In devonfw sample we get the locale information from database.
+
+This image shows the entire process:
+
+image::images/i18n.png["Internationalization",scaledwidth="80%",align="center"]
+
+== Getting internationalizated messages
+
+devonfw has a bean that manage i18n message resolution, the `ApplicationLocaleResolver.` This bean is responsible to get the current user and extract locale information from it and read the correct properties file to get the message.
+
+The i18n properties file must be called `ApplicationMessages_la_CO.properties` where la=language and CO=country. This is an example of a i18n properties file for English language to translate devonfw sample user roles:
+
+ApplicationMessages_en_US.properties
+[source]
+----
+admin=Admin
+----
+
+You should define an ApplicationMessages_la_CO.properties file for every language that your application needs.
+
+`ApplicationLocaleResolver` bean is injected in `AbstractComponentFacade` class so you have available this bean in logic layer so you only need to put this code to get an internationalized message:
+
+[source,java]
+----
+String msg = getApplicationLocaleResolver().getMessage("mymessage");
+----

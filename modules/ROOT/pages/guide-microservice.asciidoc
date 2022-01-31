@@ -1,0 +1,32 @@
+:toc: macro
+toc::[]
+
+= Microservices in devonfw
+
+The Microservices architecture is an approach for application development based on a series of _small_ services grouped under a business domain. Each individual service runs autonomously and communicating with each other through their APIs. That independence between the different services allows to manage (upgrade, fix, deploy, etc.) each one without affecting the rest of the system's services. In addition to that the microservices architecture allows to scale specific services when facing an increment of the requests, so the applications based on microservices are more flexible and stable, and can be adapted quickly to demand changes.
+
+However, this new approach, developing apps based on microservices, presents some downsides.
+
+Let's see the main challenges when working with microservices:
+
+-  Having the applications divided in different services we will need a component (router) to redirect each request to the related microservice. These redirection rules must implement filters to guarantee a proper functionality.
+
+- In order to manage correctly the routing process, the application will also need a catalog with all the microservices and its details: IPs and ports of each of the deployed instances of each microservice, the state of each instance and some other related information. This catalog is called _Service Discovery_.
+
+- With all the information of the _Service Discovery_ the application will need to calculate and select between all the available instances of a microservice which is the suitable one. This will be figured out by the library _Client Side Load Balancer_.
+
+- The different microservices will be likely interconnected with each other, that means that in case of failure of one of the microservices involved in a process, the application must implement a mechanism to avoid the error propagation through the rest of the services and provide an alternative as a process result. To solve this, the pattern _Circuit Breaker_ can be implemented in the calls between microservices.
+
+- As we have mentioned, the microservices will exchange calls and information with each other so our applications will need to provide a secured context to avoid not allowed operations or intrusions. In addition, since microservices must be able to operate in an isolated way, it is not recommended to maintain a session. To meet this need without using Spring sessions, a token-based authentication is used that exchanges information using the https://jwt.io/[json web token (JWT)] protocol.
+
+In addition to all of this we will find other issues related to this particular architecture that we will address fitting the requirements of each project.
+
+- Distributed data bases: each instance of a microservice should have only one data base.
+
+- Centralized logs: each instance of a microservice creates a log and a trace that should be centralized to allow an easier way to read all that information.
+
+- Centralized configuration: each microservice has its own configuration, so our applications should group all those configurations in only one place to ease the configuration management.
+
+- Automatized deployments: as we are managing several components (microservices, catalogs, balancers, etc.) the deployment should be automatized to avoid errors and ease this process.
+
+To address the above, devonfw microservices has an alternative approach link:alternative-microservice-netflix.asciidoc[Microservices based on Netflix-Tools].

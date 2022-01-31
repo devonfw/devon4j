@@ -1,0 +1,215 @@
+:toc: macro
+toc::[]
+
+= Queries
+The http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[Java Persistence API (JPA)] defines its own query language, the https://docs.oracle.com/html/E13946_01/ejb3_langref.html[_java persistence query language_ (JPQL)] (see also https://docs.oracle.com/javaee/7/tutorial/persistence-querylanguage.htm[JPQL tutorial]), which is similar to SQL but operates on entities and their attributes instead of tables and columns.
+
+The simplest CRUD-Queries (e.g. find an entity by its ID) are already build in the devonfw CRUD functionality (via link:guide-repository.asciidoc[Repository] or link:guide-dao.asciidoc[DAO]). For other cases you need to write your own query. We distinguish between _static_ and _dynamic_ queries. xref:static-queries[Static queries] have a fixed JPQL query string that may only use parameters to customize the query at runtime. Instead, xref:dynamic-queries[dynamic queries] can change their clauses (`WHERE`, `ORDER BY`, `JOIN`, etc.) at runtime depending on the given search criteria.
+
+== Static Queries
+E.g. to find all https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/dishmanagement/dataaccess/api/DishEntity.java[DishEntries] (from MTS sample app) that have a price not exceeding a given `maxPrice` we write the following JPQL query:
+[source,sql]
+----
+SELECT dish FROM DishEntity dish WHERE dish.price <= :maxPrice
+----
+Here `dish` is used as alias (variable name) for our selected `DishEntity` (what refers to the simple name of the Java entity class). With `dish.price` we are referring to the Java property `price` (`getPrice()`/`setPrice(...)`) in `DishEntity`. A named variable provided from outside (the search criteria at runtime) is specified with a colon (`:`) as prefix. Here with `:maxPrice` we reference to a variable that needs to be set via `query.setParameter("maxPrice", maxPriceValue)`. JPQL also supports indexed parameters (`?`) but they are discouraged because they easily cause confusion and mistakes.
+
+=== Using Queries to Avoid Bidirectional Relationships 
+With the usage of queries it is possible to avoid exposing relationships or modelling bidirectional relationships, which have some disadvantages (see link:guide-jpa.asciidoc#relationships[relationships]). This is especially desired for relationships between entities of different business components.
+So for example to get all https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/ordermanagement/dataaccess/api/OrderLineEntity.java[OrderLineEntities] for a specific https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/ordermanagement/dataaccess/api/OrderEntity.java[OrderEntity] without using the `orderLines` relation from `OrderEntity` the following query could be used:
+[source,sql]
+----
+SELECT line FROM OrderLineEntity line WHERE line.order.id = :orderId
+----
+
+== Dynamic Queries
+For dynamic queries we use http://www.querydsl.com/[QueryDSL]. It allows to implement queries in a powerful but readable and type-safe way (unlike Criteria API). If you already know JPQL you will quickly be able to read and write QueryDSL code. It feels like JPQL but implemented in Java instead of plain text.
+
+Here is an example from our sample application:
+
+[source,java]
+----
+  public List<DishEntity> findDishes(DishSearchCriteriaTo criteria) {
+    QDishEntity dish = QDishEntity.dishEntity;
+    JPAQuery<DishEntity> query = new JPAQuery<OrderEntity>(getEntityManager());
+    query.from(dish);
+
+    Range<BigDecimal> priceRange = criteria.getPriceRange();
+    if (priceRange != null) {
+      BigDecimal min = priceRange.getMin();
+      if (min != null) {
+        query.where(dish.price.goe(min));
+      }
+      BigDecimal max = priceRange.getMax();
+      if (max != null) {
+        query.where(dish.price.loe(max));
+      }
+    }
+    String name = criteria.getName();
+    if ((name != null) && (!name.isEmpty())) {
+      query.where(dish.name.eq(name));
+    }
+    return query.fetch();
+  }
+----
+
+In this example we use the so called Q-types (`QDishEntity`). These are classes generated at build time by the QueryDSL annotation processor from entity classes. The Q-type classes can be used as static types representative of the original entity class.
+
+For spring, devon4j provides another approach that you can use for your Spring applications to implement QueryDSL logic without having to use these metaclasses. An example can be found link:spring/guide-querydsl-spring.asciidoc[here].
+
+== Using Wildcards
+For flexible queries it is often required to allow wildcards (especially in xref:dynamic_queries[dynamic queries]). While users intuitively expect glob syntax the SQL and JPQL standards work different. Therefore a mapping is required. devonfw provides this on a lower level by https://github.com/devonfw/devon4j/blob/develop/modules/basic/src/main/java/com/devonfw/module/basic/common/api/query/LikePatternSyntax.java[LikePatternSyntax] and on a high level by https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java#L54[QueryUtil] (see https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryHelper.java#L199[QueryHelper.newStringClause(...)]).
+
+== Pagination
+When dealing with large amounts of data, an efficient method of retrieving the data is required. Fetching the entire data set each time would be too time consuming. Instead, __Paging__ is used to process only small subsets of the entire data set.
+
+If you are using link:guide-repository.asciidoc[Spring Data repositories] you will get pagination support out of the box by providing the interfaces https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html[Page] and  https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html[Pageable]:
+
+.**repository**
+[source,java]
+----
+Page<DishEntity> findAll(Pageable pageable);
+----
+
+Then you can create a Pageable object and pass it to the method call as follows:
+
+[source,java]
+----
+int page = criteria.getPageNumber();
+int size = criteria.getPageSize();
+Pageable pageable = PageRequest.of(page, size);
+Page<DishEntity> dishes = dishRepository.findAll(pageable);
+----
+
+=== Paging with QueryDSL
+
+Pagination is also supported for dynamic queries with QueryDSL:
+
+[source,java]
+----
+  public Page<DishEntity> findDishes(DishSearchCriteriaTo criteria) {
+    QDishEntity dish = QDishEntity.dishEntity;
+    JPAQuery<DishEntity> query = new JPAQuery<OrderEntity>(getEntityManager());
+    query.from(dish);
+
+    // conditions
+
+    int page = criteria.getPageNumber();
+    int size = criteria.getPageSize();
+    Pageable pageable = PageRequest.of(page, size);
+    query.offset(pageable.getOffset());
+    query.limit(pageable.getPageSize());
+
+    List<DishEntity> dishes = query.fetch();
+    return new PageImpl<>(dishes, pageable, dishes.size());
+  }
+----
+
+=== Pagination example
+For the table entity we can make a search request by accessing the REST endpoint with pagination support like in the following examples:
+
+
+
+[source,json]
+----
+POST mythaistar/services/rest/tablemanagement/v1/table/search
+{
+  "pagination": { 
+    "size":2,
+    "total":true
+  }
+}
+
+//Response
+{
+    "pagination": {
+        "size": 2,
+        "page": 1,
+        "total": 11
+    },
+    "result": [
+        {
+            "id": 101,
+            "modificationCounter": 1,
+            "revision": null,
+            "waiterId": null,
+            "number": 1,
+            "state": "OCCUPIED"
+        },
+        {
+            "id": 102,
+            "modificationCounter": 1,
+            "revision": null,
+            "waiterId": null,
+            "number": 2,
+            "state": "FREE"
+        }
+    ]
+}
+----
+
+NOTE: As we are requesting with the `total` property set to `true` the server responds with the total count of rows for the query.
+
+For retrieving a concrete page, we provide the `page` attribute with the desired value. Here we also left out the `total` property so the server doesn't incur on the effort to calculate it:
+
+[source,json]
+----
+POST mythaistar/services/rest/tablemanagement/v1/table/search
+{
+  "pagination": { 
+    "size":2, 
+    "page":2
+  }
+}
+
+//Response
+
+{
+    "pagination": {
+        "size": 2,
+        "page": 2,
+        "total": null
+    },
+    "result": [
+        {
+            "id": 103,
+            "modificationCounter": 1,
+            "revision": null,
+            "waiterId": null,
+            "number": 3,
+            "state": "FREE"
+        },
+        {
+            "id": 104,
+            "modificationCounter": 1,
+            "revision": null,
+            "waiterId": null,
+            "number": 4,
+            "state": "FREE"
+        }
+    ]
+}
+----
+
+=== Pagingation in devon4j-spring
+For spring applications, devon4j also offers its own solution for pagination. You can find an example of this link:spring/guide-querydsl-spring.asciidoc#pagination[here].
+
+== Query Meta-Parameters
+Queries can have meta-parameters and that are provided via `SearchCriteriaTo`. Besides paging (see above) we also get https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryHelper.java#L51[timeout support].
+
+== Advanced Queries
+Writing queries can sometimes get rather complex. The current examples given above only showed very simple basics. Within this topic a lot of advanced features need to be considered like:
+
+* https://www.w3schools.com/sql/sql_join.asp[Joins]
+* https://docs.oracle.com/html/E13946_04/ejb3_langref.html#ejb3_langref_constructor[Constructor queries]
+* https://www.w3schools.com/sql/sql_orderby.asp[Order By] (Sorting)
+* https://www.w3schools.com/sql/sql_groupby.asp[Grouping]
+* https://www.w3schools.com/sql/sql_having.asp[Having]
+* https://www.w3schools.com/sql/sql_union.asp[Unions]
+* https://docs.oracle.com/cd/E11035_01/kodo41/full/html/ejb3_langref.html#ejb3_langref_subqueries[Sub-Queries]
+* Aggregation functions like e.g. https://www.w3schools.com/sql/sql_count_avg_sum.asp[count/avg/sum]
+* https://www.w3schools.com/sql/sql_distinct.asp[Distinct selections]
+* SQL Hints (see e.g. https://docs.oracle.com/cd/B19306_01/server.102/b14211/hintsref.htm#i8327[Oracle hints] or http://sqlhints.com/[SQL-Server hints]) - only when required for ultimate performance tuning
+
+This list is just containing the most important aspects. As we can not cover all these topics here, they are linked to external documentation that can help and guide you.
+

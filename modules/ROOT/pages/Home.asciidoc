@@ -1,0 +1,11 @@
+= devonfw for Java (devon4j)
+
+Welcome to the Java edition of devonfw. devon4j is documented by a platform guide (see the side-bar of this wiki) to be used in your projects.
+
+You will find the latest stable versions of documents generated from this wiki here:
+
+* https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2020.08.001/devon4j-doc-2020.08.001.pdf[stable devonfw devon4j guide as PDF].
+If you want to search the wiki you might want to try https://github.com/linyows/github-wiki-search[github-wiki-search].
+
+== For contributors
+Contributions and improvements to devonfw are more than welcome. Please read our https://github.com/devonfw/.github/blob/master/CONTRIBUTING.asciidoc#contributing[contributing guide] to get started.

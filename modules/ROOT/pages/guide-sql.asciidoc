@@ -1,0 +1,83 @@
+:toc: macro
+toc::[]
+
+= SQL
+
+For general guides on dealing or avoiding SQL, preventing SQL-injection, etc. you should study link:guide-domain-layer.asciidoc[domain layer].
+
+== Naming Conventions
+
+Here we define naming conventions that you should follow whenever you write SQL files:
+
+* All SQL-Keywords in UPPER CASE
+* Indentation should be 2 spaces as suggested by devonfw for every format.
+
+=== DDL
+The naming conventions for database constructs (tables, columns, triggers, constraints, etc.) should be aligned with your database product and their operators.
+However, when you have the freedom of choice and a modern case-sensitive database, you can simply use your code conventions also for database constructs to avoid explicitly mapping each and every property (e.g. `RestaurantTable` vs. `RESTAURANT_TABLE`).
+
+* Define columns and constraints inline in the statement to create the table
+* Indent column types so they all start in the same text column
+* Constraints should be named explicitly (to get a reasonable hint error messages) with:
+** `PK_«table»` for primary key (name optional here as PK constraint are fundamental)
+** `FK_«table»_«property»` for foreign keys (`«table»` and `«property»` are both on the source where the foreign key is defined)
+** `+UC_«table»_«property»[_«propertyN»]*+` for unique constraints
+** `CK_«table»_«check»` for check constraints (`«check»` describes the check, if it is defined on a single property it should start with the property).
+* Old RDBMS had hard limitations for names (e.g. 30 characters). Please note that recent databases have overcome this very low length limitations. However, keep your names short but precise and try to define common abbreviations in your project for according (business) terms. Especially do not just truncate the names at the limit.
+* If possible add comments on table and columns to help DBAs understanding your schema. This is also honored by many tools (not only DBA-tools).
+
+Here is a brief example of a DDL:
+[source,sql]
+--------
+CREATE SEQUENCE HIBERNATE_SEQUENCE START WITH 1000000;
+
+-- *** Table ***
+CREATE TABLE RESTAURANT_TABLE (
+  ID                   NUMBER(19) NOT NULL,
+  MODIFICATION_COUNTER INTEGER NOT NULL,
+  SEATS                INTEGER NOT NULL,
+  CONSTRAINT PK_TABLE PRIMARY KEY(ID)
+);
+COMMENT ON TABLE RESTAURANT_TABLE IS 'The physical tables inside the restaurant.';
+-- *** Order ***
+CREATE TABLE RESTAURANT_ORDER (
+  ID                   NUMBER(19) NOT NULL,
+  MODIFICATION_COUNTER INTEGER NOT NULL,
+  TABLE_ID             NUMBER(19) NOT NULL,
+  TOTAL                DECIMAL(5, 2) NOT NULL,
+  CREATION_DATE        TIMESTAMP NOT NULL,
+  PAYMENT_DATE         TIMESTAMP,
+  STATUS               VARCHAR2(10 CHAR) NOT NULL,
+  CONSTRAINT PK_ORDER PRIMARY KEY(ID),
+  CONSTRAINT FK_ORDER_TABLE_ID FOREIGN KEY(TABLE_ID) REFERENCES RESTAURANT_TABLE(ID)
+);
+COMMENT ON TABLE RESTAURANT_ORDER IS 'An order and bill at the restaurant.';
+...
+--------
+
+ATTENTION: Please note that `TABLE` and `ORDER` are reserved keywords in SQL and you should avoid using such keywords to prevent problems.
+
+=== Data
+For insert, update, delete, etc. of data SQL scripts should additionally follow these guidelines:
+
+* Inserts always with the same order of columns in blocks for each table.
+* Insert column values always starting with ID, MODIFICATION_COUNTER, [DTYPE, ] ...
+* List columns with fixed length values (boolean, number, enums, etc.) before columns with free text to support alignment of multiple insert statements
+* Pro Tip: Get familiar with column mode of advanced editors such as `+notepad+++` when editing large blocks of similar insert statements.
+
+[source,sql]
+--------
+INSERT INTO RESTAURANT_TABLE(ID, MODIFICATION_COUNTER, SEATS) VALUES (0, 1, 4);
+INSERT INTO RESTAURANT_TABLE(ID, MODIFICATION_COUNTER, SEATS) VALUES (1, 1, 4);
+INSERT INTO RESTAURANT_TABLE(ID, MODIFICATION_COUNTER, SEATS) VALUES (2, 1, 4);
+INSERT INTO RESTAURANT_TABLE(ID, MODIFICATION_COUNTER, SEATS) VALUES (3, 1, 4);
+INSERT INTO RESTAURANT_TABLE(ID, MODIFICATION_COUNTER, SEATS) VALUES (4, 1, 6);
+INSERT INTO RESTAURANT_TABLE(ID, MODIFICATION_COUNTER, SEATS) VALUES (5, 1, 6);
+INSERT INTO RESTAURANT_TABLE(ID, MODIFICATION_COUNTER, SEATS) VALUES (6, 1, 6);
+INSERT INTO RESTAURANT_TABLE(ID, MODIFICATION_COUNTER, SEATS) VALUES (7, 1, 8);
+INSERT INTO RESTAURANT_TABLE(ID, MODIFICATION_COUNTER, SEATS) VALUES (8, 1, 8);
+...
+--------
+
+
+See also link:guide-database-migration.asciidoc[Database Migrations].

@@ -1,0 +1,83 @@
+:toc: macro
+toc::[]
+
+= JEE
+
+This section is about Java Enterprise Edition (JEE).
+Regarding to our link:architecture#key-principles.asciidoc[key principles] we focus on open standards.
+For Java this means that we consider official standards from Java Standard and Enterprise Edition as first choice for considerations.
+Therefore we also decided to recommend link:guide-rest.asciidoc#jax-rs[JAX-RS] over https://spring.io/guides/gs/rest-service/[SpringMVC] as the latter is proprietary.
+Only if an existing Java standard is *not* suitable for current demands such as Java Server Faces (JSF), we do not officially recommend it (while you are still free to use it if you have good reasons to do so).
+In all other cases we officially suggest the according standard and use it in our guides, code-samples, sample application, modules, templates, etc.
+Examples for such standards are link:guide-jpa.asciidoc[JPA], link:guide-rest.asciidoc#jax-rs[JAX-RS], link:guide-soap.asciidoc#jax-ws[JAX-WS], link:guide-dependency-injection.asciidoc[JSR330], link:guide-access-control.asciidoc[JSR250], link:guide-xml.asciidoc#jaxb[JAX-B], etc.
+
+== Application-Server
+We designed everything based on standards to work with different technology stacks and servlet containers.
+However, we strongly encourage to use modern and leightweight frameworks such as link:spring.asciidoc[spring] or link:quarkus.asciidoc[quarkus].
+You are free to decide for a JEE application server but here is a list of good reasons for our decision:
+
+* *Up-to-date* 
++
+With spring or quarkus you easily keep up to date with evolving technologies (microservices, reactive, NoSQL, etc.).
+Most application servers put you in a jail with old legacy technology.
+In many cases you are even forced to use a totally outdated version of java (JVM/JDK).
+This may even cause severe IT-Security vulnerabilities but with expensive support you might get updates.
+Also with leightweight open-source frameworks you need to be aware that for IT-security you need to update recently what can cost quite a lot of additional maintenance effort.
+* *Development speed* 
++
+With spring-boot you can implement and especially test your individual logic very fast. Starting the app in your IDE is very easy, fast, and realistic (close to production). You can easily write JUnit tests that startup your server application to e.g. test calls to your remote services via HTTP fast and easy. For application servers you need to bundle and deploy your app what takes more time and limits you in various ways. We are aware that this has improved in the past but also spring continuously improves and is always way ahead in this area. Further, with spring you have your configurations bundled together with the code in version control (still with ability to handle different environments) while with application servers these are configured externally and can not be easily tested during development.
+* *Documentation*
++
+Spring and also quarkus have an extremely open and active community.
+There is documentation for everything available for free on the web.
+You will find solutions to almost any problem on platforms like stackoverflow.
+If you have a problem you are only a google search away from your solution.
+This is very much different for proprietary application server products.
+* *Helpful Exception Messages*
++
+Especially spring is really great for developers on exception messages.
+If you do something wrong you get detailed and helpful messages that guide you to the problem or even the solution.
+This is not as great in application servers.
+* *Future-proof*
++
+Spring has evolved really awesome over time.
+Since its 1.0 release in 2004 spring has continuously been improved and always caught up with important trends and innovations.
+Even in critical situations, when the company behind it (interface21) was sold, spring went on perfectly.
+Quarkus on the other hand is relatively new.
+It does not have to carry a large legacy history and is therefore most state-of-the-art for modern projects esp. in cloud environments.
+JEE went through a lot of trouble and crisis.
+Just look at the EJB pain stories.
+This happened often in the past and also recent.
+See https://dzone.com/articles/java-ee-8-in-crisis[JEE 8 in crisis].
+* *Free*
++
+Spring and quarkus including their ecosystems are free and open-source.
+It still perfectly integrates with commercial solutions for specific needs.
+Most application servers are commercial and cost a lot of money.
+As of today the ROI for this is of question.
+* *Cloud-native*
++
+Quarkus is designed for cloud-native projects from the start.
+With spring this is also available via link:spring.asciidoc#spring-native[spring-native].
+Using an application server will effectively prevent you from going to the cloud smoothly.
+* *Fun*
++
+If you go to conferences or ask developers you will see that spring or quarkus is popular and fun.
+If new developers are forced to use an old application server product they will be less motivated or even get frustrated.
+Especially in today's agile projects this is a very important aspect.
+In the end you will get into trouble with maintenance on the long run if you rely on a proprietary application server.
+
+Of course the vendors of application servers will tell you a different story.
+This is simply because they still make a lot of money from their products.
+We do not get paid from application servers nor from spring, quarkus or any other IT product company.
+We are just developers who love to build great systems.
+A good reason for application servers is that they combine a set of solutions to particular aspects to one product that helps to standardize your IT.
+However, http://www.devonfw.com/[devonfw] fills exactly this gap for the spring and quarkus ecosystems in a very open and flexible way.
+However, there is one important aspect that you need to understand and be aware of:
+
+Some big companies decided for a specific application server as their IT strategy.
+They may have hundreds of apps running with this application server.
+All their operators and developers have learned a lot of specific skills for this product and are familiar with it.
+If you are implementing yet another (small) app in this context it could make sense to stick with this application server.
+However, also they have to be aware that with every additional app they increase their technical debt.
+So actively help your customer and consult him to make the right choices for the future.

@@ -1,0 +1,102 @@
+:toc:  macro
+toc::[]
+
+= Exception Handling
+
+
+== Exception Principles
+For exceptions we follow these principles:
+
+* We only use exceptions for _exceptional_ situations and not for programming control flows, etc. Creating an exception in Java is expensive and hence you should not do it just for testing if something is present, valid or permitted. In the latter case design your API to return this as a regular result.
+* We use unchecked exceptions (+RuntimeException+) footnote:[Whether to use checked exceptions or not is a controversial topic. Arguments for both sides can be found under https://www.artima.com/intv/handcuffs.html[The Trouble with Checked Exceptions], https://docs.oracle.com/javase/tutorial/essential/exceptions/runtime.html[Unchecked Exceptions — The Controversy], and https://phauer.com/2015/checked-exceptions-are-evil/[Checked Exceptions are Evil]. The arguments in favor of unchecked exceptions tend to prevail for applications build with Devon4j. Therefore, unchecked exceptions should be used for a consistent style.]
+* We distinguish _internal exceptions_ and _user exceptions_:
+** Internal exceptions have technical reasons. For unexpected and exotic situations it is sufficient to throw existing exceptions such as +IllegalStateException+. For common scenarios a own exception class is reasonable.
+** User exceptions contain a message explaining the problem for end users. Therefore we always define our own exception classes with a clear, brief but detailed message.
+* Our own exceptions derive from an exception base class supporting
+** http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/exception/api/NlsRuntimeException.html#getUuid%28%29[unique ID per instance]
+** http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/exception/api/NlsRuntimeException.html#getCode%28%29[Error code per class]
+** http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/exception/api/NlsThrowable.html#getNlsMessage%28%29[message templating] (see link:guide-i18n.asciidoc[I18N])
+** http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/exception/api/NlsRuntimeException.html#isForUser%28%29[distinguish between _user exceptions_ and _internal exceptions_]
+
+All this is offered by http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/exception/api/package-summary.html#documentation[mmm-util-core] that we propose as solution.
+
+== Exception Example
+Here is an exception class from our sample application:
+
+[source,java]
+--------
+public class IllegalEntityStateException extends ApplicationBusinessException {
+
+  private static final long serialVersionUID = 1L;
+
+  public IllegalEntityStateException(Object entity, Object state) {
+
+    this((Throwable) null, entity, state);
+  }
+
+  
+  public IllegalEntityStateException(Object entity, Object currentState, Object newState) {
+
+    this(null, entity, currentState, newState);
+  }
+
+  public IllegalEntityStateException(Throwable cause, Object entity, Object state) {
+
+    super(cause, createBundle(NlsBundleApplicationRoot.class).errorIllegalEntityState(entity, state));
+  }
+
+  public IllegalEntityStateException(Throwable cause, Object entity, Object currentState, Object newState) {
+
+    super(cause, createBundle(NlsBundleApplicationRoot.class).errorIllegalEntityStateChange(entity, currentState,
+        newState));
+  }
+
+}
+--------
+
+The message templates are defined in the interface +NlsBundleRestaurantRoot+ as following:
+[source,java]
+--------
+public interface NlsBundleApplicationRoot extends NlsBundle {
+
+ 
+  @NlsBundleMessage("The entity {entity} is in state {state}!")
+  NlsMessage errorIllegalEntityState(@Named("entity") Object entity, @Named("state") Object state);
+
+  
+  @NlsBundleMessage("The entity {entity} in state {currentState} can not be changed to state {newState}!")
+  NlsMessage errorIllegalEntityStateChange(@Named("entity") Object entity, @Named("currentState") Object currentState,
+      @Named("newState") Object newState);
+
+ 
+  @NlsBundleMessage("The property {property} of object {object} can not be changed!")
+  NlsMessage errorIllegalPropertyChange(@Named("object") Object object, @Named("property") Object property);
+
+  @NlsBundleMessage("There is currently no user logged in")
+  NlsMessage errorNoActiveUser();
+
+--------
+
+== Handling Exceptions
+For catching and handling exceptions we follow these rules:
+
+* We do not catch exceptions just to wrap or to re-throw them.
+* If we catch an exception and throw a new one, we always *have* to provide the original exception as http://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html#getCause%28%29[cause] to the constructor of the new exception.
+* At the entry points of the application (e.g. a service operation) we have to catch and handle all throwables. This is done via the _exception-facade-pattern_ via an explicit facade or aspect. The `devon4j-rest` module already provides ready-to-use implementations for this such as https://github.com/devonfw/devon4j/blob/develop/modules/rest/src/main/java/com/devonfw/module/rest/service/impl/RestServiceExceptionFacade.java[RestServiceExceptionFacade]. The exception facade has to ...
+** log all errors (user errors on info and technical errors on error level)
+** ensure the entire exception is passed to the logger (not only the message) so that the logger can capture the entire stacktrace and the root cause is not lost.
+** convert the error to a result appropriable for the client and secure for https://www.owasp.org/index.php/Top_10_2013-A6-Sensitive_Data_Exposure[Sensitive Data Exposure]. Especially for security exceptions only a generic security error code or message may be revealed but the details shall only be logged but *not* be exposed to the client. All _internal exceptions_ are converted to a generic error with a message like:
++
+> An unexpected technical error has occurred. We apologize any inconvenience. Please try again later.
+
+== Common Errors
+The following errors may occur in any devon application:
+
+.Common Exceptions
+[options="header"]
+|====
+|*Code*|*Message*|*Link*
+|`TechnicalError`|An unexpected error has occurred! We apologize any inconvenience. Please try again later.|https://github.com/m-m-m/util/blob/master/exception/src/main/java/net/sf/mmm/util/exception/api/TechnicalErrorUserException.java[TechnicalErrorUserException.java]
+|`ServiceInvoke`|«original message of the cause»|https://github.com/m-m-m/util/blob/master/exception/src/main/java/net/sf/mmm/util/exception/api/ServiceInvocationFailedException.java[ServiceInvocationFailedException.java]
+|
+|====

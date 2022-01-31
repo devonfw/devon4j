@@ -1,0 +1,14 @@
+:toc: macro
+toc::[]
+
+= Project structure
+
+In devonfw we want to give clear structure and guidance for building applications.
+This also allows tools such as https://github.com/devonfw/cobigen[CobiGen] or https://github.com/devonfw/sonar-devon4j-plugin/[sonar-devon4j-plugin] to "understand" the code.
+Also this helps developers going from one devonfw project to the next one to quickly understand the code-base.
+If every developer knows where to find what, the project gets more efficient.
+A long time ago maven standardized the project structure with `src/main/java`, etc. and turned chaos into structure.
+With devonfw we experienced the same for the codebase (what is inside `src/main/java`).
+
+We initially started `devon4j` based on spring and spring-boot and proposed a link:guide-structure-classic.asciidoc[classic project structure].
+With modern cloud-native trends we added a link:guide-structure-modern.asciidoc[modern project structure], that is more lean and up-to-date with the latest market trends.

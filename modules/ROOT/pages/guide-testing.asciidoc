@@ -1,0 +1,391 @@
+:toc: macro
+toc::[]
+
+= Testing
+
+== General best practices
+For testing please follow our general best practices:
+
+* Tests should have a clear goal that should also be documented.
+* Tests have to be classified into different xref:integration-levels[integration levels].
+* Tests should follow a clear naming convention.
+* Automated tests need to properly assert the result of the tested operation(s) in a reliable way. E.g. avoid stuff like `assertThat(service.getAllEntities()).hasSize(42)` or even worse tests that have no assertion at all.
+* Tests need to be independent of each other. Never write test-cases or tests (in Java +@Test+ methods) that depend on another test to be executed before. 
+* Use http://joel-costigliola.github.io/assertj/[AssertJ] to write good readable and maintainable tests that also provide valuable feedback in case a test fails. Do not use legacy JUnit methods like `assertEquals` anymore!
+* For easy understanding divide your test in three commented sections:
+** `//given`
+** `//when`
+** `//then`
+* Plan your tests and test data management properly before implementing.
+* Instead of having a too strong focus on test coverage better ensure you have covered your critical core functionality properly and review the code including tests.
+* Test code shall NOT be seen as second class code. You shall consider design, architecture and code-style also for your test code but do not over-engineer it.
+* Test automation is good but should be considered in relation to cost per use. Creating full coverage via _automated system tests_ can cause a massive amount of test-code that can turn out as a huge maintenance hell. Always consider all aspects including product life-cycle, criticality of use-cases to test, and variability of the aspect to test (e.g. UI, test-data).
+* Use continuous integration and establish that the entire team wants to have clean builds and running tests.
+* Prefer delegation over inheritance for cross-cutting testing functionality. Good places to put this kind of code can be realized and reused via the JUnit +@Rule+ mechanism.
+
+== Test Automation Technology Stack
+For test automation we use http://junit.org/[JUnit]. However, we are strictly doing all assertions with http://joel-costigliola.github.io/assertj/[AssertJ]. For xref:test-doubles[mocking] we use http://mockito.org/[mockito].
+In order to mock remote connections we use xref:wiremock[wiremock].
+For testing entire components or sub-systems we recommend to use https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html[spring-boot-starter-test] as lightweight and fast testing infrastructure that is already shipped with `devon4j-test`.
+
+In case you have to use a full blown JEE application server, we recommend to use http://arquillian.org/[arquillian]. To get started with arquillian, look http://arquillian.org/guides/getting_started/index.html#add_the_arquillian_apis[here].
+
+== Test Doubles
+We use http://xunitpatterns.com/Using%20Test%20Doubles.html[test doubles] as generic term for mocks, stubs, fakes, dummies, or spys to avoid confusion. Here is a short summary from http://martinfowler.com/articles/mocksArentStubs.html[stubs VS mocks]:
+
+* **Dummy** objects specifying no logic at all. May declare data in a POJO style to be used as boiler plate code to parameter lists or even influence the control flow towards the test's needs.
+* **Fake** objects actually have working implementations, but usually take some shortcut which makes them not suitable for production (an in memory database is a good example).
+* **Stubs** provide canned answers to calls made during the test, usually not responding at all to anything outside what's programmed in for the test. Stubs may also record information about calls, such as an email gateway stub that remembers the messages it 'sent', or maybe only how many messages it 'sent'.
+* **Mocks** are objects pre-programmed with expectations, which form a specification of the calls they are expected to receive.
+
+We try to give some examples, which should make it somehow clearer:
+
+=== Stubs
+Best Practices for applications:
+
+* A good way to replace small to medium large boundary systems, whose impact (e.g. latency) should be ignored during load and performance tests of the application under development.
+* As stub implementation will rely on state-based verification, there is the threat, that test developers will partially reimplement the state transitions based on the replaced code. This will immediately lead to a black maintenance whole, so better use mocks to assure the certain behavior on interface level.
+* Do NOT use stubs as basis of a large amount of test cases as due to state-based verification of stubs, test developers will enrich the stub implementation to become a large monster with its own hunger after maintenance efforts.
+
+=== Mocks
+Best Practices for applications:
+
+* Replace not-needed dependencies of your system-under-test (SUT) to minimize the application context to start of your component framework.
+* Replace dependencies of your SUT to impact the control flow under test without establishing all the context parameters needed to match the control flow.
+* Remember: Not everything has to be mocked! Especially on lower levels of tests like isolated module tests you can be betrayed into a mocking delusion, where you end up in a hundred lines of code mocking the whole context and five lines executing the test and verifying the mocks behavior. Always keep in mind the benefit-cost ratio, when implementing tests using mocks.
+
+=== Wiremock
+//Wiremock is not used in the current Application
+If you need to mock remote connections such as HTTP-Servers, wiremock offers easy to use functionality. For a full description see the http://wiremock.org/[homepage] or the https://github.com/tomakehurst/wiremock[github repository]. Wiremock can be used either as a JUnit Rule, in Java outside of JUnit or as a standalone process. The mocked server can be configured to respond to specific requests in a given way via a fluent Java API, JSON files and JSON over HTTP. An example as an integration to JUnit can look as follows.
+[source,java]
+-------------------------------------------
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+
+public class WireMockOfferImport{
+
+  @Rule
+  public WireMockRule mockServer = new WireMockRule(wireMockConfig().dynamicPort());
+
+  @Test
+  public void requestDataTest() throws Exception {
+  int port = this.mockServer.port();
+  ...}
+-------------------------------------------
+This creates a server on a randomly chosen free port on the running machine. You can also specify the port to be used if wanted. Other than that there are several options to further configure the server. This includes HTTPs, proxy settings, file locations, logging and extensions.
+//We could replace this with a test example from com.devonfw.application.mtsj.dishmanagement.logic.impl
+[source,java]
+-------------------------------------------
+  @Test
+  public void requestDataTest() throws Exception {
+      this.mockServer.stubFor(get(urlEqualTo("/new/offers")).withHeader("Accept", equalTo("application/json"))
+      .withHeader("Authorization", containing("Basic")).willReturn(aResponse().withStatus(200).withFixedDelay(1000)
+      .withHeader("Content-Type", "application/json").withBodyFile("/wireMockTest/jsonBodyFile.json")));
+  }
+-------------------------------------------
+This will stub the URL `localhost:port/new/offers` to respond with a status 200 message containing a header (`Content-Type: application/json`) and a body with content given in `jsonBodyFile.json` if the request matches several conditions.
+It has to be a GET request to `../new/offers` with the two given header properties.
+
+Note that by default files are located in `src/test/resources/__files/`. When using only one WireMock server one can omit the `this.mockServer` in before the `stubFor` call (static method).
+You can also add a fixed delay to the response or processing delay with `WireMock.addRequestProcessingDelay(time)` in order to test for timeouts. 
+
+WireMock can also respond with different corrupted messages to simulate faulty behaviour. 
+[source,java]
+-------------------------------------------
+@Test(expected = ResourceAccessException.class)
+public void faultTest() {
+
+    this.mockServer.stubFor(get(urlEqualTo("/fault")).willReturn(aResponse()
+    .withFault(Fault.MALFORMED_RESPONSE_CHUNK)));
+...}
+-------------------------------------------
+A GET request to `../fault` returns an OK status header, then garbage, and then closes the connection.
+
+== Integration Levels
+There are many discussions about the right level of integration for test automation. Sometimes it is better to focus on small, isolated modules of the system - whatever a "module" may be. In other cases it makes more sense to test integrated groups of modules. Because there is no universal answer to this question, devonfw only defines a common terminology for what could be tested. Each project must make its own decision where to put the focus of test automation. There is no worldwide accepted terminology for the integration levels of testing. In general we consider http://istqbexamcertification.com/what-are-software-testing-levels/[ISTQB]. However, with a technical focus on test automation we want to get more precise.
+
+The following picture shows a simplified view of an application based on the link:architecture.asciidoc#technical-architecture[devonfw reference architecture]. We define four integration levels that are explained in detail below. 
+The boxes in the picture contain parenthesized numbers. These numbers depict the lowest integration level, a box belongs to. Higher integration levels also contain all boxes of lower integration levels. When writing tests for a given integration level, related boxes with a lower integration level must be replaced by test xref:test-doubles[doubles] or drivers.
+
+image::images/integration-levels.png["Integration Levels",scaledwidth="80%",align="center"]
+
+The main difference between the integration levels is the amount of infrastructure needed to test them. The more infrastructure you need, the more bugs you will find, but the more instable and the slower your tests will be. So each project has to make a trade-off between pros and contras of including much infrastructure in tests and has to select the integration levels that fit best to the project. 
+
+Consider, that more infrastructure does not automatically lead to a better bug-detection. There may be bugs in your software that are masked by bugs in the infrastructure. The best way to find those bugs is to test with very few infrastructure.
+
+External systems do not belong to any of the integration levels defined here. devonfw does not recommend involving real external systems in test automation. This means, they have to be replaced by test xref:test-doubles[doubles] in automated tests. An exception may be external systems that are fully under control of the own development team.
+
+The following chapters describe the four integration levels.
+
+=== Level 1 Module Test
+The goal of a _isolated module test_ is to provide fast feedback to the developer. Consequently, isolated module tests must not have any interaction with the client, the database, the file system, the network, etc.
+
+An isolated module test is testing a single classes or at least a small set of classes in isolation. If such classes depend on other components or external resources, etc. these shall be replaced with a xref:test-doubles[test double].
+
+[source,java]
+----
+public class MyClassTest extends ModuleTest {
+
+  @Test
+  public void testMyClass() {
+
+    // given
+    MyClass myClass = new MyClass();
+    // when
+    String value = myClass.doSomething();
+    // then
+    assertThat(value).isEqualTo("expected value");
+  }
+
+}
+----
+
+For an advanced example see https://github.com/devonfw/devon4j/blob/develop/modules/rest/src/test/java/com/devonfw/module/rest/service/impl/RestServiceExceptionFacadeTest.java[here].
+
+=== Level 2 Component Test
+
+A http://istqbexamcertification.com/what-is-component-testing/[_component test_] aims to test components or component parts as a unit.
+These tests typically run with a (light-weight) infrastructure such as spring-boot-starter-test and can access resources such as a database (e.g. for DAO tests).
+Further, no remote communication is intended here. Access to external systems shall be replaced by a xref:test-doubles[test double].
+
+With devon4j and spring you can write a component-test as easy as illustrated in the following example:
+[source,java]
+----
+@SpringBootTest(classes = { MySpringBootApp.class }, webEnvironment = WebEnvironment.NONE)
+public class UcFindCountryTest extends ComponentTest {
+  @Inject
+  private UcFindCountry ucFindCountry;
+
+  @Test
+  public void testFindCountry() {
+
+    // given
+    String countryCode = "de";
+
+    // when
+    TestUtil.login("user", MyAccessControlConfig.FIND_COUNTRY);
+    CountryEto country = this.ucFindCountry.findCountry(countryCode);
+
+    // then
+    assertThat(country).isNotNull();
+    assertThat(country.getCountryCode()).isEqualTo(countryCode);
+    assertThat(country.getName()).isEqualTo("Germany");
+  }
+}
+----
+This test will start the entire spring-context of your app (`MySpringBootApp`). Within the test spring will inject according spring-beans into all your fields annotated with `@Inject`. In the test methods you can use these spring-beans and perform your actual tests. This pattern can be used for testing DAOs/Repositories, Use-Cases, or any other spring-bean with its entire configuration including database and transactions.
+
+When you are testing use-cases your link:guide-access-control.asciidoc#configuration-on-java-method-level[authorization] will also be in place. Therefore, you have to simulate a logon in advance what is done via the `login` method in the above example.  The test-infrastructure will automatically do a `logout` for you after each test method in `doTearDown`.
+
+=== Level 3 Subsystem Test
+A _subsystem test_ runs against the external interfaces (e.g. HTTP service) of the integrated subsystem. Subsystem tests of the client subsystem are described in the https://github.com/devonfw/devon4ng/blob/master/documentation/guide-testing.asciidoc[devon4ng testing guide]. In devon4j the server (JEE application) is the subsystem under test. The tests act as a client (e.g. service consumer) and the server has to be integrated and started in a container.
+
+With devon4j and spring you can write a subsystem-test as easy as illustrated in the following example:
+[source,java]
+----
+@SpringBootTest(classes = { MySpringBootApp.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
+public class CountryRestServiceTest extends SubsystemTest {
+
+  @Inject
+  private ServiceClientFactory serviceClientFactory;
+ 
+  @Test
+  public void testFindCountry() {
+
+    // given
+    String countryCode = "de";
+
+    // when
+    CountryRestService service = this.serviceClientFactory.create(CountryRestService.class);
+    CountryEto country = service.findCountry(countryCode);
+
+    // then
+    assertThat(country).isNotNull();
+    assertThat(country.getCountryCode()).isEqualTo(countryCode);
+    assertThat(country.getName()).isEqualTo("Germany");
+  }
+}
+----
+Even though not obvious on the first look this test will start your entire application as a server on a free random port (so that it works in CI with parallel builds for different branches) and tests the invocation of a (REST) service including (un)marshalling of data (e.g. as JSON) and transport via HTTP (all in the invocation of the `findCountry` method).
+
+Do not confuse a _subsystem test_ with a http://istqbexamcertification.com/what-is-system-integration-testing/[system integration test]. A system integration test validates the interaction of several systems where we do not recommend test automation.
+
+=== Level 4 System Test
+A http://istqbexamcertification.com/what-is-system-testing/[_system test_] has the goal to test the system as a whole against its official interfaces such as its UI or batches. The system itself runs as a separate process in a way close to a regular deployment. Only external systems are simulated by xref:test-doubles[test doubles]. 
+
+The devonfw only gives advice for automated system test (TODO see allure testing framework). In nearly every project there must be manual system tests, too. This manual system tests are out of scope here.
+
+=== Classifying Integration-Levels
+devon4j defines https://github.com/devonfw/devon4j/tree/develop/modules/test/src/main/java/com/devonfw/module/test/common/api/category[Category-Interfaces] that shall be used as https://github.com/junit-team/junit/wiki/Categories[JUnit Categories].
+Also devon4j provides https://github.com/devonfw/devon4j/tree/develop/modules/test/src/main/java/com/devonfw/module/test/common/base[abstract base classes] that you may extend in your test-cases if you like.
+
+devon4j further pre-configures the maven build to only run integration levels 1-2 by default (e.g. for fast feedback in continuous integration). It offers the profiles +subsystemtest+ (1-3) and +systemtest+ (1-4). In your nightly build you can simply add +-Psystemtest+ to run all tests.
+
+== Implementation
+This section introduces how to implement tests on the different levels with the given devonfw infrastructure and the proposed frameworks.
+
+=== Module Test
+In devon4j you can extend the abstract class https://github.com/devonfw/devon4j/blob/develop/modules/test/src/main/java/com/devonfw/module/test/common/base/ModuleTest.java[ModuleTest] to basically get access to assertions. In order to test classes embedded in dependencies  and external services one needs to provide mocks for that. As the xref:test-automation-technology-stack[technology stack] recommends we use the Mockito framework to offer this functionality. The following example shows how to implement Mockito into a JUnit test.
+//We currently don't use Mockito in the application
+[source,java]
+-------------------------------------------
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
+...
+
+public class StaffmanagementImplTest extends ModuleTest {
+  @Rule
+  public MockitoRule rule = MockitoJUnit.rule();
+
+  @Test
+  public void testFindStaffMember() {
+  ...}
+}
+-------------------------------------------
+
+Note that the test class does not use the `@SpringApplicationConfiguration` annotation. In a module test one does not use the whole application.
+The JUnit rule is the best solution to use in order to get all needed functionality of Mockito. Static imports are a convenient option to enhance readability within Mockito tests.
+You can define mocks with the `@Mock` annotation or the `mock(*.class)` call. To inject the mocked objects into your class under test you can use the `@InjectMocks` annotation. This automatically uses the setters of `StaffmanagementImpl` to inject the defined mocks into the _class under test (CUT)_ when there is a setter available. In this case the `beanMapper` and the `staffMemberDao` are injected. Of course it is possible to do this manually if you need more control. 
+
+[source,java]
+-------------------------------------------
+  @Mock
+  private BeanMapper beanMapper;
+  @Mock
+  private StaffMemberEntity staffMemberEntity;
+  @Mock
+  private StaffMemberEto staffMemberEto;
+  @Mock
+  private StaffMemberDao staffMemberDao;
+  @InjectMocks
+  StaffmanagementImpl staffmanagementImpl = new StaffmanagementImpl();
+-------------------------------------------
+
+The mocked objects do not provide any functionality at the time being. To define what happens on a method call on a mocked dependency in the CUT one can use `when(_condition_).thenReturn(_result_)`. In this case we want to test `findStaffMember(Long id)` in the StaffmanagementImpl.java.
+
+[source,java]
+-------------------------------------------
+public StaffMemberEto findStaffMember(Long id) {
+  return getBeanMapper().map(getStaffMemberDao().find(id), StaffMemberEto.class);
+}
+-------------------------------------------
+
+In this simple example one has to stub two calls on the CUT as you can see below. For example the method call of the CUT `staffMemberDao.find(id)` is stubbed for returning a mock object `staffMemberEntity` that is also defined as mock.
+
+=== Subsystem Test
+devon4j provides a simple test infrastructure to aid with the implementation of subsystem tests. 
+[source,java]
+-------------------------------------------
+//given
+long id = 1L;
+Class<StaffMemberEto> targetClass = StaffMemberEto.class;
+when(this.staffMemberDao.find(id)).thenReturn(this.staffMemberEntity);
+when(this.beanMapper.map(this.staffMemberEntity, targetClass)).thenReturn(this.staffMemberEto);
+
+//when
+StaffMemberEto resultEto = this.staffmanagementImpl.findStaffMember(id);
+
+//then
+assertThat(resultEto).isNotNull();
+assertThat(resultEto).isEqualTo(this.staffMemberEto);
+-------------------------------------------
+
+After the test method call one can verify the expected results. Mockito can check whether a mocked method call was indeed called. This can be done using Mockito `verify`. Note that it does not generate any value if you check for method calls that are needed to reach the asserted result anyway. Call verification can be useful e.g. when you want to assure that statistics are written out without actually testing them.
+
+== Regression testing
+
+When it comes to complex output (even binary) that you want to regression test by comparing with an expected result, you sould consider https://approvaltests.com/[Approval Tests] using https://github.com/approvals/approvaltests.java[ApprovalTests.Java].
+If applied for the right problems, it can be very helpful.
+
+== Deployment Pipeline
+
+A deployment pipeline is a semi-automated process that gets software-changes from version control into production. It contains several validation steps, e.g. automated tests of all integration levels.
+Because devon4j should fit to different project types - from agile to waterfall - it does not define a standard deployment pipeline. But we recommend to define such a deployment pipeline explicitly for each project and to find the right place in it for each type of test. 
+
+For that purpose, it is advisable to have fast running test suite that gives as much confidence as possible without needing too much time and too much infrastructure. This test suite should run in an early stage of your deployment pipeline. Maybe the developer should run it even before he/she checked in the code. Usually lower integration levels are more suitable for this test suite than higher integration levels.
+
+Note, that the deployment pipeline always should contain manual validation steps, at least manual acceptance testing. There also may be manual validation steps that have to be executed for special changes only, e.g. usability testing. Management and execution processes of those manual validation steps are currently not in the scope of devonfw.
+
+
+== Test Coverage
+We are using tools (SonarQube/Jacoco) to measure the coverage of the tests. Please always keep in mind that the only reliable message of a code coverage of +X%+ is that +(100-X)%+ of the code is entirely untested. It does not say anything about the quality of the tests or the software though it often relates to it.
+
+== Test Configuration
+This section covers test configuration in general without focusing on integration levels as in the first chapter.
+
+=== Configure Test Specific Beans
+Sometimes it can become handy to provide other or differently configured bean implementations via CDI than those available in production. For example, when creating beans using `@Bean`-annotated methods they are usually configured within those methods. https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/general/service/impl/config/WebSecurityBeansConfig.java[WebSecurityBeansConfig] shows an example of such methods.
+
+[source,java]
+-------------------------------------------
+@Configuration
+public class WebSecurityBeansConfig {
+  //...
+  @Bean
+  public AccessControlSchemaProvider accessControlSchemaProvider() {
+    // actually no additional configuration is shown here 
+    return new AccessControlSchemaProviderImpl();
+  }
+  //...
+}
+-------------------------------------------
+
+`AccessControlSchemaProvider` allows to programmatically access data defined in some XML file, e.g. `access-control-schema.xml`. Now, one can imagine that it would be helpful if `AccessControlSchemaProvider` would point to some other file than the default within a test class. That file could provide content that differs from the default.
+The question is: how can I change resource path of `AccessControlSchemaProviderImpl` within a test?
+
+One very helpful solution is to use *static inner classes*.
+Static inner classes can contain `@Bean` -annotated methods, and by placing them in the `classes` parameter in `@SpringBootTest(classes = { /* place class here*/ })` annotation the beans returned by these methods are placed in the application context during test execution. Combining this feature with inheritance allows to override methods defined in other configuration classes as shown in the following listing where `TempWebSecurityConfig` extends `WebSecurityBeansConfig`. This relationship allows to override `public AccessControlSchemaProvider accessControlSchemaProvider()`. Here we are able to configure the instance of type `AccessControlSchemaProviderImpl` before returning it (and, of course, we could also have used a completely different implementation of the `AccessControlSchemaProvider` interface). By overriding the method the implementation of the super class is ignored, hence, only the new implementation is called at runtime. Other methods defined in `WebSecurityBeansConfig` which are not overridden by the subclass are still dispatched to `WebSecurityBeansConfig`.
+
+[source,java]
+-------------------------------------------
+//... Other testing related annotations
+@SpringBootTest(classes = { TempWebSecurityConfig.class })
+public class SomeTestClass {
+
+  public static class TempWebSecurityConfig extends WebSecurityBeansConfig {
+
+    @Override
+    @Bean
+    public AccessControlSchemaProvider accessControlSchemaProvider() {
+
+      ClassPathResource resource = new ClassPathResource(locationPrefix + "access-control-schema3.xml");
+      AccessControlSchemaProviderImpl accessControlSchemaProvider = new AccessControlSchemaProviderImpl();
+      accessControlSchemaProvider.setAccessControlSchema(resource);
+      return accessControlSchemaProvider;
+    }
+  }
+}
+-------------------------------------------
+The following http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#testcontext-ctx-management-javaconfig[chapter of the Spring framework documentation] explains issue, but uses a slightly different way to obtain the configuration.
+
+=== Test Data
+It is possible to obtain test data in two different ways depending on your test's integration level.
+
+== Debugging Tests
+The following two sections describe two debugging approaches for tests. Tests are either run from within the IDE or from the command line using Maven.
+
+=== Debugging with the IDE
+Debugging with the IDE is as easy as always. Even if you want to execute a `SubsystemTest` which needs a Spring context and a server infrastructure to run properly, you just set your breakpoints and click on Debug As -> JUnit Test. The test infrastructure will take care of initializing the necessary infrastructure - if everything is configured properly.
+
+=== Debugging with Maven
+Please refer to the following two links to find a guide for debugging tests when running them from Maven.
+
+* http://maven.apache.org/surefire/maven-surefire-plugin/examples/debugging.html 
+* https://www.eclipse.org/jetty/documentation/jetty-9/index.html#debugging-with-eclipse 
+
+In essence, you first have to start execute a test using the command line. Maven will halt just before the test execution and wait for your IDE to connect to the process. When receiving a connection the test will start and then pause at any breakpoint set in advance.
+The first link states that tests are started through the following command: 
+[source]
+-------------------------------------------
+mvn -Dmaven.surefire.debug test
+-------------------------------------------
+
+Although this is correct, it will run _every_ test class in your project and - which is time consuming and mostly unnecessary - halt before each of these tests.
+To counter this problem you can simply execute a single test class through the following command (here we execute the `TablemanagementRestServiceTest` from the restaurant sample application):
+[source]
+-------------------------------------------
+mvn test -Dmaven.surefire.debug test -Dtest=TablemanagementRestServiceTest
+-------------------------------------------
+
+It is important to notice that you first have to execute the Maven command in the according submodule, e.g. to execute the `TablemanagementRestServiceTest` you have first to navigate to the core module's directory.
+
