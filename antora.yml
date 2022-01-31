@@ -1,2 +1,4 @@
 name: devon4j
-version: ~
+version: 1.0.1
+nav:
+- modules/ROOT/nav.adoc
