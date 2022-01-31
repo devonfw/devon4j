@@ -1,0 +1,46 @@
+:toc: macro
+toc::[]
+
+= JPA Performance
+When using JPA the developer sometimes does not see or understand where and when statements to the database are triggered.
+[quote, Dan Allen, https://epdf.tips/seam-in-action.html]
+____
+Establishing expectations Developers shouldn’t expect to sprinkle magic pixie dust on POJOs in hopes they will become persistent.
+____
+So in case you do not understand what is going on under the hood of JPA, you will easily run into performance issues due to lazy loading and other effects.
+
+== N plus 1 Problem
+The most prominent phenomena is call the `N+1 Problem`.
+We use entities from our https://github.com/devonfw/my-thai-star[MTS] demo app as an example to explain the problem.
+There is a https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/dishmanagement/dataaccess/api/DishEntity.java[DishEntity] that has a `@ManyToMany` relation to
+https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/dishmanagement/dataaccess/api/IngredientEntity.java[IngredientEntity].
+Now we assume that we want to iterate all ingredients for a dish like this:
+[source,java]
+----
+DishEntity dish = dao.findDishById(dishId);
+BigDecimal priceWithAllExtras = dish.getPrice();
+for (IngredientEntity ingredient : dish.getExtras()) {
+  priceWithAllExtras = priceWithAllExtras.add(ingredient.getPrice());
+}
+----
+
+Now `dish.getExtras()` is loaded lazy. Therefore the JPA vendor will provide a list with lazy initialized instances of `IngredientEntity` that only contain the ID of that entity. Now with every call of `ingredient.getPrice()` we technically trigger an SQL query statement to load the specific `IngredientEntity` by its ID from the database.
+Now `findDishById` caused 1 initial query statement and for any number `N` of ingredients we are causing an additional query statement. This makes a total of `N+1` statements. As causing statements to the database is an expensive operation with a lot of overhead (creating connection, etc.) this ends in bad performance and is therefore a problem (the N+1 Problem).
+
+== Solving N plus 1 Problem
+To solve the N+1 Problem you need to change your code to only trigger a single statement instead. This can be archived in various ways. The most universal solution is to use `FETCH JOIN` in order to pre-load the nested `N` child entities into the first level cache of the JPA vendor implementation. This will behave very similar as if the `@ManyToMany` relation to `IngredientEntity` was having `FetchType.EAGER` but only for the specific query and not in general. Because changing `@ManyToMany` to `FetchType.EAGER` would cause bad performance for other usecases where only the dish but not its extra ingredients are needed. For this reason all relations, including `@OneToOne` should always be `FetchType.LAZY`. Back to our example we simply replace `dao.findDishById(dishId)` with `dao.findDishWithExtrasById(dishId)` that we implement by the following JPQL query:
+[source,sql]
+----
+SELECT dish FROM DishEntity dish 
+  LEFT JOIN FETCH dish.extras 
+  WHERE dish.id = :dishId
+----
+The rest of the code does not have to be changed but now `dish.getExtras()` will get the `IngredientEntity` from the first level cache where is was fetched by the initial query above.
+
+Please note that if you only need the sum of the prices from the extras you can also create a query using an aggregator function:
+----
+SELECT sum(dish.extras.price) FROM DishEntity dish 
+----
+As you can see you need to understand the concepts in order to get good performance. 
+
+There are many advanced topics such as creating database indexes or calculating statistics for the query optimizer to get the best performance. For such advanced topics we recommend to have a database expert in your team that cares about such things. However, understanding the _N+1 Problem_ and its solutions is something that every Java developer in the team needs to understand.

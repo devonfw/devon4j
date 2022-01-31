@@ -1,0 +1,45 @@
+:toc:
+toc::[]
+
+= Monitoring
+
+For monitoring a complex application landscape it is crucial to have an exact overview which applications are up and running and which are not and why.
+In devonfw we only focus on topics which are most important when developing production-ready applications.
+On a high level view we strongly suggest to separate the application to be monitored from the `monitoring system` itself.
+Therefore, your application should concentrate on providing app specific data for the monitoring.
+Aspects such as aggregation, visualization, search, alerting, etc. should be addressed outside of your app by a monitoring system product.
+There are many products providing such a monitoring system like https://checkmk.com[checkmk], https://icinga.com/[icinga], https://skywalking.apache.org/[SkyWalking], etc.
+Please note that there is a huge list of such products and devonfw is not biased or aims to make a choice for you.
+Instead please search and find the products that fit best for your requirements and infrastructure.
+
+== Types of monitoring
+
+As monitoring coveres a lot of different aspects we separate the following types of monitoring and according data:
+
+* *link:guide-log-monitoring.asciidoc[Log-monitoring]* +
+is about collecting and monitoring the logs of all apps and containers in your IT landscape. It is suitable for events such as an HTTP request with its URL, resulting status code and duration in milliseconds. Your monitoring may not react to such data in realtime. Instead it may take a delay of one or a few seconds.
+* *Infrastructure monitoring* +
+is about monitoring the (hardware) infrastructure with measures like usage of CPU, memory, disc-space, etc. This is a pure operational task and your app should have nothing to do with this. In other words it is a waste if your app tries to monitor these aspects as existing products can do this much better and your app will only see virtual machines and is unable to see the physical infrastructure.
+* *xref:health-check[Health check]* +
+is about providing internal data about the current health of your app. Typically you provide sensors with health status per component or interface to neighbour service (database connectivity, etc.).
+* *link:guide-apm.asciidoc[Application Performance Monitoring]* +
+is about measuring performance and tracing down performance issues.
+
+== Health-Check
+
+The idea of a health check is to prodvide monitoring data about the current health status of your application.
+This allows to integrate this specific data into the monitoring system used for your IT landscape.
+In order to keep the monitoring simple and easy to integreate consider using the following best practices:
+
+* Use simple and established protocols such as link:guide-rest.asciidoc[REST] instead of link:guide-jmx.asciidoc[JMX via RMI].
+* Considuer using recent standards such as https://github.com/eclipse/microprofile-health[microprofile-health].
+* Consider to drop link:guide-access-control.asciidoc[access-control] for your monitoring interfaces and for security prevent external access to it in your infrastructure (loadbalancers or gateways). Monitoring is only for usage within an IT landscape internally. It does not make sense for externals and end-users to access your app for reading monitoring data from a random node decided by a loadbalancer. Furhter, external access can easily lead to https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure[sensitive data exposure].
+* Consider to define different end-points per usage-scenario. So if you want the loadbalancer to ask your app monitoring for availability of each node then create a separate service URL that only provides `OK` or anything else for failure (`NOK`, 404, 500, timeout). Do not mix this with a health-check that needs more detailed information.
+* Also do not forget about basic features such as prodiving the name and the release version of your application.
+* Be careful to automate decisions based on monitoring and health checks. It easily turns out to be stupid if you automatically restart your pod or container because of some monitoring indicator. In the worst case a failure of a central component will cause your health-check to report down for all apps and as a result all your containers will be restarted frequently. Indead of curing problems such decisions will cause much more harm and trouble.
+* Avoid causing reasonable load with your monitoring and health-check itself. In many cases it is better to use link:guide-log-monitoring.asciidoc[log-monitoring] or to collect monitoring data from use-cases that happen in your app anyway. If you create dummy read and write requests in your monitoring implementation you will easily turn it into a DOS-attack.
+
+For link:spring.asciidoc[spring] you can simply integrate app monitoring and health check via https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html[spring-boot-actuator].
+
+For link:quarkus.asciidoc[quarkus] you can simply integrate app monitoring via https://quarkus.io/guides/micrometer[micrometer] or https://quarkus.io/guides/smallrye-metrics[smallrye-metrics] and health check via https://quarkus.io/guides/smallrye-health[smallrye-health].
+

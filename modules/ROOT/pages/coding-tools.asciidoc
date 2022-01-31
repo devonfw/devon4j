@@ -1,0 +1,19 @@
+:toc:
+toc::[]
+
+= Tools
+
+.Development Tools used for devon4j
+[options="header"]
+|=======================
+|*Topic*|*Detail*|*Suggested Tool*
+|build-management|*|http://maven.apache.org/[maven]
+|IDE|IDE|https://www.eclipse.org/[Eclipse]
+|IDE|setup & update|https://github.com/devonfw/ide[devonfw-ide]
+|IDE|code generation|https://github.com/devonfw/cobigen[CobiGen]
+|Testing|Unit-Testing|http://junit.org/[JUnit]
+|Testing|Mocking|https://code.google.com/p/mockito/[Mockito] & http://wiremock.org/getting-started.html[WireMock]
+|Testing|Integration-Testing|http://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/testing.html[spring-test] (http://arquillian.org/[arquillian] for JEE)
+|Testing|End-to-end|https://github.com/devonfw/devonfw-testing[MrChecker]
+|Quality|Code-Analysis|https://www.sonarqube.org/[SonarQube]
+|=======================

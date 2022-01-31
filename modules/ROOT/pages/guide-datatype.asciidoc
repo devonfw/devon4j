@@ -1,0 +1,53 @@
+:toc: macro
+toc::[]
+
+= Datatypes
+
+[quote, mmm project, datatype javadoc]
+____
+A datatype is an object representing a value of a specific type with the following aspects:
+
+* It has a technical or business specific semantic.
+* Its JavaDoc explains the meaning and semantic of the value.
+* It is immutable and therefore stateless (its value assigned at construction time and can not be modified).
+* It is serializable.
+* It properly implements #equals(Object) and #hashCode() (two different instances with the same value are equal and have the same hash).
+* It shall ensure syntactical validation so it is NOT possible to create an instance with an invalid value.
+* It is responsible for formatting its value to a string representation suitable for sinks such as UI, loggers, etc. Also consider cases like a Datatype representing a password where toString() should return something like "********" instead of the actual password to prevent security accidents.
+* It is responsible for parsing the value from other representations such as a string (as needed).
+* It shall provide required logical operations on the value to prevent redundancies. Due to the immutable attribute all manipulative operations have to return a new Datatype instance (see e.g. BigDecimal.add(java.math.BigDecimal)).
+* It should implement Comparable if a natural order is defined.
+
+Based on the Datatype a presentation layer can decide how to view and how to edit the value. Therefore a structured data model should make use of custom datatypes in order to be expressive.
+Common generic datatypes are String, Boolean, Number and its subclasses, Currency, etc.
+Please note that both Date and Calendar are mutable and have very confusing APIs. Therefore, use JSR-310 or jodatime instead.
+Even if a datatype is technically nothing but a String or a Number but logically something special it is worth to define it as a dedicated datatype class already for the purpose of having a central javadoc to explain it. On the other side avoid to introduce technical datatypes like String32 for a String with a maximum length of 32 characters as this is not adding value in the sense of a real Datatype.
+It is suitable and in most cases also recommended to use the class implementing the datatype as API omitting a dedicated interface.
+____
+See http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/lang/api/Datatype.html[mmm datatype javadoc].
+
+== Datatype Packaging
+For the devonfw we use a common link:coding-conventions.asciidoc#packages[packaging schema].
+The specifics for datatypes are as following:
+
+[options="header"]
+|=============================================
+|*Segment*      | *Value* | *Explanation*
+| +<component>+ | *       | Here we use the (business) component defining the datatype or +general+ for generic datatypes.
+| +<layer>+     | +common+| Datatypes are used across all layers and are not assigned to a dedicated layer.
+| +<scope>+     | +api+   | Datatypes are always used directly as API even tough they may contain (simple) implementation logic. Most datatypes are simple wrappers for generic Java types (e.g. String) but make these explicit and might add some validation.
+|=============================================
+
+== Technical Concerns
+Many technologies like Dozer and QueryDSL's (alias API) are heavily based on reflection. For them to work properly with custom datatypes, the frameworks must be able to instantiate custom datatypes with no-argument constructors. It is therefore recommended to implement a no-argument constructor for each datatype of at least +protected+ visibility.
+
+== Datatypes in Entities
+The usage of custom datatypes in entities is explained in the link:guide-jpa.asciidoc#entities-and-datatypes[persistence layer guide].
+
+== Datatypes in Transfer-Objects
+
+=== XML
+For mapping datatypes with JAXB see link:guide-xml.asciidoc[XML guide].
+
+=== JSON
+For mapping datatypes from and to JSON see link:guide-json#json-custom-mapping.asciidoc[JSON custom mapping].

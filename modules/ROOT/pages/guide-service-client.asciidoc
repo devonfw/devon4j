@@ -1,0 +1,20 @@
+:toc: macro
+:icons: font
+toc::[]
+
+= Service Client
+
+This guide is about consuming (calling) services from other applications (micro-services). For providing services, see the link:guide-service-layer.asciidoc[Service-Layer Guide]. Services can be consumed by the link:guide-client-layer.asciidoc[client] or the server. As the client is typically not written in Java, you should consult the according guide for your client technology. In case you want to call a service within your Java code, this guide is the right place to get help.
+
+== Motivation
+Various solutions already exist for calling services, such as `RestTemplate` from spring or the JAX-RS client API. Furthermore, each and every service framework offers its own API as well. These solutions might be suitable for very small and simple projects (with one or two such invocations). However, with the trend of microservices, the invocation of a service becomes a very common use-case that occurs all over the place. You typically need a solution that is very easy to use but supports flexible configuration, adding headers for authentication, mapping of errors from the server, logging success/errors with duration for performance analysis, support for synchronous and asynchronous invocations, etc. This is exactly what this `devon4j` service-client solution brings to you.
+
+== Usage
+
+*Spring*
+
+For Spring, follow the link:spring/guide-service-client-spring.asciidoc[Spring rest-client guide].
+
+*Quarkus*
+
+For Quarkus, we recommend to follow the the official link:https://quarkus.io/guides/rest-client[Quarkus rest-client guide]

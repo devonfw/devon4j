@@ -1,0 +1,281 @@
+:toc: macro
+toc::[]
+
+= Batch Layer
+
+We understand batch processing as a bulk-oriented, non-interactive, typically long running execution of tasks. For simplicity, we use the term "batch" or "batch job" for such tasks in the following documentation.
+
+devonfw uses link:http://projects.spring.io/spring-batch/[Spring Batch] as a batch framework.
+
+This guide explains how Spring Batch is used in devonfw applications. It focuses on aspects which are special to devonfw. If you want to learn about spring-batch you should adhere to springs references documentation.
+
+There is an example of a simple batch implementation in the https://github.com/devonfw/my-thai-star/tree/develop/java/mtsj/batch[my-thai-star batch module].
+
+
+In this chapter, we will describe the overall architecture (especially concerning layering) and how to administer batches.
+
+== Layering
+
+Batches are implemented in the batch layer. The batch layer is responsible for batch processes, whereas the business logic is implemented in the logic layer. Compared to the link:guide-service-layer.asciidoc[service layer], you may understand the batch layer just as a different way of accessing the business logic.
+From a component point of view, each batch is implemented as a subcomponent in the corresponding business component.
+The business component is defined by the link:architecture.asciidoc[business architecture].
+
+Let's make an example for that. The sample application implements a batch for exporting ingredients. This ingredientExportJob belongs to the dishmanagement business component.
+So the ingredientExportJob is implemented in the following package:
+//Example doesn't exist anymore and I didn't find any other used batches.
+[source]
+<basepackage>.dishmanagement.batch.impl.*
+
+Batches should invoke use cases in the logic layer for doing their work.
+Only "batch specific" technical aspects should be implemented in the batch layer.
+
+==========================
+Example:
+For a batch, which imports product data from a CSV file, this means that all code for actually reading and parsing the CSV input file is implemented in the batch layer.
+The batch calls the use case "create product" in the logic layer for actually creating the products for each line read from the CSV input file.
+==========================
+
+
+===  Directly accessing data access layer
+In practice, it is not always appropriate to create use cases for every bit of work a batch should do. Instead, the data access layer can be used directly.
+An example for that is a typical batch for data retention which deletes out-of-time data.
+Often deleting, out-dated data is done by invoking a single SQL statement. It is appropriate to implement that SQL in a link:guide-repository.asciidoc[Repository] or link:guide-dao.asciidoc[DAO] method and call this method directly from the batch.
+But be careful: this pattern is a simplification which could lead to business logic cluttered in different layers, which reduces the maintainability of your application.
+It is a typical design decision you have to make when designing your specific batches.
+
+== Project structure and packaging
+
+Batches will be implemented in a separate Maven module to keep the application core free of batch dependencies. The batch module includes a dependency on the application core-module to allow the reuse of the use cases, DAOs etc.
+Additionally the batch module has dependencies on the required spring batch jars:
+
+[source,xml]
+----
+  <dependencies>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>mtsj-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-batch</artifactId>
+    </dependency>
+
+  </dependencies>
+----
+
+To allow an easy xref:start-batch[start of the batches] from the command line it is advised to create a bootified jar for the batch module by adding the following to the `pom.xml` of the batch module:
+
+[source,xml]
+----
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>config/application.properties</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <!-- Create bootified jar for batch execution via command line.
+           Your applications spring boot app is used as main-class.
+       -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>com.devonfw.application.mtsj.SpringBootApp</mainClass>
+          <classifier>bootified</classifier>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+----
+
+== Implementation
+
+Most of the details about implementation of batches is described in the https://spring.io/projects/spring-batch[spring batch documentation].
+There is nothing special about implementing batches in devonfw. You will find an easy https://github.com/devonfw/my-thai-star/tree/develop/java/mtsj/batch[example in my-thai-star].
+
+[[start-batch]]
+== Starting from command line
+
+Devonfw advises to start batches via command line. This is most common to many ops teams and allows easy integration in existing xref:scheduling[schedulers]. In general batches are started with the following command:
+
+----
+java -jar <app>-batch-<version>-bootified.jar --spring.main.web-application-type=none --spring.batch.job.enabled=true --spring.batch.job.names=<myJob> <params>
+----
+
+[%header]
+|===
+|Parameter |Explanation
+|`--spring.main.web-application-type=none`| This disables the web app (e.g. Tomcat)
+|`--spring.batch.job.names=<myJob>`| This specifies the name of the job to run. If you leave this out ALL jobs will be executed. Which probably does not make to much sense.
+|`<params>`| (Optional) additional parameters which are passed to your job
+|===
+
+This will launch your normal spring boot app, disables the web application part and runs the designated job via Spring Boots `org.springframework.boot.autoconfigure.batch.JobLauncherCommandLineRunner`.
+
+[scheduling]
+== Scheduling
+
+In real world scheduling of batches is not as simple as it first might look like.
+
+* Multiple batches have to be executed in order to achieve complex tasks. If one of those batches fails the further execution has to be stopped and operations should be notified for example.
+* Input files or those created by batches have to be copied from one node to another.
+* Scheduling batch executing could get complex easily (quarterly jobs, run job on first workday of a month, ...)
+
+For devonfw we propose the batches themselves should not mess around with details of scheduling.
+Likewise your application should not do so. This complexity should be externalized to a dedicated batch administration service or scheduler.
+This service could be a complex product or a simple tool like cron. We propose link:http://rundeck.org[Rundeck] as an open source job scheduler.
+
+This gives full control to operations to choose the solution which fits best into existing administration procedures.
+
+== Handling restarts
+
+If you start a job with the same parameters set after a failed run (BatchStatus.FAILED) a restart will occur.
+In many cases your batch should then not reprocess all items it processed in the previous runs.
+For that you need some logic to start at the desired offset. There different ways to implement such logic:
+
+* Marking processed items in the database in a dedicated column
+* Write all IDs of items to process in a separate table as an initialization step of your batch. You can then delete IDs of already processed items from that table during the batch execution.
+* Storing restart information in springs ExecutionContext (see below)
+
+=== Using spring batch ExecutionContext for restarts
+
+By implementing the `ItemStream` interface in your `ItemReader` or `ItemWriter` you may store information about the batch progress in the `ExecutionContext`. You will find an example for that in the CountJob in My Thai Star.
+
+Additional hint: It is important that bean definition method of your `ItemReader`/`ItemWriter` return types implementing `ItemStream`(and not just `ItemReader` or `ItemWriter` alone). For that the `ItemStreamReader` and `ItemStreamWriter` interfaces are provided.
+
+== Exit codes
+
+Your batches should create a meaningful exit code to allow reaction to batch errors e.g. in a xref:scheduling[scheduler].
+For that spring batch automatically registers an `org.springframework.boot.autoconfigure.batch.JobExecutionExitCodeGenerator`. To make this mechanism work your spring boot app main class as to populate this exit code to the JVM:
+
+[source,java]
+----
+@SpringBootApplication
+public class SpringBootApp {
+
+  public static void main(String[] args) {
+    if (Arrays.stream(args).anyMatch((String e) -> e.contains("--spring.batch.job.names"))) {
+      // if executing batch job, explicitly exit jvm to report error code from batch
+      System.exit(SpringApplication.exit(SpringApplication.run(SpringBootApp.class, args)));
+    } else {
+      // normal web application start
+      SpringApplication.run(SpringBootApp.class, args);
+    }
+  }
+}
+
+----
+
+== Stop batches and manage batch status
+
+Spring batch uses several database tables to store the status of batch executions.
+Each execution may have link:https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#jobexecution[different status].
+You may use this mechanism to link:https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#stoppingAJob[gracefully stop batches].
+Additionally in some edge cases (batch process crashed) the execution status may be in an undesired state.
+E.g. the state will be running, despite the process crashed sometime ago.
+For that cases you have to change the status of the execution in the database.
+
+=== CLI-Tool
+Devonfw provides a easy to use cli-tool to manage the executing status of your jobs.
+The tool is implemented in the devonfw module `devon4j-batch-tool`. It will provide a runnable jar, which may be used as follows:
+
+List names of all previous executed jobs::
+`java -D\'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar devon4j-batch-tool.jar jobs list`
+
+Stop job named 'countJob'::
+`java -D\'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar devon4j-batch-tool.jar jobs stop countJob`
+
+Show help::
+`java -D\'spring.datasource.url=jdbc:h2:~/mts;AUTO_SERVER=TRUE' -jar devon4j-batch-tool.jar`
+
+As you can the each invocation includes the JDBC connection string to your database.
+This means that you have to make sure that the corresponding DB driver is in the classpath (the prepared jar only contains H2).
+
+== Authentication
+
+Most business application incorporate authentication and authorization.
+Your spring boot application will implement some kind of security, e.g. integrated login with username+password or in many cases authentication via an existing IAM.
+For security reasons your batch should also implement an authentication mechanism and obey the authorization implemented in your application (e.g. via @RolesAllowed).
+
+Since there are many different authentication mechanism we cannot provide an out-of-the-box solution in devonfw, but we describe a pattern how this can be implemented in devonfw batches.
+
+We suggest to implement the authentication in a Spring Batch tasklet, which runs as the first step in your batch. This tasklet will do all of the work which is required to authenticate the batch. A simple example which authenticates the batch "locally" via username and password could be implemented like this:
+
+[source,java]
+----
+@Named
+public class SimpleAuthenticationTasklet implements Tasklet {
+
+  @Override
+  public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+
+    String username = chunkContext.getStepContext().getStepExecution().getJobParameters().getString("username");
+    String password = chunkContext.getStepContext().getStepExecution().getJobParameters().getString("password");
+    Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
+
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    return RepeatStatus.FINISHED;
+  }
+
+}
+----
+
+The username and password have to be supplied via two cli parameters `-username` and `-password`. This implementation creates an "authenticated" `Authentication` and sets in the Spring Security context. This is just for demonstration normally you should not provide passwords via command line. The actual authentication will be done automatically via Spring Security as in your "normal" application.
+If you have a more complex authentication mechanism in your application e.g. via OpenID connect just call this in the tasklet. Naturally you may read authentication parameters (e.g. secrets) from the command line or more securely from a configuration file.
+
+In your Job Configuration set this tasklet as the first step:
+
+[source,java]
+----
+@Configuration
+@EnableBatchProcessing
+public class BookingsExportBatchConfig {
+  @Inject
+  private JobBuilderFactory jobBuilderFactory;
+
+  @Inject
+  private StepBuilderFactory stepBuilderFactory;
+
+  @Bean
+  public Job myBatchJob() {
+    return this.jobBuilderFactory.get("myJob").start(myAuthenticationStep()).next(...).build();
+  }
+
+  @Bean
+  public Step myAuthenticationStep() {
+    return this.stepBuilderFactory.get("myAuthenticationStep").tasklet(myAuthenticatonTasklet()).build();
+  }
+
+  @Bean
+  public Tasklet myAuthenticatonTasklet() {
+    return new SimpleAuthenticationTasklet();
+  }
+...
+----
+
+== Tipps & tricks
+
+=== Identifying job parameters
+
+Spring uses a jobs parameters to identify https://docs.spring.io/spring-batch/docs/current/reference/html/domain.html#jobexecution[job executions]. Parameters starting with "-" are not considered for identifying a job execution.

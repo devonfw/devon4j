@@ -1,0 +1,128 @@
+:toc: macro
+toc::[]
+
+= Spring Data
+https://projects.spring.io/spring-data-jpa/[Spring Data JPA] is supported by both Spring and Quarkus. However, in Quarkus this approach still has some limitations. For detailed information, see the official https://quarkus.io/guides/spring-data-jpa[Quarkus Spring Data guide].
+
+== Motivation
+The benefits of Spring Data are (for examples and explanations see next sections):
+
+* All you need is one single repository interface for each entity. No need for a separate implementation or other code artifacts like XML descriptors, `NamedQueries` class, etc.
+* You have all information together in one place (the repository interface) that actually belong together (where as in the classic approach you have the static link:guide-jpa-query.asciidoc[queries] in an XML file, constants to them in `NamedQueries` class and referencing usages in DAO implementation classes).
+* Static link:guide-jpa-query.asciidoc[queries] are most simple to realize as you do not need to write any method body. This means you can develop faster.
+* Support for paging is already build-in. Again for static link:guide-jpa-query.asciidoc[query] method the is nothing you have to do except using the paging objects in the signature.
+* Still you have the freedom to write custom implementations via default methods within the repository interface (e.g. for dynamic queries).
+
+== Dependency
+In case you want to switch to or add Spring Data support to your Spring or Quarkus application, all you need is to add the respective maven dependency:
+
+.**spring**
+[source,xml]
+--------
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+--------
+
+.**quarkus**
+[source,xml]
+--------
+<dependency>
+  <groupId>io.quarkus</groupId>
+  <artifactId>quarkus-spring-data-jpa</artifactId>
+</dependency>
+--------
+
+== Repository
+For each entity `«Entity»Entity` an interface is created with the name `«Entity»Repository` extending https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html[JpaRepository].
+Such repository is the analogy to a link:guide-dao.asciidoc[Data-Access-Object (DAO)] used in the classic approach or when Spring Data is not an option.
+
+.**Repository**
+[source,java]
+----
+public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
+
+}
+----
+
+The Spring Data repository provides some basic implementations for accessing data, e.g. returning all instances of a type (`findAll`) or returning an instance by its ID (`findById`).
+
+== Custom method implementation
+
+In addition, repositories can be enriched with additional functionality, e.g. to add QueryDSL functionality or to override the default implementations, by using so called repository fragments:
+
+=== Example
+The following example shows how to write such a repository:
+
+.**Repository**
+[source,java]
+----
+public interface ProductRepository extends JpaRepository<ProductEntity, Long>, ProductFragment {
+
+  @Query("SELECT product FROM ProductEntity product" //
+      + " WHERE product.title = :title")
+  List<ProductEntity> findByTitle(@Param("title") String title);
+
+  @Query("SELECT product FROM ProductEntity product" //
+      + " WHERE product.title = :title")
+  Page<ProductEntity> findByTitlePaginated(@Param("title") String title, Pageable pageable);
+}
+----
+
+.**Repository fragment**
+[source,java]
+----
+public interface ProductFragment {
+  Page<ProductEntity> findByCriteria(ProductSearchCriteriaTo criteria);
+}
+----
+
+.**Fragment implementation**
+[source,java]
+----
+public class ProductFragmentImpl implements ProductFragment {
+  @Inject
+  EntityManager entityManager;
+
+  public Page<ProductEntity> findByCriteria(ProductSearchCriteriaTo criteria) {
+    QProductEntity product = QProductEntity.productEntity;
+    JPAQuery<ProductEntity> query = new JPAQuery<ProductEntity>(this.entityManager);
+    query.from(product);
+
+    String title = criteria.getTitle();
+    if ((title != null) && !title.isEmpty()) {
+      query.where(product.title.eq(title));
+    }
+
+    List<ProductEntity> products = query.fetch();
+    return new PageImpl<>(products, PageRequest.of(criteria.getPageNumber(), criteria.getPageSize()), products.size());
+  }
+}
+----
+
+This `ProductRepository` has the following features:
+
+* CRUD support from Spring Data (see https://docs.spring.io/spring-data/data-jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html[JavaDoc] for details).
+* Support for https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/QueryDslSupport.java[QueryDSL integration], https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java[paging and more].
+* A static link:guide-jpa-query.asciidoc[query] method `findByTitle` to find all `ProductEntity` instances from DB that have the given title. Please note the `@Param` annotation that links the method parameter with the variable inside the query (`:title`).
+* The same with pagination support via findByTitlePaginated method.
+* A dynamic link:guide-jpa-query.asciidoc[query] method `findByCriteria` showing the QueryDSL and paging integration into Spring via a fragment implementation.
+
+You can find an implementation of this `ProductRepository` in our https://github.com/devonfw-sample/devon4quarkus-reference/tree/master/src/main/java/com/devonfw/quarkus/productmanagement/domain/repo[Quarkus reference application].
+
+NOTE: In Quarkus, native and named queries via the `@Query` annotation are currently not supported
+
+=== Integration of Spring Data in devon4j-spring
+
+For Spring applications, devon4j offers a proprietary solution that integrates seamlessly with QueryDSL and uses default methods instead of the fragment approach. A separate guide for this can be found link:spring/guide-devon4j-spring-repository.asciidoc[here].
+
+== Drawbacks
+Spring Data also has some drawbacks:
+
+* Some kind of magic behind the scenes that are not so easy to understand. So in case you want to extend all your repositories without providing the implementation via a default method in a parent repository interface you need to deep-dive into Spring Data. We assume that you do not need that and hope what Spring Data and devon already provides out-of-the-box is already sufficient.
+* The Spring Data magic also includes guessing the query from the method name. This is not easy to understand and especially to debug. Our suggestion is not to use this feature at all and either provide a `@Query` annotation or an implementation via default method.
+
+== Limitations in Quarkus
+* Native and named queries are not supported using `@Query` annotation. You will receive something like: __Build step io.quarkus.spring.data.deployment.SpringDataJPAProcessor#build threw an exception: java.lang.IllegalArgumentException: Attribute nativeQuery of @Query is currently not supported__
+* Customizing the base repository for all repository interfaces in the code base, which is done in Spring Data by registering a class the extends `SimpleJpaRepository`

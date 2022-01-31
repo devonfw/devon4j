@@ -1,0 +1,12 @@
+:toc: macro
+toc::[]
+= BLOB support
+
+BLOB stands for **B**inary **L**arge **Ob**ject. A BLOB may be an image, an office document, ZIP archive or any other multimedia object.
+Often these BLOBs are large. if this is the case you need to take care, that you do not copy all the blob data into you application heap, e.g. when providing them via a REST service.
+This could easily lead to performance problems or out of memory errors.
+As solution for that problem is "streaming" those BLOBs directly from the database to the client. To demonstrate how this can be accomplished, devonfw provides a link:https://github.com/devonfw-sample/devon4j-blob-streaming[example].
+
+== Further Reading
+- link:guide-jpa.asciidoc#blob[BLOBs and the Data Access Layer]
+- https://www.owasp.org/index.php/Unrestricted_File_Upload[Security Vulnerability Unrestricted File Upload]

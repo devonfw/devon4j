@@ -1,0 +1,140 @@
+:toc: macro
+toc::[]
+
+= Validation
+
+Validation is about checking syntax and semantics of input data. Invalid data is rejected by the application.
+Therefore validation is required in multiple places of an application. E.g. the link:guide-client-layer.asciidoc[GUI] will do validation for usability reasons to assist the user, early feedback and to prevent unnecessary server requests.
+On the server-side validation has to be done for consistency and link:guide-security.asciidoc[security].
+
+In general we distinguish these forms of validation:
+
+* _stateless validation_ will produce the same result for given input at any time (for the same code/release).
+* _stateful validation_ is dependent on other states and can consider the same input data as valid in once case and as invalid in another.
+
+== Stateless Validation
+For regular, stateless validation we use the JSR303 standard that is also called bean validation (BV).
+Details can be found in the http://beanvalidation.org/1.1/spec/[specification].
+As implementation we recommend http://hibernate.org/validator/[hibernate-validator].
+
+=== Example
+
+A description of how to enable BV for spring applications can be found in the relevant http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/htmlsingle/#validation-beanvalidation[Spring documentation]. A guide you can use to integrate validation in Quarkus applications can be found https://quarkus.io/guides/validation[here]. For a quick summary follow these steps:
+
+* Make sure that hibernate-validator is located in the classpath by adding a dependency to the pom.xml.
+
+.*spring*
+[source,xml]
+----
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+    </dependency>
+----
+
+.*quarkus*
+[source,xml]
+----
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-validator</artifactId>
+    </dependency>
+----
+
+* For methods to validate go to their declaration and add constraint annotations to the method parameters.
++
+__In spring applications you can add the `+@Validated+` annotation to the implementation (spring bean) to be validated (this is an annotation of the spring framework, so it`s not available in the Quarkus context). The standard use case is to annotate the logic layer implementation, i.e. the use case implementation or component facade in case of simple logic layer pattern. Thus, the validation will be executed for service requests as well as batch processing.__
+
+** +@Valid+ annotation to the arguments to validate (if that class itself is annotated with constraints to check).
+** +@NotNull+ for required arguments.
+** Other constraints (e.g. +@Size+) for generic arguments (e.g. of type +String+ or +Integer+). However, consider to create link:guide-datatype.asciidoc[custom datatypes] and avoid adding too much validation logic (especially redundant in multiple places).
+
+//Replaced old example with BookingmanagementRestServiceImpl
+//com.devonfw.application.mtsj.bookingmanagement.service.rest
+.*BookingmanagementRestServiceImpl.java*
+[source,java]
+----
+@Validated
+public class BookingmanagementRestServiceImpl implements BookingmanagementRestService {
+  ...
+  public BookingEto saveBooking(@Valid BookingCto booking) {
+  ...
+----
+
+* Finally add appropriate validation constraint annotations to the fields of the ETO class.
+
+//com.devonfw.application.mtsj.bookingmanagement.logic.api.to
+.*BookingCto.java*
+[source,java]
+----
+  @Valid
+  private BookingEto booking;
+----
+//com.devonfw.application.mtsj.bookingmanagement.logic.api.to
+//Added an extra example due to this one being the only one using the hibernate-validation
+.*BookingEto.java*
+[source,java]
+----
+  @NotNull
+  @Future
+  private Timestamp bookingDate;
+----
+
+A list with all bean validation constraint annotations available for hibernate-validator can be found http://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#table-spec-constraints[here]. In addition it is possible to configure custom constraints. Therefore it is necessary to implement a annotation and a corresponding validator. A description can also be found in the http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/htmlsingle/#validation-beanvalidation-spring-constraints[Spring documentation] or with more details in the http://docs.jboss.org/hibernate/validator/4.3/reference/en-US/html/validator-customconstraints.html[hibernate documentation].
+
+NOTE: **Bean Validation in Wildfly >v8:** Wildfly v8 is the first version of Wildfly implementing the JEE7 specification. It comes with bean validation based on https://samaxes.com/2014/04/jaxrs-beanvalidation-javaee7-wildfly/[hibernate-validator out of the box]. In case someone is running Spring in Wildfly for whatever reasons, the spring based annotation @Validated would duplicate bean validation at runtime and thus should be omitted.
+
+=== GUI-Integration
+TODO
+
+=== Cross-Field Validation
+BV has poor support for this. Best practice is to create and use beans for ranges, etc. that solve this. A bean for a range could look like so:
+
+[source,java]
+----
+public class Range<V extends Comparable<V>> {
+
+  private V min;
+  private V max;
+  
+  public Range(V min, V max) {
+
+    super();
+    if ((min != null) && (max != null)) {
+      int delta = min.compareTo(max);
+      if (delta > 0) {
+        throw new ValueOutOfRangeException(null, min, min, max);
+      }
+    }
+    this.min = min;
+    this.max = max;
+  }
+
+  public V getMin() ...
+  public V getMax() ...
+----
+
+== Stateful Validation
+For complex and stateful business validations we do not use BV (possible with groups and context, etc.) but follow KISS and just implement this on the server in a straight forward manner.
+An example is the deletion of a table in the example application. Here the state of the table must be checked first:
+
+//com.devonfw.application.mtsj.bookingmanagement.logic.impl
+//Replaced the old example with is not stateful anymore -which I think is weird- with a new one
+//Text needs adjustments as well
+*BookingmanagementImpl.java*
+[source,java]
+----
+  private void sendConfirmationEmails(BookingEntity booking) {
+
+    if (!booking.getInvitedGuests().isEmpty()) {
+      for (InvitedGuestEntity guest : booking.getInvitedGuests()) {
+        sendInviteEmailToGuest(guest, booking);
+      }
+    }
+
+    sendConfirmationEmailToHost(booking);
+  }
+
+----
+
+Implementing this small check with BV would be a lot more effort.

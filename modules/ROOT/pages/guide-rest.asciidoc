@@ -1,0 +1,177 @@
+:toc: macro
+toc::[]
+
+= REST
+REST (https://en.wikipedia.org/wiki/Representational_state_transfer[REpresentational State Transfer]) is an inter-operable protocol for link:guide-service-layer.asciidoc[services] that is more lightweight than link:guide-soap.asciidoc[SOAP].
+However, it is no real standard and can cause confusion (see https://github.com/devonfw/devon4j/blob/master/documentation/guide-rest-philosophy.asciidoc[REST philosophy]).
+Therefore we define best practices here to guide you.
+
+== URLs
+URLs are not case sensitive. Hence, we follow the best practice to use only lower-case-letters-with-hyphen-to-separate-words.
+For operations in REST we distinguish the following types of URLs:
+
+* A _collection URL_ is build from the rest service URL by appending the name of a collection. This is typically the name of an entity. Such URL identifies the entire collection of all elements of this type. Example: `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity`
+* An _element URL_ is build from a collection URL by appending an element ID. It identifies a single element (entity) within the collection. Example: `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity/42`
+
+To follow KISS avoid using plural forms (`.../productmanagement/v1/products` vs. `.../productmanagement/v1/product/42`). Always use singular forms and avoid confusions (except for the rare cases where no singular exists).
+
+The REST URL scheme fits perfect for https://en.wikipedia.org/wiki/Create,_read,_update_and_delete[CRUD] operations.
+For business operations (processing, calculation, advanced search, etc.) we simply append a collection URL with the name of the business operation.
+Then we can `POST` the input for the business operation and get the result back. Example: `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity/search`
+
+== HTTP Methods
+The following table defines the HTTP methods (verbs) and their meaning:
+
+.Usage of HTTP methods
+[options="header"]
+|=======================
+|*HTTP Method*|*Meaning*
+|`GET`        .<|Read data (stateless).
+|`PUT`        .<|Create or update data.
+|`POST`       .<|Process data.
+|`DELETE`     .<|Delete an entity.
+|=======================
+
+Please also note that for (large) bulk deletions you may be forced to used `POST` instead of `DELETE` as according to the HTTP standard `DELETE` must not have payload and URLs are limited in length.
+
+For general recommendations on HTTP methods for collection and element URLs see http://en.wikipedia.org/wiki/Representational_State_Transfer#Applied_to_web_services[REST@wikipedia].
+
+== HTTP Status Codes
+Further we define how to use the HTTP status codes for REST services properly. In general the 4xx codes correspond to an error on the client side and the 5xx codes to an error on the server side.
+
+.Usage of HTTP status codes
+[options="header"]
+|=======================
+|*HTTP Code*  |*Meaning*   |*Response*       |*Comment*
+|200          |OK          |requested result |Result of successful GET
+|204          |No Content  |_none_           |Result of successful POST, DELETE, or PUT with empty result (void return)
+|400          |Bad Request |error details    |The HTTP request is invalid (parse error, validation failed)
+|401          |Unauthorized|_none_           |Authentication failed
+|403          |Forbidden   |_none_           |Authorization failed
+|404          |Not found   |_none_           |Either the service URL is wrong or the requested resource does not exist
+|500          |Server Error|error code, UUID |Internal server error occurred, in case of an exception, see xref:rest-exception-handling[REST exception handling]
+|=======================
+
+== JAX-RS
+For implementing REST services we use the https://jax-rs-spec.java.net/[JAX-RS] standard.
+As payload encoding we recommend link:guide-json.asciidoc[JSON] bindings using http://wiki.fasterxml.com/JacksonHome[Jackson].
+To implement a REST service you simply add JAX-RS annotations.
+Here is a simple example:
+[source,java]
+--------
+@ApplicationScoped
+@Path("/imagemanagement/v1")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public class ImagemanagementRestService {
+
+  @Inject
+  private Imagemanagement imagemanagement;
+
+  @GET
+  @Path("/image/{id}/")
+  public ImageDto getImage(@PathParam("id") long id) {
+  
+    return this.imagemanagement.findImage(id);
+  }
+}
+--------
+
+Here we can see a REST service for the link:architecture.asciidoc#business-architecture[business component] `imagemanagement`. The method `getImage` can be accessed via HTTP GET (see `@GET`) under the URL path `imagemanagement/image/{id}` (see `@Path` annotations) where `{id}` is the ID of the requested table and will be extracted from the URL and provided as parameter `id` to the method `getImage`. It will return its result (`ImageDto`) as link:guide-json.asciidoc[JSON] (see `@Produces` annotation - you can also extend `RestService` marker interface that defines these annotations for JSON). As you can see it delegates to the link:guide-logic-layer.asciidoc[logic] component `imagemanagement` that contains the actual business logic while the service itself only exposes this logic via HTTP. The REST service implementation is a regular CDI bean that can use link:guide-dependency-injection.asciidoc[dependency injection].
+
+NOTE: With JAX-RS it is important to make sure that each service method is annotated with the proper HTTP method (`@GET`,`@POST`,etc.) to avoid unnecessary debugging. So you should take care not to forget to specify one of these annotations.
+
+=== Service-Interface
+
+You may also separate API and implementation in case you want to reuse the API for link:guide-service-client.asciidoc[service-client]:
+
+[source,java]
+--------
+@Path("/imagemanagement/v1")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public interface ImagemanagementRestService {
+
+  @GET
+  @Path("/image/{id}/")
+  ImageEto getImage(@PathParam("id") long id);
+
+}
+
+@Named("ImagemanagementRestService")
+public class ImagemanagementRestServiceImpl implements ImagemanagementRestService {
+
+  @Override
+  public ImageEto getImage(long id) {
+
+    return this.imagemanagement.findImage(id);
+  }
+   
+}
+--------
+
+=== JAX-RS Configuration
+Starting from CXF 3.0.0 it is possible to enable the auto-discovery of JAX-RS roots.
+
+When the jaxrs server is instantiated all the scanned root and provider beans (beans annotated with `javax.ws.rs.Path` and `javax.ws.rs.ext.Provider`) are configured.
+
+=== REST Exception Handling
+For exceptions a service needs to have an exception façade that catches all exceptions and handles them by writing proper log messages and mapping them to a HTTP response with an according xref:http-status-codes[HTTP status code]. Therefore the devonfw provides a generic solution via `RestServiceExceptionFacade`. You need to follow the link:guide-exceptions.asciidoc[exception guide] so that it works out of the box because the façade needs to be able to distinguish between business and technical exceptions.
+Now your service may throw exceptions but the façade with automatically handle them for you.
+
+The general format for returning an error to the client is as follows:
+
+[source,javascript]
+----
+{
+  "message": "A human-readable message describing the error",
+  "code": "A code identifying the concrete error",
+  "uuid": "An identifier (generally the correlation id) to help identify corresponding requests in logs"
+}
+----
+
+=== Pagination details
+We recommend to use link:guide-repository.asciidoc[spring-data repositories] for database access that already comes with pagination support.
+Therefore, when performing a search, you can include a https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html[Pageable] object.
+Here is a JSON example for it:
+[source,javascript]
+----
+{ "pageSize": 20, "pageNumber": 0, "sort": [] }
+----
+
+By increasing the `pageNumber` the client can browse and page through the hits.
+
+As a result you will receive a https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html[Page].
+It is a container for your search results just like a `Collection` but additionally contains pagination information for the client.
+Here is a JSON example:
+[source,javascript]
+----
+{ "totalElements": 1022,
+  pageable: { "pageSize": 20, "pageNumber": 0 }, 
+  content: [ ... ] }
+----
+
+The `totalElements` property contains the total number of hits.
+This can be used by the client to compute the total number of pages and render the pagination links accordingly.
+Via the `pageable` property the client gets back the `Pageable` properties from the search request.
+The actual hits for the current page are returned as array in the `content` property.
+
+== REST Testing
+For testing REST services in general consult the link:guide-testing.asciidoc[testing guide].
+
+For manual testing REST services there are browser plugins:
+
+* Firefox: https://addons.mozilla.org/de/firefox/addon/rested/[rested]
+* Chrome: http://www.getpostman.com/[postman] (https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo[advanced-rest-client])
+
+== Security
+Your services are the major entry point to your application. Hence security considerations are important here.
+
+=== CSRF
+A common security threat is https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)[CSRF] for REST services. Therefore all REST operations that are performing modifications (PUT, POST, DELETE, etc. - all except GET) have to be secured against CSRF attacks. See link:guide-csrf.asciidoc[CSRF] how to do this.
+
+=== JSON top-level arrays
+OWASP earlier suggested to never return JSON arrays at the top-level, to prevent attacks without rationale.
+We digged deep and found https://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx/[anatomy-of-a-subtle-json-vulnerability].
+To sum it up the attack is many years old and does not work in any recent or relevant browser.
+Hence it is fine to use arrays as top-level result in a JSON REST service (means you can return `List<Foo>` in a Java JAX-RS service).

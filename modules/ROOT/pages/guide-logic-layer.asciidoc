@@ -1,0 +1,31 @@
+:toc: macro
+toc::[]
+
+= Logic Layer
+
+The logic layer is the heart of the application and contains the main business logic.
+According to our link:architecture.asciidoc#business-architecture[business architecture], we divide an application into link:guide-component.asciidoc[components].
+For each component, the logic layer defines different link:guide-usecase.asciidoc[use-cases]. Another approach is to define a link:guide-component-facade.asciidoc[component-facade], which we do not recommend for future application. Especially for quarkus application, we want to simplify things and highly suggest omitting component-facade completely and using use-cases only.
+It is very important that you follow the links to understand the concept of use-case in order to properly implement your business logic.
+
+== Responsibility
+The logic layer is responsible to implement the business logic according to the specified functional demands and requirements.
+Therefore, it creates the actual value of the application. The logic layer is responsible for invoking business logic in external systems.
+The following additional aspects are also included in its responsibility:
+
+* link:guide-validation.asciidoc[validation]
+* link:guide-access-control.asciidoc#authorization[authorization]
+* link:guide-transactions.asciidoc[transaction-handling] (in addition to link:guide-service-layer.asciidoc[service layer]).
+
+== Security
+The logic layer is the heart of the application. It is also responsible for authorization and hence security is important in this current case. Every method exposed in an interface needs to be annotated with an authorization check, stating what role(s) a caller must provide in order to be allowed to make the call. The authorization concept is described link:guide-security.asciidoc#authorization[here].
+
+=== Direct Object References
+A security threat are https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References[Insecure Direct Object References]. This simply gives you two options:
+
+* avoid direct object references
+* ensure that direct object references are secure
+
+Especially when using REST, direct object references via technical IDs are common sense. This implies that you have a proper xref:authorization[authorization] in place. This is especially tricky when your authorization does not only rely on the type of the data and according to static permissions but also on the data itself. Vulnerabilities for this threat can easily happen by design flaws and inadvertence. Here is an example from our sample application:
+
+We have a generic use-case to manage BLOBs. In the first place, it makes sense to write a generic REST service to load and save these BLOBs. However, the permission to read or even update such BLOB depends on the business object hosting the BLOB. Therefore, such a generic REST service would open the door for this OWASP A4 vulnerability. To solve this in a secure way, you need individual services for each hosting business object to manage the linked BLOB and have to check permissions based on the parent business object. In this example the ID of the BLOB would be the direct object reference and the ID of the business object (and a BLOB property indicator) would be the indirect object reference.

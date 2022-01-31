@@ -1,0 +1,61 @@
+:toc: macro
+toc::[]
+
+= Component Facade
+[NOTE]
+Our recommended approach for implementing the logic layer is link:guide-usecase.asciidoc[use-cases]
+
+For each component of the application, the link:guide-logic-layer.asciidoc[logic layer] defines a component facade.
+This is an interface defining all business operations of the component.
+It carries the name of the component (`«Component»`) and has an implementation named `«Component»Impl` (see xref:implementation[implementation]).
+
+== API
+The component facade interface defines the logic API of the component and has to be business oriented.
+This means that all parameters and return types of all methods from this API have to be business link:guide-transferobject.asciidoc[transfer-objects], link:guide-datatype.asciidoc[datatypes] (`String`, `Integer`, `MyCustomerNumber`, etc.), or collections of these.
+The API may also only access objects of other business components listed in the (transitive) dependencies of the link:architecture.asciidoc#business-architecture[business-architecture].
+
+Here is an example how such an API may look like:
+[source,java]
+----
+public interface Bookingmanagement {
+
+  BookingEto findBooking(Long id);
+
+  BookingCto findBookingCto(Long id);
+
+  Page<BookingEto> findBookingEtos(BookingSearchCriteriaTo criteria);
+
+  void approveBooking(BookingEto booking);
+
+}
+----
+
+== Implementation
+The implementation of an interface from the link:guide-logic-layer.asciidoc[logic layer] (a component facade or a link:guide-usecase.asciidoc[use-case]) carries the name of that interface with the suffix `Impl` and is annotated with `@Named`.
+An implementation typically needs access to the persistent data.
+This is done by link:guide-dependency-injection.asciidoc[injecting] the corresponding link:guide-repository.asciidoc[repository] (or link:guide-dao.asciidoc[DAO]).
+According to link:architecture.asciidoc#architecture-principles[data-sovereignty], only repositories of the same business component may be accessed directly.
+For accessing data from other components the implementation has to use the corresponding API of the logic layer (the component facade). Further, it shall not expose persistent entities from the link:guide-domain-layer.asciidoc[domain layer] and has to map them to link:guide-transferobject.asciidoc[transfer objects] using the link:guide-beanmapping.asciidoc[bean-mapper].
+
+[source,java]
+----
+
+@Named
+@Transactional
+public class BookingmanagementImpl extends AbstractComponentFacade implements Bookingmanagement {
+
+  @Inject
+  private BookingRepository bookingRepository;
+
+  @Override
+  public BookingEto findBooking(Long id) {
+
+    LOG.debug("Get Booking with id {} from database.", id);
+    BookingEntity entity = this.bookingRepository.findOne(id);
+    return getBeanMapper().map(entity, BookingEto.class));
+  }
+}
+----
+
+As you can see, link:guide-jpa.asciidoc#entity[entities] (`BookingEntity`) are mapped to corresponding link:guide-transferobject.asciidoc#eto[ETOs] (`BookingEto`).
+Further details about this can be found in link:guide-beanmapping.asciidoc[bean-mapping].

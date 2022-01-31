@@ -1,0 +1,331 @@
+:toc: macro
+toc::[]
+
+= Coding Conventions
+
+The code should follow general conventions for Java (see http://www.oracle.com/technetwork/java/namingconventions-139351.html[Oracle Naming Conventions], https://google.github.io/styleguide/javaguide.html[Google Java Style], etc.).We consider this as common sense and provide configurations for http://www.sonarqube.org/[SonarQube] and related tools such as http://checkstyle.sourceforge.net/[Checkstyle] instead of repeating this here.
+
+== Naming
+Besides general Java naming conventions, we follow the additional rules listed here explicitly:
+
+* Always use short but speaking names (for types, methods, fields, parameters, variables, constants, etc.).
+* Strictly avoid special characters in technical names (for files, types, fields, methods, properties, variables, database tables, columns, constraints, etc.). In other words only use Latin alpahnumeric ASCII characters with the common allowed technical separators for the accordign context (e.g. underscore) for technical names (even excluding whitespaces).
+* For package segments and type names prefer singular forms (`CustomerEntity` instead of [line-through]`CustomersEntity`). Only use plural forms when there is no singular or it is really semantically required (e.g. for a container that contains multiple of such objects).
+* Avoid having duplicate type names. The name of a class, interface, enum or annotation should be unique within your project unless this is intentionally desired in a special and reasonable situation.
+* Avoid artificial naming constructs such as prefixes (`I*`) or suffixes (`*IF`) for interfaces.
+* Use CamelCase even for abbreviations (`XmlUtil` instead of [line-through]`XMLUtil`)
+* Avoid property/field names where the second character is upper-case at all (e.g. 'aBc'). See https://github.com/devonfw/cobigen/issues/1095[#1095] for details.
+* Names of Generics should be easy to understand. Where suitable follow the common rule `E=Element`, `T=Type`, `K=Key`, `V=Value` but feel free to use longer names for more specific cases such as `ID`, `DTO` or `ENTITY`. The capitalized naming helps to distinguish a generic type from a regular class.
+
+== Packages
+Java Packages are the most important element to structure your code. We use a strict packaging convention to map technical layers and business components (slices) to the code (See link:architecture.asciidoc#technical-architecture[technical architecture] for further details). By using the same names in documentation and code we create a strong link that gives orientation and makes it easy to find from business requirements, specifications or story tickets into the code and back.
+
+For an devon4j based application we use the following Java-Package schema:
+[source]
+«root».«component».«layer»[.«detail»]
+
+E.g. in our example application we find the Spring Data repositories for the `ordermanagement` component in the package `com.devonfw.application.mtsj.ordermanagement.dataaccess.api.repo`
+
+.Segments of package schema
+[options="header"]
+|=============================================
+|*Segment*      | *Description* | *Example*
+|«root»|Is the basic Java Package name-space of your app. Typically we suggest to use `«group».«artifact»` where `«group»` is your maven/gradle `groupId` corresponding to your organization or IT project owning the code following common Java Package conventions. The segment `«artifact»` is your maven/gradle `artifactId` and is typically the technical name of your app. |`com.devonfw.application.mtsj`
+| «component» | The (business) component the code belongs to. It is defined by the business architecture and uses terms from the business domain. Use the implicit component `general` for code not belonging to a specific component (foundation code).| `salesmanagement`
+| «layer» | The name of the technical layer (See link:architecture.asciidoc[technical architecture]). Details are described for the link:guide-structure-modern.asciidoc#layers[modern project structure] and for the link:guide-structure-classic.asciidoc#layers[classic project structure]. | `logic`
+| «detail» | Here you are free to further divide your code into sub-components and other concerns according to the size of your component part. If you want to strictly separate API from implementation you should start `«detail»` with `«scope»` that is explained below. | `dao`
+| «scope» | The scope which is one of `api` (official API to be used by other layers or components), `base` (basic code to be reused by other implementations) and `impl` (implementation that should never be imported from outside). This segment was initially mandatory but due to trends such as microservices, lean, and agile we decided to make it optional and do not force anybody to use it. | `api`
+|=============================================
+Please note that `devon4j` library modules for spring use `com.devonfw.module` as `«root»` and the name of the module as `«component»`. E.g. the API of our `beanmapping` module can be found in the package `com.devonfw.module.beanmapping.common.api`.
+
+== Code Tasks
+Code spots that need some rework can be marked with the following tasks tags. These are already properly pre-configured in your development environment for auto completion and to view tasks you are responsible for. It is important to keep the number of code tasks low. Therefore, every member of the team should be responsible for the overall code quality. So if you change a piece of code and hit a code task that you can resolve in a reliable way, please do this as part of your change and remove the according tag.
+
+=== TODO
+Used to mark a piece of code that is not yet complete (typically because it can not be completed due to a dependency on something that is not ready).
+
+[source,java]
+ // TODO «author» «description»
+
+A TODO tag is added by the author of the code who is also responsible for completing this task.
+
+=== FIXME
+[source,java]
+ // FIXME «author» «description»
+
+A FIXME tag is added by the author of the code or someone who found a bug he can not fix right now. The «author» who added the FIXME is also responsible for completing this task. This is very similar to a TODO but with a higher priority. FIXME tags indicate problems that should be resolved before a release is completed while TODO tags might have to stay for a longer time.
+
+=== REVIEW
+[source,java]
+ // REVIEW «responsible» («reviewer») «description»
+
+A REVIEW tag is added by a reviewer during a code review. Here the original author of the code is responsible to resolve the REVIEW tag and the reviewer is assigning this task to him. This is important for feedback and learning and has to be aligned with a review "process" where people talk to each other and get into discussion. In smaller or local teams a peer-review is preferable but this does not scale for large or even distributed teams.
+
+== Code-Documentation
+As a general goal, the code should be easy to read and understand. Besides, clear naming the documentation is important. We follow these rules:
+
+* APIs (especially component interfaces) are properly documented with JavaDoc.
+* JavaDoc shall provide actual value - we do not write JavaDoc to satisfy tools such as checkstyle but to express information not already available in the signature.
+* We make use of `{@link}` tags in JavaDoc to make it more expressive.
+* JavaDoc of APIs describes how to use the type or method and not how the implementation internally works.
+* To document implementation details, we use code comments (e.g. `// we have to flush explicitly to ensure version is up-to-date`). This is only needed for complex logic.
+* Avoid the pointless `{@inheritDoc}` as since Java 1.5 there is the `@Override` annotation for overridden methods and your JavaDoc is inherited automatically even without any JavaDoc comment at all.
+
+== Code-Style
+This section gives you best practices to write better code and avoid pitfalls and mistakes.
+
+=== BLOBs
+Avoid using `byte[]` for BLOBs as this will load them entirely into your memory. This will cause performance issues or out of memory errors. Instead, use streams when dealing with BLOBs. For further details see link:guide-blob-support.asciidoc[BLOB support].
+
+=== Stateless Programming
+When implementing logic as components or _beans_ of your container using link:guide-dependency-injection.asciidoc[dependency injection], we strongly encourage stateless programming.
+This is not about data objects like an link:guide-jpa.asciidoc#entity[entity] or link:guide-transferobject.asciidoc[transfer-object] that are stateful by design.
+Instead this applies to all classes annotated with `@Named`, `@ApplicationScoped`, `@Stateless`, etc. and all their super-classes.
+These classes especially include your link:guide-repository.asciidoc[repositories], link:guide-usecase.asciidoc[use-cases], and link:guide-rest.asciidoc#jax-rs[REST services].
+Such classes shall never be modified after initialization.
+Methods called at runtime (after initialization via the container) do not assign fields (member variables of your class) or mutate the object stored in a field.
+This allows your component or bean to be stateless and thread-safe.
+Therefore it can be initialized as a singleton so only one instance is created and shared accross all threads of the application.
+Here is an example:
+[source,java]
+----
+@ApplicationScoped
+@Named
+public class UcApproveContractImpl implements UcApproveContract {
+
+  // bad
+  private String contractOwner;
+  
+  private MyState state;
+
+  @Overide
+  public void approve(Contract contract) {
+    this.contractOwner = contract.getOwner();
+    this.contractOwner = this.contractOwner.toLowerCase(Locale.US);
+    this.state.setAdmin(this.contractOwner.endsWith("admin"));
+    if (this.state.isAdmin()) {
+      ...
+    } else {
+      ...
+    }
+  }
+  
+  // fine
+  @Overide
+  public void approveContract(Contract contract) {
+    String contractOwner = contract.getOwner().toLowerCase(Locale.US);
+    if (contractOwner.endsWith("admin")) {
+      ...
+    } else {
+      ...
+    }
+  }
+}
+----
+
+As you can see in the `bad` code fields of the class are assigned when the method `approve` is called.
+So mutliple users and therefore threads calling this method concurrently can interfere and override this state causing side-effects on parallel threads.
+This will lead to nasty bugs and errors that are hard to trace down.
+They will not occur in simple tests but for sure in production with real users.
+Therefore *never* do this and implement your functionality stateless.
+That is keeping all state in local variables and strictly avoid modifying fields or their value as illustrated in the `fine` code.
+If you find yourself passing many parameters between methods that all represent state, you can easily create a separate class that encapsulates this state.
+However, then you need to create this state object in your method as local variable and pass it between methods as parameter:
+[source,java]
+----
+@ApplicationScoped
+@Named
+public class UcApproveContractImpl implements UcApproveContract {
+
+  // fine
+  @Overide
+  public void approveContract(Contract contract) {
+    String contractOwner = contract.getOwner().toLowerCase(Locale.US);
+    MyState state = new MyState();
+    state.setAdmin(this.contractOwner.endsWith("admin"));
+    doApproveContract(contract, state);
+  }
+}
+----
+
+=== Closing Resources
+Resources such as streams (`InputStream`, `OutputStream`, `Reader`, `Writer`) or transactions need to be handled properly. Therefore, it is important to follow these rules:
+
+* Each resource has to be closed properly, otherwise you will get out of file handles, TX sessions, memory leaks or the like
+* Where possible avoid to deal with such resources manually. That is why we are recommending `@Transactional` for transactions in devonfw (see link:guide-transactions.asciidoc[Transaction Handling]).
+* In case you have to deal with resources manually (e.g. binary streams) ensure to close them properly. See the example below for details.
+
+Closing streams and other such resources is error prone. Have a look at the following example:
+[source,java]
+----
+// bad
+try {
+  InputStream in = new FileInputStream(file);
+  readData(in);
+  in.close();
+} catch (IOException e) {
+  throw new IllegalStateException("Failed to read data.", e);
+}
+----
+
+The code above is wrong as in case of an `IOException` the `InputStream` is not properly closed. In a server application such mistakes can cause severe errors that typically will only occur in production. As such resources implement the `AutoCloseable` interface you can use the `try-with-resource` syntax to write correct code. The following code shows a correct version of the example:
+[source,java]
+----
+// fine
+try (InputStream in = new FileInputStream(file)) {
+  readData(in);
+} catch (IOException e) {
+  throw new IllegalStateException("Failed to read data.", e);
+}
+----
+
+=== Catching and handling Exceptions
+When catching exceptions always ensure the following:
+
+* Never call `printStackTrace()` method on an exception
+* Either log or wrap and re-throw the entire catched exception. Be aware that the cause(s) of an exception is very valuable information. If you loose such information by improper exception-handling you may be unable to properly analyse production problems what can cause severe issues.
+** If you wrap and re-throw an exception ensure that the catched exception is passed as cause to the newly created and thrown exception.
+** If you log an exception ensure that the entire exception is passed as argument to the logger (and not only the result of `getMessage()` or `toString()` on the exception).
+* See link:guide-exceptions.asciidoc#handling-exceptions[exception handling]
+
+=== Lambdas and Streams
+With Java8 you have cool new features like lambdas and monads like (`Stream`, `CompletableFuture`, `Optional`, etc.).
+However, these new features can also be misused or led to code that is hard to read or debug. To avoid pain, we give you the following best practices:
+
+. Learn how to use the new features properly before using. Developers are often keen on using cool new features. When you do your first experiments in your project code you will cause deep pain and might be ashamed afterwards. Please study the features properly. Even Java8 experts still write for loops to iterate over collections, so only use these features where it really makes sense.
+. Streams shall only be used in fluent API calls as a Stream can not be forked or reused.
+. Each stream has to have exactly one terminal operation.
+. Do not write multiple statements into lambda code:
++
+[source,java]
+----
+// bad
+collection.stream().map(x -> {
+Foo foo = doSomething(x);
+...
+return foo;
+}).collect(Collectors.toList());
+----
++
+This style makes the code hard to read and debug. Never do that! Instead, extract the lambda body to a private method with a meaningful name:
++
+[source,java]
+----
+// fine
+collection.stream().map(this::convertToFoo).collect(Collectors.toList());
+----
+. Do not use `parallelStream()` in general code (that will run on server side) unless you know exactly what you are doing and what is going on under the hood. Some developers might think that using parallel streams is a good idea as it will make the code faster. However, if you want to do performance optimizations talk to your technical lead (architect). Many features such as security and transactions will rely on contextual information that is associated with the current thread. Hence, using parallel streams will most probably cause serious bugs. Only use them for standalone (CLI) applications or for code that is just processing large amounts of data.
+. Do not perform operations on a sub-stream inside a lambda:
++
+[source,java]
+----
+set.stream().flatMap(x -> x.getChildren().stream().filter(this::isSpecial)).collect(Collectors.toList()); // bad
+set.stream().flatMap(x -> x.getChildren().stream()).filter(this::isSpecial).collect(Collectors.toList()); // fine
+----
+. Only use `collect` at the end of the stream:
++
+[source,java]
+----
+set.stream().collect(Collectors.toList()).forEach(...) // bad
+set.stream().peek(...).collect(Collectors.toList()) // fine
+----
+. Lambda parameters with Types inference
++
+[source,java]
+----
+(String a, Float b, Byte[] c) -> a.toString() + Float.toString(b) + Arrays.toString(c)  // bad
+(a,b,c)  -> a.toString() + Float.toString(b) + Arrays.toString(c)  // fine
+
+Collections.sort(personList, (Person p1, Person p2) -> p1.getSurName().compareTo(p2.getSurName()));  // bad
+Collections.sort(personList, (p1, p2) -> p1.getSurName().compareTo(p2.getSurName()));  // fine
+----
+. Avoid Return Braces and Statement
++
+[source,java]
+----
+ a ->  { return a.toString(); } // bad
+ a ->  a.toString();   // fine
+----
+. Avoid Parentheses with Single Parameter
++
+[source,java]
+----
+(a) -> a.toString(); // bad
+ a -> a.toString();  // fine
+----
+. Avoid if/else inside foreach method. Use Filter method & comprehension
++
+[source,java]
+----
+// bad
+static public Iterator<String> TwitterHandles(Iterator<Author> authors, string company) {
+    final List result = new ArrayList<String> ();
+    foreach (Author a : authors) {
+      if (a.Company.equals(company)) {
+        String handle = a.TwitterHandle;
+        if (handle != null)
+          result.Add(handle);
+      }
+    }
+    return result;
+  }
+----
++
+[source,java]
+----
+// fine
+public List<String> twitterHandles(List<Author> authors, String company) {
+    return authors.stream()
+            .filter(a -> null != a && a.getCompany().equals(company))
+            .map(a -> a.getTwitterHandle())
+            .collect(toList());
+  }
+----
+
+=== Optionals
+With `Optional` you can wrap values to avoid a `NullPointerException` (NPE). However, it is not a good code-style to use `Optional` for every parameter or result to express that it may be null. For such case use `@Nullable` or even better instead annotate `@NotNull` where `null` is not acceptable.
+
+However, `Optional` can be used to prevent NPEs in fluent calls (due to the lack of the elvis operator):
+[source,java]
+----
+Long id;
+id = fooCto.getBar().getBar().getId(); // may cause NPE
+id = Optional.ofNullable(fooCto).map(FooCto::getBar).map(BarCto::getBar).map(BarEto::getId).orElse(null); // null-safe
+----
+
+=== Encoding
+Encoding (esp. Unicode with combining characters and surrogates) is a complex topic. Please study this topic if you have to deal with encodings and processing of special characters. For the basics follow these recommendations:
+
+* Whenever possible prefer unicode (UTF-8 or better) as encoding. This especially impacts your databases and has to be defined upfront as it typically can not be changed (easily) afterwards.
+* Do not cast from `byte` to `char` (unicode characters can be composed of multiple bytes, such cast may only work for ASCII characters)
+* Never convert the case of a String using the default locale (esp. when writing generic code like in devonfw). E.g. if you do `"HI".toLowerCase()` and your system locale is Turkish, then the output will be "hı" instead of "hi", which can lead to wrong assumptions and serious problems. If you want to do a "universal" case conversion always explicitly use an according western locale (e.g. `toLowerCase(Locale.US)`). Consider using a helper class (see e.g. https://github.com/m-m-m/base/blob/master/core/src/main/java/io/github/mmm/base/text/CaseHelper.java[CaseHelper]) or create your own little static utility for that in your project.
+* Write your code independent from the default encoding (system property `file.encoding`) - this will most likely differ in JUnit from production environment
+** Always provide an encoding when you create a `String` from `byte[]`: `new String(bytes, encoding)`
+** Always provide an encoding when you create a `Reader` or `Writer` : `new InputStreamReader(inStream, encoding)`
+
+=== Prefer general API
+Avoid unnecessary strong bindings:
+
+* Do not bind your code to implementations such as `Vector` or `ArrayList` instead of `List`
+* In APIs for input (=parameters) always consider to make little assumptions:
+** prefer `Collection` over `List` or `Set` where the difference does not matter (e.g. only use `Set` when you require uniqueness or highly efficient `contains`)
+** consider preferring `Collection<? extends Foo>` over `Collection<Foo>` when `Foo` is an interface or super-class
+
+=== Prefer primitive boolean
+Unless in rare cases where you need to allow a flag being `null` avoid using the object type `Boolean`.
+[source,java]
+----
+// bad
+public Boolean isEmpty {
+  return size() == 0;
+}
+----
+Instead always use the primitive `boolean` type:
+[source,java]
+----
+// fine
+public boolean isEmpty {
+  return size() == 0;
+}
+----
+The only known excuse is for flags in link:guide-jpa.asciidoc#embeddable[embeddable types] due to limitations of hibernate.
