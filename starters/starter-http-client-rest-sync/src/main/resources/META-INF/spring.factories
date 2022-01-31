@@ -1,1 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.devonfw.module.httpclient.common.impl.rest.HttpRestClientSyncAutoConfiguration
