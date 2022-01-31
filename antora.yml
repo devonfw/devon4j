@@ -1,3 +1,4 @@
+name: devonfw Documentation
 version: '1.5.6'
 nav:
 - modules/ROOT/nav.adoc
