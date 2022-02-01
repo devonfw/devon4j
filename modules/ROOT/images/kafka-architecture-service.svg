@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="668px" preserveAspectRatio="none" style="width:513px;height:668px;" version="1.1" viewBox="0 0 513 668" width="513px" zoomAndPan="magnify"><defs><filter height="300%" id="f3b6mb0qfvnt4" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[406b65fecc21e832f7a9b6ebadc6dce1]
+cluster Client--><polygon fill="#90EE90" filter="url(#f3b6mb0qfvnt4)" points="94,24,143,24,150,46.4883,226,46.4883,226,121,94,121,94,24" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="94" x2="150" y1="46.4883" y2="46.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="43" x="98" y="39.5352">Client</text><!--MD5=[7b2e70afe7f267be25615768dec87d6c]
+cluster devon4j application--><polygon fill="#ADD8E6" filter="url(#f3b6mb0qfvnt4)" points="22,293,170,293,177,315.4883,491,315.4883,491,656,22,656,22,293" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="22" x2="177" y1="315.4883" y2="315.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="142" x="26" y="308.5352">devon4j application</text><!--MD5=[1e973b9ce28c3523ad5f96df28de1463]
+cluster service layer--><polygon fill="#ADD8E6" filter="url(#f3b6mb0qfvnt4)" points="46,336,142,336,149,358.4883,467,358.4883,467,502,46,502,46,336" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="46" x2="149" y1="358.4883" y2="358.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="90" x="50" y="351.5352">service layer</text><!--MD5=[066bcc4d4a0fcc76675d84d18e65a471]
+cluster FooService--><polygon fill="#ADD8E6" filter="url(#f3b6mb0qfvnt4)" points="70,379,152,379,159,401.4883,443,401.4883,443,478,70,478,70,379" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="70" x2="159" y1="401.4883" y2="401.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="76" x="74" y="394.5352">FooService</text><!--MD5=[44f45922277fe0007af17307ba9a526e]
+cluster logic layer--><polygon fill="#ADD8E6" filter="url(#f3b6mb0qfvnt4)" points="299,535,380,535,387,557.4883,397,557.4883,397,632,299,632,299,535" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="299" x2="387" y1="557.4883" y2="557.4883"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="75" x="303" y="550.5352">logic layer</text><!--MD5=[16f0729c0ef493573cbf85f5b776e7be]
+entity MyClient--><rect fill="#FEFECE" filter="url(#f3b6mb0qfvnt4)" height="46.4883" style="stroke: #A80036; stroke-width: 1.5;" width="99" x="110.5" y="59"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 1.5;" width="15" x="189.5" y="64"/><rect fill="#FEFECE" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="187.5" y="66"/><rect fill="#FEFECE" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="187.5" y="70"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="59" x="125.5" y="92.5352">MyClient</text><!--MD5=[2cbe99596bb0fc3a86c06ddc6e60b3a0]
+class FooMessageListener--><rect fill="#FEFECE" filter="url(#f3b6mb0qfvnt4)" height="48" id="FooMessageListener" style="stroke: #A80036; stroke-width: 1.5;" width="147" x="86.5" y="414"/><ellipse cx="101.5" cy="430" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M103.9731,436.1431 Q103.3921,436.4419 102.7529,436.5913 Q102.1138,436.7407 101.4082,436.7407 Q98.9014,436.7407 97.5815,435.0889 Q96.2617,433.437 96.2617,430.3159 Q96.2617,427.1865 97.5815,425.5347 Q98.9014,423.8828 101.4082,423.8828 Q102.1138,423.8828 102.7612,424.0322 Q103.4087,424.1816 103.9731,424.4805 L103.9731,427.2031 Q103.3423,426.6221 102.7488,426.3523 Q102.1553,426.0825 101.5244,426.0825 Q100.1797,426.0825 99.4949,427.1492 Q98.8101,428.2158 98.8101,430.3159 Q98.8101,432.4077 99.4949,433.4744 Q100.1797,434.541 101.5244,434.541 Q102.1553,434.541 102.7488,434.2712 Q103.3423,434.0015 103.9731,433.4204 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="115" x="115.5" y="434.5352">FooMessageListener</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="87.5" x2="232.5" y1="446" y2="446"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="87.5" x2="232.5" y1="454" y2="454"/><!--MD5=[44433fdf3166824cdc0eeea4d5bbc479]
+class FooMessageProcessor--><rect fill="#FEFECE" filter="url(#f3b6mb0qfvnt4)" height="48" id="FooMessageProcessor" style="stroke: #A80036; stroke-width: 1.5;" width="158" x="269" y="414"/><ellipse cx="284" cy="430" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M286.4731,436.1431 Q285.8921,436.4419 285.2529,436.5913 Q284.6138,436.7407 283.9082,436.7407 Q281.4014,436.7407 280.0815,435.0889 Q278.7617,433.437 278.7617,430.3159 Q278.7617,427.1865 280.0815,425.5347 Q281.4014,423.8828 283.9082,423.8828 Q284.6138,423.8828 285.2612,424.0322 Q285.9087,424.1816 286.4731,424.4805 L286.4731,427.2031 Q285.8423,426.6221 285.2488,426.3523 Q284.6553,426.0825 284.0244,426.0825 Q282.6797,426.0825 281.9949,427.1492 Q281.3101,428.2158 281.3101,430.3159 Q281.3101,432.4077 281.9949,433.4744 Q282.6797,434.541 284.0244,434.541 Q284.6553,434.541 285.2488,434.2712 Q285.8423,434.0015 286.4731,433.4204 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="126" x="298" y="434.5352">FooMessageProcessor</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="270" x2="426" y1="446" y2="446"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="270" x2="426" y1="454" y2="454"/><!--MD5=[a39f4bffbea95f922f5da8714f49e9ec]
+entity Foo--><rect fill="#FEFECE" filter="url(#f3b6mb0qfvnt4)" height="46.4883" style="stroke: #A80036; stroke-width: 1.5;" width="66" x="315" y="570"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 1.5;" width="15" x="361" y="575"/><rect fill="#FEFECE" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="359" y="577"/><rect fill="#FEFECE" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="359" y="581"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="26" x="330" y="603.5352">Foo</text><!--MD5=[4d4729ea72b921d5115c8e7dad2e35fd]
+entity Kafka Broker--><rect fill="#808080" filter="url(#f3b6mb0qfvnt4)" height="46.4883" style="stroke: #A80036; stroke-width: 1.5;" width="127" x="96.5" y="184"/><rect fill="#808080" height="10" style="stroke: #A80036; stroke-width: 1.5;" width="15" x="203.5" y="189"/><rect fill="#808080" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="201.5" y="191"/><rect fill="#808080" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="201.5" y="195"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="87" x="111.5" y="217.5352">Kafka Broker</text><!--MD5=[4039ff1b116a59037ea781502b3e23e2]
+link MyClient to Kafka Broker--><path d="M160,105.27 C160,125.91 160,156.66 160,178.75 " fill="none" id="MyClient-&gt;Kafka Broker" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="160,183.89,164,174.89,160,178.89,156,174.89,160,183.89" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="53" x="161" y="150.5684">enqueue</text><!--MD5=[b08e50fbf12e467f8927325f44f256a7]
+link Kafka Broker to FooMessageListener--><path d="M160,230.37 C160,272.31 160,362.66 160,408.73 " fill="none" id="Kafka Broker-&gt;FooMessageListener" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="160,413.85,164,404.85,160,408.85,156,404.85,160,413.85" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="53" x="161" y="273.5684">dequeue</text><!--MD5=[0154c934fcef8efdae101e209e65af88]
+link FooMessageListener to FooMessageProcessor--><path d="M233.8,438 C243.68,438 253.56,438 263.43,438 " fill="none" id="FooMessageListener-&gt;FooMessageProcessor" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="268.6,438,259.6,434,263.6,438,259.6,442,268.6,438" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[5b52c621dbe5fe9bfd6c396a56e48adc]
+link FooMessageProcessor to Foo--><path d="M348,462.24 C348,489.62 348,535.09 348,564.29 " fill="none" id="FooMessageProcessor-&gt;Foo" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="348,569.54,352,560.54,348,564.54,344,560.54,348,569.54" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[c71bb6fa02d0315e2c8b5231e37b1393]
+@startuml
+skinparam componentStyle uml2
+allow_mixing
+
+component "Kafka Broker" #grey
+
+package "Client" #lightgreen {
+  component "MyClient"
+  MyClient .down.> "Kafka Broker" :enqueue
+}
+
+package "devon4j application" #lightblue {
+  package "service layer" {
+    package "FooService" {
+      class FooMessageListener
+      class FooMessageProcessor
+      "Kafka Broker" .down.> FooMessageListener :dequeue
+      FooMessageListener -right-> FooMessageProcessor
+    }
+  }
+  package "logic layer" {
+    component Foo
+    FooMessageProcessor -down-> Foo
+  }
+}
+@enduml
+
+PlantUML version 1.2020.06(Sun Apr 05 14:38:32 CEST 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.1+13
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: de
+Country: DE
+--></g></svg>

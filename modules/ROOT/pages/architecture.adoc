@@ -3,11 +3,13 @@ toc::[]
 :idprefix:
 :idseparator: -
 
-= Architecture
+
+== Architecture
 
 There are many different views that are summarized by the term _architecture_. First, we will introduce the xref:key-principles[key principles] and xref:architecture-principles[architecture principles] of devonfw. Then, we will go into details of the the xref:application-architecture[architecture of an application].
 
-== Key Principles
+=== Key Principles
+
 For devonfw we follow these fundamental key principles for all decisions about architecture, design, or choosing standards, libraries, and frameworks:
 
 * *KISS* +
@@ -19,7 +21,8 @@ We concentrate on providing patterns, best-practices and examples rather than wr
 * *Solid* +
 We pick solutions that are established and have been proven to be solid and robust in real-live (business) projects.
 
-== Architecture Principles
+=== Architecture Principles
+
 Additionally we define the following principles that our architecture is based on:
 
 * *Component Oriented Design* +
@@ -35,7 +38,7 @@ Solve similar problems in similar ways and establish a uniform link:coding-conve
 
 As an architect you should be prepared for the future by reading the https://www.capgemini.com/de-de/wp-content/uploads/sites/5/2020/07/TechnoVision-2020-Report.pdf[TechnoVision].
 
-== Application Architecture
+=== Application Architecture
 
 For the architecture of an application we distinguish the following views:
 
@@ -43,12 +46,14 @@ For the architecture of an application we distinguish the following views:
 * The xref:technical-architecture[Technical Architecture] describes an application from the technical implementation perspective. It divides the application into technical layers and defines which technical products and frameworks are used to support these layers.
 * The Infrastructure Architecture describes an application from the operational infrastructure perspective. It defines the nodes used to run the application including clustering, load-balancing and networking. This view is not explored further in this guide.
 
-=== Business Architecture
+==== Business Architecture
+
 The _business architecture_ divides the application into _business components_. A business component has a well-defined responsibility that it encapsulates. All aspects related to that responsibility have to be implemented within that business component. Further, the business architecture defines the dependencies between the business components. These dependencies need to be free of cycles. A business component exports its functionality via well-defined interfaces as a self-contained API. A business component may use another business component via its API and compliant with the dependencies defined by the business architecture.
 
 As the business domain and logic of an application can be totally different, the devonfw can not define a standardized business architecture. Depending on the business domain it has to be defined from scratch or from a domain reference architecture template. For very small systems it may be suitable to define just a single business component containing all the code.
 
-=== Technical Architecture
+==== Technical Architecture
+
 The _technical architecture_ divides the application into technical _layers_ based on the http://en.wikipedia.org/wiki/Multilayered_architecture[multilayered architecture]. A layer is a unit of code with the same category such as a service or presentation logic. So, a layer is often supported by a technical framework. Each business component can therefore be split into _component parts_ for each layer. However, a business component may not have component parts for every layer (e.g. only a presentation part that utilized logic from other components).
 
 An overview of the technical reference architecture of the devonfw is given by xref:img-t-architecture[figure "Technical Reference Architecture"].
@@ -104,7 +109,8 @@ is archived in the devonfw by the right templates and best-practices that avoid 
 * *performance* +
 is obtained by choosing the right products and proper configurations. While the actual implementation of the application matters for performance a proper design is important as it is the key to allow performance-optimizations (see e.g. link:guide-caching.asciidoc[caching]).
 
-==== Technology Stack
+===== Technology Stack
+
 The technology stack of the devonfw is illustrated by the following table.
 
 .Technology Stack of devonfw
