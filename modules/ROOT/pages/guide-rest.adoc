@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= REST
+==REST
 REST (https://en.wikipedia.org/wiki/Representational_state_transfer[REpresentational State Transfer]) is an inter-operable protocol for link:guide-service-layer.asciidoc[services] that is more lightweight than link:guide-soap.asciidoc[SOAP].
 However, it is no real standard and can cause confusion (see https://github.com/devonfw/devon4j/blob/master/documentation/guide-rest-philosophy.asciidoc[REST philosophy]).
 Therefore we define best practices here to guide you.

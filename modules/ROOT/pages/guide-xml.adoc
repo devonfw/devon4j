@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= XML
+==XML
 
 http://en.wikipedia.org/wiki/XML[XML] (Extensible Markup Language) is a W3C standard format for structured information. It has a large eco-system of additional standards and tools.
 

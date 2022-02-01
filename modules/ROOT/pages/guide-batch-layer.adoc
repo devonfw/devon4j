@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Batch Layer
+==Batch Layer
 
 We understand batch processing as a bulk-oriented, non-interactive, typically long running execution of tasks. For simplicity, we use the term "batch" or "batch job" for such tasks in the following documentation.
 

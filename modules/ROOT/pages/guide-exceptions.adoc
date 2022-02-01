@@ -1,7 +1,7 @@
 :toc:  macro
 toc::[]
 
-= Exception Handling
+==Exception Handling
 
 
 == Exception Principles

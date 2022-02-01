@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Testing
+==Testing
 
 == General best practices
 For testing please follow our general best practices:

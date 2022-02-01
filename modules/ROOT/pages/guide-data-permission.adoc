@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Data-permissions
+==Data-permissions
 
 In some projects there are demands for permissions and authorization that is dependent on the processed data. E.g. a user may only be allowed to read or write data for a specific region. This is adding some additional complexity to your authorization. If you can avoid this it is always best to keep things simple. However, in various cases this is a requirement. Therefore the following sections give you guidance and patterns how to solve this properly.
 

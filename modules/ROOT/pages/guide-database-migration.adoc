@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Database Migration
+==Database Migration
 
 When you have a schema-based https://github.com/devonfw/devonfw-guide/blob/master/general/db/guide-database.asciidoc[database],
 you need a solution for schema versioning and migration for your database.

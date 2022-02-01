@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Transaction Handling
+==Transaction Handling
 
 For transaction handling we link:guide-aop.asciidoc[AOP] to add transaction control via annotations as aspect.
 This is done by annotating your code with the `@Transactional` annotation.

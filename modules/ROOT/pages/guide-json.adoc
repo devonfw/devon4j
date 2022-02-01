@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= JSON
+==JSON
 
 http://en.wikipedia.org/wiki/JSON[JSON] (JavaScript Object Notation) is a popular format to represent and exchange data especially for modern web-clients. For mapping Java objects to JSON and vice-versa there is no official standard API. We use the established and powerful open-source solution http://wiki.fasterxml.com/JacksonHome[Jackson].
 Due to problems with the wiki of fasterxml you should try this alternative link: https://github.com/FasterXML/jackson#jackson-project-home-github[Jackson/AltLink].

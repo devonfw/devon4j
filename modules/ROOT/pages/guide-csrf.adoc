@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Cross-site request forgery (CSRF)
+==Cross-site request forgery (CSRF)
 
 CSRF is a type of malicious exploit of a web application that allows an attacker to induce users to perform actions that they do not intend to perform.
 

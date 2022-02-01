@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Classic project structure
+==Classic project structure
 
 In this section we describe the classic project structure as initially proposed for Java in devonfw.
 It is still valid and fully supported.

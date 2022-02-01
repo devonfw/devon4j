@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Component Facade
+==Component Facade
 [NOTE]
 Our recommended approach for implementing the logic layer is link:guide-usecase.asciidoc[use-cases]
 

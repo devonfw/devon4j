@@ -1,7 +1,7 @@
 :toc:
 toc::[]
 
-= Monitoring
+==Monitoring
 
 For monitoring a complex application landscape it is crucial to have an exact overview which applications are up and running and which are not and why.
 In devonfw we only focus on topics which are most important when developing production-ready applications.

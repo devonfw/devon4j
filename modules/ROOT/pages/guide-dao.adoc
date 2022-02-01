@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Data Access Object
+==Data Access Object
 
 The _Data Access Objects_ (DAOs) are part of the persistence layer.
 They are responsible for a specific xref:entity[entity] and should be named `«Entity»Dao` and `«Entity»DaoImpl`.

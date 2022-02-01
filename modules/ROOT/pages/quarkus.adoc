@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Quarkus
+==Quarkus
 
 https://quarkus.io[Quarkus] is a Java framework for building cloud-native apps.
 It is fully supported by https://devonfw.com[devonfw] as an option and alternative to link:spring.asciidoc[spring].

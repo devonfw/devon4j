@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Project structure
+==Project structure
 
 In devonfw we want to give clear structure and guidance for building applications.
 This also allows tools such as https://github.com/devonfw/cobigen[CobiGen] or https://github.com/devonfw/sonar-devon4j-plugin/[sonar-devon4j-plugin] to "understand" the code.

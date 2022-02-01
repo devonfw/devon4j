@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Aspect Oriented Programming (AOP)
+==Aspect Oriented Programming (AOP)
 
 http://en.wikipedia.org/wiki/Aspect-oriented_programming[AOP] is a powerful feature for cross-cutting concerns. However, if used extensive and for the wrong things an application can get unmaintainable. Therefore we give you the best practices where and how to use AOP properly.
 
