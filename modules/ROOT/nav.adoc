@@ -1,2 +1,3 @@
 * Welcome
-* xref:architecture.asciidoc[Architecture]
+* xref:architecture.adoc[Architecture]
+
