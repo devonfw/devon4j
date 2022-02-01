@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-==Flyway
+= Flyway
 
 http://flywaydb.org/[Flyway] is a tool for link:guide-database-migration.asciidoc[database migration and schema versioning].
 See https://flywaydb.org/getstarted/why[why] for a motivation why using flyway.

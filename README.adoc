@@ -1,4 +1,4 @@
-==devon4j
+= devon4j
 
 Devon4j is the Java stack of http://devonfw.com[devonfw]. It allows you to build business applications (backends) using Java technology in a highly efficient and standardized way based on established best-practices. To build web-clients as frontend for a devon4j backend we recommend https://github.com/devonfw/devon4ng[devon4ng].
 

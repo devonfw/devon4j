@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-==Logic Layer
+= Logic Layer
 
 The logic layer is the heart of the application and contains the main business logic.
 According to our link:architecture.asciidoc#business-architecture[business architecture], we divide an application into link:guide-component.asciidoc[components].

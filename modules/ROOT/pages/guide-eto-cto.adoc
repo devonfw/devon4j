@@ -1,6 +1,6 @@
 :toc: macro
 toc::[]
-==ETO and CTO approach
+= ETO and CTO approach
 
 == ETO
 For each link:guide-jpa.asciidoc#entity[persistent entity] `«BusinessObject»Entity` we create or generate a corresponding _entity transfer object_ (ETO) named `«BusinessObject»Eto`. It has the same properties except for relations.
