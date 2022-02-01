@@ -1,4 +1,4 @@
-= Java
+== Java
 
 :description: comprehensive documentation for the Java stack of devonfw.
 :doctype: book
@@ -21,278 +21,278 @@ http://www.devonfw.com/[_devonfw_] provides a solution to building applications 
 It massively speeds up development, reduces risks and helps you to deliver better results.
 
 The following sections contain the complete compendium of https://github.com/devonfw/devon4j/[devon4j], the Java stack of devonfw.
-With devon4j we support both link:spring.asciidoc[spring] and link:quarkus.asciidoc[quarkus] as major frameworks.
+With devon4j we support both link:spring.adoc[spring] and link:quarkus.adoc[quarkus] as major frameworks.
 However, the general coding patterns are based on common Java standards mainly from https://jakarta.ee[Jakarta EE] and therefore do not differ between those frameworks.
 Therefore, the xref:general[general] section contains all the documentation that is universal to Java and does not differ between the two frameworks.
-Only the sections link:spring.asciidoc[spring] and link:quarkus.asciidoc[quarkus] contain documentation that is specific to the respective approach.
+Only the sections link:spring.adoc[spring] and link:quarkus.adoc[quarkus] contain documentation that is specific to the respective approach.
 
 You can also read the latest version of this documentation online at the following sources:
 
 * https://github.com/devonfw/devon4j/wiki[devon4j on github wiki]
-* https://devonfw.com/website/pages/docs/devon4j.asciidoc.html[devon4j on devonfw.com].
+* https://devonfw.com/website/pages/docs/devon4j.adoc.html[devon4j on devonfw.com].
 * https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.devonfw.java.doc&a=devon4j-doc&v=LATEST&p=pdf[devon4j as PDF on maven-central]
 
 == General
 Here you will find documentation and code-patterns for developing with Java in general, independent of the framework you choose.
 
-include::architecture.asciidoc[leveloffset=+2]
+include::architecture.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-configuration.asciidoc[leveloffset=+2]
+include::guide-configuration.adoc[leveloffset=+2]
 
 <<<<
 
-include::coding-conventions.asciidoc[leveloffset=+2]
+include::coding-conventions.adoc[leveloffset=+2]
 
-include::guide-structure.asciidoc[leveloffset=+2]
+include::guide-structure.adoc[leveloffset=+2]
 
-include::guide-dependency-injection.asciidoc[leveloffset=+2]
+include::guide-dependency-injection.adoc[leveloffset=+2]
 
-include::guide-blob-support.asciidoc[leveloffset=+2]
-
-<<<<
-
-include::guide-common.asciidoc[leveloffset=+2]
+include::guide-blob-support.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-jpa.asciidoc[leveloffset=+2]
-
-include::guide-jpa-query.asciidoc[leveloffset=+3]
-
-include::guide-repository.asciidoc[leveloffset=+3]
-
-include::guide-dao.asciidoc[leveloffset=+3]
-
-include::guide-jpa-performance.asciidoc[leveloffset=+3]
-
-include::guide-jpa-idref.asciidoc[leveloffset=+3]
+include::guide-common.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-transactions.asciidoc[leveloffset=+3]
+include::guide-jpa.adoc[leveloffset=+2]
+
+include::guide-jpa-query.adoc[leveloffset=+3]
+
+include::guide-repository.adoc[leveloffset=+3]
+
+include::guide-dao.adoc[leveloffset=+3]
+
+include::guide-jpa-performance.adoc[leveloffset=+3]
+
+include::guide-jpa-idref.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-sql.asciidoc[leveloffset=+2]
+include::guide-transactions.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-database-migration.asciidoc[leveloffset=+2]
-
-include::guide-flyway.asciidoc[leveloffset=+3]
-
-include::guide-liquibase.asciidoc[leveloffset=+3]
+include::guide-sql.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-rest.asciidoc[leveloffset=+2]
+include::guide-database-migration.adoc[leveloffset=+2]
+
+include::guide-flyway.adoc[leveloffset=+3]
+
+include::guide-liquibase.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-json.asciidoc[leveloffset=+2]
+include::guide-rest.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-xml.asciidoc[leveloffset=+2]
+include::guide-json.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-soap.asciidoc[leveloffset=+2]
+include::guide-xml.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-logging.asciidoc[leveloffset=+2]
+include::guide-soap.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-monitoring.asciidoc[leveloffset=+2]
-
-include::guide-log-monitoring.asciidoc[leveloffset=+2]
-
-include::guide-apm.asciidoc[leveloffset=+2]
+include::guide-logging.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-security.asciidoc[leveloffset=+2]
+include::guide-monitoring.adoc[leveloffset=+2]
+
+include::guide-log-monitoring.adoc[leveloffset=+2]
+
+include::guide-apm.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-cors-support.asciidoc[leveloffset=+2]
+include::guide-security.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-jdk.asciidoc[leveloffset=+2]
+include::guide-cors-support.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-jee.asciidoc[leveloffset=+2]
+include::guide-jdk.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-validation.asciidoc[leveloffset=+2]
+include::guide-jee.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-beanmapping.asciidoc[leveloffset=+2]
-
-
-include::guide-lombok.asciidoc[leveloffset=+2]
+include::guide-validation.adoc[leveloffset=+2]
 
 <<<<
 
-include::guide-openapi.asciidoc[leveloffset=+2]
+include::guide-beanmapping.adoc[leveloffset=+2]
+
+
+include::guide-lombok.adoc[leveloffset=+2]
 
 <<<<
 
-include::spring.asciidoc[leveloffset=+1]
+include::guide-openapi.adoc[leveloffset=+2]
 
-include::guide-component.asciidoc[leveloffset=+2]
+<<<<
 
-include::guide-structure-classic.asciidoc[leveloffset=+2]
+include::spring.adoc[leveloffset=+1]
+
+include::guide-component.adoc[leveloffset=+2]
+
+include::guide-structure-classic.adoc[leveloffset=+2]
 
 <<<<
 
 
 === Layers
 
-include::guide-client-layer.asciidoc[leveloffset=+3]
+include::guide-client-layer.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-service-layer.asciidoc[leveloffset=+3]
+include::guide-service-layer.adoc[leveloffset=+3]
 
-include::guide-service-versioning.asciidoc[leveloffset=+3]
-
-<<<<
-
-include::guide-logic-layer.asciidoc[leveloffset=+3]
-
-include::guide-component-facade.asciidoc[leveloffset=+4]
-
-include::guide-usecase.asciidoc[leveloffset=+4]
+include::guide-service-versioning.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-dataaccess-layer.asciidoc[leveloffset=+3]
+include::guide-logic-layer.adoc[leveloffset=+3]
+
+include::guide-component-facade.adoc[leveloffset=+4]
+
+include::guide-usecase.adoc[leveloffset=+4]
 
 <<<<
 
-include::guide-batch-layer.asciidoc[leveloffset=+3]
+include::guide-dataaccess-layer.adoc[leveloffset=+3]
+
+<<<<
+
+include::guide-batch-layer.adoc[leveloffset=+3]
 
 <<<<
 
 === Guides
 
-include::spring/guide-spring-configuration.asciidoc[leveloffset=+3]
+include::spring/guide-spring-configuration.adoc[leveloffset=+3]
 
-include::guide-configuration-mapping.asciidoc[leveloffset=+4]
-
-<<<<
-
-include::guide-auditing.asciidoc[leveloffset=+3]
+include::guide-configuration-mapping.adoc[leveloffset=+4]
 
 <<<<
 
-include::guide-access-control.asciidoc[leveloffset=+3]
+include::guide-auditing.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-data-permission.asciidoc[leveloffset=+4]
+include::guide-access-control.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-jwt.asciidoc[leveloffset=+3]
+include::guide-data-permission.adoc[leveloffset=+4]
 
 <<<<
 
-include::guide-csrf.asciidoc[leveloffset=+3]
+include::guide-jwt.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-aop.asciidoc[leveloffset=+3]
+include::guide-csrf.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-exceptions.asciidoc[leveloffset=+3]
+include::guide-aop.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-i18n.asciidoc[leveloffset=+3]
+include::guide-exceptions.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-service-client.asciidoc[leveloffset=+3]
+include::guide-i18n.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-testing.asciidoc[leveloffset=+3]
+include::guide-service-client.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-transferobject.asciidoc[leveloffset=+3]
+include::guide-testing.adoc[leveloffset=+3]
+
+<<<<
+
+include::guide-transferobject.adoc[leveloffset=+3]
 
 
 <<<<
 
-include::spring/guide-beanmapping-spring.asciidoc[leveloffset=+3]
+include::spring/guide-beanmapping-spring.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-datatype.asciidoc[leveloffset=+3]
+include::guide-datatype.adoc[leveloffset=+3]
 
 <<<<
 
-include::spring/guide-cors-spring.asciidoc[leveloffset=+3]
+include::spring/guide-cors-spring.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-microservice.asciidoc[leveloffset=+3]
+include::guide-microservice.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-caching.asciidoc[leveloffset=+3]
+include::guide-caching.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-feature-toggle.asciidoc[leveloffset=+3]
+include::guide-feature-toggle.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-accessibility.asciidoc[leveloffset=+3]
+include::guide-accessibility.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-kafka.asciidoc[leveloffset=+3]
+include::guide-kafka.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-jms.asciidoc[leveloffset=+3]
+include::guide-jms.adoc[leveloffset=+3]
 
 <<<<
 
-include::guide-text-search.asciidoc[leveloffset=+3]
+include::guide-text-search.adoc[leveloffset=+3]
 
 
 === Tutorials
 
-include::tutorial-newapp.asciidoc[leveloffset=+3]
+include::tutorial-newapp.adoc[leveloffset=+3]
 
-include::quarkus.asciidoc[leveloffset=+1]
+include::quarkus.adoc[leveloffset=+1]
 
-include::quarkus/getting-started-quarkus.asciidoc[leveloffset=+2]
+include::quarkus/getting-started-quarkus.adoc[leveloffset=+2]
 
-include::guide-structure-modern.asciidoc[leveloffset=+2]
+include::guide-structure-modern.adoc[leveloffset=+2]
 
-include::guide-domain-layer.asciidoc[leveloffset=+2]
+include::guide-domain-layer.adoc[leveloffset=+2]
 
 <<<<
 
 === Guides
 
-include::quarkus/getting-started-for-spring-developers.asciidoc[leveloffset=+3]
-include::quarkus/guide-quarkus-configuration.asciidoc[leveloffset=+3]
-include::quarkus/quarkus-template.asciidoc[leveloffset=+3]
-include::quarkus/guide-native-image.asciidoc[leveloffset=+3]
-include::quarkus/guide-beanmapping-quarkus.asciidoc[leveloffset=+3]
+include::quarkus/getting-started-for-spring-developers.adoc[leveloffset=+3]
+include::quarkus/guide-quarkus-configuration.adoc[leveloffset=+3]
+include::quarkus/quarkus-template.adoc[leveloffset=+3]
+include::quarkus/guide-native-image.adoc[leveloffset=+3]
+include::quarkus/guide-beanmapping-quarkus.adoc[leveloffset=+3]

@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Access Control Schema
+== Access Control Schema
 
 With release `3.0.0` the `access-control-schema.xml` has been deprecated. You may still use it and find the documentation in this section. However, for new devonfw applications always start with the new approach described in link:guide-access-control#access-control-config.asciidoc[access control config].
 

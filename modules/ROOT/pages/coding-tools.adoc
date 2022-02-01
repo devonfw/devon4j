@@ -1,7 +1,7 @@
 :toc:
 toc::[]
 
-= Tools
+== Tools
 
 .Development Tools used for devon4j
 [options="header"]

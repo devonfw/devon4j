@@ -1,7 +1,7 @@
 :toc:
 toc::[]
 
-= Decision Sheet for Choosing a Service Framework
+== Decision Sheet for Choosing a Service Framework
 
 We need to choose which framework(s) we want to use for building services. For the devonfw, we focus on a standard API, if available. However, we also want to recommend an implementation. While projects would still be able to choose whatever they want, we want to suggest the best, most robust, and established solution. This way, projects do not have to worry about the decision and can rely on a production-ready framework without running into any trouble. Also, besides the standard, the configuration of the implementation framework differs, so we want to give instructions  in the documentation and by our sample application. This is why, in the end, the implementation also matters. If a project has a customer demand to use something else, the project has to take care of it. We will always suggest and "support" ONE solution.
 
