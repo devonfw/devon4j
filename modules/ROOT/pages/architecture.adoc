@@ -80,7 +80,7 @@ Further, there are technical components for cross-cutting aspects grouped by the
 
 [[img-t-architecture]]
 .Technical Reference Architecture
-image::images/T-Architecture.png["devonfw architecture blueprint",scaledwidth="80%",align="center",link="https://devonfw.com/website/pages/docs/images/T-Architecture.svg"]
+image::T-Architecture.png["devonfw architecture blueprint",scaledwidth="80%",align="center",link="https://devonfw.com/website/pages/docs/images/T-Architecture.svg"]
 
 Please click on the architecture image to open it as SVG and click on the layers and cross-cutting topics to open the according documentation guide.
 
