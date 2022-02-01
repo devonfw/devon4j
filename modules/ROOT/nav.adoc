@@ -1,3 +1,2 @@
-* Welcome
 * xref:architecture.adoc[Architecture]
 
