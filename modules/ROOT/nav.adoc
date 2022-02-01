@@ -1,19 +1,14 @@
-* Documentation
-
+.Documentation
 * xref:architecture.adoc[Architecture Overview]
 * xref:guide-domain-layer.adoc[Domain Layer]
 * xref:guide-logic-layer.adoc[Logic Layer]
 * xref:guide-service-layer.adoc[Service Layer]
 * xref:guide-batch-layer.adoc[Batch Layer]
 * xref:guide-client-layer.adoc[Client Layer (GUI)]
-
-* Coding
-
+.Coding
 * xref:coding-conventions.adoc[Coding Conventions]
 * xref:coding-tools.adoc[Development Tools]
-
-* Guides
-
+.Guides
 * xref:guide-dependency-injection.adoc[Bean Dependency Injection]
 * xref:guide-configuration.adoc[Configuration]
 * xref:guide-logging.adoc[Logging]
