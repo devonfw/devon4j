@@ -1,6 +1,6 @@
 :toc: macro
 toc::[]
-==Transfer-Objects
+= Transfer-Objects
 
 The technical data model is defined in form of link:guide-jpa.asciidoc#entity[persistent entities].
 However, passing persistent entities via _call-by-reference_ across the entire application will soon cause problems:

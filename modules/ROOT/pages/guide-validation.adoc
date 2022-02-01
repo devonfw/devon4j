@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-==Validation
+= Validation
 
 Validation is about checking syntax and semantics of input data. Invalid data is rejected by the application.
 Therefore validation is required in multiple places of an application. E.g. the link:guide-client-layer.asciidoc[GUI] will do validation for usability reasons to assist the user, early feedback and to prevent unnecessary server requests.

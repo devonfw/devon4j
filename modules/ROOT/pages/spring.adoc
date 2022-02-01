@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-==Spring
+= Spring
 
 https://spring.io[Spring] is the most famous and established Java framework.
 It is fully supported by https://devonfw.com[devonfw] as an option and alternative to link:quarkus.asciidoc[quarkus].
