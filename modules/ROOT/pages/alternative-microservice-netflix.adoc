@@ -8,11 +8,11 @@ Devonfw microservices approach is based on http://cloud.spring.io/spring-cloud-n
 
 In the following schema we can see an overview of the structure of components in a Devon application based on the _Spring Cloud Netflix_ solution for microservices.
 
-image::images/microservices/microservices_01.png[,width="450", link="images/microservices/microservices_01.png"]
+image::microservices/microservices_01.png[,width="450", link="microservices/microservices_01.png"]
 
 Let's explain each component
 
-==== Service Discovery - Eureka
+=== Service Discovery - Eureka
 
 link:http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.0.M1/#service_discovery_eureka_clients[Eureka] is a server to register and locate the microservices. The main function for _Eureka_ is to register the different instances of the microservices, its location, its state and other metadata.
 
@@ -22,22 +22,22 @@ If after 3 periods, Eureka does not receive notification of any of the microserv
 
 In addition, it serves as a catalog to locate a specific microservice when routing a request to it.
 
-==== Circuit Breaker - Hystrix
+=== Circuit Breaker - Hystrix
 
 http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.0.M1/#circuit_breaker_hystrix_clients[Hystrix] is a library that implements the https://martinfowler.com/bliki/CircuitBreaker.html[Circuit Breaker] pattern. Its main functionality is to improve the reliability of the system, isolating the entry points of the microservices, preventing the cascading failure from the lower levels of the application all the way up to the user.
 
 In addition to that, it allows developers to provide a fallback in case of error. _Hystrix_ manages the requests to a service, and in case that the microservice doesn't response, allows to implement an alternative to the request.
 
-==== Client Side Load Balancer - Ribbon
+=== Client Side Load Balancer - Ribbon
 
 http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.0.M1/#spring-cloud-ribbon[Ribbon] is a library designed as client side load balancer. Its main feature is to integrate with _Eureka_ to discover the instances of the microservices and their metadata. In that way the _Ribbon_ is able to calculate which of the available instances of a microservice is the most appropriate for the client, when facing a request.
 
-==== REST Client - Feign
+=== REST Client - Feign
 http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.0.M1/#spring-cloud-feign[Feign] is a REST client to make calls to other microservices. The strength of Feign is that it integrates seamlessly with _Ribbon_ and _Hystrix_, and its implementation is through annotations, which greatly facilitates this task to the developer.
 
 Using annotations, Spring-cloud generates, automatically, a fully configured REST client.
 
-==== Router and Filter - Zuul
+=== Router and Filter - Zuul
 
 link:http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.0.M1/#router_and_filter_zuul[Zuul] is the entry point of the apps based on Spring-cloud microservices. It allows dynamic routing, load balancing, monitoring and securing of requests. By default _Zuul_ uses _Ribbon_ to locate, through Eureka, the instances of the microservice that it wants to invoke and sends the requests within a _Hystrix Command_, taking advantage of its functionality.
 
@@ -103,7 +103,7 @@ mvn -DarchetypeVersion=2.4.0 -DarchetypeGroupId=com.devonfw.microservices -Darch
 
 Once the _Maven_ command has finished an application with the following modules should be created:
 
-image::images/microservices/microservices_02.png[,width="150", link="images/microservices/microservices_02.png"]
+image::microservices/microservices_02.png[,width="150", link="microservices/microservices_02.png"]
 
 ==== service-eureka module
 
@@ -336,7 +336,7 @@ It works as follows:
 
 - The client is now able to call the microservice, adding the _authorization token_ to the header of the request.
 
-image::images/microservices/microservices_07.png[,width="450", link="images/microservices/microservices_07.png"]
+image::microservices/microservices_07.png[,width="450", link="microservices/microservices_07.png"]
 
 ===== Security in external service (`service-auth`)
 
@@ -348,7 +348,7 @@ It works as follows:
 
 - The _Auth_ microservice will check the user, retrieve their roles and metadata and generate two tokens: one with user access information and another needed to refresh the access token. This information will be returned to the client.
 
-image::images/microservices/microservices_03.png[,width="450", link="images/microservices/microservices_03.png"]
+image::microservices/microservices_03.png[,width="450", link="microservices/microservices_03.png"]
 
 The `service-auth` service is already prepared to listen to the `/login` path and generate the two mentioned tokens. To do so we can use the `JsonWebTokenUtility` class that is implemented in devonfw
 
@@ -410,7 +410,7 @@ When configuring the `service-auth` module is very important to have into accoun
 
 From now on, the client will be able to make calls to the microservices, sending the _access token_ in the header of the request.
 
-image::images/microservices/microservices_04.png[,width="450", link="images/microservices/microservices_04.png"]
+image::microservices/microservices_04.png[,width="450", link="microservices/microservices_04.png"]
 
 Once the request reaches the microservice, the app must validate the token and register the user in the security context. These operations will be automatic as long as the microservice has enabled the security inherited from the `JsonWebTokenSecurityConfig` class. This is done using the following code:
 
@@ -441,11 +441,11 @@ In addition, devonfw has already implemented the needed interceptors and filters
 
 When validating the token, it is also checked its expiration date, so it is highly recommended that the client refresh from time to time the token, in order to update its expiration date. This is done by launching a request to `/refresh_jwt` within the `service-auth` module and sending both the _access token_ and the _refresh token_ in the header.
 
-image::images/microservices/microservices_05.png[,width="450", link="images/microservices/microservices_05.png"]
+image::microservices/microservices_05.png[,width="450", link="microservices/microservices_05.png"]
 
 If for any reason an attempt is made to access a business operation without having a valid token, or without sufficient _role_ level permission to execute that operation, the microservice response will be *Forbidden*.
 
-image::images/microservices/microservices_06.png[,width="450", link="images/microservices/microservices_06.png"]
+image::microservices/microservices_06.png[,width="450", link="microservices/microservices_06.png"]
 
 === How to modify the UserDetails information
 
