@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= JEE
+==JEE
 
 This section is about Java Enterprise Edition (JEE).
 Regarding to our link:architecture#key-principles.asciidoc[key principles] we focus on open standards.

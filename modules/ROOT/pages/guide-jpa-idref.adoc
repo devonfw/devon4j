@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= IdRef
+==IdRef
 
 IdRef can be used to reference other entities in TOs in order to make them type-safe and semantically more expressive.
 It is an optional concept in devon4j for more complex applications that make intensive use of relations and foreign keys.

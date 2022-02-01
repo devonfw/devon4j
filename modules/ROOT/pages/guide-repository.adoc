@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Spring Data
+==Spring Data
 https://projects.spring.io/spring-data-jpa/[Spring Data JPA] is supported by both Spring and Quarkus. However, in Quarkus this approach still has some limitations. For detailed information, see the official https://quarkus.io/guides/spring-data-jpa[Quarkus Spring Data guide].
 
 == Motivation

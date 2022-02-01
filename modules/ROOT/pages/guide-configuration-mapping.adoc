@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Mapping configuration to your code
+==Mapping configuration to your code
 
 If you are using `spring-boot` as suggested by `devon4j` your application can be configured by `application.properties` file as described in link:guide-configuration.asciidoc[configuration].
 To get a single configuration option into your code for flexibility, you can use

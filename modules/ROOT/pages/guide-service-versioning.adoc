@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Service-Versioning
+==Service-Versioning
 
 This guide describes the aspect and details about versioning of link:guide-service-layer.asciidoc[services]
 

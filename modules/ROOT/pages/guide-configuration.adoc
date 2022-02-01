@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Configuration
+==Configuration
 
 An application needs to be configurable in order to allow internal setup (like CDI) but also to allow externalized configuration of a deployed package (e.g. integration into runtime environment). We rely on a comprehensive configuration approach following a "convention over configuration" pattern. This guide adds on to this by detailed instructions and best-practices how to deal with configurations.
 

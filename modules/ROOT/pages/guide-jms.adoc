@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Messaging
+==Messaging
 
 Messaging in Java is done using the https://en.wikipedia.org/wiki/Java_Message_Service[JMS] standard from JEE.
 

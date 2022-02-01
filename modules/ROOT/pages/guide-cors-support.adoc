@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= CORS support
+==CORS support
 
 When you are developing Javascript client and server application separately, you have to deal with cross domain issues. We have to request from a origin domain distinct to target domain and browser does not allow this.
 

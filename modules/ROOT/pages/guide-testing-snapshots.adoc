@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Testing devon4j SNAPSHOT releases
+==Testing devon4j SNAPSHOT releases
 
 Whenever a story in devon4j is completed by merging a https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests[PR],
 our https://github.com/features/actions[github actions] will build a new SNAPSHOT release and on success deploy it to nexus on OSSRH.

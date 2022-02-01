@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Java Persistence API
+==Java Persistence API
 
 For mapping java objects to a relational database we use the http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[Java Persistence API (JPA)]. 
 As JPA implementation we recommend to use http://hibernate.org/orm/[Hibernate]. For general documentation about JPA and Hibernate follow the links above as we will not replicate the documentation. Here you will only find guidelines and examples how we recommend to use it properly. The following examples show how to map the data of a database to an entity. As we use JPA we abstract from link:guide-sql.asciidoc[SQL] here. However, you will still need a https://en.wikipedia.org/wiki/Data_definition_language[DDL] script for your schema and during maintenance also link:guide-database-migration.asciidoc[database migrations]. Please follow our link:guide-sql.asciidoc[SQL guide] for such artifacts.

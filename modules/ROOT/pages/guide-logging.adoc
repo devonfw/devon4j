@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Logging
+==Logging
 
 We recommend to use http://www.slf4j.org/[SLF4J] as API for logging, that has become a de facto standard in Java as it has a much better design than `java.util.logging` offered by the JDK.
 There are serveral implementations for SLF4J. For Spring applications our recommended implementation is http://logback.qos.ch/[Logback]. Quarkus uses JBoss Logging which provides a JBoss Log Manager implementation for SLF4J. For more information on logging in Quarkus, see the https://quarkus.io/guides/logging[Quarkus logging guide].

@@ -1,6 +1,6 @@
 :toc: macro
 toc::[]
-= BLOB support
+==BLOB support
 
 BLOB stands for **B**inary **L**arge **Ob**ject. A BLOB may be an image, an office document, ZIP archive or any other multimedia object.
 Often these BLOBs are large. if this is the case you need to take care, that you do not copy all the blob data into you application heap, e.g. when providing them via a REST service.

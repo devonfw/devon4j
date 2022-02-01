@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Creating a new application
+==Creating a new application
 
 == Running the archetype
 

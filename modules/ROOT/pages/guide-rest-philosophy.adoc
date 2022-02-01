@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= REST Philosophy
+==REST Philosophy
 
 REST and RESTful often implies very strict and specific rules and conventions.
 However different people will often have different opinions of such rules.

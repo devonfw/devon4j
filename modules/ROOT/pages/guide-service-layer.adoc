@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Service Layer
+==Service Layer
 
 The service layer is responsible for exposing functionality made available by the link:guide-logic-layer.asciidoc[logical layer] to external consumers over a network via xref:protocol[technical protocols].
 

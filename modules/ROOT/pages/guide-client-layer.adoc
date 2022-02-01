@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Client Layer
+==Client Layer
 
 There are various technical approaches to building GUI clients. The devonfw proposes rich clients that connect to the server via data-oriented services (e.g. using REST with JSON).
 In general, we have to distinguish among the following types of clients:

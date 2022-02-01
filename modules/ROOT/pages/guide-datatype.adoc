@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Datatypes
+==Datatypes
 
 [quote, mmm project, datatype javadoc]
 ____

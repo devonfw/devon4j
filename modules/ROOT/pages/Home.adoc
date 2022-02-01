@@ -1,4 +1,4 @@
-= devonfw for Java (devon4j)
+==devonfw for Java (devon4j)
 
 Welcome to the Java edition of devonfw. devon4j is documented by a platform guide (see the side-bar of this wiki) to be used in your projects.
 

@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Performance comparison between Spring and Quarkus
+==Performance comparison between Spring and Quarkus
 
 Quarkus offers a big advantage in resource consumption compared to a Spring application. Especially in native mode, the memory footprint of a Quarkus application is extremely low, which can be a deciding factor in real-world environments.
 The tables <<PerformanceComparisonApplication1>> and <<PerformanceComparisonApplication2>>, which show the startup and memory consumption of two applications that are similar in their Quarkus and Spring implementations, illustrate this point. Application 1 is more complex in scope than Application 2 and uses more dependencies.

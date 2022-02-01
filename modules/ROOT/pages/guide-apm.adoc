@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Application Performance Management
+==Application Performance Management
 
 This guide gives hints how to manage, monitor and analyse performance of Java applications.
 

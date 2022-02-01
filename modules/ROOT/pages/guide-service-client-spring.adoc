@@ -2,7 +2,7 @@
 :icons: font
 toc::[]
 
-= Service Client in devon4j-spring
+==Service Client in devon4j-spring
 
 This guide is about consuming (calling) services from other applications (micro-services) in devon4j-spring.
 

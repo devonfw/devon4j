@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Dependency Injection
+==Dependency Injection
 Dependency injection is one of the most important design patterns and is a key principle to a modular and component based architecture.
 The Java Standard for dependency injection is http://docs.oracle.com/javaee/6/api/javax/inject/package-summary.html[javax.inject (JSR330)] that we use in combination with http://docs.oracle.com/javaee/5/api/javax/annotation/package-summary.html[JSR250].
 Additionally, for scoping you can use CDI (Context and Dependency Injection) from https://jcp.org/en/jsr/detail?id=365[JSR365].
