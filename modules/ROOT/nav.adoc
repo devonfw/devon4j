@@ -1,3 +1,6 @@
-* Welcome
-* xref:architecture.adoc[Architecture]
-
+* xref:architecture.adoc[Architecture Overview]
+* xref:guide-domain-layer.asciidoc[Domain Layer]
+* xref:guide-logic-layer.asciidoc[Logic Layer]
+* xref:guide-service-layer.asciidoc[Service Layer]
+* xref:guide-batch-layer.asciidoc[Batch Layer]
+* xref:guide-client-layer.asciidoc[Client Layer (GUI)]
