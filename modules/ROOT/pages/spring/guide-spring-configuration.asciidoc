@@ -1,0 +1,210 @@
+:toc: macro
+toc::[]
+
+= Configuration
+
+== Internal Application Configuration
+There usually is a main configuration registered with main Spring Boot App, but differing configurations to support automated test of the application can be defined using profiles (not detailed in this guide).
+
+=== Spring Boot Application
+For a complete documentation, see the http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/[Spring Boot Reference Guide].
+
+With spring-boot you provide a simple _main class_ (also called starter class) like this:
+com.devonfw.mtsj.application
+[source, java]
+----
+@SpringBootApplication(exclude = { EndpointAutoConfiguration.class })
+@EntityScan(basePackages = { "com.devonfw.mtsj.application" }, basePackageClasses = { AdvancedRevisionEntity.class })
+@EnableGlobalMethodSecurity(jsr250Enabled = true)
+@ComponentScan(basePackages = { "com.devonfw.mtsj.application.general", "com.devonfw.mtsj.application" })
+public class SpringBootApp {
+
+  /**
+   * Entry point for spring-boot based app
+   *
+   * @param args - arguments
+   */
+  public static void main(String[] args) {
+
+    SpringApplication.run(SpringBootApp.class, args);
+  }
+}
+----
+
+In an devonfw application this main class is always located in the `<basepackage>` of the application package namespace (see link:coding-conventions.asciidoc#packages[package-conventions]). This is because a spring boot application will automatically do a classpath scan for components (spring-beans) and entities in the package where the application main class is located including all sub-packages. You can use the `@ComponentScan` and `@EntityScan` annotations to customize this behaviour.
+
+If you want to map spring configuration properties into your custom code please see link:guide-configuration-mapping.asciidoc[configuration mapping].
+
+=== Standard beans configuration
+
+For basic bean configuration we rely on spring boot using mainly configuration classes and only occasionally XML configuration files. Some key principle to understand Spring Boot auto-configuration features:
+
+* Spring Boot auto-configuration attempts to automatically configure your Spring application based on the jar dependencies and annotated components found in your source code.
+* Auto-configuration is non-invasive, at any point you can start to define your own configuration to replace specific parts of the auto-configuration by redefining your identically named bean (see also `exclude` attribute of `@SpringBootApplication` in example code above).
+
+Beans are configured via annotations in your java code (see link:guide-dependency-injection.asciidoc[dependency-injection]).
+
+For technical configuration you will typically write additional spring config classes annotated with `@Configuration` that provide bean implementations via methods annotated with `@Bean`. See http://docs.spring.io/spring-javaconfig/docs/1.0.0.M4/reference/html/ch02s02.html[spring @Bean documentation] for further details. Like in XML you can also use `@Import` to make a `@Configuration` class include other configurations.
+
+More specific configuration files (as required) reside in an adequately named subfolder of:
+
+`src/main/resources/app`
+
+=== BeanMapper Configuration
+In case you are still using dozer, you will find further details in link:../guide-beanmapping.asciidoc#bean-mapper-configuration[bean-mapper configuration].
+
+=== Security configuration
+The abstract base class `BaseWebSecurityConfig` should be extended to configure web application security thoroughly.
+A basic and secure configuration is provided which can be overridden or extended by subclasses.
+Subclasses must use the `@Profile` annotation to further discriminate between beans used in production and testing scenarios. See the following example:
+
+.How to extend `BaseWebSecurityConfig` for Production and Test
+[source,java]
+----
+@Configuration
+@EnableWebSecurity
+@Profile(SpringProfileConstants.JUNIT)
+public class TestWebSecurityConfig extends BaseWebSecurityConfig {...}
+
+@Configuration
+@EnableWebSecurity
+@Profile(SpringProfileConstants.NOT_JUNIT)
+public class WebSecurityConfig extends BaseWebSecurityConfig {...}
+----
+
+See https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/general/service/impl/config/WebSecurityConfig.java[WebSecurityConfig].
+
+
+=== WebSocket configuration
+A websocket endpoint is configured within the business package as a Spring configuration class. The annotation `@EnableWebSocketMessageBroker` makes Spring Boot registering this endpoint.
+//Changed path due to non existent configuration in the example project
+[source, java]
+----
+package your.path.to.the.websocket.config;
+...
+@Configuration
+@EnableWebSocketMessageBroker
+public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+...
+----
+
+== External Application Configuration
+=== application.properties files
+https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[Here] is a list of common properties provided by the Spring framework.
+
+For a general understanding how spring-boot is loading and boostrapping your `application.properties` see https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html[spring-boot external configuration].
+
+The following properties files are used in devonfw application:
+
+* `src/main/resources/application.properties` providing a default configuration - bundled and deployed with the application package. It further acts as a template to derive a tailored minimal environment-specific configuration.
+* `src/main/resources/config/application.properties` providing additional properties only used at development time (for all local deployment scenarios). This property file is excluded from all packaging.
+* `src/test/resources/config/application.properties` providing additional properties only used for testing (JUnits based on link:guide-testing.asciidoc[spring test]).
+
+For other environments where the software gets deployed such as `test`, `acceptance` and `production` you need to provide a tailored copy of `application.properties`. The location depends on the deployment strategy:
+
+* standalone run-able Spring Boot App using embedded tomcat: `config/application.properties` under the installation directory of the spring boot application.
+* dedicated tomcat (one tomcat per app): `$CATALINA_BASE/lib/config/application.properties`
+* tomcat serving a number of apps (requires expanding the wars): `$CATALINA_BASE/webapps/<app>/WEB-INF/classes/config`
+
+In this `application.properties` you only define the minimum properties that are environment specific and inherit everything else from the bundled `src/main/resources/application.properties`. In any case, make very sure that the classloader will find the file.
+
+=== Database Configuration
+
+The configuration for spring and Hibernate is already provided by devonfw in our sample application and the application template. So you only need to worry about a few things to customize.
+
+==== Database System and Access
+Obviously you need to configure which type of database you want to use as well as the location and credentials to access it. The defaults are configured in `application.properties` that is bundled and deployed with the release of the software. The files should therefore contain the properties as in the given example:
+
+[source, properties]
+----
+  database.url=jdbc:postgresql://database.enterprise.com/app
+  database.user.login=appuser01
+  database.user.password=************
+  database.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+  database.hibernate.hbm2ddl.auto=validate
+----
+
+For further details about `database.hibernate.hbm2ddl.auto` please see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html#configuration-misc-properties[here]. For production and acceptance environments we use the value `validate` that should be set as default. In case you want to use Oracle RDBMS you can find additional hints link:guide-oracle.asciidoc#driver[here].
+
+If your application supports multiples database types, set `spring.profiles.active=XXX` in `src/main/resources/config/application.properties` choose database of your choice. Also, one has to set all the active spring profiles in this `application.properties` and not in any of the other `application.properties`.
+
+==== Database Logging
+Add the following properties to `application.properties` to enable logging of database queries for debugging purposes.
+
+[source, properties]
+----
+spring.jpa.properties.hibernate.show_sql=true
+spring.jpa.properties.hibernate.use_sql_comments=true
+spring.jpa.properties.hibernate.format_sql=true
+----
+
+== Security
+
+=== Password Encryption
+In order to support encrypted passwords in spring-boot `application.properties` all you need to do is to add https://github.com/ulisesbocchio/jasypt-spring-boot#jasypt-spring-boot[jasypt-spring-boot] as dependency in your `pom.xml` (please check for recent version link:https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter[here]):
+[source, xml]
+----
+<dependency>
+  <groupId>com.github.ulisesbocchio</groupId>
+  <artifactId>jasypt-spring-boot-starter</artifactId>
+  <version>3.0.3</version>
+</dependency>
+----
+This will smoothly integrate http://jasypt.org/[jasypt] into your https://projects.spring.io/spring-boot/[spring-boot] application. Read this https://apereo.atlassian.net/wiki/spaces/CASUM/pages/103261428/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files[HOWTO] to learn how to encrypt and decrypt passwords using jasypt.
+
+Next, we give a simple example how to encypt and configure a secret value.
+We use the algorithm `PBEWITHHMACSHA512ANDAES_256` that provides strong encryption and is the default of `jasypt-spring-boot-starter`.
+However, different algorithms can be used if perferred (e.g. `PBEWITHMD5ANDTRIPLEDES`).
+----
+java -cp ${M2_REPO}/org/jasypt/jasypt/1.9.3/jasypt-1.9.3.jar org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI password=masterpassword algorithm=PBEWITHHMACSHA512ANDAES_256 input=secret ivGeneratorClassName=org.jasypt.iv.RandomIvGenerator
+
+----ENVIRONMENT-----------------
+
+Runtime: AdoptOpenJDK OpenJDK 64-Bit Server VM 11.0.5+10
+
+
+
+----ARGUMENTS-------------------
+
+input: secret
+password: masterpassword
+ivGeneratorClassName: org.jasypt.iv.RandomIvGenerator
+algorithm: PBEWITHHMACSHA512ANDAES_256
+
+
+
+----OUTPUT----------------------
+
+PoUxkNjY2juQMCyPu6ic5KJy1XfK+bX9vu2/mPj3pmcO4iydG6mhgZRZSw50z/oC
+
+----
+Of course the master-password (`masterpassword`) and the actual password to encrypt (`secret`) are just examples.
+Please replace them with reasonable strong passwords for your environment.
+Further, if you are using https://github.com/devonfw/ide[devonfw-ide] you can make your life much easier and just type:
+```
+devon jasypt encrypt
+```
+See https://github.com/devonfw/ide/blob/master/documentation/jasypt.asciidoc[jasypt commandlet] for details.
+
+Now the entire line after the `OUTPUT` block is your encrypted secret.
+It even contains some random salt so that multiple encryption invocations with the same parameters (`ARGUMENTS`) will produce a different `OUTPUT`.
+
+The master-password can be configured on your target environment via the property `jasypt.encryptor.password`. As system properties given on the command-line are visible in the process list, we recommend to use an `config/application.yml` file only for this purpose (as we recommended to use `application.properties` for regular configs):
+```
+jasypt:
+    encryptor:
+        password: masterpassword
+```
+Again `masterpassword` is just an example that your replace with your actual master password.
+Now you are able to put encrypted passwords into your `application.properties` and specify the algorithm.
+```
+spring.datasource.password=ENC(PoUxkNjY2juQMCyPu6ic5KJy1XfK+bX9vu2/mPj3pmcO4iydG6mhgZRZSw50z/oC)
+jasypt.encryptor.algorithm=PBEWITHHMACSHA512ANDAES_256
+```
+This `application.properties` file can be version controlled (git-opts) and without knowing the masterpassword nobody is able to decrypt this to get the actual secret back.
+
+To prevent jasypt to throw an exception in dev or test scenarios you can simply put this in your local config (`src/main/config/application.properties` and same for `test`, see above for details):
+```
+jasypt.encryptor.password=none
+```
+
