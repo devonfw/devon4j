@@ -185,7 +185,7 @@ include::guide-batch-layer.adoc[leveloffset=+3]
 
 === Guides
 
-include::spring/guide-spring-configuration.adoc[leveloffset=+3]
+include::spring/guide-spring-configuration.asciidoc[leveloffset=+3]
 
 include::guide-configuration-mapping.adoc[leveloffset=+4]
 
