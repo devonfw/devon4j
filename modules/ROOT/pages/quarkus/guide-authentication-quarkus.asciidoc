@@ -1,0 +1,16 @@
+:toc: macro
+toc::[]
+
+= Quarkus Authentication
+Quarkus supports different authentication mechanisms through different extensions. For example:
+
+* https://quarkus.io/guides/security-properties[`quarkus-elytron-security-properties-file`] provides support for simple properties files that can be used for testing security. This supports both embedding user information in `application.properties` and standalone properties files.
+* https://quarkus.io/guides/security-jpa[`quarkus-security-jpa`] provides support for authenticating via JPA.
+* https://quarkus.io/guides/security-jdbc[`quarkus-elytron-security-jdbc`] provides support for authenticating with JDBC
+* https://quarkus.io/guides/security-jwt[`quarkus-smallrye-jwt`] provides support for authenticating using JSON Web Tokens. It allows you to inject the token and claims into the application as per the MicroProfile JWT specification.
+* https://quarkus.io/guides/security-openid-connect[`quarkus-oidc`] provides support for authentication via an OpenID Connect provider e.g. KeyCloak
+* https://quarkus.io/guides/security-keycloak-authorization[`quarkus-keycloak-authorization`] provides support for a policy enforcer using https://www.keycloak.org/docs/latest/authorization_services/index.html[Keycloak Authorization Services].
+
+For mix authentication, see https://quarkus.io/guides/security#combining-authentication-mechanisms[here].
+
+For further details see https://quarkus.io/guides/security[Quarkus - Security architecture and guides]. Quarkus also provides a compatibility layer for Spring Security in the form of the https://quarkus.io/guides/spring-security[`spring-security`] extension.
