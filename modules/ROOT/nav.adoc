@@ -5,9 +5,11 @@
 * xref:guide-service-layer.adoc[Service Layer]
 * xref:guide-batch-layer.adoc[Batch Layer]
 * xref:guide-client-layer.adoc[Client Layer (GUI)]
+
 .Coding
 * xref:coding-conventions.adoc[Coding Conventions]
 * xref:coding-tools.adoc[Development Tools]
+
 .Guides
 * xref:guide-dependency-injection.adoc[Bean Dependency Injection]
 * xref:guide-configuration.adoc[Configuration]
