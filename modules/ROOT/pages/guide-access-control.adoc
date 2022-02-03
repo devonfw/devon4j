@@ -86,7 +86,7 @@ So as an example `shop.FindProduct` will reflect the permission to search and re
 The module `devon4j-security` provides ready-to-use code based on http://projects.spring.io/spring-security/[spring-security] that makes your life a lot easier.
 
 .devon4j Security Model
-image::Security-AccessControl.png["access-control",scaledwidth="80%",align="center",link="Security-AccessControl.png"]
+image::images/Security-AccessControl.png["access-control",scaledwidth="80%",align="center",link="Security-AccessControl.png"]
 
 The diagram shows the model of `devon4j-security` that separates two different aspects:
 

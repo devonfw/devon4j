@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Migrate from Spring to Quarkus
+== Migrate from Spring to Quarkus
 
 This guide will cover the migration process of a Spring application to a Quarkus application. There are already articles about migrating from Spring to Quarkus (e.g. https://developers.redhat.com/blog/2020/04/10/migrating-a-spring-boot-microservices-application-to-quarkus, https://dzone.com/articles/migrating-a-spring-boot-application-to-quarkus-cha).
 This guide will focus more on the devon4j specific aspects. We assume that a working Spring application exists, built in the link:guide-structure-classic.asciidoc[classic devon4j specific way] (e.g. https://github.com/devonfw/jump-the-queue/tree/master/java/jtqj[Jump The Queue] or https://github.com/devonfw/my-thai-star[My Thai Star]).

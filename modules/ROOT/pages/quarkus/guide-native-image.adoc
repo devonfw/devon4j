@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Building a native image
+== Building a native image
 
 Quarkus provides the ability to create a native executable of the application called _https://quarkus.io/guides/building-native-image[native image]_.
 Unlike other Java based deployments such native image will only run on the architecture and operating system it is compiled for.

@@ -1,7 +1,7 @@
 :toc:
 toc::[]
 
-= Log-Monitoring
+== Log-Monitoring
 
 Log-monitoring is an aspect of link:guide-monitoring.asciidoc[monitoring] with a strict focus on link:guide-logging.asciidoc[logging].
 With trends towards IT landscapes with many but much smaller apps the classicial approach to write log-files to the disc and let operators read those via SSH became entirely obsolete.

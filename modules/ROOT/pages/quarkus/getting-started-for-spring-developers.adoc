@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Getting started with Quarkus for Spring developers
+== Getting started with Quarkus for Spring developers
 
 As a Spring developer, you heard more and more about Quarkus: its pros and cons, its fast growth etc. So, you decided to adopt/try Quarkus for your (next) project(s) and wonder where to go next and where do you need to pay attention to when moving from Spring to Quarkus.
 

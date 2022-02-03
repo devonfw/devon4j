@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= UseCase
+== UseCase
 A use-case is a small unit of the link:guide-logic-layer.asciidoc[logic layer] responsible for an operation on a particular link:guide-jpa.asciidoc#entity[entity] (business object).
 We leave it up to you to decide whether you want to define an interface (API) for each use-case or provide an implementation directly.
 

@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Liquibase
+== Liquibase
 
 https://www.liquibase.org/[Liquibase] is a tool for link:guide-database-migration.asciidoc[database migration and schema versioning].
 

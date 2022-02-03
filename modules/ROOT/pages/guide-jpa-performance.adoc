@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= JPA Performance
+== JPA Performance
 When using JPA the developer sometimes does not see or understand where and when statements to the database are triggered.
 [quote, Dan Allen, https://epdf.tips/seam-in-action.html]
 ____

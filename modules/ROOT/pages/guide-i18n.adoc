@@ -1,6 +1,6 @@
 :toc: macro
 toc::[]
-= Internationalization
+== Internationalization
 //The property file doesn't exist anymore but the example looks fine. Keep it? 
 Internationalization (I18N) is about writing code independent from locale-specific information.
 For I18N of text messages we are suggesting 

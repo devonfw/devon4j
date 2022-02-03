@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Spring Data in devon4j-spring
+== Spring Data in devon4j-spring
 
 In devon4j-spring, https://projects.spring.io/spring-data-jpa/[spring-data-jpa] is provided via http://repo1.maven.org/maven2/com/devonfw/java/starters/devon4j-starter-spring-data-jpa/[devon4j-starter-spring-data-jpa] extension, which provides advanced integration (esp. for QueryDSL).
 

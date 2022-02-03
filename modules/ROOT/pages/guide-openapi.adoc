@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= OpenAPI
+== OpenAPI
 
 The link:https://spec.openapis.org/oas/latest.html[OpenAPI Specification (OAS)] defines a standard for describing RESTful web services in a machine- and human-readable format. OpenAPI allows REST APIs to be defined in a uniform manner.
 Technically, an OpenAPI document is written in YAML or JSON format. The specification defines the structure of a REST API by describing attributes such as path information, response codes, and return types. Some examples can be found link:https://github.com/OAI/OpenAPI-Specification/tree/main/examples/v3.0[here].

@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= CORS configuration in Spring
+== CORS configuration in Spring
 
 == Dependency
 

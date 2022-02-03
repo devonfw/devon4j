@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Configuration
+== Configuration
 
 == Internal Application Configuration
 There usually is a main configuration registered with main Spring Boot App, but differing configurations to support automated test of the application can be defined using profiles (not detailed in this guide).

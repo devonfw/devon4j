@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Java Development Kit
+== Java Development Kit
 
 The https://en.wikipedia.org/wiki/Java_Development_Kit[Java Development Kit] is an implementation of the Java platform. It provides the https://en.wikipedia.org/wiki/Java_virtual_machine[Java Virtual Machine] (JVM) and the Java Runtime Environment (JRE).
 

@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Modern project structure
+== Modern project structure
 
 With trends such as cloud, microservices, lean, and agile we decided for a more modern project structure that fits better to recent market trends.
 When starting new projects with devonfw and escpecially in the context of cloud-native development we strongly recommend this modern approach over the link:guide-structure-classic.asciidoc[classic structure].
