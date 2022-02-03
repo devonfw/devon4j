@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Components
+== Components
 
 Following link:architecture.asciidoc#architecture-principles[separation-of-concerns] we divide an application into components using our link:coding-conventions.asciidoc#packages[package-conventions] and link:guide-structure.asciidoc[project structure].
 As described by the link:architecture.asciidoc[architecture] each component is divided into layers as described in the link:guide-structure.asciidoc[project structure].

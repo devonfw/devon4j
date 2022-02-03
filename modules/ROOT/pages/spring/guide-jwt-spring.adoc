@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= JWT Spring-Starter
+== JWT Spring-Starter
 
 == Keystore
 

@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Quarkus template
+== Quarkus template
 
 https://code.quarkus.io/?g=org.devonfw&e=resteasy&e=resteasy-jackson&e=hibernate-validator&e=hibernate-orm&e=micrometer[Quarkus Code Generator] is providing a lot of alternatives on technologies and libraries to be integrated. Detailed guides to multiple topics can be found https://quarkus.io/guides/[here].
 

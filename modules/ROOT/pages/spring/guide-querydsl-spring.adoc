@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= QueryDSL in devon4j-spring
+== QueryDSL in devon4j-spring
 
 To implement dynamic queries, devon4j suggests the use of QueryDSL. QueryDSL uses metaclasses generated from entity classes at build time.  devon4j-spring provides a way to use QueryDSL without the need for code generation. For this, devon4j provides the interface https://github.com/devonfw/devon4j/blob/master/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/DefaultRepository.java[DefaultRepository] that your repository needs to extend and the https://github.com/devonfw/devon4j/blob/master/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java[QueryUtil] helper class to build your queries.
 

@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Spring Security
+== Spring Security
 
 We use https://projects.spring.io/spring-security/[spring-security] as a framework for authentication purposes.
 

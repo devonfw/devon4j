@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Quarkus Authentication
+== Quarkus Authentication
 Quarkus supports different authentication mechanisms through different extensions. For example:
 
 * https://quarkus.io/guides/security-properties[`quarkus-elytron-security-properties-file`] provides support for simple properties files that can be used for testing security. This supports both embedding user information in `application.properties` and standalone properties files.

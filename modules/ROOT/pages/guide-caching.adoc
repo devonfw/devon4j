@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Caching
+== Caching
 //Maybe finish the guide?
 Caching is a technical approach to improve performance. While it may appear easy on the first sight it is an advanced topic. In general, try to use caching only when required for performance reasons. If you come to the point that you need caching first think about:
 

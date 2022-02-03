@@ -1,7 +1,7 @@
 :toc: macro
 toc::[]
 
-= Kafka
+== Kafka
 
 This guide explains how Spring Kafka is used in devonfw applications. It focuses on aspects which are special to devonfw if you want to learn about spring-kafka you should adhere to springs references documentation.
 
