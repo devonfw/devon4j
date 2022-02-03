@@ -1,0 +1,121 @@
+:toc: macro
+toc::[]
+
+== Testing
+
+== Implementation
+
+=== Module Test
+In devon4j you can extend the abstract class https://github.com/devonfw/devon4j/blob/develop/modules/test/src/main/java/com/devonfw/module/test/common/base/ModuleTest.java[ModuleTest] to basically get access to assertions. In order to test classes embedded in dependencies  and external services one needs to provide mocks for that. As the xref:test-automation-technology-stack[technology stack] recommends we use the Mockito framework to offer this functionality. The following example shows how to implement Mockito into a JUnit test.
+//We currently don't use Mockito in the application
+[source,java]
+-------------------------------------------
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
+...
+
+public class StaffmanagementImplTest extends ModuleTest {
+  @Rule
+  public MockitoRule rule = MockitoJUnit.rule();
+
+  @Test
+  public void testFindStaffMember() {
+  ...}
+}
+-------------------------------------------
+
+Note that the test class does not use the `@SpringApplicationConfiguration` annotation. In a module test one does not use the whole application.
+The JUnit rule is the best solution to use in order to get all needed functionality of Mockito. Static imports are a convenient option to enhance readability within Mockito tests.
+You can define mocks with the `@Mock` annotation or the `mock(*.class)` call. To inject the mocked objects into your class under test you can use the `@InjectMocks` annotation. This automatically uses the setters of `StaffmanagementImpl` to inject the defined mocks into the _class under test (CUT)_ when there is a setter available. In this case the `beanMapper` and the `staffMemberDao` are injected. Of course it is possible to do this manually if you need more control.
+
+[source,java]
+-------------------------------------------
+  @Mock
+  private BeanMapper beanMapper;
+  @Mock
+  private StaffMemberEntity staffMemberEntity;
+  @Mock
+  private StaffMemberEto staffMemberEto;
+  @Mock
+  private StaffMemberDao staffMemberDao;
+  @InjectMocks
+  StaffmanagementImpl staffmanagementImpl = new StaffmanagementImpl();
+-------------------------------------------
+
+The mocked objects do not provide any functionality at the time being. To define what happens on a method call on a mocked dependency in the CUT one can use `when(_condition_).thenReturn(_result_)`. In this case we want to test `findStaffMember(Long id)` in the https://github.com/oasp/oasp4j/blob/master/samples/core/src/main/java/io/oasp/gastronomy/restaurant/staffmanagement/logic/impl/StaffmanagementImpl.java[StaffmanagementImpl].
+
+[source,java]
+-------------------------------------------
+public StaffMemberEto findStaffMember(Long id) {
+  return getBeanMapper().map(getStaffMemberDao().find(id), StaffMemberEto.class);
+}
+-------------------------------------------
+
+In this simple example one has to stub two calls on the CUT as you can see below. For example the method call of the CUT `staffMemberDao.find(id)` is stubbed for returning a mock object `staffMemberEntity` that is also defined as mock.
+
+=== Subsystem Test
+devon4j provides a simple test infrastructure to aid with the implementation of subsystem tests. It becomes available by simply subclassing link:https://github.com/oasp/oasp4j/blob/master/samples/core/src/test/java/io/oasp/gastronomy/restaurant/general/common/base/AbstractRestServiceTest.java[AbstractRestServiceTest.java].
+[source,java]
+-------------------------------------------
+//given
+long id = 1L;
+Class<StaffMemberEto> targetClass = StaffMemberEto.class;
+when(this.staffMemberDao.find(id)).thenReturn(this.staffMemberEntity);
+when(this.beanMapper.map(this.staffMemberEntity, targetClass)).thenReturn(this.staffMemberEto);
+
+//when
+StaffMemberEto resultEto = this.staffmanagementImpl.findStaffMember(id);
+
+//then
+assertThat(resultEto).isNotNull();
+assertThat(resultEto).isEqualTo(this.staffMemberEto);
+-------------------------------------------
+
+After the test method call one can verify the expected results. Mockito can check whether a mocked method call was indeed called. This can be done using Mockito `verify`. Note that it does not generate any value if you check for method calls that are needed to reach the asserted result anyway. Call verification can be useful e.g. when you want to assure that statistics are written out without actually testing them.
+
+== Configuration
+
+=== Configure Test Specific Beans
+Sometimes it can become handy to provide other or differently configured bean implementations via CDI than those available in production. For example, when creating beans using `@Bean`-annotated methods they are usually configured within those methods. https://github.com/oasp/oasp4j/blob/master/samples/core/src/main/java/io/oasp/gastronomy/restaurant/general/service/impl/config/WebSecurityBeansConfig.java[WebSecurityBeansConfig] shows an example of such methods.
+
+[source,java]
+-------------------------------------------
+@Configuration
+public class WebSecurityBeansConfig {
+  //...
+  @Bean
+  public AccessControlSchemaProvider accessControlSchemaProvider() {
+    // actually no additional configuration is shown here 
+    return new AccessControlSchemaProviderImpl();
+  }
+  //...
+}
+-------------------------------------------
+
+`AccessControlSchemaProvider` allows to programmatically access data defined in some XML file, e.g. `access-control-schema.xml`. Now, one can imagine that it would be helpful if `AccessControlSchemaProvider` would point to some other file than the default within a test class. That file could provide content that differs from the default.
+The question is: how can I change resource path of `AccessControlSchemaProviderImpl` within a test?
+
+One very helpful solution is to use *static inner classes*.
+Static inner classes can contain `@Bean` -annotated methods, and by placing them in the `classes` parameter in `@SpringBootTest(classes = { /* place class here*/ })` annotation the beans returned by these methods are placed in the application context during test execution. Combining this feature with inheritance allows to override methods defined in other configuration classes as shown in the following listing where `TempWebSecurityConfig` extends `WebSecurityBeansConfig`. This relationship allows to override `public AccessControlSchemaProvider accessControlSchemaProvider()`. Here we are able to configure the instance of type `AccessControlSchemaProviderImpl` before returning it (and, of course, we could also have used a completely different implementation of the `AccessControlSchemaProvider` interface). By overriding the method the implementation of the super class is ignored, hence, only the new implementation is called at runtime. Other methods defined in `WebSecurityBeansConfig` which are not overridden by the subclass are still dispatched to `WebSecurityBeansConfig`.
+
+[source,java]
+-------------------------------------------
+//... Other testing related annotations
+@SpringBootTest(classes = { TempWebSecurityConfig.class })
+public class SomeTestClass {
+
+  public static class TempWebSecurityConfig extends WebSecurityBeansConfig {
+
+    @Override
+    @Bean
+    public AccessControlSchemaProvider accessControlSchemaProvider() {
+
+      ClassPathResource resource = new ClassPathResource(locationPrefix + "access-control-schema3.xml");
+      AccessControlSchemaProviderImpl accessControlSchemaProvider = new AccessControlSchemaProviderImpl();
+      accessControlSchemaProvider.setAccessControlSchema(resource);
+      return accessControlSchemaProvider;
+    }
+  }
+}
+-------------------------------------------
+The following http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#testcontext-ctx-management-javaconfig[chapter of the Spring framework documentation] explains issue, but uses a slightly different way to obtain the configuration.
