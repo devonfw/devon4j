@@ -47,7 +47,7 @@ The usage of custom datatypes in entities is explained in the link:guide-jpa.asc
 == Datatypes in Transfer-Objects
 
 === XML
-For mapping datatypes with JAXB see link:guide-xml.asciidoc[XML guide].
+For mapping datatypes with JAXB see link:guide-xml.adoc[XML guide].
 
 === JSON
-For mapping datatypes from and to JSON see link:guide-json#json-custom-mapping.asciidoc[JSON custom mapping].
+For mapping datatypes from and to JSON see link:guide-json#json-custom-mapping.adoc[JSON custom mapping].

@@ -7,7 +7,7 @@ http://en.wikipedia.org/wiki/JSON[JSON] (JavaScript Object Notation) is a popula
 Due to problems with the wiki of fasterxml you should try this alternative link: https://github.com/FasterXML/jackson#jackson-project-home-github[Jackson/AltLink].
 
 == Configure JSON Mapping
-In order to avoid polluting business objects with proprietary Jackson annotations (e.g. `@JsonTypeInfo`, `@JsonSubTypes`, `@JsonProperty`) we propose to create a separate configuration class. Every devonfw application (sample or any app created from our link:tutorial-newapp.asciidoc[app-template]) therefore has a class called `ApplicationObjectMapperFactory` that extends +ObjectMapperFactory+ from the +devon4j-rest+ module. It looks like this:
+In order to avoid polluting business objects with proprietary Jackson annotations (e.g. `@JsonTypeInfo`, `@JsonSubTypes`, `@JsonProperty`) we propose to create a separate configuration class. Every devonfw application (sample or any app created from our link:tutorial-newapp.adoc[app-template]) therefore has a class called `ApplicationObjectMapperFactory` that extends +ObjectMapperFactory+ from the +devon4j-rest+ module. It looks like this:
 
 [source,java]
 --------
@@ -47,7 +47,7 @@ addSubtypes(new NamedType(MealEto.class, "Meal"), new NamedType(DrinkEto.class, 
 We use `setBaseClasses` to register all top-level classes of polymorphic objects. Further we declare all concrete polymorphic sub-classes together with their symbolic name for the JSON format via `addSubtypes`.
 
 == Custom Mapping
-In order to map custom link:guide-datatype.asciidoc[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create objects dedicated for the JSON mapping you can easily avoid such situations. When this is not suitable follow these instructions to define the mapping:
+In order to map custom link:guide-datatype.adoc[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create objects dedicated for the JSON mapping you can easily avoid such situations. When this is not suitable follow these instructions to define the mapping:
 
 . As an example, the use of JSR354 (`javax.money`) is appreciated in order to process monetary amounts properly. However, without custom mapping, the default mapping of Jackson will produce the following JSON for a `MonetaryAmount`:
 +

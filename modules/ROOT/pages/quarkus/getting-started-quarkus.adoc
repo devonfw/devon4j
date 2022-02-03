@@ -5,9 +5,9 @@ This guide will show a quickstart how to create a Quarkus app and will briefly s
 
 == Introduction to Quarkus 
 
-To get the first introduction to Quarkus you can read the link:../quarkus.asciidoc[Quarkus introduction guide]. To get a short overview where you can find the important Quarkus related guides follow the chapter link:../quarkus.asciidoc#guide-to-the-reader[guide to the reader].
+To get the first introduction to Quarkus you can read the link:../quarkus.adoc[Quarkus introduction guide]. To get a short overview where you can find the important Quarkus related guides follow the chapter link:../quarkus.asciidoc#guide-to-the-reader[guide to the reader].
 Also, a comparison of the link:../quarkus.asciidoc#Pros[advantages] and link:../quarkus.asciidoc#cons[disadvantages] of a Quarkus application compared to the alternative framework Spring.
-This comparison will be supported by our link:../performance-comparison-spring-quarkus.asciidoc[performance comparison between Spring and Quarkus] that shows the lower resource consumption and startup time of Quarkus applications.
+This comparison will be supported by our link:../performance-comparison-spring-quarkus.adoc[performance comparison between Spring and Quarkus] that shows the lower resource consumption and startup time of Quarkus applications.
 
 
 == Installation of Tools and Dependencies
@@ -43,7 +43,7 @@ We will create the project there.
 Quarkus provides multiple ways to bootstrap a project.
 The option to bootstrap a project via the command-line will be shown in the Quarkus getting started guide https://quarkus.io/guides/getting-started#bootstrapping-the-project[Bootstrap the project].
 Quarkus also provides a project builder where you can select some extensions, the build tool for your project, and if you want some starter code.
-This will deliver a project skeleton with the configured project dependencies and also contributes the information to compile the application natively. To get some recommendations on starter templates follow this guide link:guide-template.asciidoc[templates recommendations].
+This will deliver a project skeleton with the configured project dependencies and also contributes the information to compile the application natively. To get some recommendations on starter templates follow this guide link:guide-template.adoc[templates recommendations].
 
 [NOTE]
 ====
@@ -52,7 +52,7 @@ By creating a Quarkus project from command-line or with the project builder you 
 
 === Project Structure
 
-We provide a recommendation and guideline for a link:../guide-structure-modern.asciidoc[modern project structure] to help organize your project into logically related modules.
+We provide a recommendation and guideline for a link:../guide-structure-modern.adoc[modern project structure] to help organize your project into logically related modules.
 You should follow the guide and also it in your project so you structure the project to the needs of modern cloud development and microservice architectures and also find similar modules faster in our example projects.
 
 
@@ -63,9 +63,9 @@ Before we start programming you should have a first look at the functionality of
 . https://quarkus.io/guides/getting-started[Getting started guide from Quarkus] + 
 The guide is a good functionality overview, it shows with a simple **Greeting Service** a brief introduction into the concepts like CDI, testing, dev mode, packaging and running the app.  
 . From Spring to Quarkus +
-For experienced Spring developers that have already followed devon4j guidelines, you can read our guide to link:getting-started-for-spring-developers.asciidoc[getting started with Quarkus for Spring developer], as it goes more into the differences that can give you a more detailed comparison to Spring.
+For experienced Spring developers that have already followed devon4j guidelines, you can read our guide to link:getting-started-for-spring-developers.adoc[getting started with Quarkus for Spring developer], as it goes more into the differences that can give you a more detailed comparison to Spring.
 .. Migrate a Spring app to Quarkus + 
-This guide shows, how to link:../guide-migration-spring-quarkus.asciidoc[migrate a Spring application to a Quarkus application with devon4j conventions]. 
+This guide shows, how to link:../guide-migration-spring-quarkus.adoc[migrate a Spring application to a Quarkus application with devon4j conventions]. 
 
 
 == Create a REST service
@@ -88,7 +88,7 @@ This project will be steadily improved and is used to showcase the abilities of 
 
 == OpenAPI generation 
 
-We provide a guide with a short introduction to the link:../guide-openaoi.asciidoc[OpenAPI specification] with two plugins that are important in a Quarkus Context.
+We provide a guide with a short introduction to the link:../guide-openaoi.adoc[OpenAPI specification] with two plugins that are important in a Quarkus Context.
 
 1. link:../guide-openaoi.asciidoc#smallrye-openapi[Smallrye Openapi supported by quarkus] 
 2. link:../guide-openaoi.asciidoc#servicedocgen-maven-plugin[servicedocgen Maven Plugin].
@@ -104,9 +104,9 @@ First, you should understand our guides to the concepts of how to work with data
 
 .Data Principles Guides
 . General devon4j JPA guide + 
-To get an insight into the general JPA usage you should read the link:../guide-jpa.asciidoc[JPA guide] which contains a general explanation of the Java Persistence API.
+To get an insight into the general JPA usage you should read the link:../guide-jpa.adoc[JPA guide] which contains a general explanation of the Java Persistence API.
 . Difference to SpringData + 
-If you have already worked with SpringData this is also partially supported with Quarkus, this is explained in more detail in this link:../guide-repository.asciidoc[SpringData Guide].
+If you have already worked with SpringData this is also partially supported with Quarkus, this is explained in more detail in this link:../guide-repository.adoc[SpringData Guide].
 
 
 .Database Integration 
@@ -137,7 +137,7 @@ You need an installed Docker version for the https://quarkus.io/guides/datasourc
 .Database Migration
 . Migration guide
 For schema-based databases, we recommend migrating databases with Flyway.
-In that case there is our link:../guide-database-migration.asciidoc[general migration guide] can give you an overview if you are not familiar with migration.
+In that case there is our link:../guide-database-migration.adoc[general migration guide] can give you an overview if you are not familiar with migration.
 .. Flyway guide for Quarkus
 This Quarkus guide will show how to work with the https://quarkus.io/guides/flyway[Flyway extension in a Quarkus application].
 This should be used if you start your own database and do not leave the creation to quarkus.
@@ -149,9 +149,9 @@ We will give you some guidelines to implement some test cases.
 
 .Testing Guides 
 . General testing guide + 
-For users that aren't familiar with the devon4j testing principles, we created a general link:../guide-testing.asciidoc[best practices and recommendations guide for testing].
+For users that aren't familiar with the devon4j testing principles, we created a general link:../guide-testing.adoc[best practices and recommendations guide for testing].
 .. Our guide for testing with Quarkus
-In addition, we also provide a guide that specifically addresses the link:guide-for-testing.asciidoc[testing of a Quarkus application].
+In addition, we also provide a guide that specifically addresses the link:guide-for-testing.adoc[testing of a Quarkus application].
   
 Most of the Quarkus applications are already equipped with a basic Test and also our https://github.com/devonfw-sample/devon4quarkus-reference[reference project] provides some test cases, if you want to improve and extends the tests, you can also follow the large https://quarkus.io/guides/getting-started-testing[Quarkus guide for testing]. 
 
@@ -164,7 +164,7 @@ Quarkus applications can be packed into different types. The following link will
 . https://quarkus.io/guides/maven-tooling#fast-jar[fast-jar]
 . https://quarkus.io/guides/maven-tooling#remote-development-mode[mutable-jar]
 . https://quarkus.io/guides/maven-tooling#uber-jar-maven[uber-jar]
-. link:guide-native-image.asciidoc[native executable]
+. link:guide-native-image.adoc[native executable]
 
 To pack an application use the command `mvn package` and Quarkus will generate the output in the **/target** folder. For the native executables, the command needs more parameters but this is explained in the link above.
 

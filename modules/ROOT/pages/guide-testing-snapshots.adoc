@@ -13,7 +13,7 @@ In order to test a SNAPSHOT release in your project e.g. to give feedback if a b
 If you are using a recent https://github.com/devonfw/ide[devonfw-ide] simply edit the file `$DEVON_IDE_HOME/conf/.m2/settings.xml` and activate the `devonfw-snapshots` profile by changing `activeByDefault` to `true`.
 All details can be found https://github.com/devonfw/ide-settings/blob/master/devon/conf/.m2/settings.xml#L60[here].
 
-2. Edit your toplevel `pom.xml` file and change the `devon4j.version` to the most recent `SNAPSHOT` version. To figure out the latest SNAPSHOT version of devon4j, check the the https://github.com/devonfw/devon4j/blob/master/.mvn/maven.config[maven.config] or the https://github.com/devonfw/devon4j/blob/master/CHANGELOG.asciidoc[CHANGELOG].
+2. Edit your toplevel `pom.xml` file and change the `devon4j.version` to the most recent `SNAPSHOT` version. To figure out the latest SNAPSHOT version of devon4j, check the the https://github.com/devonfw/devon4j/blob/master/.mvn/maven.config[maven.config] or the https://github.com/devonfw/devon4j/blob/master/CHANGELOG.adoc[CHANGELOG].
 
 3. Test your appliation and see if the latest SNAPSHOT release fixes your issues, does not break your app and works as expected.
 
