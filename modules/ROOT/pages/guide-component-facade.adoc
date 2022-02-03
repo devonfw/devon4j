@@ -12,7 +12,7 @@ It carries the name of the component (`«Component»`) and has an implementation
 == API
 The component facade interface defines the logic API of the component and has to be business oriented.
 This means that all parameters and return types of all methods from this API have to be business link:guide-transferobject.adoc[transfer-objects], link:guide-datatype.adoc[datatypes] (`String`, `Integer`, `MyCustomerNumber`, etc.), or collections of these.
-The API may also only access objects of other business components listed in the (transitive) dependencies of the link:architecture.asciidoc#business-architecture[business-architecture].
+The API may also only access objects of other business components listed in the (transitive) dependencies of the link:architecture.adoc#business-architecture[business-architecture].
 
 Here is an example how such an API may look like:
 [source,java]
@@ -34,7 +34,7 @@ public interface Bookingmanagement {
 The implementation of an interface from the link:guide-logic-layer.adoc[logic layer] (a component facade or a link:guide-usecase.adoc[use-case]) carries the name of that interface with the suffix `Impl` and is annotated with `@Named`.
 An implementation typically needs access to the persistent data.
 This is done by link:guide-dependency-injection.adoc[injecting] the corresponding link:guide-repository.adoc[repository] (or link:guide-dao.adoc[DAO]).
-According to link:architecture.asciidoc#architecture-principles[data-sovereignty], only repositories of the same business component may be accessed directly.
+According to link:architecture.adoc#architecture-principles[data-sovereignty], only repositories of the same business component may be accessed directly.
 For accessing data from other components the implementation has to use the corresponding API of the logic layer (the component facade). Further, it shall not expose persistent entities from the link:guide-domain-layer.adoc[domain layer] and has to map them to link:guide-transferobject.adoc[transfer objects] using the link:guide-beanmapping.adoc[bean-mapper].
 
 [source,java]
@@ -57,5 +57,5 @@ public class BookingmanagementImpl extends AbstractComponentFacade implements Bo
 }
 ----
 
-As you can see, link:guide-jpa.asciidoc#entity[entities] (`BookingEntity`) are mapped to corresponding link:guide-transferobject.asciidoc#eto[ETOs] (`BookingEto`).
+As you can see, link:guide-jpa.adoc#entity[entities] (`BookingEntity`) are mapped to corresponding link:guide-transferobject.adoc#eto[ETOs] (`BookingEto`).
 Further details about this can be found in link:guide-beanmapping.adoc[bean-mapping].

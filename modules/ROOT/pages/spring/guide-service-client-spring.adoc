@@ -124,7 +124,7 @@ For Level 1, the prefix `service.client.default.` is used for properties.
 Further, for level 2, the prefix `service.client.app.«application».` is used where `«application»` is the 
 technical name of the application providing the service. This name will automatically be derived from 
 the java package of the service interface (e.g. `foo` in `MyService` interface before) following our 
-link:../coding-conventions.asciidoc#packages[packaging conventions].
+link:../coding-conventions.adoc#packages[packaging conventions].
 In case these conventions are not met, it will fall back to the fully qualified name of the service interface.
 
 Configuration on Level 3 has to be provided as a `Map` argument to the method 
@@ -179,13 +179,13 @@ As you can use any implementation of `ServiceDiscoverer`, you can also easily us
 However, we recommend to use https://istio.io/[istio] instead, as described below.
 
 === Headers
-A very common demand is to tweak (HTTP) headers in the request to invoke the service. May it be for security (authentication data) or for other cross-cutting concerns (such as the link:../guide-logging.asciidoc#correlation-id[Correlation ID]). This is done internally by implementations of the interface  `ServiceHeaderCustomizer`.
+A very common demand is to tweak (HTTP) headers in the request to invoke the service. May it be for security (authentication data) or for other cross-cutting concerns (such as the link:../guide-logging.adoc#correlation-id[Correlation ID]). This is done internally by implementations of the interface  `ServiceHeaderCustomizer`.
 We already provide several implementations such as:
 
 * `ServiceHeaderCustomizerBasicAuth` for basic authentication (`auth=basic`).
 * `ServiceHeaderCustomizerOAuth` for OAuth: passes a security token from security context such as a https://jwt.io/[JWT] via OAuth (`auth=oauth`).
 * `ServiceHeaderCustomizerAuthForward` forwards the `Authorization` HTTP header from the running request to the request to the remote service as is (`auth=authForward`). Be careful to avoid security pitfalls by misconfiguring this feature, as it may also contain sensitive credentials (e.g. basic auth) to the remote service. Never use as default.
-* `ServiceHeaderCustomizerCorrelationId` passed the link:../guide-logging.asciidoc#correlation-id[Correlation ID] to the service request.
+* `ServiceHeaderCustomizerCorrelationId` passed the link:../guide-logging.adoc#correlation-id[Correlation ID] to the service request.
 
 Additionally, you can add further custom implementations of `ServiceHeaderCustomizer` for your individual requirements and additional headers.
 
@@ -198,7 +198,7 @@ Whilst invoking a remote service, an error may occur. This solution will automat
 * *Network error* +
 In such a case (host not found, connection refused, time out, etc.), there is not even a response from the server. However, in advance to a low-level exception you will get a wrapped `ServiceInvocationFailedException` (with code `ServiceInvoke`) with a readable message containing the service that could not be invoked.
 * *Service error* +
-In case the service failed on the server-side, the link:../guide-rest.asciidoc#error-results[error result] will be parsed and thrown as a `ServiceInvocationFailedException` with the received message and code.
+In case the service failed on the server-side, the link:../guide-rest.adoc#error-results[error result] will be parsed and thrown as a `ServiceInvocationFailedException` with the received message and code.
 
 This allows to catch and handle errors when a service-invocation failed. You can even distinguish business errors from the server-side from technical errors and implement retry strategies or the like.
 Further, the created exception contains detailed contextual information about the service that failed (service interface class, method, URL), which makes it much easier to trace down errors. Here is an example from our tests:

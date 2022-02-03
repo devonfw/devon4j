@@ -20,7 +20,7 @@ The repository must extend https://github.com/devonfw/devon4j/blob/develop/modul
 --------
 
 == Example
-The following example shows how to write such a repository. The example has the same functionality as the example in the link:../guide-repository.asciidoc#example[Spring Data guide]:
+The following example shows how to write such a repository. The example has the same functionality as the example in the link:../guide-repository.adoc#example[Spring Data guide]:
 
 [source,java]
 ----

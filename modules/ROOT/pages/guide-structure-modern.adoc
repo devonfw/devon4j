@@ -36,14 +36,14 @@ In case you want to go with spring you may consider using https://github.com/spr
 
 == Layers
 
-The package structure of your code inside `src/main/java` (and `src/test/java`) of your app is described in our coding conventions in the sections link:coding-conventions.asciidoc#packages[packages].
+The package structure of your code inside `src/main/java` (and `src/test/java`) of your app is described in our coding conventions in the sections link:coding-conventions.adoc#packages[packages].
 For the modern project structure the layers are defined by the following table:
 
 [options="header"]
 |=============================================
 |*Layer* | *«layer»* | *Description*
 |link:guide-service-layer.adoc[service]|`service`|The service layer exposing functionality via its remote API. Typical protocol is link:guide-rest.adoc[REST]. May also be any other protocol you are using such as https://grpc.io/[gRPC].
-|link:guide-domain-layer.adoc[domain]|`domain`|The domain with the data-model and DB access. Use sub-package (in `«detail»`) `repository` for link:guide-repository.adoc[repository] and `dao` for link:guide-dao.adoc[DAOs]. Also we recommend to put link:guide-jpa.asciidoc#entity[entities] in `model` sub-package.
+|link:guide-domain-layer.adoc[domain]|`domain`|The domain with the data-model and DB access. Use sub-package (in `«detail»`) `repository` for link:guide-repository.adoc[repository] and `dao` for link:guide-dao.adoc[DAOs]. Also we recommend to put link:guide-jpa.adoc#entity[entities] in `model` sub-package.
 |link:guide-logic-layer.adoc[logic]|`logic`|The logic layer with the functionallity providing the business value.
 |link:guide-common.adoc[common]|`common`|cross-cutting code not assigned to a technical layer.
 |=============================================
@@ -56,29 +56,29 @@ we provide this architecture mapping:
 [subs=+macros]
 ----
 «root»
-├──.link:guide-component.asciidoc#business-component[«component»]
+├──.link:guide-component.adoc#business-component[«component»]
 |  ├──.link:guide-domain-layer.adoc[domain]
 |  |  ├──.link:guide-repository.adoc[repo]
-|  |  |  ├──.link:guide-repository.asciidoc#repository[«BusinessObject»Repository]
-|  |  |  ├──.link:guide-repository.asciidoc#fragment[«BusinessObject»Fragment]
-|  |  |  └──.link:guide-repository.asciidoc#fragment[«BusinessObject»FragmentImpl]
+|  |  |  ├──.link:guide-repository.adoc#repository[«BusinessObject»Repository]
+|  |  |  ├──.link:guide-repository.adoc#fragment[«BusinessObject»Fragment]
+|  |  |  └──.link:guide-repository.adoc#fragment[«BusinessObject»FragmentImpl]
 |  |  ├──.link:guide-dao.adoc[dao] [alternative to repo]
-|  |  |  ├──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»Dao]
-|  |  |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»DaoImpl]
+|  |  |  ├──.link:guide-dao.adoc#data-access-object[«BusinessObject»Dao]
+|  |  |  └──.link:guide-dao.adoc#data-access-object[«BusinessObject»DaoImpl]
 |  |  └──.model
-|  |     └──.link:guide-jpa.asciidoc#entity[«BusinessObject»Entity]
+|  |     └──.link:guide-jpa.adoc#entity[«BusinessObject»Entity]
 |  ├──.link:guide-logic-layer.adoc[logic]
 |  |  ├──«BusinessObject»Validator
 |  |  └──«BusinessObject»EventsEmitter
 |   |  └──.link:guide-usecase.adoc[Uc«Operation»«BusinessObject»[Impl]]
 |  └──.link:guide-service-layer.adoc[service]
-|     └──.link:guide-service-versioning.asciidoc#jax-rs[v1]
-|        ├──.link:guide-rest.asciidoc#jax-rs[«Component»RestService]
+|     └──.link:guide-service-versioning.adoc#jax-rs[v1]
+|        ├──.link:guide-rest.adoc#jax-rs[«Component»RestService]
 |        ├──.mapper
 |        |     └──.«BusinessObject»Mapper
 |        └──.model
 |           └──.«BusinessObject»Dto
-└──.link:guide-component.asciidoc#general-component[general]
+└──.link:guide-component.adoc#general-component[general]
    └──.domain
       └──.model
          └──.ApplicationPersistenceEntity

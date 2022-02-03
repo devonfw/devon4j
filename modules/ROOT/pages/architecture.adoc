@@ -84,7 +84,7 @@ image::images/T-Architecture.png["devonfw architecture blueprint",scaledwidth="8
 
 Please click on the architecture image to open it as SVG and click on the layers and cross-cutting topics to open the according documentation guide.
 
-We reflect this architecture in our code as described in our link:coding-conventions.asciidoc#packages[coding conventions] allowing a traceability of business components, use-cases, layers, etc. into the code and giving
+We reflect this architecture in our code as described in our link:coding-conventions.adoc#packages[coding conventions] allowing a traceability of business components, use-cases, layers, etc. into the code and giving
 developers a sound orientation within the project.
 
 Further, the architecture diagram shows the allowed dependencies illustrated by the dark green connectors.
@@ -95,7 +95,7 @@ The general dependencies allowed between business components are defined by the 
 In our reference architecture diagram we assume that the business component `A1` is allowed to depend
 on component `A2`. Therefore, a use-case within the logic component part of `A1` is allowed to call a
 use-case from `A2` via a dependency on the component API. The same applies for dialogs on the client layer.
-This is illustrated by the horizontal connectors. Please note that link:guide-jpa.asciidoc#entity[persistence entities] are part of the API of the data-access component part so only the logic component part of the same
+This is illustrated by the horizontal connectors. Please note that link:guide-jpa.adoc#entity[persistence entities] are part of the API of the data-access component part so only the logic component part of the same
 business component may depend on them.
 
 The technical architecture has to address non-functional requirements:
@@ -123,8 +123,8 @@ The technology stack of the devonfw is illustrated by the following table.
 |link:guide-configuration.adoc[configuration]|framework|-|http://projects.spring.io/spring-boot/[spring-boot]
 |link:guide-domain-layer.adoc[persistence]|OR-mapper|http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[JPA] | http://hibernate.org/orm/[hibernate]
 |link:guide-batch-layer.adoc[batch]|framework|https://jcp.org/en/jsr/detail?id=352[JSR352]|http://projects.spring.io/spring-batch/[spring-batch]
-|link:guide-service-layer.adoc[service]|link:guide-service-layer.asciidoc#soap[SOAP services]|https://jcp.org/en/jsr/detail?id=224[JAX-WS]|http://cxf.apache.org/[CXF]
-|link:guide-service-layer.adoc[service]|link:guide-service-layer.asciidoc#rest[REST services]|https://jax-rs-spec.java.net/[JAX-RS]| http://cxf.apache.org/[CXF]
+|link:guide-service-layer.adoc[service]|link:guide-service-layer.adoc#soap[SOAP services]|https://jcp.org/en/jsr/detail?id=224[JAX-WS]|http://cxf.apache.org/[CXF]
+|link:guide-service-layer.adoc[service]|link:guide-service-layer.adoc#rest[REST services]|https://jax-rs-spec.java.net/[JAX-RS]| http://cxf.apache.org/[CXF]
 |link:guide-logging.adoc[logging]|framework|http://www.slf4j.org/[slf4j]|http://logback.qos.ch/[logback]
 |link:guide-validation.adoc[validation]|framework|http://beanvalidation.org/[beanvalidation/JSR303]|http://hibernate.org/validator/[hibernate-validator]
 |link:guide-security.adoc[security]|Authentication & Authorization|http://www.oracle.com/technetwork/java/javase/jaas/index.html[JAAS]|http://projects.spring.io/spring-security/[spring-security]

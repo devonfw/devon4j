@@ -164,7 +164,7 @@ public class PermissionCheckerAdvisor implements PointcutAdvisor, Pointcut, Clas
 }
 ----
 == Managing and granting the data-permissions
-Following our link:guide-access-control.asciidoc#authorization[authorization guide] we can simply create a permission for each country. We might simply reserve a prefix (as virtual `«app-id»`) for each data-permission to allow granting data-permissions to end-users across all applications of the IT landscape. In our example we could create access controls `country.DE`, `country.US`, `country.ES`, etc. and assign those to the users. The method `permissionChecker.getPermittedCountriesForReading()` would then scan for these access controls and only return the 2-letter country code from it.
+Following our link:guide-access-control.adoc#authorization[authorization guide] we can simply create a permission for each country. We might simply reserve a prefix (as virtual `«app-id»`) for each data-permission to allow granting data-permissions to end-users across all applications of the IT landscape. In our example we could create access controls `country.DE`, `country.US`, `country.ES`, etc. and assign those to the users. The method `permissionChecker.getPermittedCountriesForReading()` would then scan for these access controls and only return the 2-letter country code from it.
 
 CAUTION: Before you make your decisions how to design your access controls please clarify the following questions:
 

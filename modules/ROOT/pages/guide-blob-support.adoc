@@ -8,5 +8,5 @@ This could easily lead to performance problems or out of memory errors.
 As solution for that problem is "streaming" those BLOBs directly from the database to the client. To demonstrate how this can be accomplished, devonfw provides a link:https://github.com/devonfw-sample/devon4j-blob-streaming[example].
 
 == Further Reading
-- link:guide-jpa.asciidoc#blob[BLOBs and the Data Access Layer]
+- link:guide-jpa.adoc#blob[BLOBs and the Data Access Layer]
 - https://www.owasp.org/index.php/Unrestricted_File_Upload[Security Vulnerability Unrestricted File Upload]

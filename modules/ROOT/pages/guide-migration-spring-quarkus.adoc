@@ -71,10 +71,10 @@ Now you can create your transfer objects. Most of the code of the transfer objec
 
 == Data Access Layer
 
-In devon4j, we propose to use link:guide-repository.adoc[Spring Data JPA] to build the data access layer using repositories and QueryDSL to build link:guide-jpa-query.asciidoc#dynamic-queries[dynamic queries]. We will also use this approach for Quarkus applications, but we need to change the implementation because the devon4j modules are based on reflection, which is not suitable for Quarkus.
+In devon4j, we propose to use link:guide-repository.adoc[Spring Data JPA] to build the data access layer using repositories and QueryDSL to build link:guide-jpa-query.adoc#dynamic-queries[dynamic queries]. We will also use this approach for Quarkus applications, but we need to change the implementation because the devon4j modules are based on reflection, which is not suitable for Quarkus.
 In Quarkus we will use Querydsl using code generation. So for this layer, more changes are required and we can't just take the existing code.
 
-First, create a repository interface for your entity class that extends `JpaRepository` (see link:guide-repository.asciidoc#repository[here]).
+First, create a repository interface for your entity class that extends `JpaRepository` (see link:guide-repository.adoc#repository[here]).
 
 To add QueryDSL support to your project, add the following dependencies to your pom.xml file:
 
@@ -121,9 +121,9 @@ As mentioned above, we will use QueryDSL with code generation. For this, add the
 </plugins>
 --------
 
-To implement the queries, follow the link:guide-jpa-query.asciidoc#dynamic-queries[corresponding guide].
+To implement the queries, follow the link:guide-jpa-query.adoc#dynamic-queries[corresponding guide].
 
-Set the following properties in the application.properties file to configure the connection to your database (see also link:quarkus/guide-quarkus-configuration.asciidoc#database-configuration[here]):
+Set the following properties in the application.properties file to configure the connection to your database (see also link:quarkus/guide-quarkus-configuration.adoc#database-configuration[here]):
 
 [source, properties]
 ----
@@ -137,7 +137,7 @@ quarkus.datasource.password=...
 
 For the logic layer, devon4j uses a link:guide-usecase.adoc[use-case approach]. You can reuse the use case interfaces from the api module of the Spring application. Again, make sure to rename the transfer objects.
 
-Create the appropriate class that implements the interface. Follow the link:guide-usecase.asciidoc#implementation[implementation section] of the use-case guide to implement the methods. For mapping the entities to the corresponding transfer objects, see the next section.
+Create the appropriate class that implements the interface. Follow the link:guide-usecase.adoc#implementation[implementation section] of the use-case guide to implement the methods. For mapping the entities to the corresponding transfer objects, see the next section.
 
 == Mapping
 

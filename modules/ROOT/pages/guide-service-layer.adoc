@@ -53,4 +53,4 @@ Avoid polymorphism, RPC methods with unique name per signature and no overloadin
 == Security
 Your services are the major entry point to your application. Hence, security considerations are important here.
 
-See link:guide-rest.asciidoc#security[REST Security].
+See link:guide-rest.adoc#security[REST Security].

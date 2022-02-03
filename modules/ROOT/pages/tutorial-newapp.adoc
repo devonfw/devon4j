@@ -79,4 +79,4 @@ To run your application from your favourite IDE, simply launch `SpringBootApp` a
 
 === Run app as bootified jar or war
 
-More details are available link:guide-structure.asciidoc#make-jar-not-war[here].
+More details are available link:guide-structure.adoc#make-jar-not-war[here].

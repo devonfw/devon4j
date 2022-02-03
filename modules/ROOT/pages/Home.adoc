@@ -8,4 +8,4 @@ You will find the latest stable versions of documents generated from this wiki h
 If you want to search the wiki you might want to try https://github.com/linyows/github-wiki-search[github-wiki-search].
 
 == For contributors
-Contributions and improvements to devonfw are more than welcome. Please read our https://github.com/devonfw/.github/blob/master/CONTRIBUTING.asciidoc#contributing[contributing guide] to get started.
+Contributions and improvements to devonfw are more than welcome. Please read our https://github.com/devonfw/.github/blob/master/CONTRIBUTING.adoc#contributing[contributing guide] to get started.

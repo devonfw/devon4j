@@ -5,7 +5,7 @@ toc::[]
 
 For transaction handling we link:guide-aop.adoc[AOP] to add transaction control via annotations as aspect.
 This is done by annotating your code with the `@Transactional` annotation.
-You can either annotate your link:guide-dependency-injection.asciidoc#key-principles[container bean] at class level to make all methods transactional or your can annotate individual methods to make them transactional:
+You can either annotate your link:guide-dependency-injection.adoc#key-principles[container bean] at class level to make all methods transactional or your can annotate individual methods to make them transactional:
 
 [source,java]
 ----
@@ -54,7 +54,7 @@ Using `@Transactional` magically wraps transaction handling around your code.
 As constraints are checked by the database at the end when the transaction gets committed, a constraint violation will be thrown by this aspect outside your code.
 In case you have to handle constraint violations manually, you have to do that in code outside the logic that is annotated with `@Transactional`.
 This may be done in a link:guide-service-layer.adoc[service operation] by catching a `ConstraintViolationException` (`org.hibernate.exception.ConstraintViolationException` for hibernate).
-As a generic approach you can solve this via link:guide-rest.asciidoc#rest-exception-handling[REST execption handling].
+As a generic approach you can solve this via link:guide-rest.adoc#rest-exception-handling[REST execption handling].
 
 == Batches
 Transaction control for batches is a lot more complicated and is described in the link:guide-batch-layer.adoc[batch layer].

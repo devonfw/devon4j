@@ -31,7 +31,7 @@ For Quarkus applications, you can get an insight into the topic by reading the g
 The "API" for logging to a log-monitoring system for your app is pretty simple:
 
 * Write your logs to standard out.
-* Use link:guide-logging.asciidoc#json-logging[JSON logging] as format.
+* Use link:guide-logging.adoc#json-logging[JSON logging] as format.
 
 Then the container infrastructure can automatically collect your logs from standard out and directly feed those into the log monitoring system.
 As a result, your app does not need to know anything about your log monitoring system and logging becomes most simple.

@@ -114,7 +114,7 @@ Using the Aliases API of QueryDSL might result in an `InvalidDataAccessApiUsageE
 . Make sure, that all your custom types used in entities provide a non-argument constructor with at least visibility level `protected`.
 
 === Primary Keys
-We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). This is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` within the link:guide-structure-classic.asciidoc#architecture-mapping[classic project structure] respectively `com.devonfw.<projectName>.general.domain.model.AbstractPersistenceEntity` within the link:guide-structure-modern.asciidoc#architecture-mapping[modern project structure], that you can extend.
+We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). This is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` within the link:guide-structure-classic.adoc#architecture-mapping[classic project structure] respectively `com.devonfw.<projectName>.general.domain.model.AbstractPersistenceEntity` within the link:guide-structure-modern.adoc#architecture-mapping[modern project structure], that you can extend.
 In case you have business oriented keys (often as `String`), you can define an additional property for it and declare it as unique (`@Column(unique=true)`).
 Be sure to include "AUTO_INCREMENT" in your sql table field ID to be able to persist data (or similar for other databases).
 
@@ -269,7 +269,7 @@ public class AddressEmbeddable {
 ----
 As you can see an embeddable is similar to an entity class, but with an `@Embeddable` annotation instead of the `@Entity` annotation and without primary key or modification counter.
 An Embeddable does not exist on its own but in the context of an entity.
-As a simplification Embeddables do not require a separate interface and link:guide-transferobject.asciidoc#ETO[ETO] as the link:guide-beanmapping.adoc[bean-mapper] will create a copy automatically when converting the owning entity to an ETO.
+As a simplification Embeddables do not require a separate interface and link:guide-transferobject.adoc#ETO[ETO] as the link:guide-beanmapping.adoc[bean-mapper] will create a copy automatically when converting the owning entity to an ETO.
 However, in this case the embeddable becomes part of your `api` module that therefore needs a dependency on the `JPA`.
 
 In addition to that the methods `equals(Object)` and `hashCode()` need to be implemented as this is required by Hibernate (it is not required for entities because they can be unambiguously identified by their primary key). For some hints on how to implement the `hashCode()` method please have a look http://stackoverflow.com/questions/113511/hash-code-implementation[here]. 
@@ -359,7 +359,7 @@ As you might have noticed, the behavior of Hibernate deviates from what one woul
 See link:guide-auditing.adoc[auditing guide].
 
 == Testing Data-Access
-For testing of Entities and Repositories or DAOs see link:guide-testing.asciidoc#level-2-component-test[testing guide].
+For testing of Entities and Repositories or DAOs see link:guide-testing.adoc#level-2-component-test[testing guide].
 
 == Principles
 We strongly recommend these principles:
@@ -372,15 +372,15 @@ We strongly recommend these principles:
 
 For details on the configuration of the database connection and database logging of the individual framework, please refer to the respective configuration guide. 
 
-For link:spring.adoc[spring] see link:spring/guide-spring-configuration.asciidoc#database-configuration[here].
+For link:spring.adoc[spring] see link:spring/guide-spring-configuration.adoc#database-configuration[here].
 
-For link:quarkus.adoc[quarkus] see link:quarkus/guide-quarkus-configuration.asciidoc#database-configuration[here].
+For link:quarkus.adoc[quarkus] see link:quarkus/guide-quarkus-configuration.adoc#database-configuration[here].
 
 === Database Migration
 See link:guide-database-migration.adoc[database migration].
 
 === Pooling
-You typically want to pool JDBC connections to boost performance by recycling previous connections. There are many libraries available to do connection pooling. We recommend to use https://github.com/brettwooldridge/HikariCP[HikariCP]. For Oracle RDBMS see link:guide-oracle.asciidoc#pooling[here].
+You typically want to pool JDBC connections to boost performance by recycling previous connections. There are many libraries available to do connection pooling. We recommend to use https://github.com/brettwooldridge/HikariCP[HikariCP]. For Oracle RDBMS see link:guide-oracle.adoc#pooling[here].
 
 == Security
 === SQL-Injection
@@ -394,8 +394,8 @@ Via the parameter `userInput` an attacker can inject SQL (JPQL) and execute arbi
 
 In order to prevent such injections you have to strictly follow our rules for xref:queries[queries]: 
 
-* Use named queries for link:guide-jpa-query.asciidoc#static-queries[static queries].
-* Use QueryDSL for link:guide-jpa-query.asciidoc#dynamic-queries[dynamic queries].
+* Use named queries for link:guide-jpa-query.adoc#static-queries[static queries].
+* Use QueryDSL for link:guide-jpa-query.adoc#dynamic-queries[dynamic queries].
 * Please also consult the https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet[SQL Injection Prevention Cheat Sheet].
 
 === Limited Permissions for Application

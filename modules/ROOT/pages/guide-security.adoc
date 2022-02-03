@@ -17,15 +17,15 @@ We address these common threats individually in _security_ sections of our techn
 |*Threat*|*Protection*|*Link to details*
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A1-Injection.html[A1 Injection]
 |validate input, escape output, use proper frameworks
-|link:guide-jpa.asciidoc#security[SQL Injection]
+|link:guide-jpa.adoc#security[SQL Injection]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A2-Broken_Authentication.html[A2 Broken Authentication]
 |encrypt all channels, use a central identity management with strong password-policy
-|link:guide-access-control.asciidoc#authentication[Authentication]
+|link:guide-access-control.adoc#authentication[Authentication]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A3-Sensitive_Data_Exposure.html[A3 Sensitive Data Exposure]
 |Use secured exception facade, design your data model accordingly
-|link:guide-service-layer.asciidoc#rest-exception-handling[REST exception handling]
+|link:guide-service-layer.adoc#rest-exception-handling[REST exception handling]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A4-XML_External_Entities_(XXE).html[A4 XML External Entities]
 |Prefer JSON over XML, ensure https://docs.oracle.com/en/java/javase/11/security/java-api-xml-processing-jaxp-security-guide.html[FSP] when parsing (external) XML
@@ -33,19 +33,19 @@ We address these common threats individually in _security_ sections of our techn
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A5-Broken_Access_Control.html[A5 Broken Access Control]
 |Ensure proper authorization for all use-cases, use `@DenyAll` as default to enforce
-|link:guide-access-control.adoc[Access-control guide] especially link:guide-access-control.asciidoc#configuration-on-java-method-level[method authorization]
+|link:guide-access-control.adoc[Access-control guide] especially link:guide-access-control.adoc#configuration-on-java-method-level[method authorization]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A6-Security_Misconfiguration.html[A6 Security Misconfiguration]
 |Use devon4j application template and guides to avoid
-|link:tutorial-newapp.adoc[tutorial-newapp] and link:guide-configuration.asciidoc#security[sensitive configuration]
+|link:tutorial-newapp.adoc[tutorial-newapp] and link:guide-configuration.adoc#security[sensitive configuration]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A7-Cross-Site_Scripting_(XSS).html[A7 Cross-Site Scripting]
 |prevent injection (see A1) for HTML, JavaScript and CSS and understand same-origin-policy
-|link:guide-client-layer.asciidoc#security[client-layer]
+|link:guide-client-layer.adoc#security[client-layer]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A8-Insecure_Deserialization.html[A8 Insecure Deserialization]
 |Use simple and established serialization formats such as JSON, prevent generic deserialization (for polymorphic types)
-|link:guide-json.adoc[JSON guide] especially link:guide-json.asciidoc#json-and-inheritance[inheritence], link:guide-xml.adoc[XML guide]
+|link:guide-json.adoc[JSON guide] especially link:guide-json.adoc#json-and-inheritance[inheritence], link:guide-xml.adoc[XML guide]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities.html[A9 Using Components with Known Vulnerabilities]
 |subscribe to security newsletters, recheck products and their versions continuously, use devonfw dependency management
@@ -57,7 +57,7 @@ We address these common threats individually in _security_ sections of our techn
 
 |https://owasp.org/www-chapter-ghana/assets/slides/IDOR.pdf[Insecure Direct Object References]
 |Using direct object references (IDs) only with appropriate authorization
-|link:guide-logic-layer.asciidoc#direct-object-references[logic-layer]
+|link:guide-logic-layer.adoc#direct-object-references[logic-layer]
 
 |https://owasp.org/www-community/attacks/csrf[Cross-Site Request Forgery (CSRF)]
 |secure mutable service operations with an explicit CSRF security token sent in HTTP header and verified on the server
@@ -65,7 +65,7 @@ We address these common threats individually in _security_ sections of our techn
 
 |https://owasp.org/www-community/attacks/Log_Injection[Log-Forging]
 |Escape newlines in log messages
-|link:guide-logging.asciidoc#security[logging security]
+|link:guide-logging.adoc#security[logging security]
 
 |https://owasp.org/www-pdf-archive//OWASP_LA_New_OWASP_Top_10_David_Caissy_2017_07.pdf[Unvalidated Redirects and Forwards]
 |Avoid using redirects and forwards, in case you need them do a security audit on the solution.

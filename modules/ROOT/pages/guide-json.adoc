@@ -28,7 +28,7 @@ Have a look at the following example from our sample application:
 .Transfer-Objects using Inheritance
 image::images/REST-Inheritance.png["inheritance class diagram",scaledwidth="80%",align="center"] 
 
-Now assume you have a link:guide-service-layer.asciidoc#rest[REST service operation] as Java method that takes a +ProductEto+ as argument. As this is an abstract class the server needs to know the actual sub-class to instantiate.
+Now assume you have a link:guide-service-layer.adoc#rest[REST service operation] as Java method that takes a +ProductEto+ as argument. As this is an abstract class the server needs to know the actual sub-class to instantiate.
 We typically do not want to specify the classname in the JSON as this should be an implementation detail and not part of the public JSON format (e.g. in case of a service interface). Therefore we use a symbolic name for each polymorphic subtype that is provided as virtual attribute +@type+ within the JSON data of the object:
 [source,json]
 --------

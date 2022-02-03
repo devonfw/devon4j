@@ -27,7 +27,7 @@ ____
 See http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/lang/api/Datatype.html[mmm datatype javadoc].
 
 == Datatype Packaging
-For the devonfw we use a common link:coding-conventions.asciidoc#packages[packaging schema].
+For the devonfw we use a common link:coding-conventions.adoc#packages[packaging schema].
 The specifics for datatypes are as following:
 
 [options="header"]
@@ -42,7 +42,7 @@ The specifics for datatypes are as following:
 Many technologies like Dozer and QueryDSL's (alias API) are heavily based on reflection. For them to work properly with custom datatypes, the frameworks must be able to instantiate custom datatypes with no-argument constructors. It is therefore recommended to implement a no-argument constructor for each datatype of at least +protected+ visibility.
 
 == Datatypes in Entities
-The usage of custom datatypes in entities is explained in the link:guide-jpa.asciidoc#entities-and-datatypes[persistence layer guide].
+The usage of custom datatypes in entities is explained in the link:guide-jpa.adoc#entities-and-datatypes[persistence layer guide].
 
 == Datatypes in Transfer-Objects
 

@@ -1,8 +1,8 @@
 # Migration Guide from oasp 3.0.0 to devon4j 3.1.0 migration
 
--  https://github.com/devonfw/devonfw-guide/blob/master/general/devcon-command-reference.asciidoc#devon4j-migrate[Automatic migration] with devcon doesn't work with parent pom's; you need to migrate every single subproject on it's own.
+-  https://github.com/devonfw/devonfw-guide/blob/master/general/devcon-command-reference.adoc#devon4j-migrate[Automatic migration] with devcon doesn't work with parent pom's; you need to migrate every single subproject on it's own.
 - If your subproject's don't contain the old oasp4j or devon4j version number you have to copy your parent pom file into your child pom files and then use the migrate command.
-- use the https://github.com/devonfw/devonfw-guide/blob/master/general/devcon-command-reference.asciidoc#devon4j-migrate[devon4j migation command]
+- use the https://github.com/devonfw/devonfw-guide/blob/master/general/devcon-command-reference.adoc#devon4j-migrate[devon4j migation command]
 - after migration you need to update the version tag in the pom file manually. If you're working with a parent pom you also need to update the version tag of the parent reference
 in the child pom file.
 - In case you are using eclipse, now you have to update and rebuild all your maven projects (alt + F5)

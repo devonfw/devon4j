@@ -14,7 +14,7 @@ Please read the following best practices carefully and be aware that they might 
 
 If you want to provide an entity with a different structure do not append further details to an element URL but create a separate collection URL as base.
 So use `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity-with-details/42` instead of `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity/42/with-details`.
-For offering a link:guide-transferobject.asciidoc#CTO[CTO] simply append `-cto` to the collection URL (e.g. `.../myentity-cto/`).
+For offering a link:guide-transferobject.adoc#CTO[CTO] simply append `-cto` to the collection URL (e.g. `.../myentity-cto/`).
 
 While REST was designed as a pragmatical approach it sometimes leads to "religious discussions" e.g. about using `PUT` vs. `POST` (see ATTENTION notice above).
 As the devonfw has a strong focus on usual business applications it proposes a more "pragmatic" approach to REST services.
@@ -61,7 +61,7 @@ devonfw has support for the following metadata in REST service invocations:
 |Validation errors |Standardized format for a service to communicate validation errors to the client| Server-side validation is documented in the link:guide-validation.adoc[Validation guide].
 
 The protocol to communicate these validation errors is described in xref:rest-exception-handling[REST exception handling].
-|Pagination |Standardized format for a service to offer paginated access to a list of entities| Server-side support for pagination is documented in the link:guide-repository.asciidoc#pagination[Repository Guide].
+|Pagination |Standardized format for a service to offer paginated access to a list of entities| Server-side support for pagination is documented in the link:guide-repository.adoc#pagination[Repository Guide].
 |=======
 
 == Recommendations for REST requests and responses

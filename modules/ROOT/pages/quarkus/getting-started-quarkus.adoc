@@ -5,8 +5,8 @@ This guide will show a quickstart how to create a Quarkus app and will briefly s
 
 == Introduction to Quarkus 
 
-To get the first introduction to Quarkus you can read the link:../quarkus.adoc[Quarkus introduction guide]. To get a short overview where you can find the important Quarkus related guides follow the chapter link:../quarkus.asciidoc#guide-to-the-reader[guide to the reader].
-Also, a comparison of the link:../quarkus.asciidoc#Pros[advantages] and link:../quarkus.asciidoc#cons[disadvantages] of a Quarkus application compared to the alternative framework Spring.
+To get the first introduction to Quarkus you can read the link:../quarkus.adoc[Quarkus introduction guide]. To get a short overview where you can find the important Quarkus related guides follow the chapter link:../quarkus.adoc#guide-to-the-reader[guide to the reader].
+Also, a comparison of the link:../quarkus.adoc#Pros[advantages] and link:../quarkus.adoc#cons[disadvantages] of a Quarkus application compared to the alternative framework Spring.
 This comparison will be supported by our link:../performance-comparison-spring-quarkus.adoc[performance comparison between Spring and Quarkus] that shows the lower resource consumption and startup time of Quarkus applications.
 
 
@@ -90,8 +90,8 @@ This project will be steadily improved and is used to showcase the abilities of 
 
 We provide a guide with a short introduction to the link:../guide-openaoi.adoc[OpenAPI specification] with two plugins that are important in a Quarkus Context.
 
-1. link:../guide-openaoi.asciidoc#smallrye-openapi[Smallrye Openapi supported by quarkus] 
-2. link:../guide-openaoi.asciidoc#servicedocgen-maven-plugin[servicedocgen Maven Plugin].
+1. link:../guide-openaoi.adoc#smallrye-openapi[Smallrye Openapi supported by quarkus] 
+2. link:../guide-openaoi.adoc#servicedocgen-maven-plugin[servicedocgen Maven Plugin].
 
 A more detailed usage guide to the Smallrye Plugin is provided by https://quarkus.io/guides/openapi-swaggerui[Quarkus OpenAPI and Swagger guide].
 

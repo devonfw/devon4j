@@ -128,7 +128,7 @@ In general anything can be used to differentiate versions of a service. Possibil
 * Sequential version numbers (e.g. `v1`, `v2`, `v3`)
 * Composed version numbers (e.g. `1.0.48-pre-alpha-3-20171231-235959-Strawberry`)
 
-As we are following the KISS principle (see link:architecture.asciidoc#key-principles[key principles]) we propose to use sequential version numbers. These are short, clear, and easy while still allowing to see what version is after another one. Especially composed version numbers (even `1.1` vs. `2.0`) lead to decisions and discussions that easily waste more time than adding value. It is still very easy to maintain an Excel sheet or release-notes document that is explaining the changes for each version (`v1`, `v2`, `v3`) of a particular service.
+As we are following the KISS principle (see link:architecture.adoc#key-principles[key principles]) we propose to use sequential version numbers. These are short, clear, and easy while still allowing to see what version is after another one. Especially composed version numbers (even `1.1` vs. `2.0`) lead to decisions and discussions that easily waste more time than adding value. It is still very easy to maintain an Excel sheet or release-notes document that is explaining the changes for each version (`v1`, `v2`, `v3`) of a particular service.
 
 We suggest to always add the version schema to the service URL to be prepared for service versioning even if service versioning is not (yet) actively used. For simplicity it is explicitly stated that you may even do incompatible changes to the current version (typically `v1`) of your service if you can update the according consumers within the same deployment.
 
@@ -149,7 +149,7 @@ The approach for your devon4j project in case of code-first should be as describ
 * Finally, ensure that both the old service behaves as before as well as the new service works as planned.
 
 === Modularization
-For modularization, we also follow the KISS principle (see link:architecture.asciidoc#key-principles[key principles]):
+For modularization, we also follow the KISS principle (see link:architecture.adoc#key-principles[key principles]):
 we suggest to have one `api` module per application that will contain the most recent version of your service and get released with every release-version of the application. The compatibility code with the versioned packages will be added to the `core` module and therefore is not exposed via the `api` module (because it has already been exposed in the previous release of the app). This way, you can always determine for sure which version of a service is used by another application just by its maven dependencies.
 
 The KISS approach with only a single module that may contain multiple services (e.g. one for each business component) will cause problems when you want to have mixed usages of service versions: You can not use an old version of one service and a new version of another service from the same APP as then you would need to have its API module twice as a dependency on different versions, which is not possible. However, to avoid complicated overhead we always suggest to follow this easy approach. Only if you come to the point that you really need this complexity you can still solve it (even afterwards by publishing another maven artefact). As we are all on our way to build more but smaller applications (SOA, microservices, etc.) we should always start simple and only add complexity when really needed.

@@ -16,10 +16,10 @@ We follow these principles:
 We recommend to use AOP with care but we consider it established for the following cross cutting concerns:
 
 * link:guide-transactions.adoc[Transaction-Handling]
-* link:guide-security.asciidoc#method-authorization[Authorization]
+* link:guide-security.adoc#method-authorization[Authorization]
 * link:guide-validation.adoc[Validation]
-* link:guide-logging.asciidoc#tracing[Trace-Logging] (for testing and debugging)
-* Exception facades for link:guide-service-layer.adoc[services] but only if no other solution is possible (use alternatives such as link:guide-service-layer.asciidoc#rest-exception-handling[JAX-RS provider] instead).
+* link:guide-logging.adoc#tracing[Trace-Logging] (for testing and debugging)
+* Exception facades for link:guide-service-layer.adoc[services] but only if no other solution is possible (use alternatives such as link:guide-service-layer.adoc#rest-exception-handling[JAX-RS provider] instead).
 
 == AOP Debugging
 //Exchange picture with one of the current version?

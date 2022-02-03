@@ -15,7 +15,7 @@ SELECT dish FROM DishEntity dish WHERE dish.price <= :maxPrice
 Here `dish` is used as alias (variable name) for our selected `DishEntity` (what refers to the simple name of the Java entity class). With `dish.price` we are referring to the Java property `price` (`getPrice()`/`setPrice(...)`) in `DishEntity`. A named variable provided from outside (the search criteria at runtime) is specified with a colon (`:`) as prefix. Here with `:maxPrice` we reference to a variable that needs to be set via `query.setParameter("maxPrice", maxPriceValue)`. JPQL also supports indexed parameters (`?`) but they are discouraged because they easily cause confusion and mistakes.
 
 === Using Queries to Avoid Bidirectional Relationships 
-With the usage of queries it is possible to avoid exposing relationships or modelling bidirectional relationships, which have some disadvantages (see link:guide-jpa.asciidoc#relationships[relationships]). This is especially desired for relationships between entities of different business components.
+With the usage of queries it is possible to avoid exposing relationships or modelling bidirectional relationships, which have some disadvantages (see link:guide-jpa.adoc#relationships[relationships]). This is especially desired for relationships between entities of different business components.
 So for example to get all https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/ordermanagement/dataaccess/api/OrderLineEntity.java[OrderLineEntities] for a specific https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/ordermanagement/dataaccess/api/OrderEntity.java[OrderEntity] without using the `orderLines` relation from `OrderEntity` the following query could be used:
 [source,sql]
 ----
@@ -192,7 +192,7 @@ POST mythaistar/services/rest/tablemanagement/v1/table/search
 ----
 
 === Pagingation in devon4j-spring
-For spring applications, devon4j also offers its own solution for pagination. You can find an example of this link:spring/guide-querydsl-spring.asciidoc#pagination[here].
+For spring applications, devon4j also offers its own solution for pagination. You can find an example of this link:spring/guide-querydsl-spring.adoc#pagination[here].
 
 == Query Meta-Parameters
 Queries can have meta-parameters and that are provided via `SearchCriteriaTo`. Besides paging (see above) we also get https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryHelper.java#L51[timeout support].

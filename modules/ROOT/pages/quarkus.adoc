@@ -11,7 +11,7 @@ Additional things like extensions will be available on the  https://github.com/d
 
 Dependent on the intention you are reading this document, you might be most interested in the following chapters:
 
-* If you are completely new to Quarkus, you may be interested in the link:quarkus.asciidoc#pros[pros] and link:quarkus.asciidoc#cons[cons] of Quarkus. Also take a look at the https://quarkus.io[official Quarkus website]. And you might also be interested in the features that https://www.graalvm.org/[GraalVM] offers.
+* If you are completely new to Quarkus, you may be interested in the link:quarkus.adoc#pros[pros] and link:quarkus.adoc#cons[cons] of Quarkus. Also take a look at the https://quarkus.io[official Quarkus website]. And you might also be interested in the features that https://www.graalvm.org/[GraalVM] offers.
 
 * If you are new to devon4j, also take a look at devon4j's recommendations on general best practices. Check out the chapters on link:architecture.adoc[architecture design], link:guide-structure-modern.adoc[project structuring] and link:coding-conventions.adoc[coding conventions]. Follow the referenced links to explore a topic in more depth.
 
@@ -21,7 +21,7 @@ Dependent on the intention you are reading this document, you might be most inte
 
 * If you want to have a Quarkus sample application using devon4j recommendations, check out our https://github.com/devonfw-sample/devon4quarkus-reference[Quarkus reference application].
 
-* If you already have some experience with devon4j and Quarkus and need more information on a specific topic, check out our link:devon4j.asciidoc#guides[Quarkus guides]. If you don't find what you are looking for there, check out the link:devon4j.asciidoc#general[general section]. devon4j uses general solutions for Java, so solutions for both Quarkus and Spring are documented there.
+* If you already have some experience with devon4j and Quarkus and need more information on a specific topic, check out our link:devon4j.adoc#guides[Quarkus guides]. If you don't find what you are looking for there, check out the link:devon4j.adoc#general[general section]. devon4j uses general solutions for Java, so solutions for both Quarkus and Spring are documented there.
 
 * If you want to learn how to build native images, check out link:quarkus/guide-native-image.adoc[this guide].
 

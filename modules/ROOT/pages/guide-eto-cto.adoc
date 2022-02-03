@@ -3,7 +3,7 @@ toc::[]
 == ETO and CTO approach
 
 == ETO
-For each link:guide-jpa.asciidoc#entity[persistent entity] `«BusinessObject»Entity` we create or generate a corresponding _entity transfer object_ (ETO) named `«BusinessObject»Eto`. It has the same properties except for relations.
+For each link:guide-jpa.adoc#entity[persistent entity] `«BusinessObject»Entity` we create or generate a corresponding _entity transfer object_ (ETO) named `«BusinessObject»Eto`. It has the same properties except for relations.
 
 == BO
 In order to centralize the properties (getters and setters with their javadoc) we create a common interface `«BusinessObject»` implemented both by the entity and its ETO. This also gives us compile-time safety that

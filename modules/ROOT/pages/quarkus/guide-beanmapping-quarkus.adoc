@@ -43,12 +43,12 @@ MapStruct provides an annotation processor that also has to be added to the POM.
 </plugin>
 ----
 
-MapStruct takes advantage of generated getters, setters, and constructors from the https://projectlombok.org/[Lombok] library, follow this link:../guide-lombok.asciidoc#lombok-with-mapstruct[Lombok with Mapstruct guide] to get Lombok with Mapstruct working.  
+MapStruct takes advantage of generated getters, setters, and constructors from the https://projectlombok.org/[Lombok] library, follow this link:../guide-lombok.adoc#lombok-with-mapstruct[Lombok with Mapstruct guide] to get Lombok with Mapstruct working.  
 
 
 == MapStruct Configuration
 
-We already discussed the benefits of https://github.com/devonfw/devon4j/blob/master/documentation/guide-dependency-injection.asciidoc#dependency-injection[dependency injection] and MapStruct supports CDI with EJB, spring, and jsr330. The default retrieving method for a mapper is a factory that uses reflections and should be avoided. The component model should be set to CDI, as this will allow us to easily inject the generated mapper implementation. The component model can be configured in multiple ways.
+We already discussed the benefits of https://github.com/devonfw/devon4j/blob/master/documentation/guide-dependency-injection.adoc#dependency-injection[dependency injection] and MapStruct supports CDI with EJB, spring, and jsr330. The default retrieving method for a mapper is a factory that uses reflections and should be avoided. The component model should be set to CDI, as this will allow us to easily inject the generated mapper implementation. The component model can be configured in multiple ways.
 
 === Simple Configuration
 Add the attribute *componentModel* to the *@Mapper* annotation in the mapper interface.

@@ -104,7 +104,7 @@ A GET request to `../fault` returns an OK status header, then garbage, and then 
 == Integration Levels
 There are many discussions about the right level of integration for test automation. Sometimes it is better to focus on small, isolated modules of the system - whatever a "module" may be. In other cases it makes more sense to test integrated groups of modules. Because there is no universal answer to this question, devonfw only defines a common terminology for what could be tested. Each project must make its own decision where to put the focus of test automation. There is no worldwide accepted terminology for the integration levels of testing. In general we consider http://istqbexamcertification.com/what-are-software-testing-levels/[ISTQB]. However, with a technical focus on test automation we want to get more precise.
 
-The following picture shows a simplified view of an application based on the link:architecture.asciidoc#technical-architecture[devonfw reference architecture]. We define four integration levels that are explained in detail below. 
+The following picture shows a simplified view of an application based on the link:architecture.adoc#technical-architecture[devonfw reference architecture]. We define four integration levels that are explained in detail below. 
 The boxes in the picture contain parenthesized numbers. These numbers depict the lowest integration level, a box belongs to. Higher integration levels also contain all boxes of lower integration levels. When writing tests for a given integration level, related boxes with a lower integration level must be replaced by test xref:test-doubles[doubles] or drivers.
 
 image::images/integration-levels.png["Integration Levels",scaledwidth="80%",align="center"]
@@ -175,7 +175,7 @@ public class UcFindCountryTest extends ComponentTest {
 ----
 This test will start the entire spring-context of your app (`MySpringBootApp`). Within the test spring will inject according spring-beans into all your fields annotated with `@Inject`. In the test methods you can use these spring-beans and perform your actual tests. This pattern can be used for testing DAOs/Repositories, Use-Cases, or any other spring-bean with its entire configuration including database and transactions.
 
-When you are testing use-cases your link:guide-access-control.asciidoc#configuration-on-java-method-level[authorization] will also be in place. Therefore, you have to simulate a logon in advance what is done via the `login` method in the above example.  The test-infrastructure will automatically do a `logout` for you after each test method in `doTearDown`.
+When you are testing use-cases your link:guide-access-control.adoc#configuration-on-java-method-level[authorization] will also be in place. Therefore, you have to simulate a logon in advance what is done via the `login` method in the above example.  The test-infrastructure will automatically do a `logout` for you after each test method in `doTearDown`.
 
 === Level 3 Subsystem Test
 A _subsystem test_ runs against the external interfaces (e.g. HTTP service) of the integrated subsystem. Subsystem tests of the client subsystem are described in the https://github.com/devonfw/devon4ng/blob/master/documentation/guide-testing.adoc[devon4ng testing guide]. In devon4j the server (JEE application) is the subsystem under test. The tests act as a client (e.g. service consumer) and the server has to be integrated and started in a container.

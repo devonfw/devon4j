@@ -16,7 +16,7 @@ As an example we can think of a link:guide-usecase.adoc[use-case], a link:guide-
 As best practice we use the following principles:
 
 * *Stateless implementation* +
-By default such beans shall be implemented link:coding-conventions.asciidoc#stateless-programming[stateless]. If you store state information in member variables you can easily run into concurrency problems and nasty bugs. This is easy to avoid by using local variables and separate state classes for complex state-information. Try to avoid stateful beans wherever possible. Only add state if you are fully aware of what you are doing and properly document this as a warning in your JavaDoc.
+By default such beans shall be implemented link:coding-conventions.adoc#stateless-programming[stateless]. If you store state information in member variables you can easily run into concurrency problems and nasty bugs. This is easy to avoid by using local variables and separate state classes for complex state-information. Try to avoid stateful beans wherever possible. Only add state if you are fully aware of what you are doing and properly document this as a warning in your JavaDoc.
 * *Usage of Java standards* +
 We use common standards (see above) that makes our code portable. Therefore we use standardized annotations like `@Inject` (`javax.inject.Inject`) instead of proprietary annotations such as `@Autowired`. Generally we avoid proprietary annotations in business code (link:guide-logic-layer.adoc[logic layer]).
 * *Simple injection-style* +

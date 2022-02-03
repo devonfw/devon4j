@@ -10,7 +10,7 @@ For messaging you need to choose a JMS provider such as:
 
 * https://www.rabbitmq.com/[RabbitMQ]
 * https://activemq.apache.org[ActiveMQ]
-* link:guide-oracle.asciidoc#messaging[Oracle Advanced Queuing] (esp. if you already use link:guide-oracle.adoc[Oracle RDBMS])
+* link:guide-oracle.adoc#messaging[Oracle Advanced Queuing] (esp. if you already use link:guide-oracle.adoc[Oracle RDBMS])
 
 == Receiver
 As a receiver of messages is receiving data from other systems it is located in the link:guide-service-layer.adoc[service-layer].

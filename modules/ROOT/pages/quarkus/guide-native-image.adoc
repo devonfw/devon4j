@@ -15,7 +15,7 @@ To build your quarkus app as native-image you have two options that are descibed
 == Build a native executable with GraalVM
 
 To build a Quarkus application you can install GraalVM locally on your machine as described below.
-Therefore read the link:quarkus-template.asciidoc#basic-templates[basic Quarkus application chapter], or clone the https://github.com/devonfw-sample/devon4quarkus-reference[example project] provided by devonfw. 
+Therefore read the link:quarkus-template.adoc#basic-templates[basic Quarkus application chapter], or clone the https://github.com/devonfw-sample/devon4quarkus-reference[example project] provided by devonfw. 
 Follow this https://quarkus.io/guides/building-native-image#producing-a-native-executable[chapter] from the Quarkus Guide for building a native executable.
 
 === Installing GraalVM

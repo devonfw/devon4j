@@ -31,7 +31,7 @@ public class SpringBootApp {
 }
 ----
 
-In an devonfw application this main class is always located in the `<basepackage>` of the application package namespace (see link:coding-conventions.asciidoc#packages[package-conventions]). This is because a spring boot application will automatically do a classpath scan for components (spring-beans) and entities in the package where the application main class is located including all sub-packages. You can use the `@ComponentScan` and `@EntityScan` annotations to customize this behaviour.
+In an devonfw application this main class is always located in the `<basepackage>` of the application package namespace (see link:coding-conventions.adoc#packages[package-conventions]). This is because a spring boot application will automatically do a classpath scan for components (spring-beans) and entities in the package where the application main class is located including all sub-packages. You can use the `@ComponentScan` and `@EntityScan` annotations to customize this behaviour.
 
 If you want to map spring configuration properties into your custom code please see link:guide-configuration-mapping.adoc[configuration mapping].
 
@@ -51,7 +51,7 @@ More specific configuration files (as required) reside in an adequately named su
 `src/main/resources/app`
 
 === BeanMapper Configuration
-In case you are still using dozer, you will find further details in link:../guide-beanmapping.asciidoc#bean-mapper-configuration[bean-mapper configuration].
+In case you are still using dozer, you will find further details in link:../guide-beanmapping.adoc#bean-mapper-configuration[bean-mapper configuration].
 
 === Security configuration
 The abstract base class `BaseWebSecurityConfig` should be extended to configure web application security thoroughly.
@@ -124,7 +124,7 @@ Obviously you need to configure which type of database you want to use as well a
   database.hibernate.hbm2ddl.auto=validate
 ----
 
-For further details about `database.hibernate.hbm2ddl.auto` please see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html#configuration-misc-properties[here]. For production and acceptance environments we use the value `validate` that should be set as default. In case you want to use Oracle RDBMS you can find additional hints link:guide-oracle.asciidoc#driver[here].
+For further details about `database.hibernate.hbm2ddl.auto` please see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html#configuration-misc-properties[here]. For production and acceptance environments we use the value `validate` that should be set as default. In case you want to use Oracle RDBMS you can find additional hints link:guide-oracle.adoc#driver[here].
 
 If your application supports multiples database types, set `spring.profiles.active=XXX` in `src/main/resources/config/application.properties` choose database of your choice. Also, one has to set all the active spring profiles in this `application.properties` and not in any of the other `application.properties`.
 
