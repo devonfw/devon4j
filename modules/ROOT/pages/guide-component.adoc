@@ -3,8 +3,8 @@ toc::[]
 
 == Components
 
-Following link:architecture.asciidoc#architecture-principles[separation-of-concerns] we divide an application into components using our link:coding-conventions.asciidoc#packages[package-conventions] and link:guide-structure.asciidoc[project structure].
-As described by the link:architecture.asciidoc[architecture] each component is divided into layers as described in the link:guide-structure.asciidoc[project structure].
+Following link:architecture.asciidoc#architecture-principles[separation-of-concerns] we divide an application into components using our link:coding-conventions.asciidoc#packages[package-conventions] and link:guide-structure.adoc[project structure].
+As described by the link:architecture.adoc[architecture] each component is divided into layers as described in the link:guide-structure.adoc[project structure].
 Please note that a component will only have the required layers.
 So a component may have any number from one to all layers.
 
@@ -30,4 +30,4 @@ The following class diagram illustrates an example of the business component `St
 
 image::images/guide-logic-layer.png["logic layer component pattern",scaledwidth="80%",align="center"]
 
-In this scheme, you can see the structure and flow from the link:guide-service-layer.asciidoc[service-layer] (REST service call) via the link:guide-logic-layer.asciidoc[logic-layer] to the link:guide-dataaccess-layer.asciidoc[dataaccess-layer] (and back).
+In this scheme, you can see the structure and flow from the link:guide-service-layer.adoc[service-layer] (REST service call) via the link:guide-logic-layer.adoc[logic-layer] to the link:guide-dataaccess-layer.adoc[dataaccess-layer] (and back).

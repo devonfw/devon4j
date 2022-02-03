@@ -10,11 +10,11 @@ For details see xref:modules[modules] below.
 
 == Options
 
-* link:documentation/guide-jee.asciidoc[JEE]
+* link:documentation/guide-jee.adoc[JEE]
 
 === Tutorials
 
-* link:documentation/tutorial-newapp.asciidoc[Start a new application]
+* link:documentation/tutorial-newapp.adoc[Start a new application]
 
 == Modules
 

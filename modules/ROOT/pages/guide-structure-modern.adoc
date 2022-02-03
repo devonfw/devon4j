@@ -4,7 +4,7 @@ toc::[]
 == Modern project structure
 
 With trends such as cloud, microservices, lean, and agile we decided for a more modern project structure that fits better to recent market trends.
-When starting new projects with devonfw and escpecially in the context of cloud-native development we strongly recommend this modern approach over the link:guide-structure-classic.asciidoc[classic structure].
+When starting new projects with devonfw and escpecially in the context of cloud-native development we strongly recommend this modern approach over the link:guide-structure-classic.adoc[classic structure].
 
 == Modules
 
@@ -42,10 +42,10 @@ For the modern project structure the layers are defined by the following table:
 [options="header"]
 |=============================================
 |*Layer* | *«layer»* | *Description*
-|link:guide-service-layer.asciidoc[service]|`service`|The service layer exposing functionality via its remote API. Typical protocol is link:guide-rest.asciidoc[REST]. May also be any other protocol you are using such as https://grpc.io/[gRPC].
-|link:guide-domain-layer.asciidoc[domain]|`domain`|The domain with the data-model and DB access. Use sub-package (in `«detail»`) `repository` for link:guide-repository.asciidoc[repository] and `dao` for link:guide-dao.asciidoc[DAOs]. Also we recommend to put link:guide-jpa.asciidoc#entity[entities] in `model` sub-package.
-|link:guide-logic-layer.asciidoc[logic]|`logic`|The logic layer with the functionallity providing the business value.
-|link:guide-common.asciidoc[common]|`common`|cross-cutting code not assigned to a technical layer.
+|link:guide-service-layer.adoc[service]|`service`|The service layer exposing functionality via its remote API. Typical protocol is link:guide-rest.adoc[REST]. May also be any other protocol you are using such as https://grpc.io/[gRPC].
+|link:guide-domain-layer.adoc[domain]|`domain`|The domain with the data-model and DB access. Use sub-package (in `«detail»`) `repository` for link:guide-repository.adoc[repository] and `dao` for link:guide-dao.adoc[DAOs]. Also we recommend to put link:guide-jpa.asciidoc#entity[entities] in `model` sub-package.
+|link:guide-logic-layer.adoc[logic]|`logic`|The logic layer with the functionallity providing the business value.
+|link:guide-common.adoc[common]|`common`|cross-cutting code not assigned to a technical layer.
 |=============================================
 
 == Architecture Mapping
@@ -57,21 +57,21 @@ we provide this architecture mapping:
 ----
 «root»
 ├──.link:guide-component.asciidoc#business-component[«component»]
-|  ├──.link:guide-domain-layer.asciidoc[domain]
-|  |  ├──.link:guide-repository.asciidoc[repo]
+|  ├──.link:guide-domain-layer.adoc[domain]
+|  |  ├──.link:guide-repository.adoc[repo]
 |  |  |  ├──.link:guide-repository.asciidoc#repository[«BusinessObject»Repository]
 |  |  |  ├──.link:guide-repository.asciidoc#fragment[«BusinessObject»Fragment]
 |  |  |  └──.link:guide-repository.asciidoc#fragment[«BusinessObject»FragmentImpl]
-|  |  ├──.link:guide-dao.asciidoc[dao] [alternative to repo]
+|  |  ├──.link:guide-dao.adoc[dao] [alternative to repo]
 |  |  |  ├──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»Dao]
 |  |  |  └──.link:guide-dao.asciidoc#data-access-object[«BusinessObject»DaoImpl]
 |  |  └──.model
 |  |     └──.link:guide-jpa.asciidoc#entity[«BusinessObject»Entity]
-|  ├──.link:guide-logic-layer.asciidoc[logic]
+|  ├──.link:guide-logic-layer.adoc[logic]
 |  |  ├──«BusinessObject»Validator
 |  |  └──«BusinessObject»EventsEmitter
-|   |  └──.link:guide-usecase.asciidoc[Uc«Operation»«BusinessObject»[Impl]]
-|  └──.link:guide-service-layer.asciidoc[service]
+|   |  └──.link:guide-usecase.adoc[Uc«Operation»«BusinessObject»[Impl]]
+|  └──.link:guide-service-layer.adoc[service]
 |     └──.link:guide-service-versioning.asciidoc#jax-rs[v1]
 |        ├──.link:guide-rest.asciidoc#jax-rs[«Component»RestService]
 |        ├──.mapper

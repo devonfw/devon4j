@@ -3,7 +3,7 @@ toc::[]
 
 == Log-Monitoring
 
-Log-monitoring is an aspect of link:guide-monitoring.asciidoc[monitoring] with a strict focus on link:guide-logging.asciidoc[logging].
+Log-monitoring is an aspect of link:guide-monitoring.adoc[monitoring] with a strict focus on link:guide-logging.adoc[logging].
 With trends towards IT landscapes with many but much smaller apps the classicial approach to write log-files to the disc and let operators read those via SSH became entirely obsolete.
 Nowadays we have up to hundreds or even thousands of apps that themselves are clustered into multiple nodes.
 Therefore you should establish a centralized log monitoring system in the environment and let all your nodes log directly into that system.

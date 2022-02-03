@@ -29,7 +29,7 @@ protected void verifyPermission(SecurityDataPermissionCountry entity) throws Acc
 ----
 
 === Beware of AOP
-For simple but cross-cutting data-permissions you may also use link:guide-aop.asciidoc[AOP]. This leads to programming aspects that reflectively scan method arguments and magically decide what to do. Be aware that this quickly gets tricky:
+For simple but cross-cutting data-permissions you may also use link:guide-aop.adoc[AOP]. This leads to programming aspects that reflectively scan method arguments and magically decide what to do. Be aware that this quickly gets tricky:
 
 * What if multiple of your method arguments have data-permissions (e.g. implement `SecurityDataPermission*`)?
 * What if the object to authorize is only provided as reference (e.g. `Long` or `IdRef`) and only loaded and processed inside the implementation where the AOP aspect does not apply?
