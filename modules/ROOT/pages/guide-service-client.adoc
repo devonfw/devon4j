@@ -13,7 +13,7 @@ Various solutions already exist for calling services, such as `RestTemplate` fro
 
 *Spring*
 
-For Spring, follow the link:spring/guide-service-client-spring.adoc[Spring rest-client guide].
+For Spring, follow the xref:spring/guide-service-client-spring.adoc[Spring rest-client guide].
 
 *Quarkus*
 
