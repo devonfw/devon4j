@@ -4,6 +4,6 @@ toc::[]
 == Domain Layer
 
 The domain layer is responsible for the data-model and mapping this to a https://github.com/devonfw/devonfw-guide/blob/master/general/db/guide-database.adoc[database]. 
-The most common approach is to use a Relational Database Management System (RDMS). In such a case, we strongly recommend to follow our link:guide-jpa.adoc[JPA Guide]. Some NoSQL databases are supported by https://spring.io/projects/spring-data[spring-data] so you can consider the link:guide-repository.adoc[repository guide].
+The most common approach is to use a Relational Database Management System (RDMS). In such a case, we strongly recommend to follow our xref:guide-jpa.adoc[JPA Guide]. Some NoSQL databases are supported by https://spring.io/projects/spring-data[spring-data] so you can consider the link:guide-repository.adoc[repository guide].
 
 Note: The domain layer is the replacement for the link:guide-dataaccess-layer.adoc[data-access layer] in the link:guide-structure-modern.adoc[modern project structure].
