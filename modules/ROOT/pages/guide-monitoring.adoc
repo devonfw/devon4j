@@ -16,13 +16,13 @@ Instead please search and find the products that fit best for your requirements 
 
 As monitoring coveres a lot of different aspects we separate the following types of monitoring and according data:
 
-* *link:guide-log-monitoring.adoc[Log-monitoring]* +
+* *xref:guide-log-monitoring.adoc[Log-monitoring]* +
 is about collecting and monitoring the logs of all apps and containers in your IT landscape. It is suitable for events such as an HTTP request with its URL, resulting status code and duration in milliseconds. Your monitoring may not react to such data in realtime. Instead it may take a delay of one or a few seconds.
 * *Infrastructure monitoring* +
 is about monitoring the (hardware) infrastructure with measures like usage of CPU, memory, disc-space, etc. This is a pure operational task and your app should have nothing to do with this. In other words it is a waste if your app tries to monitor these aspects as existing products can do this much better and your app will only see virtual machines and is unable to see the physical infrastructure.
 * *xref:health-check[Health check]* +
 is about providing internal data about the current health of your app. Typically you provide sensors with health status per component or interface to neighbour service (database connectivity, etc.).
-* *link:guide-apm.adoc[Application Performance Monitoring]* +
+* *xref:guide-apm.adoc[Application Performance Monitoring]* +
 is about measuring performance and tracing down performance issues.
 
 == Health-Check
@@ -31,15 +31,15 @@ The idea of a health check is to prodvide monitoring data about the current heal
 This allows to integrate this specific data into the monitoring system used for your IT landscape.
 In order to keep the monitoring simple and easy to integreate consider using the following best practices:
 
-* Use simple and established protocols such as link:guide-rest.adoc[REST] instead of link:guide-jmx.adoc[JMX via RMI].
+* Use simple and established protocols such as xref:guide-rest.adoc[REST] instead of xref:guide-jmx.adoc[JMX via RMI].
 * Considuer using recent standards such as https://github.com/eclipse/microprofile-health[microprofile-health].
-* Consider to drop link:guide-access-control.adoc[access-control] for your monitoring interfaces and for security prevent external access to it in your infrastructure (loadbalancers or gateways). Monitoring is only for usage within an IT landscape internally. It does not make sense for externals and end-users to access your app for reading monitoring data from a random node decided by a loadbalancer. Furhter, external access can easily lead to https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure[sensitive data exposure].
+* Consider to drop xref:guide-access-control.adoc[access-control] for your monitoring interfaces and for security prevent external access to it in your infrastructure (loadbalancers or gateways). Monitoring is only for usage within an IT landscape internally. It does not make sense for externals and end-users to access your app for reading monitoring data from a random node decided by a loadbalancer. Furhter, external access can easily lead to https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure[sensitive data exposure].
 * Consider to define different end-points per usage-scenario. So if you want the loadbalancer to ask your app monitoring for availability of each node then create a separate service URL that only provides `OK` or anything else for failure (`NOK`, 404, 500, timeout). Do not mix this with a health-check that needs more detailed information.
 * Also do not forget about basic features such as prodiving the name and the release version of your application.
 * Be careful to automate decisions based on monitoring and health checks. It easily turns out to be stupid if you automatically restart your pod or container because of some monitoring indicator. In the worst case a failure of a central component will cause your health-check to report down for all apps and as a result all your containers will be restarted frequently. Indead of curing problems such decisions will cause much more harm and trouble.
-* Avoid causing reasonable load with your monitoring and health-check itself. In many cases it is better to use link:guide-log-monitoring.adoc[log-monitoring] or to collect monitoring data from use-cases that happen in your app anyway. If you create dummy read and write requests in your monitoring implementation you will easily turn it into a DOS-attack.
+* Avoid causing reasonable load with your monitoring and health-check itself. In many cases it is better to use xref:guide-log-monitoring.adoc[log-monitoring] or to collect monitoring data from use-cases that happen in your app anyway. If you create dummy read and write requests in your monitoring implementation you will easily turn it into a DOS-attack.
 
-For link:spring.adoc[spring] you can simply integrate app monitoring and health check via https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html[spring-boot-actuator].
+For xref:spring.adoc[spring] you can simply integrate app monitoring and health check via https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html[spring-boot-actuator].
 
-For link:quarkus.adoc[quarkus] you can simply integrate app monitoring via https://quarkus.io/guides/micrometer[micrometer] or https://quarkus.io/guides/smallrye-metrics[smallrye-metrics] and health check via https://quarkus.io/guides/smallrye-health[smallrye-health].
+For xref:quarkus.adoc[quarkus] you can simply integrate app monitoring via https://quarkus.io/guides/micrometer[micrometer] or https://quarkus.io/guides/smallrye-metrics[smallrye-metrics] and health check via https://quarkus.io/guides/smallrye-health[smallrye-health].
 

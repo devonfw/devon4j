@@ -4,16 +4,16 @@ toc::[]
 == Quarkus
 
 https://quarkus.io[Quarkus] is a Java framework for building cloud-native apps.
-It is fully supported by https://devonfw.com[devonfw] as an option and alternative to link:spring.adoc[spring].
+It is fully supported by https://devonfw.com[devonfw] as an option and alternative to xref:spring.adoc[spring].
 Additional things like extensions will be available on the  https://github.com/devonfw/devon4quarkus[devon4quarkus] GitHub repository.
 
 == Guide to the Reader
 
 Dependent on the intention you are reading this document, you might be most interested in the following chapters:
 
-* If you are completely new to Quarkus, you may be interested in the link:quarkus.adoc#pros[pros] and link:quarkus.adoc#cons[cons] of Quarkus. Also take a look at the https://quarkus.io[official Quarkus website]. And you might also be interested in the features that https://www.graalvm.org/[GraalVM] offers.
+* If you are completely new to Quarkus, you may be interested in the xref:quarkus.adoc#pros[pros] and xref:quarkus.adoc#cons[cons] of Quarkus. Also take a look at the https://quarkus.io[official Quarkus website]. And you might also be interested in the features that https://www.graalvm.org/[GraalVM] offers.
 
-* If you are new to devon4j, also take a look at devon4j's recommendations on general best practices. Check out the chapters on link:architecture.adoc[architecture design], link:guide-structure-modern.adoc[project structuring] and link:coding-conventions.adoc[coding conventions]. Follow the referenced links to explore a topic in more depth.
+* If you are new to devon4j, also take a look at devon4j's recommendations on general best practices. Check out the chapters on xref:architecture.adoc[architecture design], xref:guide-structure-modern.adoc[project structuring] and xref:coding-conventions.adoc[coding conventions]. Follow the referenced links to explore a topic in more depth.
 
 * If you are an experienced Spring developer and want to get in touch with Quarkus, read our link:quarkus/getting-started-for-spring-developers.adoc[Getting started with Quarkus for Spring developers] guide.
 
@@ -21,7 +21,7 @@ Dependent on the intention you are reading this document, you might be most inte
 
 * If you want to have a Quarkus sample application using devon4j recommendations, check out our https://github.com/devonfw-sample/devon4quarkus-reference[Quarkus reference application].
 
-* If you already have some experience with devon4j and Quarkus and need more information on a specific topic, check out our link:devon4j.adoc#guides[Quarkus guides]. If you don't find what you are looking for there, check out the link:devon4j.adoc#general[general section]. devon4j uses general solutions for Java, so solutions for both Quarkus and Spring are documented there.
+* If you already have some experience with devon4j and Quarkus and need more information on a specific topic, check out our xref:devon4j.adoc#guides[Quarkus guides]. If you don't find what you are looking for there, check out the xref:devon4j.adoc#general[general section]. devon4j uses general solutions for Java, so solutions for both Quarkus and Spring are documented there.
 
 * If you want to learn how to build native images, check out link:quarkus/guide-native-image.adoc[this guide].
 
@@ -33,7 +33,7 @@ Quarkus offers the following benefits:
 * *fast turn-around cycles for developers* +
 Save changes in your Java code and immediately test the results without restarting or waiting
 * *faster start-up and less memory footprint* +
-When building your app as link:quarkus/guide-native-image.adoc[native-images] via https://www.graalvm.org/[GraalVM] it gets highly optimized. As a result it starts up lightning fast and consumes much less memory. This is a great advantage for cloud deployment as well as for sustainability. You can find a performance comparison between Spring and Quarkus link:performance-comparision-spring-quarkus.adoc[here].
+When building your app as link:quarkus/guide-native-image.adoc[native-images] via https://www.graalvm.org/[GraalVM] it gets highly optimized. As a result it starts up lightning fast and consumes much less memory. This is a great advantage for cloud deployment as well as for sustainability. You can find a performance comparison between Spring and Quarkus xref:performance-comparision-spring-quarkus.adoc[here].
 * *clean and lean*
 As quarkus was born as cloud-native framework it is very light-weigth and does not carry much history and legacy.
 
@@ -43,6 +43,6 @@ As quarkus was born as cloud-native framework it is very light-weigth and does n
 Quarkus has the following drawbacks:
 
 * *less flexible* +
-Quarkus is less flexible compared to link:spring.adoc[spring] or in other words it is more biased and coupled to specific implementations. However, the implementations just work and you have less things to choose and worry about. However, in case you want to integrate a specific or custom library you may hit limitations or lose support for link:quarkus/guide-native-image.adoc[native-images] especially when that library is based on reflection. Therefore, check your requirements and technology stack early on when making your choice.
+Quarkus is less flexible compared to xref:spring.adoc[spring] or in other words it is more biased and coupled to specific implementations. However, the implementations just work and you have less things to choose and worry about. However, in case you want to integrate a specific or custom library you may hit limitations or lose support for link:quarkus/guide-native-image.adoc[native-images] especially when that library is based on reflection. Therefore, check your requirements and technology stack early on when making your choice.
 * *less established* +
-Since quarkus was born in 2019 it is modern but also less established. It will be easier to get developers for link:spring.adoc[spring] but we already consider quarkus mature and established enought for building production ready apps.
+Since quarkus was born in 2019 it is modern but also less established. It will be easier to get developers for xref:spring.adoc[spring] but we already consider quarkus mature and established enought for building production ready apps.

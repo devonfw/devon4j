@@ -14,7 +14,7 @@ Please read the following best practices carefully and be aware that they might 
 
 If you want to provide an entity with a different structure do not append further details to an element URL but create a separate collection URL as base.
 So use `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity-with-details/42` instead of `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity/42/with-details`.
-For offering a link:guide-transferobject.adoc#CTO[CTO] simply append `-cto` to the collection URL (e.g. `.../myentity-cto/`).
+For offering a xref:guide-transferobject.adoc#CTO[CTO] simply append `-cto` to the collection URL (e.g. `.../myentity-cto/`).
 
 While REST was designed as a pragmatical approach it sometimes leads to "religious discussions" e.g. about using `PUT` vs. `POST` (see ATTENTION notice above).
 As the devonfw has a strong focus on usual business applications it proposes a more "pragmatic" approach to REST services.
@@ -57,11 +57,11 @@ devonfw has support for the following metadata in REST service invocations:
 [options="header"]
 |=======
 |Name |Description| Further information
-|X-Correlation-Id|HTTP header for a _correlation ID_ that is a unique identifier to associate different requests belonging to the same session / action| link:guide-logging.adoc[Logging guide]
-|Validation errors |Standardized format for a service to communicate validation errors to the client| Server-side validation is documented in the link:guide-validation.adoc[Validation guide].
+|X-Correlation-Id|HTTP header for a _correlation ID_ that is a unique identifier to associate different requests belonging to the same session / action| xref:guide-logging.adoc[Logging guide]
+|Validation errors |Standardized format for a service to communicate validation errors to the client| Server-side validation is documented in the xref:guide-validation.adoc[Validation guide].
 
 The protocol to communicate these validation errors is described in xref:rest-exception-handling[REST exception handling].
-|Pagination |Standardized format for a service to offer paginated access to a list of entities| Server-side support for pagination is documented in the link:guide-repository.adoc#pagination[Repository Guide].
+|Pagination |Standardized format for a service to offer paginated access to a list of entities| Server-side support for pagination is documented in the xref:guide-repository.adoc#pagination[Repository Guide].
 |=======
 
 == Recommendations for REST requests and responses
@@ -246,10 +246,10 @@ If the error is caused by a failed validation of the entity, the above format is
 ----
 
 == REST Media Types
-The payload of a REST service can be in any format as REST by itself does not specify this. The most established ones that the devonfw recommends are link:guide-xml.adoc[XML] and link:guide-json.adoc[JSON]. Follow these links for further details and guidance how to use them properly. `JAX-RS` and `CXF` properly support these formats (`MediaType.APPLICATION_JSON` and `MediaType.APPLICATION_XML` can be specified for `@Produces` or `@Consumes`). Try to decide for a single format for all services if possible and NEVER mix different formats in a service.
+The payload of a REST service can be in any format as REST by itself does not specify this. The most established ones that the devonfw recommends are xref:guide-xml.adoc[XML] and xref:guide-json.adoc[JSON]. Follow these links for further details and guidance how to use them properly. `JAX-RS` and `CXF` properly support these formats (`MediaType.APPLICATION_JSON` and `MediaType.APPLICATION_XML` can be specified for `@Produces` or `@Consumes`). Try to decide for a single format for all services if possible and NEVER mix different formats in a service.
 
 == REST Testing
-For testing REST services in general consult the link:guide-testing.adoc[testing guide].
+For testing REST services in general consult the xref:guide-testing.adoc[testing guide].
 
 For manual testing REST services there are browser plugins:
 
@@ -260,7 +260,7 @@ For manual testing REST services there are browser plugins:
 Your services are the major entry point to your application. Hence security considerations are important here.
 
 === CSRF
-A common security threat is https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)[CSRF] for REST services. Therefore all REST operations that are performing modifications (PUT, POST, DELETE, etc. - all except GET) have to be secured against CSRF attacks. See link:guide-csrf.adoc[CSRF] how to do this.
+A common security threat is https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)[CSRF] for REST services. Therefore all REST operations that are performing modifications (PUT, POST, DELETE, etc. - all except GET) have to be secured against CSRF attacks. See xref:guide-csrf.adoc[CSRF] how to do this.
 
 === JSON top-level arrays
 OWASP earlier suggested to never return JSON arrays at the top-level, to prevent attacks without rationale.

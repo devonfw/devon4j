@@ -29,7 +29,7 @@ Finally, when passing `IdRef` objects to such methods, we get compile errors in 
 
 == IdRef and Mapping
 
-In order to easily map relations from entities to link:guide-transferobject.adoc[transfer-objects] and back, we can easily also put according getters and setters into our entities:
+In order to easily map relations from entities to xref:guide-transferobject.adoc[transfer-objects] and back, we can easily also put according getters and setters into our entities:
 
 [source,java]
 ----
@@ -116,7 +116,7 @@ java.lang.IllegalStateException: EntityManager has not yet been initialized!
 For main usage in your application we assume that there is only one instance of `EntityManager`.
 Therefore we can initialize this instance during the spring boot setup.
 This is what we provide for you in https://github.com/devonfw/devon4j/blob/master/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/JpaInitializer.java[JpaInitializer] for you
-when link:tutorial-newapp.adoc[creating a devon4j app].
+when xref:tutorial-newapp.adoc[creating a devon4j app].
 
 === JpaHelper and spring-test
 

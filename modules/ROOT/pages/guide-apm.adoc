@@ -9,7 +9,7 @@ This guide gives hints how to manage, monitor and analyse performance of Java ap
 If you are facing performance issues and want to do a punctual analysis we recommend you to use https://glowroot.org/[glowroot]. It is ideal in cases where monitoring in your local development environment is suitable. However, it is also possible to use it in your test environment. It is entirely free and open-source. Still it is very powerful and helps to trace down bottlenecks. To get a first impression of the tool take a look at the https://demo.glowroot.org[demo].
 
 === JEE/WTP
-In case you are forced to use an link:guide-jee.adoc[JEE application server] and want to do a temporary analysis you can double click your server instance from the servers view in Eclipse and click on the link `Open launch configuration` in order to add the `-javaagent` JVM option.
+In case you are forced to use an xref:guide-jee.adoc[JEE application server] and want to do a temporary analysis you can double click your server instance from the servers view in Eclipse and click on the link `Open launch configuration` in order to add the `-javaagent` JVM option.
 
 == Regular Analysis
 In case you want to manage application performance regularly we recommend to use https://github.com/javamelody/javamelody#javamelody[JavaMelody] that can be integrated into your application. More information on javamelody is available on the https://github.com/javamelody/javamelody/wiki[JavaMelody Wiki]

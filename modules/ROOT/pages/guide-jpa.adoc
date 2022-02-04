@@ -4,7 +4,7 @@ toc::[]
 == Java Persistence API
 
 For mapping java objects to a relational database we use the http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[Java Persistence API (JPA)]. 
-As JPA implementation we recommend to use http://hibernate.org/orm/[Hibernate]. For general documentation about JPA and Hibernate follow the links above as we will not replicate the documentation. Here you will only find guidelines and examples how we recommend to use it properly. The following examples show how to map the data of a database to an entity. As we use JPA we abstract from link:guide-sql.adoc[SQL] here. However, you will still need a https://en.wikipedia.org/wiki/Data_definition_language[DDL] script for your schema and during maintenance also link:guide-database-migration.adoc[database migrations]. Please follow our link:guide-sql.adoc[SQL guide] for such artifacts.
+As JPA implementation we recommend to use http://hibernate.org/orm/[Hibernate]. For general documentation about JPA and Hibernate follow the links above as we will not replicate the documentation. Here you will only find guidelines and examples how we recommend to use it properly. The following examples show how to map the data of a database to an entity. As we use JPA we abstract from xref:guide-sql.adoc[SQL] here. However, you will still need a https://en.wikipedia.org/wiki/Data_definition_language[DDL] script for your schema and during maintenance also xref:guide-database-migration.adoc[database migrations]. Please follow our xref:guide-sql.adoc[SQL guide] for such artifacts.
 
 == Entity
 Entities are part of the persistence layer and contain the actual data. They are POJOs (Plain Old Java Objects) on which the relational data of a database is mapped and vice versa. The mapping is configured via JPA annotations (`javax.persistence`). Usually an entity class corresponds to a table of a database and a property to a column of that table. A persistent entity instance then represents a row of the database table.
@@ -40,7 +40,7 @@ Note that every entity class needs a constructor with public or protected visibi
 Entities should be simple POJOs and not contain business logic.
 
 === Entities and Datatypes
-Standard datatypes like `Integer`, `BigDecimal`, `String`, etc. are mapped automatically by JPA. Custom link:guide-datatype.adoc[datatypes] are mapped as serialized xref:blob[BLOB] by default what is typically undesired. 
+Standard datatypes like `Integer`, `BigDecimal`, `String`, etc. are mapped automatically by JPA. Custom xref:guide-datatype.adoc[datatypes] are mapped as serialized xref:blob[BLOB] by default what is typically undesired. 
 In order to map atomic custom datatypes (implementations of`+SimpleDatatype`) we implement an `AttributeConverter`. Here is a simple example:
 [source,java]
 ----
@@ -72,7 +72,7 @@ public byte[] getIcon() {
   return this.icon;
 }
 ----
-WARNING: Using a byte array will cause problems if BLOBs get large because the entire BLOB is loaded into the RAM of the server and has to be processed by the garbage collector. For larger BLOBs the type http://docs.oracle.com/javase/7/docs/api/java/sql/Blob.html[Blob] and link:guide-blob-support.adoc[streaming] should be used.
+WARNING: Using a byte array will cause problems if BLOBs get large because the entire BLOB is loaded into the RAM of the server and has to be processed by the garbage collector. For larger BLOBs the type http://docs.oracle.com/javase/7/docs/api/java/sql/Blob.html[Blob] and xref:guide-blob-support.adoc[streaming] should be used.
 
 [source,java]
 ----
@@ -114,7 +114,7 @@ Using the Aliases API of QueryDSL might result in an `InvalidDataAccessApiUsageE
 . Make sure, that all your custom types used in entities provide a non-argument constructor with at least visibility level `protected`.
 
 === Primary Keys
-We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). This is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` within the link:guide-structure-classic.adoc#architecture-mapping[classic project structure] respectively `com.devonfw.<projectName>.general.domain.model.AbstractPersistenceEntity` within the link:guide-structure-modern.adoc#architecture-mapping[modern project structure], that you can extend.
+We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). This is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` within the xref:guide-structure-classic.adoc#architecture-mapping[classic project structure] respectively `com.devonfw.<projectName>.general.domain.model.AbstractPersistenceEntity` within the xref:guide-structure-modern.adoc#architecture-mapping[modern project structure], that you can extend.
 In case you have business oriented keys (often as `String`), you can define an additional property for it and declare it as unique (`@Column(unique=true)`).
 Be sure to include "AUTO_INCREMENT" in your sql table field ID to be able to persist data (or similar for other databases).
 
@@ -221,7 +221,7 @@ Application based on devon4j are strongly advised to *always use lazy loading*. 
 
 So at least for `@ManyToOne` and `@OneToOne` you always need to override the default by providing `fetch = FetchType.LAZY`.
 
-IMPORTANT: Please read the link:guide-jpa-performance.adoc[performance guide].
+IMPORTANT: Please read the xref:guide-jpa-performance.adoc[performance guide].
 
 === Cascading Relationships
 For relations it is also possible to define whether operations are cascaded (like a recursion) to the related entity.
@@ -239,7 +239,7 @@ See http://meri-stuff.blogspot.de/2012/03/jpa-tutorial.html[here] for more infor
 === Typesafe Foreign Keys using IdRef
 
 For simple usage you can use `Long` for all your foreign keys.
-However, as an optional pattern for advanced and type-safe usage, we offer link:guide-jpa-idref.adoc[IdRef].
+However, as an optional pattern for advanced and type-safe usage, we offer xref:guide-jpa-idref.adoc[IdRef].
 
 == Embeddable
 An embeddable Object is a way to group properties of an xref:entity[entity] into a separate Java (child) object. Unlike with implement xref:relationships[relationships] the embeddable is not a separate entity and its properties are stored (embedded) in the same table together with the entity. This is helpful to structure and reuse groups of properties.
@@ -269,7 +269,7 @@ public class AddressEmbeddable {
 ----
 As you can see an embeddable is similar to an entity class, but with an `@Embeddable` annotation instead of the `@Entity` annotation and without primary key or modification counter.
 An Embeddable does not exist on its own but in the context of an entity.
-As a simplification Embeddables do not require a separate interface and link:guide-transferobject.adoc#ETO[ETO] as the link:guide-beanmapping.adoc[bean-mapper] will create a copy automatically when converting the owning entity to an ETO.
+As a simplification Embeddables do not require a separate interface and xref:guide-transferobject.adoc#ETO[ETO] as the xref:guide-beanmapping.adoc[bean-mapper] will create a copy automatically when converting the owning entity to an ETO.
 However, in this case the embeddable becomes part of your `api` module that therefore needs a dependency on the `JPA`.
 
 In addition to that the methods `equals(Object)` and `hashCode()` need to be implemented as this is required by Hibernate (it is not required for entities because they can be unambiguously identified by their primary key). For some hints on how to implement the `hashCode()` method please have a look http://stackoverflow.com/questions/113511/hash-code-implementation[here]. 
@@ -325,17 +325,17 @@ public class MyOtherEntity extends MyParentEntity implements MyChild {
 As a best practice we advise you to avoid entity hierarchies at all where possible and otherwise to keep the hierarchy as small as possible. In order to just ensure reuse or establish a common API you can consider a shared interface, a `@MappedSuperclass` or an `@Embeddable` instead of an entity hierarchy.
 
 == Repositories and DAOs
-For each entity a code unit is created that groups all database operations for that entity. We recommend to use link:guide-repository.adoc[spring-data repositories] for that as it is most efficient for developers. As an alternative there is still the classic approach using link:guide-dao.adoc[DAOs].
+For each entity a code unit is created that groups all database operations for that entity. We recommend to use xref:guide-repository.adoc[spring-data repositories] for that as it is most efficient for developers. As an alternative there is still the classic approach using xref:guide-dao.adoc[DAOs].
 
 === Concurrency Control
 The concurrency control defines the way concurrent access to the same data of a database is handled. When several users (or threads of application servers) concurrently access a database, anomalies may happen, e.g. a transaction is able to see changes from another transaction although that one did, not yet commit these changes. Most of these anomalies are automatically prevented by the database system, depending on the http://en.wikipedia.org/wiki/Isolation_(database_systems)[_isolation level_] (property `hibernate.connection.isolation` in the `jpa.xml`, see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html[here], or `quarkus.datasource.jdbc.transaction-isolation-level` in the `application.properties`).
 
 Another anomaly is when two stakeholders concurrently access a record, do some changes and write them back to the database. The JPA addresses this with different locking strategies (see http://www.objectdb.com/java/jpa/persistence/lock[here]).
 
-As a best practice we are using optimistic locking for regular end-user link:guide-service-layer.adoc[services] (OLTP) and pessimistic locking for link:guide-batch-layer.adoc[batches].
+As a best practice we are using optimistic locking for regular end-user xref:guide-service-layer.adoc[services] (OLTP) and pessimistic locking for xref:guide-batch-layer.adoc[batches].
 
 === Optimistic Locking
-The class `com.devonfw.module.jpa.persistence.api.AbstractPersistenceEntity` already provides optimistic locking via a `modificationCounter` with the `@Version` annotation. Therefore JPA takes care of optimistic locking for you. When entities are transferred to clients, modified and sent back for update you need to ensure the `modificationCounter` is part of the game. If you follow our guides about link:guide-transferobject.adoc[transfer-objects] and link:guide-service-layer.adoc[services] this will also work out of the box.
+The class `com.devonfw.module.jpa.persistence.api.AbstractPersistenceEntity` already provides optimistic locking via a `modificationCounter` with the `@Version` annotation. Therefore JPA takes care of optimistic locking for you. When entities are transferred to clients, modified and sent back for update you need to ensure the `modificationCounter` is part of the game. If you follow our guides about xref:guide-transferobject.adoc[transfer-objects] and xref:guide-service-layer.adoc[services] this will also work out of the box.
 You only have to care about two things:
 
 * How to deal with optimistic locking in xref:relationships[relationships]? +
@@ -344,7 +344,7 @@ Assume an entity `A` contains a collection of `B` entities. Should there be a lo
 According to KISS our recommendation is that the user gets an error displayed that tells him to do his change again on the recent data. Try to design your system and the work processing in a way to keep such conflicts rare and you are fine.
 
 === Pessimistic Locking
-For back-end link:guide-service-layer.adoc[services] and especially for link:guide-batch-layer.adoc[batches] optimistic locking is not suitable. A human user shall not cause a large batch process to fail because he was editing the same entity. Therefore such use-cases use pessimistic locking what gives them a kind of priority over the human users.
+For back-end xref:guide-service-layer.adoc[services] and especially for xref:guide-batch-layer.adoc[batches] optimistic locking is not suitable. A human user shall not cause a large batch process to fail because he was editing the same entity. Therefore such use-cases use pessimistic locking what gives them a kind of priority over the human users.
 In your xref:data-access-object[DAO] implementation you can provide methods that do pessimistic locking via http://docs.oracle.com/javaee/7/api/javax/persistence/EntityManager.html[`EntityManager`] operations that take a http://docs.oracle.com/javaee/7/api/javax/persistence/LockModeType.html[`LockModeType`]. Here is a simple example:
 [source,java]
 ----
@@ -356,10 +356,10 @@ Use one of the types if you want to modify the entity later on, for read only ac
 As you might have noticed, the behavior of Hibernate deviates from what one would expect by looking at the `LockModeType` (especially `LockModeType.READ` should not cause a `SELECT ... FOR UPDATE` to be issued). The framework actually deviates from what is http://docs.oracle.com/javaee/7/api/javax/persistence/LockModeType.html[specified] in the JPA for unknown reasons.
 
 == Database Auditing
-See link:guide-auditing.adoc[auditing guide].
+See xref:guide-auditing.adoc[auditing guide].
 
 == Testing Data-Access
-For testing of Entities and Repositories or DAOs see link:guide-testing.adoc#level-2-component-test[testing guide].
+For testing of Entities and Repositories or DAOs see xref:guide-testing.adoc#level-2-component-test[testing guide].
 
 == Principles
 We strongly recommend these principles:
@@ -372,19 +372,19 @@ We strongly recommend these principles:
 
 For details on the configuration of the database connection and database logging of the individual framework, please refer to the respective configuration guide. 
 
-For link:spring.adoc[spring] see link:spring/guide-spring-configuration.adoc#database-configuration[here].
+For xref:spring.adoc[spring] see link:spring/guide-spring-configuration.adoc#database-configuration[here].
 
-For link:quarkus.adoc[quarkus] see link:quarkus/guide-quarkus-configuration.adoc#database-configuration[here].
+For xref:quarkus.adoc[quarkus] see link:quarkus/guide-quarkus-configuration.adoc#database-configuration[here].
 
 === Database Migration
-See link:guide-database-migration.adoc[database migration].
+See xref:guide-database-migration.adoc[database migration].
 
 === Pooling
-You typically want to pool JDBC connections to boost performance by recycling previous connections. There are many libraries available to do connection pooling. We recommend to use https://github.com/brettwooldridge/HikariCP[HikariCP]. For Oracle RDBMS see link:guide-oracle.adoc#pooling[here].
+You typically want to pool JDBC connections to boost performance by recycling previous connections. There are many libraries available to do connection pooling. We recommend to use https://github.com/brettwooldridge/HikariCP[HikariCP]. For Oracle RDBMS see xref:guide-oracle.adoc#pooling[here].
 
 == Security
 === SQL-Injection
-A common link:guide-security.adoc[security] threat is http://en.wikipedia.org/wiki/SQL_injection[SQL-injection]. Never build queries with string concatenation or your code might be vulnerable as in the following example:
+A common xref:guide-security.adoc[security] threat is http://en.wikipedia.org/wiki/SQL_injection[SQL-injection]. Never build queries with string concatenation or your code might be vulnerable as in the following example:
 [source, java]
 ----
   String query = "Select op from OrderPosition op where op.comment = " + userInput;
@@ -394,8 +394,8 @@ Via the parameter `userInput` an attacker can inject SQL (JPQL) and execute arbi
 
 In order to prevent such injections you have to strictly follow our rules for xref:queries[queries]: 
 
-* Use named queries for link:guide-jpa-query.adoc#static-queries[static queries].
-* Use QueryDSL for link:guide-jpa-query.adoc#dynamic-queries[dynamic queries].
+* Use named queries for xref:guide-jpa-query.adoc#static-queries[static queries].
+* Use QueryDSL for xref:guide-jpa-query.adoc#dynamic-queries[dynamic queries].
 * Please also consult the https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet[SQL Injection Prevention Cheat Sheet].
 
 === Limited Permissions for Application

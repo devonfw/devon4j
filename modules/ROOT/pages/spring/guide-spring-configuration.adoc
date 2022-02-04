@@ -31,9 +31,9 @@ public class SpringBootApp {
 }
 ----
 
-In an devonfw application this main class is always located in the `<basepackage>` of the application package namespace (see link:coding-conventions.adoc#packages[package-conventions]). This is because a spring boot application will automatically do a classpath scan for components (spring-beans) and entities in the package where the application main class is located including all sub-packages. You can use the `@ComponentScan` and `@EntityScan` annotations to customize this behaviour.
+In an devonfw application this main class is always located in the `<basepackage>` of the application package namespace (see xref:coding-conventions.adoc#packages[package-conventions]). This is because a spring boot application will automatically do a classpath scan for components (spring-beans) and entities in the package where the application main class is located including all sub-packages. You can use the `@ComponentScan` and `@EntityScan` annotations to customize this behaviour.
 
-If you want to map spring configuration properties into your custom code please see link:guide-configuration-mapping.adoc[configuration mapping].
+If you want to map spring configuration properties into your custom code please see xref:guide-configuration-mapping.adoc[configuration mapping].
 
 === Standard beans configuration
 
@@ -42,7 +42,7 @@ For basic bean configuration we rely on spring boot using mainly configuration c
 * Spring Boot auto-configuration attempts to automatically configure your Spring application based on the jar dependencies and annotated components found in your source code.
 * Auto-configuration is non-invasive, at any point you can start to define your own configuration to replace specific parts of the auto-configuration by redefining your identically named bean (see also `exclude` attribute of `@SpringBootApplication` in example code above).
 
-Beans are configured via annotations in your java code (see link:guide-dependency-injection.adoc[dependency-injection]).
+Beans are configured via annotations in your java code (see xref:guide-dependency-injection.adoc[dependency-injection]).
 
 For technical configuration you will typically write additional spring config classes annotated with `@Configuration` that provide bean implementations via methods annotated with `@Bean`. See http://docs.spring.io/spring-javaconfig/docs/1.0.0.M4/reference/html/ch02s02.html[spring @Bean documentation] for further details. Like in XML you can also use `@Import` to make a `@Configuration` class include other configurations.
 
@@ -98,7 +98,7 @@ The following properties files are used in devonfw application:
 
 * `src/main/resources/application.properties` providing a default configuration - bundled and deployed with the application package. It further acts as a template to derive a tailored minimal environment-specific configuration.
 * `src/main/resources/config/application.properties` providing additional properties only used at development time (for all local deployment scenarios). This property file is excluded from all packaging.
-* `src/test/resources/config/application.properties` providing additional properties only used for testing (JUnits based on link:guide-testing.adoc[spring test]).
+* `src/test/resources/config/application.properties` providing additional properties only used for testing (JUnits based on xref:guide-testing.adoc[spring test]).
 
 For other environments where the software gets deployed such as `test`, `acceptance` and `production` you need to provide a tailored copy of `application.properties`. The location depends on the deployment strategy:
 
@@ -124,7 +124,7 @@ Obviously you need to configure which type of database you want to use as well a
   database.hibernate.hbm2ddl.auto=validate
 ----
 
-For further details about `database.hibernate.hbm2ddl.auto` please see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html#configuration-misc-properties[here]. For production and acceptance environments we use the value `validate` that should be set as default. In case you want to use Oracle RDBMS you can find additional hints link:guide-oracle.adoc#driver[here].
+For further details about `database.hibernate.hbm2ddl.auto` please see http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html#configuration-misc-properties[here]. For production and acceptance environments we use the value `validate` that should be set as default. In case you want to use Oracle RDBMS you can find additional hints xref:guide-oracle.adoc#driver[here].
 
 If your application supports multiples database types, set `spring.profiles.active=XXX` in `src/main/resources/config/application.properties` choose database of your choice. Also, one has to set all the active spring profiles in this `application.properties` and not in any of the other `application.properties`.
 

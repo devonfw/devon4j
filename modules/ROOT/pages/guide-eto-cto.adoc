@@ -3,11 +3,11 @@ toc::[]
 == ETO and CTO approach
 
 == ETO
-For each link:guide-jpa.adoc#entity[persistent entity] `«BusinessObject»Entity` we create or generate a corresponding _entity transfer object_ (ETO) named `«BusinessObject»Eto`. It has the same properties except for relations.
+For each xref:guide-jpa.adoc#entity[persistent entity] `«BusinessObject»Entity` we create or generate a corresponding _entity transfer object_ (ETO) named `«BusinessObject»Eto`. It has the same properties except for relations.
 
 == BO
 In order to centralize the properties (getters and setters with their javadoc) we create a common interface `«BusinessObject»` implemented both by the entity and its ETO. This also gives us compile-time safety that
-link:guide-beanmapping.adoc[bean-mapper] can properly map all properties between entity and ETO.
+xref:guide-beanmapping.adoc[bean-mapper] can properly map all properties between entity and ETO.
 
 == CTO
 If we need to pass an entity with its relation(s) we create a corresponding _composite transfer object_ (CTO) named `«BusinessObject»«Subset»Cto` that only contains other transfer-objects or collections of them. Here `«Subset»` is empty for the canonical CTO that holds the ETO together with all its relations.

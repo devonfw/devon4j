@@ -4,7 +4,7 @@ toc::[]
 == Spring
 
 https://spring.io[Spring] is the most famous and established Java framework.
-It is fully supported by https://devonfw.com[devonfw] as an option and alternative to link:quarkus.adoc[quarkus].
+It is fully supported by https://devonfw.com[devonfw] as an option and alternative to xref:quarkus.adoc[quarkus].
 
 == Guide to the Reader
 
@@ -12,11 +12,11 @@ Dependent on the intention you are reading this document, you might be most inte
 
 * If you are not yet familiar with Spring, you may be interested in xref:pros[pros] and xref:cons[cons] of Spring. Also take a look at the link:https://spring.io/why-spring[official Spring website].
 
-* If you already have experience developing with Spring but are new to devon4j, take a look at devon4j's recommendations on general best practices. Check out the chapters on link:architecture.adoc[architecture design], link:guide-structure-classic.adoc[project structuring] and link:coding-conventions[coding conventions]. Follow the referenced links to go deeper into a topic.
+* If you already have experience developing with Spring but are new to devon4j, take a look at devon4j's recommendations on general best practices. Check out the chapters on xref:architecture.adoc[architecture design], xref:guide-structure-classic.adoc[project structuring] and link:coding-conventions[coding conventions]. Follow the referenced links to go deeper into a topic.
 
 * If you have already developed with devon4j and Spring and need more information on a specific topic, check out the link:https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides.html[devon4j guides for Spring]. If you don't find what you are looking for there, check out the link:https://devonfw.com/website/pages/docs/devon4j.asciidoc_general.html[general section]. devon4j uses general solutions for Java, so solutions for both Spring and Quarkus are documented there.
 
-* If you want to get started or create your first Spring application using devon4j, check out the guide about link:tutorial-newapp.adoc[creating a new application] or the link:https://github.com/devonfw/jump-the-queue[Jump the Queue] and link:https://github.com/devonfw/my-thai-star[My Thai Star] reference applications.
+* If you want to get started or create your first Spring application using devon4j, check out the guide about xref:tutorial-newapp.adoc[creating a new application] or the link:https://github.com/devonfw/jump-the-queue[Jump the Queue] and link:https://github.com/devonfw/my-thai-star[My Thai Star] reference applications.
 
 [[pros]]
 == Pros
@@ -26,7 +26,7 @@ Spring offers the following benefits:
 * *highly flexible* +
 Spring is famous for its great flexibility. You can customize and integrate nearly everything.
 * *well established* +
-While link:guide-jee.adoc[JEE] application servers including very expensive commercial products turned out to be a dead-end, spring has guided projects through the changing trends of IT throughout decades. It may be the framework with the longest history track and popularity. As a result you can easily find developers, experts, books, articles, etc. about spring.
+While xref:guide-jee.adoc[JEE] application servers including very expensive commercial products turned out to be a dead-end, spring has guided projects through the changing trends of IT throughout decades. It may be the framework with the longest history track and popularity. As a result you can easily find developers, experts, books, articles, etc. about spring.
 * *non-invasive and not biased* +
 Spring became famous for its non-invasive coding based on patterns instead of hard dependencies. It gives you a lot of freedom and avoids tight coupling of your (business) code.
 
@@ -40,7 +40,7 @@ Spring has the following drawbacks:
 * *history and legacy* +
 Due to the pro of its long established history, spring also carries a lot of legacy. As a result there are many ways to do the same thing while some options may be discouraged. Developers needs some guidance (e.g. via devon4j) as they may enter pitfalls and dead-ends when choosing the first solution they found on google or stackoverflow.
 * *lost lead in cloud-native* +
-While for the last decades spring was leading innovation in Java app development, it seems that with the latest trends and shift such as cloud-native, they have been overtaken by frameworks like link:quarkus.adoc[quarkus]. However, spring is trying to catch up with xref:spring-native[spring-native].
+While for the last decades spring was leading innovation in Java app development, it seems that with the latest trends and shift such as cloud-native, they have been overtaken by frameworks like xref:quarkus.adoc[quarkus]. However, spring is trying to catch up with xref:spring-native[spring-native].
 
 == Spring-Boot
 
@@ -51,4 +51,4 @@ As of today we typically use the terms _spring_ and _spring-boot_ rather synonym
 
 https://github.com/spring-projects-experimental/spring-native[Spring-native] adds cloud-native support to the spring ecosystem and allows to build a spring app as cloud-native image via https://www.graalvm.org/[GraalVM].
 This feature is currently beta.
-You may also consider link:quarkus.adoc[quarkus] if you are interested in building cloud-native images.
+You may also consider xref:quarkus.adoc[quarkus] if you are interested in building cloud-native images.

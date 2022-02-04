@@ -7,7 +7,7 @@ http://en.wikipedia.org/wiki/JSON[JSON] (JavaScript Object Notation) is a popula
 Due to problems with the wiki of fasterxml you should try this alternative link: https://github.com/FasterXML/jackson#jackson-project-home-github[Jackson/AltLink].
 
 == Configure JSON Mapping
-In order to avoid polluting business objects with proprietary Jackson annotations (e.g. `@JsonTypeInfo`, `@JsonSubTypes`, `@JsonProperty`) we propose to create a separate configuration class. Every devonfw application (sample or any app created from our link:tutorial-newapp.adoc[app-template]) therefore has a class called `ApplicationObjectMapperFactory` that extends +ObjectMapperFactory+ from the +devon4j-rest+ module. It looks like this:
+In order to avoid polluting business objects with proprietary Jackson annotations (e.g. `@JsonTypeInfo`, `@JsonSubTypes`, `@JsonProperty`) we propose to create a separate configuration class. Every devonfw application (sample or any app created from our xref:tutorial-newapp.adoc[app-template]) therefore has a class called `ApplicationObjectMapperFactory` that extends +ObjectMapperFactory+ from the +devon4j-rest+ module. It looks like this:
 
 [source,java]
 --------
@@ -28,7 +28,7 @@ Have a look at the following example from our sample application:
 .Transfer-Objects using Inheritance
 image::images/REST-Inheritance.png["inheritance class diagram",scaledwidth="80%",align="center"] 
 
-Now assume you have a link:guide-service-layer.adoc#rest[REST service operation] as Java method that takes a +ProductEto+ as argument. As this is an abstract class the server needs to know the actual sub-class to instantiate.
+Now assume you have a xref:guide-service-layer.adoc#rest[REST service operation] as Java method that takes a +ProductEto+ as argument. As this is an abstract class the server needs to know the actual sub-class to instantiate.
 We typically do not want to specify the classname in the JSON as this should be an implementation detail and not part of the public JSON format (e.g. in case of a service interface). Therefore we use a symbolic name for each polymorphic subtype that is provided as virtual attribute +@type+ within the JSON data of the object:
 [source,json]
 --------
@@ -47,7 +47,7 @@ addSubtypes(new NamedType(MealEto.class, "Meal"), new NamedType(DrinkEto.class, 
 We use `setBaseClasses` to register all top-level classes of polymorphic objects. Further we declare all concrete polymorphic sub-classes together with their symbolic name for the JSON format via `addSubtypes`.
 
 == Custom Mapping
-In order to map custom link:guide-datatype.adoc[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create objects dedicated for the JSON mapping you can easily avoid such situations. When this is not suitable follow these instructions to define the mapping:
+In order to map custom xref:guide-datatype.adoc[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create objects dedicated for the JSON mapping you can easily avoid such situations. When this is not suitable follow these instructions to define the mapping:
 
 . As an example, the use of JSR354 (`javax.money`) is appreciated in order to process monetary amounts properly. However, without custom mapping, the default mapping of Jackson will produce the following JSON for a `MonetaryAmount`:
 +

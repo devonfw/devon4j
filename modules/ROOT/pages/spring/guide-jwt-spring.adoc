@@ -114,4 +114,4 @@ To allow a client to login with username and password to get a JWT for sub-seque
 
 == Authentication with Kafka
 
-Authentication with JWT and Kafka is explained in the link:guide-kafka.adoc[Kafka guide].
+Authentication with JWT and Kafka is explained in the xref:guide-kafka.adoc[Kafka guide].

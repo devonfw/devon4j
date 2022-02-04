@@ -29,4 +29,4 @@ In addition to all of this we will find other issues related to this particular 
 
 - Automatized deployments: as we are managing several components (microservices, catalogs, balancers, etc.) the deployment should be automatized to avoid errors and ease this process.
 
-To address the above, devonfw microservices has an alternative approach link:alternative-microservice-netflix.adoc[Microservices based on Netflix-Tools].
+To address the above, devonfw microservices has an alternative approach xref:alternative-microservice-netflix.adoc[Microservices based on Netflix-Tools].

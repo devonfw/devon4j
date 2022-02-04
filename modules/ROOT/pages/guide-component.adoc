@@ -3,8 +3,8 @@ toc::[]
 
 == Components
 
-Following link:architecture.adoc#architecture-principles[separation-of-concerns] we divide an application into components using our link:coding-conventions.adoc#packages[package-conventions] and link:guide-structure.adoc[project structure].
-As described by the link:architecture.adoc[architecture] each component is divided into layers as described in the link:guide-structure.adoc[project structure].
+Following xref:architecture.adoc#architecture-principles[separation-of-concerns] we divide an application into components using our xref:coding-conventions.adoc#packages[package-conventions] and xref:guide-structure.adoc[project structure].
+As described by the xref:architecture.adoc[architecture] each component is divided into layers as described in the xref:guide-structure.adoc[project structure].
 Please note that a component will only have the required layers.
 So a component may have any number from one to all layers.
 
@@ -12,7 +12,7 @@ So a component may have any number from one to all layers.
 Cross-cutting aspects belong to the implicit component `general`. It contains technical configurations and very general code that is not business specific. Such code shall not have any dependencies to other components and therefore business related code.
 
 == Business Component
-The link:architecture.adoc#business-architecture[business-architecture] defines the business components with their allowed dependencies. A small application (microservice) may just have one component and no dependencies making it simple while the same architecture can scale up to large and complex applications (from bigger microservice up to modulith).
+The xref:architecture.adoc#business-architecture[business-architecture] defines the business components with their allowed dependencies. A small application (microservice) may just have one component and no dependencies making it simple while the same architecture can scale up to large and complex applications (from bigger microservice up to modulith).
 Tailoring an business domain into applications and applications into components is a tricky task that needs the skills of an experienced architect.
 Also, the tailoring should follow the business and not split by technical reasons or only by size.
 Size is only an indicator but not a driver of tailoring.
@@ -30,4 +30,4 @@ The following class diagram illustrates an example of the business component `St
 
 image::images/guide-logic-layer.png["logic layer component pattern",scaledwidth="80%",align="center"]
 
-In this scheme, you can see the structure and flow from the link:guide-service-layer.adoc[service-layer] (REST service call) via the link:guide-logic-layer.adoc[logic-layer] to the link:guide-dataaccess-layer.adoc[dataaccess-layer] (and back).
+In this scheme, you can see the structure and flow from the xref:guide-service-layer.adoc[service-layer] (REST service call) via the xref:guide-logic-layer.adoc[logic-layer] to the xref:guide-dataaccess-layer.adoc[dataaccess-layer] (and back).

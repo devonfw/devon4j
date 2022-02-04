@@ -2,5 +2,5 @@
 toc::[]
 == DTO approach
 
-As described in link:guide-structure-modern.adoc[our modern structure guide], for application e.g. with microservices architecture where we build smaller applications compared to monoliths, we recommend keeping things as simple as possible. The same principle applies to transfer object. Instead of using different types of transfer objects for each entity such as link:guide-eto-cto.adoc[ETO and CTO], we highly suggest using one _data transfer object_ (DTO) named `«BusinessObject»Dto`.
+As described in xref:guide-structure-modern.adoc[our modern structure guide], for application e.g. with microservices architecture where we build smaller applications compared to monoliths, we recommend keeping things as simple as possible. The same principle applies to transfer object. Instead of using different types of transfer objects for each entity such as xref:guide-eto-cto.adoc[ETO and CTO], we highly suggest using one _data transfer object_ (DTO) named `«BusinessObject»Dto`.
 

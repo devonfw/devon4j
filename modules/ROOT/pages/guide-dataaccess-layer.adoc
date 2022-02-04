@@ -5,10 +5,10 @@ toc::[]
 
 The data-access layer is responsible for all outgoing connections to access and process data. This is mainly about accessing data from a persistent data-store. External system could also be accessed from the data-access layer if they match this definition, e.g. a mongo-db via rest services.
 
-Note: In the link:guide-structure-modern.adoc[modern project structure], this layer is replaced by the link:guide-domain-layer.adoc[domain layer].
+Note: In the xref:guide-structure-modern.adoc[modern project structure], this layer is replaced by the xref:guide-domain-layer.adoc[domain layer].
 
 == Database
 
 You need to make your choice for a database. Options are documented https://github.com/devonfw/devonfw-guide/blob/master/general/db/guide-database.adoc[here].
 
-The classical approach is to use a Relational Database Management System (RDMS). In such a case, we strongly recommend to follow our link:guide-jpa.adoc[JPA Guide]. Some NoSQL databases are supported by https://spring.io/projects/spring-data[spring-data] so you can consider the link:guide-repository.adoc[repository guide].
+The classical approach is to use a Relational Database Management System (RDMS). In such a case, we strongly recommend to follow our xref:guide-jpa.adoc[JPA Guide]. Some NoSQL databases are supported by https://spring.io/projects/spring-data[spring-data] so you can consider the xref:guide-repository.adoc[repository guide].

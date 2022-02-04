@@ -3,7 +3,7 @@ toc::[]
 //Replaced old person examples with new User example
 == Bean-Mapping
 
-For decoupling, you sometimes need to create separate objects (beans) for a different view. E.g. for an external service, you will use a link:guide-transferobject.adoc[transfer-object] instead of the link:guide-jpa.adoc#entity[persistence entity] so internal changes to the entity do not implicitly change or break the service. 
+For decoupling, you sometimes need to create separate objects (beans) for a different view. E.g. for an external service, you will use a xref:guide-transferobject.adoc[transfer-object] instead of the xref:guide-jpa.adoc#entity[persistence entity] so internal changes to the entity do not implicitly change or break the service. 
 
 Therefore you have the need to map similar objects what creates a copy. This also has the benefit that modifications to the copy have no side-effect on the original source object. However, to implement such mapping code by hand is very tedious and error-prone (if new properties are added to beans but not to mapping code):
 //Just the example adjusted to our MTSJ
@@ -21,11 +21,11 @@ public UserEto mapUser(UserEntity source) {
 Therefore we are using a `BeanMapper` for this purpose that makes our lives a lot easier.
 There are several bean mapping frameworks with different approaches.
 
-For a link:spring.adoc[devon4j-spring] application we recommend Orika, follow link:spring/guide-beanmapping-spring.adoc[Spring Bean-Mapping] for an introduction to Orika and Dozer in a devon4j-spring context application.
+For a xref:spring.adoc[devon4j-spring] application we recommend Orika, follow link:spring/guide-beanmapping-spring.adoc[Spring Bean-Mapping] for an introduction to Orika and Dozer in a devon4j-spring context application.
 
 NOTE: devon4j started with http://dozer.sourceforge.net/[Dozer] as framework for Spring applications and still supports it. However, we now recommend Orika (for new projects) as it is much faster (see https://www.baeldung.com/java-performance-mapping-frameworks#2-orika[Performance of Java Mapping Frameworks]).
 
-For a link:quarkus.adoc[Quarkus] application we recommend Mapstruct, follow link:quarkus/guide-beanmapping-quarkus.adoc[Quarkus Bean-Mapping] for an introduction to Mapstruct in a quarkus context application.
+For a xref:quarkus.adoc[Quarkus] application we recommend Mapstruct, follow link:quarkus/guide-beanmapping-quarkus.adoc[Quarkus Bean-Mapping] for an introduction to Mapstruct in a quarkus context application.
 
 
 

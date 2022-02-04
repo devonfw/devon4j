@@ -3,7 +3,7 @@ toc::[]
 
 == Service Layer
 
-The service layer is responsible for exposing functionality made available by the link:guide-logic-layer.adoc[logical layer] to external consumers over a network via xref:protocol[technical protocols].
+The service layer is responsible for exposing functionality made available by the xref:guide-logic-layer.adoc[logical layer] to external consumers over a network via xref:protocol[technical protocols].
 
 == Types of Services
 
@@ -16,9 +16,9 @@ Before you start creating your services you should consider some general design 
 ** Do web-browsers have to use your service?
 ** Will apps from other vendors or parties have to consume your service that you can not influence if the service may have to change or be extended?
 
-For RPC a common choice is link:guide-rest.adoc[REST] but there are also interesting alternatives like https://grpc.io/[gRPC]. We also have a guide for link:guide-soap.adoc[SOAP] but this technology should rather be considered as legacy and is not recommended for new services.
+For RPC a common choice is xref:guide-rest.adoc[REST] but there are also interesting alternatives like https://grpc.io/[gRPC]. We also have a guide for xref:guide-soap.adoc[SOAP] but this technology should rather be considered as legacy and is not recommended for new services.
 
-When it comes to messaging in Java the typical answer will be link:guide-jms.adoc[JMS]. However, a very promising alternative is link:guide-kafka.adoc[Kafka].
+When it comes to messaging in Java the typical answer will be xref:guide-jms.adoc[JMS]. However, a very promising alternative is xref:guide-kafka.adoc[Kafka].
 
 == Versioning
 For RPC services consumed by other applications we use versioning to prevent incompatibilities between applications when deploying updates. This is done by the following conventions:
@@ -46,11 +46,11 @@ Complete, no redundancy, minimal
 * *coarse-grained* +
 Service provides rather large operations (save entire entity or set of entities rather than individual attributes)
 * *atomic* +
-Process individual entities (for processing large sets of data, use a link:guide-batch-layer.adoc[batch] instead of a service)
+Process individual entities (for processing large sets of data, use a xref:guide-batch-layer.adoc[batch] instead of a service)
 * *simplicity* +
 Avoid polymorphism, RPC methods with unique name per signature and no overloading, avoid attachments (consider separate download service), etc.
 
 == Security
 Your services are the major entry point to your application. Hence, security considerations are important here.
 
-See link:guide-rest.adoc#security[REST Security].
+See xref:guide-rest.adoc#security[REST Security].

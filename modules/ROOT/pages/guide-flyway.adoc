@@ -3,7 +3,7 @@ toc::[]
 
 == Flyway
 
-http://flywaydb.org/[Flyway] is a tool for link:guide-database-migration.adoc[database migration and schema versioning].
+http://flywaydb.org/[Flyway] is a tool for xref:guide-database-migration.adoc[database migration and schema versioning].
 See https://flywaydb.org/getstarted/why[why] for a motivation why using flyway.
 
 Flyway can be used standalone e.g. via https://flywaydb.org/documentation/getstarted/firststeps/maven[flyway-maven-plugin] or can be integrated directly into your app to make sure the database migration takes place on startup.

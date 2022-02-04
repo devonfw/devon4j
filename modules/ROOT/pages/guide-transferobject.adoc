@@ -2,7 +2,7 @@
 toc::[]
 == Transfer-Objects
 
-The technical data model is defined in form of link:guide-jpa.adoc#entity[persistent entities].
+The technical data model is defined in form of xref:guide-jpa.adoc#entity[persistent entities].
 However, passing persistent entities via _call-by-reference_ across the entire application will soon cause problems:
 
 * Changes to a persistent entity are directly written back to the persistent store when the transaction is committed. When the entity is send across the application also changes tend to take place in multiple places endangering data sovereignty and leading to inconsistency.
@@ -12,12 +12,12 @@ However, passing persistent entities via _call-by-reference_ across the entire a
 To prevent such problems transfer-objects are used leading to a _call-by-value_ model and decoupling changes to persistent entities.
 
 In the following sections the different types of transfer-objects are explained.
-You will find all according naming-conventions in the link:guide-structure-classic.adoc#architecture-mapping[architecture-mapping]
+You will find all according naming-conventions in the xref:guide-structure-classic.adoc#architecture-mapping[architecture-mapping]
 
 To structure your transfer objects, we recommend the following approaches:
 
-    * link:guide-eto-cto.adoc[ETO and CTO]
-    * link:guide-dto.adoc[DTO]
+    * xref:guide-eto-cto.adoc[ETO and CTO]
+    * xref:guide-dto.adoc[DTO]
 
 Also considering the following transfer objects in specific cases:
 
@@ -29,7 +29,7 @@ There are typically transfer-objects for data that is never persistent.
 For very generic cases these just carry the suffix `To`.
 
 STO::
-We can potentially create separate _service transfer objects_ (STO) (if possible named `«BusinessObject»Sto`) to keep the link:guide-service-layer.adoc[service] API stable and independent of the actual data-model.
+We can potentially create separate _service transfer objects_ (STO) (if possible named `«BusinessObject»Sto`) to keep the xref:guide-service-layer.adoc[service] API stable and independent of the actual data-model.
 However, we usually do not need this and want to keep our architecture simple.
-Only create STOs if you need link:guide-service-layer.adoc#versioning[service versioning] and support previous APIs or to provide legacy service technologies that require their own isolated data-model.
-In such case you also need link:guide-beanmapping.adoc[beanmapping] between STOs and ETOs/DTOs what means extra effort and complexity that should be avoided.
+Only create STOs if you need xref:guide-service-layer.adoc#versioning[service versioning] and support previous APIs or to provide legacy service technologies that require their own isolated data-model.
+In such case you also need xref:guide-beanmapping.adoc[beanmapping] between STOs and ETOs/DTOs what means extra effort and complexity that should be avoided.

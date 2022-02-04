@@ -4,7 +4,7 @@ toc::[]
 == Migrate from Spring to Quarkus
 
 This guide will cover the migration process of a Spring application to a Quarkus application. There are already articles about migrating from Spring to Quarkus (e.g. https://developers.redhat.com/blog/2020/04/10/migrating-a-spring-boot-microservices-application-to-quarkus, https://dzone.com/articles/migrating-a-spring-boot-application-to-quarkus-cha).
-This guide will focus more on the devon4j specific aspects. We assume that a working Spring application exists, built in the link:guide-structure-classic.adoc[classic devon4j specific way] (e.g. https://github.com/devonfw/jump-the-queue/tree/master/java/jtqj[Jump The Queue] or https://github.com/devonfw/my-thai-star[My Thai Star]).
+This guide will focus more on the devon4j specific aspects. We assume that a working Spring application exists, built in the xref:guide-structure-classic.adoc[classic devon4j specific way] (e.g. https://github.com/devonfw/jump-the-queue/tree/master/java/jtqj[Jump The Queue] or https://github.com/devonfw/my-thai-star[My Thai Star]).
 
 == Create the Quarkus application
 
@@ -67,14 +67,14 @@ public abstract class AbstractDto extends AbstractTo {
 
 The class `AbstractTo`, the other classes extend, would be provided by the https://github.com/devonfw/devon4j/tree/master/modules/basic[`devon4j-basic`] module in a devon4j Spring application. You can take the code from link:https://github.com/devonfw/devon4j/blob/master/modules/basic/src/main/java/com/devonfw/module/basic/common/api/to/AbstractTo.java[here] and reuse it in your Quarkus project.
 
-Now you can create your transfer objects. Most of the code of the transfer objects of your Spring application should be reusable. For Quarkus, we recommend (as mentioned link:guide-dto.adoc[here]) to use `*Dto` instead of `*Eto` classes. So be sure to change the names of the classes accordingly.
+Now you can create your transfer objects. Most of the code of the transfer objects of your Spring application should be reusable. For Quarkus, we recommend (as mentioned xref:guide-dto.adoc[here]) to use `*Dto` instead of `*Eto` classes. So be sure to change the names of the classes accordingly.
 
 == Data Access Layer
 
-In devon4j, we propose to use link:guide-repository.adoc[Spring Data JPA] to build the data access layer using repositories and QueryDSL to build link:guide-jpa-query.adoc#dynamic-queries[dynamic queries]. We will also use this approach for Quarkus applications, but we need to change the implementation because the devon4j modules are based on reflection, which is not suitable for Quarkus.
+In devon4j, we propose to use xref:guide-repository.adoc[Spring Data JPA] to build the data access layer using repositories and QueryDSL to build xref:guide-jpa-query.adoc#dynamic-queries[dynamic queries]. We will also use this approach for Quarkus applications, but we need to change the implementation because the devon4j modules are based on reflection, which is not suitable for Quarkus.
 In Quarkus we will use Querydsl using code generation. So for this layer, more changes are required and we can't just take the existing code.
 
-First, create a repository interface for your entity class that extends `JpaRepository` (see link:guide-repository.adoc#repository[here]).
+First, create a repository interface for your entity class that extends `JpaRepository` (see xref:guide-repository.adoc#repository[here]).
 
 To add QueryDSL support to your project, add the following dependencies to your pom.xml file:
 
@@ -121,7 +121,7 @@ As mentioned above, we will use QueryDSL with code generation. For this, add the
 </plugins>
 --------
 
-To implement the queries, follow the link:guide-jpa-query.adoc#dynamic-queries[corresponding guide].
+To implement the queries, follow the xref:guide-jpa-query.adoc#dynamic-queries[corresponding guide].
 
 Set the following properties in the application.properties file to configure the connection to your database (see also link:quarkus/guide-quarkus-configuration.adoc#database-configuration[here]):
 
@@ -135,9 +135,9 @@ quarkus.datasource.password=...
 
 == Logic Layer
 
-For the logic layer, devon4j uses a link:guide-usecase.adoc[use-case approach]. You can reuse the use case interfaces from the api module of the Spring application. Again, make sure to rename the transfer objects.
+For the logic layer, devon4j uses a xref:guide-usecase.adoc[use-case approach]. You can reuse the use case interfaces from the api module of the Spring application. Again, make sure to rename the transfer objects.
 
-Create the appropriate class that implements the interface. Follow the link:guide-usecase.adoc#implementation[implementation section] of the use-case guide to implement the methods. For mapping the entities to the corresponding transfer objects, see the next section.
+Create the appropriate class that implements the interface. Follow the xref:guide-usecase.adoc#implementation[implementation section] of the use-case guide to implement the methods. For mapping the entities to the corresponding transfer objects, see the next section.
 
 == Mapping
 

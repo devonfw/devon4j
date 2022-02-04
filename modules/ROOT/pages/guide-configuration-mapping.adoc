@@ -3,7 +3,7 @@ toc::[]
 
 == Mapping configuration to your code
 
-If you are using `spring-boot` as suggested by `devon4j` your application can be configured by `application.properties` file as described in link:guide-configuration.adoc[configuration].
+If you are using `spring-boot` as suggested by `devon4j` your application can be configured by `application.properties` file as described in xref:guide-configuration.adoc[configuration].
 To get a single configuration option into your code for flexibility, you can use
 
 ```java
@@ -75,7 +75,7 @@ The annotation `@ConfigurationProperties(prefix = "myapp.billing.service")` will
 We can easily define defaults (e.g. `25` as default value for `myapp.billing.service.smtp.port`).
 Also `Email` or `Smtp` could be top-level classes to be reused in multiple configurations.
 Of course you would also add helpful `JavaDoc` comments to the `getters` and classes to document your configuration options.
-Further to access this configuration, we can use standard link:guide-dependency-injection.adoc[dependency-injection]:
+Further to access this configuration, we can use standard xref:guide-dependency-injection.adoc[dependency-injection]:
 ```java
 @Inject
 private BillingServiceConfigProperties config;

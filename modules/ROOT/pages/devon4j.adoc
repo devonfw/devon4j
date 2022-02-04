@@ -21,10 +21,10 @@ http://www.devonfw.com/[_devonfw_] provides a solution to building applications 
 It massively speeds up development, reduces risks and helps you to deliver better results.
 
 The following sections contain the complete compendium of https://github.com/devonfw/devon4j/[devon4j], the Java stack of devonfw.
-With devon4j we support both link:spring.adoc[spring] and link:quarkus.adoc[quarkus] as major frameworks.
+With devon4j we support both xref:spring.adoc[spring] and xref:quarkus.adoc[quarkus] as major frameworks.
 However, the general coding patterns are based on common Java standards mainly from https://jakarta.ee[Jakarta EE] and therefore do not differ between those frameworks.
 Therefore, the xref:general[general] section contains all the documentation that is universal to Java and does not differ between the two frameworks.
-Only the sections link:spring.adoc[spring] and link:quarkus.adoc[quarkus] contain documentation that is specific to the respective approach.
+Only the sections xref:spring.adoc[spring] and xref:quarkus.adoc[quarkus] contain documentation that is specific to the respective approach.
 
 You can also read the latest version of this documentation online at the following sources:
 

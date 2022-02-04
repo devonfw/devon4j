@@ -18,7 +18,7 @@ Besides general Java naming conventions, we follow the additional rules listed h
 * Names of Generics should be easy to understand. Where suitable follow the common rule `E=Element`, `T=Type`, `K=Key`, `V=Value` but feel free to use longer names for more specific cases such as `ID`, `DTO` or `ENTITY`. The capitalized naming helps to distinguish a generic type from a regular class.
 
 == Packages
-Java Packages are the most important element to structure your code. We use a strict packaging convention to map technical layers and business components (slices) to the code (See link:architecture.adoc#technical-architecture[technical architecture] for further details). By using the same names in documentation and code we create a strong link that gives orientation and makes it easy to find from business requirements, specifications or story tickets into the code and back.
+Java Packages are the most important element to structure your code. We use a strict packaging convention to map technical layers and business components (slices) to the code (See xref:architecture.adoc#technical-architecture[technical architecture] for further details). By using the same names in documentation and code we create a strong link that gives orientation and makes it easy to find from business requirements, specifications or story tickets into the code and back.
 
 For an devon4j based application we use the following Java-Package schema:
 [source]
@@ -32,7 +32,7 @@ E.g. in our example application we find the Spring Data repositories for the `or
 |*Segment*      | *Description* | *Example*
 |«root»|Is the basic Java Package name-space of your app. Typically we suggest to use `«group».«artifact»` where `«group»` is your maven/gradle `groupId` corresponding to your organization or IT project owning the code following common Java Package conventions. The segment `«artifact»` is your maven/gradle `artifactId` and is typically the technical name of your app. |`com.devonfw.application.mtsj`
 | «component» | The (business) component the code belongs to. It is defined by the business architecture and uses terms from the business domain. Use the implicit component `general` for code not belonging to a specific component (foundation code).| `salesmanagement`
-| «layer» | The name of the technical layer (See link:architecture.adoc[technical architecture]). Details are described for the link:guide-structure-modern.adoc#layers[modern project structure] and for the link:guide-structure-classic.adoc#layers[classic project structure]. | `logic`
+| «layer» | The name of the technical layer (See xref:architecture.adoc[technical architecture]). Details are described for the xref:guide-structure-modern.adoc#layers[modern project structure] and for the xref:guide-structure-classic.adoc#layers[classic project structure]. | `logic`
 | «detail» | Here you are free to further divide your code into sub-components and other concerns according to the size of your component part. If you want to strictly separate API from implementation you should start `«detail»` with `«scope»` that is explained below. | `dao`
 | «scope» | The scope which is one of `api` (official API to be used by other layers or components), `base` (basic code to be reused by other implementations) and `impl` (implementation that should never be imported from outside). This segment was initially mandatory but due to trends such as microservices, lean, and agile we decided to make it optional and do not force anybody to use it. | `api`
 |=============================================
@@ -75,13 +75,13 @@ As a general goal, the code should be easy to read and understand. Besides, clea
 This section gives you best practices to write better code and avoid pitfalls and mistakes.
 
 === BLOBs
-Avoid using `byte[]` for BLOBs as this will load them entirely into your memory. This will cause performance issues or out of memory errors. Instead, use streams when dealing with BLOBs. For further details see link:guide-blob-support.adoc[BLOB support].
+Avoid using `byte[]` for BLOBs as this will load them entirely into your memory. This will cause performance issues or out of memory errors. Instead, use streams when dealing with BLOBs. For further details see xref:guide-blob-support.adoc[BLOB support].
 
 === Stateless Programming
-When implementing logic as components or _beans_ of your container using link:guide-dependency-injection.adoc[dependency injection], we strongly encourage stateless programming.
-This is not about data objects like an link:guide-jpa.adoc#entity[entity] or link:guide-transferobject.adoc[transfer-object] that are stateful by design.
+When implementing logic as components or _beans_ of your container using xref:guide-dependency-injection.adoc[dependency injection], we strongly encourage stateless programming.
+This is not about data objects like an xref:guide-jpa.adoc#entity[entity] or xref:guide-transferobject.adoc[transfer-object] that are stateful by design.
 Instead this applies to all classes annotated with `@Named`, `@ApplicationScoped`, `@Stateless`, etc. and all their super-classes.
-These classes especially include your link:guide-repository.adoc[repositories], link:guide-usecase.adoc[use-cases], and link:guide-rest.adoc#jax-rs[REST services].
+These classes especially include your xref:guide-repository.adoc[repositories], xref:guide-usecase.adoc[use-cases], and xref:guide-rest.adoc#jax-rs[REST services].
 Such classes shall never be modified after initialization.
 Methods called at runtime (after initialization via the container) do not assign fields (member variables of your class) or mutate the object stored in a field.
 This allows your component or bean to be stateless and thread-safe.
@@ -152,7 +152,7 @@ public class UcApproveContractImpl implements UcApproveContract {
 Resources such as streams (`InputStream`, `OutputStream`, `Reader`, `Writer`) or transactions need to be handled properly. Therefore, it is important to follow these rules:
 
 * Each resource has to be closed properly, otherwise you will get out of file handles, TX sessions, memory leaks or the like
-* Where possible avoid to deal with such resources manually. That is why we are recommending `@Transactional` for transactions in devonfw (see link:guide-transactions.adoc[Transaction Handling]).
+* Where possible avoid to deal with such resources manually. That is why we are recommending `@Transactional` for transactions in devonfw (see xref:guide-transactions.adoc[Transaction Handling]).
 * In case you have to deal with resources manually (e.g. binary streams) ensure to close them properly. See the example below for details.
 
 Closing streams and other such resources is error prone. Have a look at the following example:
@@ -186,7 +186,7 @@ When catching exceptions always ensure the following:
 * Either log or wrap and re-throw the entire catched exception. Be aware that the cause(s) of an exception is very valuable information. If you loose such information by improper exception-handling you may be unable to properly analyse production problems what can cause severe issues.
 ** If you wrap and re-throw an exception ensure that the catched exception is passed as cause to the newly created and thrown exception.
 ** If you log an exception ensure that the entire exception is passed as argument to the logger (and not only the result of `getMessage()` or `toString()` on the exception).
-* See link:guide-exceptions.adoc#handling-exceptions[exception handling]
+* See xref:guide-exceptions.adoc#handling-exceptions[exception handling]
 
 === Lambdas and Streams
 With Java8 you have cool new features like lambdas and monads like (`Stream`, `CompletableFuture`, `Optional`, etc.).
@@ -328,4 +328,4 @@ public boolean isEmpty {
   return size() == 0;
 }
 ----
-The only known excuse is for flags in link:guide-jpa.adoc#embeddable[embeddable types] due to limitations of hibernate.
+The only known excuse is for flags in xref:guide-jpa.adoc#embeddable[embeddable types] due to limitations of hibernate.

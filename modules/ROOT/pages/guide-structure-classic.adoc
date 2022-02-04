@@ -5,15 +5,15 @@ toc::[]
 
 In this section we describe the classic project structure as initially proposed for Java in devonfw.
 It is still valid and fully supported.
-However, if you want to start a new project, please consider using the link:guide-structure-modern.adoc[modern structure].
+However, if you want to start a new project, please consider using the xref:guide-structure-modern.adoc[modern structure].
 
 == Modules
 
 The structure of a `devon4j` application is divided into the following modules:
 
-* `api`: module containing the API of your application. The API contains the required artifacts to interact with your application via remote services. This can be link:guide-rest.adoc#jax-rs[REST service interfaces], link:guide-transferobject.adoc[transfer-objects] with their interfaces and link:guide-datatype.adoc[datatypes] but also https://www.openapis.org/[OpenAPI] or https://grpc.io/[gRPC] contracts.
-* `core`: maven module containing the core of the application with service implementation, as well as entire link:guide-logic-layer.adoc[logic layer] and link:guide-dataaccess-layer.adoc[dataaccess layer].
-* `batch`: optional module for link:guide-batch-layer.adoc[batch layer]
+* `api`: module containing the API of your application. The API contains the required artifacts to interact with your application via remote services. This can be xref:guide-rest.adoc#jax-rs[REST service interfaces], xref:guide-transferobject.adoc[transfer-objects] with their interfaces and xref:guide-datatype.adoc[datatypes] but also https://www.openapis.org/[OpenAPI] or https://grpc.io/[gRPC] contracts.
+* `core`: maven module containing the core of the application with service implementation, as well as entire xref:guide-logic-layer.adoc[logic layer] and xref:guide-dataaccess-layer.adoc[dataaccess layer].
+* `batch`: optional module for xref:guide-batch-layer.adoc[batch layer]
 * `server`: module that bundles the entire app (`core` with optional `batch`) typically as a bootified WAR file.
 
 == Deployment
@@ -30,28 +30,28 @@ That is exactly the purpose of the `server` module to build and package this fin
 By default we first build a regular `WAR` file with maven in your `server/target` directory (`\*-server-«version».war`) and in a second step create a bootified `WAR` out of this (`*-server-bootified.war`).
 The bootified `WAR` file can then be started standalone (`java -jar «filename».war`).
 However, it is also possible to deploy the same `WAR` file to a servlet container like `tomcat` or `jetty`.
-As application servers and externally provided servlet containers are not recommendet anymore for various reasons (see link:guide-jee.adoc[JEE]), you may also want to create a bootified `JAR` file instead.
+As application servers and externally provided servlet containers are not recommendet anymore for various reasons (see xref:guide-jee.adoc[JEE]), you may also want to create a bootified `JAR` file instead.
 All you need to do in that case is to change the `packaging` in your `server/pom.xml` from `war` to `jar`. 
 
 == Package Structure
 
-The package structure of your code inside `src/main/java` (and `src/test/java`) of your modules is described in our coding conventions in the sections link:coding-conventions.adoc#packages[packages]. A full mapping of the architecture and the different code elements to the packaging is described in the following section.
+The package structure of your code inside `src/main/java` (and `src/test/java`) of your modules is described in our coding conventions in the sections xref:coding-conventions.adoc#packages[packages]. A full mapping of the architecture and the different code elements to the packaging is described in the following section.
 
 == Layers
 
-The package structure of your code inside `src/main/java` (and `src/test/java`) of your app is described in our coding conventions in the sections link:coding-conventions.adoc#packages[packages].
+The package structure of your code inside `src/main/java` (and `src/test/java`) of your app is described in our coding conventions in the sections xref:coding-conventions.adoc#packages[packages].
 The following table describes our classic approach for packaging and layering:
 
 .Traditional generic devon4j layers
 [options="header"]
 |=============================================
 |*Layer* | *«layer»*
-|link:guide-service-layer.adoc[service]|`service`
-|link:guide-logic-layer.adoc[logic]|`logic`
-|link:guide-dataaccess-layer.adoc[data-access]|`dataaccess`
-|link:guide-batch-layer.adoc[batch] (optional)|`batch`
-|link:guide-client-layer.adoc[client] (optional)|`client`
-|link:guide-common.adoc[common]|`common`
+|xref:guide-service-layer.adoc[service]|`service`
+|xref:guide-logic-layer.adoc[logic]|`logic`
+|xref:guide-dataaccess-layer.adoc[data-access]|`dataaccess`
+|xref:guide-batch-layer.adoc[batch] (optional)|`batch`
+|xref:guide-client-layer.adoc[client] (optional)|`client`
+|xref:guide-common.adoc[common]|`common`
 |=============================================
 
 == Architecture Mapping
@@ -62,63 +62,63 @@ we provide this architecture mapping:
 [subs=+macros]
 ----
 «root»
-├──.link:guide-component.adoc#business-component[«component»]
-|  ├──.link:guide-common.adoc[common]
+├──.xref:guide-component.adoc#business-component[«component»]
+|  ├──.xref:guide-common.adoc[common]
 |  |  ├──.api[.«detail»]
-|  |  |  ├──.link:guide-datatype.adoc[datatype]
-|  |  |  |  └──.link:guide-datatype.adoc[«Datatype»] (api)
-|  |  |  └──.link:guide-transferobject.adoc#bo[«BusinessObject»] (api)
+|  |  |  ├──.xref:guide-datatype.adoc[datatype]
+|  |  |  |  └──.xref:guide-datatype.adoc[«Datatype»] (api)
+|  |  |  └──.xref:guide-transferobject.adoc#bo[«BusinessObject»] (api)
 |  |  └──.impl[.«detail»]
-|  |     ├──.link:guide-configuration-mapping.adoc#mapping-advanced-configuration[«Aspect»ConfigProperties] (core)
-|  |     ├──.link:guide-json.adoc#custom-mapping[«Datatype»JsonSerializer] (core)
-|  |     └──.link:guide-json.adoc#custom-mapping[«Datatype»JsonDeserializer] (core)
-|  ├──.link:guide-dataaccess-layer.adoc[dataaccess]
+|  |     ├──.xref:guide-configuration-mapping.adoc#mapping-advanced-configuration[«Aspect»ConfigProperties] (core)
+|  |     ├──.xref:guide-json.adoc#custom-mapping[«Datatype»JsonSerializer] (core)
+|  |     └──.xref:guide-json.adoc#custom-mapping[«Datatype»JsonDeserializer] (core)
+|  ├──.xref:guide-dataaccess-layer.adoc[dataaccess]
 |  |  ├──.api[.«detail»]
-|  |  |  ├──.link:guide-repository.adoc[repo]
-|  |  |  |  └──.link:guide-repository.adoc#repository[«BusinessObject»Repository] (core)
-|  |  |  ├──.link:guide-dao.adoc[dao] (core) [alternative to repo]
-|  |  |  |  └──.link:guide-dao.adoc#data-access-object[«BusinessObject»Dao] (core) [alternative to Repository]
-|  |  |  └──.link:guide-jpa.adoc#entity[«BusinessObject»Entity] (core)
+|  |  |  ├──.xref:guide-repository.adoc[repo]
+|  |  |  |  └──.xref:guide-repository.adoc#repository[«BusinessObject»Repository] (core)
+|  |  |  ├──.xref:guide-dao.adoc[dao] (core) [alternative to repo]
+|  |  |  |  └──.xref:guide-dao.adoc#data-access-object[«BusinessObject»Dao] (core) [alternative to Repository]
+|  |  |  └──.xref:guide-jpa.adoc#entity[«BusinessObject»Entity] (core)
 |  |  └──.impl[.«detail»]
-|  |     ├──.link:guide-dao.adoc[dao] (core) [alternative to repo]
-|  |     |  └──.link:guide-dao.adoc#data-access-object[«BusinessObject»DaoImpl] (core) [alternative to Repository]
-|  |     └──.link:guide-jpa.adoc#entities-and-datatypes[«Datatype»AttributeConverter] (core)
-|  ├──.link:guide-logic-layer.adoc[logic]
+|  |     ├──.xref:guide-dao.adoc[dao] (core) [alternative to repo]
+|  |     |  └──.xref:guide-dao.adoc#data-access-object[«BusinessObject»DaoImpl] (core) [alternative to Repository]
+|  |     └──.xref:guide-jpa.adoc#entities-and-datatypes[«Datatype»AttributeConverter] (core)
+|  ├──.xref:guide-logic-layer.adoc[logic]
 |  |  ├──.api
-|  |  |  ├──.[«detail».]link:guide-transferobject.adoc[to]
-|  |  |  |   ├──.link:guide-transferobject.adoc#to[«MyCustom»«To] (api)
-|  |  |  |   ├──.link:guide-jpa.adoc#embeddable[«DataStructure»Embeddable] (api)
-|  |  |  |   ├──.link:guide-transferobject.adoc#eto[«BusinessObject»Eto] (api)
-|  |  |  |   └──.link:guide-transferobject.adoc#cto[«BusinessObject»«Subset»Cto] (api)
-|  |  |  ├──.[«detail».]link:guide-usecase.adoc[usecase]
-|  |  |  |   ├──.link:guide-usecase.adoc#find[UcFind«BusinessObject»] (core)
-|  |  |  |   ├──.link:guide-usecase.adoc#manage[UcManage«BusinessObject»] (core)
-|  |  |  |   └──.link:guide-usecase.adoc#custom[Uc«Operation»«BusinessObject»] (core)
-|  |  |  └──.link:guide-logic-layer.adoc#component[«Component»] (core)
+|  |  |  ├──.[«detail».]xref:guide-transferobject.adoc[to]
+|  |  |  |   ├──.xref:guide-transferobject.adoc#to[«MyCustom»«To] (api)
+|  |  |  |   ├──.xref:guide-jpa.adoc#embeddable[«DataStructure»Embeddable] (api)
+|  |  |  |   ├──.xref:guide-transferobject.adoc#eto[«BusinessObject»Eto] (api)
+|  |  |  |   └──.xref:guide-transferobject.adoc#cto[«BusinessObject»«Subset»Cto] (api)
+|  |  |  ├──.[«detail».]xref:guide-usecase.adoc[usecase]
+|  |  |  |   ├──.xref:guide-usecase.adoc#find[UcFind«BusinessObject»] (core)
+|  |  |  |   ├──.xref:guide-usecase.adoc#manage[UcManage«BusinessObject»] (core)
+|  |  |  |   └──.xref:guide-usecase.adoc#custom[Uc«Operation»«BusinessObject»] (core)
+|  |  |  └──.xref:guide-logic-layer.adoc#component[«Component»] (core)
 |  |  ├──.base
-|  |  |  └──.[«detail».]link:guide-usecase.adoc[usecase]
-|  |  |     └──.link:guide-usecase.adoc[Abstract«BusinessObject»Uc] (core)
+|  |  |  └──.[«detail».]xref:guide-usecase.adoc[usecase]
+|  |  |     └──.xref:guide-usecase.adoc[Abstract«BusinessObject»Uc] (core)
 |  |  └──.impl
-|  |     ├──.[«detail».]link:guide-usecase.adoc[usecase]
-|  |     |   ├──.link:guide-usecase.adoc#find[UcFind«BusinessObject»Impl] (core)
-|  |     |   ├──.link:guide-usecase.adoc#manage[UcManage«BusinessObject»Impl] (core)
-|  |     |   └──.link:guide-usecase.adoc#custom[Uc«Operation»«BusinessObject»Impl] (core)
-|  |     └──.link:guide-logic-layer.adoc#component[«Component»Impl] (core)
-|  └──.link:guide-service-layer.adoc[service]
+|  |     ├──.[«detail».]xref:guide-usecase.adoc[usecase]
+|  |     |   ├──.xref:guide-usecase.adoc#find[UcFind«BusinessObject»Impl] (core)
+|  |     |   ├──.xref:guide-usecase.adoc#manage[UcManage«BusinessObject»Impl] (core)
+|  |     |   └──.xref:guide-usecase.adoc#custom[Uc«Operation»«BusinessObject»Impl] (core)
+|  |     └──.xref:guide-logic-layer.adoc#component[«Component»Impl] (core)
+|  └──.xref:guide-service-layer.adoc[service]
 |     ├──.api[.«detail»]
-|     |  ├──.link:guide-rest.adoc[rest]
-|     |  |  └──.link:guide-rest.adoc#rest-service-api[«Component»RestService] (api)
-|     |  └──.link:guide-soap.adoc[ws]
-|     |     └──.link:guide-soap.adoc#web-service-api[«Component»WebService] (api)
+|     |  ├──.xref:guide-rest.adoc[rest]
+|     |  |  └──.xref:guide-rest.adoc#rest-service-api[«Component»RestService] (api)
+|     |  └──.xref:guide-soap.adoc[ws]
+|     |     └──.xref:guide-soap.adoc#web-service-api[«Component»WebService] (api)
 |     └──.impl[.«detail»]
-|        ├──.link:guide-jms.adoc[jms]
-|        |  └──.link:guide-jms.adoc#jms-listener[«BusinessObject»JmsListener] (core)
-|        ├──.link:guide-rest.adoc[rest]
-|        |  └──.link:guide-rest.adoc#rest-service-implementation[«Component»RestServiceImpl] (core)
-|        └──.link:guide-soap.adoc[ws]
-|           └──.link:guide-soap.adoc#web-service-implementation[«Component»WebServiceImpl] (core)
-├──.link:guide-component.adoc#general-component[general]
-│  ├──.link:guide-common.adoc[common]
+|        ├──.xref:guide-jms.adoc[jms]
+|        |  └──.xref:guide-jms.adoc#jms-listener[«BusinessObject»JmsListener] (core)
+|        ├──.xref:guide-rest.adoc[rest]
+|        |  └──.xref:guide-rest.adoc#rest-service-implementation[«Component»RestServiceImpl] (core)
+|        └──.xref:guide-soap.adoc[ws]
+|           └──.xref:guide-soap.adoc#web-service-implementation[«Component»WebServiceImpl] (core)
+├──.xref:guide-component.adoc#general-component[general]
+│  ├──.xref:guide-common.adoc[common]
 │  |  ├──.api
 |  |  |  ├──.to
 |  |  |  |  ├──.AbstractSearchCriteriaTo (api)

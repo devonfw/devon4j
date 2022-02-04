@@ -12,17 +12,17 @@ Therefore in devonfw we rely on these open standards and can propagate patterns 
 == Key Principles
 Within dependency injection a _bean_ is typically a reusable unit of your application providing an encapsulated functionality.
 This _bean_ can be injected into other beans and it should in general be replaceable.
-As an example we can think of a link:guide-usecase.adoc[use-case], a link:guide-repository.adoc[repository], etc.
+As an example we can think of a xref:guide-usecase.adoc[use-case], a xref:guide-repository.adoc[repository], etc.
 As best practice we use the following principles:
 
 * *Stateless implementation* +
-By default such beans shall be implemented link:coding-conventions.adoc#stateless-programming[stateless]. If you store state information in member variables you can easily run into concurrency problems and nasty bugs. This is easy to avoid by using local variables and separate state classes for complex state-information. Try to avoid stateful beans wherever possible. Only add state if you are fully aware of what you are doing and properly document this as a warning in your JavaDoc.
+By default such beans shall be implemented xref:coding-conventions.adoc#stateless-programming[stateless]. If you store state information in member variables you can easily run into concurrency problems and nasty bugs. This is easy to avoid by using local variables and separate state classes for complex state-information. Try to avoid stateful beans wherever possible. Only add state if you are fully aware of what you are doing and properly document this as a warning in your JavaDoc.
 * *Usage of Java standards* +
-We use common standards (see above) that makes our code portable. Therefore we use standardized annotations like `@Inject` (`javax.inject.Inject`) instead of proprietary annotations such as `@Autowired`. Generally we avoid proprietary annotations in business code (link:guide-logic-layer.adoc[logic layer]).
+We use common standards (see above) that makes our code portable. Therefore we use standardized annotations like `@Inject` (`javax.inject.Inject`) instead of proprietary annotations such as `@Autowired`. Generally we avoid proprietary annotations in business code (xref:guide-logic-layer.adoc[logic layer]).
 * *Simple injection-style* +
-In general you can choose between constructor, setter or field injection. For simplicity we recommend to do private field injection as it is very compact and easy to maintain. We believe that constructor injection is bad for maintenance especially in case of inheritance (if you change the dependencies you need to refactor all sub-classes). Private field injection and public setter injection are very similar but setter injection is much more verbose (often you are even forced to have javadoc for all public methods). If you are writing re-usable library code setter injection will make sense as it is more flexible. In a business application you typically do not need that and can save a lot of boiler-plate code if you use private field injection instead. Nowadays you are using container infrastructure also for your tests (see link:guide-testing.adoc[testing]) so there is no need to inject manually (what would require a public setter).
+In general you can choose between constructor, setter or field injection. For simplicity we recommend to do private field injection as it is very compact and easy to maintain. We believe that constructor injection is bad for maintenance especially in case of inheritance (if you change the dependencies you need to refactor all sub-classes). Private field injection and public setter injection are very similar but setter injection is much more verbose (often you are even forced to have javadoc for all public methods). If you are writing re-usable library code setter injection will make sense as it is more flexible. In a business application you typically do not need that and can save a lot of boiler-plate code if you use private field injection instead. Nowadays you are using container infrastructure also for your tests (see xref:guide-testing.adoc[testing]) so there is no need to inject manually (what would require a public setter).
 * *KISS* +
-To follow the KISS (keep it small and simple) principle we avoid advanced features (e.g. custom link:guide-aop.adoc[AOP], non-singleton beans) and only use them where necessary.
+To follow the KISS (keep it small and simple) principle we avoid advanced features (e.g. custom xref:guide-aop.adoc[AOP], non-singleton beans) and only use them where necessary.
 * *Separation of API and implementation* +
 For important components we should separate a self-contained API documented with JavaDoc from its implementation. Code from other components that wants to use the implementation shall only rely on the API. However, for things that will never be exchanged no API as interface is required you can skip such separation.
 
@@ -51,7 +51,7 @@ public class MyComponentImpl implements MyComponent {
 ----
 
 Here `MyComponentImpl` depends on `MyOtherComponent` that is injected into the field `myOtherComponent` because of the `@Inject` annotation.
-To make this work there must be exactly one bean in the container (e.g. link:spring.adoc[spring] or link:quarkus.adoc[quarkus]) that is an instance of `MyOtherComponent`.
+To make this work there must be exactly one bean in the container (e.g. xref:spring.adoc[spring] or xref:quarkus.adoc[quarkus]) that is an instance of `MyOtherComponent`.
 In order to put a bean into the container, we can use `@ApplicationScoped` in case of CDI (required for quarkus) for a stateless bean.
 In spring we can ommit a CDI annotation and the `@Named` annotation is already sufficient as a bean is stateless by default in spring.
 If we always use `@ApplicationScoped` we can make this more explicit and more portable accross different frameworks.
@@ -206,7 +206,7 @@ When you want to start with Jakarta EE you should use these dependencies to get 
 </dependency>
 ----
 
-Please note that with link:quarkus.adoc[quarkus] you will get them as transitive dependencies out of the box.
+Please note that with xref:quarkus.adoc[quarkus] you will get them as transitive dependencies out of the box.
 The above Jakarate EE dependencies replace these JEE depdencies:
 
 [source, xml]

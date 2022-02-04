@@ -119,7 +119,7 @@ This solution allows a very flexible configuration on the following levels:
 A configuration on a deeper level (e.g. 3) overrides the configuration from a higher level (e.g. 1). 
 
 The configuration on Level 1 and 2 are configured via `application.properties` 
-(see link:../guide-configuration.adoc[configuration guide]). 
+(see xref:*.adoc[*]). 
 For Level 1, the prefix `service.client.default.` is used for properties. 
 Further, for level 2, the prefix `service.client.app.«application».` is used where `«application»` is the 
 technical name of the application providing the service. This name will automatically be derived from 
@@ -167,7 +167,7 @@ Assuming your service interface has the fully qualified name
 Additionally, the URL might use the following variables that will automatically be resolved:
 
 * `${app}` to `«application»` (useful for default URL)
-* `${type}` to the type of the service. E.g. `rest` in case of a link:../guide-rest.adoc[REST] service and `ws` for a link:../guide-soap.adoc[SOAP] service.
+* `${type}` to the type of the service. E.g. `rest` in case of a xref:*.adoc[*] service.
 * `${local.server.port}` for the port of your current Java servlet container running the JVM. Should only be used for testing with spring-boot random port mechanism (technically spring cannot resolve this variable, but we do it for you here).
 
 Therefore, the default URL may also be configured as:

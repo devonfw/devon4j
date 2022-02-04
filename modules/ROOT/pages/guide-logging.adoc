@@ -52,7 +52,7 @@ For detailed documentation how to use the logger API check the http://www.slf4j.
 NOTE: In case you are using https://github.com/devonfw/ide[devonfw-ide] and Eclipse you can just type `LOG` and hit `[ctrl][space]` to insert the code pattern including the imports into your class.
 
 === Lombok
-In case you are using link:guide-lombok.adoc[Lombok], you can simply use the https://projectlombok.org/api/lombok/extern/slf4j/Slf4j.html[`@Slf4j`] annotation in your class. This causes Lombok to generate the logger instance for you.
+In case you are using xref:guide-lombok.adoc[Lombok], you can simply use the https://projectlombok.org/api/lombok/extern/slf4j/Slf4j.html[`@Slf4j`] annotation in your class. This causes Lombok to generate the logger instance for you.
 
 == Log-Levels
 We use a common understanding of the log-levels as illustrated by the following table.
@@ -82,7 +82,7 @@ The are several options you can set in the `application.properties` file to conf
 
 == JSON-logging
 
-For easy integration with link:guide-log-monitoring.adoc[log-monitoring], we recommend that your app logs to `standard out` in JSON following https://jsonlines.org/[JSON Lines].
+For easy integration with xref:guide-log-monitoring.adoc[log-monitoring], we recommend that your app logs to `standard out` in JSON following https://jsonlines.org/[JSON Lines].
 
 In Spring applications, this can be achieved via https://github.com/logstash/logstash-logback-encoder[logstash-logback-encoder] (see xref:dependencies[dependencies]). In Quarkus, it can be easily achieved using the https://github.com/quarkusio/quarkus/tree/main/extensions/logging-json[quarkus-logging-json] extension (see https://quarkus.io/guides/logging#json-logging[here] for more details).
  
@@ -104,7 +104,7 @@ This will produce log-lines with the following format (example formatted for rea
 
 === Adding custom values to JSON log with Logstash
 
-The JSON encoder even supports logging custom properties for your link:guide-log-monitoring.adoc[log-monitoring].
+The JSON encoder even supports logging custom properties for your xref:guide-log-monitoring.adoc[log-monitoring].
 The _trick_ is to use the class `net.logstash.logback.argument.StructuredArguments` for adding the arguments to you log message, e.g.
 
 [source,java]
@@ -127,7 +127,7 @@ This will produce the a JSON log-line with the following properties:
 ...
 ----
 
-As you can quickly see besides the human readable `message` you also have the structured properties `url`, `status` and `duration` that can be extremly valuable to configure dashboards in your link:guide-log-monitoring.adoc[log-monitoring] that visualize success/failure ratio as well as performance of your requests.
+As you can quickly see besides the human readable `message` you also have the structured properties `url`, `status` and `duration` that can be extremly valuable to configure dashboards in your xref:guide-log-monitoring.adoc[log-monitoring] that visualize success/failure ratio as well as performance of your requests.
 
 == Classic log-files
 
@@ -234,7 +234,7 @@ This filter takes a provided correlation ID from the HTTP header `X-Correlation-
 If none was found, it will generate a new correlation id as `UUID`.
 This correlation ID is added as MDC to the logger.
 Therefore, it will then be included to any log message of the current request (thread).
-Further concepts such as link:guide-service-client.adoc[service invocations] will pass this correlation ID to subsequent calls in the application landscape. Hence you can find all log messages related to an initial request simply via the correlation ID even in highly distributed systems.
+Further concepts such as xref:guide-service-client.adoc[service invocations] will pass this correlation ID to subsequent calls in the application landscape. Hence you can find all log messages related to an initial request simply via the correlation ID even in highly distributed systems.
 
 === Security
 In order to prevent https://www.owasp.org/index.php/Log_Forging[log forging] attacks you can simply use the suggested xref:json-logging[JSON logging] format.

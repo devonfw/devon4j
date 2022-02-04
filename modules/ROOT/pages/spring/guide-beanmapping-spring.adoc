@@ -64,7 +64,7 @@ mapperFactory.classMap(UserEntity.class, UserEto.class)
 
 == Bean-Mapper Usage
 
-Then we can get the `BeanMapper` via link:guide-dependency-injection.adoc[dependency-injection] what we typically already provide by an abstract base class (e.g. `AbstractUc`). Now we can solve our problem very easy:
+Then we can get the `BeanMapper` via xref:guide-dependency-injection.adoc[dependency-injection] what we typically already provide by an abstract base class (e.g. `AbstractUc`). Now we can solve our problem very easy:
 
 [source,java]
 ----

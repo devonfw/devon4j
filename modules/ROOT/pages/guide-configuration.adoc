@@ -14,7 +14,7 @@ In general we distinguish the following kinds of configuration that are explaine
 == Internal Application Configuration
 The application configuration contains all internal settings and wirings of the application (bean wiring, database mappings, etc.) and is maintained by the application developers at development time.
 
-For more detail of link:spring.adoc[Spring] stack, see link:spring/guide-spring-configuration.adoc#internal-application-configuration[here]
+For more detail of xref:spring.adoc[Spring] stack, see link:spring/guide-spring-configuration.adoc#internal-application-configuration[here]
 
 == Externalized Configuration
 
@@ -28,8 +28,8 @@ The environment configuration is maintained in `application.properties` files, d
 These properties are explained in the corresponding configuration sections of the guides for each topic:
 
 * persistence configuration (for Spring see link:spring/guide-spring-configuration.adoc#database-configuration[here], for Quarkus see link:quarkus/guide-quarkus-configuration.adoc#database-configuration[here])
-* link:guide-service-layer.adoc#jax-rs-configuration[service configuration]
-* link:guide-logging.adoc#configuration[logging guide]
+* xref:guide-service-layer.adoc#jax-rs-configuration[service configuration]
+* xref:guide-logging.adoc#configuration[logging guide]
 
 Make sure your properties are thoroughly documented by providing a comment to each property. This inline documentation is most valuable for your operating department.
 
@@ -61,9 +61,9 @@ Often you need to have passwords (for databases, third-party services, etc.) as 
 === Password Encryption
 A simple but reasonable approach is to configure the passwords encrypted with a master-password. The master-password should be a strong secret that is specific for each environment. It must never be committed to version-control.
 
-For link:spring.adoc[Spring], we use https://github.com/ulisesbocchio/jasypt-spring-boot#jasypt-spring-boot[jasypt-spring-boot]. For more details, see link:spring/guide-spring-configuration.adoc#password-encryption[here]
+For xref:spring.adoc[Spring], we use https://github.com/ulisesbocchio/jasypt-spring-boot#jasypt-spring-boot[jasypt-spring-boot]. For more details, see link:spring/guide-spring-configuration.adoc#password-encryption[here]
 
-For link:quarkus.adoc[Quarkus], see link:quarkus/guide-quarkus-configuration.adoc#password-encryption[here]
+For xref:quarkus.adoc[Quarkus], see link:quarkus/guide-quarkus-configuration.adoc#password-encryption[here]
 
 ==== Is this Security by Obscurity?
 

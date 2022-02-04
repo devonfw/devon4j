@@ -5,7 +5,7 @@ toc::[]
 //Fixed Typo
 Security is todays most important cross-cutting concern of an application and an enterprise IT-landscape. We seriously care about security and give you detailed guides to prevent pitfalls, vulnerabilities, and other disasters. While many mistakes can be avoided by following our guidelines you still have to consider security and think about it in your design and implementation. The security guide will not only automatically prevent you from any harm, but will provide you hints and best practices already used in different software products.
 
-An important aspect of security is proper authentication and authorization as described in link:guide-access-control.adoc[access-control]. In the following we discuss about potential vulnerabilities and protection to prevent them.
+An important aspect of security is proper authentication and authorization as described in xref:guide-access-control.adoc[access-control]. In the following we discuss about potential vulnerabilities and protection to prevent them.
 
 == Vulnerabilities and Protection
 Independent from classical authentication and authorization mechanisms there are many common pitfalls that can lead to vulnerabilities and security issues in your application such as XSS, CSRF, SQL-injection, log-forging, etc. A good source of information about this is the https://www.owasp.org[OWASP].
@@ -17,35 +17,35 @@ We address these common threats individually in _security_ sections of our techn
 |*Threat*|*Protection*|*Link to details*
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A1-Injection.html[A1 Injection]
 |validate input, escape output, use proper frameworks
-|link:guide-jpa.adoc#security[SQL Injection]
+|xref:guide-jpa.adoc#security[SQL Injection]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A2-Broken_Authentication.html[A2 Broken Authentication]
 |encrypt all channels, use a central identity management with strong password-policy
-|link:guide-access-control.adoc#authentication[Authentication]
+|xref:guide-access-control.adoc#authentication[Authentication]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A3-Sensitive_Data_Exposure.html[A3 Sensitive Data Exposure]
 |Use secured exception facade, design your data model accordingly
-|link:guide-service-layer.adoc#rest-exception-handling[REST exception handling]
+|xref:guide-service-layer.adoc#rest-exception-handling[REST exception handling]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A4-XML_External_Entities_(XXE).html[A4 XML External Entities]
 |Prefer JSON over XML, ensure https://docs.oracle.com/en/java/javase/11/security/java-api-xml-processing-jaxp-security-guide.html[FSP] when parsing (external) XML
-|link:guide-xml.adoc[XML guide]
+|xref:guide-xml.adoc[XML guide]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A5-Broken_Access_Control.html[A5 Broken Access Control]
 |Ensure proper authorization for all use-cases, use `@DenyAll` as default to enforce
-|link:guide-access-control.adoc[Access-control guide] especially link:guide-access-control.adoc#configuration-on-java-method-level[method authorization]
+|xref:guide-access-control.adoc[Access-control guide] especially xref:guide-access-control.adoc#configuration-on-java-method-level[method authorization]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A6-Security_Misconfiguration.html[A6 Security Misconfiguration]
 |Use devon4j application template and guides to avoid
-|link:tutorial-newapp.adoc[tutorial-newapp] and link:guide-configuration.adoc#security[sensitive configuration]
+|xref:tutorial-newapp.adoc[tutorial-newapp] and xref:guide-configuration.adoc#security[sensitive configuration]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A7-Cross-Site_Scripting_(XSS).html[A7 Cross-Site Scripting]
 |prevent injection (see A1) for HTML, JavaScript and CSS and understand same-origin-policy
-|link:guide-client-layer.adoc#security[client-layer]
+|xref:guide-client-layer.adoc#security[client-layer]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A8-Insecure_Deserialization.html[A8 Insecure Deserialization]
 |Use simple and established serialization formats such as JSON, prevent generic deserialization (for polymorphic types)
-|link:guide-json.adoc[JSON guide] especially link:guide-json.adoc#json-and-inheritance[inheritence], link:guide-xml.adoc[XML guide]
+|xref:guide-json.adoc[JSON guide] especially xref:guide-json.adoc#json-and-inheritance[inheritence], xref:guide-xml.adoc[XML guide]
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities.html[A9 Using Components with Known Vulnerabilities]
 |subscribe to security newsletters, recheck products and their versions continuously, use devonfw dependency management
@@ -53,19 +53,19 @@ We address these common threats individually in _security_ sections of our techn
 
 |https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A10-Insufficient_Logging%252526Monitoring.html[A10 Insufficient_Logging & Monitoring]
 |Ensure to log all security related events (login, logout, errors), establish effective monitoring
-|link:guide-logging.adoc[Logging guide] and link:guide-monitoring.adoc[monitoring guide]
+|xref:guide-logging.adoc[Logging guide] and xref:guide-monitoring.adoc[monitoring guide]
 
 |https://owasp.org/www-chapter-ghana/assets/slides/IDOR.pdf[Insecure Direct Object References]
 |Using direct object references (IDs) only with appropriate authorization
-|link:guide-logic-layer.adoc#direct-object-references[logic-layer]
+|xref:guide-logic-layer.adoc#direct-object-references[logic-layer]
 
 |https://owasp.org/www-community/attacks/csrf[Cross-Site Request Forgery (CSRF)]
 |secure mutable service operations with an explicit CSRF security token sent in HTTP header and verified on the server
-|link:guide-csrf.adoc[CSRF guide]
+|xref:guide-csrf.adoc[CSRF guide]
 
 |https://owasp.org/www-community/attacks/Log_Injection[Log-Forging]
 |Escape newlines in log messages
-|link:guide-logging.adoc#security[logging security]
+|xref:guide-logging.adoc#security[logging security]
 
 |https://owasp.org/www-pdf-archive//OWASP_LA_New_OWASP_Top_10_David_Caissy_2017_07.pdf[Unvalidated Redirects and Forwards]
 |Avoid using redirects and forwards, in case you need them do a security audit on the solution.
@@ -89,7 +89,7 @@ mvn org.owasp:dependency-check-maven:6.1.5:aggregate
 
 NOTE: The version is just for completeness. You should check yourself for using a recent version of the plugin.
 
-If you build an devon4j spring application from our link:tutorial-newapp.adoc[app-template] you can activate the dependency check even easier with the `security` profile:
+If you build an devon4j spring application from our xref:tutorial-newapp.adoc[app-template] you can activate the dependency check even easier with the `security` profile:
 [source,bash]
 ---- 
 mvn clean install -P security

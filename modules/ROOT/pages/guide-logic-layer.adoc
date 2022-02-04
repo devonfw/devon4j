@@ -4,8 +4,8 @@ toc::[]
 == Logic Layer
 
 The logic layer is the heart of the application and contains the main business logic.
-According to our link:architecture.adoc#business-architecture[business architecture], we divide an application into link:guide-component.adoc[components].
-For each component, the logic layer defines different link:guide-usecase.adoc[use-cases]. Another approach is to define a link:guide-component-facade.adoc[component-facade], which we do not recommend for future application. Especially for quarkus application, we want to simplify things and highly suggest omitting component-facade completely and using use-cases only.
+According to our xref:architecture.adoc#business-architecture[business architecture], we divide an application into xref:guide-component.adoc[components].
+For each component, the logic layer defines different xref:guide-usecase.adoc[use-cases]. Another approach is to define a xref:guide-component-facade.adoc[component-facade], which we do not recommend for future application. Especially for quarkus application, we want to simplify things and highly suggest omitting component-facade completely and using use-cases only.
 It is very important that you follow the links to understand the concept of use-case in order to properly implement your business logic.
 
 == Responsibility
@@ -13,12 +13,12 @@ The logic layer is responsible to implement the business logic according to the 
 Therefore, it creates the actual value of the application. The logic layer is responsible for invoking business logic in external systems.
 The following additional aspects are also included in its responsibility:
 
-* link:guide-validation.adoc[validation]
-* link:guide-access-control.adoc#authorization[authorization]
-* link:guide-transactions.adoc[transaction-handling] (in addition to link:guide-service-layer.adoc[service layer]).
+* xref:guide-validation.adoc[validation]
+* xref:guide-access-control.adoc#authorization[authorization]
+* xref:guide-transactions.adoc[transaction-handling] (in addition to xref:guide-service-layer.adoc[service layer]).
 
 == Security
-The logic layer is the heart of the application. It is also responsible for authorization and hence security is important in this current case. Every method exposed in an interface needs to be annotated with an authorization check, stating what role(s) a caller must provide in order to be allowed to make the call. The authorization concept is described link:guide-security.adoc#authorization[here].
+The logic layer is the heart of the application. It is also responsible for authorization and hence security is important in this current case. Every method exposed in an interface needs to be annotated with an authorization check, stating what role(s) a caller must provide in order to be allowed to make the call. The authorization concept is described xref:guide-security.adoc#authorization[here].
 
 === Direct Object References
 A security threat are https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References[Insecure Direct Object References]. This simply gives you two options:

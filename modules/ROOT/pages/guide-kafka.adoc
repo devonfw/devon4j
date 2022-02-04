@@ -7,7 +7,7 @@ WARNING: devon4j-kafka has been abandoned. Its main feature was the implementati
 
 Messaging Services provide an asynchronous communication mechanism between applications. Technically this is implemented using http://kafka.apache.org/documentation.html/[Apache Kafka] .
 
-For link:spring.adoc[spring], devonfw uses link:https://spring.io/projects/spring-kafka[Spring-Kafka] as kafka framework.
+For xref:spring.adoc[spring], devonfw uses link:https://spring.io/projects/spring-kafka[Spring-Kafka] as kafka framework.
 For more details, check the link:spring/guide-kafka-spring.adoc[devon4j-kafka].
 
-For link:quarkus.adoc[quarkus], follow https://quarkus.io/guides/kafka[Quarkus - Kafka Reference Guide].
+For xref:quarkus.adoc[quarkus], follow https://quarkus.io/guides/kafka[Quarkus - Kafka Reference Guide].

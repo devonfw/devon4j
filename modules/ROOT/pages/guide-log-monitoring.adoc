@@ -3,7 +3,7 @@ toc::[]
 
 == Log-Monitoring
 
-Log-monitoring is an aspect of link:guide-monitoring.adoc[monitoring] with a strict focus on link:guide-logging.adoc[logging].
+Log-monitoring is an aspect of xref:guide-monitoring.adoc[monitoring] with a strict focus on xref:guide-logging.adoc[logging].
 With trends towards IT landscapes with many but much smaller apps the classicial approach to write log-files to the disc and let operators read those via SSH became entirely obsolete.
 Nowadays we have up to hundreds or even thousands of apps that themselves are clustered into multiple nodes.
 Therefore you should establish a centralized log monitoring system in the environment and let all your nodes log directly into that system.
@@ -31,7 +31,7 @@ For Quarkus applications, you can get an insight into the topic by reading the g
 The "API" for logging to a log-monitoring system for your app is pretty simple:
 
 * Write your logs to standard out.
-* Use link:guide-logging.adoc#json-logging[JSON logging] as format.
+* Use xref:guide-logging.adoc#json-logging[JSON logging] as format.
 
 Then the container infrastructure can automatically collect your logs from standard out and directly feed those into the log monitoring system.
 As a result, your app does not need to know anything about your log monitoring system and logging becomes most simple.

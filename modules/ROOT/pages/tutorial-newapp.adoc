@@ -60,7 +60,7 @@ The application template (archetype) generates a Maven multi-module project. It 
 
 * `api`: module with the API (REST service interfaces, transferobjects, datatypes, etc.) to be imported by other apps as a maven dependency in order to invoke and consume the offered (micro)services.
 * `core`: maven module containing the core of the application.
-* `batch`: optional module for link:guide-batch-layer.adoc[batch](es)
+* `batch`: optional module for xref:guide-batch-layer.adoc[batch](es)
 * `server`: module that bundles the entire app (`core` with optional `batch`) as a WAR file.
 
 The toplevel `pom.xml` of the generated project has the following features:
@@ -69,7 +69,7 @@ The toplevel `pom.xml` of the generated project has the following features:
 * Modules definition for the modules (described above)
 * Dependency management: define versions for dependencies of the technology stack that are recommended and work together in a compatible way.
 * Maven plugins with desired versions and configuration
-* Profiles for link:guide-testing.adoc[test stages]
+* Profiles for xref:guide-testing.adoc[test stages]
 
 == How to run your app
 
@@ -79,4 +79,4 @@ To run your application from your favourite IDE, simply launch `SpringBootApp` a
 
 === Run app as bootified jar or war
 
-More details are available link:guide-structure.adoc#make-jar-not-war[here].
+More details are available xref:guide-structure.adoc#make-jar-not-war[here].

@@ -15,7 +15,7 @@ Use `@XmlSeeAlso` annotation to provide sub-classes.
 See section "Collective Polymorphism" described https://dzone.com/articles/java-and-xml-part-3-jaxb[here].
 
 === JAXB Custom Mapping
-In order to map custom link:guide-datatype.adoc[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create dedicated objects for the XML mapping you can easily avoid such situations. When this is not suitable use `@XmlJavaTypeAdapter` and provide an `XmlAdapter` implementation that handles the mapping.
+In order to map custom xref:guide-datatype.adoc[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create dedicated objects for the XML mapping you can easily avoid such situations. When this is not suitable use `@XmlJavaTypeAdapter` and provide an `XmlAdapter` implementation that handles the mapping.
 For details see https://www.eclipse.org/eclipselink/documentation/2.6/moxy/advanced_concepts006.htm[here].
 
 == Security

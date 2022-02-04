@@ -6,7 +6,7 @@ toc::[]
 The _Data Access Objects_ (DAOs) are part of the persistence layer.
 They are responsible for a specific xref:entity[entity] and should be named `«Entity»Dao` and `«Entity»DaoImpl`.
 The DAO offers the so called CRUD-functionalities (create, retrieve, update, delete) for the corresponding entity.
-Additionally a DAO may offer advanced operations such as link:guide-jpa-query.adoc[query] or locking methods.
+Additionally a DAO may offer advanced operations such as xref:guide-jpa-query.adoc[query] or locking methods.
 
 == DAO Interface
 For each DAO there is an interface named `«Entity»Dao` that defines the API. For CRUD support and common naming we derive it from the `ApplicationDao` interface that comes with the devon application template:
@@ -33,10 +33,10 @@ public class MyEntityDaoImpl extends ApplicationDaoImpl<MyEntity> implements MyE
 ----
 
 Again you only need to implement the additional non-CRUD methods that you have declared in your `«Entity»Dao` interface.
-In the DAO implementation you can use the method `getEntityManager()` to access the `EntityManager` from the JPA. You will need the `EntityManager` to create and execute link:guide-jpa-query.adoc[queries].
+In the DAO implementation you can use the method `getEntityManager()` to access the `EntityManager` from the JPA. You will need the `EntityManager` to create and execute xref:guide-jpa-query.adoc[queries].
 
 === Static queries for DAO Implementation
-All static link:guide-jpa-query.adoc[queries] are declared in the file `src\main\resources\META-INF\orm.xml`:
+All static xref:guide-jpa-query.adoc[queries] are declared in the file `src\main\resources\META-INF\orm.xml`:
 [source,xml]
 ----
 <?xml version="1.0" encoding="UTF-8"?>

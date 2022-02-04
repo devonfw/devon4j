@@ -57,7 +57,7 @@ When auditing is enabled for an entity an additional database table is used to s
   database.hibernate.hbm2ddl.auto=create
 ----
 
-Another possibility is to put them in your link:guide-database-migration.adoc[database migration] scripts like so.
+Another possibility is to put them in your xref:guide-database-migration.adoc[database migration] scripts like so.
 [source, sql]
 ----
 CREATE CACHED TABLE PUBLIC.REVINFO(

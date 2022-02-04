@@ -4,7 +4,7 @@ toc::[]
 == Modern project structure
 
 With trends such as cloud, microservices, lean, and agile we decided for a more modern project structure that fits better to recent market trends.
-When starting new projects with devonfw and escpecially in the context of cloud-native development we strongly recommend this modern approach over the link:guide-structure-classic.adoc[classic structure].
+When starting new projects with devonfw and escpecially in the context of cloud-native development we strongly recommend this modern approach over the xref:guide-structure-classic.adoc[classic structure].
 
 == Modules
 
@@ -36,16 +36,16 @@ In case you want to go with spring you may consider using https://github.com/spr
 
 == Layers
 
-The package structure of your code inside `src/main/java` (and `src/test/java`) of your app is described in our coding conventions in the sections link:coding-conventions.adoc#packages[packages].
+The package structure of your code inside `src/main/java` (and `src/test/java`) of your app is described in our coding conventions in the sections xref:coding-conventions.adoc#packages[packages].
 For the modern project structure the layers are defined by the following table:
 
 [options="header"]
 |=============================================
 |*Layer* | *«layer»* | *Description*
-|link:guide-service-layer.adoc[service]|`service`|The service layer exposing functionality via its remote API. Typical protocol is link:guide-rest.adoc[REST]. May also be any other protocol you are using such as https://grpc.io/[gRPC].
-|link:guide-domain-layer.adoc[domain]|`domain`|The domain with the data-model and DB access. Use sub-package (in `«detail»`) `repository` for link:guide-repository.adoc[repository] and `dao` for link:guide-dao.adoc[DAOs]. Also we recommend to put link:guide-jpa.adoc#entity[entities] in `model` sub-package.
-|link:guide-logic-layer.adoc[logic]|`logic`|The logic layer with the functionallity providing the business value.
-|link:guide-common.adoc[common]|`common`|cross-cutting code not assigned to a technical layer.
+|xref:guide-service-layer.adoc[service]|`service`|The service layer exposing functionality via its remote API. Typical protocol is xref:guide-rest.adoc[REST]. May also be any other protocol you are using such as https://grpc.io/[gRPC].
+|xref:guide-domain-layer.adoc[domain]|`domain`|The domain with the data-model and DB access. Use sub-package (in `«detail»`) `repository` for xref:guide-repository.adoc[repository] and `dao` for xref:guide-dao.adoc[DAOs]. Also we recommend to put xref:guide-jpa.adoc#entity[entities] in `model` sub-package.
+|xref:guide-logic-layer.adoc[logic]|`logic`|The logic layer with the functionallity providing the business value.
+|xref:guide-common.adoc[common]|`common`|cross-cutting code not assigned to a technical layer.
 |=============================================
 
 == Architecture Mapping
@@ -56,29 +56,29 @@ we provide this architecture mapping:
 [subs=+macros]
 ----
 «root»
-├──.link:guide-component.adoc#business-component[«component»]
-|  ├──.link:guide-domain-layer.adoc[domain]
-|  |  ├──.link:guide-repository.adoc[repo]
-|  |  |  ├──.link:guide-repository.adoc#repository[«BusinessObject»Repository]
-|  |  |  ├──.link:guide-repository.adoc#fragment[«BusinessObject»Fragment]
-|  |  |  └──.link:guide-repository.adoc#fragment[«BusinessObject»FragmentImpl]
-|  |  ├──.link:guide-dao.adoc[dao] [alternative to repo]
-|  |  |  ├──.link:guide-dao.adoc#data-access-object[«BusinessObject»Dao]
-|  |  |  └──.link:guide-dao.adoc#data-access-object[«BusinessObject»DaoImpl]
+├──.xref:guide-component.adoc#business-component[«component»]
+|  ├──.xref:guide-domain-layer.adoc[domain]
+|  |  ├──.xref:guide-repository.adoc[repo]
+|  |  |  ├──.xref:guide-repository.adoc#repository[«BusinessObject»Repository]
+|  |  |  ├──.xref:guide-repository.adoc#fragment[«BusinessObject»Fragment]
+|  |  |  └──.xref:guide-repository.adoc#fragment[«BusinessObject»FragmentImpl]
+|  |  ├──.xref:guide-dao.adoc[dao] [alternative to repo]
+|  |  |  ├──.xref:guide-dao.adoc#data-access-object[«BusinessObject»Dao]
+|  |  |  └──.xref:guide-dao.adoc#data-access-object[«BusinessObject»DaoImpl]
 |  |  └──.model
-|  |     └──.link:guide-jpa.adoc#entity[«BusinessObject»Entity]
-|  ├──.link:guide-logic-layer.adoc[logic]
+|  |     └──.xref:guide-jpa.adoc#entity[«BusinessObject»Entity]
+|  ├──.xref:guide-logic-layer.adoc[logic]
 |  |  ├──«BusinessObject»Validator
 |  |  └──«BusinessObject»EventsEmitter
-|   |  └──.link:guide-usecase.adoc[Uc«Operation»«BusinessObject»[Impl]]
-|  └──.link:guide-service-layer.adoc[service]
-|     └──.link:guide-service-versioning.adoc#jax-rs[v1]
-|        ├──.link:guide-rest.adoc#jax-rs[«Component»RestService]
+|   |  └──.xref:guide-usecase.adoc[Uc«Operation»«BusinessObject»[Impl]]
+|  └──.xref:guide-service-layer.adoc[service]
+|     └──.xref:guide-service-versioning.adoc#jax-rs[v1]
+|        ├──.xref:guide-rest.adoc#jax-rs[«Component»RestService]
 |        ├──.mapper
 |        |     └──.«BusinessObject»Mapper
 |        └──.model
 |           └──.«BusinessObject»Dto
-└──.link:guide-component.adoc#general-component[general]
+└──.xref:guide-component.adoc#general-component[general]
    └──.domain
       └──.model
          └──.ApplicationPersistenceEntity

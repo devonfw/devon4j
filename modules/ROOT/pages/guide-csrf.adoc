@@ -11,7 +11,7 @@ More details about csrf can be found at https://owasp.org/www-community/attacks/
 
 == Secure devon4j server against CSRF
 
-In case your devon4j server application is not accessed by browsers or the web-client is using link:guide-jwt.adoc[JWT based authentication], you are already safe according to CSRF.
+In case your devon4j server application is not accessed by browsers or the web-client is using xref:guide-jwt.adoc[JWT based authentication], you are already safe according to CSRF.
 However, if your application is accessed from a browser and you are using _form based authentication_ (with session coockie) or _basic authentication_, you need to enable CSRF protection.
 This guide will tell you how to do this.
 

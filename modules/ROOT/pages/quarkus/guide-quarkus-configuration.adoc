@@ -3,7 +3,7 @@ toc::[]
 
 == Configuration
 
-link:quarkus.adoc[Quarkus] provides a comprehensive guide to configuration https://quarkus.io/guides/config-reference[here].
+xref:quarkus.adoc[Quarkus] provides a comprehensive guide to configuration https://quarkus.io/guides/config-reference[here].
 
 == External Application Configuration
 

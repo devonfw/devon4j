@@ -21,5 +21,5 @@ Also any version of your database schema can be present and you will always end 
 
 For database migration you can choose between the following options:
 
-* link:guide-flyway.adoc[flyway] (KISS based approach with migrations as SQL)
-* link:guide-liquibase.adoc[liquibase] (more complex approach with database abstraction)
+* xref:guide-flyway.adoc[flyway] (KISS based approach with migrations as SQL)
+* xref:guide-liquibase.adoc[liquibase] (more complex approach with database abstraction)

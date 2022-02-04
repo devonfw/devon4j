@@ -6,14 +6,14 @@ toc::[]
 This section is about Java Enterprise Edition (JEE).
 Regarding to our link:architecture#key-principles.adoc[key principles] we focus on open standards.
 For Java this means that we consider official standards from Java Standard and Enterprise Edition as first choice for considerations.
-Therefore we also decided to recommend link:guide-rest.adoc#jax-rs[JAX-RS] over https://spring.io/guides/gs/rest-service/[SpringMVC] as the latter is proprietary.
+Therefore we also decided to recommend xref:guide-rest.adoc#jax-rs[JAX-RS] over https://spring.io/guides/gs/rest-service/[SpringMVC] as the latter is proprietary.
 Only if an existing Java standard is *not* suitable for current demands such as Java Server Faces (JSF), we do not officially recommend it (while you are still free to use it if you have good reasons to do so).
 In all other cases we officially suggest the according standard and use it in our guides, code-samples, sample application, modules, templates, etc.
-Examples for such standards are link:guide-jpa.adoc[JPA], link:guide-rest.adoc#jax-rs[JAX-RS], link:guide-soap.adoc#jax-ws[JAX-WS], link:guide-dependency-injection.adoc[JSR330], link:guide-access-control.adoc[JSR250], link:guide-xml.adoc#jaxb[JAX-B], etc.
+Examples for such standards are xref:guide-jpa.adoc[JPA], xref:guide-rest.adoc#jax-rs[JAX-RS], xref:guide-soap.adoc#jax-ws[JAX-WS], xref:guide-dependency-injection.adoc[JSR330], xref:guide-access-control.adoc[JSR250], xref:guide-xml.adoc#jaxb[JAX-B], etc.
 
 == Application-Server
 We designed everything based on standards to work with different technology stacks and servlet containers.
-However, we strongly encourage to use modern and leightweight frameworks such as link:spring.adoc[spring] or link:quarkus.adoc[quarkus].
+However, we strongly encourage to use modern and leightweight frameworks such as xref:spring.adoc[spring] or xref:quarkus.adoc[quarkus].
 You are free to decide for a JEE application server but here is a list of good reasons for our decision:
 
 * *Up-to-date* 
@@ -58,7 +58,7 @@ As of today the ROI for this is of question.
 * *Cloud-native*
 +
 Quarkus is designed for cloud-native projects from the start.
-With spring this is also available via link:spring.adoc#spring-native[spring-native].
+With spring this is also available via xref:spring.adoc#spring-native[spring-native].
 Using an application server will effectively prevent you from going to the cloud smoothly.
 * *Fun*
 +

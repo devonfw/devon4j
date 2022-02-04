@@ -19,7 +19,7 @@ For more information about CORS see https://developer.mozilla.org/en-US/docs/Web
 
 == Configuring CORS support
 
-To enable CORS support for your application, see the advanced guides. For Spring applications see link:spring/guide-cors-spring.adoc[here]. For Quarkus follow the https://quarkus.io/guides/http-reference#cors-filter[official Quarkus guide].
+To enable CORS support for your application, see the advanced guides. For Spring applications see xref:*.adoc[*].
 
 == Configuration with service mesh
 

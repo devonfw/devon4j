@@ -3,7 +3,7 @@ toc::[]
 
 == SQL
 
-For general guides on dealing or avoiding SQL, preventing SQL-injection, etc. you should study link:guide-domain-layer.adoc[domain layer].
+For general guides on dealing or avoiding SQL, preventing SQL-injection, etc. you should study xref:guide-domain-layer.adoc[domain layer].
 
 == Naming Conventions
 
@@ -80,4 +80,4 @@ INSERT INTO RESTAURANT_TABLE(ID, MODIFICATION_COUNTER, SEATS) VALUES (8, 1, 8);
 --------
 
 
-See also link:guide-database-migration.adoc[Database Migrations].
+See also xref:guide-database-migration.adoc[Database Migrations].

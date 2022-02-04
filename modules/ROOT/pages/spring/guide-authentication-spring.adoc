@@ -24,7 +24,7 @@ public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ----
 
-As you can see, spring-security offers a fluent API for easy configuration. You can simply add invocations like `formLogin().loginPage("/public/login")` or `httpBasic().realmName("MyApp")`. Also link:guide-security.adoc[CSRF] protection can be configured by invoking `csrf()`.
+As you can see, spring-security offers a fluent API for easy configuration. You can simply add invocations like `formLogin().loginPage("/public/login")` or `httpBasic().realmName("MyApp")`. Also xref:guide-security.adoc[CSRF] protection can be configured by invoking `csrf()`.
 For further details see https://docs.spring.io/spring-security/site/docs/current/reference/html/jc.html#jc-httpsecurity[spring Java-config for HTTP security].
 
 Further, you need to provide an implementation of the https://docs.spring.io/spring-security/site/docs/4.2.x/apidocs/org/springframework/security/core/userdetails/UserDetailsService.html[UserDetailsService] interface.

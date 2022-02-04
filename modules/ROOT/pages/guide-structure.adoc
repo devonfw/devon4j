@@ -10,5 +10,5 @@ If every developer knows where to find what, the project gets more efficient.
 A long time ago maven standardized the project structure with `src/main/java`, etc. and turned chaos into structure.
 With devonfw we experienced the same for the codebase (what is inside `src/main/java`).
 
-We initially started `devon4j` based on spring and spring-boot and proposed a link:guide-structure-classic.adoc[classic project structure].
-With modern cloud-native trends we added a link:guide-structure-modern.adoc[modern project structure], that is more lean and up-to-date with the latest market trends.
+We initially started `devon4j` based on spring and spring-boot and proposed a xref:guide-structure-classic.adoc[classic project structure].
+With modern cloud-native trends we added a xref:guide-structure-modern.adoc[modern project structure], that is more lean and up-to-date with the latest market trends.

@@ -52,5 +52,5 @@ You can also read the JUnit test-case https://github.com/devonfw/devon4j/blob/de
 https://github.com/devonfw/devon4j/blob/develop/starters/starter-spring-data-jpa/src/test/java/com/devonfw/example/component/dataaccess/api/FooRepository.java[FooRepository].
 
 == Auditing
-In case you need link:../guide-auditing.adoc[auditing], you only need to extend `DefaultRevisionedRepository` instead of `DefaultRepository`. The auditing methods can be found in https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/GenericRevisionedRepository.java[GenericRevisionedRepository].
+In case you need xref:*.adoc[*].
 

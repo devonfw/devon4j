@@ -29,7 +29,7 @@ In order to get started with client development as a Java developer we give you 
 |Build cmd |`https://angular.io/cli[ng] build` or `npm run build` (goals are not standardized in npm) |mvn https://maven.apache.org/plugins/maven-install-plugin/usage.html[install] (see https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html[lifecycle])
 |Test cmd  |`https://angular.io/cli[ng] test`|mvn http://maven.apache.org/components/surefire/maven-surefire-plugin/[test]
 
-.3+|link:guide-testing.adoc[Testing]
+.3+|xref:guide-testing.adoc[Testing]
 |Test-Tool |http://jasmine.github.io/[jasmine]|http://junit.org/[junit]
 |Test-Runner|https://karma-runner.github.io/[karma]|http://junit.org/[junit] / http://maven.apache.org/components/surefire/maven-surefire-plugin/[surefire]
 |E2E Testing|https://www.protractortest.org/[Protractor]|http://www.seleniumhq.org/[Selenium]
@@ -42,6 +42,6 @@ In order to get started with client development as a Java developer we give you 
 
 |IDE  |https://code.visualstudio.com/[MS VS Code] or https://www.jetbrains.com/idea/[IntelliJ]|https://eclipse.org/downloads/[Eclipse] or https://www.jetbrains.com/idea/[IntelliJ]
 
-|Framework  |https://angularjs.org/[Angular] (etc.)|link:spring.adoc[Spring] or link:quarkus.adoc[Quarkus]
+|Framework  |https://angularjs.org/[Angular] (etc.)|xref:spring.adoc[Spring] or xref:quarkus.adoc[Quarkus]
 |=======================
 

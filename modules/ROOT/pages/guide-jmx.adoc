@@ -3,7 +3,7 @@ toc::[]
 
 == JMX
 
-https://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html[JMX] (Java Management Extensions) is the official Java link:guide-monitoring.adoc[monitoring] solution.
+https://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html[JMX] (Java Management Extensions) is the official Java xref:guide-monitoring.adoc[monitoring] solution.
 It is part of the JDK.
 Your application may provide monitoring information or receive monitoring related commands via `MBeans`.
 There is a huge amount of information about JMX available.
@@ -13,7 +13,7 @@ Traditionally JMX uses RMI for communication, what is rather a discouraged proto
 In many environments HTTP(S) is preferred, so be careful on deciding if JMX is the right solution.
 However, you can even expose existing JMX MBeans via HTTP(S) instead of RMI.
 Traditionally JMX also allows administrators not only to read data but also to write data typically in order to re-configure the app or do other such related tasks (e.g. clear caches).
-Today, link:guide-configuration.adoc[configuration] and link:guide-monitoring.adoc[monitoring] are clearly separated aspects and should not be mixed.
+Today, xref:guide-configuration.adoc[configuration] and xref:guide-monitoring.adoc[monitoring] are clearly separated aspects and should not be mixed.
 With container technology the ability to re-configure an app as a running process has become an outdated feature.
 Instead, you simply restart the container to apply changes.
 With cloud-native trends and aims for simplification the importance of JMX is continuously dropping.

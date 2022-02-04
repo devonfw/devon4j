@@ -2,7 +2,7 @@
 toc::[]
 
 == SOAP
-https://en.wikipedia.org/wiki/SOAP[SOAP] is a common protocol for link:guide-service-layer.adoc[services] that is rather complex and heavy. It allows to build inter-operable and well specified services (see WSDL). SOAP is transport neutral what is not only an advantage. We strongly recommend to use HTTPS transport and ignore additional complex standards like WS-Security and use established HTTP-Standards such as RFC2617 (and RFC5280).
+https://en.wikipedia.org/wiki/SOAP[SOAP] is a common protocol for xref:guide-service-layer.adoc[services] that is rather complex and heavy. It allows to build inter-operable and well specified services (see WSDL). SOAP is transport neutral what is not only an advantage. We strongly recommend to use HTTPS transport and ignore additional complex standards like WS-Security and use established HTTP-Standards such as RFC2617 (and RFC5280).
 //There is no SOAP example in our application -maybe keep this as a general example?-
 
 == JAX-WS
@@ -47,9 +47,9 @@ public class TablemanagementWebServiceImpl implements TablemanagmentWebService {
 --------
 
 == SOAP Custom Mapping
-In order to map custom link:guide-datatype.adoc[datatypes] or other types that do not follow the Java bean conventions, you need to write adapters for JAXB (see link:guide-xml.adoc[XML]).
+In order to map custom xref:guide-datatype.adoc[datatypes] or other types that do not follow the Java bean conventions, you need to write adapters for JAXB (see xref:guide-xml.adoc[XML]).
 
 == SOAP Testing
-For testing SOAP services in general consult the link:guide-testing.adoc[testing guide].
+For testing SOAP services in general consult the xref:guide-testing.adoc[testing guide].
 
 For testing SOAP services manually we strongly recommend http://www.soapui.org/[SoapUI].

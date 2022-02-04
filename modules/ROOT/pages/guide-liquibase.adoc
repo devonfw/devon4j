@@ -3,14 +3,14 @@ toc::[]
 
 == Liquibase
 
-https://www.liquibase.org/[Liquibase] is a tool for link:guide-database-migration.adoc[database migration and schema versioning].
+https://www.liquibase.org/[Liquibase] is a tool for xref:guide-database-migration.adoc[database migration and schema versioning].
 
 See https://github.com/devonfw/devon4j/issues/303[devon4j#303] for details and status.
 
 == Spring-boot usage
 
-For using liquibase in link:spring.adoc[spring] see https://docs.liquibase.com/tools-integrations/springboot/springboot.html[Using Liquibase with Spring Boot].
+For using liquibase in xref:spring.adoc[spring] see https://docs.liquibase.com/tools-integrations/springboot/springboot.html[Using Liquibase with Spring Boot].
 
 == Quarkus usage
 
-For uisng liquibase in link:quarkus.adoc[quarkus] see https://quarkus.io/guides/liquibase[Using Liquibase].
+For uisng liquibase in xref:quarkus.adoc[quarkus] see https://quarkus.io/guides/liquibase[Using Liquibase].

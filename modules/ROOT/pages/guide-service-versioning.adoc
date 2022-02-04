@@ -3,7 +3,7 @@ toc::[]
 
 == Service-Versioning
 
-This guide describes the aspect and details about versioning of link:guide-service-layer.adoc[services]
+This guide describes the aspect and details about versioning of xref:guide-service-layer.adoc[services]
 
 == Motivation
 Why versioning of services? First of all, you should only care about this topic if you really have to. Service versioning is complex and requires effort (time and budget). The best way to avoid this is to be smart in the first place when designing the service API.
@@ -17,13 +17,13 @@ However, if the following indicators are given you typically need to do service 
 
 What are incompatible changes?
 
-* Almost any change when link:guide-soap.adoc[SOAP] is used (as it changes the WSDL and breaks the contract). Therefore, we recommend to use link:guide-rest.adoc[REST] instead. Then, only the following changes are critical.
+* Almost any change when xref:guide-soap.adoc[SOAP] is used (as it changes the WSDL and breaks the contract). Therefore, we recommend to use xref:guide-rest.adoc[REST] instead. Then, only the following changes are critical.
 * A change where existing properties (attributes) have to change their name
 * A change where existing features (properties, operations, etc.) have to change their semantics (meaning)
 
 What changes do not cause incompatibilities?
 
-* Adding new service operations is entirely uncritical with link:guide-rest.adoc[REST].
+* Adding new service operations is entirely uncritical with xref:guide-rest.adoc[REST].
 * Adding new properties is only a problem in the following cases:
 ** Adding new mandatory properties to the input of a service is causing incompatibilities. This problem can be avoided by contract-design.
 ** If a consumer is using a service to read data, modify it and then save it back via a service and a property is added to the data, then this property might be lost. This is not a problem with dynamic languages such as JavaScript/TypeScript but with strictly typed languages such as Java. In Java you will typically use structured typed transfer-objects (and not `Map<String, Object>`) so new properties that have been added but are not known to the consumer can not be mapped to the transfer-object and will be lost. When saving that transfer-object later the property will be gone. It might be impossible to determine the difference between a lost property and a property that was removed on purpose. This is a general problem that you need to be aware of and that you have to consider by your design in such situations.
@@ -128,7 +128,7 @@ In general anything can be used to differentiate versions of a service. Possibil
 * Sequential version numbers (e.g. `v1`, `v2`, `v3`)
 * Composed version numbers (e.g. `1.0.48-pre-alpha-3-20171231-235959-Strawberry`)
 
-As we are following the KISS principle (see link:architecture.adoc#key-principles[key principles]) we propose to use sequential version numbers. These are short, clear, and easy while still allowing to see what version is after another one. Especially composed version numbers (even `1.1` vs. `2.0`) lead to decisions and discussions that easily waste more time than adding value. It is still very easy to maintain an Excel sheet or release-notes document that is explaining the changes for each version (`v1`, `v2`, `v3`) of a particular service.
+As we are following the KISS principle (see xref:architecture.adoc#key-principles[key principles]) we propose to use sequential version numbers. These are short, clear, and easy while still allowing to see what version is after another one. Especially composed version numbers (even `1.1` vs. `2.0`) lead to decisions and discussions that easily waste more time than adding value. It is still very easy to maintain an Excel sheet or release-notes document that is explaining the changes for each version (`v1`, `v2`, `v3`) of a particular service.
 
 We suggest to always add the version schema to the service URL to be prepared for service versioning even if service versioning is not (yet) actively used. For simplicity it is explicitly stated that you may even do incompatible changes to the current version (typically `v1`) of your service if you can update the according consumers within the same deployment.
 
@@ -144,12 +144,12 @@ The approach for your devon4j project in case of code-first should be as describ
 * Now you have two versions of the same service (e.g. `v1` and `v2`) but so far they behave exactly the same.
 * You start with your actual changes and modify the original files that have been copied before.
 * You will also ensure the links (import statements) of the copied types point to the copies with the version number
-* This will cause incompatibilities (and compile errors) in the copied service. Therefore, you need to fix that service implementation to map from the old API to the new API and behavior. In some cases, this may be easy (e.g. mapping `x.y.z.v1.FooTo` to `x.y.z.FooTo` using link:guide-beanmapping.adoc[bean-mapping] with some custom mapping for the incompatible changes), in other cases this can get very complex. Be aware of this complexity from the start before you make your decision about service versioning.
+* This will cause incompatibilities (and compile errors) in the copied service. Therefore, you need to fix that service implementation to map from the old API to the new API and behavior. In some cases, this may be easy (e.g. mapping `x.y.z.v1.FooTo` to `x.y.z.FooTo` using xref:guide-beanmapping.adoc[bean-mapping] with some custom mapping for the incompatible changes), in other cases this can get very complex. Be aware of this complexity from the start before you make your decision about service versioning.
 * As far as possible this mapping should be done in the service-layer, not to pollute your business code in the core-layer with versioning-aspects. If there is no way to handle it in the service layer, e.g. you need some data from the persistence-layer, implement the "mapping" in the core-layer then, but don't forget to remove this code, when removing the old service version.
 * Finally, ensure that both the old service behaves as before as well as the new service works as planned.
 
 === Modularization
-For modularization, we also follow the KISS principle (see link:architecture.adoc#key-principles[key principles]):
+For modularization, we also follow the KISS principle (see xref:architecture.adoc#key-principles[key principles]):
 we suggest to have one `api` module per application that will contain the most recent version of your service and get released with every release-version of the application. The compatibility code with the versioned packages will be added to the `core` module and therefore is not exposed via the `api` module (because it has already been exposed in the previous release of the app). This way, you can always determine for sure which version of a service is used by another application just by its maven dependencies.
 
 The KISS approach with only a single module that may contain multiple services (e.g. one for each business component) will cause problems when you want to have mixed usages of service versions: You can not use an old version of one service and a new version of another service from the same APP as then you would need to have its API module twice as a dependency on different versions, which is not possible. However, to avoid complicated overhead we always suggest to follow this easy approach. Only if you come to the point that you really need this complexity you can still solve it (even afterwards by publishing another maven artefact). As we are all on our way to build more but smaller applications (SOA, microservices, etc.) we should always start simple and only add complexity when really needed.

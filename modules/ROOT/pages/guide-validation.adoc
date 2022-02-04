@@ -4,8 +4,8 @@ toc::[]
 == Validation
 
 Validation is about checking syntax and semantics of input data. Invalid data is rejected by the application.
-Therefore validation is required in multiple places of an application. E.g. the link:guide-client-layer.adoc[GUI] will do validation for usability reasons to assist the user, early feedback and to prevent unnecessary server requests.
-On the server-side validation has to be done for consistency and link:guide-security.adoc[security].
+Therefore validation is required in multiple places of an application. E.g. the xref:guide-client-layer.adoc[GUI] will do validation for usability reasons to assist the user, early feedback and to prevent unnecessary server requests.
+On the server-side validation has to be done for consistency and xref:guide-security.adoc[security].
 
 In general we distinguish these forms of validation:
 
@@ -47,7 +47,7 @@ __In spring applications you can add the `+@Validated+` annotation to the implem
 
 ** +@Valid+ annotation to the arguments to validate (if that class itself is annotated with constraints to check).
 ** +@NotNull+ for required arguments.
-** Other constraints (e.g. +@Size+) for generic arguments (e.g. of type +String+ or +Integer+). However, consider to create link:guide-datatype.adoc[custom datatypes] and avoid adding too much validation logic (especially redundant in multiple places).
+** Other constraints (e.g. +@Size+) for generic arguments (e.g. of type +String+ or +Integer+). However, consider to create xref:guide-datatype.adoc[custom datatypes] and avoid adding too much validation logic (especially redundant in multiple places).
 
 //Replaced old example with BookingmanagementRestServiceImpl
 //com.devonfw.application.mtsj.bookingmanagement.service.rest

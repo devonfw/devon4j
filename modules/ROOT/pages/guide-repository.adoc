@@ -8,9 +8,9 @@ https://projects.spring.io/spring-data-jpa/[Spring Data JPA] is supported by bot
 The benefits of Spring Data are (for examples and explanations see next sections):
 
 * All you need is one single repository interface for each entity. No need for a separate implementation or other code artifacts like XML descriptors, `NamedQueries` class, etc.
-* You have all information together in one place (the repository interface) that actually belong together (where as in the classic approach you have the static link:guide-jpa-query.adoc[queries] in an XML file, constants to them in `NamedQueries` class and referencing usages in DAO implementation classes).
-* Static link:guide-jpa-query.adoc[queries] are most simple to realize as you do not need to write any method body. This means you can develop faster.
-* Support for paging is already build-in. Again for static link:guide-jpa-query.adoc[query] method the is nothing you have to do except using the paging objects in the signature.
+* You have all information together in one place (the repository interface) that actually belong together (where as in the classic approach you have the static xref:guide-jpa-query.adoc[queries] in an XML file, constants to them in `NamedQueries` class and referencing usages in DAO implementation classes).
+* Static xref:guide-jpa-query.adoc[queries] are most simple to realize as you do not need to write any method body. This means you can develop faster.
+* Support for paging is already build-in. Again for static xref:guide-jpa-query.adoc[query] method the is nothing you have to do except using the paging objects in the signature.
 * Still you have the freedom to write custom implementations via default methods within the repository interface (e.g. for dynamic queries).
 
 == Dependency
@@ -36,7 +36,7 @@ In case you want to switch to or add Spring Data support to your Spring or Quark
 
 == Repository
 For each entity `«Entity»Entity` an interface is created with the name `«Entity»Repository` extending https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html[JpaRepository].
-Such repository is the analogy to a link:guide-dao.adoc[Data-Access-Object (DAO)] used in the classic approach or when Spring Data is not an option.
+Such repository is the analogy to a xref:guide-dao.adoc[Data-Access-Object (DAO)] used in the classic approach or when Spring Data is not an option.
 
 .**Repository**
 [source,java]
@@ -105,9 +105,9 @@ This `ProductRepository` has the following features:
 
 * CRUD support from Spring Data (see https://docs.spring.io/spring-data/data-jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html[JavaDoc] for details).
 * Support for https://github.com/devonfw/devon4j/blob/develop/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/QueryDslSupport.java[QueryDSL integration], https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java[paging and more].
-* A static link:guide-jpa-query.adoc[query] method `findByTitle` to find all `ProductEntity` instances from DB that have the given title. Please note the `@Param` annotation that links the method parameter with the variable inside the query (`:title`).
+* A static xref:guide-jpa-query.adoc[query] method `findByTitle` to find all `ProductEntity` instances from DB that have the given title. Please note the `@Param` annotation that links the method parameter with the variable inside the query (`:title`).
 * The same with pagination support via findByTitlePaginated method.
-* A dynamic link:guide-jpa-query.adoc[query] method `findByCriteria` showing the QueryDSL and paging integration into Spring via a fragment implementation.
+* A dynamic xref:guide-jpa-query.adoc[query] method `findByCriteria` showing the QueryDSL and paging integration into Spring via a fragment implementation.
 
 You can find an implementation of this `ProductRepository` in our https://github.com/devonfw-sample/devon4quarkus-reference/tree/master/src/main/java/com/devonfw/quarkus/productmanagement/domain/repo[Quarkus reference application].
 

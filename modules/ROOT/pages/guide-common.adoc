@@ -3,7 +3,7 @@ toc::[]
 
 == Common
 
-In our link:coding-conventions.adoc[coding-conventions] we define a clear link:coding-conventions.adoc#packages[packaging] and link:coding-conventions.adoc#layers[layering].
+In our xref:coding-conventions.adoc[coding-conventions] we define a clear xref:coding-conventions.adoc#packages[packaging] and xref:coding-conventions.adoc#layers[layering].
 However, there is always cross-cutting code that does not belong to a specific layer such as generic helpers, general code for configuration or integration, etc.
 Therefore, we define a package segment `common` that can be used as `«layer»` for such cross-cutting code.
 Code from any other layer is allowed to access such `common` code (at least within the same component).

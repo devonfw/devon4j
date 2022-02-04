@@ -10,10 +10,10 @@ For messaging you need to choose a JMS provider such as:
 
 * https://www.rabbitmq.com/[RabbitMQ]
 * https://activemq.apache.org[ActiveMQ]
-* link:guide-oracle.adoc#messaging[Oracle Advanced Queuing] (esp. if you already use link:guide-oracle.adoc[Oracle RDBMS])
+* xref:guide-oracle.adoc#messaging[Oracle Advanced Queuing] (esp. if you already use xref:guide-oracle.adoc[Oracle RDBMS])
 
 == Receiver
-As a receiver of messages is receiving data from other systems it is located in the link:guide-service-layer.adoc[service-layer].
+As a receiver of messages is receiving data from other systems it is located in the xref:guide-service-layer.adoc[service-layer].
 
 === JMS Listener
 A `JmsListener` is a class listening and consuming JMS messages. It should carry the suffix `JmsListener` and implement the `MessageListener` interface or have its listener method annotated with `@JmsListener`. This is illustrated by the following example:
@@ -44,7 +44,7 @@ public class BookingJmsListener /* implements MessageListener */ {
 
 == Sender
 
-The sending of JMS messages is considered as any other sending of data like link:guide-kafka.adoc[kafka] messages or RPC calls via link:guide-rest.adoc[REST] using link:guide-service-client.adoc[service-client], gRPC, etc.
-This will typically happen directly from a link:guide-usecase.adoc[use-case] in the link:guide-logic-layer.adoc[logic-layer].
+The sending of JMS messages is considered as any other sending of data like xref:guide-kafka.adoc[kafka] messages or RPC calls via xref:guide-rest.adoc[REST] using xref:guide-service-client.adoc[service-client], gRPC, etc.
+This will typically happen directly from a xref:guide-usecase.adoc[use-case] in the xref:guide-logic-layer.adoc[logic-layer].
 However, the technical complexity of the communication and protocols itself shall be hidden from the use-case and not be part of the logic layer.
 With spring we can simply use https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jms/core/JmsTemplate.html[JmsTemplate] to do that.

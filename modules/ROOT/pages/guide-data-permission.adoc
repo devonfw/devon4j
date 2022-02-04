@@ -29,7 +29,7 @@ protected void verifyPermission(SecurityDataPermissionCountry entity) throws Acc
 ----
 
 === Beware of AOP
-For simple but cross-cutting data-permissions you may also use link:guide-aop.adoc[AOP]. This leads to programming aspects that reflectively scan method arguments and magically decide what to do. Be aware that this quickly gets tricky:
+For simple but cross-cutting data-permissions you may also use xref:guide-aop.adoc[AOP]. This leads to programming aspects that reflectively scan method arguments and magically decide what to do. Be aware that this quickly gets tricky:
 
 * What if multiple of your method arguments have data-permissions (e.g. implement `SecurityDataPermission*`)?
 * What if the object to authorize is only provided as reference (e.g. `Long` or `IdRef`) and only loaded and processed inside the implementation where the AOP aspect does not apply?
@@ -164,7 +164,7 @@ public class PermissionCheckerAdvisor implements PointcutAdvisor, Pointcut, Clas
 }
 ----
 == Managing and granting the data-permissions
-Following our link:guide-access-control.adoc#authorization[authorization guide] we can simply create a permission for each country. We might simply reserve a prefix (as virtual `«app-id»`) for each data-permission to allow granting data-permissions to end-users across all applications of the IT landscape. In our example we could create access controls `country.DE`, `country.US`, `country.ES`, etc. and assign those to the users. The method `permissionChecker.getPermittedCountriesForReading()` would then scan for these access controls and only return the 2-letter country code from it.
+Following our xref:guide-access-control.adoc#authorization[authorization guide] we can simply create a permission for each country. We might simply reserve a prefix (as virtual `«app-id»`) for each data-permission to allow granting data-permissions to end-users across all applications of the IT landscape. In our example we could create access controls `country.DE`, `country.US`, `country.ES`, etc. and assign those to the users. The method `permissionChecker.getPermittedCountriesForReading()` would then scan for these access controls and only return the 2-letter country code from it.
 
 CAUTION: Before you make your decisions how to design your access controls please clarify the following questions:
 

@@ -10,7 +10,7 @@ The listings above the tables show the functions/extensions of the applications 
 .**Application 1:**
 * LOC (without automatically generated classes)
 ** Quarkus: ~4600
-** Spring: ~7700 (separated into api and core module, as described for the link:guide-structure-classic.adoc[classic project structure]; api: ~3800, core: 3900)
+** Spring: ~7700 (separated into api and core module, as described for the xref:guide-structure-classic.adoc[classic project structure]; api: ~3800, core: 3900)
 * Features
 ** 3 entitites
 ** REST service

@@ -364,7 +364,7 @@ To use it add a dependency to the devon4j-starter-security-jwt:
 </dependency>
 -----
 
-The authentication via JWT needs some configuration, e.g. a keystore to verify the token signature. This is explained in the link:../guide-jwt.adoc[JWT  documentation].
+The authentication via JWT needs some configuration, e.g. a keystore to verify the token signature. This is explained in the xref:*.adoc[*].
 
 To secure a message listener with jwt add the `@JwtAuthentication`:
 

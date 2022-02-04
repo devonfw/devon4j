@@ -43,7 +43,7 @@ We will create the project there.
 Quarkus provides multiple ways to bootstrap a project.
 The option to bootstrap a project via the command-line will be shown in the Quarkus getting started guide https://quarkus.io/guides/getting-started#bootstrapping-the-project[Bootstrap the project].
 Quarkus also provides a project builder where you can select some extensions, the build tool for your project, and if you want some starter code.
-This will deliver a project skeleton with the configured project dependencies and also contributes the information to compile the application natively. To get some recommendations on starter templates follow this guide link:guide-template.adoc[templates recommendations].
+This will deliver a project skeleton with the configured project dependencies and also contributes the information to compile the application natively. To get some recommendations on starter templates follow this guide xref:guide-template.adoc[templates recommendations].
 
 [NOTE]
 ====
@@ -63,7 +63,7 @@ Before we start programming you should have a first look at the functionality of
 . https://quarkus.io/guides/getting-started[Getting started guide from Quarkus] + 
 The guide is a good functionality overview, it shows with a simple **Greeting Service** a brief introduction into the concepts like CDI, testing, dev mode, packaging and running the app.  
 . From Spring to Quarkus +
-For experienced Spring developers that have already followed devon4j guidelines, you can read our guide to link:getting-started-for-spring-developers.adoc[getting started with Quarkus for Spring developer], as it goes more into the differences that can give you a more detailed comparison to Spring.
+For experienced Spring developers that have already followed devon4j guidelines, you can read our guide to xref:getting-started-for-spring-developers.adoc[getting started with Quarkus for Spring developer], as it goes more into the differences that can give you a more detailed comparison to Spring.
 .. Migrate a Spring app to Quarkus + 
 This guide shows, how to link:../guide-migration-spring-quarkus.adoc[migrate a Spring application to a Quarkus application with devon4j conventions]. 
 
@@ -151,7 +151,7 @@ We will give you some guidelines to implement some test cases.
 . General testing guide + 
 For users that aren't familiar with the devon4j testing principles, we created a general link:../guide-testing.adoc[best practices and recommendations guide for testing].
 .. Our guide for testing with Quarkus
-In addition, we also provide a guide that specifically addresses the link:guide-for-testing.adoc[testing of a Quarkus application].
+In addition, we also provide a guide that specifically addresses the xref:guide-for-testing.adoc[testing of a Quarkus application].
   
 Most of the Quarkus applications are already equipped with a basic Test and also our https://github.com/devonfw-sample/devon4quarkus-reference[reference project] provides some test cases, if you want to improve and extends the tests, you can also follow the large https://quarkus.io/guides/getting-started-testing[Quarkus guide for testing]. 
 
@@ -164,7 +164,7 @@ Quarkus applications can be packed into different types. The following link will
 . https://quarkus.io/guides/maven-tooling#fast-jar[fast-jar]
 . https://quarkus.io/guides/maven-tooling#remote-development-mode[mutable-jar]
 . https://quarkus.io/guides/maven-tooling#uber-jar-maven[uber-jar]
-. link:guide-native-image.adoc[native executable]
+. xref:guide-native-image.adoc[native executable]
 
 To pack an application use the command `mvn package` and Quarkus will generate the output in the **/target** folder. For the native executables, the command needs more parameters but this is explained in the link above.
 

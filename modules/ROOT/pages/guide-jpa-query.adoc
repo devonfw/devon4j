@@ -4,7 +4,7 @@ toc::[]
 == Queries
 The http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[Java Persistence API (JPA)] defines its own query language, the https://docs.oracle.com/html/E13946_01/ejb3_langref.html[_java persistence query language_ (JPQL)] (see also https://docs.oracle.com/javaee/7/tutorial/persistence-querylanguage.htm[JPQL tutorial]), which is similar to SQL but operates on entities and their attributes instead of tables and columns.
 
-The simplest CRUD-Queries (e.g. find an entity by its ID) are already build in the devonfw CRUD functionality (via link:guide-repository.adoc[Repository] or link:guide-dao.adoc[DAO]). For other cases you need to write your own query. We distinguish between _static_ and _dynamic_ queries. xref:static-queries[Static queries] have a fixed JPQL query string that may only use parameters to customize the query at runtime. Instead, xref:dynamic-queries[dynamic queries] can change their clauses (`WHERE`, `ORDER BY`, `JOIN`, etc.) at runtime depending on the given search criteria.
+The simplest CRUD-Queries (e.g. find an entity by its ID) are already build in the devonfw CRUD functionality (via xref:guide-repository.adoc[Repository] or xref:guide-dao.adoc[DAO]). For other cases you need to write your own query. We distinguish between _static_ and _dynamic_ queries. xref:static-queries[Static queries] have a fixed JPQL query string that may only use parameters to customize the query at runtime. Instead, xref:dynamic-queries[dynamic queries] can change their clauses (`WHERE`, `ORDER BY`, `JOIN`, etc.) at runtime depending on the given search criteria.
 
 == Static Queries
 E.g. to find all https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/dishmanagement/dataaccess/api/DishEntity.java[DishEntries] (from MTS sample app) that have a price not exceeding a given `maxPrice` we write the following JPQL query:
@@ -15,7 +15,7 @@ SELECT dish FROM DishEntity dish WHERE dish.price <= :maxPrice
 Here `dish` is used as alias (variable name) for our selected `DishEntity` (what refers to the simple name of the Java entity class). With `dish.price` we are referring to the Java property `price` (`getPrice()`/`setPrice(...)`) in `DishEntity`. A named variable provided from outside (the search criteria at runtime) is specified with a colon (`:`) as prefix. Here with `:maxPrice` we reference to a variable that needs to be set via `query.setParameter("maxPrice", maxPriceValue)`. JPQL also supports indexed parameters (`?`) but they are discouraged because they easily cause confusion and mistakes.
 
 === Using Queries to Avoid Bidirectional Relationships 
-With the usage of queries it is possible to avoid exposing relationships or modelling bidirectional relationships, which have some disadvantages (see link:guide-jpa.adoc#relationships[relationships]). This is especially desired for relationships between entities of different business components.
+With the usage of queries it is possible to avoid exposing relationships or modelling bidirectional relationships, which have some disadvantages (see xref:guide-jpa.adoc#relationships[relationships]). This is especially desired for relationships between entities of different business components.
 So for example to get all https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/ordermanagement/dataaccess/api/OrderLineEntity.java[OrderLineEntities] for a specific https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/ordermanagement/dataaccess/api/OrderEntity.java[OrderEntity] without using the `orderLines` relation from `OrderEntity` the following query could be used:
 [source,sql]
 ----
@@ -63,7 +63,7 @@ For flexible queries it is often required to allow wildcards (especially in xref
 == Pagination
 When dealing with large amounts of data, an efficient method of retrieving the data is required. Fetching the entire data set each time would be too time consuming. Instead, __Paging__ is used to process only small subsets of the entire data set.
 
-If you are using link:guide-repository.adoc[Spring Data repositories] you will get pagination support out of the box by providing the interfaces https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html[Page] and  https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html[Pageable]:
+If you are using xref:guide-repository.adoc[Spring Data repositories] you will get pagination support out of the box by providing the interfaces https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html[Page] and  https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html[Pageable]:
 
 .**repository**
 [source,java]

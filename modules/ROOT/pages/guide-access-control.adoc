@@ -2,7 +2,7 @@
 toc::[]
 
 == Access-Control
-Access-Control is a central and important aspect of link:guide-security.adoc[Security]. It consists of two major aspects:
+Access-Control is a central and important aspect of xref:guide-security.adoc[Security]. It consists of two major aspects:
 
 * xref:Authentication[] (Who tries to access?)
 * xref:Authorization[] (Is the one accessing allowed to do what he wants to do?)
@@ -19,11 +19,11 @@ To prove the authenticity, the user provides some secret called _credentials_. T
 === Implementations
 NOTE: Please never implement your own authentication mechanism or credential store. You have to be aware of implicit demands such as salting and hashing credentials, password life-cycle with recovery, expiry, and renewal including email notification confirmation tokens, central password policies, etc. This is the domain of access managers and identity management systems. In a business context you will typically already find a system for this purpose that you have to integrate (e.g. via LDAP). Otherwise you should consider establishing such a system e.g. using http://keycloak.org[keycloak].
 
-We recommend using link:guide-jwt.adoc[JWT] when possible. For KISS, also try to avoid combining multiple authentication mechanisms (form based, basic-auth, SAMLv2, OAuth, etc.) within the same application (for different URLs).
+We recommend using xref:guide-jwt.adoc[JWT] when possible. For KISS, also try to avoid combining multiple authentication mechanisms (form based, basic-auth, SAMLv2, OAuth, etc.) within the same application (for different URLs).
 
-For link:spring.adoc[spring], check the link:spring/guide-authentication-spring.adoc[Spring Security]
+For xref:spring.adoc[spring], check the link:spring/guide-authentication-spring.adoc[Spring Security]
 
-For link:quarkus.adoc[quarkus], check the link:quarkus/guide-authentication-quarkus.adoc[Quarkus Authentication]
+For xref:quarkus.adoc[quarkus], check the link:quarkus/guide-authentication-quarkus.adoc[Quarkus Authentication]
 
 == Authorization
 
@@ -207,7 +207,7 @@ A further read about the whole concept of Spring Security Authorization can be f
 Quarkus comes with built-in security to allow for RBAC based on the common security annotations `@RolesAllowed`, `@DenyAll`, `@PermitAll` on REST endpoints and CDI beans. Quarkus also provides the `io.quarkus.security.Authenticated` annotation that will permit any authenticated user to access the resource (equivalent to @RolesAllowed("**")).
 
 === Data-based Permissions
-See link:guide-data-permission.adoc[data permissions]
+See xref:guide-data-permission.adoc[data permissions]
 
 === Access Control Schema (deprecated)
-The `access-control-schema.xml` approach is deprecated. The documentation can still be found in link:guide-access-control-schema.adoc[access control schema].
+The `access-control-schema.xml` approach is deprecated. The documentation can still be found in xref:guide-access-control-schema.adoc[access control schema].

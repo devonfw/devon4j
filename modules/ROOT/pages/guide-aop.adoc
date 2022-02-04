@@ -15,11 +15,11 @@ We follow these principles:
 == AOP Usage
 We recommend to use AOP with care but we consider it established for the following cross cutting concerns:
 
-* link:guide-transactions.adoc[Transaction-Handling]
-* link:guide-security.adoc#method-authorization[Authorization]
-* link:guide-validation.adoc[Validation]
-* link:guide-logging.adoc#tracing[Trace-Logging] (for testing and debugging)
-* Exception facades for link:guide-service-layer.adoc[services] but only if no other solution is possible (use alternatives such as link:guide-service-layer.adoc#rest-exception-handling[JAX-RS provider] instead).
+* xref:guide-transactions.adoc[Transaction-Handling]
+* xref:guide-security.adoc#method-authorization[Authorization]
+* xref:guide-validation.adoc[Validation]
+* xref:guide-logging.adoc#tracing[Trace-Logging] (for testing and debugging)
+* Exception facades for xref:guide-service-layer.adoc[services] but only if no other solution is possible (use alternatives such as xref:guide-service-layer.adoc#rest-exception-handling[JAX-RS provider] instead).
 
 == AOP Debugging
 //Exchange picture with one of the current version?

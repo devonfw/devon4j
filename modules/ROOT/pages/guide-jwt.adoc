@@ -3,7 +3,7 @@ toc::[]
 
 == JWT
 
-https://jwt.io[JWT] (JSON Web Token) is an open standard (see https://tools.ietf.org/html/rfc7519[RFC 7519]) for creating link:guide-json.adoc[JSON] based access tokens that assert some number of claims.
+https://jwt.io[JWT] (JSON Web Token) is an open standard (see https://tools.ietf.org/html/rfc7519[RFC 7519]) for creating xref:guide-json.adoc[JSON] based access tokens that assert some number of claims.
 With an IT landscape divided into multiple smaller apps you want to avoid coupling all those apps or services tightly with your IAM (Identity & Access Management).
 Instead your apps simply expects a JWT as https://oauth.net/2/bearer-tokens/[bearer-token] in the `Authorization` HTTP header field.
 All it needs to do for authentication is validating this JWT.
@@ -13,5 +13,5 @@ Create a keypair per environment and keep the private key as a secret only known
 Your apps only need to know the public key in order to validate the JWT.
 Any request without a JWT or with an invalid JWT will be rejected (with status code `401`).
 
-When using link:spring.adoc[spring] check the link:spring/guide-jwt-spring.adoc[JWT Spring-Starter].
-For link:quarkus.adoc[quarkus] follow https://quarkus.io/guides/security-jwt[Using JWT RBAC].
+When using xref:spring.adoc[spring] check the link:spring/guide-jwt-spring.adoc[JWT Spring-Starter].
+For xref:quarkus.adoc[quarkus] follow https://quarkus.io/guides/security-jwt[Using JWT RBAC].

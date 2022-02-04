@@ -15,7 +15,7 @@ For exceptions we follow these principles:
 * Our own exceptions derive from an exception base class supporting
 ** http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/exception/api/NlsRuntimeException.html#getUuid%28%29[unique ID per instance]
 ** http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/exception/api/NlsRuntimeException.html#getCode%28%29[Error code per class]
-** http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/exception/api/NlsThrowable.html#getNlsMessage%28%29[message templating] (see link:guide-i18n.adoc[I18N])
+** http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/exception/api/NlsThrowable.html#getNlsMessage%28%29[message templating] (see xref:guide-i18n.adoc[I18N])
 ** http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/exception/api/NlsRuntimeException.html#isForUser%28%29[distinguish between _user exceptions_ and _internal exceptions_]
 
 All this is offered by http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/exception/api/package-summary.html#documentation[mmm-util-core] that we propose as solution.
