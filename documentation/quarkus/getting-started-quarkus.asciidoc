@@ -5,8 +5,8 @@ This guide serves as a quickstart on how to create a Quarkus app, briefly presen
 
 == Introduction to Quarkus 
 
-To get a first introduction to Quarkus, you can read the link:../quarkus.asciidoc[Quarkus introduction guide]. To get a brief overview of where you can find the important Quarkus related guides, follow the chapter link:../quarkus.asciidoc#guide-to-the-reader[guide to the reader].
-Also, see the comparison of the link:../quarkus.asciidoc#Pros[advantages] and link:../quarkus.asciidoc#cons[disadvantages] of a Quarkus application compared to the alternative framework Spring.
+To get a first introduction to Quarkus, you can read the link:https://devonfw.com/website/pages/docs/quarkus.asciidoc.html[Quarkus introduction guide]. To get a brief overview of where you can find the important Quarkus related guides, follow the chapter link:https://devonfw.com/website/pages/docs/quarkus.asciidoc_guide-to-the-reader.html[guide to the reader].
+Also, see the comparison of the link:https://devonfw.com/website/pages/docs/devon4j.wiki_quarkus.asciidoc_pros_2.html[advantages] and link:https://devonfw.com/website/pages/docs/devon4j.wiki_quarkus.asciidoc_cons_4.html[disadvantages] of a Quarkus application compared to the alternative framework Spring.
 This comparison will be supported by our link:../performance-comparison-spring-quarkus.asciidoc[performance comparison between Spring and Quarkus], which demonstrates the lower resource consumption and startup time of Quarkus applications.
 
 
@@ -43,7 +43,7 @@ We will create the project there.
 Quarkus provides multiple ways to bootstrap a project.
 The option to bootstrap a project via the command-line is shown in the Quarkus getting started guide https://quarkus.io/guides/getting-started#bootstrapping-the-project[Bootstrap the project].
 Quarkus also provides a project builder where you can select some extensions, the build tool for your project, and if you want, some starter code.
-This will deliver a project skeleton with the configured project dependencies and also contributes the information to compile the application natively. To get some recommendations on starter templates, follow the guide on: link:guide-template.asciidoc[template recommendations].
+This will deliver a project skeleton with the configured project dependencies and also contributes the information to compile the application natively. To get some recommendations on starter templates, follow the guide on: link:https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides_2.html#quarkus-template.asciidoc[template recommendations].
 
 [NOTE]
 ====
@@ -52,7 +52,7 @@ By creating a Quarkus project from the command-line or with the project builder,
 
 === Project Structure
 
-We provide a recommendation and guideline for a link:../guide-structure-modern.asciidoc[modern project structure] to help organize your project into logically related modules.
+We provide a recommendation and guideline for a link:https://devonfw.com/website/pages/docs/guide-structure-modern.asciidoc.html[modern project structure] to help organize your project into logically related modules.
 In order to comply with the requirements of modern cloud development and microservice architectures, follow the guide and apply the modern project structure to your project. You can also find similar modules in our example projects.
 
 
@@ -65,7 +65,7 @@ This guide presents a good overview of the functionality of Quarkus. The simple 
 . From Spring to Quarkus +
 For experienced Spring developers that have already followed devon4j guidelines, you can read our guide to link:getting-started-for-spring-developers.asciidoc[getting started with Quarkus for Spring developer], as it goes more into the differences that can give you a more detailed comparison to Spring.
 .. Migrate a Spring app to Quarkus + 
-This guide shows how to link:../guide-migration-spring-quarkus.asciidoc[migrate a Spring application to a Quarkus application with devon4j conventions]. 
+This guide shows how to link:https://devonfw.com/website/pages/docs/guide-migration-spring-quarkus.asciidoc.html[migrate a Spring application to a Quarkus application with devon4j conventions]. 
 
 
 == Create a REST service
@@ -137,7 +137,7 @@ For schema-based databases, we recommend migrating databases with Flyway.
 In that case, our link:../guide-database-migration.asciidoc[general migration guide] can give you an overview if you are not familiar with migration.
 .. Flyway guide for Quarkus
 This Quarkus guide will show how to work with the https://quarkus.io/guides/flyway[Flyway extension in a Quarkus application].
-This should be used if you start your own database and do not leave the creation to quarkus.
+This should be used if you start your own database and do not leave the creation to Quarkus.
 
 
 == Testing a Quarkus Application 

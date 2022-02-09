@@ -31,7 +31,7 @@ In addition to `java` and `resources`, we also add `helm` for helm templates and
 
 For modern projects, we strongly recommend that your build process generates the final deliverable as an OCI compliant container.
 Further, to go fully cloud-native, you should build your app as a native image via https://www.graalvm.org/[GraalVM] AOT compiler.
-Therefore, we recommed to use https://quarkus.io/[quarkus] as your main framework.
+Therefore, we recommed to use https://quarkus.io/[Quarkus] as your main framework.
 In case you want to go with spring, you may consider using https://github.com/spring-projects-experimental/spring-native[spring-native].
 
 == Layers

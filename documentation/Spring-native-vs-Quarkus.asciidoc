@@ -100,10 +100,7 @@ Although Quarkus has been released to a stable release in early 2021, it has bee
 With major stakeholders behind the open source community like Red Hat, its development and growth from its kickoff to the current state is very impressive and really shows the market needs and focus.
 Another big advantage of Quarkus is that it started on a green field and therefore did not need to circumvent main pillars of the spring framework like reflection, being able to take clean and up-to-date design decisions not needing to cope with legacy issues.
 Nonetheless, there is a experimental support also for some spring libraries already available in Quarkus, which make switching from spring to Quarkus much more easier if needed.
-We also provide a link:quarkus/getting-started-for-spring-developers.asciidoc[guide
-for Spring developers] who want to adopt or try Quarkus for their
-(next) projects as it really has some gamechanging advantages over
-Spring.
+We also provide a link:https://devonfw.com/website/pages/docs/guide-migration-spring-quarkus.asciidoc.html[guide for Spring developers] who want to adopt or try Quarkus for their (next) projects as it really has some gamechanging advantages over Spring.
 
 == General recommendations and conclusion
 

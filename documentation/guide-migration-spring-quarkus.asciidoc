@@ -9,7 +9,7 @@ This guide will focus more on the devon4j specific aspects. We assume that a wor
 == Create the Quarkus application
 
 We start with an empty Quarkus project. You can create the project with Maven on the command line or use the https://code.quarkus.io/[online generator]. The advantage of the online generator is that you have a pre-selection of dependencies to use in your project.
-For starters, let's select the basic dependencies required to develop a REST service with database connectivity (you can use one of the links in the link:quarkus/quarkus-template.asciidoc[Quarkus template guide]): __RESTEasy JAX-RS, RESTEasy Jackson, Hibernate ORM, Spring Data JPA API, JDBC Driver (choose the type of database you need), Flyway (if you have database migration schemas), SmallRye Health (optional for Health Monitoring)__
+For starters, let's select the basic dependencies required to develop a REST service with database connectivity (you can use one of the links in the link:https://devonfw.com/website/pages/docs/devon4j.wiki_devon4j.asciidoc_guides_2.html#quarkus-template.asciidoc[Quarkus template guide]): __RESTEasy JAX-RS, RESTEasy Jackson, Hibernate ORM, Spring Data JPA API, JDBC Driver (choose the type of database you need), Flyway (if you have database migration schemas), SmallRye Health (optional for Health Monitoring)__
 
 The list does not include all required dependencies. We will add more dependencies to the project later. For now, generate the application with these dependencies.
 

@@ -37,7 +37,7 @@ When you want to start with Jakarta EE you should use these dependencies to get 
 </dependency>
 ----
 
-Please note that with link:quarkus.asciidoc[quarkus] you will get them as transitive dependencies out of the box.
+Please note that with link:quarkus.asciidoc[Quarkus] you will get them as transitive dependencies out of the box.
 The above Jakarate EE dependencies replace these JEE depdencies:
 
 [source, xml]

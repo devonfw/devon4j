@@ -4,7 +4,7 @@ toc::[]
 = Spring
 
 https://spring.io[Spring] is the most famous and established Java framework.
-It is fully supported by https://devonfw.com[devonfw] as an option and alternative to link:quarkus.asciidoc[quarkus].
+It is fully supported by https://devonfw.com[devonfw] as an option and alternative to link:quarkus.asciidoc[Quarkus].
 
 == Guide to the Reader
 
@@ -40,7 +40,7 @@ Spring has the following drawbacks:
 * *history and legacy* +
 Due to the pro of its long established history, spring also carries a lot of legacy. As a result there are many ways to do the same thing while some options may be discouraged. Developers needs some guidance (e.g. via devon4j) as they may enter pitfalls and dead-ends when choosing the first solution they found on google or stackoverflow.
 * *lost lead in cloud-native* +
-While for the last decades spring was leading innovation in Java app development, it seems that with the latest trends and shift such as cloud-native, they have been overtaken by frameworks like link:quarkus.asciidoc[quarkus]. However, spring is trying to catch up with xref:spring-native[spring-native].
+While for the last decades spring was leading innovation in Java app development, it seems that with the latest trends and shift such as cloud-native, they have been overtaken by frameworks like link:quarkus.asciidoc[Quarkus]. However, spring is trying to catch up with xref:spring-native[spring-native].
 
 == Spring-Boot
 
