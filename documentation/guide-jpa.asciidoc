@@ -114,7 +114,20 @@ Using the Aliases API of QueryDSL might result in an `InvalidDataAccessApiUsageE
 . Make sure, that all your custom types used in entities provide a non-argument constructor with at least visibility level `protected`.
 
 === Primary Keys
-We only use simple Long values as primary keys (IDs). By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`). This is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` within the link:guide-structure-classic.asciidoc#architecture-mapping[classic project structure] respectively `com.devonfw.<projectName>.general.domain.model.AbstractPersistenceEntity` within the link:guide-structure-modern.asciidoc#architecture-mapping[modern project structure], that you can extend.
+We only use simple Long values as primary keys (IDs).
+By default it is auto generated (`@GeneratedValue(strategy=GenerationType.AUTO)`).
+This is already provided by the class `com.devonfw.<projectName>.general.dataaccess.api.AbstractPersistenceEntity` within the link:guide-structure-classic.asciidoc#architecture-mapping[classic project structure] respectively `com.devonfw.<projectName>.general.domain.model.AbstractPersistenceEntity` within the link:guide-structure-modern.asciidoc#architecture-mapping[modern project structure], that you can extend.
+
+The reason for this recommendation is simply because using a number (`Long`) is the most efficient representation for the database.
+You may also consider to use other types like `String` or `UUID` or even composite custom datatypes and this is technically possible.
+However, please consider that the primary key is used to lookup the row from the database table, also in foreign keys and thus in JOINs.
+Please note that your project sooner or later may reach some complexity where performance really matters.
+Working on big data and performing JOINs when using types such as `String` (`VARCHAR[2]`) as primary and foreign keys will kill your performance.
+You are still free to make a different choice and devonfw only gives recommendations but does not want to dictate you what to do.
+However, you have been warned about the concequences.
+If you are well aware of what you are doing, you can still use differnet types of primary keys.
+In such case, create your own entity not extending `AbstractPersistenceEntity` or create your own copy of `AbstractPersistenceEntity` with a different name and a different type of primary key.
+
 In case you have business oriented keys (often as `String`), you can define an additional property for it and declare it as unique (`@Column(unique=true)`).
 Be sure to include "AUTO_INCREMENT" in your sql table field ID to be able to persist data (or similar for other databases).
 
