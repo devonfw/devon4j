@@ -1,0 +1,129 @@
+:toc: macro
+toc::[]
+:idprefix:
+:idseparator: -
+
+= 12-factor-app with devon4j
+
+This document mainly focuses on discussing how can you create 12 factor app with devon4j. To know more about this 12 factors you can refer https://12factor.net/[here] . Twelve factor is mainly focus on creating cloud native applications. These are the guidelines on what factors you need to consider in different stages of application lifecycle.
+
+== Codebase
+
+*One codebase tracked in revision control, many deploys*
+
+First factor to consider while creating cloud native application is 1 codebase = 1 application = 1 process. 
+
+Traditionally we are used to develop and maintain monolithic applications but with this movement to cloud, you should consider breaking your application into multiple microservices. 
+To satisfy this factor consider creating one git/code repository for 1 process.
+
+== Dependencies
+
+*Explicitly declare and isolate dependencies*
+
+A twelve-factor app never relies on implicit existence of system-wide packages. It should explicitly declare and isolate dependencies. This is required to make repeatable deployments of an app without building it again and again.
+
+devon4j application is a maven project so we declare dependencies in pom.xml. For isolation of dependencies we should containerize an application.It will isolate application environment from rest of the environment.
+
+== Config
+
+*Store config in the environment*
+
+What is configuration?
+
+* Resource handles to database or other backing services
+* Credential to external sources
+* Anything that will vary between different deploys like in dev, test, staging and prod.
+
+Never ever hardcode this configurations into code or do not put it in config files. This is because config files are also bundled with source code and this values will change depending on which environment you want to deploy your application. 
+This factor has to be considered while designing/implementing your project. Consider reading actual value of property from environment variables.
+This will allow you to build application once and deploy it many times.
+
+[[img-config]]
+.Read config from environent variables
+image::images/12-factor-app-config.JPG["Config from env variables",scaledwidth="50%",align="center"]
+
+As shown in above image, default value of logging level is INFO but in case I want to change it to debug in test environment to analyze some issue then I do not need to change it into the code or in yaml file. Instead I can change value of environment variable SPRING_LOG_LEVEL to debug.
+
+== Backing services
+
+*Treat backing services as attached resources*
+
+This factor also needs to be taken care by project in designing/implementation phase. Treat your local services also as resource. Access services through URL and never locally.You can store the locator in config files and resource location can be changed as per your requirement. Consider using CNAME etc.
+
+== Build, release, run
+
+*Strictly separate build and run stages*
+
+* Build: In this stage executable bundle will be created. This is generally called by developer.
+* Release: In this stage executable will be combined with config in execution environment.
+* Run: In this stage we run application from release created above in execution environment. And generally, we do have different release number each time we create a new    release. It can be minor or major version changes. Once release is done this can be triggered automatically. 
+
+Project can consider making build, release and run processes automated by using CI or devops tools. This will help for increasing agiity and continuous deployment.
+
+== Processes
+
+*Execute the app as one or more stateless processes*
+
+Stateful container store state in local disk or local memory. Workload ends up tied to a particular host that has state data. (antipattern)
+Twelve-factor processes are stateless and shares nothing.Any data that needs to persist must be stored in stateful backing service typically database.Twelve-factor never assumes that anything which is cached will be available on future jobs.Sticky session is violation of 12 factor app and should never be used.Session state data is a good candidate for a datastore that offers time-expiration such as Memcached/Redis.
+
+Having stateless application will help you design for failur and platform can handle it for your application like spinning up new node if some node goes down etc
+
+
+You can refer to stateless programming guide in devon4j https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_coding-conventions.asciidoc.html#devonfw-guide_devon4j.wiki_coding-conventions.asciidoc_stateless-programming[here]
+
+== Port bindings
+
+*Export services via port binding*
+
+The twelve-factor app is completely self-contained and does not rely on runtime injection of a webserver into the execution environment to create a web-facing service. The web app exports HTTP as a service by binding to a port, and listening to requests coming in on that port.
+the port-binding approach means that one app can become the backing service for another app, by providing the URL to the backing app as a resource handle in the config for the consuming app.
+Use url like api/user etc instead of localhost:8080/api/user and port handling should be done at Load balancer level.
+
+== Concurrency
+
+*Scale out via the process model*
+
+[[img-concurrency]]
+.Concurrency
+image::images/12-factor-app-processes.JPG["Concurrency",scaledwidth="50%",align="center"]
+
+Processes in the twelve-factor app take strong cues from the unix process model for running service daemons. Using this model, the developer can architect their app to handle diverse workloads by assigning each type of work to a process type.
+The process model truly shines when it comes time to scale out. The share-nothing, horizontally partitionable nature of twelve-factor app processes means that adding more concurrency is a simple and reliable operation. The array of process types and number of processes of each type is known as the process formation.
+
+Twelve-factor app processes should never daemonize or write PID files. Instead, rely on the operating system’s process manager (such as systemd, a distributed process manager on a cloud platform, or a tool like Foreman in development) to manage output streams, respond to crashed processes, and handle user-initiated restarts and shutdowns. 
+
+== Disposability
+
+*Maximize robustness with fast startup and graceful shutdown*
+
+This factor facilitates fast elastic scaling, rapid deployment of code or config changes, and robustness of production deploys.
+
+Processes should strive to minimize startup time. Ideally, a process takes a few seconds from the time the launch command is executed until the process is up and ready to receive requests or jobs. Short startup time provides more agility for the release process and scaling up; and it aids robustness, because the process manager can more easily move processes to new physical machines when warranted.
+
+Processes shut down gracefully when they receive a SIGTERM signal from the process manager and should also be robust against sudden death.
+
+In devonfw we recommend option like https://quarkus.io/[Quarkus]. More guidance on Quarkus can be found https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_quarkus.asciidoc.html#devonfw-guide_devon4j.wiki_quarkus.asciidoc[here].
+
+== Dev/Prod parity
+
+*Keep development, staging, and production as similar as possible*
+
+Cloud Native and 12-factor app are designed for Continuous deployment by keeping the gap between development and production small. This will identify errors early and we can have faster deployments. 
+
+To satisfy this factor project should containerize there application as container bundles all dependencies required or have all runtime environment in it.
+
+== Logs
+
+*Treat logs as event streams*
+
+A twelve-factor app never concerns itself with routing or storage of its output stream. It should not attempt to write to or manage logfiles.If we use logfiles or store logs at any location we need to configure it in cloud from where to read it. Instead user should make use of `stdout` and `stderr`.To get the hierarchy you can define in resources folder but read actual value from environment variable as shown in figure:
+
+[[img-logs]]
+.Read config from environent variables
+image::images/12-factor-app-config.JPG["Config from env variables",scaledwidth="50%",align="center"]
+
+== Admin processses
+
+*Run admin/management tasks as one-off processes*
+Design your admin task one of the Kubernetes process/job.This depends more on implementation but there is no technical restriction from devon4j.
