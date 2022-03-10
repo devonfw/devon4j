@@ -38,9 +38,13 @@ Never ever hardcode this configurations into code or do not put it in config fil
 This factor has to be considered while designing/implementing your project. Consider reading actual value of property from environment variables.
 This will allow you to build application once and deploy it many times.
 
-[[img-config]]
-.Read config from environent variables
-image::images/12-factor-app-config.JPG["Config from env variables",scaledwidth="50%",align="center"]
+[source]
+----
+logging:
+  level:
+    org.springframework: ${SPRING_LOG_LEVEL:INFO}
+    hello: ${LOG_LEVEL:INFO}
+----
 
 As shown in above image, default value of logging level is INFO but in case I want to change it to debug in test environment to analyze some issue then I do not need to change it into the code or in yaml file. Instead I can change value of environment variable SPRING_LOG_LEVEL to debug.
 
@@ -119,11 +123,16 @@ To satisfy this factor project should containerize there application as containe
 
 A twelve-factor app never concerns itself with routing or storage of its output stream. It should not attempt to write to or manage logfiles.If we use logfiles or store logs at any location we need to configure it in cloud from where to read it. Instead user should make use of `stdout` and `stderr`.To get the hierarchy you can define in resources folder but read actual value from environment variable as shown in figure:
 
-[[img-logs]]
-.Read config from environent variables
-image::images/12-factor-app-config.JPG["Config from env variables",scaledwidth="50%",align="center"]
+[source]
+----
+logging:
+  level:
+    org.springframework: ${SPRING_LOG_LEVEL:INFO}
+    hello: ${LOG_LEVEL:INFO}
+----
 
 == Admin processses
 
 *Run admin/management tasks as one-off processes*
+
 Design your admin task one of the Kubernetes process/job.This depends more on implementation but there is no technical restriction from devon4j.
