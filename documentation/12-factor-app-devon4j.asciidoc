@@ -13,7 +13,7 @@ This document mainly focuses on discussing how can you create 12 factor app with
 
 First factor to consider while creating cloud native application is 1 codebase = 1 application = 1 process. 
 
-Traditionally we are used to develop and maintain monolithic applications but with this movement to cloud, you should consider breaking your application into multiple microservices. 
+Traditionally we are used to develop and maintain monolithic applications. But it is difficult to deploy monolith appication as it is into the cloud environment it might night give us a benefit of cloud if we just do lift and shift. So we need to change our application architecture to adapt it like a cloud applications. One of the way to consider is breaking your application into multiple microservices. For simple application it might not be applicable but for some complex system user can check if they want to go ahead with microservices approach.
 To satisfy this factor consider creating one git/code repository for 1 process.
 
 == Dependencies
@@ -52,7 +52,20 @@ As shown in above image, default value of logging level is INFO but in case I wa
 
 *Treat backing services as attached resources*
 
-This factor also needs to be taken care by project in designing/implementation phase. Treat your local services also as resource. Access services through URL and never locally.You can store the locator in config files and resource location can be changed as per your requirement. Consider using CNAME etc.
+This factor also needs to be taken care by project in designing/implementation phase. Treat your local services also as resource. Access services through URL and never locally.You can store the locator in config files and resource location can be changed as per your requirement. Consider using CNAME etc. Or in Cloud-foundary we can just define manifest.yml file where we define application details and which services it is using and those services will differ in each environment as shown in below example:
+
+[source]
+----
+applications:
+- name: hello-world
+  memory: 1G
+  path: build/libs/twelvefactor-app-0.1.0.jar
+  random-route: true
+  services:
+   - hellodb
+----
+
+As shown above, application `hello-world` is using `hellodb` service. This `hellodb` service represents database in each environment. This database connection details will be configured in each environment.
 
 == Build, release, run
 
@@ -73,7 +86,6 @@ Twelve-factor processes are stateless and shares nothing.Any data that needs to 
 
 Having stateless application will help you design for failur and platform can handle it for your application like spinning up new node if some node goes down etc
 
-
 You can refer to stateless programming guide in devon4j https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_coding-conventions.asciidoc.html#devonfw-guide_devon4j.wiki_coding-conventions.asciidoc_stateless-programming[here]
 
 == Port bindings
@@ -93,7 +105,8 @@ Use url like api/user etc instead of localhost:8080/api/user and port handling s
 image::images/12-factor-app-processes.JPG["Concurrency",scaledwidth="50%",align="center"]
 
 Processes in the twelve-factor app take strong cues from the unix process model for running service daemons. Using this model, the developer can architect their app to handle diverse workloads by assigning each type of work to a process type.
-The process model truly shines when it comes time to scale out. The share-nothing, horizontally partitionable nature of twelve-factor app processes means that adding more concurrency is a simple and reliable operation. The array of process types and number of processes of each type is known as the process formation.
+The process model truly shines when it comes time to scale out. The share-nothing, horizontally partitionable nature of twelve-factor app processes means that adding more concurrency is a simple and reliable operation.
+As shown in the above figure, we can scale up or scale out. If we have diverse processes it is good idea to scale up or have larger compute or storagecapacity. But if we want to handle workload for same processes we can consider scaling horizontally. It will be easy, faster to scale horizontally and it do not require any downtime. Contanerization of application will help to spawn new instances easily. Also in cloud environment, concurrency will depend on your scaling strategy or what factors you focus while scaling an application.
 
 Twelve-factor app processes should never daemonize or write PID files. Instead, rely on the operating system’s process manager (such as systemd, a distributed process manager on a cloud platform, or a tool like Foreman in development) to manage output streams, respond to crashed processes, and handle user-initiated restarts and shutdowns. 
 
