@@ -8,26 +8,36 @@ toc::[]
 This document mainly focuses on discussing how can you create 12 factor app with devon4j. To know more about this 12 factors you can refer https://12factor.net/[here] . Twelve factor is mainly focus on creating cloud native applications. These are the guidelines on what factors you need to consider in different stages of application lifecycle.
 
 
-[options="header"]
+
 |===
 |Factor |Action
 
 |Codebase
-|One codebase should be created with each process or service. Twelve factor app says do not share code between application.
-If you must share code, build library and manage that through dependencies. 
+|*One codebase tracked in revision control, many deploys* +
 
-Spring-boot https://spring.io/guides/gs/multi-module/
+One codebase should be created with each process or service.
+Twelve factor app says do not share code between application. +
+If you must share code, build library and manage that through dependencies. +
 
-Quarkus build your extension: https://quarkus.io/guides/building-my-first-extension
+To create and manage library in spring boot refer https://spring.io/guides/gs/multi-module/[here]  +
+To build your extension in Quarkus refer https://quarkus.io/guides/building-my-first-extension[here] +
 
-For complex monolith application you can consider breaking it into microservices. One of the good article for it is https://martinfowler.com/articles/break-monolith-into-microservices.html
+For complex monolith application you can consider breaking it into microservices. One of the good article for it is +
+https://martinfowler.com/articles/break-monolith-into-microservices.html
 
+This factor mainly points at having seperate commit history for each service or process in case you are using any submodules consider using submodules in your revision control system as well.
 
 |Dependencies
-|In devon4j we can declare dependencies in pom.xml and we can dockerize devon4j application to isolate it from other environment.
-References:
-Dockerize Quarkus app: https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_quarkus_getting-started-quarkus.asciidoc.html#devonfw-guide_devon4j.wiki_quarkus_getting-started-quarkus.asciidoc_create-and-build-a-docker-image 
+|*Explicitly declare and isolate dependencies*
 
+In devon4j we can declare dependencies in pom.xml.Do not commit any jar files into code repository i.e do not commit agent-jars into repository instead consider using maven-dependency-plugin to manage it. And to isolate app from environment we can dockerize devon4j application.
+
+*References:* +
+
+Dockerize Spring-boot app refer https://spring.io/guides/topicals/spring-boot-docker[here].
+
+Dockerize Quarkus app refer
+https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_quarkus_getting-started-quarkus.asciidoc.html#devonfw-guide_devon4j.wiki_quarkus_getting-started-quarkus.asciidoc_create-and-build-a-docker-image[here]
 
 |Config
 |https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_guide-configuration.asciidoc.html 
@@ -37,40 +47,31 @@ Dockerize Quarkus app: https://devonfw.com/website/pages/docs/devonfw-guide_devo
 
 |Build, release, run
 |Build: create executable like jar or docker image
-pointers on how to create docker image in quarkus
-pointers on how to create docker image in spring-boot: https://spring.io/guides/topicals/spring-boot-docker
-store it into mave repo or image repository(continuous integration)
-
-release: as 12 factor app have seperate config. This is the phase where we will associate 12 factor executable with config. In the cloud-native world, the release is typically done by pushing to your cloud environment. The output of the build stage is combined with environment- and app-specific configuration information to produce another immutable artifact, a release.
-
-Releases need to be unique, and every release should ideally be tagged with some kind of unique ID, such as a timestamp or an auto-incrementing number. Thinking back to the 1:many relationship between builds and releases, it makes sense that releases should not be tagged with the build ID.
-
-Let’s say that your CI system has just built your application and labeled that artifact build-1234. The CI system might then release that application to the dev, staging, and production environments. The scheme is up to you, but each of those releases should be unique because each one combined the original build with environment-specific configuration settings.
-
-If something goes wrong, you want the ability to audit what you have released to a given environment and, if necessary, to roll back to the previous release. This is another key reason for keeping releases both immutable and uniquely identified.
-
-run: The run phase is also typically done by the cloud provider (although developers need be able to run applications locally). The details vary among providers, but the general pattern is that your application is placed within some kind of container (Docker, Garden, Warden, etc.), and then a process is started to launch your application. This can be seen as Continuous Deployment once pipeline and all previous stages pass.
 
 |Processes
 |Do not store your states in in-memory cache instead use Redis or Memcached
-guide for stateless programming in devon4j https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_coding-conventions.asciidoc.html#devonfw-guide_devon4j.wiki_coding-conventions.asciidoc_stateless-programming 
-
+guide for stateless programming in devon4j +
+https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_coding-conventions.asciidoc.html#devonfw-guide_devon4j.wiki_coding-conventions.asciidoc_stateless-programming 
 
 |Port binding
 |The web app exports HTTP as a service by binding to a port, and listening to requests coming in on that port.
-This is achieved in spring boot application as well as Quarkus. Both have embedded tomcat in it by default so we do not need to deploy explicitly and can be run as standalone application
+This is achieved in spring boot application as well as Quarkus. + 
+Both have embedded tomcat in it by default so we do not need to deploy explicitly and can be run as standalone application
 
 
 |Concurrency
 |As process in application are stateless it will be easy to scale out application based on requirement.
-guide for stateless programming https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_coding-conventions.asciidoc.html#devonfw-guide_devon4j.wiki_coding-conventions.asciidoc_stateless-programming 
+guide for stateless programming +
+https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_coding-conventions.asciidoc.html#devonfw-guide_devon4j.wiki_coding-conventions.asciidoc_stateless-programming + 
 because of stateless processes we can scale out easily.
 
 
 |Disposability
-|Quarkus is designed with container first approach in mind so it has very quick start up time. Comparatively spring boot application use more memory and have slow start-up.
+|Quarkus is designed with container first approach in mind so it has very quick start up time. +
+Comparatively spring boot application use more memory and have slow start-up.
+For graceful shutdown of web server in spring boot : + 
 
-For graceful shutdown of web server in spring boot : https://www.baeldung.com/spring-boot-web-server-shutdown#:~:text=As%20of%20Spring%20Boot%202.3,both%20servlet%20and%20reactive%20platforms.&text=Then%2C%20Tomcat%2C%20Netty%2C%20and,requests%20at%20the%20network%20layer. 
+https://www.baeldung.com/spring-boot-web-server-shutdown
 
 For graceful shutdown in Quarkus refer https://quarkus.io/guides/lifecycle#graceful-shutdown 
 
@@ -79,11 +80,9 @@ For graceful shutdown in Quarkus refer https://quarkus.io/guides/lifecycle#grace
 |With docker this can be achieved.
 we should have the right processes like continuous integration and delivery to facilitate bridging this gap further.
 
-
 |Logs
 |TODO
 
 |Admin processes
 |Create scripts for your admin jobs or consider to create Kubernetes job for this processes.
-
 |===
