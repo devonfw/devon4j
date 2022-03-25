@@ -46,25 +46,13 @@ Here, configuration means anything which can vary between different deployment s
 
 |Backing services
 |*Treat backing services as attached resources*
-To design your services, refer devon4j guide https://github.com/devonfw/devon4j/blob/master/documentation/guide-service-layer.asciidoc#jax-rs-configuration 
+
+To design your services, refer devon4j guide https://github.com/devonfw/devon4j/blob/master/documentation/guide-service-layer.asciidoc#jax-rs-configuration[here] 
 
 |Build, release, run
 |*Strictly separate build and run stages*
 
-*Build*: Create executable artifact like Jar or docker image in Java or zip etc for other languages
-References:
-Create docker image in spring-boot refer https://spring.io/guides/topicals/spring-boot-docker[here]
-Create docker image in Quarkus refer https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_quarkus_getting-started-quarkus.asciidoc.html#devonfw-guide_devon4j.wiki_quarkus_getting-started-quarkus.asciidoc_create-and-build-a-docker-image[here]
-
-*Release*: In 12 factor app we have config seperate. So in this step we will associate 12 factor executable with config.In the cloud-native world, the release is typically done by pushing to your cloud environment. The output of the build stage is combined with environment- and app-specific configuration information to produce another immutable artifact, a release.
-
-Releases need to be unique, and every release should ideally be tagged with some kind of unique ID, such as a timestamp or an auto-incrementing number. Thinking back to the 1:many relationship between builds and releases, it makes sense that releases should not be tagged with the build ID.
-
-Let’s say that your CI system has just built your application and labeled that artifact build-1234. The CI system might then release that application to the dev, staging, and production environments. The scheme is up to you, but each of those releases should be unique because each one combined the original build with environment-specific configuration settings.
-
-If something goes wrong, you want the ability to audit what you have released to a given environment and, if necessary, to roll back to the previous release. This is another key reason for keeping releases both immutable and uniquely identified.
-
-*Run*: The run phase is also typically done by the cloud provider (although developers need be able to run applications locally). The details vary among providers, but the general pattern is that your application is placed within some kind of container (Docker, Garden, Warden, etc.), and then a process is started to launch your application. This can be seen as Continuous Deployment once pipeline and all previous stages pass.
+Refer guide https://github.com/ssarmokadam/devon4j/blob/12-factor-app-doc/documentation/build-release-run-12factor.asciidoc[here] for more details.
 
 |Processes
 |Do not store your states in in-memory cache instead use Redis or Memcached
