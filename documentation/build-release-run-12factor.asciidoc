@@ -28,6 +28,6 @@ The run phase is also typically done by the cloud provider (although developers 
 
 *Tools*:
 
-In this modern application era all this stages are seperated using CI/CD pipeline. Tools like https://docs.ansible.com/[Ansible], https://www.chef.io/[chef] and https://puppet.com/devops/[puppet] are used for configuration management. Also for chef and puppet AWS have some services like AWS OpsWork. Similarly ever cloud provider have similar services. Project can choose among this tools depending on requirement for configuration management.
+In this modern application era all this stages are seperated using CI/CD pipeline. Tools like https://docs.ansible.com/[Ansible], https://www.chef.io/[chef] and https://puppet.com/devops/[puppet] are used for configuration management. Also for chef and puppet AWS have some services like AWS OpsWork. Similarly every cloud provider have similar services. Project can choose among this tools depending on requirement for configuration management.
 
-To chieve CI/CD in cloud popular, services like Azure devops pipeline are available. Azure Devops have 2 pipeline build and release. Project can configure it as per there needs. Similarly AWS have AWS Codepipeline, AWS Deploy etc. Project need to choose as per there requirement.
+To achieve CI/CD in cloud provider, services like Azure devops pipeline are available. Azure Devops have 2 pipeline build and release. Project can configure it as per their needs. Similarly AWS have AWS Codepipeline, AWS Deploy etc. Project need to choose as per there requirement.
