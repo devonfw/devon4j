@@ -4,7 +4,7 @@
 
 *Build*: 
 
-Create executable artifact like Jar or docker image in Java or zip etc for other languages 
+Create executable artifact like Jar or docker image in Java.
 
 References: 
 
