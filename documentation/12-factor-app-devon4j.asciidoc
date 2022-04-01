@@ -83,7 +83,13 @@ For graceful shutdown in Quarkus refer document https://quarkus.io/guides/lifecy
 we should have the right processes like continuous integration and delivery to facilitate bridging this gap further.
 
 |Logs
-|TODO
+|*Treat logs as event streams*
+
+12 factor app treats log as event stream and do not consider details like log files to store etc. In practice to achieve this logs can be written to stdout and stderr etc and variables like log_level can be defined in environment variable or configuration management can take care of it. 
+
+In cloud provider such as AWS, services like AWS cloudwatch are available. AWS cloudwatch is a monitoring service and can be integrated easily in almost all other services. Redirecting application logs is possible from services like EC2 and ECS to cloudwatch. Similarly other cloud provider have different services for monitoring.
+
+Also project can choose to redirect this log events to splunk etc
 
 |Admin processes
 |Create scripts for your admin jobs or consider to create Kubernetes job for this processes.
