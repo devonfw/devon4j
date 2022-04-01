@@ -89,7 +89,7 @@ we should have the right processes like continuous integration and delivery to f
 
 In cloud provider such as AWS, services like AWS cloudwatch are available. AWS cloudwatch is a monitoring service and can be integrated easily in almost all other services. Redirecting application logs is possible from services like EC2 and ECS to cloudwatch. Similarly other cloud provider have different services for monitoring.
 
-Also project can choose to redirect this log events to splunk etc
+Also project can choose to redirect this log events to splunk,ELK etc
 
 |Admin processes
 |Create scripts for your admin jobs or consider to create Kubernetes job for this processes.
