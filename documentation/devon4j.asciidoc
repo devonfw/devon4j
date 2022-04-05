@@ -156,6 +156,10 @@ include::guide-structure-classic.asciidoc[leveloffset=+2]
 
 <<<<
 
+include::12-factor-app-devon4j.asciidoc[leveloffset=+1]
+
+<<<<
+
 
 === Layers
 
