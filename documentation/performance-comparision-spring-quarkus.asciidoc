@@ -30,7 +30,7 @@ The listings above the tables show the functions/extensions of the applications 
 
 |startup time (time until first response)
 |~35 seconds (+/- 1s)
-|~4,7 - 5,2 seconds
+|~5 seconds
 |~0,9 seconds
 
 |memory usage
@@ -59,7 +59,7 @@ ___
 |Quarkus Native Mode
 
 |startup time (time until first response)
-|~9 - 10 seconds
+|~9 seconds
 |~3,9 seconds
 |~0,9 seconds
 
