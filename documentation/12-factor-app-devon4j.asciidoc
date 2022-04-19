@@ -1,0 +1,96 @@
+:toc: macro
+toc::[]
+:idprefix:
+:idseparator: -
+
+= 12-factor-app with devon4j
+
+This document mainly focuses on discussing how can you create 12 factor app with devon4j. To know more about this 12 factors you can refer https://12factor.net/[here] . Twelve factor is mainly focus on creating cloud native applications. These are the guidelines on what factors you need to consider in different stages of application lifecycle.
+
+
+
+|===
+|Factor |Action
+
+|Codebase
+|*One codebase tracked in revision control, many deploys* +
+
+One codebase should be created with each process or service.
+Twelve factor app says do not share code between application. +
+If you must share code, build library and manage that through dependencies. +
+
+To create and manage library in spring boot refer https://spring.io/guides/gs/multi-module/[here]  +
+To build your extension in Quarkus refer https://quarkus.io/guides/building-my-first-extension[here] +
+
+For complex monolith application you can consider breaking it into microservices. One of the good article for it is +
+https://martinfowler.com/articles/break-monolith-into-microservices.html
+
+This factor mainly points at having seperate commit history for each service or process in case you are using any submodules consider using submodules in your revision control system as well.
+
+|Dependencies
+|*Explicitly declare and isolate dependencies*
+
+In devon4j we can declare dependencies in pom.xml.Do not commit any jar files into code repository i.e do not commit agent-jars into repository instead consider using maven-dependency-plugin to manage it. And to isolate app from environment we can dockerize devon4j application.
+
+*References:* +
+
+Dockerize Spring-boot app refer https://spring.io/guides/topicals/spring-boot-docker[here].
+
+Dockerize Quarkus app refer
+https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_quarkus_getting-started-quarkus.asciidoc.html#devonfw-guide_devon4j.wiki_quarkus_getting-started-quarkus.asciidoc_create-and-build-a-docker-image[here]
+
+|Config
+|*Store config in the environment*
+
+Here, configuration means anything which can vary between different deployment such as creadential to external sources, backing services etc. To do such configuration in your java application refere guide https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_guide-configuration.asciidoc.html[here]
+
+|Backing services
+|*Treat backing services as attached resources*
+
+To design your services, refer devon4j guide https://github.com/devonfw/devon4j/blob/master/documentation/guide-service-layer.asciidoc#jax-rs-configuration[here] 
+
+|Build, release, run
+|*Strictly separate build and run stages*
+
+Refer guide https://github.com/ssarmokadam/devon4j/blob/12-factor-app-doc/documentation/build-release-run-12factor.asciidoc[here] for more details.
+
+|Processes
+|Do not store your states in in-memory cache instead use Redis or Memcached
+Refer guide for stateless programming in devon4j 
+https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_coding-conventions.asciidoc.html#devonfw-guide_devon4j.wiki_coding-conventions.asciidoc_stateless-programming[here]
+
+|Port binding
+|The web app exports HTTP as a service by binding to a port, and listening to requests coming in on that port.
+This is achieved in spring boot application as well as Quarkus. + 
+Both have embedded tomcat in it by default so we do not need to deploy explicitly and can be run as standalone application.
+
+|Concurrency
+|As process in application are stateless it will be easy to scale out application based on requirement.
+Refer guide for stateless programming 
+https://devonfw.com/website/pages/docs/devonfw-guide_devon4j.wiki_coding-conventions.asciidoc.html#devonfw-guide_devon4j.wiki_coding-conventions.asciidoc_stateless-programming[here]
+because of stateless processes we can scale out easily.
+
+|Disposability
+|Quarkus is designed with container first approach in mind so it has very quick start up time. +
+Comparatively spring boot application use more memory and have slow start-up. Check if start time of your application is less than or equal to minute or you may want to investigate cause for slower start up of your application. To improve your start up time you can refer https://www.baeldung.com/spring-boot-startup-speed[here]
+
+For graceful shutdown of web server in spring boot refer document https://www.baeldung.com/spring-boot-web-server-shutdown[here]
+
+For graceful shutdown in Quarkus refer document https://quarkus.io/guides/lifecycle#graceful-shutdown[here]
+
+|Dev/prod parity
+|With docker this can be achieved.
+we should have the right processes like continuous integration and delivery to facilitate bridging this gap further.
+
+|Logs
+|*Treat logs as event streams*
+
+12 factor app treats log as event stream and do not consider details like log files to store etc. In practice to achieve this logs can be written to stdout and stderr etc and variables like log_level can be defined in environment variable or configuration management can take care of it. 
+
+In cloud provider such as AWS, services like AWS cloudwatch are available. AWS cloudwatch is a monitoring service and can be integrated easily in almost all other services. Redirecting application logs is possible from services like EC2 and ECS to cloudwatch. Similarly other cloud provider have different services for monitoring. 
+
+Also project can choose to redirect this log events to `datadog`,`splunk`,`ELK` etc
+
+|Admin processes
+|Create scripts for your admin jobs or consider to create Kubernetes job for this processes.
+|===
