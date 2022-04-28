@@ -27,13 +27,13 @@
     <revision>dev-SNAPSHOT</revision>
     <github.repository>devon4j</github.repository>
     <devon4j.version>${revision}</devon4j.version>
-    <spring.boot.version>2.4.4</spring.boot.version>
+    <spring.boot.version>2.6.7</spring.boot.version>
     <!-- Spring boot and spring cloud version has to match -->
-    <spring.cloud.dependencies.version>2020.0.0</spring.cloud.dependencies.version>
-    <jackson.version>2.12.2</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
-    <guava.version>30.1.1-jre</guava.version>
+    <spring.cloud.dependencies.version>2021.0.1</spring.cloud.dependencies.version>
+    <jackson.version>2.13.2.20220328</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
+    <guava.version>31.1-jre</guava.version>
     <junit.version>5.7.1</junit.version>
-    <cxf.version>3.4.3</cxf.version>
+    <cxf.version>3.5.2</cxf.version>
     <mmm.util.version>8.7.0</mmm.util.version>
     <slf4j.version>1.7.30</slf4j.version>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
