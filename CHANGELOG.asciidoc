@@ -2,6 +2,14 @@
 
 This file documents all notable changes to https://https://github.com/devonfw/devon4j[devon4j].
 
+== 2022.04.001
+
+Bugfix release of with the following stories:
+
+* https://github.com/devonfw/devon4j/issues/513[#513]: Added support for Quarkus in addition to spring
+* https://github.com/devonfw/devon4j/issues/551[#551]: spring4shell and other CVE fixes required
+* https://github.com/devonfw/devon4j/issues/533[#533]: Explain why we use Long as primary key
+
 == 2021.04.003
 
 Bugfix release of with the following stories:
