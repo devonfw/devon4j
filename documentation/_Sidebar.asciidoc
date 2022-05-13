@@ -1,6 +1,7 @@
 == General
 * link:guide-beanmapping.asciidoc[Bean-Mapping]
 * link:guide-lombok.asciidoc[]
+* link:12-factor-app-devon4j.asciidoc[12-factor-app-devon4j]
 
 == spring
 
