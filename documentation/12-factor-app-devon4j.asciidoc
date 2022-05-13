@@ -1,7 +1,5 @@
 :toc: macro
 toc::[]
-:idprefix:
-:idseparator: -
 
 = 12-factor-app with devon4j
 
