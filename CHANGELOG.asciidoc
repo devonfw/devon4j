@@ -4,7 +4,7 @@ This file documents all notable changes to https://https://github.com/devonfw/de
 
 == 2022.04.001
 
-Bugfix release of with the following stories:
+Feature and bugfix release of with the following stories:
 
 * https://github.com/devonfw/devon4j/issues/513[#513]: Added support for Quarkus in addition to spring
 * https://github.com/devonfw/devon4j/issues/551[#551]: spring4shell and other CVE fixes required
