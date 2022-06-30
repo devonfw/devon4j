@@ -24,16 +24,16 @@ For an devon4j based application we use the following Java-Package schema:
 [source]
 «root».«component».«layer»[.«detail»]
 
-E.g. in our example application we find the Spring Data repositories for the `ordermanagement` component in the package `com.devonfw.application.mtsj.ordermanagement.dataaccess.api.repo`
+So in a devon4j application we could e.g. find the Spring-Data repositories for the `ordermanagement` component in the package `com.mycustomer.myapplication.ordermanagement.dataaccess.api.repo`
 
 .Segments of package schema
 [options="header"]
 |=============================================
 |*Segment*      | *Description* | *Example*
-|«root»|Is the basic Java Package name-space of your app. Typically we suggest to use `«group».«artifact»` where `«group»` is your maven/gradle `groupId` corresponding to your organization or IT project owning the code following common Java Package conventions. The segment `«artifact»` is your maven/gradle `artifactId` and is typically the technical name of your app. |`com.devonfw.application.mtsj`
-| «component» | The (business) component the code belongs to. It is defined by the business architecture and uses terms from the business domain. Use the implicit component `general` for code not belonging to a specific component (foundation code).| `salesmanagement`
-| «layer» | The name of the technical layer (See link:architecture.asciidoc[technical architecture]). Details are described for the link:guide-structure-modern.asciidoc#layers[modern project structure] and for the link:guide-structure-classic.asciidoc#layers[classic project structure]. | `logic`
-| «detail» | Here you are free to further divide your code into sub-components and other concerns according to the size of your component part. If you want to strictly separate API from implementation you should start `«detail»` with `«scope»` that is explained below. | `dao`
+|«root»|Is the basic Java Package name-space of your app. Typically we suggest to use `«group».«artifact»` where `«group»` is your maven/gradle `groupId` corresponding to your organization or IT project owning the code following common Java Package conventions. The segment `«artifact»` is your maven/gradle `artifactId` and is typically the technical name of your app. |`com.mycustomer.myapplication`
+| «component» | The (business) component the code belongs to. It is defined by the business architecture and uses terms from the business domain. Use the implicit component `general` for code not belonging to a specific component (foundation code).| `ordermanagement`
+| «layer» | The name of the technical layer (See link:architecture.asciidoc[technical architecture]). Details are described for the link:guide-structure-modern.asciidoc#layers[modern project structure] and for the link:guide-structure-classic.asciidoc#layers[classic project structure]. | `dataaccess`
+| «detail» | Here you are free to further divide your code into sub-components and other concerns according to the size of your component part. If you want to strictly separate API from implementation you should start `«detail»` with `«scope»` that is explained below. | `repo`
 | «scope» | The scope which is one of `api` (official API to be used by other layers or components), `base` (basic code to be reused by other implementations) and `impl` (implementation that should never be imported from outside). This segment was initially mandatory but due to trends such as microservices, lean, and agile we decided to make it optional and do not force anybody to use it. | `api`
 |=============================================
 Please note that `devon4j` library modules for spring use `com.devonfw.module` as `«root»` and the name of the module as `«component»`. E.g. the API of our `beanmapping` module can be found in the package `com.devonfw.module.beanmapping.common.api`.
