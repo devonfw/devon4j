@@ -22,6 +22,7 @@ NOTE: Please never implement your own authentication mechanism or credential sto
 We recommend using link:guide-jwt.asciidoc[JWT] when possible. For KISS, also try to avoid combining multiple authentication mechanisms (form based, basic-auth, SAMLv2, OAuth, etc.) within the same application (for different URLs).
 Please note that inside an identity and access management (IAM) you have many different options for authentication.
 In case you are in charge of making decisions considere the following options according to your requirements and demands (esp. security):
+
 * Consider if a second factor (e.g. via https://en.wikipedia.org/wiki/Time-based_one-time_password[TOTP] and according free mobile apps) should be used for advanced security
 * Consider if https://fidoalliance.org/fido2/[Fido2] is an option to get rid of passwords and increase security.
 
