@@ -17,9 +17,13 @@ The one authenticated is properly called _subject_ or http://docs.oracle.com/jav
 To prove the authenticity, the user provides some secret called _credentials_. The most simple form of credentials is a password.
 
 === Implementations
-NOTE: Please never implement your own authentication mechanism or credential store. You have to be aware of implicit demands such as salting and hashing credentials, password life-cycle with recovery, expiry, and renewal including email notification confirmation tokens, central password policies, etc. This is the domain of access managers and identity management systems. In a business context you will typically already find a system for this purpose that you have to integrate (e.g. via LDAP). Otherwise you should consider establishing such a system e.g. using http://keycloak.org[keycloak].
+NOTE: Please never implement your own authentication mechanism or credential store. You have to be aware of implicit demands such as salting and hashing credentials, password life-cycle with recovery, expiry, and renewal including email notification confirmation tokens, central password policies, etc. This is the domain of identity and access management (IAM). There are various existing products for IAM that already solve the problems better than you could ever implement it yourselve. In a business context you will typically already find a system for this purpose that you have to integrate (e.g. via JWT and OAuth). In case you have the freedom of choice, we recommend using http://keycloak.org[keycloak].
 
 We recommend using link:guide-jwt.asciidoc[JWT] when possible. For KISS, also try to avoid combining multiple authentication mechanisms (form based, basic-auth, SAMLv2, OAuth, etc.) within the same application (for different URLs).
+Please note that inside an identity and access management (IAM) you have many different options for authentication.
+In case you are in charge of making decisions considere the following options according to your requirements and demands (esp. security):
+* Consider if a second factor (e.g. via https://en.wikipedia.org/wiki/Time-based_one-time_password[TOTP] and according free mobile apps) should be used for advanced security
+* Consider if https://fidoalliance.org/fido2/[Fido2] is an option to get rid of passwords and increase security.
 
 For link:spring.asciidoc[spring], check the link:spring/guide-authentication-spring.asciidoc[Spring Security]
 
