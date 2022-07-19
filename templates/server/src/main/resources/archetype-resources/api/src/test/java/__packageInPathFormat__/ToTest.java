@@ -182,6 +182,8 @@ public class ToTest extends ModuleTest {
       o = type.getEnumConstants()[0];
     } else if (List.class.isAssignableFrom(type)) {
       o = new ArrayList<>();
+    } else if (SortedSet.class.isAssignableFrom(type)) {
+      o = new TreeSet<>();
     } else if (Set.class.isAssignableFrom(type)) {
       o = new HashSet<>();
     } else if (Map.class.isAssignableFrom(type)) {
