@@ -79,14 +79,17 @@ Avoid using `byte[]` for BLOBs as this will load them entirely into your memory.
 
 === Daten and Time
 Avoid using `java.util.Calendar`, `java.util.Date`, `java.sql.Date`, `java.util.Timestamp`, or anything directly related.
+These types are historically grown, very error prone or to make it short a disaster.
+Stop using them now!
 Instead use types from `java.time` package.
 The most important types are:
+
 * `Instant` for an exact timestamp
 * `LocalDateTime` for exact date and time but without timezone information.
 * `ZonedDateTime` or `OffsetDateTime` for exact date and time with timezone information.
 * `LocalDate` for a specific day (e.g. birthday).
 
-When mapping types to XML, JSON, database, etc. nowadays there is support for `java.time` so please *stop* using `Date` and `Calendar` and end the pain.
+When mapping types to XML, JSON, database, etc. nowadays there is support for `java.time`.
 
 === Stateless Programming
 When implementing logic as components or _beans_ of your container using link:guide-dependency-injection.asciidoc[dependency injection], we strongly encourage stateless programming.
