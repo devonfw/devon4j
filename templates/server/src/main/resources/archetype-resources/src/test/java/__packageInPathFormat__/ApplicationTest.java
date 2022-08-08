@@ -1,6 +1,7 @@
 package ${package};
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import ${package}.general.common.beanmapping.BeanMapper;
 import ${package}.general.common.to.AbstractEto;
@@ -14,6 +15,7 @@ public class ApplicationTest extends ComponentTest {
 
   @Inject
   @javax.inject.Named
+  @Autowired
   private BeanMapper beanMapper;
 
   /** Test that {@link ${package}.SpringBootApp} is able to startup. */

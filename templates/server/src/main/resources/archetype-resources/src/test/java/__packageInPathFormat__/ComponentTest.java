@@ -38,8 +38,8 @@ public abstract class ComponentTest extends BaseTest {
    */
   protected void resetDb() {
 
-    this.flyway.clean();
-    this.flyway.migrate();
+    // this.flyway.clean();
+    // this.flyway.migrate();
   }
 
   @Override
