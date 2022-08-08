@@ -5,10 +5,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import it.pkg.general.common.beanmapping.CustomMapperEto;
+import it.pkg.general.common.entity.GenericEntity;
+import it.pkg.general.common.to.AbstractGenericEto;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 
 /**
  * This is the implementation of {@link ${package}.general.common.beanmapping.beanmapping.common.api.BeanMapper} using orika
@@ -27,6 +32,11 @@ public class BeanMapperImpl implements BeanMapper {
   public BeanMapperImpl() {
 
     super();
+    MapperFactory factory = new DefaultMapperFactory.Builder().build();
+    CustomMapperEto customMapper = new CustomMapperEto();
+    factory.classMap(GenericEntity.class, AbstractGenericEto.class).customize(customMapper).byDefault()
+        .favorExtension(true).register();
+    this.orika = factory.getMapperFacade();
   }
 
   @Override
