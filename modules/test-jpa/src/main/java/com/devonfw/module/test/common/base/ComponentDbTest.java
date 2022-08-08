@@ -7,7 +7,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 import com.devonfw.module.test.common.api.category.TagComponentTest;
-import com.devonfw.module.test.common.base.clean.TestCleaner;
 
 /**
  * Combination of {@link DbTest} with {@link ComponentTest}.

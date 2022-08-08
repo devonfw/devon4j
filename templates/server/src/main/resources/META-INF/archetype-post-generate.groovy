@@ -12,8 +12,8 @@ String batch = properties.get("batch")
 
 if (batch != "batch") {
   // delete folder batch recursively
-  Path rootPath = projectPath.resolve("batch")
-  deleteDirectoryRecursion(rootPath)
+  // Path rootPath = projectPath.resolve("batch")
+  // deleteDirectoryRecursion(rootPath)
 }
 
 void deleteDirectoryRecursion(Path path) {
