@@ -62,6 +62,26 @@ mapperFactory.classMap(UserEntity.class, UserEto.class)
 			.register();
 ----
 
+To recreate the mapping from `PersistenceEntity` (`ApplicationPersistenceEntity`) to `AbstractEto` like with Dozer above, add the following to your _BeansOrikaConfig.java_:
+[source,java]
+----
+  @Override
+  @Bean
+  public MapperFacade getOrika() {
+
+    // your custom converters...
+    this.mapperFactory.classMap(ApplicationPersistenceEntity.class, AbstractEto.class).favorExtension(true)
+        .customize(new CustomMapper<ApplicationPersistenceEntity, AbstractEto>() {
+          @Override
+          public void mapAtoB(ApplicationPersistenceEntity entity, AbstractEto eto, MappingContext context) {
+        
+            eto.setPersistentEntity(entity);
+          }
+        }).byDefault().register();
+    return this.mapperFactory.getMapperFacade();
+  }
+----
+
 == Bean-Mapper Usage
 
 Then we can get the `BeanMapper` via link:guide-dependency-injection.asciidoc[dependency-injection] what we typically already provide by an abstract base class (e.g. `AbstractUc`). Now we can solve our problem very easy:
