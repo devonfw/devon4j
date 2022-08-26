@@ -50,7 +50,7 @@ Important is that you configure all your custom datatypes as `<copy-by-reference
 
 == Bean-Mapper Configuration using Orika
 
-Orika with devonfw is configured by default and sets some custom mappings for _GenericEntity.java_ to _GenericEntityDto.java_. To specify and customize the mappings you can create the class _BeansOrikaConfig.java_ that extends the class _BaseOrikaConfig.java_ from the *devon4j.orika* package. To register a basic mapping, register a *ClassMap* for the *mapperFactory* with your custom mapping, by extending the method _BaseOrikaConfig#configureCustomMapping_. Watch the example below and follow the https://orika-mapper.github.io/orika-docs/mappings-via-classmapbuilder.html[basic Orika mapping configuration guide] and the https://orika-mapper.github.io/orika-docs/advanced-mappings.html[Orika advanced mapping guide].
+Orika with devonfw is configured by default and sets some custom mappings for _GenericEntity.java_ to _GenericEntityDto.java_. To specify and customize the mappings you can create the class _BeansOrikaConfig.java_ that extends the class _BaseOrikaConfig.java_ from the *devon4j.orika* package. To register a basic mapping, register a *ClassMap* for the *mapperFactory* with your custom mapping, by extending the method _BaseOrikaConfig#configureCustomMapping_. See the example below and follow the https://orika-mapper.github.io/orika-docs/mappings-via-classmapbuilder.html[basic Orika mapping configuration guide] and the https://orika-mapper.github.io/orika-docs/advanced-mappings.html[Orika advanced mapping guide] for further information.
 
 Register Mappings:
 [source,java]
