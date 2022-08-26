@@ -50,34 +50,27 @@ Important is that you configure all your custom datatypes as `<copy-by-reference
 
 == Bean-Mapper Configuration using Orika
 
-Orika with devonfw is configured by default and sets some custom mappings for _GenericEntity.java_ to _GenericEntityDto.java_. To specify and customize the mappings you can create the class _BeansOrikaConfig.java_ that extends the class _BaseOrikaConfig.java_ from the *devon4j.orika* package. To register a basic mapping, register a *ClassMap* for the *mapperFactory* with your custom mapping. Watch the example below and follow the https://orika-mapper.github.io/orika-docs/mappings-via-classmapbuilder.html[basic Orika mapping configuration guide] and the https://orika-mapper.github.io/orika-docs/advanced-mappings.html[Orika advanced mapping guide].
+Orika with devonfw is configured by default and sets some custom mappings for _GenericEntity.java_ to _GenericEntityDto.java_. To specify and customize the mappings you can create the class _BeansOrikaConfig.java_ that extends the class _BaseOrikaConfig.java_ from the *devon4j.orika* package. To register a basic mapping, register a *ClassMap* for the *mapperFactory* with your custom mapping, by extending the method _BaseOrikaConfig#configureCustomMapping_. Watch the example below and follow the https://orika-mapper.github.io/orika-docs/mappings-via-classmapbuilder.html[basic Orika mapping configuration guide] and the https://orika-mapper.github.io/orika-docs/advanced-mappings.html[Orika advanced mapping guide].
 
 Register Mappings:
 [source,java]
 ----
-mapperFactory.classMap(UserEntity.class, UserEto.class)
+@Override
+protected MapperFactory configureCustomMapping(MapperFactory mapperFactory) {
+  super.configureCustomMapping(mapperFactory);
+
+  mapperFactory.classMap(UserEntity.class, UserEto.class)
 			.field("email", "email")
 			.field("username", "name")
 			.byDefault()
 			.register();
+      
+  return mapperFactory;
+}
+
 ----
 
-To recreate the mapping from `persistentEntity` (`ApplicationPersistenceEntity` or `GenericEntity`) to `AbstractEto` like with Dozer above, add the following to your _BeansOrikaConfig.java_:
-[source,java]
-----
-  @Override
-  @Bean
-  public MapperFacade getOrika() {
-
-    // your custom converters, mappers, factories...
-    
-    this.mapperFactory.classMap(GenericEntity.class, AbstractEto.class).favorExtension(true) //
-        .customize(new CustomMapperEto()) // Devon Mapper circumventing the by default unaccessible persistentEntity
-        .byDefault().register(); //
-
-    return this.mapperFactory.getMapperFacade();
-  }
-----
+The call to _super.configureCustomMapping_. recreates the mapping from `persistentEntity` (`ApplicationPersistenceEntity` or `GenericEntity`) to `AbstractEto` like with Dozer above.
 
 == Bean-Mapper Usage
 
