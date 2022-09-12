@@ -12,7 +12,7 @@ In all other cases we officially suggest the according standard and use it in ou
 Examples for such standards are link:guide-jpa.asciidoc[JPA], link:guide-rest.asciidoc#jax-rs[JAX-RS], link:guide-soap.asciidoc#jax-ws[JAX-WS], link:guide-dependency-injection.asciidoc[JSR330], link:guide-access-control.asciidoc[JSR250], link:guide-xml.asciidoc#jaxb[JAX-B], etc.
 
 Please note that JEE has nowadays been replaced by https://jakarta.ee/[JakartaEE].
-link:quarkus.asciidoc[Quarkus] already supports this and also link:spring.asciidoc[spring]-boot starting with version `2.6` so for new projects you should consider to directly use only JakartaEE.
+link:quarkus.asciidoc[Quarkus] already supports this and also link:spring.asciidoc[spring]-boot supports it starting from version `2.6` so for new projects you should consider to directly use only JakartaEE.
 
 == Application-Server
 We designed everything based on standards to work with different technology stacks and servlet containers.
