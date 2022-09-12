@@ -42,6 +42,7 @@ If you are already using https://github.com/devonfw/ide[devonfw-ide], that integ
 devon gcviewer
 ```
 In the UI of GCViewer, simply open your GC logfile and you will get a visualization of the heap activity over time.
+For more details see https://sematext.com/blog/java-garbage-collection-logs/[here].
 
 == Thread Dump
 
