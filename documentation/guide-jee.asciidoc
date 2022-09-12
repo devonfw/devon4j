@@ -11,6 +11,9 @@ Only if an existing Java standard is *not* suitable for current demands such as 
 In all other cases we officially suggest the according standard and use it in our guides, code-samples, sample application, modules, templates, etc.
 Examples for such standards are link:guide-jpa.asciidoc[JPA], link:guide-rest.asciidoc#jax-rs[JAX-RS], link:guide-soap.asciidoc#jax-ws[JAX-WS], link:guide-dependency-injection.asciidoc[JSR330], link:guide-access-control.asciidoc[JSR250], link:guide-xml.asciidoc#jaxb[JAX-B], etc.
 
+Please note that JEE has nowadays been replaced by https://jakarta.ee/[JakartaEE].
+link:quarkus.asciidoc[Quarkus] already supports this and also link:spring.asciidoc[spring]-boot starting with version `2.6` so for new projects you should consider to directly use only JakartaEE.
+
 == Application-Server
 We designed everything based on standards to work with different technology stacks and servlet containers.
 However, we strongly encourage to use modern and leightweight frameworks such as link:spring.asciidoc[spring] or link:quarkus.asciidoc[quarkus].
@@ -23,9 +26,16 @@ Most application servers put you in a jail with old legacy technology.
 In many cases you are even forced to use a totally outdated version of java (JVM/JDK).
 This may even cause severe IT-Security vulnerabilities but with expensive support you might get updates.
 Also with leightweight open-source frameworks you need to be aware that for IT-security you need to update recently what can cost quite a lot of additional maintenance effort.
+However, you are able to do so and react fast to new CVEs while for application servers it typically takes 10x more time to get CVEs out of your app.
 * *Development speed* 
 +
-With spring-boot you can implement and especially test your individual logic very fast. Starting the app in your IDE is very easy, fast, and realistic (close to production). You can easily write JUnit tests that startup your server application to e.g. test calls to your remote services via HTTP fast and easy. For application servers you need to bundle and deploy your app what takes more time and limits you in various ways. We are aware that this has improved in the past but also spring continuously improves and is always way ahead in this area. Further, with spring you have your configurations bundled together with the code in version control (still with ability to handle different environments) while with application servers these are configured externally and can not be easily tested during development.
+With spring-boot you can implement and especially test your individual logic very fast.
+Starting the app in your IDE is very easy, fast, and realistic (close to production).
+You can easily write JUnit tests that startup your server application to e.g. test calls to your remote services via HTTP fast and easy.
+Quarkus even increases this development speed.
+For application servers you need to bundle and deploy your app what takes more time and limits you in various ways.
+We are aware that this has improved in the past but also spring and quarkus continuously improve and are always way ahead in this area.
+Further, with spring you have your configurations bundled together with the code in version control (still with ability to handle different environments) while with application servers these are configured externally and can not be easily tested during development.
 * *Documentation*
 +
 Spring and also quarkus have an extremely open and active community.
@@ -73,7 +83,7 @@ We do not get paid from application servers nor from spring, quarkus or any othe
 We are just developers who love to build great systems.
 A good reason for application servers is that they combine a set of solutions to particular aspects to one product that helps to standardize your IT.
 However, http://www.devonfw.com/[devonfw] fills exactly this gap for the spring and quarkus ecosystems in a very open and flexible way.
-However, there is one important aspect that you need to understand and be aware of:
+But there is one important aspect that you need to understand and be aware of:
 
 Some big companies decided for a specific application server as their IT strategy.
 They may have hundreds of apps running with this application server.
