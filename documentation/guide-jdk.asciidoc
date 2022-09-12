@@ -31,6 +31,7 @@ A key feature of Java is automatic garbage collection (GC).
 Over time different garbage collectors have been implemented within the JVM.
 The good news is that usually you do not have to care about all this.
 However, at some point you might get an `OutOfMemoryError` or other effects related to GC and heap issues.
+You should also be aware that when a lot of heap is consumed, a full GC may pause the JVM for some time causing other issues like performance problems or even connection timeouts.
 Therefore, we strongly recommend you to do continous https://www.baeldung.com/java-gc-logging-to-file[logging of your GC activity] in your environments up to production.
 These GC logging does not cause relevant overhead so it can be enabled 7x24.
 Whenever you might have heap issues or a memory leak, you can simply analyze these GC logs.
