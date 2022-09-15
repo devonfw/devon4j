@@ -30,24 +30,4 @@ public class SpringProfileConstants {
    */
   public static final String NOT_DEV = "!" + DEV;
 
-  /**
-   * Profile for module tests.
-   */
-  public static final String MODULE_TEST = "module-test";
-
-  /**
-   * Profile for component tests.
-   */
-  public static final String COMPONENT_TEST = "component-test";
-
-  /**
-   * Profile for subsystem tests.
-   */
-  public static final String SUBSYSTEM_TEST = "subsystem-test";
-
-  /**
-   * Profile for system tests.
-   */
-  public static final String SYSTEM_TEST = "system-test";
-
 }
