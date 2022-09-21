@@ -18,18 +18,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ${package}.general.common.security.accesscontrol.AccessControl;
 import ${package}.general.common.security.accesscontrol.AccessControlGrantedAuthority;
 import ${package}.general.common.security.accesscontrol.AccessControlProvider;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Custom implementation of {@link UserDetailsService}.<br>
  *
  * @see ${package}.general.common.security.BaseWebSecurityConfig
  */
-@ApplicationScoped
 @Named
-@javax.inject.Named
 public class BaseUserDetailsService implements UserDetailsService {
 
   /** Logger instance. */
@@ -96,7 +93,6 @@ public class BaseUserDetailsService implements UserDetailsService {
    * @param amBuilder new value of {@link #getAmBuilder}.
    */
   @Inject
-  @javax.inject.Inject
   public void setAmBuilder(AuthenticationManagerBuilder amBuilder) {
 
     this.amBuilder = amBuilder;
@@ -114,7 +110,6 @@ public class BaseUserDetailsService implements UserDetailsService {
    * @param accessControlProvider new value of {@link #getAccessControlProvider}.
    */
   @Inject
-  @javax.inject.Inject
   public void setAccessControlProvider(AccessControlProvider accessControlProvider) {
 
     this.accessControlProvider = accessControlProvider;

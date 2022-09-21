@@ -6,15 +6,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
+import javax.inject.Named;
 
 /**
  * Simple class to test REST Service.
  */
-@ApplicationScoped
 @Named
-@javax.inject.Named
 @Path("customermanagement/v1")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)

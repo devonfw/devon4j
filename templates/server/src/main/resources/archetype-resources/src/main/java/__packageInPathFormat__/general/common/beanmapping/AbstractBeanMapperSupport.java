@@ -1,6 +1,6 @@
 package ${package}.general.common.beanmapping;
 
-import jakarta.inject.Inject;
+import javax.inject.Inject;
 
 /**
  * This abstract class provides {@link #getBeanMapper() access} to the {@link BeanMapper}.
@@ -8,7 +8,6 @@ import jakarta.inject.Inject;
 public abstract class AbstractBeanMapperSupport {
 
   @Inject
-  @javax.inject.Inject
   private BeanMapper beanMapper;
 
   /**

@@ -8,9 +8,7 @@ import java.util.Set;
 import it.pkg.general.common.beanmapping.CustomMapperEto;
 import it.pkg.general.common.entity.GenericEntity;
 import it.pkg.general.common.to.AbstractGenericEto;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import javax.inject.Named;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -19,9 +17,7 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
  * This is the implementation of {@link ${package}.general.common.beanmapping.beanmapping.common.api.BeanMapper} using orika
  * {@link MapperFacade}.
  */
-@ApplicationScoped
 @Named
-@javax.inject.Named
 public class BeanMapperImpl implements BeanMapper {
 
   private MapperFacade orika;
@@ -90,7 +86,6 @@ public class BeanMapperImpl implements BeanMapper {
   /**
    * @param orika the orika {@link MapperFacade} to set
    */
-  @Inject
   public void setOrika(MapperFacade orika) {
 
     this.orika = orika;

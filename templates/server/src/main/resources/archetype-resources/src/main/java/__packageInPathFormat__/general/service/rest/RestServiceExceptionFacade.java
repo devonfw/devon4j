@@ -29,9 +29,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ${package}.general.common.exception.ApplicationException;
 import ${package}.general.common.exception.TechnicalErrorUserException;
 import ${package}.general.common.exception.ValidationBusinessException;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * This is an implementation of {@link ExceptionMapper} that acts as generic exception facade for REST services. It
@@ -40,10 +39,8 @@ import jakarta.inject.Named;
  * <a href="https://github.com/devonfw/devon4j/blob/develop/documentation/guide-rest.asciidoc#error-results">devonfw
  * REST error specification</a>.
  */
-@ApplicationScoped
 @Provider
 @Named
-@javax.inject.Named
 public class RestServiceExceptionFacade implements ExceptionMapper<Throwable> {
 
   /** Key for {@link Throwable#getMessage() error message}. */
@@ -422,7 +419,6 @@ public class RestServiceExceptionFacade implements ExceptionMapper<Throwable> {
    * @param mapper the mapper to set
    */
   @Inject
-  @javax.inject.Inject
   public void setMapper(ObjectMapper mapper) {
 
     this.mapper = mapper;

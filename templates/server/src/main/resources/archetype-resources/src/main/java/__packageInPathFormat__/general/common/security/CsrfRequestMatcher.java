@@ -6,8 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
+import javax.inject.Named;
 
 /**
  * This is the implementation of {@link RequestMatcher}, which decides which {@link HttpServletRequest Requests} require
@@ -15,9 +14,7 @@ import jakarta.inject.Named;
  *
  * @see <a href="https://en.wikipedia.org/wiki/Cross-site_request_forgery">Cross-site request forgery</a>
  */
-@ApplicationScoped
 @Named("CsrfRequestMatcher")
-@javax.inject.Named("CsrfRequestMatcher")
 public class CsrfRequestMatcher implements RequestMatcher {
 
   private static final Pattern HTTP_METHOD_PATTERN = Pattern.compile("^GET$");

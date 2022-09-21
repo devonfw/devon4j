@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import ${package}.general.common.json.ApplicationObjectMapperFactory;
-import jakarta.inject.Inject;
+import javax.inject.Inject;
 
 /**
  * {@link Configuration} for REST (JAX-RS) services.
@@ -15,7 +15,6 @@ import jakarta.inject.Inject;
 public class JaxRsConfig {
 
   @Inject
-  @javax.inject.Inject
   private ApplicationObjectMapperFactory objectMapperFactory;
 
   /**

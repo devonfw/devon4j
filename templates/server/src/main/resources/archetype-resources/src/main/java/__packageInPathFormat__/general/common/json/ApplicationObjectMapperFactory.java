@@ -14,15 +14,12 @@ import com.fasterxml.jackson.databind.jsontype.SubtypeResolver;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
+import javax.inject.Named;
 
 /**
  * The MappingFactory class to resolve polymorphic conflicts within the basic application.
  */
-@ApplicationScoped
 @Named
-@javax.inject.Named("ApplicationObjectMapperFactory")
 public class ApplicationObjectMapperFactory {
 
   static final String GROUP_ID = "com.devonfw.java";

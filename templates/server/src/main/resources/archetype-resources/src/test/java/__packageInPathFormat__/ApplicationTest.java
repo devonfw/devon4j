@@ -1,12 +1,11 @@
 package ${package};
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import ${package}.general.common.beanmapping.BeanMapper;
 import ${package}.general.common.to.AbstractEto;
 import ${package}.general.dataaccess.ApplicationPersistenceEntity;
-import jakarta.inject.Inject;
+import javax.inject.Inject;
 
 /**
  * This test verifies that {@link ${package}.SpringBootApp} is able to startup.
@@ -14,8 +13,6 @@ import jakarta.inject.Inject;
 public class ApplicationTest extends ComponentTest {
 
   @Inject
-  @javax.inject.Named
-  @Autowired
   private BeanMapper beanMapper;
 
   /** Test that {@link ${package}.SpringBootApp} is able to startup. */

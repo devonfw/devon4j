@@ -1,14 +1,11 @@
 package ${package}.general.common.security.accesscontrol;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
+import javax.inject.Named;
 
 /**
  * Example of {@link AccessControlConfig} that used for testing.
  */
-@ApplicationScoped
 @Named
-@javax.inject.Named
 public class ApplicationAccessControlConfig extends AccessControlConfig {
 
   /** ID of this application. */

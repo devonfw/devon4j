@@ -1,6 +1,6 @@
 package ${package};
 
-import org.flywaydb.core.Flyway;
+// import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import jakarta.inject.Inject;
+// import javax.inject.Inject;
 
 /**
  * Abstract base class for component tests of this application.
@@ -22,9 +22,8 @@ import jakarta.inject.Inject;
 @SpringBootTest(classes = { SpringBootApp.class }, webEnvironment = WebEnvironment.MOCK)
 public abstract class ComponentTest extends BaseTest {
 
-  @Inject
-  @javax.inject.Named
-  private Flyway flyway;
+  // @Inject
+  // private Flyway flyway;
 
   @Override
   protected void doSetUp() {

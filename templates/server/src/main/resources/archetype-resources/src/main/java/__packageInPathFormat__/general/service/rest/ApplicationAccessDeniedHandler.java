@@ -10,16 +10,13 @@ import javax.ws.rs.core.Response;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Implementation of {@link AccessDeniedHandler}.
  */
-@ApplicationScoped
 @Named("ApplicationAccessDeniedHandler")
-@javax.inject.Named
 public class ApplicationAccessDeniedHandler implements AccessDeniedHandler {
 
   @Inject

@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
-import jakarta.inject.Inject;
+import javax.inject.Inject;
 
 /**
  * This type serves as a base class for extensions of the {@code WebSecurityConfigurerAdapter} and provides a default
@@ -18,11 +18,9 @@ import jakarta.inject.Inject;
 public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Inject
-  @javax.inject.Inject
   private UserDetailsService userDetailsService;
 
   @Inject
-  @javax.inject.Inject
   private PasswordEncoder passwordEncoder;
 
   /**
@@ -49,7 +47,6 @@ public abstract class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter
 
   @SuppressWarnings("javadoc")
   @Inject
-  @javax.inject.Inject
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
     auth.inMemoryAuthentication().withUser("admin").password(this.passwordEncoder.encode("admin"))
