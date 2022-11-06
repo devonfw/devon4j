@@ -35,6 +35,11 @@
       <groupId>com.devonfw.java.modules</groupId>
       <artifactId>devon4j-web</artifactId>
     </dependency>
+    
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-i18n</artifactId>
+    </dependency>
 
     <!-- Starter for asynchronous consuming REST services via Jaca HTTP Client (Java11+) -->
     <!--

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.devonfw.java.dev</groupId>
+    <artifactId>devon4j-modules</artifactId>
+    <version>dev-SNAPSHOT</version>
+  </parent>
+  <groupId>com.devonfw.java.modules</groupId>
+  <artifactId>devon4j-i18n</artifactId>
+  <version>${devon4j.version}</version>
+  <name>${project.artifactId}</name>
+  <packaging>jar</packaging>
+  <description>Module for i18n.</description>
+
+  <dependencies>
+   <dependency>
+      <groupId>net.sf.m-m-m</groupId>
+      <artifactId>mmm-util-cli</artifactId>
+      <version>7.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.m-m-m</groupId>
+      <artifactId>mmm-util-nls</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.devonfw.java.modules</groupId>
+      <artifactId>devon4j-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
