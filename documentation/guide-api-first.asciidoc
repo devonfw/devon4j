@@ -1,6 +1,10 @@
 :toc: macro
 toc::[]
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
+
+'''
+
 = API first development guide
 
 Cloud native promotes the use of microservices, which are loosely coupled and self-contained. These services communicate with each other using a well-defined interface or API, and no consumer needs to be aware of any implementation details of the provider. There could even be multiple providers of the same API, or we can decide to swap existing implementation for a new one, without disrupting our clients - all because we adhere to a well defined API. 

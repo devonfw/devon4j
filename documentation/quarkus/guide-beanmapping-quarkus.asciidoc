@@ -1,6 +1,10 @@
 :toc: macro
 toc::[]
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
+
+'''
+
 = Bean mapping with Quarkus
 
 This guide will show bean-mapping, in particular for a Quarkus application. We recommend using https://mapstruct.org/[MapStruct] with a Quarkus application because the other bean-mapper frameworks use Java reflections. They are not supported in GraalVm right now and cause problems when building native applications. MapStruct is a code generator that greatly simplifies the implementation of mappings between Java bean types based on a convention over configuration approach. The mapping code will be generated at compile-time and uses plain method invocations and is thus fast, type-safe, and easy to understand. MapStruct has to be configured to not use Java reflections, which will be shown in this guide.

@@ -2,6 +2,10 @@
 :icons: font
 toc::[]
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
+
+'''
+
 = Service Client
 
 This guide is about consuming (calling) services from other applications (micro-services). For providing services, see the link:guide-service-layer.asciidoc[Service-Layer Guide]. Services can be consumed by the link:guide-client-layer.asciidoc[client] or the server. As the client is typically not written in Java, you should consult the according guide for your client technology. In case you want to call a service within your Java code, this guide is the right place to get help.

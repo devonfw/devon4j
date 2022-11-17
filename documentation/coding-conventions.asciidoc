@@ -1,6 +1,10 @@
 :toc: macro
 toc::[]
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
+
+'''
+
 = Coding Conventions
 
 The code should follow general conventions for Java (see http://www.oracle.com/technetwork/java/namingconventions-139351.html[Oracle Naming Conventions], https://google.github.io/styleguide/javaguide.html[Google Java Style], etc.).We consider this as common sense and provide configurations for http://www.sonarqube.org/[SonarQube] and related tools such as http://checkstyle.sourceforge.net/[Checkstyle] instead of repeating this here.
