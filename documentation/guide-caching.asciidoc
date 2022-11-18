@@ -2,6 +2,8 @@
 toc::[]
 
 = Caching
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 //Maybe finish the guide?
 Caching is a technical approach to improve performance. While it may appear easy on the first sight it is an advanced topic. In general, try to use caching only when required for performance reasons. If you come to the point that you need caching first think about:
 
@@ -14,11 +16,19 @@ Is a local cache sufficient or do you need a shared cache?
 
 == Local Cache
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 == Shared Cache
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 === Distributed Cache
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 == Products
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 * http://ehcache.org/
 * http://hazelcast.org/
@@ -26,6 +36,8 @@ Is a local cache sufficient or do you need a shared cache?
 * http://memcached.org/
 
 == Caching of Web-Resources
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 * http://www.mobify.com/blog/beginners-guide-to-http-cache-headers/
 * http://en.wikipedia.org/wiki/Web_cache#Cache_control

@@ -3,6 +3,8 @@ toc::[]
 
 = Mapping configuration to your code
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 If you are using `spring-boot` as suggested by `devon4j` your application can be configured by `application.properties` file as described in link:guide-configuration.asciidoc[configuration].
 To get a single configuration option into your code for flexibility, you can use
 
@@ -20,6 +22,8 @@ You may even use `@Value("${my.property.name:my-default-value}")` to make the pr
 
 == Naming conventions for configuration properties
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 As a best practice your configruation properties should follow these naming conventions:
 
 * build the property-name as a path of segments separated by the dot character (`.`)
@@ -29,6 +33,8 @@ As a best practice your configruation properties should follow these naming conv
 * a good example would be `«myapp».billing.service.email.sender` for the sender address of billing service emails send by `«myapp»`.
 
 == Mapping advanced configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 However, in many scenarios you will have features that require more than just one property.
 Injecting those via `@Value` is not leading to good code quality.
@@ -87,6 +93,8 @@ https://github.com/devonfw/devon4j/blob/9b8f9461997bb5d8048a9fec42bec3625652eec3
 For further details about this feature also consult https://www.baeldung.com/configuration-properties-in-spring-boot[Guide to @ConfigurationProperties in Spring Boot].
 
 == Generate configuration metadata
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 You should further add this `dependency` to your module containing the `*ConfigProperties`:
 ```xml

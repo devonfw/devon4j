@@ -3,9 +3,13 @@ toc::[]
 
 = Aspect Oriented Programming (AOP)
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 http://en.wikipedia.org/wiki/Aspect-oriented_programming[AOP] is a powerful feature for cross-cutting concerns. However, if used extensive and for the wrong things an application can get unmaintainable. Therefore we give you the best practices where and how to use AOP properly.
 
 == AOP Key Principles
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 We follow these principles:
 
 * We use http://docs.spring.io/spring/docs/2.5.4/reference/aop.html[spring AOP] based on dynamic proxies (and fallback to cglib).
@@ -13,6 +17,8 @@ We follow these principles:
 * We only use AOP where we consider it as necessary (see below).
 
 == AOP Usage
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 We recommend to use AOP with care but we consider it established for the following cross cutting concerns:
 
 * link:guide-transactions.asciidoc[Transaction-Handling]
@@ -22,6 +28,8 @@ We recommend to use AOP with care but we consider it established for the followi
 * Exception facades for link:guide-service-layer.asciidoc[services] but only if no other solution is possible (use alternatives such as link:guide-service-layer.asciidoc#rest-exception-handling[JAX-RS provider] instead).
 
 == AOP Debugging
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 //Exchange picture with one of the current version?
 When using AOP with dynamic proxies the debugging of your code can get nasty. As you can see by the red boxes in the call stack in the debugger there is a lot of magic happening while you often just want to step directly into the implementation skipping all the AOP clutter. When using Eclipse this can easily be archived by enabling _step filters_. Therefore you have to enable the feature in the Eclipse tool bar (highlighted in read).
 

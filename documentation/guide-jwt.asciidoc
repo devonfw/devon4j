@@ -3,6 +3,8 @@ toc::[]
 
 = JWT
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 https://jwt.io[JWT] (JSON Web Token) is an open standard (see https://tools.ietf.org/html/rfc7519[RFC 7519]) for creating link:guide-json.asciidoc[JSON] based access tokens that assert some number of claims.
 With an IT landscape divided into multiple smaller apps you want to avoid coupling all those apps or services tightly with your IAM (Identity & Access Management).
 Instead your apps simply expects a JWT as https://oauth.net/2/bearer-tokens/[bearer-token] in the `Authorization` HTTP header field.

@@ -2,6 +2,8 @@
 toc::[]
 
 = Component Facade
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 [NOTE]
 Our recommended approach for implementing the logic layer is link:guide-usecase.asciidoc[use-cases]
 
@@ -10,6 +12,8 @@ This is an interface defining all business operations of the component.
 It carries the name of the component (`«Component»`) and has an implementation named `«Component»Impl` (see xref:implementation[implementation]).
 
 == API
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The component facade interface defines the logic API of the component and has to be business oriented.
 This means that all parameters and return types of all methods from this API have to be business link:guide-transferobject.asciidoc[transfer-objects], link:guide-datatype.asciidoc[datatypes] (`String`, `Integer`, `MyCustomerNumber`, etc.), or collections of these.
 The API may also only access objects of other business components listed in the (transitive) dependencies of the link:architecture.asciidoc#business-architecture[business-architecture].
@@ -31,6 +35,8 @@ public interface Bookingmanagement {
 ----
 
 == Implementation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The implementation of an interface from the link:guide-logic-layer.asciidoc[logic layer] (a component facade or a link:guide-usecase.asciidoc[use-case]) carries the name of that interface with the suffix `Impl` and is annotated with `@Named`.
 An implementation typically needs access to the persistent data.
 This is done by link:guide-dependency-injection.asciidoc[injecting] the corresponding link:guide-repository.asciidoc[repository] (or link:guide-dao.asciidoc[DAO]).

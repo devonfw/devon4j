@@ -1,5 +1,7 @@
 = devonfw for Java (devon4j)
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Welcome to the Java edition of devonfw. devon4j is documented by a platform guide (see the side-bar of this wiki) to be used in your projects.
 
 You will find the latest stable versions of documents generated from this wiki here:
@@ -8,4 +10,6 @@ You will find the latest stable versions of documents generated from this wiki h
 If you want to search the wiki you might want to try https://github.com/linyows/github-wiki-search[github-wiki-search].
 
 == For contributors
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Contributions and improvements to devonfw are more than welcome. Please read our https://github.com/devonfw/.github/blob/master/CONTRIBUTING.asciidoc#contributing[contributing guide] to get started.

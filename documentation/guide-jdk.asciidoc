@@ -3,9 +3,13 @@ toc::[]
 
 = Java Development Kit
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The https://en.wikipedia.org/wiki/Java_Development_Kit[Java Development Kit] is an implementation of the Java platform. It provides the https://en.wikipedia.org/wiki/Java_virtual_machine[Java Virtual Machine] (JVM) and the Java Runtime Environment (JRE).
 
 == Editions
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The JDK exists in different editions:
 
@@ -27,6 +31,8 @@ The easiest way to get all this setup for developers is using https://github.com
 
 == Garbage Collection
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 A key feature of Java is automatic garbage collection (GC).
 Over time different garbage collectors have been implemented within the JVM.
 The good news is that usually you do not have to care about all this.
@@ -47,12 +53,16 @@ For more details see https://sematext.com/blog/java-garbage-collection-logs/[her
 
 == Thread Dump
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Sometimes you may face concurrency issues or even deadlocks where threads block each other.
 In such case you should https://www.baeldung.com/java-thread-dump[create a thread-dump].
 We even recommend you to create a series of e.g. 3-5 thread-dumps with a short delay of e.g. a minute bettwen each of them.
 This will help you to trace down problems of waiting or blocked threads.
 
 == Upgrading
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Until Java 8 compatibility was one of the key aspects for Java version updates (after the mess on the Swing updates with Java2 many years ago).
 However, Java 9 introduced a lot of breaking changes.
@@ -61,9 +71,13 @@ First of all we separate runtime changes that you need if you want to build your
 from changes required to also build your software with more recent JDKs (e.g. JDK 11 or 12).
 
 === Runtime Changes
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 This section describes required changes to your software in order to make it run also with versions newer than Java 8.
 
 ==== Classes removed from JDK
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The first thing that most users hit when running their software with newer Java versions is a `ClassNotFoundException` like this:
 ```
 Caused by: java.lang.ClassNotFoundException: javax.xml.bind.JAXBException
@@ -87,6 +101,8 @@ The following table gives you the required hints to make your software work even
 |=============================================
 
 ==== 3rd Party Updates
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Further, internal and inofficial APIs (e.g. `sun.misc.Unsafe`) have been removed.
 These are typically not used by your software directly but by low-level 3rd party libraries like `asm` that need to be updated.
 Also simple things like the Java version have changed (from `1.8.x` to `9.x`, `10.x`, `11.x`, `12.x`, etc.).
@@ -108,13 +124,19 @@ Therefore the following table gives an overview of common 3rd party libraries th
 |=============================================
 
 ==== ResourceBundles
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For internationalization (i18n) and localization (l10n) `ResourceBundle` is used for language and country specific texts and configurations as properties (e.g. `MyResourceBundle_de.properties`). With Java modules there are changes and impacts you need to know to get things working. The most important change is documented in the https://docs.oracle.com/javase/9/docs/api/java/util/ResourceBundle.html#bundleprovider[JavaDoc of ResourceBundle]. However, instead of using https://docs.oracle.com/javase/9/docs/api/java/util/spi/ResourceBundleProvider.html[ResourceBundleProvider] and refactoring your entire code causing incompatibilities, you can simply put the resource bundles in a regular JAR on the classpath rather than a named module (or into the lauching app).
 If you want to implement (new) Java modules with i18n support, you can have a look at https://github.com/m-m-m/nls#mmm-nls[mmm-nls].
 
 === Buildtime Changes
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 If you also want to change your build to work with a recent JDK you also need to ensure that test frameworks and maven plugins properly support this.
 
 ==== Findbugs
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Findbugs does not work with Java 9+ and is actually a dead project.
 The new findbugs is https://spotbugs.github.io/[SpotBugs].
 For maven the new solution is https://spotbugs.github.io/spotbugs-maven-plugin/[spotbugs-maven-plugin]:
@@ -128,6 +150,8 @@ For maven the new solution is https://spotbugs.github.io/spotbugs-maven-plugin/[
 
 ==== Test Frameworks
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 
 
 .Minimum recommended versions of common 3rd party test frameworks for Java 9+
@@ -138,6 +162,8 @@ For maven the new solution is https://spotbugs.github.io/spotbugs-maven-plugin/[
 |=============================================
 
 ==== Maven Plugins
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 .Minimum recommended versions of common maven plugins for Java 9+
 [options="header"]
@@ -153,6 +179,8 @@ For maven the new solution is https://spotbugs.github.io/spotbugs-maven-plugin/[
 
 ==== Maven Usage
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 With Java modules you can not run Javadoc standalone anymore or you will get this error when running `mvn javadoc:javadoc`:
 ```
 [ERROR] Failed to execute goal org.apache.maven.plugins:maven-javadoc-plugin:3.1.1:javadoc (default-cli) on project mmm-base: An error has occurred in Javadoc report generation:
@@ -167,6 +195,8 @@ mvn compile javadoc:javadoc
 ```
 
 == Sources and Links
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 We want to give credits and say thanks to the following articles that have been there before and helped us on our way:
 
 * https://blog.codefx.org/java/java-9-migration-guide/[Java 9 Migration Guide: The Seven Most Common Challenges]

@@ -2,6 +2,8 @@
 toc::[]
 
 = JPA Performance
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 When using JPA the developer sometimes does not see or understand where and when statements to the database are triggered.
 [quote, Dan Allen, https://epdf.tips/seam-in-action.html]
 ____
@@ -10,6 +12,8 @@ ____
 So in case you do not understand what is going on under the hood of JPA, you will easily run into performance issues due to lazy loading and other effects.
 
 == N plus 1 Problem
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The most prominent phenomena is call the `N+1 Problem`.
 We use entities from our https://github.com/devonfw/my-thai-star[MTS] demo app as an example to explain the problem.
 There is a https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/dishmanagement/dataaccess/api/DishEntity.java[DishEntity] that has a `@ManyToMany` relation to
@@ -28,6 +32,8 @@ Now `dish.getExtras()` is loaded lazy. Therefore the JPA vendor will provide a l
 Now `findDishById` caused 1 initial query statement and for any number `N` of ingredients we are causing an additional query statement. This makes a total of `N+1` statements. As causing statements to the database is an expensive operation with a lot of overhead (creating connection, etc.) this ends in bad performance and is therefore a problem (the N+1 Problem).
 
 == Solving N plus 1 Problem
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 To solve the N+1 Problem you need to change your code to only trigger a single statement instead. This can be archived in various ways. The most universal solution is to use `FETCH JOIN` in order to pre-load the nested `N` child entities into the first level cache of the JPA vendor implementation. This will behave very similar as if the `@ManyToMany` relation to `IngredientEntity` was having `FetchType.EAGER` but only for the specific query and not in general. Because changing `@ManyToMany` to `FetchType.EAGER` would cause bad performance for other usecases where only the dish but not its extra ingredients are needed. For this reason all relations, including `@OneToOne` should always be `FetchType.LAZY`. Back to our example we simply replace `dao.findDishById(dishId)` with `dao.findDishWithExtrasById(dishId)` that we implement by the following JPQL query:
 [source,sql]
 ----

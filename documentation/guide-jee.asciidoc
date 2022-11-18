@@ -3,6 +3,8 @@ toc::[]
 
 = JEE
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 This section is about Java Enterprise Edition (JEE).
 Regarding to our link:architecture#key-principles.asciidoc[key principles] we focus on open standards.
 For Java this means that we consider official standards from Java Standard and Enterprise Edition as first choice for considerations.
@@ -15,6 +17,8 @@ Please note that JEE has nowadays been replaced by https://jakarta.ee/[JakartaEE
 link:quarkus.asciidoc[Quarkus] already supports this and also link:spring.asciidoc[spring]-boot supports it starting from version `2.6` so for new projects you should consider to directly use only JakartaEE.
 
 == Application-Server
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 We designed everything based on standards to work with different technology stacks and servlet containers.
 However, we strongly encourage to use modern and leightweight frameworks such as link:spring.asciidoc[spring] or link:quarkus.asciidoc[quarkus].
 You are free to decide for a JEE application server but here is a list of good reasons for our decision:

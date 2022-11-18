@@ -1,9 +1,13 @@
 = Quarkus Quickstart 
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 This guide serves as a quickstart on how to create a Quarkus app, briefly presenting the key functionalities that Quarkus provides, both for beginners and experienced developers.
 
 
 == Introduction to Quarkus 
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 To get a first introduction to Quarkus, you can read the link:../quarkus.asciidoc[Quarkus introduction guide]. To get a brief overview of where you can find the important Quarkus related guides, follow the chapter link:../quarkus.asciidoc#guide-to-the-reader[guide to the reader].
 Also, see the comparison of the link:../quarkus.asciidoc#Pros[advantages] and link:../quarkus.asciidoc#cons[disadvantages] of a Quarkus application compared to the alternative framework Spring.
@@ -11,6 +15,8 @@ This comparison will be supported by our link:../performance-comparison-spring-q
 
 
 == Installation of Tools and Dependencies
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 First, we need to install some dependencies and tools before we can start programming. Our tool https://devonfw.com/website/pages/docs/devonfw-ide-introduction.asciidoc.html[devonfw-ide] comes with many development tools for you.
 We need to install the following tools for this guide:
@@ -40,6 +46,8 @@ We will create the project there.
 
 == Bootstrap a Quarkus Project
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Quarkus provides multiple ways to bootstrap a project.
 The option to bootstrap a project via the command-line is shown in the Quarkus getting started guide https://quarkus.io/guides/getting-started#bootstrapping-the-project[Bootstrap the project].
 Quarkus also provides a project builder where you can select some extensions, the build tool for your project, and if you want, some starter code.
@@ -47,16 +55,24 @@ This will deliver a project skeleton with the configured project dependencies an
 
 [NOTE]
 ====
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 By creating a Quarkus project from the command-line or with the project builder, you get a different project structure and have to adapt it to the devon4j conventions shown in the next Chapter.
 ====
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 === Project Structure
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 We provide a recommendation and guideline for a link:../guide-structure-modern.asciidoc[modern project structure] to help organize your project into logically related modules.
 In order to comply with the requirements of modern cloud development and microservice architectures, follow the guide and apply the modern project structure to your project. You can also find similar modules in our example projects.
 
 
 == Introduction to Quarkus Functionality
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Before we start programming, you should first have a look at the functionality of Quarkus.
 
 .Quarkus functionality guides
@@ -69,6 +85,8 @@ This guide shows how to link:../guide-migration-spring-quarkus.asciidoc[migrate 
 
 
 == Create a REST service
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Now let's create our first REST CRUD service with Quarkus. 
 We give you the options of using a guide to start to code the service yourself or to just download a service that's ready to use. 
 
@@ -86,6 +104,8 @@ This project will be steadily improved and is used to showcase the abilities of 
 
 == OpenAPI generation 
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 We provide a guide with a short introduction to the link:../guide-openaoi.asciidoc[OpenAPI specification] with two plugins that are important in a Quarkus Context.
 
 1. link:../guide-openaoi.asciidoc#smallrye-openapi[Smallrye Openapi supported by quarkus] 
@@ -95,6 +115,8 @@ A more detailed usage guide to the Smallrye Plugin is provided by https://quarku
 
 
 == How to Integrate a Database
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The next step for our REST service would be to integrate a database to store the objects of the entity. 
 
 With Quarkus, adding a database can be easy, because Quarkus can take over the build-up and connection process.
@@ -128,8 +150,12 @@ The implementation is not our first choice with devon4j and therefore not part o
 
 [NOTE]
 ====
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 You need an installed Docker version for the https://quarkus.io/guides/datasource#dev-services[zero config setup].
 ==== 
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 
 .Database Migration
@@ -141,6 +167,8 @@ This should be used if you start your own database and do not leave the creation
 
 
 == Testing a Quarkus Application 
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 After we have built the service, we have to verify it with some tests.
 We will give you some guidelines to implement some test cases.
 
@@ -155,6 +183,8 @@ Most of the Quarkus applications are already equipped with a basic test and our 
 
 
 == Packaging of a Quarkus application and creation of a native executable
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Quarkus applications can be packaged into different file types. The following link will show you how to build them and give you a short explanation of the characteristics of these files.
 
 .Package types
@@ -169,6 +199,8 @@ Configure the Output with these https://quarkus.io/guides/maven-tooling#configur
 
 
 == Create and build a Docker Image
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Quarkus supports Jib, S2I and https://www.docker.com/[Docker] for building images. We focus on building a Quarkus App with Docker.
 You get a generated Dockerfile from Quarkus in the src/main/docker folder of any project generated from Quarkus. There are multiple Dockerfiles.
@@ -185,8 +217,12 @@ The native file will run in a **Distroless container**. Distroless images are ve
 
 [Note]
 ====
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For more information to the different executables go back to the chapter xref:packaging-of-a-quarkus-application-and-creation-of-a-native-executable[Packaging of a Quarkus application and creation of a native executable]
 ====
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 To simply build and run a Docker image, you can follow the instructions Quarkus provides for every Dockerfile in the comments block. 
 
 Docker commands example for the JVM Dockerfile from our https://github.com/devonfw-sample/devon4quarkus-reference[reference project]

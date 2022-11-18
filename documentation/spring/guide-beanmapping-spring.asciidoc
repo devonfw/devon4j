@@ -1,10 +1,14 @@
 
 = Bean Mapping in devon4j-spring
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 We have developed a solution that uses a `BeanMapper` that allows to abstract from the underlying implementation. As mentioned in the link:../guide-beanmapping.asccidoc[general bean mapping guide], we started with http://dozer.sourceforge.net/documentation/about.html[Dozer] a Java Bean to Java Bean mapper that recursively copies data from one object to another. Now we recommend using https://orika-mapper.github.io/orika-docs/[Orika]. This guide will show an introduction to Orika and Dozer bean-mapper.
 
 
 == Bean-Mapper Dependency
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 To get access to the `BeanMapper` we have to use either of the below dependency in our POM:
 
@@ -29,7 +33,11 @@ To get access to the `BeanMapper` we have to use either of the below dependency 
 ----
 
 == Bean-Mapper Configuration 
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 === Bean-Mapper Configuration using Dozer
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The `BeanMapper` implementation is based on an existing open-source bean-mapping framework. 
 In case of Dozer the mapping is configured `src/main/resources/config/app/common/dozer-mapping.xml`.
@@ -50,6 +58,8 @@ Important is that you configure all your custom datatypes as `<copy-by-reference
 
 == Bean-Mapper Configuration using Orika
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Orika with devonfw is configured by default and sets some custom mappings for _GenericEntity.java_ to _GenericEntityDto.java_. To specify and customize the mappings you can create the class _BeansOrikaConfig.java_ that extends the class _BaseOrikaConfig.java_ from the *devon4j.orika* package. To register a basic mapping, register a *ClassMap* for the *mapperFactory* with your custom mapping. Watch the example below and follow the https://orika-mapper.github.io/orika-docs/mappings-via-classmapbuilder.html[basic Orika mapping configuration guide] and the https://orika-mapper.github.io/orika-docs/advanced-mappings.html[Orika advanced mapping guide].
 
 Register Mappings:
@@ -63,6 +73,8 @@ mapperFactory.classMap(UserEntity.class, UserEto.class)
 ----
 
 == Bean-Mapper Usage
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Then we can get the `BeanMapper` via link:guide-dependency-injection.asciidoc[dependency-injection] what we typically already provide by an abstract base class (e.g. `AbstractUc`). Now we can solve our problem very easy:
 

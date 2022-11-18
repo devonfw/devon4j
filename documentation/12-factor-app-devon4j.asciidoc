@@ -3,6 +3,8 @@ toc::[]
 
 = 12-factor-app with devon4j
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 This document mainly focuses on discussing how can you create 12 factor app with devon4j. To know more about this 12 factors you can refer https://12factor.net/[here] . Twelve factor is mainly focus on creating cloud native applications. These are the guidelines on what factors you need to consider in different stages of application lifecycle.
 
 

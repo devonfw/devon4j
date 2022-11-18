@@ -3,9 +3,13 @@ toc::[]
 
 = Data-permissions
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 In some projects there are demands for permissions and authorization that is dependent on the processed data. E.g. a user may only be allowed to read or write data for a specific region. This is adding some additional complexity to your authorization. If you can avoid this it is always best to keep things simple. However, in various cases this is a requirement. Therefore the following sections give you guidance and patterns how to solve this properly.
 
 == Structuring your data
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For all your business objects (entities) that have to be secured regarding to data permissions we recommend that you create a separate interface that provides access to the relevant data required to decide about the permission. Here is a simple example:
 [source,java]
 ----
@@ -22,6 +26,8 @@ public interface SecurityDataPermissionCountry {
 Now related business objects (entities) can implement this interface. Often such data-permissions have to be applied to an entire object-hierarchy. For security reasons we recommend that also all child-objects implement this interface. For performance reasons we recommend that the child-objects redundantly store the data-permission properties (such as `country` in the example above) and this gets simply propagated from the parent, when a child object is created.
 
 == Permissions for processing data
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 When saving or processing objects with a data-permission, we recommend to provide dedicated methods to verify the permission in an abstract base-class such as `AbstractUc` and simply call this explicitly from your business code. This makes it easy to understand and debug the code. Here is a simple example:
 [source,java]
 ----
@@ -29,6 +35,8 @@ protected void verifyPermission(SecurityDataPermissionCountry entity) throws Acc
 ----
 
 === Beware of AOP
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For simple but cross-cutting data-permissions you may also use link:guide-aop.asciidoc[AOP]. This leads to programming aspects that reflectively scan method arguments and magically decide what to do. Be aware that this quickly gets tricky:
 
 * What if multiple of your method arguments have data-permissions (e.g. implement `SecurityDataPermission*`)?
@@ -38,6 +46,8 @@ For simple but cross-cutting data-permissions you may also use link:guide-aop.as
 What we have learned is that annotations like `@PreAuthorize` from `spring-security` easily lead to the "programming in string literals" anti-pattern. We strongly discourage to use this anti-pattern. In such case writing your own `verifyPermission` methods that you manually call in the right places of your business-logic is much better to understand, debug and maintain.
 
 == Permissions for reading data
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 When it comes to restrictions on the data to read it becomes even more tricky. In the context of a user only entities shall be loaded from the database he is permitted to read. This is simple for loading a single entity (e.g. by its ID) as you can load it and then if not permitted throw an exception to secure your code. But what if the user is performing a search query to find many entities? For performance reasons we should only find data the user is permitted to read and filter all the rest already via the database query. But what if this is not a requirement for a single query but needs to be applied cross-cutting to tons of queries? Therefore we have the following pattern that solves your problem:
 
 For each data-permission attribute (or set of such) we create an abstract base entity:
@@ -164,6 +174,8 @@ public class PermissionCheckerAdvisor implements PointcutAdvisor, Pointcut, Clas
 }
 ----
 == Managing and granting the data-permissions
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Following our link:guide-access-control.asciidoc#authorization[authorization guide] we can simply create a permission for each country. We might simply reserve a prefix (as virtual `«app-id»`) for each data-permission to allow granting data-permissions to end-users across all applications of the IT landscape. In our example we could create access controls `country.DE`, `country.US`, `country.ES`, etc. and assign those to the users. The method `permissionChecker.getPermittedCountriesForReading()` would then scan for these access controls and only return the 2-letter country code from it.
 
 CAUTION: Before you make your decisions how to design your access controls please clarify the following questions:

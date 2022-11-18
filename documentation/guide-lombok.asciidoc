@@ -3,10 +3,14 @@ toc::[]
 
 = Lombok 
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 https://projectlombok.org/[Lombok] is a library that works with an annotation processor and will generate code for you to save you some time and reduce the amount of boilerplate code in your project. Lombok can generate getter and setter, equals methods, automate your logging variables for your classes, and more. Follow the https://projectlombok.org/features/all[list of all the features] provided by Lombok to get an overview.
 
 
 == Lombok Dependency 
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 To get access to the Lombok library just add the following dependency to the POM.xml.
 
 The Lombok dependency:
@@ -21,6 +25,8 @@ The Lombok dependency:
 To get Lombok working with your current IDE you should also install the Lombok addon. Follow the https://projectlombok.org/setup/eclipse[Eclipse installation guide], there are also guides for other supported IDEs.
 
 == Lombok with Mapstruct 
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 MapStruct takes advantage of generated getters, setters, and constructors from Lombok and uses them to
 generate the mapper implementations. Lombok is also an annotation processor and since version 1.18.14 both frameworks are working together. Just add the `lombok-mapstruct-binding` to your POM.xml.
 
@@ -59,6 +65,8 @@ The Lombok annotation processor and the `lombok-mapstruct-binding`
 In our https://github.com/devonfw-sample/devon4quarkus-reference[quarkus reference project] you can get a look into the usage of both frameworks.
 
 == Lombok Usage
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Lombok can be used like any other annotation processor and will be shown in the simple example below to generate getter and setter for a _Product_ Entity.
 
 [source, java]

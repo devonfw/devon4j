@@ -2,12 +2,16 @@
 toc::[]
 
 = Access-Control
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Access-Control is a central and important aspect of link:guide-security.asciidoc[Security]. It consists of two major aspects:
 
 * xref:Authentication[] (Who tries to access?)
 * xref:Authorization[] (Is the one accessing allowed to do what he wants to do?)
 
 == Authentication
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Definition:
 
 > Authentication is the verification that somebody interacting with the system is the actual subject for whom he claims to be.
@@ -17,6 +21,8 @@ The one authenticated is properly called _subject_ or http://docs.oracle.com/jav
 To prove the authenticity, the user provides some secret called _credentials_. The most simple form of credentials is a password.
 
 === Implementations
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 NOTE: Please never implement your own authentication mechanism or credential store. You have to be aware of implicit demands such as salting and hashing credentials, password life-cycle with recovery, expiry, and renewal including email notification confirmation tokens, central password policies, etc. This is the domain of identity and access management (IAM). There are various existing products for IAM that already solve the problems better than you could ever implement it yourselve. In a business context you will typically already find a system for this purpose that you have to integrate (e.g. via JWT and OAuth). In case you have the freedom of choice, we recommend using http://keycloak.org[keycloak].
 
 We recommend using link:guide-jwt.asciidoc[JWT] when possible. For KISS, also try to avoid combining multiple authentication mechanisms (form based, basic-auth, SAMLv2, OAuth, etc.) within the same application (for different URLs).
@@ -32,11 +38,15 @@ For link:quarkus.asciidoc[quarkus], check the link:quarkus/guide-authentication-
 
 == Authorization
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 **Definition:**
 
 > Authorization is the verification that an authenticated user is allowed to perform the operation he intends to invoke.
 
 === Clarification of terms
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 For clarification we also want to give a common understanding of related terms that have no unique definition and consistent usage in the wild.
 
@@ -53,6 +63,8 @@ For simple scenarios a principal has a single role associated. In more complex s
 |=======================
 
 === Suggestions on the access model
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For the access model we give the following suggestions:
 
 * Each Access Control (permission, group, role, ...) is uniquely identified by a human readable string.
@@ -65,6 +77,8 @@ For the access model we give the following suggestions:
 * Technically we consider permissions as a secret of the application. Administrators shall not fiddle with individual permissions but grant them via groups. So the access management provides a list of strings identifying the Access Controls of a user. The individual application itself contains these Access Controls in a structured way, whereas each group forms a permission tree.
 
 === Naming conventions
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 As stated above each Access Control is uniquely identified by a human readable string. This string should follow the naming convention: 
 ```
 «app-id».«local-name»
@@ -88,6 +102,8 @@ So as an example `shop.FindProduct` will reflect the permission to search and re
 
 === devon4j-security
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The module `devon4j-security` provides ready-to-use code based on http://projects.spring.io/spring-security/[spring-security] that makes your life a lot easier.
 
 .devon4j Security Model
@@ -99,6 +115,8 @@ The diagram shows the model of `devon4j-security` that separates two different a
 * The application security defines a hierarchy of _secondary access control objects_ (groups and permissions). This is done by configuration owned by the application (see following section). The "API" is defined by the IDs of the primary access control objects that will be referenced from the _Identity- and Access-Management_.
 
 === Access Control Config
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In your application simply extend `AccessControlConfig` to configure your access control objects as code and reference it from your use-cases. An example config may look like this:
 [source,java]
 ----
@@ -138,6 +156,8 @@ public class ApplicationAccessControlConfig extends AccessControlConfig {
 ----
 
 === Configuration on Java Method level
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In your use-case you can now reference a permission like this:
 [source,java]
 ----
@@ -152,6 +172,8 @@ public class UcSafeOfferImpl extends ApplicationUc implements UcSafeOffer {
 ----
 
 === JEE Standard
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 https://en.wikipedia.org/wiki/Role-based_access_control[Role-based Access Control (RBAC)] is commonly used for authorization.
 JSR 250 defines a number of common annotations to secure your application.
 
@@ -189,6 +211,8 @@ This class is typically called `ApplicationAccessControlConfig` in devonfw.
 In many complicated cases where `@PermitAll` `@DenyAll` `@RolesAllowed` are insufficient e.g. a method should be accessed by a user in role A and not in role B at the same time, you have to verify the user role directly in the method. You can use `SecurityContext` class to get further needed information.
 
 ==== Spring
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Spring Security also supports authorization on method level. To use it, you need to add the `spring-security-config` dependency. If you use Spring Boot, the dependency `spring-boot-starter-security` already includes `spring-security-config`. Then you can configure as follows:
 
     * `prePostEnabled` property enables Spring Security pre/post annotations. `@PreAuthorize` and `@PostAuthorize` annotations provide expression-based access control. See more https://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/el-access.html[here]
@@ -209,10 +233,16 @@ public class MethodSecurityConfig
 A further read about the whole concept of Spring Security Authorization can be found https://docs.spring.io/spring-security/site/docs/current/reference/html5/#servlet-authorization[here].
 
 ==== Quarkus
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Quarkus comes with built-in security to allow for RBAC based on the common security annotations `@RolesAllowed`, `@DenyAll`, `@PermitAll` on REST endpoints and CDI beans. Quarkus also provides the `io.quarkus.security.Authenticated` annotation that will permit any authenticated user to access the resource (equivalent to @RolesAllowed("**")).
 
 === Data-based Permissions
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 See link:guide-data-permission.asciidoc[data permissions]
 
 === Access Control Schema (deprecated)
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The `access-control-schema.xml` approach is deprecated. The documentation can still be found in link:guide-access-control-schema.asciidoc[access control schema].

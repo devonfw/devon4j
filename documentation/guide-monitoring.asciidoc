@@ -3,6 +3,8 @@ toc::[]
 
 = Monitoring
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 For monitoring a complex application landscape it is crucial to have an exact overview which applications are up and running and which are not and why.
 In devonfw we only focus on topics which are most important when developing production-ready applications.
 On a high level view we strongly suggest to separate the application to be monitored from the `monitoring system` itself.
@@ -13,6 +15,8 @@ Please note that there is a huge list of such products and devonfw is not biased
 Instead please search and find the products that fit best for your requirements and infrastructure.
 
 == Types of monitoring
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 As monitoring coveres a lot of different aspects we separate the following types of monitoring and according data:
 
@@ -26,6 +30,8 @@ is about providing internal data about the current health of your app. Typically
 is about measuring performance and tracing down performance issues.
 
 == Health-Check
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The idea of a health check is to prodvide monitoring data about the current health status of your application.
 This allows to integrate this specific data into the monitoring system used for your IT landscape.

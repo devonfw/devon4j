@@ -3,11 +3,15 @@ toc::[]
 
 = Quarkus
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 https://quarkus.io[Quarkus] is a Java framework for building cloud-native apps.
 It is fully supported by https://devonfw.com[devonfw] as an option and alternative to link:spring.asciidoc[spring].
 Additional things like extensions will be available on the  https://github.com/devonfw/devon4quarkus[devon4quarkus] GitHub repository.
 
 == Guide to the Reader
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Depending on your intention of reading this document, you might be more interested in the following chapters:
 
@@ -30,6 +34,8 @@ Depending on your intention of reading this document, you might be more interest
 [[pros]]
 == Pros
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Quarkus offers the following benefits:
 
 * *fast turn-around cycles for developers* +
@@ -41,6 +47,8 @@ As quarkus was born as a cloud-native framework, it is very light-weight and doe
 
 [[cons]]
 == Cons
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Quarkus has the following drawbacks:
 

@@ -3,10 +3,14 @@ toc::[]
 
 = Logging
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 We recommend to use http://www.slf4j.org/[SLF4J] as API for logging, that has become a de facto standard in Java as it has a much better design than `java.util.logging` offered by the JDK.
 There are serveral implementations for SLF4J. For Spring applications our recommended implementation is http://logback.qos.ch/[Logback]. Quarkus uses JBoss Logging which provides a JBoss Log Manager implementation for SLF4J. For more information on logging in Quarkus, see the https://quarkus.io/guides/logging[Quarkus logging guide].
 
 == Logging Dependencies
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 To use Logback in your Spring application, you need to include the following dependencies:
 
@@ -34,6 +38,8 @@ In devon4j these dependencies are provided by the https://github.com/devonfw/dev
 In Quarkus, SLF4J and the https://github.com/jboss-logging/slf4j-jboss-logmanager[`slf4j-jboss-logmanager`] are directly included in the Quarkus core runtime and can be used out of the box.
 
 == Logger Access
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The general pattern for accessing loggers from your code is a static logger instance per class using the following pattern:
 
 [source,java]
@@ -52,9 +58,13 @@ For detailed documentation how to use the logger API check the http://www.slf4j.
 NOTE: In case you are using https://github.com/devonfw/ide[devonfw-ide] and Eclipse you can just type `LOG` and hit `[ctrl][space]` to insert the code pattern including the imports into your class.
 
 === Lombok
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In case you are using link:guide-lombok.asciidoc[Lombok], you can simply use the https://projectlombok.org/api/lombok/extern/slf4j/Slf4j.html[`@Slf4j`] annotation in your class. This causes Lombok to generate the logger instance for you.
 
 == Log-Levels
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 We use a common understanding of the log-levels as illustrated by the following table.
 This helps for better maintenance and operation of the systems.
 
@@ -72,15 +82,21 @@ This helps for better maintenance and operation of the systems.
 Exceptions (with their stack trace) should only be logged on `FATAL` or `ERROR` level. For business exceptions typically a `WARNING` including the message of the exception is sufficient.
 
 === Configuration of Logback
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The configuration of logback happens via the `logback.xml` file that you should place into `src/main/resources` of your app.
 For details consult the http://logback.qos.ch/manual/configuration.html[logback configuration manual].
 
 NOTE: Logback also allows to overrule the configuration with a `logback-test.xml` file that you may put into `src/test/resources` or into a test-dependency.
 
 === Configuration in Quarkus
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The are several options you can set in the `application.properties` file to configure the behaviour of the logger in Quarkus. For a detailed overview, see the corresponding part of the https://quarkus.io/guides/logging#runtime-configuration[Quarkus guide].
 
 == JSON-logging
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 For easy integration with link:guide-log-monitoring.asciidoc[log-monitoring], we recommend that your app logs to `standard out` in JSON following https://jsonlines.org/[JSON Lines].
 
@@ -103,6 +119,8 @@ This will produce log-lines with the following format (example formatted for rea
 ----
 
 === Adding custom values to JSON log with Logstash
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The JSON encoder even supports logging custom properties for your link:guide-log-monitoring.asciidoc[log-monitoring].
 The _trick_ is to use the class `net.logstash.logback.argument.StructuredArguments` for adding the arguments to you log message, e.g.
@@ -131,11 +149,15 @@ As you can quickly see besides the human readable `message` you also have the st
 
 == Classic log-files
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 NOTE: **In devon4j, we strongly recommend using JSON logging instead of classic log files. The following section refers only to devon4j Spring applications that use Logback.**
 
 Even though we do not recommend anymore to write classical log-files to the local disc, here you can still find our approach for it.
 
 === Maven-Integration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In the `pom.xml` of your application add this dependency:
 [source,xml]
 ----
@@ -182,6 +204,8 @@ log.dir=../logs/
 ----
 
 === Log Files
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The classical approach uses the following log files:
 
 * *Error Log*: Includes log entries to detect errors.
@@ -208,6 +232,8 @@ Error log from +mywebserver01+ at application +myapp+ at 16th September 2013 9pm
 
 === Output format
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 We use the following output format for all log entries to ensure that searching and filtering of log entries work consistent for all logfiles:
 
 ```
@@ -229,6 +255,8 @@ Example:
 NOTE: When using devon4j-logging, this format is used by default. To achieve this format in Quarkus, set `quarkus.log.console.format=[D: %d] [P: %p] [C: %X] [T: %t] [L: %c] [M: %m]%n` in your properties.
 
 === Correlation ID
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In order to correlate separate HTTP requests to services belonging to the same user / session, we provide a servlet filter called `DiagnosticContextFilter`.
 This filter takes a provided correlation ID from the HTTP header `X-Correlation-Id`.
 If none was found, it will generate a new correlation id as `UUID`.
@@ -237,5 +265,7 @@ Therefore, it will then be included to any log message of the current request (t
 Further concepts such as link:guide-service-client.asciidoc[service invocations] will pass this correlation ID to subsequent calls in the application landscape. Hence you can find all log messages related to an initial request simply via the correlation ID even in highly distributed systems.
 
 === Security
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In order to prevent https://owasp.org/www-community/attacks/Log_Injection[log forging] attacks you can simply use the suggested xref:json-logging[JSON logging] format.
 Otherwise you can use `com.devonfw.module.logging.common.impl.SingleLinePatternLayout` as demonstrated  https://github.com/devonfw/devon4j/blob/master/modules/logging/src/main/resources/com/devonfw/logging/logback/appender-file-warn.xml[here] in order to prevent such attacks.

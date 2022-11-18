@@ -3,6 +3,8 @@ toc::[]
 
 = Testing devon4j SNAPSHOT releases
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Whenever a story in devon4j is completed by merging a https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests[PR],
 our https://github.com/features/actions[github actions] will build a new SNAPSHOT release and on success deploy it to nexus on OSSRH.
 You can therefore find the latest devonfw SNAPSHOT releases https://oss.sonatype.org/content/repositories/snapshots/com/devonfw/[here].

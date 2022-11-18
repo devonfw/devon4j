@@ -3,9 +3,13 @@ toc::[]
 
 = Coding Conventions
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The code should follow general conventions for Java (see http://www.oracle.com/technetwork/java/namingconventions-139351.html[Oracle Naming Conventions], https://google.github.io/styleguide/javaguide.html[Google Java Style], etc.).We consider this as common sense and provide configurations for http://www.sonarqube.org/[SonarQube] and related tools such as http://checkstyle.sourceforge.net/[Checkstyle] instead of repeating this here.
 
 == Naming
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Besides general Java naming conventions, we follow the additional rules listed here explicitly:
 
 * Always use short but speaking names (for types, methods, fields, parameters, variables, constants, etc.).
@@ -18,6 +22,8 @@ Besides general Java naming conventions, we follow the additional rules listed h
 * Names of Generics should be easy to understand. Where suitable follow the common rule `E=Element`, `T=Type`, `K=Key`, `V=Value` but feel free to use longer names for more specific cases such as `ID`, `DTO` or `ENTITY`. The capitalized naming helps to distinguish a generic type from a regular class.
 
 == Packages
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Java Packages are the most important element to structure your code. We use a strict packaging convention to map technical layers and business components (slices) to the code (See link:architecture.asciidoc#technical-architecture[technical architecture] for further details). By using the same names in documentation and code we create a strong link that gives orientation and makes it easy to find from business requirements, specifications or story tickets into the code and back.
 
 For an devon4j based application we use the following Java-Package schema:
@@ -39,9 +45,13 @@ So in a devon4j application we could e.g. find the Spring-Data repositories for 
 Please note that `devon4j` library modules for spring use `com.devonfw.module` as `«root»` and the name of the module as `«component»`. E.g. the API of our `beanmapping` module can be found in the package `com.devonfw.module.beanmapping.common.api`.
 
 == Code Tasks
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Code spots that need some rework can be marked with the following tasks tags. These are already properly pre-configured in your development environment for auto completion and to view tasks you are responsible for. It is important to keep the number of code tasks low. Therefore, every member of the team should be responsible for the overall code quality. So if you change a piece of code and hit a code task that you can resolve in a reliable way, please do this as part of your change and remove the according tag.
 
 === TODO
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Used to mark a piece of code that is not yet complete (typically because it can not be completed due to a dependency on something that is not ready).
 
 [source,java]
@@ -50,18 +60,24 @@ Used to mark a piece of code that is not yet complete (typically because it can 
 A TODO tag is added by the author of the code who is also responsible for completing this task.
 
 === FIXME
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 [source,java]
  // FIXME «author» «description»
 
 A FIXME tag is added by the author of the code or someone who found a bug he can not fix right now. The «author» who added the FIXME is also responsible for completing this task. This is very similar to a TODO but with a higher priority. FIXME tags indicate problems that should be resolved before a release is completed while TODO tags might have to stay for a longer time.
 
 === REVIEW
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 [source,java]
  // REVIEW «responsible» («reviewer») «description»
 
 A REVIEW tag is added by a reviewer during a code review. Here the original author of the code is responsible to resolve the REVIEW tag and the reviewer is assigning this task to him. This is important for feedback and learning and has to be aligned with a review "process" where people talk to each other and get into discussion. In smaller or local teams a peer-review is preferable but this does not scale for large or even distributed teams.
 
 == Code-Documentation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 As a general goal, the code should be easy to read and understand. Besides, clear naming the documentation is important. We follow these rules:
 
 * APIs (especially component interfaces) are properly documented with JavaDoc.
@@ -72,12 +88,18 @@ As a general goal, the code should be easy to read and understand. Besides, clea
 * Avoid the pointless `{@inheritDoc}` as since Java 1.5 there is the `@Override` annotation for overridden methods and your JavaDoc is inherited automatically even without any JavaDoc comment at all.
 
 == Code-Style
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 This section gives you best practices to write better code and avoid pitfalls and mistakes.
 
 === BLOBs
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Avoid using `byte[]` for BLOBs as this will load them entirely into your memory. This will cause performance issues or out of memory errors. Instead, use streams when dealing with BLOBs. For further details see link:guide-blob-support.asciidoc[BLOB support].
 
 === Daten and Time
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Avoid using `java.util.Calendar`, `java.util.Date`, `java.sql.Date`, `java.util.Timestamp`, or anything directly related.
 These types are historically grown, very error prone or to make it short a disaster.
 Stop using them now!
@@ -92,6 +114,8 @@ The most important types are:
 When mapping types to XML, JSON, database, etc. nowadays there is support for `java.time`.
 
 === Stateless Programming
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 When implementing logic as components or _beans_ of your container using link:guide-dependency-injection.asciidoc[dependency injection], we strongly encourage stateless programming.
 This is not about data objects like an link:guide-jpa.asciidoc#entity[entity] or link:guide-transferobject.asciidoc[transfer-object] that are stateful by design.
 Instead this applies to all classes annotated with `@Named`, `@ApplicationScoped`, `@Stateless`, etc. and all their super-classes.
@@ -163,6 +187,8 @@ public class UcApproveContractImpl implements UcApproveContract {
 ----
 
 === Closing Resources
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Resources such as streams (`InputStream`, `OutputStream`, `Reader`, `Writer`) or transactions need to be handled properly. Therefore, it is important to follow these rules:
 
 * Each resource has to be closed properly, otherwise you will get out of file handles, TX sessions, memory leaks or the like
@@ -194,6 +220,8 @@ try (InputStream in = new FileInputStream(file)) {
 ----
 
 === Catching and handling Exceptions
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 When catching exceptions always ensure the following:
 
 * Never call `printStackTrace()` method on an exception
@@ -203,6 +231,8 @@ When catching exceptions always ensure the following:
 * See link:guide-exceptions.asciidoc#handling-exceptions[exception handling]
 
 === Lambdas and Streams
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 With Java8 you have cool new features like lambdas and monads like (`Stream`, `CompletableFuture`, `Optional`, etc.).
 However, these new features can also be misused or led to code that is hard to read or debug. To avoid pain, we give you the following best practices:
 
@@ -297,6 +327,8 @@ public List<String> twitterHandles(List<Author> authors, String company) {
 ----
 
 === Optionals
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 With `Optional` you can wrap values to avoid a `NullPointerException` (NPE). However, it is not a good code-style to use `Optional` for every parameter or result to express that it may be null. For such case use `@Nullable` or even better instead annotate `@NotNull` where `null` is not acceptable.
 
 However, `Optional` can be used to prevent NPEs in fluent calls (due to the lack of the elvis operator):
@@ -308,6 +340,8 @@ id = Optional.ofNullable(fooCto).map(FooCto::getBar).map(BarCto::getBar).map(Bar
 ----
 
 === Encoding
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Encoding (esp. Unicode with combining characters and surrogates) is a complex topic. Please study this topic if you have to deal with encodings and processing of special characters. For the basics follow these recommendations:
 
 * Whenever possible prefer unicode (UTF-8 or better) as encoding. This especially impacts your databases and has to be defined upfront as it typically can not be changed (easily) afterwards.
@@ -318,6 +352,8 @@ Encoding (esp. Unicode with combining characters and surrogates) is a complex to
 ** Always provide an encoding when you create a `Reader` or `Writer` : `new InputStreamReader(inStream, encoding)`
 
 === Prefer general API
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Avoid unnecessary strong bindings:
 
 * Do not bind your code to implementations such as `Vector` or `ArrayList` instead of `List`
@@ -326,6 +362,8 @@ Avoid unnecessary strong bindings:
 ** consider preferring `Collection<? extends Foo>` over `Collection<Foo>` when `Foo` is an interface or super-class
 
 === Prefer primitive boolean
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Unless in rare cases where you need to allow a flag being `null` avoid using the object type `Boolean`.
 [source,java]
 ----

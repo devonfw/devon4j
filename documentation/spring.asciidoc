@@ -3,10 +3,14 @@ toc::[]
 
 = Spring
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 https://spring.io[Spring] is the most famous and established Java framework.
 It is fully supported by https://devonfw.com[devonfw] as an option and alternative to link:quarkus.asciidoc[quarkus].
 
 == Guide to the Reader
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Dependent on the intention you are reading this document, you might be most interested in the following chapters:
 
@@ -20,6 +24,8 @@ Dependent on the intention you are reading this document, you might be most inte
 
 [[pros]]
 == Pros
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Spring offers the following benefits:
 
@@ -35,6 +41,8 @@ See https://spring.io/why-spring[Why Spring?] for details.
 [[cons]]
 == Cons
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Spring has the following drawbacks:
 
 * *history and legacy* +
@@ -44,10 +52,14 @@ While for the last decades spring was leading innovation in Java app development
 
 == Spring-Boot
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 https://spring.io/projects/spring-boot[Spring-boot] is a project and initiaitve within the spring-ecosystem that brought a lot of innovation and simplification into app development on top of spring.
 As of today we typically use the terms _spring_ and _spring-boot_ rather synonymously as we always use spring together with spring-boot.
 
 == Spring-Native
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 https://github.com/spring-projects-experimental/spring-native[Spring-native] adds cloud-native support to the spring ecosystem and allows to build a spring app as cloud-native image via https://www.graalvm.org/[GraalVM].
 You may also consider link:quarkus.asciidoc[Quarkus] if you are interested in building cloud-native images. For a comparison of both Spring Native and Quarkus, you may refer to our link:Spring-native-vs-Quarkus.asciidoc[Spring Native vs. Quarkus] guide.

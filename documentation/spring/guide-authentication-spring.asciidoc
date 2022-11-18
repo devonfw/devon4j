@@ -3,6 +3,8 @@ toc::[]
 
 = Spring Security
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 We use https://projects.spring.io/spring-security/[spring-security] as a framework for authentication purposes.
 
 Therefore, you need to provide an implementation of https://docs.spring.io/spring-security/site/docs/4.2.x/apidocs/org/springframework/security/config/annotation/web/WebSecurityConfigurer.html[WebSecurityConfigurerAdapter]:
@@ -36,6 +38,8 @@ Mix authentication should be avoided where possible. However, when needed, you c
 https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#multiple-httpsecurity[here].
 
 === Preserve original request anchors after form login redirect
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Spring Security will automatically redirect any unauthorized access to the defined login-page. After successful login, the user will be redirected to the original requested URL. The only pitfall is, that anchors in the request URL will not be transmitted to server and thus cannot be restored after successful login. Therefore the `devon4j-security` module provides the `RetainAnchorFilter`, which is able to inject javascript code to the source page and to the target page of any redirection. Using javascript this filter is able to retrieve the requested anchors and store them into a cookie. Heading the target URL this cookie will be used to restore the original anchors again.
 
 To enable this mechanism you have to integrate the `RetainAnchorFilter` as follows:

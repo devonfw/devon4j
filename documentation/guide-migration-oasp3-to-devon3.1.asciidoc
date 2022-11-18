@@ -1,5 +1,7 @@
 = Migration Guide from oasp 3.0.0 to devon4j 3.1.0 migration
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 -  https://github.com/devonfw/devonfw-guide/blob/master/general/devcon-command-reference.asciidoc#devon4j-migrate[Automatic migration] with devcon doesn't work with parent pom's; you need to migrate every single subproject on it's own.
 - If your subproject's don't contain the old oasp4j or devon4j version number you have to copy your parent pom file into your child pom files and then use the migrate command.
 - use the https://github.com/devonfw/devonfw-guide/blob/master/general/devcon-command-reference.asciidoc#devon4j-migrate[devon4j migation command]
@@ -9,12 +11,16 @@ in the child pom file.
 
 == JsonDeserializer:
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 1. Change the super class from AbstractJsonDeserializer to JsonDeserializer
 2. Implement unimplemented methods or change the methode signatur from Pageable deserializeNode(JsonNode node) to Pageable deserialize(JsonParser p, DeserializationContext context)
 3. To get the JsonNode you need to use the following methods with the JsonParser p: JsonNode node = p.getCodec().readTree(p);
 4. To get values of properties, you need to change from getRequiredValue(node, "property", String.class) to JacksonUtil.readValue(node, "property", String.class, false);
 
 == QueryUtil update 
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 whereString() (StringSearchConfigTo) method or similar:
 
@@ -23,6 +29,8 @@ whereString() (StringSearchConfigTo) method or similar:
 devon4j (for example import com.devonfw.module.beanmapping.common.api.BeanMapper)
 
 == logback.xml file
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 1. There maximum three chnages that needed to be done in the logback.xml file
 2. Change the logging properties tag from 
@@ -33,15 +41,21 @@ devon4j (for example import com.devonfw.module.beanmapping.common.api.BeanMapper
 
 == OaspPackage:
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 If you use the OaspPackage class you can replace it with the Devon4jPackage class
 
 == AbstractLogic
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 1. You can replace all net.sf.mmm.util imports with the appropriate com.devonfw.module imports. For example "import net.sf.mmm.util.entity.api.GenericEntity" to "import com.devonfw.module.basic.common.api.entity.GenericEntity"
 2. Except the TransferObject and the AbstractTransferObject. These are replaced with the denvonfw AbstractTo. 
 Example: "import net.sf.mmm.util.transferobject.api.AbstractTransferObject" or "import net.sf.mmm.util.transferobject.api.TransferObject" to "import com.devonfw.module.basic.common.api.to.AbstractTo".
 
 == BeanDozerConfig
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 . Change the @ComponentScan annotation from `@ComponentScan(basePackages = { "io.oasp.module.beanmapping" })` to `@ComponentScan(basePackages = { "com.devonfw.module.beanmapping" })`.
 . Now you have to create a variable `DOZER_MAPPING_XML` with following content: `static final String DOZER_MAPPING_XML = "config/app/common/dozer-mapping.xml"`.
@@ -56,6 +70,8 @@ https://github.com/DozerMapper/dozer/blob/master/docs/asciidoc/migration/v63-to-
 . In addition, the semantics of `<mapping type="one-way">` seems to be changed. If you for example just needed to exclude files on mapping from a to b one-way, you now have to declare an empty mapping as well from b to a one-way without any field(-extension) declarations to enable mapping from b to a at all. See also https://github.com/DozerMapper/dozer/issues/605 and https://github.com/DozerMapper/dozer/issues/451
 
 == pom.xml
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 In the pom.xml file you have to do some manuall changes. You need to change all oasp dependencies to denvonfw dependencies. Here are some examples:
 
@@ -267,10 +283,14 @@ In the pom.xml file you have to do some manuall changes. You need to change all 
 
 == MutableGenericEntity
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 If you use the MutableGenericEntity<> class you have to change it to the PersistenceEntity<> class. Change the import "net.sf.mmm.util.entity.api.MutableGenericEntity" to
 "import com.devonfw.module.basic.common.api.entity.PersistenceEntity".
 
 == CompositeTo
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 If you use the CompositeTo class you should now use the AbstractTo class. Just change the import from "import net.sf.mmm.util.transferobject.api.CompositeTo" 
 to "import com.devonfw.module.basic.common.api.to.AbstractTo".

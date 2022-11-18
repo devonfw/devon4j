@@ -3,6 +3,8 @@ toc::[]
 
 = Domain Layer
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The domain layer is responsible for the data-model and mapping it to a https://github.com/devonfw/devonfw-guide/blob/master/general/db/guide-database.asciidoc[database]. 
 The most common approach is to use a Relational Database Management System (RDMS). In such a case, we strongly recommend to follow our link:guide-jpa.asciidoc[JPA Guide]. Some NoSQL databases are supported by https://spring.io/projects/spring-data[spring-data], so you can consider the link:guide-repository.asciidoc[repository guide].
 

@@ -3,6 +3,8 @@ toc::[]
 
 = Project structure
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 In devonfw we want to give clear structure and guidance for building applications.
 This also allows tools such as https://github.com/devonfw/cobigen[CobiGen] or https://github.com/devonfw/sonar-devon4j-plugin/[sonar-devon4j-plugin] to "understand" the code.
 Also this helps developers going from one devonfw project to the next one to quickly understand the code-base.

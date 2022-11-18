@@ -3,7 +3,11 @@ toc::[]
 
 = CORS configuration in Spring
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 == Dependency
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 To enable the CORS support from the server side for your devon4j-Spring application, add the below dependency:
 
@@ -16,6 +20,8 @@ To enable the CORS support from the server side for your devon4j-Spring applicat
 ----
 
 == Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Add the below properties in your application.properties file:
 

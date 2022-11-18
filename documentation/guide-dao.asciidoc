@@ -3,12 +3,16 @@ toc::[]
 
 = Data Access Object
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The _Data Access Objects_ (DAOs) are part of the persistence layer.
 They are responsible for a specific xref:entity[entity] and should be named `«Entity»Dao` and `«Entity»DaoImpl`.
 The DAO offers the so called CRUD-functionalities (create, retrieve, update, delete) for the corresponding entity.
 Additionally a DAO may offer advanced operations such as link:guide-jpa-query.asciidoc[query] or locking methods.
 
 == DAO Interface
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For each DAO there is an interface named `«Entity»Dao` that defines the API. For CRUD support and common naming we derive it from the `ApplicationDao` interface that comes with the devon application template:
 [source,java]
 ----
@@ -19,6 +23,8 @@ public interface MyEntityDao extends ApplicationDao<MyEntity> {
 All CRUD operations are inherited from `ApplicationDao` so you only have to declare the additional methods.
 
 == DAO Implementation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Implementing a DAO is quite simple. We create a class named `«Entity»DaoImpl` that extends `ApplicationDaoImpl` and implements your `«Entity»Dao` interface:
 [source,java]
 ----
@@ -36,6 +42,8 @@ Again you only need to implement the additional non-CRUD methods that you have d
 In the DAO implementation you can use the method `getEntityManager()` to access the `EntityManager` from the JPA. You will need the `EntityManager` to create and execute link:guide-jpa-query.asciidoc[queries].
 
 === Static queries for DAO Implementation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 All static link:guide-jpa-query.asciidoc[queries] are declared in the file `src\main\resources\META-INF\orm.xml`:
 [source,xml]
 ----

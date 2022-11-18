@@ -3,6 +3,8 @@ toc::[]
 
 = Building a native image
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Quarkus provides the ability to create a native executable of the application called _https://quarkus.io/guides/building-native-image[native image]_.
 Unlike other Java based deployments, a native image will only run on the architecture and operating system it is compiled for.
 Also, no JVM is needed to run the native-image.
@@ -14,21 +16,29 @@ To build your quarkus app as a native-image, you have two options that are descr
 
 == Build a native executable with GraalVM
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 To build a Quarkus application, you can install GraalVM locally on your machine, as described below.
 Therefore, read the link:quarkus-template.asciidoc#basic-templates[basic Quarkus application chapter], or clone the https://github.com/devonfw-sample/devon4quarkus-reference[example project] provided by devonfw. 
 Follow this https://quarkus.io/guides/building-native-image#producing-a-native-executable[chapter] from the Quarkus Guide for building a native executable.
 
 === Installing GraalVM
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 A native image can be created locally or through a container environment.
 To create a native image locally, an installed and configured version of GraalVM is needed. You can follow the https://quarkus.io/guides/building-native-image#prerequisites-for-oracle-graalvm-ceee[installation guide from Quarkus] or the https://www.graalvm.org/docs/getting-started/#install-graalvm[guide provided by GraalVM] for this. 
 
 == Build a native executable with GraalVM through container environment
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 In order to make the build of native images more portable, you can also use your container environment and run the GraalVM inside a container (typically Docker).
 You can simply install Docker with your devonfw-ide distribution, just follow this description link:https://github.com/devonfw/ide/blob/master/documentation/docker.asciidoc[Docker with devonfw-ide].
 Follow this https://quarkus.io/guides/building-native-image#container-runtime[chapter] to build a native Linux image through container runtime.
 
 == Configuring the native executable 
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 A list of all configuration properties for a native image can be found https://quarkus.io/guides/building-native-image#configuration-reference[here].

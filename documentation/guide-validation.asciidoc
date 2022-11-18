@@ -3,6 +3,8 @@ toc::[]
 
 = Validation
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Validation is about checking syntax and semantics of input data. Invalid data is rejected by the application.
 Therefore validation is required in multiple places of an application. E.g. the link:guide-client-layer.asciidoc[GUI] will do validation for usability reasons to assist the user, early feedback and to prevent unnecessary server requests.
 On the server-side validation has to be done for consistency and link:guide-security.asciidoc[security].
@@ -13,11 +15,15 @@ In general we distinguish these forms of validation:
 * _stateful validation_ is dependent on other states and can consider the same input data as valid in once case and as invalid in another.
 
 == Stateless Validation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For regular, stateless validation we use the JSR303 standard that is also called bean validation (BV).
 Details can be found in the http://beanvalidation.org/1.1/spec/[specification].
 As implementation we recommend http://hibernate.org/validator/[hibernate-validator].
 
 === Example
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 A description of how to enable BV for spring applications can be found in the relevant http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/htmlsingle/#validation-beanvalidation[Spring documentation]. A guide you can use to integrate validation in Quarkus applications can be found https://quarkus.io/guides/validation[here]. For a quick summary follow these steps:
 
@@ -85,9 +91,13 @@ A list with all bean validation constraint annotations available for hibernate-v
 NOTE: **Bean Validation in Wildfly >v8:** Wildfly v8 is the first version of Wildfly implementing the JEE7 specification. It comes with bean validation based on https://samaxes.com/2014/04/jaxrs-beanvalidation-javaee7-wildfly/[hibernate-validator out of the box]. In case someone is running Spring in Wildfly for whatever reasons, the spring based annotation @Validated would duplicate bean validation at runtime and thus should be omitted.
 
 === GUI-Integration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 TODO
 
 === Cross-Field Validation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 BV has poor support for this. Best practice is to create and use beans for ranges, etc. that solve this. A bean for a range could look like so:
 
 [source,java]
@@ -115,6 +125,8 @@ public class Range<V extends Comparable<V>> {
 ----
 
 == Stateful Validation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For complex and stateful business validations we do not use BV (possible with groups and context, etc.) but follow KISS and just implement this on the server in a straight forward manner.
 An example is the deletion of a table in the example application. Here the state of the table must be checked first:
 

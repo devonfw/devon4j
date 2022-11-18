@@ -3,6 +3,8 @@ toc::[]
 
 = Kafka
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 This guide explains how Spring Kafka is used in devonfw applications. It focuses on aspects which are special to devonfw if you want to learn about spring-kafka you should adhere to springs references documentation.
 
 There is an example of simple Kafka implementation in the https://github.com/devonfw-sample/devon4j-kafka-employeeapp[devon4j-kafka-employeeapp].
@@ -16,6 +18,8 @@ The devon4j-kafka library consists of:
 * Configuration support for Kafka Producers, Consumers, brave tracer and message retry processing including defaults
 
 == How to use?
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 To use devon4j-kafka you have to add required starter dependencies which is "starter-kafka-sender" or "starter-kafka-receiver" from devon4j. These 2 starters are responsible for taking care of the required spring configuration. If you only want to produce messages "starter-kafka-sender" is enough. For consuming messages you need "starter-kafka-receiver" which also includes "starter-kafka-sender".
 
@@ -42,6 +46,8 @@ To use the devon4j-kafka message receiver configurations, loggers and message re
 ----
 
 ==  Property Parameters
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 As written before kafka-producer and listener-specific configuration is done via properties classes. These classes provide useful defaults, at a minimum the following parameters have to be configured:
 
@@ -78,6 +84,8 @@ We use the same properties defined by Apache Kafka or Spring Kafka. They are sim
 
 == Naming convention for topics
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 For better managing of several Kafka topics in your application portfolio we strongly advice to introduce a naming scheme for your topics. The schema may depend on the actual usage pattern of Kafka. For context where Kafka is used
 in a 1-to-1-communication-scheme (not publish/subscribe) the following schema has been proven useful in practice:
 
@@ -89,6 +97,8 @@ in a 1-to-1-communication-scheme (not publish/subscribe) the following schema ha
 To keep things easy and prevent problems we suggest to use only small letters, hyphens but no other special characters.
 
 == Send Messages
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 As mentioned above the 'starter-kafka-sender' is required to be added as a dependency to use MessageSender from Kafka.
 
@@ -121,6 +131,8 @@ Example:
 There are multiple methods available from MessageSender of devon4j-kafka. The ProducerListener will log the message sent to the Kafka broker.
 
 == Receive Messages
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 To receive messages you have to define a listener. The listener is normally part of the service layer.
 
 [[img-t-architecture]]
@@ -170,12 +182,16 @@ The other ack-mode values can be referred from
 https://docs.spring.io/spring-kafka/api/org/springframework/kafka/listener/ContainerProperties.AckMode.html[here].
 
 == Retry
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The retry pattern in devon4j-kafka is invoked when a particular exception(described by user in application.properties file) is thrown while processing the consumed message and it is configured in application.properties file. The general idea is to separate messages which could not be processed into dedicated retry-topics to allow fine control on how processing of the messages is retried and to not block newly arriving messages.
 Let us see more about handling retry in the below topics.
 
 image::../images/kafka-retry.png["Retry pattern in devon4j-kafka",scaledwidth="80%",align="center",link="https://devonfw.com/website/pages/docs/images/kafka-retry.svg"]
 
 === Handling retry in devon4j-kafka
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The retry pattern is included in the starter dependency of "starter-kafka-receiver".
 
@@ -219,6 +235,8 @@ It works as follows:
 compaction which is explained below.
 
 === Retry configuration and naming convention of redelivery topics.
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The following properties should be added in the `application.properties` or `application.yml` file.
 
 The retry pattern in devon4j-kafka will perform for specific topic of a message. So its mandatory to specify the properties for each topic. Below properties are example,
@@ -288,11 +306,15 @@ The naming convention for retry topic is the same topic name which you have give
 If there is no topic found in the consumed record the default retry topic will be added which is `default-message-retry`.
 
 === Retry topics
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Devon4j-kafka uses a separate retry topic for each topic where retries occur. By default this topic is named `<topic name>-retry`. You may change this behavior by providing your own implementation for `DefaultKafkaRecordSupport` which is a default implementation from devon4j-kafka for `KafkaRecordSupport`.
 
 Devon4j-kafka enqueues a new message for each retry attempt. It is very important to configure your retry tropics with https://kafka.apache.org/documentation/#compaction[log compaction] enabled. More or less simplified, if log compaction is enabled Kafka keeps only one message per message key. Since each retry message has the same key, in fact only one message per retry attempt is stored. After the last retry attempt the message payload is removed from the message so, you do not keep unnecessary data in your topics.
 
 === Handling retry finally failed
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Per default when the retry fails with final attempt we just log the message and delete the payload of ProducerRecord which comes to proceed the retry pattern.
 
@@ -300,6 +322,8 @@ You can change this behavior by providing the implementation class for the inter
 which has two methods `retryTimeout` and `retryFailedFinal`.
 
 == Tracer
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 We leverage https://spring.io/projects/spring-cloud-sleuth[Spring Cloud Sleuth] for tracing in devon4j-kafka
 This is used to trace the asynchronous process of Kafka producing and consuming. In an asynchronous process it is important to maintain an id which will be same for all asynchronous process.
 However, devon uses its own correlation-id(UUID) to track the process. But devon4j-kafka uses an additional tracing protocol which is https://github.com/openzipkin/brave[Brave Tracer].
@@ -311,6 +335,8 @@ The trace-id is same for all the asynchronous process and span-id is unique for 
 
 === How devon4j-kafka handles tracer ?
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 We inject the trace-id and span-id in to the ProducerRecord headers which comes to publish into the Kafka broker.
 It's injected in the headers with the key `traceId` for trace-id and `spanId` for span-id.
 Along with these, the correlation-id(UUID) is also injected in the headers of record with the key `correlationId`.
@@ -320,6 +346,8 @@ So, when you consume record from Kafka broker, these values can be found in the 
 So, it is very helpful to track the asynchronous process of consuming the messages.
 
 == Logging
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 devon4j-kafka provides multiple support classes to log the published message and the consumed message.
 * The class `ProducerLoggingListener` which implements ProducerListener<K,V> from Spring Kafka uses to log the message as soon as it is published in the Kafka broker.
 
@@ -331,6 +359,8 @@ is used to listen to the classes which is annotated with `@KafkaListener` and lo
 * The class `LoggingErrorHandler` which implements `ErrorHandler` from spring-kafka which logs the message when an error occurred while consuming messages. You may change this behavior by creating your own implementation class for the ErrorHandler.
 
 == Kafka Health check using Spring acutator
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The spring config class MessageCommonConfig automatically provides a spring health indicator bean for kafka if
 the property endpoints. The health indicator will check for all topics listed in `messaging.kafka.health.topics-tocheck`
 if a leader is available. If this property is missing only the broker connection will be checked. The timeout for
@@ -351,7 +381,11 @@ These properties are provided with default values except the topicsToCheck and h
 
 == Authentication
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 === JSON Web Token (JWT)
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 devon4j-kafka supports authentication via JSON Web Tokens (JWT) out-of-the-box.
 To use it add a dependency to the devon4j-starter-security-jwt:
@@ -381,6 +415,8 @@ To secure a message listener with jwt add the `@JwtAuthentication`:
 With this annotation in-place each message will be checked for a valid JWT in a message header with the name `Authorization`. If a valid annotation is found the spring security context will be initialized with the user roles and "normal" authorization e.g. with `@RolesAllowed` may be used. This is also demonstrated in the kafka sample application.
 
 == Using Kafka for internal parallel processing
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Apart from the use of Kafka as "communication channel", it is sometimes helpful to use Kafka internally to do parallel processing:
 
 .Architecture for internal parallel processing with Kafka

@@ -3,6 +3,8 @@ toc::[]
 
 = Database Migration
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 When you have a schema-based https://github.com/devonfw/devonfw-guide/blob/master/general/db/guide-database.asciidoc[database],
 you need a solution for schema versioning and migration for your database.
 A specific release of your app requires a corresponding version of the schema in the database to run.
@@ -18,6 +20,8 @@ Using this approach, you can start with an empty database what will result in al
 Also any version of your database schema can be present and you will always end up in a controlled migration to the latest schema version.
 
 == Options for database migration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 For database migration you can choose between the following options:
 
