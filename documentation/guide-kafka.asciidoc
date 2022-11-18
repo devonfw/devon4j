@@ -3,10 +3,6 @@ toc::[]
 
 WARNING: devon4j-kafka has been abandoned. Its main feature was the implementation of a retry pattern using multiple topics. This implementation has become an integral part of Spring Kafka. We recommend to use Spring Kafkas own implemenation for retries. 
 
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = Messaging Services
 
 Messaging Services provide an asynchronous communication mechanism between applications. Technically this is implemented using http://kafka.apache.org/documentation.html[Apache Kafka] .

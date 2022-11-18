@@ -1,10 +1,6 @@
 :toc: macro
 toc::[]
 
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = Data Access Object
 
 The _Data Access Objects_ (DAOs) are part of the persistence layer.

@@ -1,10 +1,6 @@
 :toc: macro
 toc::[]
 
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = Access Control Schema
 
 With release `3.0.0` the `access-control-schema.xml` has been deprecated. You may still use it and find the documentation in this section. However, for new devonfw applications always start with the new approach described in link:guide-access-control#access-control-config.asciidoc[access control config].

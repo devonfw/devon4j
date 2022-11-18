@@ -1,10 +1,6 @@
 :toc: macro
 toc::[]
 
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = Domain Layer
 
 The domain layer is responsible for the data-model and mapping it to a https://github.com/devonfw/devonfw-guide/blob/master/general/db/guide-database.asciidoc[database]. 

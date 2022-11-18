@@ -1,10 +1,6 @@
 :toc: macro
 toc::[]
 
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = Lombok 
 
 https://projectlombok.org/[Lombok] is a library that works with an annotation processor and will generate code for you to save you some time and reduce the amount of boilerplate code in your project. Lombok can generate getter and setter, equals methods, automate your logging variables for your classes, and more. Follow the https://projectlombok.org/features/all[list of all the features] provided by Lombok to get an overview.

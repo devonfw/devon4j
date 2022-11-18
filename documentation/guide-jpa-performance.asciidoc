@@ -1,10 +1,6 @@
 :toc: macro
 toc::[]
 
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = JPA Performance
 When using JPA the developer sometimes does not see or understand where and when statements to the database are triggered.
 [quote, Dan Allen, https://epdf.tips/seam-in-action.html]
