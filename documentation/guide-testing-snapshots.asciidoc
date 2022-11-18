@@ -1,6 +1,10 @@
 :toc: macro
 toc::[]
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
+
+'''
+
 = Testing devon4j SNAPSHOT releases
 
 Whenever a story in devon4j is completed by merging a https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests[PR],

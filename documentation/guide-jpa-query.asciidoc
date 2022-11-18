@@ -1,6 +1,10 @@
 :toc: macro
 toc::[]
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
+
+'''
+
 = Queries
 The http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[Java Persistence API (JPA)] defines its own query language, the https://docs.oracle.com/html/E13946_01/ejb3_langref.html[_java persistence query language_ (JPQL)] (see also https://docs.oracle.com/javaee/7/tutorial/persistence-querylanguage.htm[JPQL tutorial]), which is similar to SQL but operates on entities and their attributes instead of tables and columns.
 
