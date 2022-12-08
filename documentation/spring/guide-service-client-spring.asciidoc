@@ -4,9 +4,13 @@ toc::[]
 
 = Service Client in devon4j-spring
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 This guide is about consuming (calling) services from other applications (micro-services) in devon4j-spring.
 
 == Dependency
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 You need to add (at least one of) these dependencies to your application:
 [source,xml]
 --------
@@ -37,9 +41,13 @@ You need to add (at least one of) these dependencies to your application:
 --------
 
 == Features
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 When invoking a service, you need to consider many cross-cutting aspects. You might not think about them in the very first place and you do not want to redundantly implement them multiple times. Therefore, you should consider using this approach. The following sub-sections list the covered features and aspects:
 
 === Simple usage
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Assuming you already have a Java interface `MyService` of the service you want to invoke:
 
 [source,java]
@@ -94,6 +102,8 @@ As you can see, both synchronous and asynchronous invocation of a service is ver
 
 ==== Asynchronous Invocation of void Methods
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 If you want to call a service method with `void` as the return type, the type-safe `call` method cannot be used as `void` methods do not return a result. Therefore you can use the `callVoid` method as following:
 
 [source,java]
@@ -110,6 +120,8 @@ If you want to call a service method with `void` as the return type, the type-sa
 You may also provide `null` as `resultHandler` for "fire and forget". However, this will lead to the result being ignored, so even in the case of an error you will not be notified.
 
 === Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 This solution allows a very flexible configuration on the following levels:
 
 1. Global configuration (defaults)
@@ -155,6 +167,8 @@ service.client.app.bar.auth=authForward
 ```
 
 === Service Discovery
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 You do not want to hardwire service URLs in your code, right? Therefore, different strategies might apply 
 to _discover_ the URL of the invoked service. This is done internally by an implementation of the interface 
 `ServiceDiscoverer`. The default implementation simply reads the base URL from the configuration. 
@@ -179,6 +193,8 @@ As you can use any implementation of `ServiceDiscoverer`, you can also easily us
 However, we recommend to use https://istio.io/[istio] instead, as described below.
 
 === Headers
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 A very common demand is to tweak (HTTP) headers in the request to invoke the service. May it be for security (authentication data) or for other cross-cutting concerns (such as the link:../guide-logging.asciidoc#correlation-id[Correlation ID]). This is done internally by implementations of the interface  `ServiceHeaderCustomizer`.
 We already provide several implementations such as:
 
@@ -190,9 +206,13 @@ We already provide several implementations such as:
 Additionally, you can add further custom implementations of `ServiceHeaderCustomizer` for your individual requirements and additional headers.
 
 === Timeouts
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 You can configure timeouts in a very flexible way. First of all, you can configure timeouts to establish the connection (`timeout.connection`) and to wait for the response (`timeout.response`) separately. These timeouts can be configured on all three levels as described in the configuration section above.
 
 === Error Handling
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Whilst invoking a remote service, an error may occur. This solution will automatically handle such errors and map them to a higher level `ServiceInvocationFailedException`. In general, we separate two different types of errors:
 
 * *Network error* +
@@ -211,6 +231,8 @@ While invoking the service com.devonfw.test.app.myexample.service.api.rest.MyExa
 You may even provide your own implementation of `ServiceClientErrorFactory` instead to provide an own exception class for this purpose.
 
 ==== Handling Errors
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 In case of a synchronous service invocation, an error will be immediately thrown so you can surround the call with a regular try-catch block:
 
@@ -257,12 +279,16 @@ If you are using asynchronous service invocation, an error can occurr in a separ
 The error handler consumes `Throwable`, and not only `RuntimeException`, so you can get notified even in case of an unexpected `OutOfMemoryError`, `NoClassDefFoundError`, or other technical problems. Please note that the error handler may also be called from the thread calling the service (e.g. if already creating the request fails). The default error handler used if no custom handler is set will only log the error and do nothing else.
 
 === Logging
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 By default, this solution will log all invocations including the URL of the invoked service, success or error status flag and the duration in seconds (with decimal nano precision as available). Therefore, you can easily monitor the status and performance of the service invocations. Here is an example from our tests:
 ```
 Invoking service com.devonfw.test.app.myexample.service.api.rest.MyExampleRestService#greet[http://localhost:50178/app/services/rest/my-example/v1/greet/John%20Doe%20%26%20%3F%23] took PT20.309756622S (20309756622ns) and succeded with status 200.
 ```
 
 === Resilience
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Resilience adds a lot of complexity, which typically means that addressing this here would most probably result in not being up-to-date and not meeting all requirements. Therefore, we recommend something completely different: the _sidecar_ approach (based on https://docs.microsoft.com/en-us/azure/architecture/patterns/sidecar[sidecar pattern]). This means that you use a generic proxy app that runs as a separate process on the same host, VM, or container of your actual application. Then, in your app, you call the service via the sidecar proxy on `localhost` (service discovery URL is e.g. `http://localhost:8081/${app}/services/${type}`) that then acts as proxy to the actual remote service. Now aspects such as resilience with circuit breaking and the actual service discovery can be configured in the sidecar proxy app, independent of your actual application. Therefore, you can even share and reuse configuration and experience with such a sidecar proxy app even across different technologies (Java, .NET/C#, Node.JS, etc.). Further, you do not pollute the technology stack of your actual app with the infrastructure for resilience, throttling, etc. and can update the app and the sidecar independently when security-fixes are available.
 
 Various implementations of such sidecar proxy apps are available as free open source software. 

@@ -2,11 +2,15 @@
 toc::[]
 
 = REST
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 REST (https://en.wikipedia.org/wiki/Representational_state_transfer[REpresentational State Transfer]) is an inter-operable protocol for link:guide-service-layer.asciidoc[services] that is more lightweight than link:guide-soap.asciidoc[SOAP].
 However, it is no real standard and can cause confusion (see link:https://github.com/devonfw/devon4j/blob/master/documentation/guide-rest-philosophy.asciidoc[REST philosophy]).
 Therefore we define best practices here to guide you.
 
 == URLs
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 URLs are not case sensitive. Hence, we follow the best practice to use only lower-case-letters-with-hyphen-to-separate-words.
 For operations in REST we distinguish the following types of URLs:
 
@@ -20,6 +24,8 @@ For business operations (processing, calculation, advanced search, etc.) we simp
 Then we can `POST` the input for the business operation and get the result back. Example: `\https://mydomain.com/myapp/services/rest/mycomponent/v1/myentity/search`
 
 == HTTP Methods
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The following table defines the HTTP methods (verbs) and their meaning:
 
 .Usage of HTTP methods
@@ -37,6 +43,8 @@ Please also note that for (large) bulk deletions you may be forced to used `POST
 For general recommendations on HTTP methods for collection and element URLs see http://en.wikipedia.org/wiki/Representational_State_Transfer#Applied_to_web_services[REST@wikipedia].
 
 == HTTP Status Codes
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Further we define how to use the HTTP status codes for REST services properly. In general the 4xx codes correspond to an error on the client side and the 5xx codes to an error on the server side.
 
 .Usage of HTTP status codes
@@ -53,6 +61,8 @@ Further we define how to use the HTTP status codes for REST services properly. I
 |=======================
 
 == JAX-RS
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For implementing REST services we use the https://jax-rs-spec.java.net/[JAX-RS] standard.
 As payload encoding we recommend link:guide-json.asciidoc[JSON] bindings using http://wiki.fasterxml.com/JacksonHome[Jackson].
 To implement a REST service you simply add JAX-RS annotations.
@@ -83,6 +93,8 @@ NOTE: With JAX-RS it is important to make sure that each service method is annot
 
 === Service-Interface
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 You may also separate API and implementation in case you want to reuse the API for link:guide-service-client.asciidoc[service-client]:
 
 [source,java]
@@ -111,11 +123,15 @@ public class ImagemanagementRestServiceImpl implements ImagemanagementRestServic
 --------
 
 === JAX-RS Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Starting from CXF 3.0.0 it is possible to enable the auto-discovery of JAX-RS roots.
 
 When the JAX-RS server is instantiated, all the scanned root and provider beans (beans annotated with `javax.ws.rs.Path` and `javax.ws.rs.ext.Provider`) are configured.
 
 === REST Exception Handling
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For exceptions, a service needs to have an exception facade that catches all exceptions and handles them by writing proper log messages and mapping them to a HTTP response with an corresponding xref:http-status-codes[HTTP status code].
 For this, devon4j provides a generic solution via `RestServiceExceptionFacade` that you can use within your Spring applications. You need to follow the link:guide-exceptions.asciidoc[exception guide] in order for it to work out of the box because the facade needs to be able to distinguish between business and technical exceptions.
 To implement a generic exception facade in Quarkus, follow the link:quarkus/guide-exception-handling.asciidoc[Quarkus exception guide].
@@ -134,6 +150,8 @@ The general format for returning an error to the client is as follows:
 ----
 
 === Pagination details
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 We recommend to use link:guide-repository.asciidoc[spring-data repositories] for database access that already comes with pagination support.
 Therefore, when performing a search, you can include a https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html[Pageable] object.
 Here is a JSON example for it:
@@ -160,6 +178,8 @@ Via the `pageable` property the client gets back the `Pageable` properties from 
 The actual hits for the current page are returned as array in the `content` property.
 
 == REST Testing
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For testing REST services in general consult the link:guide-testing.asciidoc[testing guide].
 
 For manual testing REST services there are browser plugins:
@@ -168,12 +188,18 @@ For manual testing REST services there are browser plugins:
 * Chrome: http://www.getpostman.com/[postman] (https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo[advanced-rest-client])
 
 == Security
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Your services are the major entry point to your application. Hence security considerations are important here.
 
 === CSRF
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 A common security threat is https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)[CSRF] for REST services. Therefore all REST operations that are performing modifications (PUT, POST, DELETE, etc. - all except GET) have to be secured against CSRF attacks. See link:guide-csrf.asciidoc[CSRF] how to do this.
 
 === JSON top-level arrays
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 OWASP earlier suggested to never return JSON arrays at the top-level, to prevent attacks without rationale.
 We digged deep and found https://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx/[anatomy-of-a-subtle-json-vulnerability].
 To sum it up the attack is many years old and does not work in any recent or relevant browser.

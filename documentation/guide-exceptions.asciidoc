@@ -3,8 +3,12 @@ toc::[]
 
 = Exception Handling
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 
 == Exception Principles
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For exceptions we follow these principles:
 
 * We only use exceptions for _exceptional_ situations and not for programming control flows, etc. Creating an exception in Java is expensive and hence should not be done for simply testing whether something is present, valid or permitted. In the latter case design your API to return this as a regular result.
@@ -25,6 +29,8 @@ If you want to avoid additional dependencies, you can implement your own solutio
 
 
 == Exception Example
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Here is an exception class from our sample application:
 
 [source,java]
@@ -82,6 +88,8 @@ public interface NlsBundleApplicationRoot extends NlsBundle {
 --------
 
 == Handling Exceptions
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For catching and handling exceptions we follow these rules:
 
 * We do not catch exceptions just to wrap or to re-throw them.
@@ -95,6 +103,8 @@ The exception facade has to ...
 > An unexpected technical error has occurred. We apologize any inconvenience. Please try again later.
 
 == Common Errors
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The following errors may occur in any devon application:
 
 .Common Exceptions

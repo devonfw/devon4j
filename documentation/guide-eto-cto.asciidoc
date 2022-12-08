@@ -2,14 +2,22 @@
 toc::[]
 = ETO and CTO approach
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 == ETO
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For each link:guide-jpa.asciidoc#entity[persistent entity] `«BusinessObject»Entity` we create or generate a corresponding _entity transfer object_ (ETO) named `«BusinessObject»Eto`. It has the same properties except for relations.
 
 == BO
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In order to centralize the properties (getters and setters with their javadoc) we create a common interface `«BusinessObject»` implemented both by the entity and its ETO. This also gives us compile-time safety that
 link:guide-beanmapping.asciidoc[bean-mapper] can properly map all properties between entity and ETO.
 
 == CTO
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 If we need to pass an entity with its relation(s) we create a corresponding _composite transfer object_ (CTO) named `«BusinessObject»«Subset»Cto` that only contains other transfer-objects or collections of them. Here `«Subset»` is empty for the canonical CTO that holds the ETO together with all its relations.
 This is what can be generated automatically with https://github.com/devonfw/cobigen[CobiGen].
 However, be careful to generate CTOs without thinking and considering design.

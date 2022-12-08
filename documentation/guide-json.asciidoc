@@ -3,10 +3,14 @@ toc::[]
 
 = JSON
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 http://en.wikipedia.org/wiki/JSON[JSON] (JavaScript Object Notation) is a popular format to represent and exchange data especially for modern web-clients. For mapping Java objects to JSON and vice-versa there is no official standard API. We use the established and powerful open-source solution http://wiki.fasterxml.com/JacksonHome[Jackson].
 Due to problems with the wiki of fasterxml you should try this alternative link: https://github.com/FasterXML/jackson#jackson-project-home-github[Jackson/AltLink].
 
 == Configure JSON Mapping
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In order to avoid polluting business objects with proprietary Jackson annotations (e.g. `@JsonTypeInfo`, `@JsonSubTypes`, `@JsonProperty`) we propose to create a separate configuration class. Every devonfw application (sample or any app created from our link:tutorial-newapp.asciidoc[app-template]) therefore has a class called `ApplicationObjectMapperFactory` that extends +ObjectMapperFactory+ from the +devon4j-rest+ module. It looks like this:
 
 [source,java]
@@ -22,6 +26,8 @@ public class ApplicationObjectMapperFactory extends ObjectMapperFactory {
 --------
 
 == JSON and Inheritance
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 If you are using inheritance for your objects mapped to JSON then polymorphism can not be supported out-of-the box. So in general avoid polymorphic objects in JSON mapping. However, this is not always possible.
 Have a look at the following example from our sample application:
 [[img-rest-inheritance]]
@@ -47,6 +53,8 @@ addSubtypes(new NamedType(MealEto.class, "Meal"), new NamedType(DrinkEto.class, 
 We use `setBaseClasses` to register all top-level classes of polymorphic objects. Further we declare all concrete polymorphic sub-classes together with their symbolic name for the JSON format via `addSubtypes`.
 
 == Custom Mapping
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In order to map custom link:guide-datatype.asciidoc[datatypes] or other types that do not follow the Java bean conventions, you need to define a custom mapping. If you create objects dedicated for the JSON mapping you can easily avoid such situations. When this is not suitable follow these instructions to define the mapping:
 
 . As an example, the use of JSR354 (`javax.money`) is appreciated in order to process monetary amounts properly. However, without custom mapping, the default mapping of Jackson will produce the following JSON for a `MonetaryAmount`:

@@ -3,10 +3,14 @@ toc::[]
 
 = Modern project structure
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 With trends such as cloud, microservices, lean, and agile, we decided for a more modern project structure that fits better to recent market trends.
 When starting new projects with devonfw, and especially in the context of cloud-native development, we strongly recommend this modern approach over the link:guide-structure-classic.asciidoc[classic structure].
 
 == Modules
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Due to trends such as microservices, we are building smaller apps compared to moduliths.
 For simplicity, we therefore do not split our app into different modules and keep everything top-level and easy.
@@ -29,12 +33,16 @@ In addition to `java` and `resources`, we also add `helm` for helm templates and
 
 == Deployment
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 For modern projects, we strongly recommend that your build process generates the final deliverable as an OCI compliant container.
 Further, to go fully cloud-native, you should build your app as a native image via https://www.graalvm.org/[GraalVM] AOT compiler.
 Therefore, we recommed to use https://quarkus.io/[quarkus] as your main framework.
 In case you want to go with spring, you may consider using https://github.com/spring-projects-experimental/spring-native[spring-native].
 
 == Layers
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The package structure of your code inside `src/main/java` (and `src/test/java`) of your app is described in our coding conventions in the sections link:coding-conventions.asciidoc#packages[packages].
 For the modern project structure, the layers are defined by the following table:
@@ -49,6 +57,8 @@ For the modern project structure, the layers are defined by the following table:
 |=============================================
 
 == Architecture Mapping
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 In order to help you to map the architecture, packaging, layering, etc. to the code and see where different code elements should be placed,
 we provide this architecture mapping:

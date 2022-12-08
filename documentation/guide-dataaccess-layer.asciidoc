@@ -3,11 +3,15 @@ toc::[]
 
 = Data-Access Layer
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The data-access layer is responsible for all outgoing connections to access and process data. This is mainly about accessing data from a persistent data-store. External system could also be accessed from the data-access layer if they match this definition, e.g. a mongo-db via rest services.
 
 Note: In the link:guide-structure-modern.asciidoc[modern project structure], this layer is replaced by the link:guide-domain-layer.asciidoc[domain layer].
 
 == Database
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 You need to make your choice for a database. Options are documented https://github.com/devonfw/devonfw-guide/blob/master/general/db/guide-database.asciidoc[here].
 

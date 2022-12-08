@@ -3,6 +3,8 @@ toc::[]
 
 = REST Philosophy
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 REST and RESTful often implies very strict and specific rules and conventions.
 However different people will often have different opinions of such rules.
 We learned that this leads to "religious discussions" (starting from `PUT` vs. `POST` and IDs in path vs. payload up to Hypermedia and https://en.wikipedia.org/wiki/HATEOAS[HATEOAS]).
@@ -52,6 +54,8 @@ Please consider these guidelines and rationales:
 * Please also note that for (large) bulk deletions you may be forced to used `POST` instead of `DELETE` as according to the HTTP standard `DELETE` must not have payload and URLs are limited in length.
 
 == Metadata
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 devonfw has support for the following metadata in REST service invocations:
 
 [options="header"]
@@ -65,6 +69,8 @@ The protocol to communicate these validation errors is described in xref:rest-ex
 |=======
 
 == Recommendations for REST requests and responses
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The devonfw proposes, for simplicity, a deviation from the common REST pattern:
 
 * Using `POST` for updates (instead of `PUT`)
@@ -76,6 +82,8 @@ This use of REST will lead to simpler code both on client and on server. We disc
 The following table specifies how to use the HTTP methods (verbs) for collection and element URIs properly (see http://en.wikipedia.org/wiki/Representational_State_Transfer#Applied_to_web_services[wikipedia]).
 
 === Unparameterized loading of a single resource
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 * *HTTP Method*: `GET`
 * *URL example*: `/services/rest/productmanagement/v1/product/123`
 
@@ -93,6 +101,8 @@ The response contains the resource in JSON format, using a JSON object at the to
 ----
 
 === Unparameterized loading of a collection of resources
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 * *HTTP Method*: `GET`
 * *URL example*: `/services/rest/productmanagement/v1/product`
 
@@ -119,6 +129,8 @@ The response contains the collection in JSON format, using a JSON object at the 
 ----
 
 === Saving a resource
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 * *HTTP Method*: `POST`
 * *URL example*: `/services/rest/productmanagement/v1/product`
 
@@ -130,6 +142,8 @@ If saving was unsuccessful, refer below for the format to return errors to the c
 
 
 === Parameterized loading of a resource
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 * *HTTP Method*: `POST`
 * *URL example*: `/services/rest/productmanagement/v1/product/search`
 
@@ -204,17 +218,23 @@ With the equivalent code required if doing it the RESTful way by issuing a `GET`
 
 ==== Pagination details
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The client can choose to request a count of the total size of the collection, for example to calculate the total number of available pages. It does so, by specifying the `pagination.total` property with a value of `true`.
 
 The service is free to honour this request. If it chooses to do so, it returns the total count as the `pagination.total` property in the response.
 
 === Deletion of a resource
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 * *HTTP Method*: `DELETE`
 * *URL example*: `/services/rest/productmanagement/v1/product/123`
 
 For deletion of a single resource, embed the `identifier` of the resource in the URL.
 
 === Error results
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The general format for returning an error to the client is as follows:
 
@@ -246,9 +266,13 @@ If the error is caused by a failed validation of the entity, the above format is
 ----
 
 == REST Media Types
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The payload of a REST service can be in any format as REST by itself does not specify this. The most established ones that the devonfw recommends are link:guide-xml.asciidoc[XML] and link:guide-json.asciidoc[JSON]. Follow these links for further details and guidance how to use them properly. `JAX-RS` and `CXF` properly support these formats (`MediaType.APPLICATION_JSON` and `MediaType.APPLICATION_XML` can be specified for `@Produces` or `@Consumes`). Try to decide for a single format for all services if possible and NEVER mix different formats in a service.
 
 == REST Testing
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For testing REST services in general consult the link:guide-testing.asciidoc[testing guide].
 
 For manual testing REST services there are browser plugins:
@@ -257,12 +281,18 @@ For manual testing REST services there are browser plugins:
 * Chrome: http://www.getpostman.com/[postman] (https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo[advanced-rest-client])
 
 == Security
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Your services are the major entry point to your application. Hence security considerations are important here.
 
 === CSRF
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 A common security threat is https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)[CSRF] for REST services. Therefore all REST operations that are performing modifications (PUT, POST, DELETE, etc. - all except GET) have to be secured against CSRF attacks. See link:guide-csrf.asciidoc[CSRF] how to do this.
 
 === JSON top-level arrays
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 OWASP earlier suggested to never return JSON arrays at the top-level, to prevent attacks without rationale.
 We digged deep and found https://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx/[anatomy-of-a-subtle-json-vulnerability].
 To sum it up the attack is many years old and does not work in any recent or relevant browser.

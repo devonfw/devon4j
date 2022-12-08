@@ -3,6 +3,8 @@ toc::[]
 
 = OpenAPI
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The link:https://spec.openapis.org/oas/latest.html[OpenAPI Specification (OAS)] defines a standard for describing RESTful web services in a machine- and human-readable format. OpenAPI allows REST APIs to be defined in a uniform manner.
 Technically, an OpenAPI document is written in YAML or JSON format. The specification defines the structure of a REST API by describing attributes such as path information, response codes, and return types. Some examples can be found link:https://github.com/OAI/OpenAPI-Specification/tree/main/examples/v3.0[here].
 Apart from documenting the API, this schema then also acts as a contract between provider and consumers, guaranteeing interoperability between various technologies. 
@@ -12,12 +14,18 @@ The most common tool is the link:https://swagger.io/tools/swagger-ui/[Swagger UI
 
 [NOTE]
 ====
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Swagger and OpenAPI: Swagger is a former specification, based on which the OpenAPI was created. Swagger 2.0 is still commonly used for describing APIs. OpenAPI is an open-source collaboration and it started from version 3.0.0(semver)
 ====
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 There are many tools that work with OpenAPI: code generators, documentation tools, validators etc.
 
 == OpenAPI generation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 There are several extensions you can use in your project to automatically generate the OpenAPI specifications and Swagger UI from your REST API (code-first approach). devon4j recommends the following two extensions/plugins to use:
 
@@ -25,6 +33,8 @@ There are several extensions you can use in your project to automatically genera
 * ServicedocGen maven plugin
 
 === Smallrye OpenAPI
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Quarkus provides OpenAPI support through Smallrye OpenAPI extension:
 
@@ -45,11 +55,17 @@ More information for this can be found link:https://quarkus.io/blog/openapi-for-
 
 [NOTE]
 ====
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Quarkus recommends using this extension and you can document your APIs in great detail by using the MicroProfile annotations. The downside to this is that using these annotations will blow up your code and you will have some duplicate information in it.
 If you don't want to specify the REST API again with all this annotation based information, we also recommend taking a look at the ServicedocGen Maven plugin for your Quarkus applications when implementing JAX-RS APIs.
 ====
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 === ServicedocGen Maven Plugin
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The link:https://github.com/mojohaus/servicedocgen-maven-plugin[ServicedocGen maven plugin] can be used within both Spring and Quarkus applications.
 It works a bit different then the Smallrye extensions mentioned above. The plugin analysis the REST API and it's JavaDoc and then generate the OpenAPI specification and the Swagger UI as static files. So no Swagger or MicroProfile annotations have to be added.

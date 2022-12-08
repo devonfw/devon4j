@@ -3,14 +3,20 @@ toc::[]
 
 = Liquibase
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 https://www.liquibase.org/[Liquibase] is a tool for link:guide-database-migration.asciidoc[database migration and schema versioning].
 
 See https://github.com/devonfw/devon4j/issues/303[devon4j#303] for details and status.
 
 == Spring-boot usage
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 For using liquibase in link:spring.asciidoc[spring] see https://docs.liquibase.com/tools-integrations/springboot/springboot.html[Using Liquibase with Spring Boot].
 
 == Quarkus usage
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 For uisng liquibase in link:quarkus.asciidoc[quarkus] see https://quarkus.io/guides/liquibase[Using Liquibase].

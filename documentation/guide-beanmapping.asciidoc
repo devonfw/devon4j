@@ -3,6 +3,8 @@ toc::[]
 //Replaced old person examples with new User example
 = Bean-Mapping
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 For decoupling, you sometimes need to create separate objects (beans) for a different view. E.g. for an external service, you will use a link:guide-transferobject.asciidoc[transfer-object] instead of the link:guide-jpa.asciidoc#entity[persistence entity] so internal changes to the entity do not implicitly change or break the service. 
 
 Therefore you have the need to map similar objects what creates a copy. This also has the benefit that modifications to the copy have no side-effect on the original source object. However, to implement such mapping code by hand is very tedious and error-prone (if new properties are added to beans but not to mapping code):

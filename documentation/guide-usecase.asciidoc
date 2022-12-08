@@ -2,6 +2,8 @@
 toc::[]
 
 = UseCase
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 A use-case is a small unit of the link:guide-logic-layer.asciidoc[logic layer] responsible for an operation on a particular link:guide-jpa.asciidoc#entity[entity] (business object).
 We leave it up to you to decide whether you want to define an interface (API) for each use-case or provide an implementation directly.
 
@@ -11,6 +13,8 @@ For https://en.wikipedia.org/wiki/Create,_read,_update_and_delete[CRUD] we use t
 In our example, we choose to define an interface for each use-case. We also use `*To` to refer to any type of transfer object. Please follow our link:guide-transferobject.asciidoc[guide] to understand more about different types of transfer object e.g. Eto, Dto, Cto
 
 == Find
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The `UcFind«BusinessObject»` defines all read operations to retrieve and search the `«BusinessObject»`.
 Here is an example:
 [source,java]
@@ -22,6 +26,8 @@ public interface UcFindBooking {
 ----
 
 == Manage
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The `UcManage«BusinessObject»` defines all CRUD write operations (create, update and delete) for the `«BusinessObject»`.
 Here is an example:
 [source,java]
@@ -37,6 +43,8 @@ public interface UcManageBooking {
 ----
 
 == Custom
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Any other non CRUD operation `Uc«Operation»«BusinessObject»` uses any other custom verb for `«Operation»`.
 Typically, such custom use-cases only define a single method.
 Here is an example:
@@ -51,6 +59,8 @@ public interface UcApproveBooking {
 ----
 
 == Implementation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The implementation should carry its own name and the suffix `Impl` and is annotated with `@Named` and `@ApplicationScoped`. It will need access to the persistent data which is done by injecting the corresponding repository (or DAO). Furthermore, it shall not expose persistent entities from the data access layer and has to map them to transfer objects using the bean-mapper. Please refer to our link:guide-beanmapping.asciidoc[bean mapping], link:guide-transferobject.asciidoc[transfer object] and link:guide-dependency-injection.asciidoc[dependency injection] documentation for more information.
 Here is an example:
 [source,java]
@@ -91,6 +101,8 @@ public class BookingmanagementRestServiceImpl implements BookingmanagementRestSe
 ----
 
 == Internal use case
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Sometimes, a component with multiple related entities and many use-cases needs to reuse business logic internally.
 Of course, this can be exposed as an official use-case API but this will imply using transfer-objects (ETOs) instead of entities. In some cases, this is undesired e.g. for better performance to prevent unnecessary mapping of entire collections of entities.
 In the first place, you should try to use abstract base implementations providing reusable methods the actual use-case implementations can inherit from.

@@ -3,6 +3,8 @@ toc::[]
 
 = JMX
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 https://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html[JMX] (Java Management Extensions) is the official Java link:guide-monitoring.asciidoc[monitoring] solution.
 It is part of the JDK.
 Your application may provide monitoring information or receive monitoring related commands via `MBeans`.

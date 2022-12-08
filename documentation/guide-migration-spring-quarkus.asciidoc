@@ -3,10 +3,14 @@ toc::[]
 
 = Migrate from Spring to Quarkus
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 This guide will cover the migration process of a Spring application to a Quarkus application. There are already articles about migrating from Spring to Quarkus (e.g. https://developers.redhat.com/blog/2020/04/10/migrating-a-spring-boot-microservices-application-to-quarkus, https://dzone.com/articles/migrating-a-spring-boot-application-to-quarkus-cha).
 This guide will focus more on the devon4j specific aspects. We assume that a working Spring application exists, built in the link:guide-structure-classic.asciidoc[classic devon4j specific way] (e.g. https://github.com/devonfw/jump-the-queue/tree/master/java/jtqj[Jump The Queue] or https://github.com/devonfw/my-thai-star[My Thai Star]).
 
 == Create the Quarkus application
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 We start with an empty Quarkus project. You can create the project with Maven on the command line or use the https://code.quarkus.io/[online generator]. The advantage of the online generator is that you have a pre-selection of dependencies to use in your project.
 For starters, let's select the basic dependencies required to develop a REST service with database connectivity (you can use one of the links in the link:quarkus/quarkus-template.asciidoc[Quarkus template guide]): __RESTEasy JAX-RS, RESTEasy Jackson, Hibernate ORM, Spring Data JPA API, JDBC Driver (choose the type of database you need), Flyway (if you have database migration schemas), SmallRye Health (optional for Health Monitoring)__
@@ -14,14 +18,20 @@ For starters, let's select the basic dependencies required to develop a REST ser
 The list does not include all required dependencies. We will add more dependencies to the project later. For now, generate the application with these dependencies.
 
 === Migration Toolkit from Red Hat
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Red Hat provides a migration toolkit (https://developers.redhat.com/products/mta/overview[MTA, Migration Toolkit for Applications]), that supports migration of a Spring to a Quarkus application. There are several versions of this toolkit (e.g., a web console, a Maven plugin, or an IDE plugin).
 The MTA analyzes your existing application and generates a report with hints and instructions for migrating from Spring to Quarkus. For example, it gives you an indication of which dependencies are not supported in your project for a Quarkus application and which dependencies you need to swap them with. The analysis is rule-based, and you can also add your own rules that will be checked during analysis.
 
 == Entities
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 There is nothing special to consider when creating the entities. In most cases, you can simply take the code from your Spring application and use it for your Quarkus application. Usually, the entities extend a superclass `ApplicationPersistenceEntity` containing, for example, the `id` property. You can also take this class from your Spring application and reuse it.
 
 == Transfer objects
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The next step is to create the appropriate transfer objects for the entities. In a devon4j Spring application, we would use CobiGen to create these classes. Since CobiGen is not usable for this purpose in Quarkus applications yet, we have to create the classes manually.
 
@@ -70,6 +80,8 @@ The class `AbstractTo`, extended by other classes, would be provided by the http
 Now you can create your transfer objects. Most of the code of the transfer objects of your Spring application should be reusable. For Quarkus, we recommend (as mentioned link:guide-dto.asciidoc[here]) to use `*Dto` instead of `*Eto` classes. Be sure to change the names of the classes accordingly.
 
 == Data Access Layer
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 In devon4j, we propose to use link:guide-repository.asciidoc[Spring Data JPA] to build the data access layer using repositories and Querydsl to build link:guide-jpa-query.asciidoc#dynamic-queries[dynamic queries]. We will also use this approach for Quarkus applications, but we need to change the implementation because the devon4j modules are based on reflection, which is not suitable for Quarkus.
 In Quarkus we will use Querydsl using code generation. So for this layer, more changes are required and we can't just take the existing code.
@@ -135,11 +147,15 @@ quarkus.datasource.password=...
 
 == Logic Layer
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 For the logic layer, devon4j uses a link:guide-usecase.asciidoc[use-case approach]. You can reuse the use case interfaces from the api module of the Spring application. Again, make sure to rename the transfer objects.
 
 Create the appropriate class that implements the interface. Follow the link:guide-usecase.asciidoc#implementation[implementation section] of the use-case guide to implement the methods. For mapping the entities to the corresponding transfer objects, see the next section.
 
 == Mapping
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 For bean mapping, we need to use a completely different approach in the Quarkus application than in the Spring application. For Quarkus, we use MapStruct, which creates the mapper at build time rather than at runtime using reflection. Add the following dependencies to your pom.xml.
 
@@ -177,6 +193,8 @@ Inject the mapper into your use-case implementation and simply use the methods. 
 
 == Service Layer
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 For the implementation of the service layer, we use the link:guide-rest#jax-rs[JAX-RS] for both Quarkus and Spring applications to create the REST services. Classic devon4j Spring applications rely on Apache CFX as the implemention of JAX-RS.
 For Quarkus, we use RESTEasy. Since both are implementations of JAX-RS, much of the Spring application code can be reused.
 
@@ -206,6 +224,8 @@ public class YourComponentRestService {
 ----
 
 == Summary
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 As you have seen, some parts hardly differ when migrating a Spring application to a Quarkus application, while other parts differ more. The above sections describe the parts needed for simple applications that provide REST services with a data access layer.
 If you add more functionality, more customization and other frameworks, dependencies may be required. If that is the case, take a look at the corresponding guide on the topic in the devon4j documentation or check if there is a tutorial on the official https://quarkus.io/guides/[Quarkus website].

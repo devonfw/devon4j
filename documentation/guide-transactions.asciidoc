@@ -3,6 +3,8 @@ toc::[]
 
 = Transaction Handling
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 For transaction handling we link:guide-aop.asciidoc[AOP] to add transaction control via annotations as aspect.
 This is done by annotating your code with the `@Transactional` annotation.
 You can either annotate your link:guide-dependency-injection.asciidoc#key-principles[container bean] at class level to make all methods transactional or your can annotate individual methods to make them transactional:
@@ -16,6 +18,8 @@ You can either annotate your link:guide-dependency-injection.asciidoc#key-princi
 ----
 
 == JTA Imports
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Here are the import statements for transaction support:
 [source, java]
 ----
@@ -25,6 +29,8 @@ import javax.transaction.Transactional;
 CAUTION: Use the above import statement to follow JEE and avoid using `org.springframework.transaction.annotation.Transactional`.
 
 == JTA Dependencies
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Please note that with https://jakarta.ee/[Jakarta EE] the dependencies have changed.
 When you want to start with Jakarta EE you should use these dependencies to get the annoations for dependency injection:
 
@@ -50,6 +56,8 @@ The above Jakarate EE dependencies replace these JEE depdencies:
 ----
 
 == Handling constraint violations
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Using `@Transactional` magically wraps transaction handling around your code.
 As constraints are checked by the database at the end when the transaction gets committed, a constraint violation will be thrown by this aspect outside your code.
 In case you have to handle constraint violations manually, you have to do that in code outside the logic that is annotated with `@Transactional`.
@@ -57,4 +65,6 @@ This may be done in a link:guide-service-layer.asciidoc[service operation] by ca
 As a generic approach you can solve this via link:guide-rest.asciidoc#rest-exception-handling[REST execption handling].
 
 == Batches
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Transaction control for batches is a lot more complicated and is described in the link:guide-batch-layer.asciidoc[batch layer].

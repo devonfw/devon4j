@@ -3,9 +3,15 @@ toc::[]
 
 = Decision between Spring and Quarkus
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 == Spring
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 === Pros
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 * *highly flexible:*
 Spring is famous for its great flexibility. You can customize and integrate nearly everything.
 
@@ -19,6 +25,8 @@ Spring became famous for its non-invasive coding based on patterns instead of ha
 
 === Cons
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 * *history and legacy:*
 Due to its long established history, spring carries a lot of legacy. 
 As a result there are many ways to do the same thing, which can be encouraging or confusing at first. 
@@ -30,7 +38,11 @@ However, spring is trying to catch up with spring-native.
 
 == Quarkus
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 === Quarkus main information:
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Quarkus is a full-stack, Kubernetes-native Java framework made for JVMs.
 With its container-first-philosophy and its native compilation with GraalVM, Quarkus optimizes Java for containers with low memory usage and fast startup times.
 
@@ -56,6 +68,8 @@ We also provide a link:quarkus/getting-started-for-spring-developers.asciidoc[gu
 
 === Pros:
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 * *fast turn-around cycles for developers:* Save changes in your Java code and immediately test the results without restarting or waiting
 
 * *faster start-up and less memory footprint:*
@@ -67,6 +81,8 @@ You can find a performance comparison between Spring and Quarkus here.
 
 === Cons:
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 * *less flexible:*
 Quarkus is less flexible compared to spring or in other words it is more biased and coupled to specific implementations. However, the implementations just work and you have less things to choose and worry about.
 However, in case you want to integrate a specific or custom library you may hit limitations or lose support for native-images especially when that library is based on reflection.
@@ -76,5 +92,7 @@ Therefore, check your requirements and technology stack early on when making you
 Since Quarkus was born in 2019 it is modern but also less established. It will be easier to get developers for spring but we already consider Quarkus mature and established enought for building production ready apps.
 
 == General Recommendation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 One essential differentiation has to be made on the decision for native or against native applications - the foreseen performance optimization of the JIT compiler of the JVM, which is not available anymore in a native image deployment.
 Depending on the overall landscape, it is recommended to stay with the knowledge of the available teams, e.g. continue making use of devon4j based on spring or even if already in that state, make use of Quarkus on JVM.

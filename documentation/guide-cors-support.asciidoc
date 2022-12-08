@@ -3,6 +3,8 @@ toc::[]
 
 = CORS support
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 When you are developing Javascript client and server application separately, you have to deal with cross domain issues. We have to request from a origin domain distinct to target domain and browser does not allow this.
 
 So , we need to prepare server side to accept request from other domains. We need to cover the following points:
@@ -19,8 +21,12 @@ For more information about CORS see https://developer.mozilla.org/en-US/docs/Web
 
 == Configuring CORS support
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 To enable CORS support for your application, see the advanced guides. For Spring applications see link:spring/guide-cors-spring.asciidoc[here]. For Quarkus follow the https://quarkus.io/guides/http-reference#cors-filter[official Quarkus guide].
 
 == Configuration with service mesh
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 If you are using a service mesh, you can also define your CORS policy directly there. Here is an example from https://istio.io/latest/docs/reference/config/networking/virtual-service/#CorsPolicy[Istio].

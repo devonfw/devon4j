@@ -3,11 +3,15 @@ toc::[]
 
 = Classic project structure
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 In this section we describe the classic project structure as initially proposed for Java in devonfw.
 It is still valid and fully supported.
 However, if you want to start a new project, please consider using the link:guide-structure-modern.asciidoc[modern structure].
 
 == Modules
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The structure of a `devon4j` application is divided into the following modules:
 
@@ -17,6 +21,8 @@ The structure of a `devon4j` application is divided into the following modules:
 * `server`: module that bundles the entire app (`core` with optional `batch`) typically as a bootified WAR file.
 
 == Deployment
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 [quote, Josh Long]
 ____
@@ -35,9 +41,13 @@ All you need to do in that case is to change the `packaging` in your `server/pom
 
 == Package Structure
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The package structure of your code inside `src/main/java` (and `src/test/java`) of your modules is described in our coding conventions in the sections link:coding-conventions.asciidoc#packages[packages]. A full mapping of the architecture and the different code elements to the packaging is described in the following section.
 
 == Layers
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The package structure of your code inside `src/main/java` (and `src/test/java`) of your app is described in our coding conventions in the sections link:coding-conventions.asciidoc#packages[packages].
 The following table describes our classic approach for packaging and layering:
@@ -55,6 +65,8 @@ The following table describes our classic approach for packaging and layering:
 |=============================================
 
 == Architecture Mapping
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 In order to help you to map the architecture, packaging, layering, etc. to the code and see where different code elements should be placed,
 we provide this architecture mapping:

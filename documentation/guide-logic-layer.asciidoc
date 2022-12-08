@@ -3,12 +3,16 @@ toc::[]
 
 = Logic Layer
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The logic layer is the heart of the application and contains the main business logic.
 According to our link:architecture.asciidoc#business-architecture[business architecture], we divide an application into link:guide-component.asciidoc[components].
 For each component, the logic layer defines different link:guide-usecase.asciidoc[use-cases]. Another approach is to define a link:guide-component-facade.asciidoc[component-facade], which we do not recommend for future application. Especially for quarkus application, we want to simplify things and highly suggest omitting component-facade completely and using use-cases only.
 It is very important that you follow the links to understand the concept of use-case in order to properly implement your business logic.
 
 == Responsibility
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The logic layer is responsible to implement the business logic according to the specified functional demands and requirements.
 Therefore, it creates the actual value of the application. The logic layer is responsible for invoking business logic in external systems.
 The following additional aspects are also included in its responsibility:
@@ -18,9 +22,13 @@ The following additional aspects are also included in its responsibility:
 * link:guide-transactions.asciidoc[transaction-handling] (in addition to link:guide-service-layer.asciidoc[service layer]).
 
 == Security
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The logic layer is the heart of the application. It is also responsible for authorization and hence security is important in this current case. Every method exposed in an interface needs to be annotated with an authorization check, stating what role(s) a caller must provide in order to be allowed to make the call. The authorization concept is described link:guide-access-control.asciidoc#authorization[here].
 
 === Direct Object References
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 A security threat are https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References[Insecure Direct Object References]. This simply gives you two options:
 
 * avoid direct object references

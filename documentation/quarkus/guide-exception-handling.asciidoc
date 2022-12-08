@@ -3,11 +3,15 @@ toc::[]
 
 = Exception Handling in Quarkus
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 For link:../guide-exceptions.asciidoc[handling exceptions] within a Spring application, devon4j provides the https://github.com/devonfw/devon4j/tree/master/modules/rest[devon4j-rest module], which provides a https://github.com/devonfw/devon4j/blob/develop/modules/rest/src/main/java/com/devonfw/module/rest/service/impl/RestServiceExceptionFacade.java[`RestServiceExceptionFacade`] to handle all exceptions in a consistent way. Since the module is not suitable for Quarkus, we need to implement this ourselves.
 
 This guide shows how to do just that. For an example, see our https://github.com/devonfw-sample/devon4quarkus-reference[Quarkus reference application].
 
 == Exception mapping
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 We suggest to implement the exception handling the https://quarkus.io/specs/jaxrs/2.1/index.html#exceptionmapper[JAX-RS way] using `ExceptionMapper<T>`.
 

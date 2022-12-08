@@ -3,6 +3,8 @@ toc::[]
 
 = Client Layer
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 There are various technical approaches to building GUI clients. The devonfw proposes rich clients that connect to the server via data-oriented services (e.g. using REST with JSON).
 In general, we have to distinguish among the following types of clients:
 
@@ -13,6 +15,8 @@ In general, we have to distinguish among the following types of clients:
 Our main focus is on web-clients. In our sample application https://github.com/devonfw/my-thai-star/[my-thai-star] we offer a responsive web-client based on Angular following https://github.com/devonfw/devon4ng/[devon4ng] that integrates seamlessly with the back ends of my-thai-star available for Java using devon4j as well as .NET/C# using https://github.com/devonfw/devon4net/[devon4net]. For building angular clients read the separate https://github.com/devonfw/devon4ng/wiki[devon4ng guide].
 
 == JavaScript for Java Developers
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 In order to get started with client development as a Java developer we give you some hints to get started. Also if you are an experienced JavaScript developer and want to learn Java this can be helpful. First, you need to understand that the JavaScript ecosystem is as large as the Java ecosystem and developing a modern web client requires a lot of knowledge. The following table helps you as experienced developer to get an overview of the tools, configuration-files, and other related aspects from the new world to learn. Also it helps you to map concepts between the ecosystems. Please note that we list the tools recommended by devonfw here (and we know that there are alternatives not listed here such as gradle, grunt, bower, etc.).
 

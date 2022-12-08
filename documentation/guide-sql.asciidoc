@@ -3,9 +3,13 @@ toc::[]
 
 = SQL
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 For general guides on dealing or avoiding SQL, preventing SQL-injection, etc. you should study link:guide-domain-layer.asciidoc[domain layer].
 
 == Naming Conventions
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Here we define naming conventions that you should follow whenever you write SQL files:
 
@@ -13,6 +17,8 @@ Here we define naming conventions that you should follow whenever you write SQL 
 * Indentation should be 2 spaces as suggested by devonfw for every format.
 
 === DDL
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The naming conventions for database constructs (tables, columns, triggers, constraints, etc.) should be aligned with your database product and their operators.
 However, when you have the freedom of choice and a modern case-sensitive database, you can simply use your code conventions also for database constructs to avoid explicitly mapping each and every property (e.g. `RestaurantTable` vs. `RESTAURANT_TABLE`).
 
@@ -58,6 +64,8 @@ COMMENT ON TABLE RESTAURANT_ORDER IS 'An order and bill at the restaurant.';
 ATTENTION: Please note that `TABLE` and `ORDER` are reserved keywords in SQL and you should avoid using such keywords to prevent problems.
 
 === Data
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For insert, update, delete, etc. of data SQL scripts should additionally follow these guidelines:
 
 * Inserts always with the same order of columns in blocks for each table.

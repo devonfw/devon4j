@@ -2,9 +2,13 @@
 toc::[]
 
 = Spring Data
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 https://projects.spring.io/spring-data-jpa/[Spring Data JPA] is supported by both Spring and Quarkus. However, in Quarkus this approach still has some limitations. For detailed information, see the official https://quarkus.io/guides/spring-data-jpa[Quarkus Spring Data guide].
 
 == Motivation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The benefits of Spring Data are (for examples and explanations see next sections):
 
 * All you need is one single repository interface for each entity. No need for a separate implementation or other code artifacts like XML descriptors, `NamedQueries` class, etc.
@@ -14,6 +18,8 @@ The benefits of Spring Data are (for examples and explanations see next sections
 * Still you have the freedom to write custom implementations via default methods within the repository interface (e.g. for dynamic queries).
 
 == Dependency
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In case you want to switch to or add Spring Data support to your Spring or Quarkus application, all you need is to add the respective maven dependency:
 
 .**spring**
@@ -35,6 +41,8 @@ In case you want to switch to or add Spring Data support to your Spring or Quark
 --------
 
 == Repository
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For each entity `«Entity»Entity` an interface is created with the name `«Entity»Repository` extending https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html[JpaRepository].
 Such repository is the analogy to a link:guide-dao.asciidoc[Data-Access-Object (DAO)] used in the classic approach or when Spring Data is not an option.
 
@@ -50,9 +58,13 @@ The Spring Data repository provides some basic implementations for accessing dat
 
 == Custom method implementation
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 In addition, repositories can be enriched with additional functionality, e.g. to add QueryDSL functionality or to override the default implementations, by using so called repository fragments:
 
 === Example
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The following example shows how to write such a repository:
 
 .**Repository**
@@ -115,9 +127,13 @@ NOTE: In Quarkus, native and named queries via the `@Query` annotation are curre
 
 === Integration of Spring Data in devon4j-spring
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 For Spring applications, devon4j offers a proprietary solution that integrates seamlessly with QueryDSL and uses default methods instead of the fragment approach. A separate guide for this can be found link:spring/guide-devon4j-spring-repository.asciidoc[here].
 
 === Custom methods without fragment approach
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The fragment approach is a bit laborious, as three types (repository interface, fragment interface and fragment implementation) are always needed to implement custom methods.
 We cannot simply use default methods within the repository because we cannot inject the `EntityManager` directly into the repository interface.
@@ -171,11 +187,15 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, G
 ----
 
 == Drawbacks
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Spring Data also has some drawbacks:
 
 * Some kind of magic behind the scenes that are not so easy to understand. So in case you want to extend all your repositories without providing the implementation via a default method in a parent repository interface you need to deep-dive into Spring Data. We assume that you do not need that and hope what Spring Data and devon already provides out-of-the-box is already sufficient.
 * The Spring Data magic also includes guessing the query from the method name. This is not easy to understand and especially to debug. Our suggestion is not to use this feature at all and either provide a `@Query` annotation or an implementation via default method.
 
 == Limitations in Quarkus
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 * Native and named queries are not supported using `@Query` annotation. You will receive something like: __Build step io.quarkus.spring.data.deployment.SpringDataJPAProcessor#build threw an exception: java.lang.IllegalArgumentException: Attribute nativeQuery of @Query is currently not supported__
 * Customizing the base repository for all repository interfaces in the code base, which is done in Spring Data by registering a class the extends `SimpleJpaRepository`

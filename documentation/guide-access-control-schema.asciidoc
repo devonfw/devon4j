@@ -3,9 +3,13 @@ toc::[]
 
 = Access Control Schema
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 With release `3.0.0` the `access-control-schema.xml` has been deprecated. You may still use it and find the documentation in this section. However, for new devonfw applications always start with the new approach described in link:guide-access-control#access-control-config.asciidoc[access control config].
 
 == Legacy Access Control Schema Documentation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The file `access-control-schema.xml` is used to define the mapping from groups to permissions (see https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/resources/config/app/security/access-control-schema.xml[example from sample app]). The general terms discussed above can be mapped to the implementation as follows:
 
 .General security terms related to devon4j access control schema

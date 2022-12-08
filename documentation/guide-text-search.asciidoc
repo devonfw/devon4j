@@ -3,9 +3,13 @@ toc::[]
 
 = Full Text Search
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 If you want to all your users fast and simple searches with just a single search field (like in google), you need full text indexing and search support.
 
 == Solutions
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 * http://lucene.apache.org/[Lucene]
 * https://lucene.apache.org/core/4_4_0/analyzers-common/org/apache/lucene/analysis/ngram/NGramTokenizer.html[NGram]
@@ -18,5 +22,7 @@ Maybe you also want to use native features of your database
 * https://www.oracle.com/technetwork/database/enterprise-edition/index-098492.html[Oracle Text]
 
 == Best Practices
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 TODO

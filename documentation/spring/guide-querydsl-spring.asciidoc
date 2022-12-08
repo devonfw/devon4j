@@ -3,9 +3,13 @@ toc::[]
 
 = QueryDSL in devon4j-spring
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 To implement dynamic queries, devon4j suggests the use of QueryDSL. QueryDSL uses metaclasses generated from entity classes at build time.  devon4j-spring provides a way to use QueryDSL without the need for code generation. For this, devon4j provides the interface https://github.com/devonfw/devon4j/blob/master/modules/jpa-spring-data/src/main/java/com/devonfw/module/jpa/dataaccess/api/data/DefaultRepository.java[DefaultRepository] that your repository needs to extend and the https://github.com/devonfw/devon4j/blob/master/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java[QueryUtil] helper class to build your queries.
 
 == Example
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Here is an example for using QueryDSL in devon4j-spring:
 
@@ -35,6 +39,8 @@ Here is an example for using QueryDSL in devon4j-spring:
 ----
 
 == Pagination
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Pagination for dynamic or generally handwritten queries is provided in devon4j-spring via https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java#L102[QueryUtil.findPaginated(...)]:
 

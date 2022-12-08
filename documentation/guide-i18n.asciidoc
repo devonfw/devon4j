@@ -1,6 +1,8 @@
 :toc: macro
 toc::[]
 = Internationalization
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 //The property file doesn't exist anymore but the example looks fine. Keep it? 
 Internationalization (I18N) is about writing code independent from locale-specific information.
 For I18N of text messages we are suggesting 
@@ -14,6 +16,8 @@ In devonfw we have developed a solution to manage text internationalization. dev
 
 == Binding locale information to the user
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 We have defined two different points to bind locale information to user, depending on user is authenticated or not.
 
 * User not authenticated: devonfw intercepts unsecured request and extract locale from it. At first, we try to extract a `language` parameter from the request and if it is not possible, we extract locale from Àccept-language` header. 
@@ -25,6 +29,8 @@ This image shows the entire process:
 image::images/i18n.png["Internationalization",scaledwidth="80%",align="center"]
 
 == Getting internationalizated messages
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 devonfw has a bean that manage i18n message resolution, the `ApplicationLocaleResolver.` This bean is responsible to get the current user and extract locale information from it and read the correct properties file to get the message.
 

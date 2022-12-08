@@ -3,15 +3,21 @@ toc::[]
 
 = Feature-Toggles
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The most software developing teams use Feature-Branching to be able to work in parallel and maintain a stable main branch in the VCS. However Feature-Branching might not be the ideal tool in every case because of big merges and isolation between development groups. In many cases, Feature-Toggles can avoid some of these problems, so these should definitely be considered to be used in the collaborative software development.
 
 == Implementation with the devonfw
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 To use Feature-Toggles with the devonfw, use the Framework http://www.togglz.org/[Togglz] because it has all the features generally needed and provides a great documentation.
 
 For a pretty minimal working example, also see https://github.com/florianluediger/oasp4j[this fork].
 
 === Preparation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The following example takes place in the `oasp-sample-core` project, so the necessary dependencies have to be added to the according `pom.xml` file. Required are the main Togglz project including Spring support, the Togglz console to graphically change the feature state and the Spring security package to handle authentication for the Togglz console.
 
@@ -47,6 +53,8 @@ togglz.console.secured=false
 ----
 
 === Small features
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 For small features, a simple query of the toggle state is often enough to achieve the desired functionality. To illustrate this, a simple example follows, which implements a toggle to limit the page size returned by the staffmanagement. See https://github.com/florianluediger/oasp4j/commit/e55c3c7cfcb42efe4f279dc673cced730abd580a[here] for further details.
 
@@ -94,6 +102,8 @@ if (StaffmanagementFeatures.LIMIT_STAFF_PAGE_SIZE.isActive()) {
 This way, you can easily switch the feature on or off by using the administration console at http://localhost:8081/devon4j-sample-server/togglz-console. If you are getting redirected to the login page, just sign in with any valid user (eg. admin).
 
 === Extensive features
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 When implementing extensive features, you might want to consider using the strategy design pattern to maintain the overview of your software. The following example is an implementation of a feature which adds a 25% discount to all products managed by the offermanagement.
 
@@ -148,14 +158,20 @@ private PaginatedListTo<OfferEntity> addDiscountToOffers(PaginatedListTo<OfferEn
 ----
 
 == Guidelines for a successful use of feature-toggles
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The use of feature-toggles requires a specified set of guidelines to maintain the overview on the software. The following is a collection of considerations and examples for conventions that are reasonable to use.
 
 === Minimize the number of toggles
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 When using too many toggles at the same time, it is hard to maintain a good overview of the system and things like finding bugs are getting much harder. Additionally, the management of toggles in the configuration interface gets more difficult due to the amount of toggles.
 
 To prevent toggles from piling up during development, a toggle and the associated obsolete source code should be removed after the completion of the corresponding feature. In addition to that, the existing toggles should be revisited periodically to verify that these are still needed and therefore remove legacy toggles.
 
 === Consistent naming scheme
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 A consistent naming scheme is the key to a structured and easily maintainable set of features. This should include the naming of toggles in the source code and the appropriate naming of commit messages in the VCS. The following section contains an example for a useful naming scheme including a small example.
 
 Every Feature-Toggle in the system has to get its own unique name without repeating any names of features, which were removed from the system. The chosen names should be descriptive names to simplify the association between toggles and their purpose. If the feature should be split into multiple sub-features, you might want to name the feature like the parent feature with a describing addition. If for example you want to split the `DISCOUNT` feature into the logic and the UI part, you might want to name the sub-features `DISCOUNT_LOGIC` and `DISCOUNT_UI`.
@@ -185,7 +201,11 @@ DISCOUNT: Add the feature-toggle to the offermanagement implementation.
 To keep track of all the features in your software system, a platform like GitHub offers issues. When creating an issue for every feature, you can retrace, who created the feature and who is assigned to completing its development. When referencing the issue from commits, you also have links to all the relevant commits from the issue view.
 
 === Placement of toggle points
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 To maintain a clean codebase, you definitely want to avoid using the same toggle in different places in the software. There should be one single query of the toggle which should be able to toggle the whole functionality of the feature. If one single toggle point is not enough to switch the whole feature on or off, you might want to think about splitting the feature into multiple ones.
 
 === Use of fine-grained features
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Bigger features in general should be split into multiple sub-features to maintain the overview on the codebase. These sub-features get their own feature-toggle and get implemented independently.

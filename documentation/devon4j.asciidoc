@@ -1,5 +1,7 @@
 = Java
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 :description: comprehensive documentation for the Java stack of devonfw.
 :doctype: book
 :toc:
@@ -35,6 +37,8 @@ You can also read the latest version of this documentation online at the followi
 * https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.devonfw.java.doc&a=devon4j-doc&v=LATEST&p=pdf[devon4j as PDF on maven-central]
 
 == General
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Here you will find documentation and code-patterns for developing with Java in general, independent of the framework you choose.
 
 include::architecture.asciidoc[leveloffset=+2]
@@ -164,6 +168,8 @@ include::guide-structure-classic.asciidoc[leveloffset=+2]
 
 === Layers
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 include::guide-client-layer.asciidoc[leveloffset=+3]
 
 <<<<
@@ -191,6 +197,8 @@ include::guide-batch-layer.asciidoc[leveloffset=+3]
 <<<<
 
 === Guides
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 include::spring/guide-spring-configuration.asciidoc[leveloffset=+3]
 
@@ -284,6 +292,8 @@ include::guide-text-search.asciidoc[leveloffset=+3]
 
 === Tutorials
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 include::tutorial-newapp.asciidoc[leveloffset=+3]
 
 include::quarkus.asciidoc[leveloffset=+1]
@@ -301,6 +311,8 @@ include::guide-domain-layer.asciidoc[leveloffset=+2]
 <<<<
 
 === Guides
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 include::quarkus/getting-started-for-spring-developers.asciidoc[leveloffset=+3]
 include::quarkus/guide-quarkus-configuration.asciidoc[leveloffset=+3]
