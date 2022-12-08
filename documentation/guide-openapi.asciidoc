@@ -1,6 +1,10 @@
 :toc: macro
 toc::[]
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
+
+'''
+
 = OpenAPI
 
 The link:https://spec.openapis.org/oas/latest.html[OpenAPI Specification (OAS)] defines a standard for describing RESTful web services in a machine- and human-readable format. OpenAPI allows REST APIs to be defined in a uniform manner.

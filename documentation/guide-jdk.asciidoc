@@ -1,6 +1,10 @@
 :toc: macro
 toc::[]
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
+
+'''
+
 = Java Development Kit
 
 The https://en.wikipedia.org/wiki/Java_Development_Kit[Java Development Kit] is an implementation of the Java platform. It provides the https://en.wikipedia.org/wiki/Java_virtual_machine[Java Virtual Machine] (JVM) and the Java Runtime Environment (JRE).
@@ -21,8 +25,36 @@ As OracleJDK changed its licensing model and can not be used for commercial usag
 You may want to use OpenJDK for development and OracleJDK only in production.
 However, e.g. OpenJDK 11 never released a version that is stable enough for reasonable development (e.g. javadoc tool is https://bugs.openjdk.java.net/browse/JDK-8212233[broken] and fixes are not available of OpenJDK 11 - fixed in 11.0.3 what is only available as OracleJDK 11 or you need to go to OpenJDK 12+, what has other bugs) so in the end there is no working release of OpenJDK 11.
 This more or less forces you to use OracleJDK what requires you to buy a subscription so you can use it for commercial development.
-However, there is https://github.com/AdoptOpenJDK[AdoptOpenJDK] that provides forked releases of OpenJDK with bug-fixes what might be an option.
-Anyhow, as you want to have your development environment close to production, the productively used JDK (most likely OracleJDK) should be preferred also for development.
+However, there is https://adoptium.net/[Adoptium] that provides forked releases of OpenJDK with bug-fixes what might be an option.
+
+The easiest way to get all this setup for developers is using https://github.com/devonfw/ide[devonfw-ide].
+
+== Garbage Collection
+
+A key feature of Java is automatic garbage collection (GC).
+Over time different garbage collectors have been implemented within the JVM.
+The good news is that usually you do not have to care about all this.
+However, at some point you might get an `OutOfMemoryError` or other effects related to GC and heap issues.
+You should also be aware that when a lot of heap is consumed, a full GC may pause the JVM for some time causing other issues like performance problems or even connection timeouts.
+Therefore, we strongly recommend you to do continous https://www.baeldung.com/java-gc-logging-to-file[logging of your GC activity] in your environments up to production.
+These GC logging does not cause relevant overhead so it can be enabled 7x24.
+Whenever you might have heap issues or a memory leak, you can simply analyze these GC logs.
+Simply transfer the logs from the environment server to your local machine.
+As the GC logs do not contain data that is sensitive to your app (regarding GPDR, customer data, etc.) this should be relatively easy to arrange.
+To analyze these GC logs, we recommend https://github.com/chewiebug/GCViewer[GCViewer].
+If you are already using https://github.com/devonfw/ide[devonfw-ide], that integrates all cool developer tools you may need, you can just call this command:
+```
+devon gcviewer
+```
+In the UI of GCViewer, simply open your GC logfile and you will get a visualization of the heap activity over time.
+For more details see https://sematext.com/blog/java-garbage-collection-logs/[here].
+
+== Thread Dump
+
+Sometimes you may face concurrency issues or even deadlocks where threads block each other.
+In such case you should https://www.baeldung.com/java-thread-dump[create a thread-dump].
+We even recommend you to create a series of e.g. 3-5 thread-dumps with a short delay of e.g. a minute bettwen each of them.
+This will help you to trace down problems of waiting or blocked threads.
 
 == Upgrading
 

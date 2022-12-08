@@ -1,6 +1,10 @@
 :toc: macro
 toc::[]
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
+
+'''
+
 = Migrate from Spring to Quarkus
 
 This guide will cover the migration process of a Spring application to a Quarkus application. There are already articles about migrating from Spring to Quarkus (e.g. https://developers.redhat.com/blog/2020/04/10/migrating-a-spring-boot-microservices-application-to-quarkus, https://dzone.com/articles/migrating-a-spring-boot-application-to-quarkus-cha).

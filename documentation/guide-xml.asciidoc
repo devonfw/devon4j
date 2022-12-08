@@ -1,6 +1,10 @@
 :toc: macro
 toc::[]
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
+
+'''
+
 = XML
 
 http://en.wikipedia.org/wiki/XML[XML] (Extensible Markup Language) is a W3C standard format for structured information. It has a large eco-system of additional standards and tools.
