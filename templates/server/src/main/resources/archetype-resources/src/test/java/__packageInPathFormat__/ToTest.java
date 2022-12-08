@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -183,6 +185,8 @@ public class ToTest extends Assertions {
       o = type.getEnumConstants()[0];
     } else if (List.class.isAssignableFrom(type)) {
       o = new ArrayList<>();
+    } else if (SortedSet.class.isAssignableFrom(type)) {
+      o = new TreeSet<>();
     } else if (Set.class.isAssignableFrom(type)) {
       o = new HashSet<>();
     } else if (Map.class.isAssignableFrom(type)) {
