@@ -2,6 +2,16 @@
 
 This file documents all notable changes to https://https://github.com/devonfw/devon4j[devon4j].
 
+== 2022.12.001
+
+Feature and bugfix release of with the following stories:
+
+* https://github.com/devonfw/devon4j/issues/571[#571]: Simplify app-template
+* https://github.com/devonfw/devon4j/issues/581[#581]: Release with latest minor versions (spring-boot 2.7.6)
+* https://github.com/devonfw/devon4j/pull/570[#570]: Changed toTest to support SortedSet
+
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/22?closed=1[milestone devon4j 2020.12.001].
+
 == 2022.04.001
 
 Feature and bugfix release of with the following stories:
@@ -10,6 +20,8 @@ Feature and bugfix release of with the following stories:
 * https://github.com/devonfw/devon4j/issues/551[#551]: spring4shell and other CVE fixes required
 * https://github.com/devonfw/devon4j/issues/531[#531]: Update logback to 1.2.9 or higher
 * https://github.com/devonfw/devon4j/issues/533[#533]: Explain why we use Long as primary key
+
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/21?closed=1[milestone devon4j 2020.04.003].
 
 == 2021.04.003
 
