@@ -3,9 +3,15 @@ toc::[]
 
 = Testing
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 == Implementation
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 === Module Test
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In devon4j you can extend the abstract class https://github.com/devonfw/devon4j/blob/develop/modules/test/src/main/java/com/devonfw/module/test/common/base/ModuleTest.java[ModuleTest] to basically get access to assertions. In order to test classes embedded in dependencies  and external services one needs to provide mocks for that. As the xref:test-automation-technology-stack[technology stack] recommends we use the Mockito framework to offer this functionality. The following example shows how to implement Mockito into a JUnit test.
 //We currently don't use Mockito in the application
 [source,java]
@@ -54,6 +60,8 @@ public StaffMemberEto findStaffMember(Long id) {
 In this simple example one has to stub two calls on the CUT as you can see below. For example the method call of the CUT `staffMemberDao.find(id)` is stubbed for returning a mock object `staffMemberEntity` that is also defined as mock.
 
 === Subsystem Test
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 devon4j provides a simple test infrastructure to aid with the implementation of subsystem tests. It becomes available by simply subclassing link:https://github.com/oasp/oasp4j/blob/master/samples/core/src/test/java/io/oasp/gastronomy/restaurant/general/common/base/AbstractRestServiceTest.java[AbstractRestServiceTest.java].
 [source,java]
 -------------------------------------------
@@ -75,7 +83,11 @@ After the test method call one can verify the expected results. Mockito can chec
 
 == Configuration
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 === Configure Test Specific Beans
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Sometimes it can become handy to provide other or differently configured bean implementations via CDI than those available in production. For example, when creating beans using `@Bean`-annotated methods they are usually configured within those methods. https://github.com/oasp/oasp4j/blob/master/samples/core/src/main/java/io/oasp/gastronomy/restaurant/general/service/impl/config/WebSecurityBeansConfig.java[WebSecurityBeansConfig] shows an example of such methods.
 
 [source,java]

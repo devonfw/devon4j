@@ -3,9 +3,13 @@ toc::[]
 
 = Service Layer
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The service layer is responsible for exposing functionality made available by the link:guide-logic-layer.asciidoc[logical layer] to external consumers over a network via xref:protocol[technical protocols].
 
 == Types of Services
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Before you start creating your services you should consider some general design aspects:
 
@@ -21,6 +25,8 @@ For RPC a common choice is link:guide-rest.asciidoc[REST] but there are also int
 When it comes to messaging in Java the typical answer will be link:guide-jms.asciidoc[JMS]. However, a very promising alternative is link:guide-kafka.asciidoc[Kafka].
 
 == Versioning
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For RPC services consumed by other applications we use versioning to prevent incompatibilities between applications when deploying updates. This is done by the following conventions:
 
 * We define a version number and prefix it with `v` (e.g. `v1`).
@@ -30,9 +36,13 @@ For RPC services consumed by other applications we use versioning to prevent inc
 * For maintenance and simplicity, avoid keeping more than one previous version.
 
 == Interoperability
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For services that are consumed by clients with different technology, _interoperability_ is required. This is addressed by selecting the right protocol, following protocol-specific best practices and following our considerations especially _simplicity_.
 
 == Service Considerations
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The term _service_ is quite generic and therefore easily misunderstood. It is a unit exposing coherent functionality via a well-defined interface over a network. For the design of a service, we consider the following aspects:
 
 * *self-contained* +
@@ -51,6 +61,8 @@ Process individual entities (for processing large sets of data, use a link:guide
 Avoid polymorphism, RPC methods with unique name per signature and no overloading, avoid attachments (consider separate download service), etc.
 
 == Security
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Your services are the major entry point to your application. Hence, security considerations are important here.
 
 See link:guide-rest.asciidoc#security[REST Security].

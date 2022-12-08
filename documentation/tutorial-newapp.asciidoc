@@ -3,7 +3,11 @@ toc::[]
 
 = Creating a new application
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 == Running the archetype
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 In order to create a new application you must use the archetype provided by devon4j which uses the maven archetype functionality.
 
@@ -12,6 +16,8 @@ the same.
 You can choose between 2 alternatives, create it from command line or, in more visual manner, within eclipse.
 
 === From command Line
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 To create a new devon4j application from command line, you can simply run the following command:
 
 [source,bash]
@@ -41,6 +47,8 @@ Further providing additional properties (using `-D` parameter) you can customize
 |=======================
 
 === From Eclipse
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
  After that, you should follow this Eclipse steps to create your application:
 
 * Create a new Maven Project.
@@ -55,6 +63,8 @@ image::images/eclipse-m2e-create-devon4j-project-parameters.png["Configure arche
 * Finish the Eclipse assistant and you are ready to start your project.
 
 == What is generated
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The application template (archetype) generates a Maven multi-module project. It has the following modules:
 
@@ -73,10 +83,16 @@ The toplevel `pom.xml` of the generated project has the following features:
 
 == How to run your app
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 === Run app from IDE
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 To run your application from your favourite IDE, simply launch `SpringBootApp` as java application.
 
 === Run app as bootified jar or war
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 More details are available link:guide-structure-classic.asciidoc#deployment[here].

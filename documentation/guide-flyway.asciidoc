@@ -3,6 +3,8 @@ toc::[]
 
 = Flyway
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 http://flywaydb.org/[Flyway] is a tool for link:guide-database-migration.asciidoc[database migration and schema versioning].
 See https://flywaydb.org/getstarted/why[why] for a motivation why using flyway.
 
@@ -11,6 +13,8 @@ For simplicity we recommend to integrate flyway into your app.
 However, you need to be aware that therefore your app needs database access with full schema owner permissions.
 
 == Organizational Advice
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 A few considerations with respect to project organization will help to implement maintainable Flyway migrations.
 
 At first, testing and production environments must be clearly and consistently distinguished. Use the following directory structure to achieve this distinction:
@@ -39,6 +43,8 @@ With regard to content, separation of concerns (SoC) is an important goal. SoC c
 It is important to have clear responsibilities regarding the database, the persistence layer (JPA), and migrations. Therefore a dedicated database expert should be in charge of any migrations performed or she should at least be informed before any change to any of the mentioned parts is applied.
 
 == Technical Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Database migrations can be https://flywaydb.org/documentation/concepts/migrations#sql-based-migrations[SQL] based or https://flywaydb.org/documentation/concepts/migrations#java-based-migrations[Java] based.
 
 To enable auto migration on startup (not recommended for productive environment) set the following property in the `application.properties` file for an environment.
@@ -63,6 +69,8 @@ Since migration scripts will also be versioned the end-of-line (EOL) style must 
 Also, the version numbers of migration scripts should not consist of simple ascending integer numbers like V0001__..., V0002__..., ... This naming may lead to problems when merging branches. Instead the usage of timestamps as version numbers will help to avoid such problems.
 
 == Naming Conventions
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Database migrations should follow this naming convention:
 V<version>\__<description> (e.g.: V12345__Add_new_table.sql). 
 

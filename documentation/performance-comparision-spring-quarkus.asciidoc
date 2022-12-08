@@ -3,6 +3,8 @@ toc::[]
 
 = Performance comparison between Spring and Quarkus
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Quarkus offers a big advantage in resource consumption compared to a Spring application. Especially in native mode, the memory footprint of a Quarkus application is extremely low, which can be a deciding factor in real-world environments.
 The tables <<PerformanceComparisonApplication1>> and <<PerformanceComparisonApplication2>>, which show the startup and memory consumption of two applications that are similar in their Quarkus and Spring implementations, illustrate this point. Application 1 is more complex in scope than Application 2 and uses more dependencies.
 The listings above the tables show the functions/extensions of the applications and the lines of code (only java files).

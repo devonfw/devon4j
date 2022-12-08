@@ -3,6 +3,8 @@ toc::[]
 
 = Log-Monitoring
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Log-monitoring is an aspect of link:guide-monitoring.asciidoc[monitoring] with a strict focus on link:guide-logging.asciidoc[logging].
 With trends towards IT landscapes with many but much smaller apps the classicial approach to write log-files to the disc and let operators read those via SSH became entirely obsolete.
 Nowadays we have up to hundreds or even thousands of apps that themselves are clustered into multiple nodes.
@@ -16,6 +18,8 @@ This approach gives the following benefits:
 
 == Options for log-monitoring
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Typical products for such a log monitoring system are:
 
 * https://www.elastic.co/de/what-is/elk-stack[ELK-Stack]
@@ -27,6 +31,8 @@ In devonfw we are not biased for any of these products. Therefore, feel free to 
 For Quarkus applications, you can get an insight into the topic by reading the guide about https://quarkus.io/guides/centralized-log-management[centralized log management].
 
 == API for log-monitoring
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The "API" for logging to a log-monitoring system for your app is pretty simple:
 

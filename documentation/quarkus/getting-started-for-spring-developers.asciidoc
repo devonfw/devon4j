@@ -3,6 +3,8 @@ toc::[]
 
 = Getting started with Quarkus for Spring developers
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 As a Spring developer, you have heard more and more about Quarkus: its pros and cons, its fast growth etc. So, you decided to adopt/try Quarkus for your (next) project(s) and are wondering where to go next and what you need to pay attention to when moving from Spring to Quarkus.
 
 This guide tries to address this exact concern. In the following, we will present you some main points you should be aware of when starting to develop with Quarkus, along with some useful sources.

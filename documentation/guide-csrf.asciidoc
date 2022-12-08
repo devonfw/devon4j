@@ -3,6 +3,8 @@ toc::[]
 
 = Cross-site request forgery (CSRF)
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 CSRF is a type of malicious exploit of a web application that allows an attacker to induce users to perform actions that they do not intend to perform.
 
 image::images/csrf.png[,width="450", link="images/jwt_flow.png"]
@@ -11,11 +13,15 @@ More details about csrf can be found at https://owasp.org/www-community/attacks/
 
 == Secure devon4j server against CSRF
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 In case your devon4j server application is not accessed by browsers or the web-client is using link:guide-jwt.asciidoc[JWT based authentication], you are already safe according to CSRF.
 However, if your application is accessed from a browser and you are using _form based authentication_ (with session coockie) or _basic authentication_, you need to enable CSRF protection.
 This guide will tell you how to do this.
 
 === Dependency
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 To secure your devon4j application against CSRF attacks, you only need to add the following dependency:
 
@@ -31,6 +37,8 @@ Starting with devon4j version `2020.12.001` application template, this is all yo
 However, if you have started from an older version or you want to understand more, please read on.
 
 === Pluggable web-security
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 To enable pluggable security via devon4j security starters you need to apply `WebSecurityConfigurer` to your `BaseWebSecurityConfig` (your class extending spring-boot's `WebSecurityConfigurerAdapter`) as following:
 
@@ -50,6 +58,8 @@ To enable pluggable security via devon4j security starters you need to apply `We
 
 === Custom CsrfRequestMatcher
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 If you want to customize which HTTP requests will require a CSRF token, you can implement your own `CsrfRequestMatcher` and provide it to the devon4j CSRF protection via qualified injection as following:
 
 [source,java]
@@ -66,6 +76,8 @@ public class CsrfRequestMatcher implements RequestMatcher {
 Please note that the exact name (`@Named("CsrfRequestMatcher")`) is required here to ensure your custom implementation will be injected properly.
 
 === CsrfRestService
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 With the `devon4j-starter-security-csrf` the `CsrfRestService` gets integrated into your app.
 It provides an operation to get the CSRF token via an HTTP `GET` request.
@@ -86,6 +98,8 @@ It has to be send with subsequent HTTP requests (when method is other than `GET`
 
 === How it works
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Putting it all together, a browser client should call the `CsrfRestService` after successfull login to receive the current CSRF token.
 With every subsequent HTTP request (other than `GET`) the client has to send this token in the according HTTP header.
 Otherwise the server will reject the request to prevent CSRF attacks.
@@ -96,5 +110,7 @@ The attacker may make your browser retrieve the CSRF token but he will not be ab
 This way your application will be secured against CSRF attacks.
 
 == Configure devon4ng client for CSRF
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Devon4ng client configuration for CSRF is described link:https://github.com/devonfw/devon4ng/blob/develop/documentation/guide-consuming-rest-services.asciidoc[here]

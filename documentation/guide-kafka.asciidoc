@@ -5,6 +5,8 @@ WARNING: devon4j-kafka has been abandoned. Its main feature was the implementati
 
 = Messaging Services
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Messaging Services provide an asynchronous communication mechanism between applications. Technically this is implemented using http://kafka.apache.org/documentation.html[Apache Kafka] .
 
 For link:spring.asciidoc[spring], devonfw uses link:https://spring.io/projects/spring-kafka[Spring-Kafka] as kafka framework.

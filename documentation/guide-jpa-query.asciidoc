@@ -2,11 +2,15 @@
 toc::[]
 
 = Queries
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html[Java Persistence API (JPA)] defines its own query language, the https://docs.oracle.com/html/E13946_01/ejb3_langref.html[_java persistence query language_ (JPQL)] (see also https://docs.oracle.com/javaee/7/tutorial/persistence-querylanguage.htm[JPQL tutorial]), which is similar to SQL but operates on entities and their attributes instead of tables and columns.
 
 The simplest CRUD-Queries (e.g. find an entity by its ID) are already build in the devonfw CRUD functionality (via link:guide-repository.asciidoc[Repository] or link:guide-dao.asciidoc[DAO]). For other cases you need to write your own query. We distinguish between _static_ and _dynamic_ queries. xref:static-queries[Static queries] have a fixed JPQL query string that may only use parameters to customize the query at runtime. Instead, xref:dynamic-queries[dynamic queries] can change their clauses (`WHERE`, `ORDER BY`, `JOIN`, etc.) at runtime depending on the given search criteria.
 
 == Static Queries
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 E.g. to find all https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/dishmanagement/dataaccess/api/DishEntity.java[DishEntries] (from MTS sample app) that have a price not exceeding a given `maxPrice` we write the following JPQL query:
 [source,sql]
 ----
@@ -15,6 +19,8 @@ SELECT dish FROM DishEntity dish WHERE dish.price <= :maxPrice
 Here `dish` is used as alias (variable name) for our selected `DishEntity` (what refers to the simple name of the Java entity class). With `dish.price` we are referring to the Java property `price` (`getPrice()`/`setPrice(...)`) in `DishEntity`. A named variable provided from outside (the search criteria at runtime) is specified with a colon (`:`) as prefix. Here with `:maxPrice` we reference to a variable that needs to be set via `query.setParameter("maxPrice", maxPriceValue)`. JPQL also supports indexed parameters (`?`) but they are discouraged because they easily cause confusion and mistakes.
 
 === Using Queries to Avoid Bidirectional Relationships 
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 With the usage of queries it is possible to avoid exposing relationships or modelling bidirectional relationships, which have some disadvantages (see link:guide-jpa.asciidoc#relationships[relationships]). This is especially desired for relationships between entities of different business components.
 So for example to get all https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/ordermanagement/dataaccess/api/OrderLineEntity.java[OrderLineEntities] for a specific https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/ordermanagement/dataaccess/api/OrderEntity.java[OrderEntity] without using the `orderLines` relation from `OrderEntity` the following query could be used:
 [source,sql]
@@ -23,6 +29,8 @@ SELECT line FROM OrderLineEntity line WHERE line.order.id = :orderId
 ----
 
 == Dynamic Queries
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For dynamic queries, we use the http://querydsl.com/static/querydsl/latest/reference/html/ch02.html[JPA] module for http://www.querydsl.com/[Querydsl]. Querydsl also supports other modules such as http://querydsl.com/static/querydsl/latest/reference/html/ch02s07.html[MongoDB], and http://querydsl.com/static/querydsl/latest/reference/html/ch02s05.html[Apache Lucene]. It allows to implement queries in a powerful but readable and type-safe way (unlike Criteria API). If you already know JPQL, you will quickly be able to read and write Querydsl code. It feels like JPQL but implemented in Java instead of plain text.
 
 To use Querydsl in your Maven project, add the following dependencies:
@@ -115,6 +123,8 @@ The `orderBy` method is used to sort the query results according to certain crit
 For spring, devon4j provides another approach that you can use for your Spring applications to implement Querydsl logic without having to use these metaclasses. An example can be found link:spring/guide-querydsl-spring.asciidoc[here].
 
 == Native Queries
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Spring Data supports the use of _native queries_. Native queries use simple native SQL syntax that is not parsed in JPQL. This allows you to use all the features that your database supports.
 The downside to this is that database portability is lost due to the absence of an abstraction layer. Therefore, the queries may not work with another database because it may use a different syntax.
 
@@ -139,9 +149,13 @@ List<ProductEntity> products = query.getResultList();
 NOTE: Be sure to use the name of the table when using native queries, while you must use the entity name when implementing queries with JPQL.
 
 == Using Wildcards
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For flexible queries it is often required to allow wildcards (especially in xref:dynamic_queries[dynamic queries]). While users intuitively expect glob syntax, the SQL and JPQL standards work differently. Therefore, a mapping is required. devonfw provides this on a lower level with https://github.com/devonfw/devon4j/blob/develop/modules/basic/src/main/java/com/devonfw/module/basic/common/api/query/LikePatternSyntax.java[LikePatternSyntax] and on a higher level with https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryUtil.java#L54[QueryUtil] (see https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryHelper.java#L199[QueryHelper.newStringClause(...)]).
 
 == Pagination
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 When dealing with large amounts of data, an efficient method of retrieving the data is required. Fetching the entire data set each time would be too time consuming. Instead, __Paging__ is used to process only small subsets of the entire data set.
 
 If you are using link:guide-repository.asciidoc[Spring Data repositories] you will get pagination support out of the box by providing the interfaces https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html[Page] and  https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Pageable.html[Pageable]:
@@ -163,6 +177,8 @@ Page<DishEntity> dishes = dishRepository.findAll(pageable);
 ----
 
 === Paging with Querydsl
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Pagination is also supported for dynamic queries with Querydsl:
 
@@ -187,6 +203,8 @@ Pagination is also supported for dynamic queries with Querydsl:
 ----
 
 === Pagination example
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For the table entity we can make a search request by accessing the REST endpoint with pagination support like in the following examples:
 
 
@@ -273,12 +291,18 @@ POST mythaistar/services/rest/tablemanagement/v1/table/search
 ----
 
 === Pagingation in devon4j-spring
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For spring applications, devon4j also offers its own solution for pagination. You can find an example of this link:spring/guide-querydsl-spring.asciidoc#pagination[here].
 
 == Query Meta-Parameters
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Queries can have meta-parameters and that are provided via `SearchCriteriaTo`. Besides paging (see above) we also get https://github.com/devonfw/devon4j/blob/develop/modules/jpa-basic/src/main/java/com/devonfw/module/jpa/dataaccess/api/QueryHelper.java#L51[timeout support].
 
 == Advanced Queries
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Writing queries can sometimes get rather complex. The current examples given above only showed very simple basics. Within this topic a lot of advanced features need to be considered like:
 
 * https://www.w3schools.com/sql/sql_join.asp[Joins]

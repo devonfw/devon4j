@@ -3,6 +3,8 @@ toc::[]
 
 = Batch Layer
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 We understand batch processing as a bulk-oriented, non-interactive, typically long running execution of tasks. For simplicity, we use the term "batch" or "batch job" for such tasks in the following documentation.
 
 devonfw uses link:http://projects.spring.io/spring-batch/[Spring Batch] as a batch framework.
@@ -15,6 +17,8 @@ There is an example of a simple batch implementation in the https://github.com/d
 In this chapter, we will describe the overall architecture (especially concerning layering) and how to administer batches.
 
 == Layering
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Batches are implemented in the batch layer. The batch layer is responsible for batch processes, whereas the business logic is implemented in the logic layer. Compared to the link:guide-service-layer.asciidoc[service layer], you may understand the batch layer just as a different way of accessing the business logic.
 From a component point of view, each batch is implemented as a subcomponent in the corresponding business component.
@@ -30,13 +34,19 @@ Batches should invoke use cases in the logic layer for doing their work.
 Only "batch specific" technical aspects should be implemented in the batch layer.
 
 ==========================
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Example:
 For a batch, which imports product data from a CSV file, this means that all code for actually reading and parsing the CSV input file is implemented in the batch layer.
 The batch calls the use case "create product" in the logic layer for actually creating the products for each line read from the CSV input file.
 ==========================
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 
 ===  Directly accessing data access layer
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In practice, it is not always appropriate to create use cases for every bit of work a batch should do. Instead, the data access layer can be used directly.
 An example for that is a typical batch for data retention which deletes out-of-time data.
 Often deleting, out-dated data is done by invoking a single SQL statement. It is appropriate to implement that SQL in a link:guide-repository.asciidoc[Repository] or link:guide-dao.asciidoc[DAO] method and call this method directly from the batch.
@@ -44,6 +54,8 @@ But be careful: this pattern is a simplification which could lead to business lo
 It is a typical design decision you have to make when designing your specific batches.
 
 == Project structure and packaging
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Batches will be implemented in a separate Maven module to keep the application core free of batch dependencies. The batch module includes a dependency on the application core-module to allow the reuse of the use cases, DAOs etc.
 Additionally the batch module has dependencies on the required spring batch jars:
@@ -111,11 +123,15 @@ To allow an easy xref:start-batch[start of the batches] from the command line it
 
 == Implementation
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Most of the details about implementation of batches is described in the https://spring.io/projects/spring-batch[spring batch documentation].
 There is nothing special about implementing batches in devonfw. You will find an easy https://github.com/devonfw/my-thai-star/tree/develop/java/mtsj/batch[example in my-thai-star].
 
 [[start-batch]]
 == Starting from command line
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Devonfw advises to start batches via command line. This is most common to many ops teams and allows easy integration in existing xref:scheduling[schedulers]. In general batches are started with the following command:
 
@@ -136,6 +152,8 @@ This will launch your normal spring boot app, disables the web application part 
 [scheduling]
 == Scheduling
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 In real world scheduling of batches is not as simple as it first might look like.
 
 * Multiple batches have to be executed in order to achieve complex tasks. If one of those batches fails the further execution has to be stopped and operations should be notified for example.
@@ -150,6 +168,8 @@ This gives full control to operations to choose the solution which fits best int
 
 == Handling restarts
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 If you start a job with the same parameters set after a failed run (BatchStatus.FAILED) a restart will occur.
 In many cases your batch should then not reprocess all items it processed in the previous runs.
 For that you need some logic to start at the desired offset. There different ways to implement such logic:
@@ -160,11 +180,15 @@ For that you need some logic to start at the desired offset. There different way
 
 === Using spring batch ExecutionContext for restarts
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 By implementing the `ItemStream` interface in your `ItemReader` or `ItemWriter` you may store information about the batch progress in the `ExecutionContext`. You will find an example for that in the CountJob in My Thai Star.
 
 Additional hint: It is important that bean definition method of your `ItemReader`/`ItemWriter` return types implementing `ItemStream`(and not just `ItemReader` or `ItemWriter` alone). For that the `ItemStreamReader` and `ItemStreamWriter` interfaces are provided.
 
 == Exit codes
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Your batches should create a meaningful exit code to allow reaction to batch errors e.g. in a xref:scheduling[scheduler].
 For that spring batch automatically registers an `org.springframework.boot.autoconfigure.batch.JobExecutionExitCodeGenerator`. To make this mechanism work your spring boot app main class as to populate this exit code to the JVM:
@@ -189,6 +213,8 @@ public class SpringBootApp {
 
 == Stop batches and manage batch status
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Spring batch uses several database tables to store the status of batch executions.
 Each execution may have link:https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#jobexecution[different status].
 You may use this mechanism to link:https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#stoppingAJob[gracefully stop batches].
@@ -197,6 +223,8 @@ E.g. the state will be running, despite the process crashed sometime ago.
 For that cases you have to change the status of the execution in the database.
 
 === CLI-Tool
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Devonfw provides a easy to use cli-tool to manage the executing status of your jobs.
 The tool is implemented in the devonfw module `devon4j-batch-tool`. It will provide a runnable jar, which may be used as follows:
 
@@ -213,6 +241,8 @@ As you can the each invocation includes the JDBC connection string to your datab
 This means that you have to make sure that the corresponding DB driver is in the classpath (the prepared jar only contains H2).
 
 == Authentication
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Most business application incorporate authentication and authorization.
 Your spring boot application will implement some kind of security, e.g. integrated login with username+password or in many cases authentication via an existing IAM.
@@ -276,6 +306,10 @@ public class BookingsExportBatchConfig {
 
 == Tipps & tricks
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 === Identifying job parameters
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Spring uses a jobs parameters to identify https://docs.spring.io/spring-batch/docs/current/reference/html/domain.html#jobexecution[job executions]. Parameters starting with "-" are not considered for identifying a job execution.

@@ -3,6 +3,8 @@ toc::[]
 
 = Spring Native vs Quarkus
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Nowadays, it is very common to write an application and deploy it to a cloud. 
 Serverless computing and Function-as-a-Service (FaaS) have become
 very popular.
@@ -11,6 +13,8 @@ for the Java application, as more of these keeps the host's costs high in public
 https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/#overview[Spring Native] which aims to solve the big memory footprint of Spring and its slow startup time to potentially rival the new framework called https://quarkus.io[Quarkus], by Red Hat. This document briefly discusses both of these two frameworks and their potential suitability with devonfw.
 
 == Quarkus
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Quarkus is a full-stack, Kubernetes-native Java framework made for JVMs. With its container-first-philosophy and its native compilation with GraalVM, Quarkus optimizes Java for containers with low memory usage and fast startup times.
 
@@ -33,9 +37,15 @@ This gives Quarkus the potential for a great platform for serverless cloud and K
 
 == Spring Native
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 ====
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 *The current version of Spring Native 0.10.5 is designed to be used with Spring Boot 2.5.6*
 ====
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Like Quarkus, Spring Native provides support for compiling Spring applications to native executables using the GraalVM native-image compiler deisgned to be packaged in lightweight containers. 
 
@@ -61,6 +71,8 @@ Spring Native is composed of the following modules:
 
 == Native compilation with GraalVM    
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Quarkus and Spring Native both use GraalVM for native compilation. Using a native image provides some key advantages, such as instant startup, instant peak performance, and reduced memory consumption. However, there are also some drawbacks: Creating a native image is a heavy process that is slower than a regular application. A native image also has fewer runtime optimizations after its warmup. Furthermore, it is less mature than the JVM and comes with some different behaviors.
 
 *Key characteristics:*
@@ -77,6 +89,8 @@ There are https://github.com/oracle/graal/blob/master/docs/reference-manual/nati
 
 == Build time and start time for apps
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 [cols=",,",options="header",]
 |===
 |Framework |build time |start time
@@ -86,6 +100,8 @@ There are https://github.com/oracle/graal/blob/master/docs/reference-manual/nati
 
 == Memory footprints
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 [cols=",",options="header",]
 |===
 |Framework |memory footprint
@@ -94,6 +110,8 @@ There are https://github.com/oracle/graal/blob/master/docs/reference-manual/nati
 |===
 
 == Considering devonfw best practices
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 As of now, devonfw actively supports Spring but not Spring Native. 
 Although Quarkus has been released to a stable release in early 2021, it has been already used in multiple big projects successfully showing its potential to implement cloud native services with low resource consumption matching the needs of scalability and resilience in cloud native environments.
@@ -106,6 +124,8 @@ for Spring developers] who want to adopt or try Quarkus for their
 Spring.
 
 == General recommendations and conclusion
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Quarkus and Spring Native both have their own use cases. Under the consideration of the limitations of GraalVM to be used for native images built by Quarkus and Spring Native, there is a strong recommendation towards Quarkus from devonfw. 
 One essential differentiation has to be made on the decision for native or against native applications - the foreseen performance optimization of the JIT compiler of the JVM, which is not available anymore in a native image deployment. 

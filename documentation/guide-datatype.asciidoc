@@ -3,6 +3,8 @@ toc::[]
 
 = Datatypes
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 [quote, mmm project, datatype javadoc]
 ____
 A datatype is an object representing a value of a specific type with the following aspects:
@@ -27,6 +29,8 @@ ____
 See http://m-m-m.sourceforge.net/apidocs/net/sf/mmm/util/lang/api/Datatype.html[mmm datatype javadoc].
 
 == Datatype Packaging
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For the devonfw we use a common link:coding-conventions.asciidoc#packages[packaging schema].
 The specifics for datatypes are as following:
 
@@ -39,15 +43,25 @@ The specifics for datatypes are as following:
 |=============================================
 
 == Technical Concerns
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Many technologies like Dozer and QueryDSL's (alias API) are heavily based on reflection. For them to work properly with custom datatypes, the frameworks must be able to instantiate custom datatypes with no-argument constructors. It is therefore recommended to implement a no-argument constructor for each datatype of at least +protected+ visibility.
 
 == Datatypes in Entities
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The usage of custom datatypes in entities is explained in the link:guide-jpa.asciidoc#entities-and-datatypes[persistence layer guide].
 
 == Datatypes in Transfer-Objects
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 === XML
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For mapping datatypes with JAXB see link:guide-xml.asciidoc[XML guide].
 
 === JSON
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For mapping datatypes from and to JSON see link:guide-json#json-custom-mapping.asciidoc[JSON custom mapping].

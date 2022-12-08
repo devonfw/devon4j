@@ -2,6 +2,8 @@
 toc::[]
 
 = Quarkus Authentication
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Quarkus supports different authentication mechanisms through different extensions. For example:
 
 * https://quarkus.io/guides/security-properties[`quarkus-elytron-security-properties-file`] provides support for simple properties files that can be used for testing security. This supports both embedding user information in `application.properties` and standalone properties files.

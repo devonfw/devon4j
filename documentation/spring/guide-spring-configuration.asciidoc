@@ -3,10 +3,16 @@ toc::[]
 
 = Configuration
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 == Internal Application Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 There usually is a main configuration registered with main Spring Boot App, but differing configurations to support automated test of the application can be defined using profiles (not detailed in this guide).
 
 === Spring Boot Application
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For a complete documentation, see the http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/[Spring Boot Reference Guide].
 
 With spring-boot you provide a simple _main class_ (also called starter class) like this:
@@ -37,6 +43,8 @@ If you want to map spring configuration properties into your custom code please 
 
 === Standard beans configuration
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 For basic bean configuration we rely on spring boot using mainly configuration classes and only occasionally XML configuration files. Some key principle to understand Spring Boot auto-configuration features:
 
 * Spring Boot auto-configuration attempts to automatically configure your Spring application based on the jar dependencies and annotated components found in your source code.
@@ -51,9 +59,13 @@ More specific configuration files (as required) reside in an adequately named su
 `src/main/resources/app`
 
 === BeanMapper Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In case you are still using dozer, you will find further details in link:guide-beanmapping-spring.asciidoc#bean-mapper-configuration[bean-mapper configuration].
 
 === Security configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The abstract base class `BaseWebSecurityConfig` should be extended to configure web application security thoroughly.
 A basic and secure configuration is provided which can be overridden or extended by subclasses.
 Subclasses must use the `@Profile` annotation to further discriminate between beans used in production and testing scenarios. See the following example:
@@ -76,6 +88,8 @@ See https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main
 
 
 === WebSocket configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 A websocket endpoint is configured within the business package as a Spring configuration class. The annotation `@EnableWebSocketMessageBroker` makes Spring Boot registering this endpoint.
 //Changed path due to non existent configuration in the example project
 [source, java]
@@ -89,7 +103,11 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 ----
 
 == External Application Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 === application.properties files
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[Here] is a list of common properties provided by the Spring framework.
 
 For a general understanding how spring-boot is loading and boostrapping your `application.properties` see https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html[spring-boot external configuration].
@@ -110,9 +128,13 @@ In this `application.properties` you only define the minimum properties that are
 
 === Database Configuration
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The configuration for spring and Hibernate is already provided by devonfw in our sample application and the application template. So you only need to worry about a few things to customize.
 
 ==== Database System and Access
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Obviously you need to configure which type of database you want to use as well as the location and credentials to access it. The defaults are configured in `application.properties` that is bundled and deployed with the release of the software. The files should therefore contain the properties as in the given example:
 
 [source, properties]
@@ -129,6 +151,8 @@ For further details about `database.hibernate.hbm2ddl.auto` please see http://do
 If your application supports multiples database types, set `spring.profiles.active=XXX` in `src/main/resources/config/application.properties` choose database of your choice. Also, one has to set all the active spring profiles in this `application.properties` and not in any of the other `application.properties`.
 
 ==== Database Logging
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Add the following properties to `application.properties` to enable logging of database queries for debugging purposes.
 
 [source, properties]
@@ -140,7 +164,11 @@ spring.jpa.properties.hibernate.format_sql=true
 
 == Security
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 === Password Encryption
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 In order to support encrypted passwords in spring-boot `application.properties` all you need to do is to add https://github.com/ulisesbocchio/jasypt-spring-boot#jasypt-spring-boot[jasypt-spring-boot] as dependency in your `pom.xml` (please check for recent version link:https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter[here]):
 [source, xml]
 ----

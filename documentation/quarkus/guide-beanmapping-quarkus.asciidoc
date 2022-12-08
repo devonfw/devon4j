@@ -3,12 +3,16 @@ toc::[]
 
 = Bean mapping with Quarkus
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 This guide will show bean-mapping, in particular for a Quarkus application. We recommend using https://mapstruct.org/[MapStruct] with a Quarkus application because the other bean-mapper frameworks use Java reflections. They are not supported in GraalVm right now and cause problems when building native applications. MapStruct is a code generator that greatly simplifies the implementation of mappings between Java bean types based on a convention over configuration approach. The mapping code will be generated at compile-time and uses plain method invocations and is thus fast, type-safe, and easy to understand. MapStruct has to be configured to not use Java reflections, which will be shown in this guide.
 
 You can find the official
 https://mapstruct.org/documentation/stable/reference/pdf/mapstruct-reference-guide.pdf[MapStruct reference guide] and a general introduction to MapStruct from https://www.baeldung.com/mapstruct[Baeldung].
 
 == MapStruct Dependency 
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 To get access to MapStruct, we have to add the dependency to our POM.xml:
 
 [source, xml]
@@ -48,9 +52,13 @@ MapStruct takes advantage of generated getters, setters, and constructors from t
 
 == MapStruct Configuration
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 We already discussed the benefits of https://github.com/devonfw/devon4j/blob/master/documentation/guide-dependency-injection.asciidoc#dependency-injection[dependency injection]. MapStruct supports CDI with EJB, spring, and jsr330. The default retrieving method for a mapper is a factory that uses reflections, which should be avoided. The component model should be set to CDI, as this will allow us to easily inject the generated mapper implementation. The component model can be configured in multiple ways.
 
 === Simple Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Add the attribute *componentModel* to the *@Mapper* annotation in the mapper interface.
 [source, java]
 ----
@@ -61,6 +69,8 @@ public interface ProductMapper{
 ----
 
 === MapperConfig Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Create a shared configuration that can be used for multiple mappers. Implement an interface and use the annotation *@MapperConfig* for the class. You can define all configurations in this interface and pass the generated `MapperConfig.class` with the *config* attribute to the mapper. The `MapperConfig` also defines the *InjectionStrategy* and *MappingInheritaceStrategy*, both of which will be explained later.
 A list of all configurations can be found https://mapstruct.org/documentation/stable/api/org/mapstruct/MapperConfig.html[here].
 [source, java]
@@ -84,6 +94,8 @@ public interface ProductMapper{
 Any attributes not given via *@Mapper* will be inherited from the shared configuration `MapperConfig.class`.
 
 === Configuration via annotation processor options
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The MapStruct code generator can be configured using annotation processor options.
 You can pass the options to the compiler while invoking javac directly, or add the parameters to the maven configuration in the POM.xml
 
@@ -97,6 +109,8 @@ A list of all annotation processor options can be found https://mapstruct.org/do
 
 
 == Basic Bean-Mapper Usage
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 To use the mapper, we have to implement the mapper interface and the function prototypes with a *@Mapper* annotation.
 [source, java]
@@ -127,6 +141,8 @@ That is the basic usage of a Mapstruct mapper. In the next chapter, we'll go int
 
 
 == Advanced Bean-Mapper Usage
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Let´s assume that our `Product` entity and the `ProductDto` have some differently named properties that should be mapped. Add a mapping annotation to map the property *type* from `Product` to *kind* from `ProductDto`. We define the source name of the property and the target name.
 

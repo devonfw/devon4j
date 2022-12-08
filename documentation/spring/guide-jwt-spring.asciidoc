@@ -3,7 +3,11 @@ toc::[]
 
 = JWT Spring-Starter
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 == Keystore
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 A KeyStore is a repository of certificates and keys (public key, private key, or secret key). They can be used for TSL transportation, for encryption and decryption as well as for signing.
 For demonstration you might create a keystore with openssl, with the following commands:
@@ -23,6 +27,8 @@ NOTE: Please use reasonable passwords instead of `password` what should be obvio
 
 == JWT Dependency
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 To use JWT support from devon4j with spring-boot you have to add following required dependency:
 
 [source,xml]
@@ -34,6 +40,8 @@ To use JWT support from devon4j with spring-boot you have to add following requi
 ----
 
 == Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The following properties need to be configured in your `application.properties` file:
 
@@ -67,6 +75,8 @@ See also https://github.com/devonfw/devon4j/blob/master/modules/security-jwt/src
 
 == Authentication with JWT via OAuth
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 The authentication with JWT via OAuth (HTTP header), will happen via `JwtAuthenticationFilter` that is automatically added by `devon4j-starter-security-jwt` via `JwtAutoConfiguration`.
 With the starter and auto-configuration we want to make it as easy as possible for you.
 In case you would like to build a server app that e.g. wants to issue JWTs but does not allow authentication via JWT itself, you can use `devon4j-security-jwt` as dependency instead of the starter and do the spring config yourself (pick and choose from `JwtAutoConfiguration`).
@@ -89,6 +99,8 @@ To do this, you need to add the following changes in your `BaseWebSecurityConfig
 ----
 
 == Login with Username and Password to get JWT
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 To allow a client to login with username and password to get a JWT for sub-sequent requests, you need to do the following changes in your `BaseWebSecurityConfig`:
 
@@ -113,5 +125,7 @@ To allow a client to login with username and password to get a JWT for sub-seque
 ----
 
 == Authentication with Kafka
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 Authentication with JWT and Kafka is explained in the link:guide-kafka.asciidoc[Kafka guide].

@@ -3,6 +3,8 @@ toc::[]
 
 = Configuration
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 An application needs to be configurable in order to allow internal setup (like CDI) but also to allow externalized configuration of a deployed package (e.g. integration into runtime environment). We rely on a comprehensive configuration approach following a "convention over configuration" pattern. This guide adds on to this by detailed instructions and best-practices how to deal with configurations.
 
 In general we distinguish the following kinds of configuration that are explained in the following sections:
@@ -12,15 +14,21 @@ In general we distinguish the following kinds of configuration that are explaine
 * xref:business-configuration[Externalized Business configuration] maintained by business administrators
 
 == Internal Application Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The application configuration contains all internal settings and wirings of the application (bean wiring, database mappings, etc.) and is maintained by the application developers at development time.
 
 For more detail of link:spring.asciidoc[Spring] stack, see link:spring/guide-spring-configuration.asciidoc#internal-application-configuration[here]
 
 == Externalized Configuration
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Externalized configuration is a configuration that is provided separately to a deployment package and can be maintained undisturbed by re-deployments.
 
 === Environment Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 The environment configuration contains configuration parameters (typically port numbers, host names, passwords, logins, timeouts, certificates, etc.) specific for the different environments. These are under the control of the operators responsible for the application.
 
@@ -38,6 +46,8 @@ More about structuring your `application.properties` files can be read link:spri
 For Quarkus, please refer to https://quarkus.io/guides/config-reference[Quarkus Config Reference] for more details.
 
 === Business Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Often applications do not need business configuration. In case they do it should typically be editable by administrators via the GUI. The business configuration values should therefore be stored in the database in key/value pairs.
 
 Therefore we suggest to create a dedicated table with (at least) the following columns:
@@ -56,9 +66,13 @@ We recommend the following base layout for the hierarchical business configurati
 
 
 == Security
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Often you need to have passwords (for databases, third-party services, etc.) as part of your configuration. These are typically environment specific (see above). However, with DevOps and continuous-deployment you might be tempted to commit such configurations into your version-control (e.g. `git`). Doing that with plain text passwords is a severe problem especially for production systems. Never do that! Instead we offer some suggestions how to deal with sensible configurations:
 
 === Password Encryption
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 A simple but reasonable approach is to configure the passwords encrypted with a master-password. The master-password should be a strong secret that is specific for each environment. It must never be committed to version-control.
 
 For link:spring.asciidoc[Spring], we use https://github.com/ulisesbocchio/jasypt-spring-boot#jasypt-spring-boot[jasypt-spring-boot]. For more details, see link:spring/guide-spring-configuration.asciidoc#password-encryption[here]
@@ -66,6 +80,8 @@ For link:spring.asciidoc[Spring], we use https://github.com/ulisesbocchio/jasypt
 For link:quarkus.asciidoc[Quarkus], see link:quarkus/guide-quarkus-configuration.asciidoc#password-encryption[here]
 
 ==== Is this Security by Obscurity?
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 * Yes, from the point of view to protect the passwords on the target environment this is nothing but security by obscurity. If an attacker somehow got full access to the machine this will only cause him to spend some more time.
 * No, if someone only gets the configuration file. So all your developers might have access to the version-control where the config is stored. Others might have access to the software releases that include this configs. But without the master-password that should only be known to specific operators none else can decrypt the password (except with brute-force what will take a very long time, see jasypt for details).

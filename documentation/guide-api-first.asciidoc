@@ -3,10 +3,14 @@ toc::[]
 
 = API first development guide
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Cloud native promotes the use of microservices, which are loosely coupled and self-contained. These services communicate with each other using a well-defined interface or API, and no consumer needs to be aware of any implementation details of the provider. There could even be multiple providers of the same API, or we can decide to swap existing implementation for a new one, without disrupting our clients - all because we adhere to a well defined API. 
 This guide focuses on HTTP interfaces following RESTful design principles. 
 
 == API first strategy 
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 API first strategy treats APIs as first class citizens in the delivery model.  
 The APIs are modeled/designed first (usually as link:guide-openapi.asciidoc[OpenAPI specification]), often in a collaborative process between providers and consumers, and only once the APIs are defined do we start with development of the provider service. 
 This requires a bit more time upfront, but also provides opportunity to think about the behaviour of the system before it gets implemented. Several other advatages of this approach:
@@ -16,6 +20,8 @@ This requires a bit more time upfront, but also provides opportunity to think ab
 
 == API first provider 
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 After careful planning, we defined our future API. Now we would like to implement a provider of this API.
 We could manually create all the link:guide-rest.asciidoc#jax-rs[JAX-RS] endpoints based on the schema and then test whether the actually provided interface conforms with the API schema. However, it is an error prone and laborious process, especially if the API gets big.
 Luckily, we can use great open source tooling to generate JAX-RS interfaces that conform to 100% with the schema, and then we simply implement them.
@@ -23,6 +29,8 @@ Luckily, we can use great open source tooling to generate JAX-RS interfaces that
 There are many open source tools, that allow code generation from OpenAPI schema files, for example https://openapi-generator.tech/[OpenAPI Generator] or https://github.com/swagger-api/swagger-codegen[Swagger codegen]. Both are based on Java and even provide maven plugins to integrate them in our build.
 
 === OpenAPI Generator maven plugin
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 If we already have our backend maven project, using the maven plugin will be easiest for us. Lets define a new maven profile and add the OpenAPI generator plugin:
 [source, xml]
@@ -89,12 +97,16 @@ The OpenAPI generator has many more configuration options that are outside the s
 
 === Generate once vs generate always
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 Depending on our needs, we may either want to generate the interfaces and models once and afterwards copy them to our project as general source code files, or treat them as immutable generated assets, that we generate anew with every build.
 Both scenarios have their pros and cons, and you'll need to find out what best suits your project. In the example above, we use a profile with `activeByDefault=true`, which will cause the generator to run with every build. The generated files will be included as sources in our project, so we can import them in any other java class without issues.
 
 In case you only want to generate your API resources once and version them afterwards in SCM, simply run the generator, outputting to some temporary location, then, copy them to `src/main/java` and you are done. Be careful if you manually modify the generated files afterwards and you want to re-generate them after an API schema update, you will lose any manual changes. 
 
 === Implement the generated interfaces
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 To implement the generated interfaces, we simply create an impl class - rest controller bean - that implements the interface from our `gen` package:
 
@@ -134,11 +146,15 @@ And now we can invoke our API endpoint as usual: `http://localhost:8080/pets` - 
 
 === Serving API docs / Swagger-UI
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 A common requirement is that our backend API provider should also provide an endpoint with the schema or a Swagger-UI application with that schema. 
 In our example, we decided to generate the JAX-RS interface without Swagger/OpenAPI annotations, therefore the schema can not be re-constructed 1:1 from our code (missing method documentation, error handling, etc.).
 
 When having a Quarkus application and using the link:guide-openapi.asciidoc#smallrye-openapi[Smallrye OpenAPI extension], we can tell Quarkus to serve a static version of the API as our openapi schema (the same file we used to generate the interfaces and models) and to disable the auto-generating of the schema. Follow the https://quarkus.io/guides/openapi-swaggerui#openapi[Quarkus OpenAPI documentation] for more info.
 
 === Advanced topics
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 In some cases, we may have specific requirements or API extensions that are not supported by the existing generators. OpenAPI generator project allows us to define https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin#custom-generator[custom genererator], or to extend the existing https://openapi-generator.tech/docs/templating[generator templates]. We can also selectively generate subset of the models or API endpoints, generate test code and much more. 

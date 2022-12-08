@@ -3,7 +3,11 @@ toc::[]
 
 = Testing
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 == General best practices
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For testing please follow our general best practices:
 
 * Tests should have a clear goal that should also be documented.
@@ -24,6 +28,8 @@ For testing please follow our general best practices:
 * Prefer delegation over inheritance for cross-cutting testing functionality. Good places to put this kind of code can be realized and reused via the JUnit +@Rule+ mechanism.
 
 == Test Automation Technology Stack
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For test automation we use http://junit.org/[JUnit]. However, we are strictly doing all assertions with http://joel-costigliola.github.io/assertj/[AssertJ]. For xref:test-doubles[mocking] we use http://mockito.org/[Mockito].
 In order to mock remote connections we use xref:wiremock[WireMock].
 
@@ -32,6 +38,8 @@ For testing entire components or sub-systems we recommend to use for Spring stac
 In case you have to use a full blown JEE application server, we recommend to use http://arquillian.org/[arquillian]. To get started with arquillian, look http://arquillian.org/guides/getting_started/index.html#add_the_arquillian_apis[here].
 
 == Test Doubles
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 We use http://xunitpatterns.com/Using%20Test%20Doubles.html[test doubles] as generic term for mocks, stubs, fakes, dummies, or spys to avoid confusion. Here is a short summary from http://martinfowler.com/articles/mocksArentStubs.html[stubs VS mocks]:
 
 * **Dummy** objects specifying no logic at all. May declare data in a POJO style to be used as boiler plate code to parameter lists or even influence the control flow towards the test's needs.
@@ -42,6 +50,8 @@ We use http://xunitpatterns.com/Using%20Test%20Doubles.html[test doubles] as gen
 We try to give some examples, which should make it somehow clearer:
 
 === Stubs
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Best Practices for applications:
 
 * A good way to replace small to medium large boundary systems, whose impact (e.g. latency) should be ignored during load and performance tests of the application under development.
@@ -49,6 +59,8 @@ Best Practices for applications:
 * Do NOT use stubs as basis of a large amount of test cases as due to state-based verification of stubs, test developers will enrich the stub implementation to become a large monster with its own hunger after maintenance efforts.
 
 === Mocks
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Best Practices for applications:
 
 * Replace not-needed dependencies of your system-under-test (SUT) to minimize the application context to start of your component framework.
@@ -56,6 +68,8 @@ Best Practices for applications:
 * Remember: Not everything has to be mocked! Especially on lower levels of tests like isolated module tests you can be betrayed into a mocking delusion, where you end up in a hundred lines of code mocking the whole context and five lines executing the test and verifying the mocks behavior. Always keep in mind the benefit-cost ratio, when implementing tests using mocks.
 
 === WireMock
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 //Wiremock is not used in the current Application
 If you need to mock remote connections such as HTTP-Servers, WireMock offers easy to use functionality. For a full description see the http://wiremock.org/[homepage] or the https://github.com/tomakehurst/wiremock[github repository]. Wiremock can be used either as a JUnit Rule, in Java outside of JUnit or as a standalone process. The mocked server can be configured to respond to specific requests in a given way via a fluent Java API, JSON files and JSON over HTTP. An example as an integration to JUnit can look as follows.
 [source,java]
@@ -103,6 +117,8 @@ public void faultTest() {
 A GET request to `../fault` returns an OK status header, then garbage, and then closes the connection.
 
 == Integration Levels
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 There are many discussions about the right level of integration for test automation. Sometimes it is better to focus on small, isolated modules of the system - whatever a "module" may be. In other cases it makes more sense to test integrated groups of modules. Because there is no universal answer to this question, devonfw only defines a common terminology for what could be tested. Each project must make its own decision where to put the focus of test automation. There is no worldwide accepted terminology for the integration levels of testing. In general we consider http://istqbexamcertification.com/what-are-software-testing-levels/[ISTQB]. However, with a technical focus on test automation we want to get more precise.
 
 The following picture shows a simplified view of an application based on the link:architecture.asciidoc#technical-architecture[devonfw reference architecture]. We define four integration levels that are explained in detail below. 
@@ -119,6 +135,8 @@ External systems do not belong to any of the integration levels defined here. de
 The following chapters describe the four integration levels.
 
 === Level 1 Module Test
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The goal of a _isolated module test_ is to provide fast feedback to the developer. Consequently, isolated module tests must not have any interaction with the client, the database, the file system, the network, etc.
 
 An isolated module test is testing a single classes or at least a small set of classes in isolation. If such classes depend on other components or external resources, etc. these shall be replaced with a xref:test-doubles[test double].
@@ -144,6 +162,8 @@ public class MyClassTest extends ModuleTest {
 For an advanced example see https://github.com/devonfw/devon4j/blob/develop/modules/rest/src/test/java/com/devonfw/module/rest/service/impl/RestServiceExceptionFacadeTest.java[here].
 
 === Level 2 Component Test
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 A http://istqbexamcertification.com/what-is-component-testing/[_component test_] aims to test components or component parts as a unit.
 These tests can access resources such as a database (e.g. for DAO tests).
@@ -192,6 +212,8 @@ public class UcFindCountryTest {
 When you are testing use-cases your link:guide-access-control.asciidoc#configuration-on-java-method-level[authorization] will also be in place. Therefore, you have to simulate a logon in advance what is done via the `login` method in the above Spring example.  The test-infrastructure will automatically do a `logout` for you after each test method in `doTearDown`.
 
 === Level 3 Subsystem Test
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 A _subsystem test_ runs against the external interfaces (e.g. HTTP service) of the integrated subsystem. Subsystem tests of the client subsystem are described in the link:https://github.com/devonfw/devon4ng/blob/master/documentation/guide-testing.asciidoc[devon4ng testing guide]. In devon4j the server (JEE application) is the subsystem under test. The tests act as a client (e.g. service consumer) and the server has to be integrated and started in a container.
 
 * With devon4j and Spring you can write a subsystem-test as easy as illustrated in the following example:
@@ -226,17 +248,23 @@ Even though not obvious on the first look this test will start your entire appli
 Do not confuse a _subsystem test_ with a http://istqbexamcertification.com/what-is-system-integration-testing/[system integration test]. A system integration test validates the interaction of several systems where we do not recommend test automation.
 
 === Level 4 System Test
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 A http://istqbexamcertification.com/what-is-system-testing/[_system test_] has the goal to test the system as a whole against its official interfaces such as its UI or batches. The system itself runs as a separate process in a way close to a regular deployment. Only external systems are simulated by xref:test-doubles[test doubles]. 
 
 The devonfw only gives advice for automated system test (TODO see allure testing framework). In nearly every project there must be manual system tests, too. This manual system tests are out of scope here.
 
 === Classifying Integration-Levels
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 For Spring stack, devon4j defines https://github.com/devonfw/devon4j/tree/develop/modules/test/src/main/java/com/devonfw/module/test/common/api/category[Category-Interfaces] that shall be used as https://github.com/junit-team/junit/wiki/Categories[JUnit Categories].
 Also devon4j provides https://github.com/devonfw/devon4j/tree/develop/modules/test/src/main/java/com/devonfw/module/test/common/base[abstract base classes] that you may extend in your test-cases if you like.
 
 devon4j further pre-configures the maven build to only run integration levels 1-2 by default (e.g. for fast feedback in continuous integration). It offers the profiles +subsystemtest+ (1-3) and +systemtest+ (1-4). In your nightly build you can simply add +-Psystemtest+ to run all tests.
 
 == Implementation
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 This section introduces how to implement tests on the different levels with the given devonfw infrastructure and the proposed frameworks.
 For Spring, see link:spring/guide-spring-testing.asciidoc#implementation[Spring Test Implementation]
 
@@ -244,10 +272,14 @@ For Spring, see link:spring/guide-spring-testing.asciidoc#implementation[Spring 
 
 == Regression testing
 
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
+
 When it comes to complex output (even binary) that you want to regression test by comparing with an expected result, you sould consider https://approvaltests.com/[Approval Tests] using https://github.com/approvals/approvaltests.java[ApprovalTests.Java].
 If applied for the right problems, it can be very helpful.
 
 == Deployment Pipeline
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 
 A deployment pipeline is a semi-automated process that gets software-changes from version control into production. It contains several validation steps, e.g. automated tests of all integration levels.
 Because devon4j should fit to different project types - from agile to waterfall - it does not define a standard deployment pipeline. But we recommend to define such a deployment pipeline explicitly for each project and to find the right place in it for each type of test. 
@@ -257,15 +289,21 @@ For that purpose, it is advisable to have fast running test suite that gives as 
 Note, that the deployment pipeline always should contain manual validation steps, at least manual acceptance testing. There also may be manual validation steps that have to be executed for special changes only, e.g. usability testing. Management and execution processes of those manual validation steps are currently not in the scope of devonfw.
 
 == Test Coverage
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 We are using tools (SonarQube/Jacoco) to measure the coverage of the tests. Please always keep in mind that the only reliable message of a code coverage of +X%+ is that +(100-X)%+ of the code is entirely untested. It does not say anything about the quality of the tests or the software though it often relates to it.
 
 == Test Configuration
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 This section covers test configuration in general without focusing on integration levels as in the first chapter.
 
 * For Spring, see link:spring/guide-spring-testing.asciidoc#configure-test-specific-beans[Configure Test Specific Beans]
 * For Quarkus, see link:quarkus/guide-quarkus-testing.asciidoc#configuration[here]
 
 === Configure Test Specific Beans
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Sometimes it can become handy to provide other or differently configured bean implementations via CDI than those available in production. For example, when creating beans using `@Bean`-annotated methods they are usually configured within those methods. https://github.com/devonfw/my-thai-star/blob/develop/java/mtsj/core/src/main/java/com/devonfw/application/mtsj/general/service/impl/config/WebSecurityBeansConfig.java[WebSecurityBeansConfig] shows an example of such methods.
 
 [source,java]
@@ -312,15 +350,23 @@ The following http://docs.spring.io/spring/docs/current/spring-framework-referen
 
 
 === Test Data
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 It is possible to obtain test data in two different ways depending on your test's integration level.
 
 == Debugging Tests
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 The following two sections describe two debugging approaches for tests. Tests are either run from within the IDE or from the command line using Maven.
 
 === Debugging with the IDE
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Debugging with the IDE is as easy as always. Even if you want to execute a `SubsystemTest` which needs a Spring context and a server infrastructure to run properly, you just set your breakpoints and click on Debug As -> JUnit Test. The test infrastructure will take care of initializing the necessary infrastructure - if everything is configured properly.
 
 === Debugging with Maven
+
+WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here].
 Please refer to the following two links to find a guide for debugging tests when running them from Maven.
 
 * http://maven.apache.org/surefire/maven-surefire-plugin/examples/debugging.html 
