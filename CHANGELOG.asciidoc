@@ -8,6 +8,7 @@ Feature and bugfix release of with the following stories:
 
 * https://github.com/devonfw/devon4j/issues/571[#571]: Simplify app-template
 * https://github.com/devonfw/devon4j/issues/581[#581]: Release with latest minor versions (spring-boot 2.7.6)
+* https://github.com/devonfw/devon4j/pull/570[#570]: Changed toTest to support SortedSet
 
 The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/22?closed=1[milestone devon4j 2020.12.001].
 
