@@ -17,20 +17,25 @@
   </requiredProperties>
   <fileSets>
     <fileSet packaged="false" filtered="true" encoding="UTF-8">
-      <directory>api</directory>
+      <directory>src/main/java</directory>
+      <includes>
+        <include>**/*.java</include>
+      </includes>
+    </fileSet>
+    <fileSet packaged="false" filtered="true" encoding="UTF-8">
+      <directory>src/main/resources</directory>
       <includes>
         <include>**/*.*</include>
       </includes>
     </fileSet>
     <fileSet packaged="false" filtered="true" encoding="UTF-8">
-      <directory>core</directory>
-      <excludes>
-        <include>**/*.*</include>
-      </excludes>
+      <directory>src/test/java</directory>
+      <includes>
+        <include>**/*.java</include>
+      </includes>
     </fileSet>
-    <!-- Include batch only if explicitly configured -->
     <fileSet packaged="false" filtered="true" encoding="UTF-8">
-      <directory>batch</directory>
+      <directory>src/test/resources</directory>
       <includes>
         <include>**/*.*</include>
       </includes>
@@ -48,25 +53,4 @@
       </includes>
     </fileSet>
   </fileSets>
-  <modules>
-    <module id="server" dir="server" name="server">
-      <fileSets>
-        <fileSet filtered="true" packaged="true" encoding="UTF-8">
-          <directory>src/main/java</directory>
-        </fileSet>
-        <fileSet filtered="true" packaged="false" encoding="UTF-8">
-          <directory>src/main/resources</directory>
-        </fileSet>
-        <fileSet filtered="true" packaged="true" encoding="UTF-8">
-          <directory>src/test/java</directory>
-        </fileSet>
-        <fileSet filtered="true" packaged="false" encoding="UTF-8">
-          <directory>src/test/resources</directory>
-        </fileSet>
-        <fileSet filtered="false" packaged="false" encoding="UTF-8">
-          <directory>src/main/webapp</directory>
-        </fileSet>
-      </fileSets>
-    </module>
-  </modules>
 </archetype-descriptor>
