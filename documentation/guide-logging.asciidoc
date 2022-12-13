@@ -1,10 +1,6 @@
 :toc: macro
 toc::[]
 
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = Logging
 
 We recommend to use http://www.slf4j.org/[SLF4J] as API for logging, that has become a de facto standard in Java as it has a much better design than `java.util.logging` offered by the JDK.

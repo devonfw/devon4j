@@ -1,10 +1,6 @@
 :toc: macro
 toc::[]
 
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = Quarkus template
 
 https://code.quarkus.io/?g=org.devonfw&e=resteasy&e=resteasy-jackson&e=hibernate-validator&e=hibernate-orm&e=micrometer[Quarkus Code Generator] is provides many alternative technologies and libraries that can be integrated into a project. Detailed guides on multiple topics can be found https://quarkus.io/guides/[here].

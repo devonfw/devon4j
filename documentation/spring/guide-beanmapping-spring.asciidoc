@@ -1,10 +1,4 @@
 
-
-
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = Bean Mapping in devon4j-spring
 
 We have developed a solution that uses a `BeanMapper` that allows to abstract from the underlying implementation. As mentioned in the link:../guide-beanmapping.asccidoc[general bean mapping guide], we started with http://dozer.sourceforge.net/documentation/about.html[Dozer] a Java Bean to Java Bean mapper that recursively copies data from one object to another. Now we recommend using https://orika-mapper.github.io/orika-docs/[Orika]. This guide will show an introduction to Orika and Dozer bean-mapper.

@@ -2,10 +2,6 @@
 :icons: font
 toc::[]
 
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = Service Client in devon4j-spring
 
 This guide is about consuming (calling) services from other applications (micro-services) in devon4j-spring.
