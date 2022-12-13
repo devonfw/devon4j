@@ -1,10 +1,6 @@
 :toc: macro
 toc::[]
 
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = REST
 REST (https://en.wikipedia.org/wiki/Representational_state_transfer[REpresentational State Transfer]) is an inter-operable protocol for link:guide-service-layer.asciidoc[services] that is more lightweight than link:guide-soap.asciidoc[SOAP].
 However, it is no real standard and can cause confusion (see link:https://github.com/devonfw/devon4j/blob/master/documentation/guide-rest-philosophy.asciidoc[REST philosophy]).

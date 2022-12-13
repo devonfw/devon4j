@@ -1,10 +1,6 @@
 :toc: macro
 toc::[]
 
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = Feature-Toggles
 
 The most software developing teams use Feature-Branching to be able to work in parallel and maintain a stable main branch in the VCS. However Feature-Branching might not be the ideal tool in every case because of big merges and isolation between development groups. In many cases, Feature-Toggles can avoid some of these problems, so these should definitely be considered to be used in the collaborative software development.

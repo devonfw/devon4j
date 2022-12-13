@@ -1,7 +1,3 @@
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = devonfw for Java (devon4j)
 
 Welcome to the Java edition of devonfw. devon4j is documented by a platform guide (see the side-bar of this wiki) to be used in your projects.

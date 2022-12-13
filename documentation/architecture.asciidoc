@@ -3,10 +3,6 @@ toc::[]
 :idprefix:
 :idseparator: -
 
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = Architecture
 
 There are many different views that are summarized by the term _architecture_. First, we will introduce the xref:key-principles[key principles] and xref:architecture-principles[architecture principles] of devonfw. Then, we will go into details of the the xref:application-architecture[architecture of an application].

@@ -1,10 +1,6 @@
 :toc: macro
 toc::[]
 
-WARNING: Hey there! Seems like you are still using the documentation of our legacy Java repository. Since it won't be maintained anymore, we recommend you to checkout the new Java page https://devonfw.com/docs/java/current/[here]. 
-
-'''
-
 = Components
 
 Following link:architecture.asciidoc#architecture-principles[separation-of-concerns] we divide an application into components using our link:coding-conventions.asciidoc#packages[package-conventions] and link:guide-structure.asciidoc[project structure].
