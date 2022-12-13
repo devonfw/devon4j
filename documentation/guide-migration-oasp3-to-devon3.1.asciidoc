@@ -22,7 +22,7 @@ whereString() (StringSearchConfigTo) method or similar:
 2. Delete the old import of oasp4j (for example import io.oasp.module.beanmapping.common.api.BeanMapper) and import the new class of
 devon4j (for example import com.devonfw.module.beanmapping.common.api.BeanMapper)
 
-## logback.xml file
+== logback.xml file
 
 1. There maximum three chnages that needed to be done in the logback.xml file
 2. Change the logging properties tag from 
