@@ -25,8 +25,6 @@
     <module>starter-security-jwt</module>
     <module>starter-security-cors</module>
     <module>starter-spring-data-jpa</module>
-    <module>starter-kafka-sender</module>
-    <module>starter-kafka-receiver</module>
     <module>starter-http-client-rest-async</module>
     <module>starter-http-client-rest-sync</module>
   </modules>
