@@ -32,6 +32,11 @@
         <scope>import</scope>
       </dependency>
       <!-- *** EXTERNAL DEPENDENCIES *** -->
+      <dependency>
+        <groupId>org.yaml</groupId>
+        <artifactId>snakeyaml</artifactId>
+        <version>${snakeyaml.version}</version>
+      </dependency>
       <!-- Library with general utilities as well as I18N and exception support -->
       <dependency>
         <groupId>net.sf.m-m-m</groupId>

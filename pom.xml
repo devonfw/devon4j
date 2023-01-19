@@ -28,6 +28,8 @@
     <github.repository>devon4j</github.repository>
     <devon4j.version>${revision}</devon4j.version>
     <spring.boot.version>2.7.7</spring.boot.version>
+    <spring.cloud.starter.sleuth.version>3.1.6</spring.cloud.starter.sleuth.version>
+    <snakeyaml.version>1.33</snakeyaml.version>
     <jackson.version>2.14.1</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
     <guava.version>31.1-jre</guava.version>
     <junit.version>5.7.1</junit.version>
