@@ -44,7 +44,6 @@
     <module>batch-tool</module>
     <module>web</module>
     <module>basic</module>
-    <module>kafka</module>
   </modules>
 
   <dependencyManagement>
