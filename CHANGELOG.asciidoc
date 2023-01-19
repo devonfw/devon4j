@@ -2,30 +2,44 @@
 
 This file documents all notable changes to https://https://github.com/devonfw/devon4j[devon4j].
 
+== 2023.01.001
+
+Securityfix release with the following stories:
+
+* https://github.com/devonfw/devon4j/issues/585[#585]: Conisder new CVE updates (cxf, jackson, snakeyaml, etc.)
+* https://github.com/devonfw/devon4j/pull/586[#586]: update apache cxf to 3.5.5
+* https://github.com/devonfw/devon4j/pull/587[#587]: get rid of spring-cloud, disable kafka module, updates
+* https://github.com/devonfw/devon4j/pull/588[#588]: update snakeyaml from 1.30 to 1.33
+
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2023.01.001/devon4j-doc-2023.01.001.pdf[devon4j guide 2023.01.001].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/23?closed=1[milestone devon4j 2023.01.001].
+
 == 2022.12.001
 
-Feature and bugfix release of with the following stories:
+Feature and bugfix release with the following stories:
 
 * https://github.com/devonfw/devon4j/issues/571[#571]: Simplify app-template
 * https://github.com/devonfw/devon4j/issues/581[#581]: Release with latest minor versions (spring-boot 2.7.6 and cxf to 3.5.4)
 * https://github.com/devonfw/devon4j/pull/570[#570]: Changed toTest to support SortedSet
 
-The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/22?closed=1[milestone devon4j 2020.12.001].
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2022.12.001/devon4j-doc-2022.12.001.pdf[devon4j guide 2022.12.001].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/22?closed=1[milestone devon4j 2022.12.001].
 
 == 2022.04.001
 
-Feature and bugfix release of with the following stories:
+Feature and bugfix release with the following stories:
 
 * https://github.com/devonfw/devon4j/issues/513[#513]: Added support for Quarkus in addition to spring
 * https://github.com/devonfw/devon4j/issues/551[#551]: spring4shell and other CVE fixes required
 * https://github.com/devonfw/devon4j/issues/531[#531]: Update logback to 1.2.9 or higher
 * https://github.com/devonfw/devon4j/issues/533[#533]: Explain why we use Long as primary key
 
-The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/21?closed=1[milestone devon4j 2020.04.003].
+Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2022.04.001/devon4j-doc-2022.04.001.pdf[devon4j guide 2022.04.001].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/21?closed=1[milestone devon4j 2022.04.001].
 
 == 2021.04.003
 
-Bugfix release of with the following stories:
+Bugfix release with the following stories:
 
 * https://github.com/devonfw/devon4j/issues/336[#336]: archetype contains batch artefacts even when no batch was generated
 * https://github.com/devonfw/devon4j/issues/385[#385]: Access-control should honor roles by default
@@ -35,18 +49,18 @@ Bugfix release of with the following stories:
 * https://github.com/devonfw/devon4j/issues/216[#216]: ability to generate OpenApi files automatically from JAX-RS services
 
 Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2021.04.003/devon4j-doc-2021.04.003.pdf[devon4j guide 2021.04.003].
-The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/19?closed=1[milestone devon4j 2020.04.003].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/19?closed=1[milestone devon4j 2021.04.003].
 
 == 2021.04.002
 
-Bugfix release of with the following stories:
+Bugfix release with the following stories:
 
 * https://github.com/devonfw/devon4j/issues/389[#389]: archetype build broken with ci-friendly-maven
 * https://github.com/devonfw/devon4j/pull/391[#391]: jasypt documentation improvements
 * https://github.com/devonfw/devon4j/pull/387[#387]: rebuild and updated diagram with drawio
 
 Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2021.04.002/devon4j-doc-2021.04.002.pdf[devon4j guide 2021.04.002].
-The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/18?closed=1[milestone devon4j 2020.04.002].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/18?closed=1[milestone devon4j 2021.04.002].
 
 == 2021.04.001
 
@@ -65,7 +79,7 @@ New release of `devon4j` with fixes, updates and improvements:
 * https://github.com/devonfw/devon4j/issues/294[#294]: integrate sonarcloud analysis into devon4j CI pipeline
 
 Documentation is available at https://repo.maven.apache.org/maven2/com/devonfw/java/doc/devon4j-doc/2021.04.001/devon4j-doc-2021.04.001.pdf[devon4j guide 2021.04.001].
-The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/15?closed=1[milestone devon4j 2020.04.001].
+The full list of changes for this release can be found in https://github.com/devonfw/devon4j/milestone/15?closed=1[milestone devon4j 2021.04.001].
 
 == 2020.12.002
 
