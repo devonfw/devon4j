@@ -33,7 +33,7 @@
     <jackson.version>2.13.2.20220328</jackson.version> <!-- Overriding Jackson for fixing vulnerabilities -->
     <guava.version>31.1-jre</guava.version>
     <junit.version>5.7.1</junit.version>
-    <cxf.version>3.5.4</cxf.version>
+    <cxf.version>3.5.5</cxf.version>
     <mmm.util.version>8.7.0</mmm.util.version>
     <slf4j.version>1.7.30</slf4j.version>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
