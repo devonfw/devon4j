@@ -1,0 +1,192 @@
+:toc: macro
+toc::[]
+
+= tkit extensions
+
+1000kit (tkit) is a set of extensions and plugins for Quarkus.
+It was developed internally by Capgemini, so the source code of the extensions is not publicly available.
+
+However, you can still use the extensions in your Quarkus project.
+This guide explains some of the tkit extensions and how to use them.
+
+== tkit-quarkus-log
+
+The tkit logger extension consists of three extensions:
+
+* tkit-quarkus-log-cdi
+* tkit-quarkus-log-rs
+* tkit-quarkus-log-json
+
+=== tkit-quarkus-log-cdi
+
+The `tkit-quarkus-log-cdi` extension is the core logging library for Quarkus ArC, the CDI implementation in Quarkus.
+It allows automatic logging of method invocations with start execution time, parameters, result and the time of execution.
+
+Add the following dependency to your project to add the extension:
+
+[source, xml]
+----
+<dependency>
+  <groupId>org.tkit.quarkus</groupId>
+  <artifactId>tkit-quarkus-log-cdi</artifactId>
+  <version>1.5.0</version>
+</dependency>
+----
+
+Set `quarkus.tkit.log.packages` in your application.properties file to specify the classes whose method calls should be logged.
+You can exclude classes by specifying an ignore pattern via the `quarkus.tkit.log.ignore.pattern` property.
+
+[source, properties]
+----
+quarkus.tkit.log.packages=com.devonfw.quarkus
+quarkus.tkit.log.ignore.pattern=.*MapperImpl
+----
+
+=== tkit-quarkus-log-rs
+
+This extension provides automatic logging of all HTTP communications, including information about the URL, the status code, the HTTP method or the time required to execute the request.
+Add it with the following dependency:
+
+[source, xml]
+----
+<dependency>
+  <groupId>org.tkit.quarkus</groupId>
+  <artifactId>tkit-quarkus-log-rs</artifactId>
+  <version>1.5.0</version>
+</dependency>
+----
+
+=== tkit-quarkus-log-json
+
+`tkit-quarkus-log-json` provides automatic JSON formatting of log messages.
+You can enable or disable the formatting by setting `quarkus.tkit.log.console.json` in the properties.
+
+[source, xml]
+----
+<dependency>
+  <groupId>org.tkit.quarkus</groupId>
+  <artifactId>tkit-quarkus-log-json</artifactId>
+  <version>1.5.0</version>
+</dependency>
+----
+
+== tkit-quarkus-jpa
+
+The `tkit-quarkus-jpa` extension provides base classes for JPA entities (`org.tkit.quarkus.jpa.models.TraceableEntity`) and link:../guide-dao.asciidoc[DAOs] (`org.tkit.quarkus.jpa.daos.AbstractDAO<T>`).
+
+The `TraceableEntity` implements a string based `ID` and traceable fields such as `version`, `creationDate`, `creationUser` or `modificationDate`. +
+CRUD operation following the DAO pattern are provided by `AbstractDAO<T>`. Your DAO class can simply extend the base class and only needs to implement the business logic.
+
+[source, xml]
+----
+<dependency>
+  <groupId>org.tkit.quarkus</groupId>
+  <artifactId>tkit-quarkus-jpa</artifactId>
+  <version>2.8.0</version>
+</dependency>
+----
+
+== tkit-quarkus-rest
+
+This extension provides link:../guide-dto.asciidoc[DTOs] for entities (`org.tkit.quarkus.rs.models.TraceableDTO`), exceptions (`org.tkit.quarkus.rs.models.TraceableDTO.RestExceptionDTO`) and paged results (`tkit.quarkus.rs.models.TraceableDTO.PageResultDTO<T>`).
+
+Furthermore, it provides an `DefaultExceptionMapper` to log the rest exceptions.
+
+[source, xml]
+----
+<dependency>
+  <groupId>org.tkit.quarkus</groupId>
+  <artifactId>tkit-quarkus-rest</artifactId>
+  <version>2.4.0</version>
+</dependency>
+----
+
+== tkit-quarkus-test
+
+The `tkit-quarkus-test` provides functionality to simplify test setup based on link:https://www.testcontainers.org/[Testcontainers].
+
+[source, xml]
+----
+<dependency>
+  <groupId>org.tkit.quarkus</groupId>
+  <artifactId>tkit-quarkus-test</artifactId>
+  <version>1.13.0</version>
+</dependency>
+----
+
+You can specify which services you want to start before running the test in a docker-compose.yaml file under `src/main/resources.`
+The following example can be used to start a Postgresql database before testing.
+
+[source,yaml]
+----
+version: '3.9'
+services:
+  demo-db:
+    container_name: demo-db
+    image: postgres:11.5
+    environment:
+      POSTGRES_DB: "demo"
+      POSTGRES_USER: "demo"
+      POSTGRES_PASSWORD: "demo"
+    labels:
+      - "test.priority=90"
+      - "test.Wait.forLogMessage.regex=.*database system is ready to accept connections.*\\s"
+      - "test.Wait.forLogMessage.times=2"
+      - "test.log=true"
+      - "test.property.quarkus.datasource.jdbc.url=jdbc:postgresql://$${host:demo-db}:$${port:demo-db:5432}/demo?sslmode=disable"
+----
+
+Create an abstract base class for your tests that takes care of setting up the environment:
+
+[source, Java]
+----
+@QuarkusTestcontainers
+@QuarkusTestResource(DockerComposeTestResource.class)
+public abstract class AbstractTest {
+
+    @DockerService("tkit-parameter")
+    protected DockerComposeService service;
+
+    @BeforeEach
+    public void before() {
+        ...
+    }
+
+}
+----
+
+=== Data import
+
+You can easily import some test data from Excel files using the `@WithDBData` annotation.
+
+First, add the `dbimport` image to your docker-compose file:
+
+[source,yaml]
+----
+ tkit-parameter-db-import:
+    container_name: tkit-parameter-db-import
+    image: quay.io/tkit/dbimport:master
+    environment:
+      DB_URL: "jdbc:postgresql://tkit-parameter-db:5432/parameters?sslmode=disable"
+      DB_USERNAME: "parameters"
+      DB_PASSWORD: "parameters"
+    ports:
+      - "8811:8080"
+    labels:
+      - "test.Wait.forLogMessage.regex=.*Installed features:.*"
+      - "test.Wait.forLogMessage.times=1"
+      - "test.log=true"
+      - "test.property.tkit.test.dbimport.url=$${url:tkit-parameter-db-import:8080}"
+----
+
+Then you can use `@WithDBData` and specify a path to an Excel file with data you want to import.
+
+[source, Java]
+----
+@Test
+@WithDBData({"testdata.xls"})
+public void test() {
+    ...
+}
+
+----
