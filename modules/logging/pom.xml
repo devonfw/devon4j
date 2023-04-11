@@ -22,7 +22,7 @@
 		<dependency>
 		  <groupId>net.logstash.logback</groupId>
 		  <artifactId>logstash-logback-encoder</artifactId>
-		</dependency>    
+		</dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
@@ -55,6 +55,10 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
     </dependency>
+    <!-- <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-sleuth</artifactId>
+    </dependency> -->
   </dependencies>
 
 </project>
