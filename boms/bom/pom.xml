@@ -177,7 +177,7 @@
       <dependency>
         <groupId>org.json</groupId>
         <artifactId>json</artifactId>
-        <version>20180130</version>
+        <version>20230227</version>
       </dependency>
       <!-- Dozer for bean-mapping/conversion -->
       <!-- https://mvnrepository.com/artifact/com.github.dozermapper/dozer-core -->
